@@ -110,6 +110,19 @@ describe('runAgentSwarm on the recorded night', () => {
     expect(existsSync(path.join(REPO, 'archive', '2026-08-31'))).toBe(false)
   })
 
+  it('never re-judges the build when no repair round ran (#467)', async () => {
+    // The recorded night ships on the first screenshot-critic SHIP: no
+    // surface-gate fault forces a revision and the critic never asks for
+    // one, so there is no repair round to re-judge.
+    const run = await runSwarm()
+    expect(run.error).toBeNull()
+    expect(run.retries).toBe(0)
+    expect(run.calls.filter((c) => c.agent === 'screenshot-critic')).toHaveLength(1)
+    expect(run.fakes.captureScreenshot).toHaveLength(1)
+    expect(run.verdicts.some((v) => v.round === 'final')).toBe(false)
+    expect(run.verdicts.some((v) => v.critic === 'ship-gate')).toBe(false)
+  })
+
   it('asks every agent the same thing, in the same order, with the same budgets', async () => {
     const run = await runSwarm()
     expect(run.error).toBeNull()

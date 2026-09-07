@@ -2056,7 +2056,15 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         })
       }
 
-      try {
+      /**
+       * Capture the current build and ask the screenshot critic to judge it.
+       * Shared by the first pass and the final re-judge after a repair round
+       * (#467): both go through the same capture and payload function, so a
+       * change to either (the phone filmstrip, say) reaches both for free.
+       * @param {Array<object>} measuredFindings - surface-gate findings for this build
+       * @returns {Promise<{verdict: string, criticResponse: string, visionChannel: string, bar: object|null}>}
+       */
+      async function judgeScreenshot(measuredFindings) {
         console.log('\n[screenshot-critic] Capturing screenshot...')
         const { captureScreenshot } = await import('./utils/snapshot.js')
         const screenshotBuffer = await captureScreenshot(undefined, {
@@ -2140,10 +2148,9 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           screenshotBuffer,
           bestReference,
           routeShots,
-          measuredFaults: formatFindingsForCritic(surfaceFindings),
+          measuredFaults: formatFindingsForCritic(measuredFindings),
         })
 
-        const t0ScreenshotCritic = Date.now()
         // Which channel answered. A SHIP reached without pixels is a
         // different claim from one reached with them, so verdicts.json says
         // which it was.
@@ -2163,11 +2170,23 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
             `  [screenshot-critic] verdict reached WITHOUT images (${visionChannel}) — it did not see the design`
           )
         }
-        const { verdict: screenshotVerdict } = parseCriticVerdict(criticResponse, 'SHIP')
+        const { verdict } = parseCriticVerdict(criticResponse, 'SHIP')
         // BAR is only expected when a reference image was actually attached;
         // parseBarLine is tolerant regardless — absent is fine either way.
         const bar = bestReference ? parseBarLine(criticResponse) : null
         if (bar) console.log(`  [screenshot-critic] BAR: ${bar.position} — ${bar.reason}`)
+
+        return { verdict, criticResponse, visionChannel, bar }
+      }
+
+      try {
+        const t0ScreenshotCritic = Date.now()
+        const {
+          verdict: screenshotVerdict,
+          criticResponse,
+          visionChannel,
+          bar,
+        } = await judgeScreenshot(surfaceFindings)
 
         verdicts.push({
           critic: 'screenshot-critic',
@@ -2300,25 +2319,65 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
                 // Measure again so the record says whether the revision
                 // fixed what round 1 found, rather than assuming it did.
                 const regate = await measureSurfaces(2)
-                if (regate && faultsForOwner(regate.findings, 'react-engineer').length) {
+                const remainingFaults = regate
+                  ? faultsForOwner(regate.findings, 'react-engineer')
+                  : []
+                if (remainingFaults.length) {
                   console.warn(
                     '  [surface-gate] revision did not clear every engineer-owned fault — shipping with the record saying so'
                   )
                 }
-                // Re-capture so the persisted screenshot reflects the revised
-                // render, not the pre-revision one the critic rejected.
+
+                // The build that ships after a repair round was never seen by
+                // anyone (#467): round 1's critic judged the pre-repair
+                // build, and the round-2 measurement above only warns. Judge
+                // the build that will actually ship, one more time, through
+                // the same capture-and-critic path round 1 used — it also
+                // re-captures the screenshot, so no separate re-capture is
+                // needed here.
                 try {
-                  const { captureScreenshot: captureScreenshotAfterRevision } = await import(
-                    './utils/snapshot.js'
-                  )
-                  finalScreenshot = await captureScreenshotAfterRevision(undefined, {
-                    headerCrop: {
-                      placement: headerDecl.placement,
-                      heightPx: headerDecl.height_px,
-                    },
+                  const final = await judgeScreenshot(regate?.findings ?? [])
+                  verdicts.push({
+                    critic: 'screenshot-critic',
+                    round: 'final',
+                    verdict: final.verdict,
+                    feedback: final.criticResponse.slice(0, 2000),
+                    channel: final.visionChannel,
+                    ts: Date.now(),
                   })
-                } catch (recapErr) {
-                  console.warn(`  screenshot re-capture failed (non-blocking): ${recapErr.message}`)
+                  console.log(`  [screenshot-critic] final verdict: ${final.verdict}`)
+
+                  if (final.verdict === 'REVISE') {
+                    // The owner's call (#467): a final REVISE does not buy
+                    // another repair. Ship it, but log the fault where the
+                    // archive, the lessons block and the rating issue can
+                    // all find it.
+                    const shipFeedback = [
+                      final.criticResponse.slice(0, 2000),
+                      formatFindingsForCritic(remainingFaults),
+                    ]
+                      .filter(Boolean)
+                      .join('\n\n')
+                    verdicts.push({
+                      critic: 'ship-gate',
+                      verdict: 'SHIPPED-WITH-FAULTS',
+                      feedback: shipFeedback,
+                      ts: Date.now(),
+                    })
+                    console.warn(
+                      '  [ship-gate] final critic still says REVISE — shipping with the faults logged'
+                    )
+                  }
+                } catch (finalErr) {
+                  // Best-effort, exactly like round 1: a critic call that
+                  // cannot run must not stop a build that otherwise passed.
+                  // The recapture round 1 used to do alone here still ran —
+                  // judgeScreenshot captures before it asks the critic — so
+                  // finalScreenshot reflects the revision either way, unless
+                  // the capture itself is what failed.
+                  console.warn(
+                    `  [screenshot-critic] final re-judge failed (non-blocking): ${finalErr.message}`
+                  )
                 }
               }
             } catch (err) {
