@@ -17,14 +17,18 @@
  *   1. Refuses to run if `ANTHROPIC_API_KEY` is set (environment or `.env`)
  *      or if `GITHUB_ACTIONS` is set — this script is the $0 path, not a
  *      billed one and not a CI job.
- *   2. Creates a fresh git worktree of HEAD under the OS temp dir (or reuses
- *      one passed with `--worktree`, skipping install), installs with a
- *      frozen lockfile, copies the repo's `.env` if present, and runs
- *      `scripts/run-pipeline.js` with `MOCK_MODE=false` and `DRY_RUN=true`
- *      forced, output teed to a log.
- *   3. Collects the log and the run's trace/cost/verdicts/build-output files
- *      into `docs/evidence/canary/<YYYY-MM-DD>-<HHMM>/`, and writes a
- *      `summary.md` alongside them.
+ *   2. Creates the evidence dir up front and prints its `canary.log` path —
+ *      the first line of this script's own output — so `tail -f` that path
+ *      follows the run. Creates a fresh git worktree of HEAD under the OS
+ *      temp dir (or reuses one passed with `--worktree`, skipping install),
+ *      installs with a frozen lockfile, copies the repo's `.env` if present,
+ *      and runs `scripts/run-pipeline.js` with `MOCK_MODE=false` and
+ *      `DRY_RUN=true` forced, streaming its output into that log file as it
+ *      arrives (so a crash or Ctrl-C mid-run still leaves the partial log on
+ *      disk).
+ *   3. Collects the run's trace/cost/verdicts/build-output files into
+ *      `docs/evidence/canary/<YYYY-MM-DD>-<HHMM>/` alongside the log, and
+ *      writes a `summary.md` there too.
  *   4. Removes the worktree unless `--keep`. Exits 0 on a shipped night, 1
  *      on a failed one, 2 on refusal.
  *
@@ -41,8 +45,9 @@
  *   node scripts/canary.js [--keep] [--worktree <path>] [--mock]
  */
 
-import { spawnSync } from 'node:child_process'
+import { spawn, spawnSync } from 'node:child_process'
 import {
+  appendFileSync,
   copyFileSync,
   existsSync,
   mkdirSync,
@@ -116,25 +121,51 @@ export function refusalReason({ root, env, mock = false }) {
 
 /**
  * Run a shell command, buffering its output rather than inheriting stdio, so
- * the caller can tee it to a log file and a real run's output can be
- * replaced in tests with a function that never shells out.
+ * a real run's output can be replaced in tests with a function that never
+ * shells out. Without `onChunk` this runs synchronously (`spawnSync`), same
+ * as always. With `onChunk`, it runs asynchronously instead (`spawn`),
+ * calling `onChunk` with each piece of stdout/stderr text as it arrives —
+ * this is how the pipeline run's log gets written incrementally rather than
+ * only once the process exits.
  * @param {string} command
- * @param {{ cwd?: string, env?: NodeJS.ProcessEnv }} [options]
- * @returns {{ status: number, stdout: string, stderr: string }}
+ * @param {{ cwd?: string, env?: NodeJS.ProcessEnv, onChunk?: (text: string) => void }} [options]
+ * @returns {{ status: number, stdout: string, stderr: string } | Promise<{ status: number, stdout: string, stderr: string }>}
  */
-function defaultExec(command, { cwd, env } = {}) {
-  const result = spawnSync(command, {
-    cwd,
-    env,
-    shell: true,
-    encoding: 'utf8',
-    maxBuffer: 1024 * 1024 * 64,
-  })
-  return {
-    status: result.status ?? (result.signal ? 1 : 0),
-    stdout: result.stdout ?? '',
-    stderr: result.stderr ?? '',
+export function defaultExec(command, { cwd, env, onChunk } = {}) {
+  if (!onChunk) {
+    const result = spawnSync(command, {
+      cwd,
+      env,
+      shell: true,
+      encoding: 'utf8',
+      maxBuffer: 1024 * 1024 * 64,
+    })
+    return {
+      status: result.status ?? (result.signal ? 1 : 0),
+      stdout: result.stdout ?? '',
+      stderr: result.stderr ?? '',
+    }
   }
+
+  return new Promise((resolve, reject) => {
+    const child = spawn(command, { cwd, env, shell: true })
+    let stdout = ''
+    let stderr = ''
+    child.stdout.on('data', (chunk) => {
+      const text = chunk.toString('utf8')
+      stdout += text
+      onChunk(text)
+    })
+    child.stderr.on('data', (chunk) => {
+      const text = chunk.toString('utf8')
+      stderr += text
+      onChunk(text)
+    })
+    child.on('error', reject)
+    child.on('close', (code, signal) => {
+      resolve({ status: code ?? (signal ? 1 : 0), stdout, stderr })
+    })
+  })
 }
 
 /**
@@ -481,12 +512,33 @@ function copyEnvFile({ root, worktree }) {
  * The $0 run itself: MOCK_MODE and DRY_RUN forced regardless of whatever the
  * shell or the copied .env set them to. `mock` forces `MOCK_MODE=true` (the
  * recorded-fixture replay) instead of `false` (the real CLI dry run).
+ *
+ * Streams the child's combined output into `logPath` as it arrives (#449 —
+ * a 45-minute run used to write nothing until it finished), then resolves
+ * to the same buffered `{ stdout, stderr }` the rest of this script has
+ * always read.
  */
-function runPipeline({ exec, worktree, mock = false }) {
+async function runPipeline({ exec, worktree, mock = false, logPath }) {
   const mockModeValue = mock ? 'true' : 'false'
   console.log(`  MOCK_MODE=${mockModeValue} DRY_RUN=true node scripts/run-pipeline.js`)
   const env = { ...process.env, MOCK_MODE: mockModeValue, DRY_RUN: 'true' }
-  return exec('node scripts/run-pipeline.js', { cwd: worktree, env })
+  const onChunk = (text) => appendFileSync(logPath, text)
+  return exec('node scripts/run-pipeline.js', { cwd: worktree, env, onChunk })
+}
+
+/**
+ * The evidence dir and its log file, created before the pipeline even
+ * starts (and printed as this script's first line of output) so `tail -f`
+ * the log path follows a live run, and a crash or Ctrl-C mid-run still
+ * leaves the partial log on disk rather than nothing at all.
+ * @returns {{ evidenceDir: string, logPath: string }}
+ */
+function prepareEvidenceDir({ root, now, mock }) {
+  const evidenceDir = path.join(root, 'docs', 'evidence', 'canary', evidenceStamp(now(), mock))
+  mkdirSync(evidenceDir, { recursive: true })
+  const logPath = path.join(evidenceDir, 'canary.log')
+  writeFileSync(logPath, '', 'utf8')
+  return { evidenceDir, logPath }
 }
 
 /**
@@ -524,19 +576,20 @@ function readRunArtifacts({ archiveDateDir, shippedBuild }) {
 }
 
 /**
- * Collect the log, the run's trace/cost/verdicts/build-output files and a
- * summary.md into `docs/evidence/canary/<stamp>/` (`<stamp>-mock/` under
- * `--mock`).
- * @returns {{ evidenceDir: string, shipped: boolean, date: string|null }}
+ * Collect the run's trace/cost/verdicts/build-output files and a
+ * summary.md into `evidenceDir` (already created by `prepareEvidenceDir`,
+ * with the streamed log already at `evidenceDir/canary.log`). Overwrites
+ * that log with the buffered `log` string so its final content stays
+ * exactly what it has always been — the streamed writes only mattered for
+ * following the run live.
+ * @returns {{ shipped: boolean, date: string|null }}
  */
-function collectEvidence({ worktree, root, now, log, mock = false }) {
+function collectEvidence({ worktree, root, evidenceDir, log, mock = false }) {
   const date = findArchiveDate(worktree)
   const archiveDateDir = date ? path.join(worktree, 'archive', date) : null
   const shippedBuild = archiveDateDir ? findShippedBuild(archiveDateDir) : null
   const shipped = Boolean(shippedBuild)
 
-  const evidenceDir = path.join(root, 'docs', 'evidence', 'canary', evidenceStamp(now(), mock))
-  mkdirSync(evidenceDir, { recursive: true })
   writeFileSync(path.join(evidenceDir, 'canary.log'), log, 'utf8')
 
   const { trace, cost, failedDir, renderPath } = collectArchiveArtifacts({
@@ -556,7 +609,7 @@ function collectEvidence({ worktree, root, now, log, mock = false }) {
 
   maybePrintTasteInvite({ root, evidenceDir, date, shippedBuild, renderPath, shipped, mock })
 
-  return { evidenceDir, shipped, date }
+  return { shipped, date }
 }
 
 /**
@@ -592,10 +645,11 @@ function maybePrintTasteInvite({
 }
 
 /**
- * Run the canary: worktree, install, dry run, evidence, cleanup.
+ * Run the canary: evidence dir (and its log, printed first), worktree,
+ * install, dry run, evidence, cleanup.
  *
  * @param {object} [args]
- * @param {(command: string, options: { cwd?: string, env?: NodeJS.ProcessEnv }) => { status: number, stdout: string, stderr: string }} [args.exec]
+ * @param {(command: string, options: { cwd?: string, env?: NodeJS.ProcessEnv, onChunk?: (text: string) => void }) => { status: number, stdout: string, stderr: string } | Promise<{ status: number, stdout: string, stderr: string }>} [args.exec]
  *   command runner, replaced in tests so nothing is actually shelled out
  * @param {() => Date} [args.now] clock, pinned in tests
  * @param {string} [args.root] the repo whose HEAD gets worktreed and whose
@@ -619,6 +673,9 @@ export async function runCanary({
     return { exitCode: 2, reason }
   }
 
+  const { evidenceDir, logPath } = prepareEvidenceDir({ root, now, mock })
+  console.log(logPath)
+
   const { worktree, reused } = prepareWorktree({ exec, root, now, worktreePath })
 
   try {
@@ -626,11 +683,11 @@ export async function runCanary({
       copyEnvFile({ root, worktree }) ? '  copied .env into worktree' : '  no .env to copy'
     )
 
-    const { stdout, stderr } = runPipeline({ exec, worktree, mock })
-    const { evidenceDir, shipped, date } = collectEvidence({
+    const { stdout, stderr } = await runPipeline({ exec, worktree, mock, logPath })
+    const { shipped, date } = collectEvidence({
       worktree,
       root,
-      now,
+      evidenceDir,
       log: `${stdout}${stderr}`,
       mock,
     })
