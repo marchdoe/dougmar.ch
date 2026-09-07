@@ -27,6 +27,9 @@ Only after this sanity gate passes, proceed to the design evaluation below.
 - The structured brief
 - The header declaration (placement, height, mark size, wordmark step and
   weight, role line, nav step and case)
+- The mobile declaration (the composition's `collapse` value, the carrier,
+  the first fold, the zone order, the hero step at 360, the nav at 360),
+  which section 10 is judged against
 - The Design Director's visual specification
 - Reference material (if provided)
 - The approved mockup screenshot (if available)
@@ -155,8 +158,20 @@ idea was a question on a dark panel facing its answer on a terracotta panel
 shipped with the split gone at 360: the answer panel faced nothing, so the
 concept was absent, not merely rearranged. No horizontal scroll, no text under
 16px, no line over 75 characters — every automatic check passed. The phone is
-judged as a design here, not scanned for breakage.
+judged as a design here, not scanned for breakage, and it is judged against
+the mobile declaration: the Art Director named a `collapse` strategy, the
+`carrier` that holds the idea at 360, what sits in the `first_fold`, the zone
+`order`, the `hero_step_360` and `nav_360`, and the approved mockup rendered
+them. The build has to match.
 
+- **Is the declaration on the page?** Find the declared carrier in the 360
+  image and say where it is. The first 640px must be what `first_fold` says:
+  a `hero-only` collapse that opens on a nav row and a signal strip has not
+  been built. Walk the `order` down the image; a zone out of place or missing
+  is a REVISE. A `rail-to-band` collapse whose rail is still a narrow column
+  beside empty space is the "sidebar all by itself" the owner flagged on
+  2026-09-04, and a REVISE. Name the line of the declaration the render
+  contradicts.
 - **Does the composition's idea survive, or only its parts?** Name what the
   design is about at 1440 — the split, the diagonal, the one word holding the
   field, the rhythm of the grid — then say what it became at 360. One column
@@ -169,9 +184,11 @@ judged as a design here, not scanned for breakage.
   and captions keep their desktop weight has lost the page, even though every
   element is present.
 - **Did the type scale to the column, or stack into a wall?** Display type
-  must resize with the viewport (`clamp()`, `vw` with caps). A headline that
-  keeps a desktop size and reflows into eight short lines is a wall; a
-  paragraph that arrives as one grey block filling the screen is a wall.
+  must resize with the viewport (`clamp()`, `vw` with caps), and the hero must
+  read as the declared `hero_step_360`, inside the first fold, with no word
+  cut. A headline that keeps a desktop size and reflows into eight short
+  lines is a wall; a paragraph that arrives as one grey block filling the
+  screen is a wall.
 - **Is anything cut off?** Content severed mid-word at the right edge is a
   failure on its own. Note that a clipped element does not necessarily scroll
   the document — a parent with `overflow: hidden` cuts the content and leaves

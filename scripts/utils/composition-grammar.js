@@ -1,5 +1,5 @@
 /**
- * The composition grammar — eight independent axes the Art Director
+ * The composition grammar — nine independent axes the Art Director
  * composes from, replacing the fixed eight-name archetype shortlist.
  *
  * The archetype Set gave the pipeline exactly 8 silhouettes, so one
@@ -14,11 +14,19 @@
  * palette, or a mood. An axis value must be something you could measure off
  * a screenshot.
  *
+ * The first eight axes describe one canvas at 1440. `collapse` (#452) says
+ * what that canvas becomes at 360, where half the audience meets it: the
+ * 2026-09-04 build was a question on a dark panel facing its answer on a
+ * terracotta panel, and at one column the split was gone, the answer faced
+ * nothing, and there was no design left. The value is measurable off the
+ * phone render the same way the others are off the desktop one, and the
+ * `===MOBILE===` block (utils/mobile-grammar.js) carries the specifics.
+ *
  * @module
  */
 
 /**
- * The axes and their permitted values. 6·4·5·6·4·4·5·4 = 230,400 tuples.
+ * The axes and their permitted values. 6·4·5·6·4·4·5·4·5 = 1,152,000 tuples.
  *
  * Order matters only for display — tuples are keyed objects, never
  * positional arrays, so adding an axis later doesn't shift anything.
@@ -34,6 +42,7 @@ export const COMPOSITION_AXES = {
   rhythm: ['even', 'accelerating', 'syncopated', 'interrupted'],
   shell_posture: ['standard', 'marginal', 'none', 'folded-into-hero', 'footer-only'],
   field_ratio: ['type-dominant', 'balanced', 'field-dominant', 'drenched'],
+  collapse: ['stack', 'reorder', 'hero-only', 'rail-to-band', 'split-to-sequence'],
 }
 
 /** Axis names in canonical order. @type {string[]} */
@@ -42,7 +51,7 @@ export const AXIS_NAMES = Object.keys(COMPOSITION_AXES)
 /**
  * One sentence per axis value, written for the Art Director. This prose is
  * what replaces the 5–8KB of canned archetype mechanics the seed files used
- * to supply: enough to make the value actionable, short enough that eight of
+ * to supply: enough to make the value actionable, short enough that nine of
  * them together read as a brief rather than a template.
  *
  * @type {Record<string, Record<string, string>>}
@@ -113,6 +122,16 @@ const AXIS_VALUE_DESCRIPTIONS = {
     balanced: 'Type and field carry roughly equal visual weight.',
     'field-dominant': 'Large areas of color or shape lead, with type placed into them.',
     drenched: 'Color or texture floods the full surface; type sits on top of it as an overlay.',
+  },
+  collapse: {
+    stack: 'Every zone keeps its 1440 order and stacks full-width, top to bottom, at 360.',
+    reorder:
+      'A zone moves ahead of where it sat at 1440 so the idea leads at 360; the MOBILE order says which.',
+    'hero-only': 'The first fold at 360 is the hero alone; everything else follows below it.',
+    'rail-to-band':
+      'A rail or sidebar becomes a full-width horizontal band at 360, placed where its content belongs.',
+    'split-to-sequence':
+      'A split field becomes a sequence of full-width fields at 360, the relationship kept by adjacency: a question above its answer still faces it.',
   },
 }
 

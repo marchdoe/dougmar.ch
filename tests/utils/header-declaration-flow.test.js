@@ -3,7 +3,12 @@ import { mkdtempSync, mkdirSync, rmSync, writeFileSync, readFileSync } from 'nod
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { parseDelimiterResponse } from '../../scripts/utils/delimiter-parser.js'
-import { parseHeaderBlock, parseShellBlock } from '../../scripts/utils/spec-blocks.js'
+import {
+  parseCompositionBlock,
+  parseHeaderBlock,
+  parseMobileBlock,
+  parseShellBlock,
+} from '../../scripts/utils/spec-blocks.js'
 import { validateArtDirectorResult } from '../../scripts/agents/art-director.js'
 import { computeShellMandate } from '../../scripts/utils/shell-mandate.js'
 import { computeUniqueness } from '../../scripts/utils/uniqueness-index.js'
@@ -54,6 +59,13 @@ nav_step: sm
 nav_case: small-caps
 nav: a vertical spine of rotated labels
 
+===MOBILE===
+carrier: The drenched field with FOURTEEN HOURS OF LIGHT carries the page; the spine becomes a band above it.
+first_fold: The nav band, then FOURTEEN HOURS OF LIGHT at hero step filling the field.
+order: nav band, hero field, colophon
+hero_step_360: hero
+nav_360: the rotated spine becomes one horizontal band of small-caps links at the top
+
 ===COMPOSITION===
 columns: two-asymmetric
 axis: vertical
@@ -63,6 +75,7 @@ density: sparse
 rhythm: interrupted
 shell_posture: marginal
 field_ratio: drenched
+collapse: rail-to-band
 
 ===COMPOSITION_RATIONALE===
 A left-weighted asymmetric split gives the spine somewhere to live without a top bar.
@@ -105,9 +118,43 @@ describe('an Art Director response with ===HEADER===, end to end', () => {
 
   it('rejects the same response with the HEADER block removed', () => {
     const parsed = parseDelimiterResponse(
-      RESPONSE.replace(/===HEADER===[\s\S]*?(?====COMPOSITION===)/, '')
+      RESPONSE.replace(/===HEADER===[\s\S]*?(?====MOBILE===)/, '')
     )
     expect(() => validateArtDirectorResult(parsed)).toThrow(/===HEADER===/)
+  })
+
+  it('parses and persists mobile.json beside composition.json, nine keys deep', () => {
+    const parsed = parseDelimiterResponse(RESPONSE)
+    expect(() => validateArtDirectorResult(parsed)).not.toThrow()
+    const composition = parseCompositionBlock(parsed.composition)
+    const mobile = parseMobileBlock(parsed.mobile)
+    expect(Object.keys(composition)).toHaveLength(9)
+    expect(composition.collapse).toBe('rail-to-band')
+    expect(mobile.hero_step_360).toBe('hero')
+    expect(mobile.order).toBe('nav band, hero field, colophon')
+
+    const buildDir = path.join(archiveDir, '2026-09-06', 'build-1')
+    mkdirSync(buildDir, { recursive: true })
+    writeFileSync(path.join(buildDir, 'composition.json'), JSON.stringify(composition, null, 2))
+    writeFileSync(path.join(buildDir, 'mobile.json'), JSON.stringify(mobile, null, 2))
+    expect(JSON.parse(readFileSync(path.join(buildDir, 'mobile.json'), 'utf8'))).toEqual(mobile)
+  })
+
+  it('rejects the same response with the MOBILE block removed', () => {
+    const parsed = parseDelimiterResponse(
+      RESPONSE.replace(/===MOBILE===[\s\S]*?(?====COMPOSITION===)/, '')
+    )
+    expect(() => validateArtDirectorResult(parsed)).toThrow(/===MOBILE===/)
+  })
+
+  it('rejects a collapse that contradicts the mobile block the way a placement contradicts the posture', () => {
+    // rail-to-band with nothing that was a rail: posture standard, columns single, top-bar header.
+    const parsed = parseDelimiterResponse(
+      RESPONSE.replace('shell_posture: marginal', 'shell_posture: standard')
+        .replace('columns: two-asymmetric', 'columns: single')
+        .replace('placement: left-rail', 'placement: top-bar')
+    )
+    expect(() => validateArtDirectorResult(parsed)).toThrow(/rail-to-band/)
   })
 
   it('rejects a placement that contradicts the declared shell posture', () => {

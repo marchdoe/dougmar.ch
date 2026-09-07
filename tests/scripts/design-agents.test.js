@@ -93,6 +93,7 @@ describe('archiveArtifacts', () => {
     verdicts: [{ critic: 'surface-gate', verdict: 'SHIP' }],
     shellDecl: { posture: 'standard' },
     headerDecl: { placement: 'top' },
+    mobileDecl: { carrier: 'the hero', hero_step_360: 'hero' },
     heroSource: undefined,
     chosenComposition: { hero: 'poster' },
     chosenLane: { id: 'quiet', register: 'plain' },
@@ -129,6 +130,8 @@ describe('archiveArtifacts', () => {
     expect(JSON.parse(out['hero-source.json'])).toEqual({ source: 'weather' })
     expect(JSON.parse(out['lane.json'])).toEqual({ laneId: 'quiet', register: 'plain' })
     expect(JSON.parse(out['verdicts.json'])).toEqual(base.verdicts)
+    // The phone declaration lands beside the tuple it explains (#452).
+    expect(JSON.parse(out['mobile.json'])).toEqual(base.mobileDecl)
   })
 })
 

@@ -5,6 +5,7 @@ import {
   completeSemanticTokens,
   headerBlock,
   kvBlock,
+  mobileBlock,
 } from '../../scripts/build-fixtures-from-archive.js'
 import {
   SEMANTIC_COLOR_NAMES,
@@ -95,6 +96,22 @@ describe('headerBlock', () => {
   })
 })
 
+describe('mobileBlock', () => {
+  it('uses the declared block when the build has one', () => {
+    expect(mobileBlock({ carrier: 'the hero', hero_step_360: 'hero' }, {})).toBe(
+      'carrier: the hero\nhero_step_360: hero'
+    )
+  })
+
+  it('synthesizes one that names the hero for builds that predate the declaration', () => {
+    const block = mobileBlock(null, { hero_copy: 'Select a busy man.' })
+    expect(block).toContain('# synthesized')
+    expect(block).toContain('first_fold: The hero phrase "Select a busy man." at hero step')
+    expect(block).toContain('hero_step_360: hero')
+    expect(block).toContain('order: hero, nav, content, footer')
+  })
+})
+
 describe('kvBlock', () => {
   it('drops null and undefined rather than writing them as values', () => {
     expect(kvBlock({ a: 1, b: null, c: undefined, d: 'x' })).toBe('a: 1\nd: x')
@@ -136,10 +153,30 @@ describe('artDirectorBlocks', () => {
       'MEASURABLES',
       'SHELL',
       'HEADER',
+      'MOBILE',
     ]) {
       expect(out).toContain(`===${block}===`)
     }
     expect(out).toContain('===FILE:elements/preset.ts===')
+  })
+
+  it('adds collapse: stack to a composition recorded before the axis existed', () => {
+    const out = artDirectorBlocks(artifacts)
+    expect(out).toContain(
+      '===COMPOSITION===\ncolumns: two-asymmetric\nshell_posture: marginal\ncollapse: stack'
+    )
+    expect(out).toContain('===MOBILE===\n# synthesized')
+  })
+
+  it('keeps a recorded collapse and mobile.json as they are', () => {
+    const out = artDirectorBlocks({
+      ...artifacts,
+      composition: { ...artifacts.composition, collapse: 'rail-to-band' },
+      mobile: { carrier: 'the ledger band', hero_step_360: '4xl' },
+    })
+    expect(out).toContain('collapse: rail-to-band')
+    expect(out).toContain('===MOBILE===\ncarrier: the ledger band\nhero_step_360: 4xl')
+    expect(out).not.toContain('collapse: stack')
   })
 
   it('carries the rationale from the brief into both rationale blocks', () => {

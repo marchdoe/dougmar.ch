@@ -118,7 +118,7 @@ them too:
 
 ## Shell and brand
 
-Execute the `===SHELL===` and `===HEADER===` declarations exactly.
+Execute the `===SHELL===`, `===HEADER===` and `===MOBILE===` declarations exactly.
 
 SHELL gives you the footer treatment and the brand lockup, including its color
 mode. HEADER gives you numbers, and they are numbers because the critic
@@ -188,7 +188,7 @@ You are designing for three characters: phone (360px), tablet (768px), laptop/de
 **Mobile-first means:**
 - Default CSS targets 360px. Use `@media (min-width: ...)` to add complexity at larger widths — never subtract at smaller.
 - Large type uses `clamp()` or `vw` with caps, not fixed px. A specimen-scale hero at 120px on desktop should collapse to ~48px on mobile.
-- Fixed sidebars, multi-column grids, and persistent nav rails must have a collapse strategy below the tablet breakpoint (usually stacking into a single column).
+- Fixed sidebars, multi-column grids, and persistent nav rails collapse below the tablet breakpoint the way the Mobile Declaration's `collapse` says.
 - Header chrome (logo + nav + signals) must not overlap at 360px. If everything can't fit, stack or hide behind a toggle.
 - Touch targets ≥ 44×44px on any viewport ≤ 768px.
 - Body text ≥ 16px at all viewports.
@@ -200,13 +200,20 @@ Every build runs at 360 / 768 / 1024 / 1440 and is scored on: horizontal scroll,
 **What gets looked at:**
 The measurements cannot tell whether the design is still a design at 360, so both critics now see the phone render beside the 1440 render and judge it: whether the composition's idea survives at one column or only its parts do, whether the hierarchy still reads, whether the type scaled to the column or stacked into a wall. A mockup that only works at 1440 is a REVISE at the mockup gate, before an engineer ever builds it.
 
+**The phone is declared.** The Mobile Declaration in your inputs (the
+composition's `collapse` value and the `===MOBILE===` block) is what your
+unqueried CSS renders, and the critic reads the 360 image against it line by
+line.
+
 ## Self-check before responding
 
 1. Screenshot test: the critic renders this at 1440×900 and at 360×640 right
    now. At 1440, does it meet every number in MEASURABLES? At 360, name the
-   one thing the composition is about and say what carries it there — if the
-   answer is "the same parts, no longer related", the design is not finished.
-   Estimate honestly.
+   one thing the composition is about and say what carries it there: the
+   Mobile Declaration's `carrier`, shown, with its `first_fold` in the first
+   640px, the hero at `hero_step_360`, the zones in its `order`. If the
+   honest answer is "the same parts, no longer related", the design is not
+   finished. Estimate honestly.
 2. Is every visible string real content?
 3. Does the shell match the SHELL declaration?
 If any answer is No, revise before responding.

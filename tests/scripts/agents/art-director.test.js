@@ -115,6 +115,7 @@ describe('validateArtDirectorResult', () => {
     'rhythm: even',
     'shell_posture: standard',
     'field_ratio: balanced',
+    'collapse: stack',
   ].join('\n')
 
   const validHeader = [
@@ -129,6 +130,14 @@ describe('validateArtDirectorResult', () => {
     'nav: bottom rail',
   ].join('\n')
 
+  const validMobile = [
+    'carrier: The hero phrase carries the page at 360, stacked above the ledger that answers it.',
+    'first_fold: The mark, then the hero phrase at hero step, then the first line of the ledger.',
+    'order: hero, ledger, work, footer',
+    'hero_step_360: hero',
+    'nav_360: one lowercase row under the mark',
+  ].join('\n')
+
   const valid = {
     hero_copy: 'There is no limit',
     archetype: 'Specimen',
@@ -141,6 +150,7 @@ describe('validateArtDirectorResult', () => {
       'canvas_utilization_min: 70\nhero_scale: clamp(96px, 13vw, 200px)\ncolor_coverage_min: 60',
     shell: 'footer: data strip\nbrand_lockup: horizontal-md\nbrand_color_mode: original',
     header: validHeader,
+    mobile: validMobile,
     files: [{ path: 'elements/preset.ts', content: "export const elementsPreset = 'stub'" }],
     rationale: 'r',
     design_brief: 'b',
@@ -186,6 +196,62 @@ describe('validateArtDirectorResult', () => {
         composition: validComposition.replace('rhythm: even\n', ''),
       })
     ).toThrow(/missing axis: rhythm/)
+  })
+
+  it('throws when the collapse axis is missing: a tuple without a phone is incomplete', () => {
+    expect(() =>
+      validateArtDirectorResult({
+        ...valid,
+        composition: validComposition.replace('\ncollapse: stack', ''),
+      })
+    ).toThrow(/missing axis: collapse/)
+  })
+
+  it('throws when MOBILE is missing', () => {
+    expect(() => validateArtDirectorResult({ ...valid, mobile: undefined })).toThrow(/===MOBILE===/)
+  })
+
+  it('throws when hero_step_360 is not a display step', () => {
+    expect(() =>
+      validateArtDirectorResult({
+        ...valid,
+        mobile: validMobile.replace('hero_step_360: hero', 'hero_step_360: sm'),
+      })
+    ).toThrow(/invalid hero_step_360: "sm"/)
+  })
+
+  it('throws when collapse: hero-only puts anything but the hero in the first fold', () => {
+    expect(() =>
+      validateArtDirectorResult({
+        ...valid,
+        composition: validComposition.replace('collapse: stack', 'collapse: hero-only'),
+        mobile: validMobile.replace(
+          'first_fold: The mark, then the hero phrase at hero step, then the first line of the ledger.',
+          'first_fold: The nav row and the ledger; the hero sits below the fold to let the score lead.'
+        ),
+      })
+    ).toThrow(/collapse "hero-only" contradicts first_fold/)
+  })
+
+  it('throws when collapse: rail-to-band names a rail the composition never had', () => {
+    expect(() =>
+      validateArtDirectorResult({
+        ...valid,
+        composition: validComposition.replace('collapse: stack', 'collapse: rail-to-band'),
+      })
+    ).toThrow(/collapse "rail-to-band" contradicts the composition/)
+  })
+
+  it('accepts collapse: rail-to-band when the shell posture is marginal', () => {
+    expect(() =>
+      validateArtDirectorResult({
+        ...valid,
+        composition: validComposition
+          .replace('collapse: stack', 'collapse: rail-to-band')
+          .replace('shell_posture: standard', 'shell_posture: marginal'),
+        header: validHeader.replace('placement: top-bar', 'placement: left-rail'),
+      })
+    ).not.toThrow()
   })
 
   it('throws when COMPOSITION_RATIONALE is missing or too short', () => {

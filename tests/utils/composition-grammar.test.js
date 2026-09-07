@@ -15,7 +15,7 @@ function firstValueTuple(overrides = {}) {
 }
 
 describe('COMPOSITION_AXES', () => {
-  it('has the eight axes the grammar is defined over', () => {
+  it('has the nine axes the grammar is defined over', () => {
     expect(AXIS_NAMES).toEqual([
       'columns',
       'axis',
@@ -25,17 +25,18 @@ describe('COMPOSITION_AXES', () => {
       'rhythm',
       'shell_posture',
       'field_ratio',
+      'collapse',
     ])
   })
 
-  it('has 38 values in total, none duplicated within an axis', () => {
+  it('has 43 values in total, none duplicated within an axis', () => {
     let total = 0
     for (const axis of AXIS_NAMES) {
       const values = COMPOSITION_AXES[axis]
       expect(new Set(values).size, `${axis} has a duplicate value`).toBe(values.length)
       total += values.length
     }
-    expect(total).toBe(38)
+    expect(total).toBe(43)
   })
 })
 
@@ -111,7 +112,11 @@ describe('isValidTuple', () => {
       'Index',
       'Scroll',
     ]
-    const allValues = AXIS_NAMES.flatMap((a) => COMPOSITION_AXES[a])
+    // `collapse: stack` (#452) shares a word with the retired Stack
+    // archetype and nothing else: it is a phone strategy, not a silhouette,
+    // so the check runs over the eight canvas axes the archetypes described.
+    const canvasAxes = AXIS_NAMES.filter((a) => a !== 'collapse')
+    const allValues = canvasAxes.flatMap((a) => COMPOSITION_AXES[a])
     for (const name of legacy) {
       expect(allValues).not.toContain(name)
       expect(allValues).not.toContain(name.toLowerCase())
@@ -123,9 +128,10 @@ describe('isValidTuple', () => {
 describe('formatTuple', () => {
   it('emits one key: value line per axis, in canonical order', () => {
     const lines = formatTuple(firstValueTuple()).split('\n')
-    expect(lines).toHaveLength(8)
+    expect(lines).toHaveLength(9)
     expect(lines[0]).toBe('columns: single')
     expect(lines[7]).toBe('field_ratio: type-dominant')
+    expect(lines[8]).toBe('collapse: stack')
   })
 
   it('marks missing values rather than emitting "undefined"', () => {

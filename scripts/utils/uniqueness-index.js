@@ -60,7 +60,7 @@ export const WEIGHTS = {
  * difference: an Art Director that omitted an axis did not match it.
  * @param {Record<string, string>} a
  * @param {Record<string, string>} b
- * @returns {number} 0-8
+ * @returns {number} 0 to AXIS_NAMES.length
  */
 export function hammingTuple(a, b) {
   return AXIS_NAMES.reduce((n, axis) => n + (a?.[axis] === b?.[axis] ? 0 : 1), 0)
@@ -307,11 +307,11 @@ export function formatUniquenessForPrompt(index) {
   const notes = []
   if (m.composition?.raw === 0 && m.composition?.nearest) {
     notes.push(
-      `- Composition was an EXACT repeat of ${m.composition.nearest}. All eight axes matched. Do not land on that tuple again.`
+      `- Composition was an EXACT repeat of ${m.composition.nearest}. All ${AXIS_NAMES.length} axes matched. Do not land on that tuple again.`
     )
   } else if (typeof m.composition?.raw === 'number' && m.composition.raw <= 2) {
     notes.push(
-      `- Composition differed from ${m.composition.nearest} on only ${m.composition.raw} of 8 axes. Move more than one axis today.`
+      `- Composition differed from ${m.composition.nearest} on only ${m.composition.raw} of ${AXIS_NAMES.length} axes. Move more than one axis today.`
     )
   }
   if (typeof m.hue?.raw === 'number' && m.hue.raw < HUE_NEAR_REPEAT) {

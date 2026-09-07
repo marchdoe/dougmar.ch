@@ -14,6 +14,7 @@ import {
   laneNovelty,
   shellNovelty,
 } from '../../scripts/utils/uniqueness-index.js'
+import { AXIS_NAMES } from '../../scripts/utils/composition-grammar.js'
 
 /** A full, valid axis tuple. Individual tests override single axes. */
 const TUPLE = {
@@ -25,6 +26,20 @@ const TUPLE = {
   rhythm: 'even',
   shell_posture: 'standard',
   field_ratio: 'balanced',
+  collapse: 'stack',
+}
+
+/** A tuple that differs from TUPLE on every axis. */
+const FAR = {
+  columns: 'masonry',
+  axis: 'radial',
+  symmetry: 'broken',
+  hero_zone: 'full-bleed',
+  density: 'crowded',
+  rhythm: 'syncopated',
+  shell_posture: 'none',
+  field_ratio: 'drenched',
+  collapse: 'hero-only',
 }
 
 const SHELL = {
@@ -43,18 +58,14 @@ describe('hammingTuple', () => {
     expect(hammingTuple(TUPLE, { ...TUPLE, columns: 'masonry', axis: 'radial' })).toBe(2)
   })
 
-  it('is 8 when every axis differs', () => {
-    const other = {
-      columns: 'masonry',
-      axis: 'radial',
-      symmetry: 'broken',
-      hero_zone: 'full-bleed',
-      density: 'crowded',
-      rhythm: 'syncopated',
-      shell_posture: 'none',
-      field_ratio: 'drenched',
-    }
-    expect(hammingTuple(TUPLE, other)).toBe(8)
+  it('is the axis count when every axis differs', () => {
+    expect(hammingTuple(TUPLE, FAR)).toBe(AXIS_NAMES.length)
+    expect(AXIS_NAMES.length).toBe(9)
+  })
+
+  it('counts a legacy record with no collapse axis as one axis apart, not invalid', () => {
+    const { collapse, ...legacy } = TUPLE
+    expect(hammingTuple(TUPLE, legacy)).toBe(1)
   })
 
   it('counts a missing axis as a difference', () => {
@@ -63,7 +74,7 @@ describe('hammingTuple', () => {
   })
 
   it('treats a null tuple as maximally distant rather than throwing', () => {
-    expect(hammingTuple(TUPLE, null)).toBe(8)
+    expect(hammingTuple(TUPLE, null)).toBe(AXIS_NAMES.length)
   })
 })
 
@@ -76,19 +87,9 @@ describe('compositionNovelty', () => {
   })
 
   it('reports the NEAREST neighbour, not the average', () => {
-    const far = {
-      columns: 'masonry',
-      axis: 'radial',
-      symmetry: 'broken',
-      hero_zone: 'full-bleed',
-      density: 'crowded',
-      rhythm: 'syncopated',
-      shell_posture: 'none',
-      field_ratio: 'drenched',
-    }
     const r = compositionNovelty(TUPLE, [
-      { date: 'far-1', composition: far },
-      { date: 'far-2', composition: far },
+      { date: 'far-1', composition: FAR },
+      { date: 'far-2', composition: FAR },
       { date: 'clone', composition: { ...TUPLE } },
     ])
     // Averaging would score this highly. The clone is the point.
@@ -101,7 +102,7 @@ describe('compositionNovelty', () => {
       { date: 'd', composition: { ...TUPLE, columns: 'masonry', axis: 'radial' } },
     ])
     expect(r.raw).toBe(2)
-    expect(r.score).toBeCloseTo(2 / 8)
+    expect(r.score).toBeCloseTo(2 / AXIS_NAMES.length)
   })
 
   it('returns null on empty history', () => {
@@ -377,14 +378,15 @@ describe('computeUniqueness', () => {
     const r = computeUniqueness(legacy, [
       { date: '2026-03-31', composition: { ...TUPLE, columns: 'masonry' } },
     ])
-    expect(r.metrics.composition.score).toBeCloseTo(1 / 8)
+    expect(r.metrics.composition.score).toBeCloseTo(1 / AXIS_NAMES.length)
     expect(r.metrics.hue.score).toBeNull()
     expect(r.metrics.lane.score).toBeNull()
     // Shell still scores: posture rides on the composition tuple, and both
     // builds declare 'standard'. So the composite is composition and shell
     // renormalized over their two weights, not composition alone.
     expect(r.metrics.shell.score).toBe(0)
-    const expected = ((1 / 8) * WEIGHTS.composition) / (WEIGHTS.composition + WEIGHTS.shell)
+    const expected =
+      ((1 / AXIS_NAMES.length) * WEIGHTS.composition) / (WEIGHTS.composition + WEIGHTS.shell)
     expect(r.composite).toBeCloseTo(expected)
   })
 
@@ -500,7 +502,7 @@ describe('formatUniquenessForPrompt', () => {
     const out = formatUniquenessForPrompt(
       idx({ composition: { raw: 2, score: 0.25, nearest: '2026-08-20' } })
     )
-    expect(out).toContain('only 2 of 8 axes')
+    expect(out).toContain(`only 2 of ${AXIS_NAMES.length} axes`)
     expect(out).not.toContain('EXACT')
   })
 

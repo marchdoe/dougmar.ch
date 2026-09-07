@@ -168,6 +168,15 @@ A value the mockup never restates inside a query is the same at every width;
 write it plainly, with no conditional. Do not invent breakpoints the mockup
 does not have, and do not drop the ones it does.
 
+The Mobile Declaration in your inputs is what the mockup's unqueried CSS
+already is: the composition's `collapse` value and the zone `order` top to
+bottom are the design at `base`, the hero is set at `hero_step_360`, the nav
+is what `nav_360` says. The mockup rendered all of it and a critic approved
+it. Keep it. A source order that puts the ledger above the hero because the
+1440 grid placed it left, or a rail that stays a narrow column at `base`
+because the desktop had one, is a divergence the screenshot critic reads
+against that declaration, and it is yours.
+
 ### Forbidden imports
 
 Never import from: `@remix-run/react`, `react-router-dom`, `next/link`, `@emotion/*`, `styled-components`.

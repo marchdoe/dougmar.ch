@@ -197,6 +197,28 @@ export function headerBlock(header, shell, composition) {
   ].join('\n')
 }
 
+/**
+ * A MOBILE block the grammar accepts (#452).
+ *
+ * Builds before #452 declared nothing about the phone and carry no
+ * `collapse` axis, so both are synthesized: `stack` is the one collapse that
+ * contradicts nothing, and the block names the hero and a two-zone order the
+ * validator accepts. Marked as such in the block itself.
+ */
+export function mobileBlock(mobile, ad) {
+  if (mobile) return kvBlock(mobile)
+  return [
+    '# synthesized: this build predates the MOBILE declaration (#452)',
+    kvBlock({
+      carrier: 'The hero phrase carries the page at 360; every other zone stacks below it.',
+      first_fold: `The hero phrase "${ad.hero_copy ?? ''}" at hero step, then the nav.`,
+      order: 'hero, nav, content, footer',
+      hero_step_360: 'hero',
+      nav_360: 'The nav becomes one row under the mark at the top of the page.',
+    }),
+  ].join('\n')
+}
+
 /** MEASURABLES is never persisted; these are the values the gate accepts. */
 const MEASURABLE_DEFAULTS = {
   canvas_utilization_min: 85,
@@ -212,6 +234,7 @@ export function artDirectorArtifacts(build) {
     brief: readFileSync(path.join(build, 'brief.md'), 'utf8'),
     shell: readJson(path.join(build, 'shell.json')) ?? {},
     header: readJson(path.join(build, 'header.json')),
+    mobile: readJson(path.join(build, 'mobile.json')),
     composition: readJson(path.join(build, 'composition.json')) ?? {},
     scheme: readJson(path.join(build, 'color-scheme.json')),
     heroSource: readJson(path.join(build, 'hero-source.json')),
@@ -230,7 +253,9 @@ export function artDirectorArtifacts(build) {
  * @returns {string}
  */
 export function artDirectorBlocks(artifacts) {
-  const { ad, brief, shell, header, composition, scheme, heroSource, preset } = artifacts
+  const { ad, brief, shell, header, mobile, composition, scheme, heroSource, preset } = artifacts
+  // A build before #452 has no collapse axis; `stack` contradicts nothing.
+  const tuple = composition.collapse ? composition : { ...composition, collapse: 'stack' }
   const rationale = briefSection(brief, "Claude's Rationale")
   const fallbackRationale = 'Reconstructed from the archived brief.'
 
@@ -252,7 +277,8 @@ export function artDirectorBlocks(artifacts) {
       ground_strategy: shell.ground_strategy,
     })}`,
     `===HEADER===\n${headerBlock(header, shell, composition)}`,
-    `===COMPOSITION===\n${kvBlock(composition)}`,
+    `===MOBILE===\n${mobileBlock(mobile, ad)}`,
+    `===COMPOSITION===\n${kvBlock(tuple)}`,
     `===COMPOSITION_RATIONALE===\n${rationale.slice(0, 600) || fallbackRationale}`,
     scheme ? `===COLOR_SCHEME===\n${JSON.stringify(scheme, null, 2)}` : null,
     `===FILE:elements/preset.ts===\n${preset}`,

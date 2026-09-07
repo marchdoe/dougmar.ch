@@ -39,6 +39,15 @@ describe('art-director.md output contract', () => {
     expect(ad()).toContain('===SHELL===')
     expect(ad()).toContain('brand_color_mode')
   })
+  it('requires the MOBILE block and the collapse axis (#452)', () => {
+    const text = ad()
+    expect(text).toContain('===MOBILE===')
+    expect(text).toContain('hero_step_360')
+    expect(text).toContain(
+      'collapse: stack | reorder | hero-only | rail-to-band | split-to-sequence'
+    )
+    expect(text).toMatch(/5\. \*\*Phone:\*\*/)
+  })
 })
 
 describe('mockup-designer.md load-bearing directives', () => {

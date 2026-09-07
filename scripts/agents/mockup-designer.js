@@ -16,6 +16,8 @@ export function buildMockupDesignerUserPrompt({
   measurables,
   shell,
   header,
+  mobile,
+  collapse,
   brandSvg,
   brandMonoSvg,
   googleFontsUrl,
@@ -33,6 +35,21 @@ export function buildMockupDesignerUserPrompt({
   sections.push(`## Measurables (the critic will measure these)\n\n${measurables}`)
   sections.push(`## Shell Declaration (execute exactly)\n\n${shell}`)
   if (header) sections.push(`## Header Declaration (execute these numbers exactly)\n\n${header}`)
+  // The phone declaration (#452): the collapse strategy from the composition
+  // tuple and the MOBILE block that says what it means today. The mockup's
+  // unqueried CSS is the 360 design, so this is the design at base.
+  if (mobile) {
+    sections.push(
+      [
+        '## Mobile Declaration (render exactly; the 360 image is judged against this)',
+        '',
+        `collapse: ${collapse ?? '?'}`,
+        mobile,
+        '',
+        'The carrier is what holds the idea at 360; first_fold is what sits inside the first 640px; order is the zones top to bottom; hero_step_360 is the ramp step the hero is set at on the phone; nav_360 is what the header and nav become. The critic reads the 360 image against each line: a `hero-only` first fold that shows a nav row and signal cards, a hero set above `hero_step_360` and cut mid-word, an `order` the page does not follow: each is a REVISE.',
+      ].join('\n')
+    )
+  }
   sections.push(
     `## Design Tokens (elements/preset.ts — use ONLY these colors)\n\n\`\`\`typescript\n${tokenContext}\n\`\`\``
   )

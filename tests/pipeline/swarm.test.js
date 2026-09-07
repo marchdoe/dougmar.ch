@@ -75,6 +75,28 @@ describe('runAgentSwarm on the recorded night', () => {
     })
     expect(run.trace.dir).toMatch(/^build-\d+$/)
 
+    // The phone declaration (#452) is parsed, validated and archived beside
+    // a nine-key composition tuple.
+    const artifacts = run.fakes.archive[0].artifacts
+    const composition = JSON.parse(artifacts['composition.json'])
+    expect(Object.keys(composition)).toHaveLength(9)
+    expect(composition.collapse).toBe('split-to-sequence')
+    const mobile = JSON.parse(artifacts['mobile.json'])
+    expect(mobile).toMatchObject({ hero_step_360: 'hero' })
+    expect(mobile.order.split(',')[0].trim()).toBe('gold thesis field')
+    expect(mobile.carrier).toMatch(/gold thesis field/)
+    // Every downstream agent received the declaration.
+    for (const agent of [
+      'spec-critic',
+      'mockup-designer',
+      'mockup-critic',
+      'react-engineer',
+      'screenshot-critic',
+    ]) {
+      expect(run.callsFor(agent)[0].userPrompt, agent).toContain('## Mobile Declaration')
+      expect(run.callsFor(agent)[0].userPrompt, agent).toContain('hero_step_360: hero')
+    }
+
     for (const rel of [
       'elements/preset.ts',
       'elements/chassis-preset.ts',

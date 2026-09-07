@@ -21,9 +21,11 @@ import {
   parseShellBlock,
   parseHeaderBlock,
   parseCompositionBlock,
+  parseMobileBlock,
 } from '../utils/spec-blocks.js'
 import { isValidTuple } from '../utils/composition-grammar.js'
 import { isValidHeader } from '../utils/header-grammar.js'
+import { isValidMobile } from '../utils/mobile-grammar.js'
 import { LOCKUP_IDS } from '../utils/brand-lockup.js'
 import { modelFor } from '../utils/models.js'
 import { budgetFor } from '../utils/budgets.js'
@@ -91,7 +93,7 @@ function formatSignalsAsYaml(signals) {
  * `===ARCHETYPE===` is optional and never validated — the fixed 8-name list
  * this function used to hard-fail against is gone (composition-grammar
  * arc, Task 4). `===COMPOSITION===` is the real structural declaration now,
- * and it IS validated: every one of the eight axes must be present with a
+ * and it IS validated: every one of the nine axes must be present with a
  * value from that axis's fixed vocabulary (see composition-grammar.js).
  * `===COMPOSITION_RATIONALE===` is required alongside it — a tuple with no
  * stated reason is exactly the "invented archetype for its own sake"
@@ -169,6 +171,25 @@ export function validateArtDirectorResult(parsed) {
   if (!header.nav) {
     throw new Error('HEADER block missing nav')
   }
+  // MOBILE is validated the way HEADER is (#452): the composition's
+  // `collapse` axis names what the canvas becomes at 360, and this block says
+  // what that means for today's page. A block that contradicts the axis is
+  // rejected, not reconciled, the same as a placement that contradicts the
+  // shell posture.
+  if (!parsed.mobile) {
+    throw new Error('Art Director response missing ===MOBILE===')
+  }
+  const mobile = parseMobileBlock(parsed.mobile)
+  const mobileCheck = isValidMobile(mobile, {
+    collapse: composition.collapse,
+    shellPosture: composition.shell_posture,
+    columns: composition.columns,
+    placement: header.placement,
+    heroCopy: parsed.hero_copy,
+  })
+  if (!mobileCheck.valid) {
+    throw new Error(`Art Director MOBILE block is invalid: ${mobileCheck.errors.join('; ')}`)
+  }
 }
 
 /**
@@ -196,7 +217,7 @@ export function validateArtDirectorResult(parsed) {
  *   systemPrompt: string,
  *   designReferenceImages?: Array<{ data: string, media_type: string, title?: string }>,
  * }} ctx
- * @returns {Promise<{ heroCopy: string, heroRationale: string, heroSource: string, archetype: string, chassisId: string, presetTs: string, visualSpec: string, selfCheck: string, rationale: string, designBrief: string, colorScheme: object|null, shell: string, header: string, composition: string, compositionRationale: string, brief: string }>}
+ * @returns {Promise<{ heroCopy: string, heroRationale: string, heroSource: string, archetype: string, chassisId: string, presetTs: string, visualSpec: string, selfCheck: string, rationale: string, designBrief: string, colorScheme: object|null, shell: string, header: string, mobile: string, composition: string, compositionRationale: string, brief: string }>}
  */
 export async function runArtDirector(ctx) {
   const userPrompt = buildArtDirectorUserPrompt(ctx)
@@ -232,6 +253,7 @@ export async function runArtDirector(ctx) {
       'measurables',
       'shell',
       'header',
+      'mobile',
     ].filter((k) => parsed[k])
     const absent = [
       'hero_copy',
@@ -243,6 +265,7 @@ export async function runArtDirector(ctx) {
       'measurables',
       'shell',
       'header',
+      'mobile',
     ].filter((k) => !parsed[k])
     console.error(
       `  [AD] validation failed — present: [${present.join(', ')}] absent: [${absent.join(', ')}]`
@@ -275,6 +298,9 @@ export async function runArtDirector(ctx) {
     `## Composition Rationale`,
     parsed.composition_rationale || '',
     '',
+    `## Mobile`,
+    parsed.mobile || '',
+    '',
     `## Chassis`,
     parsed.chassis_id,
     '',
@@ -300,6 +326,7 @@ export async function runArtDirector(ctx) {
     measurables: parsed.measurables,
     shell: parsed.shell,
     header: parsed.header,
+    mobile: parsed.mobile,
     composition: parsed.composition,
     compositionRationale: parsed.composition_rationale,
     rationale: parsed.rationale || '',

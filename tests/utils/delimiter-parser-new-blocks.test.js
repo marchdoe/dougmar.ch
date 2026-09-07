@@ -57,6 +57,34 @@ describe('parseDelimiterResponse — new blocks', () => {
     expect(p.rationale).toBe('because')
   })
 
+  it('captures MOBILE between HEADER and COMPOSITION, and terminates a FILE block at it', () => {
+    const raw = [
+      '===HEADER===',
+      'placement: top-bar',
+      '===MOBILE===',
+      'carrier: the hero phrase',
+      'order: hero, ledger',
+      '===COMPOSITION===',
+      'collapse: stack',
+      '===FILE:elements/preset.ts===',
+      'export const elementsPreset = {}',
+      '===MOBILE===',
+      'carrier: second',
+      '===RATIONALE===',
+      'because',
+    ].join('\n')
+    const p = parseDelimiterResponse(raw)
+    // First occurrence wins for the block; the FILE block still ends at the delimiter.
+    expect(p.header).toBe('placement: top-bar')
+    expect(p.mobile).toBe('carrier: the hero phrase\norder: hero, ledger')
+    expect(p.composition).toBe('collapse: stack')
+    expect(p.files[0].content).toBe('export const elementsPreset = {}')
+  })
+
+  it('leaves mobile undefined when the block is absent', () => {
+    expect(parseDelimiterResponse('===HERO_COPY===\nX\n===RATIONALE===\nr').mobile).toBeUndefined()
+  })
+
   it('does not fail when HERO_SOURCE and COMPOSITION are absent (optional/independent blocks)', () => {
     const raw = [
       '===HERO_COPY===',

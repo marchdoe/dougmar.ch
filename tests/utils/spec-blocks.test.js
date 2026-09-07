@@ -3,6 +3,7 @@ import {
   parseMeasurablesBlock,
   parseShellBlock,
   parseCompositionBlock,
+  parseMobileBlock,
 } from '../../scripts/utils/spec-blocks.js'
 
 describe('parseMeasurablesBlock', () => {
@@ -85,7 +86,7 @@ describe('parseShellBlock', () => {
 })
 
 describe('parseCompositionBlock', () => {
-  it('parses all eight composition-axis fields', () => {
+  it('parses all nine composition-axis fields', () => {
     const s = parseCompositionBlock(
       [
         'columns: two-equal',
@@ -96,6 +97,7 @@ describe('parseCompositionBlock', () => {
         'rhythm: even',
         'shell_posture: standard',
         'field_ratio: balanced',
+        'collapse: stack',
       ].join('\n')
     )
     expect(s).toEqual({
@@ -107,6 +109,7 @@ describe('parseCompositionBlock', () => {
       rhythm: 'even',
       shell_posture: 'standard',
       field_ratio: 'balanced',
+      collapse: 'stack',
     })
   })
 
@@ -118,6 +121,8 @@ describe('parseCompositionBlock', () => {
     expect(s.rhythm).toBeNull()
     expect(s.shell_posture).toBeNull()
     expect(s.field_ratio).toBeNull()
+    // Every composition.json written before #452 has no collapse axis.
+    expect(s.collapse).toBeNull()
   })
 
   it('normalizes values to lowercase and trims whitespace', () => {
@@ -129,5 +134,40 @@ describe('parseCompositionBlock', () => {
   it("does not validate values against the axis vocabulary — that is the caller's job", () => {
     const s = parseCompositionBlock('columns: seventeen')
     expect(s.columns).toBe('seventeen')
+  })
+})
+
+describe('parseMobileBlock', () => {
+  it('reads every field, normalizing only the enumerated step', () => {
+    const m = parseMobileBlock(
+      [
+        'carrier: The gold field carries the page.',
+        'first_fold: The mark, then "Select a busy man." at hero step.',
+        'order: gold field, ledger, work, footer',
+        'hero_step_360:  Hero ',
+        'nav_360: One lowercase row under the mark.',
+      ].join('\n')
+    )
+    expect(m).toEqual({
+      carrier: 'The gold field carries the page.',
+      first_fold: 'The mark, then "Select a busy man." at hero step.',
+      order: 'gold field, ledger, work, footer',
+      hero_step_360: 'hero',
+      nav_360: 'One lowercase row under the mark.',
+    })
+  })
+
+  it('returns nulls for missing fields and tolerates comments', () => {
+    const m = parseMobileBlock('hero_step_360: 4xl   # compressed step')
+    expect(m.hero_step_360).toBe('4xl')
+    expect(m.carrier).toBeNull()
+    expect(m.first_fold).toBeNull()
+    expect(m.order).toBeNull()
+    expect(m.nav_360).toBeNull()
+  })
+
+  it('returns all-null for garbage or empty input', () => {
+    expect(Object.values(parseMobileBlock('nothing here')).every((v) => v === null)).toBe(true)
+    expect(Object.values(parseMobileBlock(undefined)).every((v) => v === null)).toBe(true)
   })
 })

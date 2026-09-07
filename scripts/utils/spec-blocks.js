@@ -1,6 +1,6 @@
 /**
- * Parsers for the Art Director's MEASURABLES, SHELL, HEADER, and COMPOSITION
- * delimiter blocks. All are simple `key: value` lines; `#` starts a
+ * Parsers for the Art Director's MEASURABLES, SHELL, HEADER, COMPOSITION and
+ * MOBILE delimiter blocks. All are simple `key: value` lines; `#` starts a
  * comment. Missing/unparseable fields come back null — validation policy
  * lives in the caller (validateArtDirectorResult), not here.
  */
@@ -12,7 +12,9 @@ function parseKeyValues(text) {
     // Splitting on any `#` truncated every value that contained one — a hex
     // colour, or a role line like "Designer #1" (#221).
     const line = rawLine.replace(/(^|\s)#.*$/, '')
-    const m = /^\s*([a-z_]+)\s*:\s*(.+?)\s*$/.exec(line)
+    // Keys may carry digits: the MOBILE block's `hero_step_360` and
+    // `nav_360` (#452) were the first to.
+    const m = /^\s*([a-z][a-z0-9_]*)\s*:\s*(.+?)\s*$/.exec(line)
     if (m) out[m[1]] = m[2]
   }
   return out
@@ -92,7 +94,7 @@ export function parseHeaderBlock(text) {
 }
 
 /**
- * The Art Director's `===COMPOSITION===` block — the eight composition-axis
+ * The Art Director's `===COMPOSITION===` block — the nine composition-axis
  * key: value declarations (see utils/composition-grammar.js for the
  * vocabulary). Successor to the four-key `===LAYOUT_SIGNATURE===` block this
  * function used to parse (renamed 2026-08-23, Task 4 of the
@@ -100,11 +102,12 @@ export function parseHeaderBlock(text) {
  * is gone; composition is now the sole structural declaration). All fields
  * optional here — missing/unparseable fields come back null so validation
  * policy stays entirely in the caller, and any legacy `layout-signature.json`
- * written under the original four-key shape still parses: the four new keys
+ * written under the original four-key shape still parses: the newer keys
  * simply come back null, which the per-axis mandate treats as "no history
- * for this axis" rather than an error.
+ * for this axis" rather than an error. `collapse` (#452) is the ninth key and
+ * every composition.json written before it is in the same position.
  *
- * @returns {Record<'columns'|'axis'|'symmetry'|'hero_zone'|'density'|'rhythm'|'shell_posture'|'field_ratio', string|null>}
+ * @returns {Record<'columns'|'axis'|'symmetry'|'hero_zone'|'density'|'rhythm'|'shell_posture'|'field_ratio'|'collapse', string|null>}
  */
 export function parseCompositionBlock(text) {
   const kv = parseKeyValues(text)
@@ -118,5 +121,28 @@ export function parseCompositionBlock(text) {
     rhythm: norm(kv.rhythm),
     shell_posture: norm(kv.shell_posture),
     field_ratio: norm(kv.field_ratio),
+    collapse: norm(kv.collapse),
+  }
+}
+
+/**
+ * The Art Director's `===MOBILE===` block: what the composition becomes at
+ * 360 (#452). Vocabulary and validation live in utils/mobile-grammar.js; this
+ * only reads. `hero_step_360` is the enumerated field and is normalized; the
+ * other four are prose and keep their capitalization.
+ *
+ * All fields optional here — missing/unparseable fields come back null so
+ * validation policy stays entirely in the caller.
+ *
+ * @returns {{ carrier: string|null, first_fold: string|null, order: string|null, hero_step_360: string|null, nav_360: string|null }}
+ */
+export function parseMobileBlock(text) {
+  const kv = parseKeyValues(text)
+  return {
+    carrier: kv.carrier ?? null,
+    first_fold: kv.first_fold ?? null,
+    order: kv.order ?? null,
+    hero_step_360: kv.hero_step_360 ? kv.hero_step_360.toLowerCase().trim() : null,
+    nav_360: kv.nav_360 ?? null,
   }
 }

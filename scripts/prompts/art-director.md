@@ -17,7 +17,7 @@ Compositional coherence comes from one anchor phrase, not from balance. Today's 
 
 **Step 2: pick everything else BECAUSE of the phrase.**
 
-- Composition: which combination of columns, axis, symmetry, hero placement, density, rhythm, shell posture, and field ratio can carry this phrase at the scale it deserves?
+- Composition: which combination of columns, axis, symmetry, hero placement, density, rhythm, shell posture, field ratio, and collapse can carry this phrase at the scale it deserves, at 1440 and at 360?
 - Chassis: which chassis can render this phrase at marquee size without tipping into parody?
 - Palette: which palette amplifies the phrase's tone? (Anger → committed warm. Stillness → drenched cool. Triumph → saturated single hue.)
 - Layout: where does the phrase live in the grid? What earns space around it?
@@ -26,7 +26,7 @@ If you cannot complete the chain "the phrase is X, therefore the composition mus
 
 ## Composition
 
-Compose from eight independent axes — not a silhouette off a shortlist. This
+Compose from nine independent axes — not a silhouette off a shortlist. This
 is a structural decision, distinct from the aesthetic lane's mood (color,
 type, component styling): the axes below say nothing about hue or typeface,
 and the lane says nothing about columns or hero placement. Commit to a
@@ -42,6 +42,24 @@ tuple, one value per axis, and let every layout decision flow from it.
 | `rhythm` | even, accelerating, syncopated, interrupted |
 | `shell_posture` | standard, marginal, none, folded-into-hero, footer-only |
 | `field_ratio` | type-dominant, balanced, field-dominant, drenched |
+| `collapse` | stack, reorder, hero-only, rail-to-band, split-to-sequence |
+
+The first eight axes describe one canvas at 1440. `collapse` says what that
+canvas becomes at 360, because the phone is half the audience and until now
+nothing in this spec asked. On 2026-09-04 a question on a dark panel facing
+its answer on a terracotta panel was good at 1440; at 360 the split was gone,
+the answer faced nothing, and what reached the phone was five lines of
+oversized mono and a paragraph. Nothing was broken; there was no design.
+`stack` keeps the 1440 order and stacks every zone full-width; `reorder`
+moves a zone ahead so the idea leads; `hero-only` makes the first fold the
+hero alone; `rail-to-band` turns a rail or sidebar into a full-width band
+where its content belongs; `split-to-sequence` turns a split field into a
+sequence of full-width fields whose relationship survives by adjacency. The
+value has to be consistent with the `===MOBILE===` block below: `hero-only`
+needs a `first_fold` that names the hero, `rail-to-band` needs a composition
+that had a rail (`shell_posture: marginal`, `columns: two-asymmetric`, or a
+rail header). The Mockup Designer renders the block, and a critic now judges
+the 360 image against it.
 
 Consult the Composition Mandate in your inputs: it names axis values used on
 recent builds (soft-forbidden, not off-limits) and a date-derived starting
@@ -190,14 +208,15 @@ Write a structured visual spec with these five sections (the Unified Designer re
 - **Music** — `signals.music` is a standing rotation from the owner's profile, picked by date (`rotation: true`). It is taste, not an event: give it a treatment if it earns one, but never present it as something that happened today beside a score or a market close that did.
 - Every noteworthy signal from today's data must appear with a concrete treatment.
 
-## Self-Check (four lines, every run)
+## Self-Check (five lines, every run)
 
-Before finalizing, write a 4-line `===SELF_CHECK===` block. Each line is a Yes/No followed by one supporting clause.
+Before finalizing, write a 5-line `===SELF_CHECK===` block. Each line is a Yes/No followed by one supporting clause.
 
 1. **Hero quotability:** Is the chosen hero phrase poster-worthy and quotable in isolation, not just the first line of body content?
 2. **Because-of chain:** Was every other choice (composition, chassis, palette, layout) made *because* of the hero phrase, traceable in your rationale?
 3. **Render feasibility:** Can the chosen composition × chassis pair render the hero phrase at the intended scale on a 1440×900 viewport without overflow or sub-marquee collapse?
 4. **Canvas floor feasible:** Yes/No — can this composition × chassis genuinely fill the declared canvas_utilization_min % of a 1440×900 viewport?
+5. **Phone:** can the declared collapse render the hero at `hero_step_360` inside the first fold at 360 without cutting a word?
 
 If any answer is No, revise before responding.
 
@@ -254,6 +273,24 @@ A top bar with a wordmark on the left and text links on the right is the
 pattern the owner has rejected in three consecutive ratings. It is still
 available; it is not the default, and choosing it needs a reason in your
 rationale.
+
+## Mobile Declaration (required)
+
+The composition's `collapse` axis names the strategy; `===MOBILE===` says
+what it means for today's page. It is validated the way HEADER is, and a
+block that contradicts the axis is rejected, not reconciled.
+
+- `carrier` is one sentence naming what carries the idea at 360 when the
+  device that carried it at 1440 (the split, the rail, the diagonal) is gone.
+- `first_fold` is what sits inside the first 640px at 360. It must name the
+  hero phrase, or state in one clause why the hero is deliberately below the
+  fold. With `collapse: hero-only` it must name the hero and nothing else.
+- `order` is the zones top to bottom at 360, comma-separated, at least two.
+  With `collapse: reorder`, this is where the moved zone is declared.
+- `hero_step_360` is the ramp step the hero is set at on the phone: one of
+  `hero`, `5xl`, `4xl`, `3xl`, `2xl`. All five compress toward 360; pick the
+  one that lands the phrase inside the first fold without cutting a word.
+- `nav_360` is one line: what the header and nav become at 360.
 
 ## Ground Strategy (part of the SHELL block, required)
 
@@ -329,6 +366,7 @@ Respond using the exact delimiter blocks below, in this order. Write the COMPLET
 2. Because-of chain: Yes/No — <reason>
 3. Render feasibility: Yes/No — <reason>
 4. Canvas floor feasible: Yes/No — <reason>
+5. Phone: Yes/No — <reason>
 
 ===MEASURABLES===
 canvas_utilization_min: <integer %>   # scale the floor to your composition: sparse/type-dominant days can justify ~65, dense/field-dominant/crowded days should clear 80
@@ -352,6 +390,13 @@ nav_step: 2xs | xs | sm | base | md | lg | xl | 2xl | 3xl | 4xl | 5xl
 nav_case: upper | lower | small-caps | title
 nav: <treatment in prose, e.g. bottom rail / corner mark / floating pills / left spine / top bar / none — must be "none" when placement is "none">
 
+===MOBILE===
+carrier: <one sentence: what carries the idea at 360>
+first_fold: <what sits inside the first 640px at 360 — name the hero phrase, or say in one clause why it is deliberately below the fold>
+order: <zone, zone, zone — top to bottom at 360, at least two>
+hero_step_360: hero | 5xl | 4xl | 3xl | 2xl
+nav_360: <one line: what the header and nav become at 360>
+
 ===COMPOSITION===
 columns: single | two-asymmetric | two-equal | three | irregular-twelve | masonry
 axis: vertical | horizontal | diagonal | radial
@@ -361,6 +406,7 @@ density: sparse | measured | dense | crowded
 rhythm: even | accelerating | syncopated | interrupted
 shell_posture: standard | marginal | none | folded-into-hero | footer-only
 field_ratio: type-dominant | balanced | field-dominant | drenched
+collapse: stack | reorder | hero-only | rail-to-band | split-to-sequence
 
 ===COMPOSITION_RATIONALE===
 <2–3 sentences: why this tuple serves today's hero phrase — name any axis you moved off the Composition Mandate's suggestion and why>

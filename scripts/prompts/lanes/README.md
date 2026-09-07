@@ -4,9 +4,9 @@ Concrete anchor references for the mockup-designer prompt — the successor to
 `scripts/prompts/seeds/`. A lane describes an aesthetic register only: mood,
 color roles, typography, component styling, and named anti-patterns. It says
 nothing about page structure (columns, axis, symmetry, hero placement,
-density, rhythm, shell posture, field ratio) — those eight axes are owned by
-`scripts/utils/composition-grammar.js` and asserted independently by the Art
-Director. Decoupling the two means any lane can pair with any composition
+density, rhythm, shell posture, field ratio, collapse); those nine axes are
+owned by `scripts/utils/composition-grammar.js` and asserted independently by
+the Art Director. Decoupling the two means any lane can pair with any composition
 tuple, instead of one lane only ever reaching the prompt when a specific
 archetype was chosen.
 
@@ -34,7 +34,9 @@ varied heights, an annotation column placed beside its glyph, a thumbnail placed
 at the left of a row, a kicker in the top-left corner, and half a dozen
 instructions to stack, collapse or re-center at a given width. Between them they
 were quietly asserting `columns`, `symmetry`, `density` and `hero_zone` — four of
-the eight axes the Art Director is supposed to be free to set.
+the axes the Art Director is supposed to be free to set. The `collapse` axis
+(#452) is the same kind of decision: a lane says nothing about what stacks
+at 360 or in what order.
 
 The rule those rewrites follow: say what a thing looks like, never where it goes.
 A mobile strategy may say the dominant element stays dominant, that a rule keeps

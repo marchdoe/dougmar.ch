@@ -65,9 +65,10 @@ import { runDate } from './utils/run-date.js'
 import { isMain } from './utils/cli.js'
 import { computeMandateSections } from './pipeline/mandates.js'
 import { runArtDirector } from './agents/art-director.js'
-import { parseCompositionBlock, parseHeaderBlock } from './utils/spec-blocks.js'
+import { parseCompositionBlock, parseHeaderBlock, parseMobileBlock } from './utils/spec-blocks.js'
 import { renderBrandLockupFile } from './utils/brand-lockup.js'
 import { formatHeader } from './utils/header-grammar.js'
+import { formatMobile } from './utils/mobile-grammar.js'
 import { formatTuple } from './utils/composition-grammar.js'
 import { findEngineerOutputProblem } from './utils/engineer-output-check.js'
 import {
@@ -186,6 +187,7 @@ async function writeArchetype(date, archetype, { root = ROOT } = {}) {
  * @param {Array<object>} run.verdicts
  * @param {object} run.shellDecl
  * @param {object} run.headerDecl
+ * @param {object} run.mobileDecl
  * @param {string|null|undefined} run.heroSource
  * @param {object} run.chosenComposition
  * @param {{id: string, register: string}} run.chosenLane
@@ -201,6 +203,9 @@ export function archiveArtifacts(run) {
     'verdicts.json': json(run.verdicts),
     'shell.json': json(run.shellDecl),
     'header.json': json(run.headerDecl),
+    // What the composition becomes at 360 (#452), beside the tuple whose
+    // `collapse` axis it explains.
+    'mobile.json': json(run.mobileDecl),
     'hero-source.json': json({ source: run.heroSource || null }),
     'composition.json': json(run.chosenComposition),
     // The rendered silhouette (#255). Null when the capture failed, and
@@ -950,6 +955,9 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // the declared wordmark weight, which arrives in ===HEADER===. Re-parsed
     // after any codegen retry, like the composition tuple.
     let headerDecl = parseHeaderBlock(artDirectorResult.header)
+    // The phone declaration (#452) rides with the header: re-parsed after any
+    // retry, archived as mobile.json, and handed to every downstream agent.
+    let mobileDecl = parseMobileBlock(artDirectorResult.mobile)
     let chosenChassis = CHASSIS_CATALOG.find((c) => c.id === artDirectorResult.chassisId)
     if (!chosenChassis) {
       console.warn(
@@ -975,6 +983,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         hero_copy: artDirectorResult.heroCopy.slice(0, 200),
         archetype: chosenArchetype || 'unknown',
         composition: chosenComposition,
+        mobile: mobileDecl,
         chassisId: chosenChassis?.id || 'unknown',
         specLength: visualSpec.length,
         specPreview: visualSpec.slice(0, 500),
@@ -1141,6 +1150,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     const { parseShellBlock, parseMeasurablesBlock } = await import('./utils/spec-blocks.js')
     const shellDecl = parseShellBlock(artDirectorResult.shell)
     headerDecl = parseHeaderBlock(artDirectorResult.header)
+    mobileDecl = parseMobileBlock(artDirectorResult.mobile)
     const measurablesDecl = parseMeasurablesBlock(artDirectorResult.measurables)
     chosenComposition = parseCompositionBlock(artDirectorResult.composition)
     console.log(
@@ -1155,6 +1165,9 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     console.log(`  composition: ${formatTuple(chosenComposition).replace(/\n/g, ' | ')}`)
     console.log(
       `  composition rationale: ${(artDirectorResult.compositionRationale || '').slice(0, 200)}`
+    )
+    console.log(
+      `  mobile: collapse=${chosenComposition.collapse} | hero_step_360=${mobileDecl.hero_step_360} | order=${mobileDecl.order} | carrier=${(mobileDecl.carrier || '').slice(0, 120)}`
     )
     console.log(`  hero-source: ${artDirectorResult.heroSource || '(none declared)'}`)
 
@@ -1191,6 +1204,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         `## Self-Check\n\n${artDirectorResult.selfCheck}`,
         `## Measurables (declared floors)\n\n${artDirectorResult.measurables}`,
         `## Shell Declaration\n\n${artDirectorResult.shell}`,
+        `## Mobile Declaration (what the composition becomes at 360)\n\n${formatMobile(mobileDecl)}`,
         `## elements/preset.ts\n\n\`\`\`typescript\n${artDirectorResult.presetTs}\n\`\`\``,
         mandatesBlock
           ? `## Mandates (the Art Director was constrained by these)\n\n${mandatesBlock}`
@@ -1429,6 +1443,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       measurables: artDirectorResult.measurables,
       shell: artDirectorResult.shell,
       header: formatHeader(headerDecl),
+      mobile: formatMobile(mobileDecl),
+      collapse: chosenComposition.collapse,
       brandSvg,
       brandMonoSvg,
       googleFontsUrl,
@@ -1540,6 +1556,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           measurables: artDirectorResult.measurables,
           shell: artDirectorResult.shell,
           header: formatHeader(headerDecl),
+          mobile: formatMobile(mobileDecl),
+          collapse: chosenComposition.collapse,
         })
       } catch (err) {
         console.warn(`  mockup critic failed (non-blocking — accepting mockup): ${err.message}`)
@@ -1631,6 +1649,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         `## Composition\n\n${formatTuple(chosenComposition)}`,
         `## Shell Declaration\n\n${artDirectorResult.shell}`,
         `## Header Declaration (execute these numbers exactly)\n\n${formatHeader(headerDecl)}`,
+        `## Mobile Declaration (the design at base; the mockup already renders it, keep it)\n\n${formatMobile(mobileDecl)}`,
         '## One-line Design Brief (for og:description context)\n\n' +
           (artDirectorResult.designBrief || ''),
         responsiveLesson
@@ -1888,6 +1907,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           verdicts,
           shellDecl,
           headerDecl,
+          mobileDecl,
           heroSource: artDirectorResult.heroSource,
           chosenComposition,
           chosenLane,
@@ -2149,6 +2169,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           // `${brief}` here rendered the literal string "undefined".
           enrichedBrief,
           header: formatHeader(headerDecl),
+          mobile: formatMobile(mobileDecl),
+          collapse: chosenComposition.collapse,
           references,
           mockupScreenshot,
           screenshotBuffer,

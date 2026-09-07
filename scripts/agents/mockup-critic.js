@@ -28,7 +28,7 @@ export function parseMockupCriticResponse(raw) {
 }
 
 /**
- * @param {{ systemPrompt: string, screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, enrichedBrief: string, measurables: string, shell: string, header?: string }} ctx
+ * @param {{ systemPrompt: string, screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, enrichedBrief: string, measurables: string, shell: string, header?: string, mobile?: string, collapse?: string|null }} ctx
  * @returns {Promise<{ verdict: 'APPROVE'|'REVISE', feedback: string }>}
  */
 export async function runMockupCritic(ctx) {
@@ -65,7 +65,11 @@ export async function runMockupCritic(ctx) {
  * `mark_px` becomes something the critic can actually measure. It is optional:
  * a capture failure costs the critic one image, never the run.
  *
- * @param {{ screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, enrichedBrief: string, measurables: string, shell: string, header?: string }} ctx
+ * The mobile declaration (#452) is what check 6 measures the phone image
+ * against: the declared carrier, first fold and order, not a general sense
+ * of whether the phone "looks fine".
+ *
+ * @param {{ screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, enrichedBrief: string, measurables: string, shell: string, header?: string, mobile?: string, collapse?: string|null }} ctx
  * @returns {Array<{type: string, text?: string, source?: object}>}
  */
 export function buildMockupCriticBlocks(ctx) {
@@ -74,6 +78,11 @@ export function buildMockupCriticBlocks(ctx) {
     textBlock(`## Measurables (declared floors)\n\n${ctx.measurables}`),
     textBlock(`## Shell Declaration\n\n${ctx.shell}`),
     ctx.header ? textBlock(`## Header Declaration\n\n${ctx.header}`) : null,
+    ctx.mobile
+      ? textBlock(
+          `## Mobile Declaration (check 6 is judged against this)\n\ncollapse: ${ctx.collapse ?? '?'}\n${ctx.mobile}`
+        )
+      : null,
     textBlock('The screenshot of the rendered mockup at 1440×900 (DESKTOP) follows:'),
     imageBlock(ctx.screenshotBuffer),
     // The same mockup on a phone, adjacent to its desktop counterpart so the

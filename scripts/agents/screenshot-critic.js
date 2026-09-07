@@ -67,6 +67,8 @@ function prose(text) {
  * @param {object} ctx
  * @param {string} ctx.enrichedBrief - hero copy, rationale, visual spec
  * @param {string} [ctx.header] - the day's ===HEADER=== declaration
+ * @param {string} [ctx.mobile] - the day's ===MOBILE=== declaration (#452); section 10 is judged against it
+ * @param {string|null} [ctx.collapse] - the composition's collapse axis value
  * @param {string} [ctx.measuredFaults] - rendered output of
  *   `surface-gate.formatFindingsForCritic`; empty string when nothing is wrong
  * @param {string} [ctx.references] - design reference block, if any
@@ -84,6 +86,10 @@ export function buildScreenshotCriticBlocks(ctx) {
     // enrichedBrief carries hero copy, rationale, and the full visual spec.
     textBlock(`## Structured Brief\n\n${ctx.enrichedBrief}`),
     ...prose(ctx.header && `## Header Declaration\n\n${ctx.header}`),
+    ...prose(
+      ctx.mobile &&
+        `## Mobile Declaration (section 10 is judged against this)\n\ncollapse: ${ctx.collapse ?? '?'}\n${ctx.mobile}`
+    ),
     ...prose(ctx.measuredFaults),
     ...prose(ctx.references && `## Design References\n\n${ctx.references}`),
     ...shot(

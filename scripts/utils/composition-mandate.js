@@ -18,7 +18,7 @@ import {
  * enforced, never binding. Recency here is **per axis** instead — a value
  * used on any of the last 3 builds is discouraged for that axis alone. That
  * is the lever that bites, because it pushes each axis independently rather
- * than waiting for all eight to collide at once.
+ * than waiting for all nine to collide at once.
  *
  * It also seeds a date-derived suggestion tuple. Without one, an
  * unopinionated day resolves to the model's priors, which is exactly the
@@ -26,8 +26,9 @@ import {
  * starts somewhere specific and reproducible.
  *
  * Builds archived before the composition axes existed carry only four of
- * the eight keys. Those axes read as "no history" rather than erroring, so
- * the mandate degrades instead of breaking on the existing archive.
+ * the keys, and every build before #452 lacks `collapse`. Those axes read as
+ * "no history" rather than erroring, so the mandate degrades instead of
+ * breaking on the existing archive.
  */
 
 /** How many recent builds' values are discouraged, per axis. */
@@ -166,7 +167,7 @@ export function formatCompositionMandateForPrompt(mandate) {
     return [
       '## Composition Mandate',
       '',
-      "No recent composition history — every axis is open. These starting values are derived from today's date, so they are specific and reproducible rather than a default. Move any axis you have a reason to move; do not leave all eight where they landed because nothing pushed back.",
+      "No recent composition history — every axis is open. These starting values are derived from today's date, so they are specific and reproducible rather than a default. Move any axis you have a reason to move; do not leave every axis where it landed because nothing pushed back.",
       '',
       ...AXIS_NAMES.map(
         (axis) =>
@@ -190,7 +191,7 @@ export function formatCompositionMandateForPrompt(mandate) {
     '',
     `- **Rationale:** ${mandate.rationale}`,
     '',
-    'Move any axis you have a reason to move, including onto a discouraged value — say why in your rationale, the same as for a recently-used hue. What you must not do is leave all eight sitting on the suggestion because nothing pushed back. Fit beats novelty; sameness beats neither.',
+    'Move any axis you have a reason to move, including onto a discouraged value — say why in your rationale, the same as for a recently-used hue. What you must not do is leave every axis sitting on the suggestion because nothing pushed back. Fit beats novelty; sameness beats neither.',
     '',
     `Today's starting point reads as: ${AXIS_NAMES.map((a) => describeAxisValue(a, mandate.suggestion[a])).join(' ')}`,
   ].join('\n')

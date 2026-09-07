@@ -10,6 +10,7 @@ const validComposition = [
   'rhythm: even',
   'shell_posture: standard',
   'field_ratio: balanced',
+  'collapse: stack',
 ].join('\n')
 
 const validHeader = [
@@ -24,6 +25,14 @@ const validHeader = [
   'nav: bottom rail',
 ].join('\n')
 
+const validMobile = [
+  'carrier: The hero phrase carries the page at 360, stacked above the stat columns.',
+  'first_fold: The hero phrase "FOURTEEN HOURS OF LIGHT" at hero step, then the nav.',
+  'order: hero, nav, columns, footer',
+  'hero_step_360: hero',
+  'nav_360: one row under the mark',
+].join('\n')
+
 const valid = () => ({
   hero_copy: 'FOURTEEN HOURS OF LIGHT',
   archetype: 'Stack',
@@ -36,6 +45,7 @@ const valid = () => ({
     'canvas_utilization_min: 70\nhero_scale: clamp(96px, 13vw, 200px)\ncolor_coverage_min: 60',
   shell: 'footer: data strip\nbrand_lockup: horizontal-md\nbrand_color_mode: original',
   header: validHeader,
+  mobile: validMobile,
   files: [{ path: 'elements/preset.ts', content: 'export const elementsPreset = {}' }],
 })
 
