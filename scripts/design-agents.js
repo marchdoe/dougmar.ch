@@ -191,6 +191,10 @@ async function writeArchetype(date, archetype, { root = ROOT } = {}) {
  * @param {string|null|undefined} run.heroSource
  * @param {object} run.chosenComposition
  * @param {{id: string, register: string}} run.chosenLane
+ * @param {{canvas_utilization_min: number|null, hero_scale: string|null, color_coverage_min: number|null}|null|undefined} run.measurablesDecl
+ *   the Art Director's parsed MEASURABLES block (#456) — persisted as the
+ *   `declared` half of measurables.json; the `measured` half is added later
+ *   by archiver.js once the responsive-scoring browser pass runs.
  * @returns {Record<string, Buffer|string|null>}
  */
 export function archiveArtifacts(run) {
@@ -215,6 +219,13 @@ export function archiveArtifacts(run) {
       ? json(run.finalScreenshot.fingerprint)
       : null,
     'lane.json': json({ laneId: run.chosenLane.id, register: run.chosenLane.register }),
+    // The declared MEASURABLES floors (#456), persisted for the first time —
+    // previously parsed, logged, and discarded. `measured` is absent here on
+    // purpose: archiver.js merges it into this same file once the responsive
+    // scorer's browser pass produces it, after this artifact is on disk.
+    'measurables.json': run.measurablesDecl
+      ? json({ declared: run.measurablesDecl, declaredAt: new Date().toISOString() })
+      : null,
   }
 }
 
@@ -1911,6 +1922,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           heroSource: artDirectorResult.heroSource,
           chosenComposition,
           chosenLane,
+          measurablesDecl,
         }),
         { root }
       )

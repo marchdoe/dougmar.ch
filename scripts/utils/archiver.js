@@ -7,6 +7,7 @@ import { summarizeLedger } from './cost-ledger.js'
 import { anomaliesOf, buildRecord } from './archive-record.js'
 import { computeUniqueness } from './uniqueness-index.js'
 import { readUniquenessHistory } from './read-uniqueness-history.js'
+import { DESIGN_FIDELITY_METHOD } from './design-fidelity.js'
 
 /**
  * Where the day's screenshot is published, relative to the repo root.
@@ -340,6 +341,16 @@ export async function archive(
       }
     })
 
+    // The achieved MEASURABLES numbers (#456), produced by the same browser
+    // pass above at the desktop rung — pulled off before responsive-metrics.json
+    // is written so that file's shape stays what it always was. Merged into
+    // measurables.json, which archiveArtifacts() (design-agents.js) already
+    // wrote with the declared half, so a build without a declared block (an
+    // older build, or one where the Art Director step failed) does not gain
+    // a measured-only file with nothing to compare it against.
+    const measured = metrics.measured ?? null
+    delete metrics.measured
+
     metrics.buildId = buildId
     metrics.date = dateStr
     metrics.archetype = archetype
@@ -351,6 +362,33 @@ export async function archive(
       'utf8'
     )
     console.log(`  responsive metrics written (overall ${metrics.overallScore}/5)`)
+
+    const measurablesPath = path.join(buildDir, 'measurables.json')
+    if (measured && existsSync(measurablesPath)) {
+      try {
+        const existing = JSON.parse(await readFile(measurablesPath, 'utf8'))
+        await writeFile(
+          measurablesPath,
+          JSON.stringify(
+            {
+              ...existing,
+              measured,
+              measuredAt: new Date().toISOString(),
+              method: DESIGN_FIDELITY_METHOD,
+            },
+            null,
+            2
+          ),
+          'utf8'
+        )
+        const declared = existing.declared
+        console.log(
+          `  measurables — declared canvas>=${declared?.canvas_utilization_min ?? 'n/a'}% color>=${declared?.color_coverage_min ?? 'n/a'}% hero=${declared?.hero_scale ?? 'n/a'} | measured canvas=${measured.canvas_utilization}% color=${measured.color_coverage}% hero=${measured.hero_px}px`
+        )
+      } catch (err) {
+        console.warn(`  measurables.json measured write failed (non-blocking): ${err.message}`)
+      }
+    }
   } catch (err) {
     console.warn(`  responsive scoring failed (non-blocking): ${err.message}`)
     try {
@@ -401,14 +439,16 @@ export async function archive(
         return null
       }
     }
-    const [composition, todayScheme, lane, shell, header, fingerprint] = await Promise.all([
-      readJson('composition.json'),
-      readJson('color-scheme.json'),
-      readJson('lane.json'),
-      readJson('shell.json'),
-      readJson('header.json'),
-      readJson('fingerprint.json'),
-    ])
+    const [composition, todayScheme, lane, shell, header, fingerprint, measurables] =
+      await Promise.all([
+        readJson('composition.json'),
+        readJson('color-scheme.json'),
+        readJson('lane.json'),
+        readJson('shell.json'),
+        readJson('header.json'),
+        readJson('fingerprint.json'),
+        readJson('measurables.json'),
+      ])
     const history = await readUniquenessHistory({ root, limit: 7, before: dateStr })
     const index = computeUniqueness(
       {
@@ -422,6 +462,12 @@ export async function archive(
         shell,
         header,
         fingerprint,
+        // #456: declared and measured, so fidelity() stops returning null.
+        // A build with no measurables.json — every one before this shipped —
+        // passes null through both and fidelity() degrades the same way
+        // every other metric here does for a build missing its artifact.
+        declared: measurables?.declared ?? null,
+        measured: measurables?.measured ?? null,
       },
       history
     )

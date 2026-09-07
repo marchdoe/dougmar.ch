@@ -351,6 +351,10 @@ export function buildRecord(date, options = {}) {
     composition: readJsonSafe(inBuild('composition.json')),
     lane: readJsonSafe(inBuild('lane.json')),
     cost: normalizeCost(readJsonSafe(inBuild('cost.json'))),
+    // Declared MEASURABLES floors plus the achieved render numbers (#456).
+    // Not added to ERAS/expectedArtifacts: it is new as of this build and an
+    // absent file on every older date is expected, not an anomaly.
+    measurables: readJsonSafe(inBuild('measurables.json')),
   }
 
   Object.defineProperty(record, '__anomalies', {
