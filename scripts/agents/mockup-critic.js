@@ -50,16 +50,19 @@ export async function runMockupCritic(ctx) {
 
 /**
  * Assemble the critic's user turn: the declared intent as text, then the
- * rendered mockup at 1440 and at 360, then a 2x crop of the header region.
- * Exported for tests.
+ * rendered mockup at 1440 and a phone filmstrip of the whole page, then a 2x
+ * crop of the header region. Exported for tests.
  *
- * The phone render is the second image because it is judged against the first.
- * Until 2026-09-04 every image any critic received was 1440 wide, so a
- * composition that has no idea left at one column — a question facing an
+ * The phone filmstrip is the second image because it is judged against the
+ * first. Until 2026-09-04 every image any critic received was 1440 wide, so
+ * a composition that has no idea left at one column — a question facing an
  * answer, with the split gone and the answer facing nothing — was approved by
- * a gate that had never seen a phone.
+ * a gate that had never seen a phone. Until #466 the phone image was a single
+ * 640px crop, so a hero one fold further down the page was never seen either
+ * — the filmstrip is the whole page, cut into folds and laid side by side,
+ * each fold labeled by us, not by the site.
  *
- * The crop is the point of the second image. At 1024px for a 1440px page,
+ * The crop is the point of the third image. At 1024px for a 1440px page,
  * an 11px mark and a 44px mark are both a few grey pixels, which is how a
  * quarter-size lockup passed this gate (#254). The crop arrives near 1:1, so
  * `mark_px` becomes something the critic can actually measure. It is optional:
@@ -85,14 +88,17 @@ export function buildMockupCriticBlocks(ctx) {
       : null,
     textBlock('The screenshot of the rendered mockup at 1440×900 (DESKTOP) follows:'),
     imageBlock(ctx.screenshotBuffer),
-    // The same mockup on a phone, adjacent to its desktop counterpart so the
-    // two are compared rather than judged apart. Optional for the same reason
-    // the crop is: a capture failure costs an image, never the run.
+    // A phone filmstrip of the same mockup, adjacent to its desktop
+    // counterpart so the two are compared rather than judged apart. Optional
+    // for the same reason the crop is: a capture failure costs an image,
+    // never the run.
     ctx.mobileScreenshot
       ? textBlock(
-          'The SAME mockup at 360×640 (PHONE) follows. Check 6 is judged here. It is one column ' +
-            'of the same design, not a different design — judge whether the idea survived the ' +
-            'width, not only whether anything broke:'
+          'A phone filmstrip of that SAME mockup follows: the whole page at 360 wide, cut into ' +
+            "640px folds and laid side by side (the fold labels are ours, not the site's). Check " +
+            '6 is judged here. It is one column of the same design, not a different design — ' +
+            'judge whether the idea survived the width across every fold shown, not only whether ' +
+            'anything broke:'
         )
       : null,
     ctx.mobileScreenshot ? imageBlock(ctx.mobileScreenshot) : null,

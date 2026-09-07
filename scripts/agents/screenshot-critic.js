@@ -6,24 +6,24 @@
 import { imageBlock, textBlock } from '../utils/claude-sdk.js'
 
 /**
- * Hard ceiling on image blocks per call: mockup + light at 1440 + the same
- * page at 360 + dark at 1440 + the two header crops + a project page + one
- * calibration reference.
+ * Hard ceiling on image blocks per call: mockup + light at 1440 + a phone
+ * filmstrip of the home page + dark at 1440 + the two header crops leaves two
+ * slots for the /about and case-study phone filmstrips, a project page, and
+ * one calibration reference to compete over.
  *
  * The header crops cost about 1.2k image tokens each and are the only place
  * the critic can read a mark size off (#254). The project-page capture is the
- * only place it sees anything but the homepage: `/work/<slug>` shipped its
- * prev/next navigation rendered twice at every viewport in both schemes, and
- * no critic had ever opened that route (#215). When the ceiling binds it is
- * the calibration reference that is dropped, then the route captures — never
- * a crop, and never the phone.
+ * only 1440 capture that sees anything but the homepage: `/work/<slug>`
+ * shipped its prev/next navigation rendered twice at every viewport in both
+ * schemes, and no critic had ever opened that route (#215).
  *
- * The phone render took the share card's slot rather than a ninth block. A
- * 1200×630 OG card is a fixed composition measurement already covers, so
- * nothing about it is a layout judgement; the same page at 360 is where the
- * design either survives or stops existing, and on 2026-09-04 it stopped
- * existing while every automatic check passed. At 360 the image costs roughly
- * a fifth of a desktop one, so the swap is cheaper than what it replaced.
+ * When the ceiling binds, the calibration reference drops first, then the
+ * 1440 route captures — never a crop, and never a phone filmstrip. Until
+ * #466 only the home page ever got a phone image at all, and it was a single
+ * 640px crop rather than the whole page; `/about` at 9361px tall had never
+ * been seen by a critic in any form. A phone filmstrip surviving the ceiling
+ * squeeze that used to protect the calibration reference is the point of
+ * that reordering.
  *
  * It stops at eight on purpose. The geometry of every route at both rungs is
  * already covered by `surface-gate.js`, which measures rather than looks and
@@ -53,6 +53,58 @@ function prose(text) {
   return text ? [textBlock(text)] : []
 }
 
+/** Count of image blocks already assembled — the ceiling only counts images. */
+function imageCount(blocks) {
+  return blocks.filter((b) => b.type === 'image').length
+}
+
+/**
+ * Phone filmstrips of /about and a case study — the pages the phone gate
+ * never covered before #466. Pushed ahead of the 1440 route captures and
+ * the calibration reference so the ceiling squeezes those first: a design
+ * that dies at 360 on /about is worse than losing a bar-setting comparison.
+ * Returns the blocks to append; never mutates `existing`.
+ *
+ * @param {Array<{type: string}>} existing - blocks already assembled
+ * @param {Array<{ label: string, jpeg: Buffer }>} [filmstrips]
+ * @returns {Array<{type: string, text?: string, source?: object}>}
+ */
+function phoneFilmstripBlocks(existing, filmstrips) {
+  const appended = []
+  for (const filmstrip of filmstrips ?? []) {
+    if (imageCount(existing) + imageCount(appended) >= MAX_SCREENSHOT_CRITIC_IMAGES) break
+    appended.push(...shot(filmstrip.label, filmstrip.jpeg))
+  }
+  return appended
+}
+
+/**
+ * Other surfaces the pipeline rewrites nightly, announced once. These are
+ * PNG, straight from captureRouteScreenshot — not the JPEG pair
+ * captureScreenshot returns. Appended only while one slot is still left for
+ * the calibration reference. Returns the blocks to append; never mutates
+ * `existing`.
+ *
+ * @param {Array<{type: string}>} existing - blocks already assembled
+ * @param {Array<{ label: string, png: Buffer }>} [routeShots]
+ * @returns {Array<{type: string, text?: string, source?: object}>}
+ */
+function routeShotBlocks(existing, routeShots) {
+  const appended = []
+  for (const [i, route] of (routeShots ?? []).entries()) {
+    if (imageCount(existing) + imageCount(appended) >= MAX_SCREENSHOT_CRITIC_IMAGES - 1) break
+    if (i === 0) {
+      appended.push(
+        textBlock(
+          'Other surfaces this build rewrote. They wear the same design and are judged by the same brief, but they are not the homepage and should not be expected to repeat its composition.'
+        )
+      )
+    }
+    appended.push(...shot(route.label, route.png, 'image/png'))
+  }
+  return appended
+}
+
 /**
  * Assemble the screenshot-critic's user turn.
  *
@@ -74,9 +126,13 @@ function prose(text) {
  * @param {string} [ctx.references] - design reference block, if any
  * @param {{ jpeg: Buffer, headerJpeg?: Buffer|null } | null} [ctx.mockupScreenshot] - approved mockup, if any
  * @param {{ jpeg: Buffer, darkJpeg: Buffer, headerJpeg?: Buffer|null, mobileJpeg?: Buffer|null }} ctx.screenshotBuffer -
- *   rendered homepage: both schemes at 1440, plus the light scheme at 360
+ *   rendered homepage: both schemes at 1440, plus a phone filmstrip of the
+ *   whole page in the light scheme
+ * @param {Array<{ label: string, jpeg: Buffer }>} [ctx.phoneFilmstrips] -
+ *   phone filmstrips of other routes (/about, a case study); prioritized
+ *   over routeShots and bestReference when the ceiling binds
  * @param {Array<{ label: string, png: Buffer }>} [ctx.routeShots] - additional
- *   routes in the canonical scheme, appended while the ceiling allows
+ *   routes in the canonical scheme at 1440, appended while the ceiling allows
  * @param {{ buffer: Buffer, description: string } | null} [ctx.bestReference] -
  *   the owner's highest-rated past build, for BAR calibration
  * @returns {Array<{type: string, text?: string, source?: object}>}
@@ -100,11 +156,14 @@ export function buildScreenshotCriticBlocks(ctx) {
       "The rendered homepage in BOTH color schemes follows. ONE of them (the design's canonical mode) must match the mockup; the other is an adaptation and must stay a coherent, committed version of the same design — never a washed-out inversion.\n\nLIGHT scheme, 1440×900 (DESKTOP):"
     ),
     imageBlock(ctx.screenshotBuffer.jpeg),
-    // The phone sits next to the desktop shot it is judged against, before
-    // the dark adaptation. Section 10 of the prompt is judged on this pair.
+    // The phone filmstrip sits next to the desktop shot it is judged against,
+    // before the dark adaptation. Section 10 of the prompt is judged on this
+    // pair. It is the whole home page at 360, cut into folds and laid side by
+    // side — not the single 640px crop every critic used to receive.
     ...shot(
-      'The SAME page at 360×640 (PHONE), light scheme. Section 10 is judged on this against ' +
-        'the image above it:',
+      'A phone filmstrip of that SAME page, light scheme: the whole page at 360 wide, cut into ' +
+        "640px folds and laid side by side (the fold labels are ours, not the site's). Section " +
+        '10 is judged on this against the image above it:',
       ctx.screenshotBuffer.mobileJpeg
     ),
     textBlock('DARK scheme, 1440×900 (DESKTOP):'),
@@ -120,25 +179,10 @@ export function buildScreenshotCriticBlocks(ctx) {
     ),
   ]
 
-  const countImages = () => blocks.filter((b) => b.type === 'image').length
+  blocks.push(...phoneFilmstripBlocks(blocks, ctx.phoneFilmstrips))
+  blocks.push(...routeShotBlocks(blocks, ctx.routeShots))
 
-  // Other surfaces the pipeline rewrites nightly. These are PNG, straight from
-  // captureRouteScreenshot — not the JPEG pair captureScreenshot returns. They
-  // are appended only while one slot is still left for the calibration
-  // reference below.
-  for (const [i, route] of (ctx.routeShots ?? []).entries()) {
-    if (countImages() >= MAX_SCREENSHOT_CRITIC_IMAGES - 1) break
-    if (i === 0) {
-      blocks.push(
-        textBlock(
-          'Other surfaces this build rewrote. They wear the same design and are judged by the same brief, but they are not the homepage and should not be expected to repeat its composition.'
-        )
-      )
-    }
-    blocks.push(...shot(route.label, route.png, 'image/png'))
-  }
-
-  if (ctx.bestReference && countImages() < MAX_SCREENSHOT_CRITIC_IMAGES) {
+  if (ctx.bestReference && imageCount(blocks) < MAX_SCREENSHOT_CRITIC_IMAGES) {
     // The promoted reference is the archived screenshot.png (findBestScreenshot
     // in collect-ratings.js only ever copies the PNG) — PNG media type, not
     // the default JPEG imageBlock assumes.

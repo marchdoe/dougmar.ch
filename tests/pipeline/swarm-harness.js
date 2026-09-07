@@ -91,6 +91,7 @@ const state = {
     mockupCapture: [],
     screenshot: [],
     routeCapture: [],
+    phoneFilmstrip: [],
     routes: [],
   },
   /** per-seam call recorders */
@@ -101,6 +102,7 @@ const state = {
     captureHtmlFileScreenshot: [],
     captureScreenshot: [],
     captureRouteScreenshot: [],
+    captureRoutePhoneFilmstrip: [],
     runSurfaceGate: [],
     listGeneratedRoutes: [],
     archive: [],
@@ -286,6 +288,14 @@ async function fakeCaptureRouteScreenshot(route, opts) {
   return r ?? PNG(`route:${route}`)
 }
 
+async function fakeCaptureRoutePhoneFilmstrip(route, opts) {
+  state.fakes.captureRoutePhoneFilmstrip.push({ route, ...opts })
+  const scripted = nextScript('phoneFilmstrip', null)
+  const r = typeof scripted === 'function' ? scripted(route) : scripted
+  if (r instanceof Error) throw r
+  return r ?? JPEG(`filmstrip:${route}`)
+}
+
 /** A gate with nothing to report. */
 export const CLEAN_GATE = { findings: [], measured: 8, errorCount: 0 }
 
@@ -409,6 +419,7 @@ export const mockFactories = {
     captureHtmlFileScreenshot: fakeCaptureHtmlFileScreenshot,
     captureScreenshot: fakeCaptureScreenshot,
     captureRouteScreenshot: fakeCaptureRouteScreenshot,
+    captureRoutePhoneFilmstrip: fakeCaptureRoutePhoneFilmstrip,
     captureSnapshot: async () => {},
   }),
   'scripts/utils/surface-gate.js': async (importOriginal) => ({
@@ -566,6 +577,7 @@ export function readTrace(root, date) {
  * @param {Array<object|Error|Function>} [opts.mockupCapture] `captureHtmlFileScreenshot` results
  * @param {Array<object|Error|Function>} [opts.screenshot] `captureScreenshot` results
  * @param {Array<Buffer|Error|Function>} [opts.routeCapture] `captureRouteScreenshot` results
+ * @param {Array<Buffer|null|Error|Function>} [opts.phoneFilmstrip] `captureRoutePhoneFilmstrip` results
  * @param {Array<Array<object>|Error|Function>} [opts.routes] `listGeneratedRoutes` results
  * @param {string} [opts.brief] the optional `context.brief`; the nightly never sets it
  * @param {Function} [opts.onTraceStep]
