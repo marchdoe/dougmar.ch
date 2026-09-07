@@ -22,7 +22,7 @@ Compositional coherence comes from one anchor phrase, not from balance. Today's 
 
 **Step 2: pick everything else BECAUSE of the phrase.**
 
-- Composition: which combination of columns, axis, symmetry, hero placement, density, rhythm, shell posture, and field ratio can carry this phrase at the scale it deserves?
+- Composition: which combination of columns, axis, symmetry, hero placement, density, rhythm, shell posture, field ratio, and collapse can carry this phrase at the scale it deserves, at 1440 and at 360?
 - Chassis: which chassis can render this phrase at marquee size without tipping into parody?
 - Palette: which palette amplifies the phrase's tone? (Anger → committed warm. Stillness → drenched cool. Triumph → saturated single hue.)
 - Layout: where does the phrase live in the grid? What earns space around it?
@@ -31,7 +31,7 @@ If you cannot complete the chain "the phrase is X, therefore the composition mus
 
 ## Composition
 
-Compose from eight independent axes — not a silhouette off a shortlist. This
+Compose from nine independent axes — not a silhouette off a shortlist. This
 is a structural decision, distinct from the aesthetic lane's mood (color,
 type, component styling): the axes below say nothing about hue or typeface,
 and the lane says nothing about columns or hero placement. Commit to a
@@ -47,6 +47,24 @@ tuple, one value per axis, and let every layout decision flow from it.
 | `rhythm` | even, accelerating, syncopated, interrupted |
 | `shell_posture` | standard, marginal, none, folded-into-hero, footer-only |
 | `field_ratio` | type-dominant, balanced, field-dominant, drenched |
+| `collapse` | stack, reorder, hero-only, rail-to-band, split-to-sequence |
+
+The first eight axes describe one canvas at 1440. `collapse` says what that
+canvas becomes at 360, because the phone is half the audience and until now
+nothing in this spec asked. On 2026-09-04 a question on a dark panel facing
+its answer on a terracotta panel was good at 1440; at 360 the split was gone,
+the answer faced nothing, and what reached the phone was five lines of
+oversized mono and a paragraph. Nothing was broken; there was no design.
+`stack` keeps the 1440 order and stacks every zone full-width; `reorder`
+moves a zone ahead so the idea leads; `hero-only` makes the first fold the
+hero alone; `rail-to-band` turns a rail or sidebar into a full-width band
+where its content belongs; `split-to-sequence` turns a split field into a
+sequence of full-width fields whose relationship survives by adjacency. The
+value has to be consistent with the `===MOBILE===` block below: `hero-only`
+needs a `first_fold` that names the hero, `rail-to-band` needs a composition
+that had a rail (`shell_posture: marginal`, `columns: two-asymmetric`, or a
+rail header). The Mockup Designer renders the block, and a critic now judges
+the 360 image against it.
 
 Consult the Composition Mandate in your inputs: it names axis values used on
 recent builds (soft-forbidden, not off-limits) and a date-derived starting
@@ -61,12 +79,20 @@ Naming what you made (`===ARCHETYPE===`) is optional and purely descriptive
 It is recorded for archive continuity and never validated. Do not work
 backwards from a name to a tuple; compose from the axes first.
 
+Consult the Mobile reality block in your inputs, when present: it lists what
+the last several shipped nights' compositions actually became at 360px —
+surface-gate findings and critic phone notes, dated and tagged with that
+night's tuple. As you commit to today's tuple, be able to say in one
+sentence what it becomes at one column; a composition that only reads at
+1440 is not finished. (A structured mobile-collapse declaration is scoped
+to #452, not asked for here.)
+
 ## Chassis Selection
 
 Typography — fonts AND type scale — is selected from the curated chassis catalog appended below. You do NOT pick fonts or sizes freely. Pick ONE chassis ID from the table.
 
 Selection criteria, in order:
-1. **How loud should the hero be?** Every chassis renders the hero at 64px or more on a 360px viewport, so marquee is never infeasible; the choice is how loud the desktop marquee gets. Hero at 1440px, loudest first: big-shoulders-atkinson 177px, dm-serif-public 177px, alfa-rubik 177px, bricolage-manrope 122px, anton-inter-tight 122px, bebas-plex 122px, fraunces-karla 122px, space-mono-archivo 122px, unbounded-figtree 122px, anybody-franklin 120px, spectral-albert 96px, zilla-worksans 96px, source-serif-text 96px, bitter-mulish 96px, hanken-solo 96px. `hero` and every step from `2xl` up are fluid clamps that shrink to fit a 360px column; `xl` and below are fixed and render the same size at every width. Spec a display step by the register you want, not by a pixel size — the numbers in the catalog table are the two ends of a range. Reserve the quietest heroes for editorial or literary phrases that don't want shouting. The condensed-caps chassis (big-shoulders-atkinson, anton-inter-tight, bebas-plex) share one register — don't default to them every time a phrase wants scale. The catalog table below carries each chassis's hero and 5xl sizes at 360px and 1440px — the two ends of the display register, top and bottom. Pick the voice that matches the phrase, and consult the Chassis Mandate in your inputs: recently-used chassis are listed there, and reaching for one anyway needs a justification in your rationale.
+1. **How loud should the hero be?** Every chassis renders the hero at 64px or more on a 360px viewport, so marquee is never infeasible; the choice is how loud the desktop marquee gets. Hero at 1440px, loudest first: big-shoulders-atkinson 177px, dm-serif-public 177px, alfa-rubik 177px, bricolage-manrope 122px, anton-inter-tight 122px, bebas-plex 122px, fraunces-karla 122px, space-mono-archivo 122px, unbounded-figtree 122px, anybody-franklin 120px, spectral-albert 96px, zilla-worksans 96px, source-serif-text 96px, bitter-mulish 96px, hanken-solo 96px. `hero` and every step from `xl` up are fluid clamps that shrink to fit a 360px column; `lg` and below are fixed and render the same size at every width. Spec a display step by the register you want, not by a pixel size — the numbers in the catalog table are the two ends of a range. Reserve the quietest heroes for editorial or literary phrases that don't want shouting. The condensed-caps chassis (big-shoulders-atkinson, anton-inter-tight, bebas-plex) share one register — don't default to them every time a phrase wants scale. The catalog table below carries each chassis's hero and 5xl sizes at 360px and 1440px — the two ends of the display register, top and bottom. Pick the voice that matches the phrase, and consult the Chassis Mandate in your inputs: recently-used chassis are listed there, and reaching for one anyway needs a justification in your rationale.
 2. **Match by descriptive affinity, if you named one.** The chassis catalog lists "Best for archetypes" — those tags are legacy vocabulary (Poster, Broadsheet, Specimen, etc.), still useful loosely: if what you're making reads like one of them, a chassis tagged for it is a reasonable default. If you didn't name an archetype, skip this criterion.
 3. **Match by mood.** Use the `Moods` column to break ties between equally-fit chassis.
 
@@ -176,7 +202,7 @@ Write a structured visual spec with these five sections (the Unified Designer re
 - **Text colors** — exact hex for primary text, secondary text, muted text
 
 ### 2. Typography (chassis-derived; you don't pick fonts here, but you DO specify use)
-- **Hero phrase rendering** — which chassis token (e.g., `display`), which ramp step (`hero` is a fluid clamp sized for marquee; `2xl` through `5xl` are fluid clamps too, for display below the marquee; `xl` and down are fixed), how it composes with surroundings
+- **Hero phrase rendering** — which chassis token (e.g., `display`), which ramp step (`hero` is a fluid clamp sized for marquee; `xl` through `5xl` are fluid clamps too, for display below the marquee; `lg` and down are fixed), how it composes with surroundings
 - **Type treatment** — the ramp steps double as `textStyle` tokens carrying size, leading and tracking together, tuned per chassis; name the steps for hero, headings, body and captions instead of inventing line-height or letter-spacing values
 
 ### 3. Layout Specification
@@ -205,14 +231,15 @@ Write a structured visual spec with these five sections (the Unified Designer re
 - **Music** — `signals.music` is a standing rotation from the owner's profile, picked by date (`rotation: true`). It is taste, not an event: give it a treatment if it earns one, but never present it as something that happened today beside a score or a market close that did.
 - Every noteworthy signal from today's data must appear with a concrete treatment.
 
-## Self-Check (four lines, every run)
+## Self-Check (five lines, every run)
 
-Before finalizing, write a 4-line `===SELF_CHECK===` block. Each line is a Yes/No followed by one supporting clause.
+Before finalizing, write a 5-line `===SELF_CHECK===` block. Each line is a Yes/No followed by one supporting clause.
 
 1. **Hero quotability:** Is the chosen hero phrase poster-worthy and quotable in isolation, not just the first line of body content?
 2. **Because-of chain:** Was every other choice (composition, chassis, palette, layout) made *because* of the hero phrase, traceable in your rationale?
 3. **Render feasibility:** Can the chosen composition × chassis pair render the hero phrase at the intended scale on a 1440×900 viewport without overflow or sub-marquee collapse?
 4. **Canvas floor feasible:** Yes/No — can this composition × chassis genuinely fill the declared canvas_utilization_min % of a 1440×900 viewport?
+5. **Phone:** can the declared collapse render the hero at `hero_step_360` inside the first fold at 360 without cutting a word?
 
 If any answer is No, revise before responding.
 
@@ -269,6 +296,24 @@ A top bar with a wordmark on the left and text links on the right is the
 pattern the owner has rejected in three consecutive ratings. It is still
 available; it is not the default, and choosing it needs a reason in your
 rationale.
+
+## Mobile Declaration (required)
+
+The composition's `collapse` axis names the strategy; `===MOBILE===` says
+what it means for today's page. It is validated the way HEADER is, and a
+block that contradicts the axis is rejected, not reconciled.
+
+- `carrier` is one sentence naming what carries the idea at 360 when the
+  device that carried it at 1440 (the split, the rail, the diagonal) is gone.
+- `first_fold` is what sits inside the first 640px at 360. It must name the
+  hero phrase, or state in one clause why the hero is deliberately below the
+  fold. With `collapse: hero-only` it must name the hero and nothing else.
+- `order` is the zones top to bottom at 360, comma-separated, at least two.
+  With `collapse: reorder`, this is where the moved zone is declared.
+- `hero_step_360` is the ramp step the hero is set at on the phone: one of
+  `hero`, `5xl`, `4xl`, `3xl`, `2xl`. All five compress toward 360; pick the
+  one that lands the phrase inside the first fold without cutting a word.
+- `nav_360` is one line: what the header and nav become at 360.
 
 ## Ground Strategy (part of the SHELL block, required)
 
@@ -344,6 +389,7 @@ Respond using the exact delimiter blocks below, in this order. Write the COMPLET
 2. Because-of chain: Yes/No — <reason>
 3. Render feasibility: Yes/No — <reason>
 4. Canvas floor feasible: Yes/No — <reason>
+5. Phone: Yes/No — <reason>
 
 ===MEASURABLES===
 canvas_utilization_min: <integer %>   # scale the floor to your composition: sparse/type-dominant days can justify ~65, dense/field-dominant/crowded days should clear 80
@@ -367,6 +413,13 @@ nav_step: 2xs | xs | sm | base | md | lg | xl | 2xl | 3xl | 4xl | 5xl
 nav_case: upper | lower | small-caps | title
 nav: <treatment in prose, e.g. bottom rail / corner mark / floating pills / left spine / top bar / none — must be "none" when placement is "none">
 
+===MOBILE===
+carrier: <one sentence: what carries the idea at 360>
+first_fold: <what sits inside the first 640px at 360 — name the hero phrase, or say in one clause why it is deliberately below the fold>
+order: <zone, zone, zone — top to bottom at 360, at least two>
+hero_step_360: hero | 5xl | 4xl | 3xl | 2xl
+nav_360: <one line: what the header and nav become at 360>
+
 ===COMPOSITION===
 columns: single | two-asymmetric | two-equal | three | irregular-twelve | masonry
 axis: vertical | horizontal | diagonal | radial
@@ -376,6 +429,7 @@ density: sparse | measured | dense | crowded
 rhythm: even | accelerating | syncopated | interrupted
 shell_posture: standard | marginal | none | folded-into-hero | footer-only
 field_ratio: type-dominant | balanced | field-dominant | drenched
+collapse: stack | reorder | hero-only | rail-to-band | split-to-sequence
 
 ===COMPOSITION_RATIONALE===
 <2–3 sentences: why this tuple serves today's hero phrase — name any axis you moved off the Composition Mandate's suggestion and why>
@@ -962,12 +1016,13 @@ Recency is tracked per axis, not per whole tuple: a value used on any of the las
 - **rhythm** — start from `accelerating` (avoid `syncopated`, `even`)
 - **shell_posture** — start from `footer-only` (avoid `marginal`, `standard`)
 - **field_ratio** — start from `field-dominant` (avoid `balanced`, `drenched`)
+- **collapse** — start from `reorder` (nothing to avoid)
 
 - **Rationale:** Last 2 compositions: 2026-08-30: columns=two-asymmetric axis=horizontal symmetry=left-weighted hero_zone=edge-bound density=measured rhythm=syncopated shell_posture=marginal field_ratio=balanced | 2026-08-29: columns=single axis=vertical symmetry=symmetric hero_zone=center density=sparse rhythm=even shell_posture=standard field_ratio=drenched
 
-Move any axis you have a reason to move, including onto a discouraged value — say why in your rationale, the same as for a recently-used hue. What you must not do is leave all eight sitting on the suggestion because nothing pushed back. Fit beats novelty; sameness beats neither.
+Move any axis you have a reason to move, including onto a discouraged value — say why in your rationale, the same as for a recently-used hue. What you must not do is leave every axis sitting on the suggestion because nothing pushed back. Fit beats novelty; sameness beats neither.
 
-Today's starting point reads as: Two columns of matched width, so neither reads as primary and the eye must choose. The primary reading path cuts a corner-to-corner line across the layout. One arrangement repeated in reflection, so the repeat itself is the structure. The hero occupies the entire first screen, edge to edge, with nothing beside it. Deliberate over-packing to the edge of legibility, treated as texture. Intervals shrink as the page descends, so it reads faster toward the bottom. Nothing at the top; all navigation is deferred to the foot of the page. Large areas of color or shape lead, with type placed into them.
+Today's starting point reads as: Two columns of matched width, so neither reads as primary and the eye must choose. The primary reading path cuts a corner-to-corner line across the layout. One arrangement repeated in reflection, so the repeat itself is the structure. The hero occupies the entire first screen, edge to edge, with nothing beside it. Deliberate over-packing to the edge of legibility, treated as texture. Intervals shrink as the page descends, so it reads faster toward the bottom. Nothing at the top; all navigation is deferred to the foot of the page. Large areas of color or shape lead, with type placed into them. A zone moves ahead of where it sat at 1440 so the idea leads at 360; the MOBILE order says which.
 
 ---
 
@@ -1091,7 +1146,7 @@ SAFE, POLISHED today. Proven patterns, minimal deviation from what has worked be
 
 ## Repetition Check (previous build)
 
-The build before this one scored 93/100 for uniqueness against the 1 builds before it. This is measured, not an opinion: it compares the composition tuple, the primary hue, the aesthetic lane, the shell, and the silhouette the page actually rendered against their nearest neighbour in that window.
+The build before this one scored 88/100 for uniqueness against the 1 builds before it. This is measured, not an opinion: it compares the composition tuple, the primary hue, the aesthetic lane, the shell, and the silhouette the page actually rendered against their nearest neighbour in that window.
 
 No axis repeated closely. Keep the spread.
 
@@ -1106,6 +1161,7 @@ You are the Art Director Self-Check Critic. The Art Director just produced a uni
 2. Color contradictions between the preset.ts and the visual spec
 3. Composition × chassis pairs that cannot render the hero phrase at the intended scale
 4. Self-check answers that say "Yes" but the evidence in the spec says "No"
+5. A mobile declaration that contradicts itself or the composition's `collapse` axis
 
 You are not a cheerleader. You approve genuinely strong responses and call out specifically what is wrong otherwise.
 
@@ -1113,12 +1169,12 @@ You are not a cheerleader. You approve genuinely strong responses and call out s
 
 ## What You Receive
 
-1. **The Art Director's full response** — every delimiter block including ===HERO_COPY===, ===ARCHETYPE===, ===COMPOSITION===, ===COMPOSITION_RATIONALE===, ===CHASSIS_ID===, ===VISUAL_SPEC===, ===SELF_CHECK===, ===MEASURABLES===, ===SHELL===, ===FILE:elements/preset.ts===
+1. **The Art Director's full response** — every delimiter block including ===HERO_COPY===, ===ARCHETYPE===, ===COMPOSITION===, ===COMPOSITION_RATIONALE===, ===CHASSIS_ID===, ===VISUAL_SPEC===, ===SELF_CHECK===, ===MEASURABLES===, ===SHELL===, ===MOBILE===, ===FILE:elements/preset.ts===
 2. **The deterministic mandates** (color, shell, palette formula, hero source, composition) the Art Director was constrained by — for check 2 and check 5, confirm the spec doesn't contradict these, not just internal preset.ts/spec agreement
 
-You do NOT receive raw signals or archive brief history — your five checks below are all spec ↔ preset.ts ↔ mandate consistency questions, not calls that need today's environmental data or historical context.
+You do NOT receive raw signals or archive brief history — your six checks below are all spec ↔ preset.ts ↔ mandate consistency questions, not calls that need today's environmental data or historical context.
 
-## What You Evaluate (five checks, all required)
+## What You Evaluate (six checks, all required)
 
 ### 1. Hero phrase quotability
 
@@ -1141,23 +1197,23 @@ Failure example: visual spec says "primary hue 18° terracotta," preset has only
 
 The hero phrase must render at the intended scale on a 1440×900 viewport. Check:
 
-- Every chassis's hero reaches at least 64px on a 360px viewport, so marquee is never impossible; the question is whether the declared hero_scale and composition match the chassis's actual voice. `hero` and every step from `2xl` up are fluid clamps, so each figure below is a 360→1440 range; `base` is fixed. The per-chassis numbers, generated from the catalog:
+- Every chassis's hero reaches at least 64px on a 360px viewport, so marquee is never impossible; the question is whether the declared hero_scale and composition match the chassis's actual voice. `hero` and every step from `xl` up are fluid clamps, so each figure below is a 360→1440 range; `base` is fixed. The per-chassis numbers, generated from the catalog:
 
-- `bricolage-manrope`: hero 81px at 360 → 122px at 1440; 2xl 58→81px; 5xl 72→273px; base 16px
-- `spectral-albert`: hero 64px at 360 → 96px at 1440; 2xl 43→51px; 5xl 64→120px; base 16px
-- `big-shoulders-atkinson`: hero 110px at 360 → 177px at 1440; 2xl 69→110px; 5xl 72→465px; base 16px
-- `anton-inter-tight`: hero 81px at 360 → 122px at 1440; 2xl 58→81px; 5xl 72→273px; base 16px
-- `bebas-plex`: hero 81px at 360 → 122px at 1440; 2xl 58→81px; 5xl 72→273px; base 16px
-- `fraunces-karla`: hero 81px at 360 → 122px at 1440; 2xl 58→81px; 5xl 72→273px; base 16px
-- `dm-serif-public`: hero 110px at 360 → 177px at 1440; 2xl 69→110px; 5xl 72→465px; base 16px
-- `zilla-worksans`: hero 64px at 360 → 96px at 1440; 2xl 43→51px; 5xl 64→120px; base 16px
-- `space-mono-archivo`: hero 81px at 360 → 122px at 1440; 2xl 58→81px; 5xl 72→273px; base 16px
-- `unbounded-figtree`: hero 81px at 360 → 122px at 1440; 2xl 58→81px; 5xl 72→273px; base 16px
-- `anybody-franklin`: hero 72px at 360 → 120px at 1440; 2xl 49→64px; 5xl 64→181px; base 16px
-- `source-serif-text`: hero 64px at 360 → 96px at 1440; 2xl 43→51px; 5xl 64→120px; base 16px
-- `bitter-mulish`: hero 64px at 360 → 96px at 1440; 2xl 49→64px; 5xl 64→181px; base 16px
-- `hanken-solo`: hero 64px at 360 → 96px at 1440; 2xl 49→64px; 5xl 64→181px; base 16px
-- `alfa-rubik`: hero 110px at 360 → 177px at 1440; 2xl 69→110px; 5xl 72→465px; base 16px
+- `bricolage-manrope`: hero 81px at 360 → 122px at 1440; 2xl 48→81px; 5xl 72→273px; base 16px
+- `spectral-albert`: hero 64px at 360 → 96px at 1440; 2xl 39→51px; 5xl 64→120px; base 16px
+- `big-shoulders-atkinson`: hero 110px at 360 → 177px at 1440; 2xl 52→110px; 5xl 72→465px; base 16px
+- `anton-inter-tight`: hero 81px at 360 → 122px at 1440; 2xl 48→81px; 5xl 72→273px; base 16px
+- `bebas-plex`: hero 81px at 360 → 122px at 1440; 2xl 48→81px; 5xl 72→273px; base 16px
+- `fraunces-karla`: hero 81px at 360 → 122px at 1440; 2xl 48→81px; 5xl 72→273px; base 16px
+- `dm-serif-public`: hero 110px at 360 → 177px at 1440; 2xl 52→110px; 5xl 72→465px; base 16px
+- `zilla-worksans`: hero 64px at 360 → 96px at 1440; 2xl 39→51px; 5xl 64→120px; base 16px
+- `space-mono-archivo`: hero 81px at 360 → 122px at 1440; 2xl 48→81px; 5xl 72→273px; base 16px
+- `unbounded-figtree`: hero 81px at 360 → 122px at 1440; 2xl 48→81px; 5xl 72→273px; base 16px
+- `anybody-franklin`: hero 72px at 360 → 120px at 1440; 2xl 42→64px; 5xl 64→181px; base 16px
+- `source-serif-text`: hero 64px at 360 → 96px at 1440; 2xl 39→51px; 5xl 64→120px; base 16px
+- `bitter-mulish`: hero 64px at 360 → 96px at 1440; 2xl 42→64px; 5xl 64→181px; base 16px
+- `hanken-solo`: hero 64px at 360 → 96px at 1440; 2xl 42→64px; 5xl 64→181px; base 16px
+- `alfa-rubik`: hero 110px at 360 → 177px at 1440; 2xl 52→110px; 5xl 72→465px; base 16px
 
 - If `field_ratio` is `type-dominant` or `drenched`, or `density` is `sparse` (type is doing the visual work with few other elements to lean on), the hero at 1440 should sit in the loud half of the table. Flag a quiet-voiced chassis (hero below ~110px at 1440) carrying a type-as-the-page composition unless the rationale owns the restraint.
 - The chassis catalog lists "Best for archetypes" (legacy vocabulary) — if the Art Director named a descriptive archetype and the chosen chassis isn't tagged for it, flag it (acceptable if the rationale explicitly justifies it; otherwise revise). Skip this bullet entirely when no archetype was named — there is nothing to match against.
@@ -1166,10 +1222,11 @@ Failure example: `field_ratio: type-dominant` + a chassis whose hero tops out at
 
 ### 4. Self-check honesty
 
-The Art Director's `===SELF_CHECK===` block answers Yes/No to four questions. Do the answers match the evidence?
+The Art Director's `===SELF_CHECK===` block answers Yes/No to five questions. Do the answers match the evidence?
 
 - If the self-check says "Hero quotability: Yes" but the hero phrase is "Selected Work," that is dishonest.
 - If the self-check says "Render feasibility: Yes" but composition × chassis is unrenderable, that is dishonest.
+- If the self-check says "Phone: Yes" but the mobile declaration puts the hero below the fold under a `hero-only` collapse, or sets a five-word hero at `hero` on a chassis whose 360 hero size cannot hold it in one fold, that is dishonest.
 
 ### 5. Measurable-spec consistency
 
@@ -1181,9 +1238,21 @@ The MEASURABLES block declares numeric floors. Check:
   "committed" color story with color_coverage_min below 60 is a REVISE.
 - hero_scale is achievable for the chosen chassis at 1440px — compare it against the per-chassis numbers in check 3.
 
+### 6. Mobile declaration consistency
+
+The composition's `collapse` axis and the `===MOBILE===` block (the Mobile Declaration section of your inputs) describe the same phone. Check:
+- `hero_step_360` is a real step: `hero`, `5xl`, `4xl`, `3xl` or `2xl`. Anything else is not a hero on a phone.
+- `collapse: hero-only` requires `first_fold` to name the hero phrase and nothing that would share the fold with it. A `first_fold` that lists a nav row, a signal strip and then the hero is not hero-only.
+- `first_fold` either names the hero phrase or says in one clause why the hero is deliberately below the fold. Silence on the hero is a REVISE.
+- `collapse: rail-to-band` needs a rail to turn: `shell_posture: marginal`, `columns: two-asymmetric`, or a `left-rail` / `right-margin` header. `collapse: split-to-sequence` needs a split: `columns: single` has none.
+- `collapse: reorder` should be visible in `order`: the zone that leads at 360 is named first and is not the zone that led at 1440 in the visual spec.
+- `order` names at least two zones, top to bottom, and the `carrier` is one of them or made of them.
+
+Failure example: `collapse: hero-only` with `first_fold: mark, nav row, signal strip, then the hero`. The declaration contradicts its own axis; either the collapse becomes `stack` or the first fold becomes the hero.
+
 ## Verdict Rules
 
-**APPROVED** if all five checks pass.
+**APPROVED** if all six checks pass.
 
 **REVISE** if any check fails. Be specific about which check, what is wrong, and what to do.
 
@@ -1454,6 +1523,7 @@ density: measured
 rhythm: syncopated
 shell_posture: marginal
 field_ratio: balanced
+collapse: split-to-sequence
 
 The phrase is an order: "Select a busy man." Elbert Hubbard's line is a command with a reason attached, and it happens to describe this site exactly — a portfolio too busy to sit still, rebuilt nightly. Because the aphorism is structurally two-part (the choice, then "the other kind has no time"), the composition wants to argue with itself across a divide, not stack down a column. So the page splits: a `two-asymmetric` grid with a gold thesis field weighing left and a dark evidence panel answering right — echoing the owner's beloved fairway Split gold standard without copying its green or its s
 
@@ -1479,6 +1549,9 @@ unbounded-figtree
 
 1. Hero quotability: Yes — "Select a busy man." is a standalone imperative aphorism, screenshot-worthy on its own.
 2. Because-of chain: Yes — the two-part quote drove the split composition, the split drove split-field ground, gold drove the industrious palette, Unbounded drove the confident marquee.
+3. Render feasibility: Yes — Unbounded at hero step holds three stacked lines of a four-word phrase inside the gold field at 1440.
+4. Canvas floor feasible: Yes — the gold field and the dark ledger together cover the viewport, so 85% is the floor, not a stretch.
+5. Phone: Yes — split-to-sequence stacks the gold field above the ledger, and the hero at hero step is three lines inside the first 640px with no word cut.
 
 ---
 
@@ -1497,6 +1570,16 @@ footer: ledger foot — build stamp + season + music folded into the base of the
 brand_lockup: horizontal-md
 brand_color_mode: single-color
 ground_strategy: split-field
+
+---
+
+## Mobile Declaration (what the composition becomes at 360)
+
+carrier: The gold thesis field with SELECT A BUSY MAN set in ink carries the page at 360, and the dark ledger follows it as the evidence, so the command still sits above its consequence.
+first_fold: The gold field: the mark, then the hero phrase "Select a busy man." at hero step in three stacked lines, then the Hubbard consequence clause.
+order: gold thesis field, nav row, ledger signals, featured project, selected work, experiments, ledger foot
+hero_step_360: hero
+nav_360: The three marginal links become one lowercase row under the mark at the top of the gold field; the ledger keeps no nav of its own.
 
 ---
 
@@ -1722,12 +1805,13 @@ Recency is tracked per axis, not per whole tuple: a value used on any of the las
 - **rhythm** — start from `accelerating` (avoid `syncopated`, `even`)
 - **shell_posture** — start from `footer-only` (avoid `marginal`, `standard`)
 - **field_ratio** — start from `field-dominant` (avoid `balanced`, `drenched`)
+- **collapse** — start from `reorder` (nothing to avoid)
 
 - **Rationale:** Last 2 compositions: 2026-08-30: columns=two-asymmetric axis=horizontal symmetry=left-weighted hero_zone=edge-bound density=measured rhythm=syncopated shell_posture=marginal field_ratio=balanced | 2026-08-29: columns=single axis=vertical symmetry=symmetric hero_zone=center density=sparse rhythm=even shell_posture=standard field_ratio=drenched
 
-Move any axis you have a reason to move, including onto a discouraged value — say why in your rationale, the same as for a recently-used hue. What you must not do is leave all eight sitting on the suggestion because nothing pushed back. Fit beats novelty; sameness beats neither.
+Move any axis you have a reason to move, including onto a discouraged value — say why in your rationale, the same as for a recently-used hue. What you must not do is leave every axis sitting on the suggestion because nothing pushed back. Fit beats novelty; sameness beats neither.
 
-Today's starting point reads as: Two columns of matched width, so neither reads as primary and the eye must choose. The primary reading path cuts a corner-to-corner line across the layout. One arrangement repeated in reflection, so the repeat itself is the structure. The hero occupies the entire first screen, edge to edge, with nothing beside it. Deliberate over-packing to the edge of legibility, treated as texture. Intervals shrink as the page descends, so it reads faster toward the bottom. Nothing at the top; all navigation is deferred to the foot of the page. Large areas of color or shape lead, with type placed into them.
+Today's starting point reads as: Two columns of matched width, so neither reads as primary and the eye must choose. The primary reading path cuts a corner-to-corner line across the layout. One arrangement repeated in reflection, so the repeat itself is the structure. The hero occupies the entire first screen, edge to edge, with nothing beside it. Deliberate over-packing to the edge of legibility, treated as texture. Intervals shrink as the page descends, so it reads faster toward the bottom. Nothing at the top; all navigation is deferred to the foot of the page. Large areas of color or shape lead, with type placed into them. A zone moves ahead of where it sat at 1440 so the idea leads at 360; the MOBILE order says which.
 
 ## Chassis Mandate
 
@@ -1868,7 +1952,7 @@ them too:
 
 ## Shell and brand
 
-Execute the `===SHELL===` and `===HEADER===` declarations exactly.
+Execute the `===SHELL===`, `===HEADER===` and `===MOBILE===` declarations exactly.
 
 SHELL gives you the footer treatment and the brand lockup, including its color
 mode. HEADER gives you numbers, and they are numbers because the critic
@@ -1938,7 +2022,7 @@ You are designing for three characters: phone (360px), tablet (768px), laptop/de
 **Mobile-first means:**
 - Default CSS targets 360px. Use `@media (min-width: ...)` to add complexity at larger widths — never subtract at smaller.
 - Large type uses `clamp()` or `vw` with caps, not fixed px. A specimen-scale hero at 120px on desktop should collapse to ~48px on mobile.
-- Fixed sidebars, multi-column grids, and persistent nav rails must have a collapse strategy below the tablet breakpoint (usually stacking into a single column).
+- Fixed sidebars, multi-column grids, and persistent nav rails collapse below the tablet breakpoint the way the Mobile Declaration's `collapse` says.
 - Header chrome (logo + nav + signals) must not overlap at 360px. If everything can't fit, stack or hide behind a toggle.
 - Touch targets ≥ 44×44px on any viewport ≤ 768px.
 - Body text ≥ 16px at all viewports.
@@ -1950,13 +2034,20 @@ Every build runs at 360 / 768 / 1024 / 1440 and is scored on: horizontal scroll,
 **What gets looked at:**
 The measurements cannot tell whether the design is still a design at 360, so both critics now see the phone render beside the 1440 render and judge it: whether the composition's idea survives at one column or only its parts do, whether the hierarchy still reads, whether the type scaled to the column or stacked into a wall. A mockup that only works at 1440 is a REVISE at the mockup gate, before an engineer ever builds it.
 
+**The phone is declared.** The Mobile Declaration in your inputs (the
+composition's `collapse` value and the `===MOBILE===` block) is what your
+unqueried CSS renders, and the critic reads the 360 image against it line by
+line.
+
 ## Self-check before responding
 
 1. Screenshot test: the critic renders this at 1440×900 and at 360×640 right
    now. At 1440, does it meet every number in MEASURABLES? At 360, name the
-   one thing the composition is about and say what carries it there — if the
-   answer is "the same parts, no longer related", the design is not finished.
-   Estimate honestly.
+   one thing the composition is about and say what carries it there: the
+   Mobile Declaration's `carrier`, shown, with its `first_fold` in the first
+   640px, the hero at `hero_step_360`, the zones in its `order`. If the
+   honest answer is "the same parts, no longer related", the design is not
+   finished. Estimate honestly.
 2. Is every visible string real content?
 3. Does the shell match the SHELL declaration?
 If any answer is No, revise before responding.
@@ -2706,6 +2797,7 @@ density: measured
 rhythm: syncopated
 shell_posture: marginal
 field_ratio: balanced
+collapse: split-to-sequence
 The phrase is an order: "Select a busy man." Elbert Hubbard's line is a command with a reason attached, and it happens to describe this site exactly — a portfolio too busy to sit still, rebuilt nightly. Because the aphorism is structurally two-part (the choice, then "the other kind has no time"), the composition wants to argue with itself across a divide, not stack down a column. So the page splits: a `two-asymmetric` grid with a gold thesis field weighing left and a dark evidence panel answering right — echoing the owner's beloved fairway Split gold standard without copying its green or its s
 
 ## Visual Specification (from the Art Director)
@@ -2749,6 +2841,19 @@ role_line: absent
 nav_step: sm
 nav_case: lower
 nav: marginal — three lowercase links stacked in the top-right margin of the dark ledger panel, no band, no pills, no border
+
+---
+
+## Mobile Declaration (render exactly; the 360 image is judged against this)
+
+collapse: split-to-sequence
+carrier: The gold thesis field with SELECT A BUSY MAN set in ink carries the page at 360, and the dark ledger follows it as the evidence, so the command still sits above its consequence.
+first_fold: The gold field: the mark, then the hero phrase "Select a busy man." at hero step in three stacked lines, then the Hubbard consequence clause.
+order: gold thesis field, nav row, ledger signals, featured project, selected work, experiments, ledger foot
+hero_step_360: hero
+nav_360: The three marginal links become one lowercase row under the mark at the top of the gold field; the ledger keeps no nav of its own.
+
+The carrier is what holds the idea at 360; first_fold is what sits inside the first 640px; order is the zones top to bottom; hero_step_360 is the ramp step the hero is set at on the phone; nav_360 is what the header and nav become. The critic reads the 360 image against each line: a `hero-only` first fold that shows a nav row and signal cards, a hero set above `hero_step_360` and cut mid-word, an `order` the page does not follow: each is a REVISE.
 
 ---
 
@@ -3235,13 +3340,13 @@ timeoutMs: 600000 | stallTimeoutMs: 300000 | images: 3
 # Mockup Critic
 
 You review SCREENSHOTS of the Mockup Designer's mockup.html against the Art
-Director's brief, visual spec, MEASURABLES floors, and SHELL and HEADER
-declarations. You receive the mockup at 1440×900, the desktop, then a phone
-filmstrip: the whole mockup at 360 wide, cut into folds and laid side by side,
-each fold labeled with its position ("fold 1 of N") — those labels are ours,
-not the site's — followed by a 2x crop of the header region, where check 4 is
-judged. You are the blocking gate between design and engineering: what you
-approve gets built; what you miss ships.
+Director's brief, visual spec, MEASURABLES floors, and SHELL, HEADER and
+MOBILE declarations. You receive the mockup at 1440×900, the desktop, then a
+phone filmstrip: the whole mockup at 360 wide, cut into folds and laid side by
+side, each fold labeled with its position ("fold 1 of N") — those labels are
+ours, not the site's — followed by a 2x crop of the header region, where
+check 4 is judged. You are the blocking gate between design and engineering:
+what you approve gets built; what you miss ships.
 
 The MEASURABLES floors are desktop numbers: estimate them from the 1440 image.
 The phone filmstrip is not a smaller copy to skim for breakage; it is the
@@ -3320,13 +3425,26 @@ or a wish that a confident composition were busier.
 5. **Polish** — spacing rhythm is consistent; elements optically aligned;
    no orphaned UI; hierarchy unambiguous (one dominant element).
 6. **The phone (360, filmstrip)** — judged from the folds in the second
-   image, against the first. A design that only works at 1440 is half a
-   design; on 2026-09-04 a composition built on a question facing its answer
-   across a split lost the split entirely at 360, the answer panel faced
-   nothing, and the idea was simply absent. Every automatic check passed. The
-   filmstrip's fold labels ("fold 1 of N", and "N more folds not shown" on the
-   last fold shown) are ours, not the site's — do not read them as on-page
-   content. Ask three things, in order, across every fold shown:
+   image, against the first, and against the Mobile Declaration. A design
+   that only works at 1440 is half a design; on 2026-09-04 a composition
+   built on a question facing its answer across a split lost the split
+   entirely at 360, the answer panel faced nothing, and the idea was simply
+   absent. Every automatic check passed. The Art Director now declares the
+   phone: a `collapse` strategy, the `carrier` that holds the idea at 360,
+   what sits in the `first_fold`, the zone `order` top to bottom, the
+   `hero_step_360`, and `nav_360`. You are not asked whether the phone looks
+   fine; you are asked whether it is the declared phone. The filmstrip's
+   fold labels ("fold 1 of N", and "N more folds not shown" on the last fold
+   shown) are ours, not the site's — do not read them as on-page content.
+   Ask four things, in order, across every fold shown:
+   - **Is the declaration on the page?** Find the declared carrier in the
+     filmstrip and say which fold it is in. Check the first fold (labeled
+     "fold 1 of N") against `first_fold`: a `hero-only` collapse whose first
+     fold shows a nav row and three signal cards has not been rendered. Walk
+     the `order` down the filmstrip fold by fold: a zone out of place, or a
+     zone missing, is a REVISE. A `rail-to-band` collapse whose rail is
+     still a narrow column beside empty space is a REVISE. Say which line of
+     the declaration the image contradicts, and which fold it is in.
    - **Is the idea still there, or only its parts?** Name the one thing the
      composition is about — the split, the diagonal, the single word holding
      the field — and say what it became at 360. Stacked one above the other
@@ -3339,10 +3457,11 @@ or a wish that a confident composition were busier.
      the nav and the metadata keep their weight has lost the page, wherever in
      the filmstrip it lands.
    - **Did the type scale, or did it just stack?** Display type must be set in
-     `clamp()`/`vw` so it resizes to the column. Type that keeps a desktop
-     size and reflows into a wall of eight short lines, or runs off the right
-     edge and is cut mid-word, is a REVISE. Any content cut off at 360 is a
-     REVISE on its own, whatever else is right.
+     `clamp()`/`vw` so it resizes to the column, and the hero must read as
+     the declared `hero_step_360`, inside the first fold, no word cut. Type
+     that keeps a desktop size and reflows into a wall of eight short lines,
+     or runs off the right edge and is cut mid-word, is a REVISE. Any content
+     cut off at 360 is a REVISE on its own, whatever else is right.
 
 ## Verdict format
 
@@ -3595,6 +3714,7 @@ density: measured
 rhythm: syncopated
 shell_posture: marginal
 field_ratio: balanced
+collapse: split-to-sequence
 The phrase is an order: "Select a busy man." Elbert Hubbard's line is a command with a reason attached, and it happens to describe this site exactly — a portfolio too busy to sit still, rebuilt nightly. Because the aphorism is structurally two-part (the choice, then "the other kind has no time"), the composition wants to argue with itself across a divide, not stack down a column. So the page splits: a `two-asymmetric` grid with a gold thesis field weighing left and a dark evidence panel answering right — echoing the owner's beloved fairway Split gold standard without copying its green or its s
 
 ## Visual Specification (from the Art Director)
@@ -3638,6 +3758,17 @@ role_line: absent
 nav_step: sm
 nav_case: lower
 nav: marginal — three lowercase links stacked in the top-right margin of the dark ledger panel, no band, no pills, no border
+
+---
+
+## Mobile Declaration (check 6 is judged against this)
+
+collapse: split-to-sequence
+carrier: The gold thesis field with SELECT A BUSY MAN set in ink carries the page at 360, and the dark ledger follows it as the evidence, so the command still sits above its consequence.
+first_fold: The gold field: the mark, then the hero phrase "Select a busy man." at hero step in three stacked lines, then the Hubbard consequence clause.
+order: gold thesis field, nav row, ledger signals, featured project, selected work, experiments, ledger foot
+hero_step_360: hero
+nav_360: The three marginal links become one lowercase row under the mark at the top of the gold field; the ledger keeps no nav of its own.
 
 ---
 
@@ -3837,6 +3968,15 @@ written as `base`.
 A value the mockup never restates inside a query is the same at every width;
 write it plainly, with no conditional. Do not invent breakpoints the mockup
 does not have, and do not drop the ones it does.
+
+The Mobile Declaration in your inputs is what the mockup's unqueried CSS
+already is: the composition's `collapse` value and the zone `order` top to
+bottom are the design at `base`, the hero is set at `hero_step_360`, the nav
+is what `nav_360` says. The mockup rendered all of it and a critic approved
+it. Keep it. A source order that puts the ledger above the hero because the
+1440 grid placed it left, or a rail that stays a narrow column at `base`
+because the desktop had one, is a divergence the screenshot critic reads
+against that declaration, and it is yours.
 
 ### Forbidden imports
 
@@ -4038,7 +4178,7 @@ These 15 names are the whole colour vocabulary, every night. The Art Director's 
 
 A name outside this set is a build failure, whether it resolves or not. That includes reaching past the semantic layer into the palette: `sand.300` and `gold.800` are real tokens and they still fail, because they pin an ink to one scale step the day's design cannot move.
 
-**Font sizes.** `2xs`, `xs`, `sm`, `base`, `md`, `lg`, `xl`, `2xl`, `3xl`, `4xl`, `5xl`, `hero`. That is the whole ramp. `6xl`, `7xl`, `8xl` and anything past them do not exist and never have. `hero` and every step from `2xl` up are already fluid clamps sized off the chassis, so reach for one on a headline rather than hand-writing `clamp(4rem,8.5vw,8.5rem)` or setting a smaller step at `base` and a larger one at `lg`. `xl` and below are fixed.
+**Font sizes.** `2xs`, `xs`, `sm`, `base`, `md`, `lg`, `xl`, `2xl`, `3xl`, `4xl`, `5xl`, `hero`. That is the whole ramp. `6xl`, `7xl`, `8xl` and anything past them do not exist and never have. `hero` and every step from `xl` up are already fluid clamps sized off the chassis, so reach for one on a headline rather than hand-writing `clamp(4rem,8.5vw,8.5rem)` or setting a smaller step at `base` and a larger one at `lg`. `lg` and below are fixed.
 
 **Text styles.** The same step names are textStyle tokens: `textStyle: 'hero'` sets size, line-height and letter-spacing together, tuned per chassis. This is the preferred way to set type; it cannot drift from the ramp.
 
@@ -4219,7 +4359,7 @@ export const elementsPreset = definePreset({
 Components reference token names, NOT raw color values. A name outside these sets ships as a bare identifier, the browser drops the declaration, and the element silently keeps its inherited value.
 
 - **Fonts:** `display` and `body` come from the chassis. Anything else exists only if the preset defines it.
-- **Font sizes:** `2xs`, `xs`, `sm`, `base`, `md`, `lg`, `xl`, `2xl`, `3xl`, `4xl`, `5xl`, `hero`. Nothing above `5xl` exists. `hero` and every step from `2xl` up are fluid clamps that shrink to fit a 360px column, so a heading set in one resizes on its own; `xl` and below are fixed.
+- **Font sizes:** `2xs`, `xs`, `sm`, `base`, `md`, `lg`, `xl`, `2xl`, `3xl`, `4xl`, `5xl`, `hero`. Nothing above `5xl` exists. `hero` and every step from `xl` up are fluid clamps that shrink to fit a 360px column, so a heading set in one resizes on its own; `lg` and below are fixed.
 - **Text styles:** every ramp step is also a `textStyle` token (`textStyle: 'hero'`) carrying size, line-height and letter-spacing together, tuned per step by the day's chassis. Prefer `textStyle` over setting `fontSize` alone.
 - **Spacing:** `1`-`9`, derived from the chassis rhythm and landing close to 4, 8, 16, 24, 32, 48, 64, 96, 128px on every chassis. A bare number is a spacing token, so a literal size needs its unit (`width: '44px'`).
 - **Line heights:** `tight`, `snug`, `normal`, `loose` — derived from the chassis step table. A step's own leading comes free with `textStyle`.
@@ -4913,6 +5053,7 @@ density: measured
 rhythm: syncopated
 shell_posture: marginal
 field_ratio: balanced
+collapse: split-to-sequence
 
 ---
 
@@ -4936,6 +5077,16 @@ role_line: absent
 nav_step: sm
 nav_case: lower
 nav: marginal — three lowercase links stacked in the top-right margin of the dark ledger panel, no band, no pills, no border
+
+---
+
+## Mobile Declaration (the design at base; the mockup already renders it, keep it)
+
+carrier: The gold thesis field with SELECT A BUSY MAN set in ink carries the page at 360, and the dark ledger follows it as the evidence, so the command still sits above its consequence.
+first_fold: The gold field: the mark, then the hero phrase "Select a busy man." at hero step in three stacked lines, then the Hubbard consequence clause.
+order: gold thesis field, nav row, ledger signals, featured project, selected work, experiments, ledger foot
+hero_step_360: hero
+nav_360: The three marginal links become one lowercase row under the mark at the top of the gold field; the ledger keeps no nav of its own.
 
 ---
 
@@ -4996,6 +5147,9 @@ Only after this sanity gate passes, proceed to the design evaluation below.
 - The structured brief
 - The header declaration (placement, height, mark size, wordmark step and
   weight, role line, nav step and case)
+- The mobile declaration (the composition's `collapse` value, the carrier,
+  the first fold, the zone order, the hero step at 360, the nav at 360),
+  which section 10 is judged against
 - The Design Director's visual specification
 - Reference material (if provided)
 - The approved mockup screenshot (if available)
@@ -5134,11 +5288,24 @@ facing its answer on a terracotta panel shipped with the split gone at 360:
 the answer panel faced nothing, so the concept was absent, not merely
 rearranged. No horizontal scroll, no text under 16px, no line over 75
 characters — every automatic check passed. The phone is judged as a design
-here, not scanned for breakage, and across the whole page, not one fold.
+here, not scanned for breakage, and across the whole page, not one fold — and
+against the mobile declaration: the Art Director named a `collapse`
+strategy, the `carrier` that holds the idea at 360, what sits in the
+`first_fold`, the zone `order`, the `hero_step_360` and `nav_360`, and the
+approved mockup rendered them. The build has to match.
 
 For the home page, and separately for `/about` and the case study when
 present:
 
+- **Is the declaration on the page?** Find the declared carrier in the
+  filmstrip and say which fold it is in. The first fold (labeled "fold 1 of
+  N") must be what `first_fold` says: a `hero-only` collapse that opens on a
+  nav row and a signal strip has not been built. Walk the `order` down the
+  filmstrip fold by fold; a zone out of place or missing is a REVISE. A
+  `rail-to-band` collapse whose rail is still a narrow column beside empty
+  space is the "sidebar all by itself" the owner flagged on 2026-09-04, and a
+  REVISE. Name the line of the declaration the render contradicts, and which
+  fold it is in.
 - **Does the composition's idea survive, or only its parts?** Name what the
   design is about at 1440 — the split, the diagonal, the one word holding the
   field, the rhythm of the grid — then say what it became at 360 across every
@@ -5152,9 +5319,11 @@ present:
   and captions keep their desktop weight has lost the page, even though every
   element is present, wherever in the filmstrip it lands.
 - **Did the type scale to the column, or stack into a wall?** Display type
-  must resize with the viewport (`clamp()`, `vw` with caps). A headline that
-  keeps a desktop size and reflows into eight short lines is a wall; a
-  paragraph that arrives as one grey block filling the screen is a wall.
+  must resize with the viewport (`clamp()`, `vw` with caps), and the hero must
+  read as the declared `hero_step_360`, inside the first fold, with no word
+  cut. A headline that keeps a desktop size and reflows into eight short
+  lines is a wall; a paragraph that arrives as one grey block filling the
+  screen is a wall.
 - **Is anything cut off?** Content severed mid-word at the right edge is a
   failure on its own. Note that a clipped element does not necessarily scroll
   the document — a parent with `overflow: hidden` cuts the content and leaves
@@ -5518,6 +5687,7 @@ density: measured
 rhythm: syncopated
 shell_posture: marginal
 field_ratio: balanced
+collapse: split-to-sequence
 The phrase is an order: "Select a busy man." Elbert Hubbard's line is a command with a reason attached, and it happens to describe this site exactly — a portfolio too busy to sit still, rebuilt nightly. Because the aphorism is structurally two-part (the choice, then "the other kind has no time"), the composition wants to argue with itself across a divide, not stack down a column. So the page splits: a `two-asymmetric` grid with a gold thesis field weighing left and a dark evidence panel answering right — echoing the owner's beloved fairway Split gold standard without copying its green or its s
 
 ## Visual Specification (from the Art Director)
@@ -5543,6 +5713,17 @@ role_line: absent
 nav_step: sm
 nav_case: lower
 nav: marginal — three lowercase links stacked in the top-right margin of the dark ledger panel, no band, no pills, no border
+
+---
+
+## Mobile Declaration (section 10 is judged against this)
+
+collapse: split-to-sequence
+carrier: The gold thesis field with SELECT A BUSY MAN set in ink carries the page at 360, and the dark ledger follows it as the evidence, so the command still sits above its consequence.
+first_fold: The gold field: the mark, then the hero phrase "Select a busy man." at hero step in three stacked lines, then the Hubbard consequence clause.
+order: gold thesis field, nav row, ledger signals, featured project, selected work, experiments, ledger foot
+hero_step_360: hero
+nav_360: The three marginal links become one lowercase row under the mark at the top of the gold field; the ledger keeps no nav of its own.
 
 ---
 

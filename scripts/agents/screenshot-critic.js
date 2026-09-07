@@ -53,6 +53,58 @@ function prose(text) {
   return text ? [textBlock(text)] : []
 }
 
+/** Count of image blocks already assembled — the ceiling only counts images. */
+function imageCount(blocks) {
+  return blocks.filter((b) => b.type === 'image').length
+}
+
+/**
+ * Phone filmstrips of /about and a case study — the pages the phone gate
+ * never covered before #466. Pushed ahead of the 1440 route captures and
+ * the calibration reference so the ceiling squeezes those first: a design
+ * that dies at 360 on /about is worse than losing a bar-setting comparison.
+ * Returns the blocks to append; never mutates `existing`.
+ *
+ * @param {Array<{type: string}>} existing - blocks already assembled
+ * @param {Array<{ label: string, jpeg: Buffer }>} [filmstrips]
+ * @returns {Array<{type: string, text?: string, source?: object}>}
+ */
+function phoneFilmstripBlocks(existing, filmstrips) {
+  const appended = []
+  for (const filmstrip of filmstrips ?? []) {
+    if (imageCount(existing) + imageCount(appended) >= MAX_SCREENSHOT_CRITIC_IMAGES) break
+    appended.push(...shot(filmstrip.label, filmstrip.jpeg))
+  }
+  return appended
+}
+
+/**
+ * Other surfaces the pipeline rewrites nightly, announced once. These are
+ * PNG, straight from captureRouteScreenshot — not the JPEG pair
+ * captureScreenshot returns. Appended only while one slot is still left for
+ * the calibration reference. Returns the blocks to append; never mutates
+ * `existing`.
+ *
+ * @param {Array<{type: string}>} existing - blocks already assembled
+ * @param {Array<{ label: string, png: Buffer }>} [routeShots]
+ * @returns {Array<{type: string, text?: string, source?: object}>}
+ */
+function routeShotBlocks(existing, routeShots) {
+  const appended = []
+  for (const [i, route] of (routeShots ?? []).entries()) {
+    if (imageCount(existing) + imageCount(appended) >= MAX_SCREENSHOT_CRITIC_IMAGES - 1) break
+    if (i === 0) {
+      appended.push(
+        textBlock(
+          'Other surfaces this build rewrote. They wear the same design and are judged by the same brief, but they are not the homepage and should not be expected to repeat its composition.'
+        )
+      )
+    }
+    appended.push(...shot(route.label, route.png, 'image/png'))
+  }
+  return appended
+}
+
 /**
  * Assemble the screenshot-critic's user turn.
  *
@@ -127,35 +179,10 @@ export function buildScreenshotCriticBlocks(ctx) {
     ),
   ]
 
-  const countImages = () => blocks.filter((b) => b.type === 'image').length
+  blocks.push(...phoneFilmstripBlocks(blocks, ctx.phoneFilmstrips))
+  blocks.push(...routeShotBlocks(blocks, ctx.routeShots))
 
-  // Phone filmstrips of /about and a case study — the pages the phone gate
-  // never covered before #466. Pushed ahead of the 1440 route captures and
-  // the calibration reference below so the ceiling squeezes those first: a
-  // design that dies at 360 on /about is worse than losing a bar-setting
-  // comparison.
-  for (const filmstrip of ctx.phoneFilmstrips ?? []) {
-    if (countImages() >= MAX_SCREENSHOT_CRITIC_IMAGES) break
-    blocks.push(...shot(filmstrip.label, filmstrip.jpeg))
-  }
-
-  // Other surfaces the pipeline rewrites nightly. These are PNG, straight from
-  // captureRouteScreenshot — not the JPEG pair captureScreenshot returns. They
-  // are appended only while one slot is still left for the calibration
-  // reference below.
-  for (const [i, route] of (ctx.routeShots ?? []).entries()) {
-    if (countImages() >= MAX_SCREENSHOT_CRITIC_IMAGES - 1) break
-    if (i === 0) {
-      blocks.push(
-        textBlock(
-          'Other surfaces this build rewrote. They wear the same design and are judged by the same brief, but they are not the homepage and should not be expected to repeat its composition.'
-        )
-      )
-    }
-    blocks.push(...shot(route.label, route.png, 'image/png'))
-  }
-
-  if (ctx.bestReference && countImages() < MAX_SCREENSHOT_CRITIC_IMAGES) {
+  if (ctx.bestReference && imageCount(blocks) < MAX_SCREENSHOT_CRITIC_IMAGES) {
     // The promoted reference is the archived screenshot.png (findBestScreenshot
     // in collect-ratings.js only ever copies the PNG) — PNG media type, not
     // the default JPEG imageBlock assumes.
