@@ -1,6 +1,7 @@
 import { chromium } from '@playwright/test'
 import { OVERFLOW_TOLERANCE_PX, findClippedElements } from './surface-gate.js'
 import { measureDesignFidelity } from './design-fidelity.js'
+import { BODY_TEXT_MIN_PX, TAP_TARGET_MIN_PX } from './responsive-thresholds.js'
 
 /**
  * What each check measures against. The checks below run inside the page
@@ -10,9 +11,9 @@ import { measureDesignFidelity } from './design-fidelity.js'
  */
 export const RESPONSIVE_THRESHOLDS = {
   /** Smallest body text that is comfortably readable on a phone. */
-  bodyTextMinPx: 16,
+  bodyTextMinPx: BODY_TEXT_MIN_PX,
   /** WCAG 2.5.5 target size, and Apple's HIG minimum. */
-  tapTargetMinPx: 44,
+  tapTargetMinPx: TAP_TARGET_MIN_PX,
   /** Tap targets are only judged at widths a thumb operates. */
   tapTargetMaxViewportPx: 768,
   /** Average characters per rendered line before a paragraph reads as a wall. */

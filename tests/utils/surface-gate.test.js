@@ -5,11 +5,14 @@ import path from 'node:path'
 import {
   evaluateMeasurement,
   formatFindingsForCritic,
+  formatAdvisoryForRepairBrief,
   listGeneratedRoutes,
   ownerForSurface,
   faultsForOwner,
+  advisoryFaultsForOwner,
   OVERFLOW_TOLERANCE_PX,
   MAX_CLIPPED_REPORTED,
+  MAX_TAP_TARGET_REPORTED,
   VIEWPORT_RUNGS,
   RUNNING_COPY_MAX_PX,
   RUNNING_COPY_MIN_CHARS,
@@ -329,5 +332,139 @@ describe('running copy set at display size', () => {
   it('reports nothing when the page had no block long enough to measure', () => {
     expect(copyFindings(null)).toEqual([])
     expect(evaluateMeasurement(base).filter((f) => f.kind === 'running-copy')).toEqual([])
+  })
+})
+
+describe('tap-target and small-copy findings (#488)', () => {
+  // From the 2026-09-07 nightly: 12 tap-target failures on the small-caps nav
+  // and running copy at 12.6px, both measured by responsive-scorer.js and
+  // read by nothing until this gate carried them.
+  const mobile = { ...ok, viewport: 'mobile', width: 360, clientWidth: 360, scrollWidth: 360 }
+
+  it('reports a tap target under 44x44, once per distinct text, with a count', () => {
+    const findings = evaluateMeasurement({
+      ...mobile,
+      tapTargets: [{ text: 'work', count: 3, w: 34, h: 22 }],
+    })
+    expect(findings).toHaveLength(1)
+    expect(findings[0].kind).toBe('tap-target')
+    expect(findings[0].severity).toBe('warning')
+    expect(findings[0].detail).toContain("'work'")
+    expect(findings[0].detail).toContain('×3')
+    expect(findings[0].detail).toContain('34x22px')
+    expect(findings[0].detail).toContain('44x44')
+  })
+
+  it('says nothing for a target that already clears 44x44', () => {
+    // The detector itself would never emit this (it only reports failures),
+    // but evaluateMeasurement is not the place that decides that — this
+    // proves an empty list, not a threshold, is what keeps it quiet.
+    expect(evaluateMeasurement({ ...mobile, tapTargets: [] }).map((f) => f.kind)).not.toContain(
+      'tap-target'
+    )
+  })
+
+  it('caps reported tap-target findings', () => {
+    const tapTargets = Array.from({ length: MAX_TAP_TARGET_REPORTED + 4 }, (_, i) => ({
+      text: `link ${i}`,
+      count: 1,
+      w: 20,
+      h: 20,
+    }))
+    const findings = evaluateMeasurement({ ...mobile, tapTargets })
+    expect(findings.filter((f) => f.kind === 'tap-target')).toHaveLength(MAX_TAP_TARGET_REPORTED)
+  })
+
+  it('reports the worst running-copy block under the reading floor', () => {
+    const findings = evaluateMeasurement({
+      ...mobile,
+      smallCopy: { tag: 'P', fontSizePx: 12.6, sample: 'Design systems, mostly' },
+    })
+    expect(findings).toHaveLength(1)
+    expect(findings[0].kind).toBe('small-copy')
+    expect(findings[0].severity).toBe('warning')
+    expect(findings[0].detail).toContain('<P>')
+    expect(findings[0].detail).toContain('12.6px')
+    expect(findings[0].detail).toContain('Design systems, mostly')
+  })
+
+  it('says nothing when there is no small-copy block', () => {
+    expect(evaluateMeasurement({ ...mobile, smallCopy: null }).map((f) => f.kind)).not.toContain(
+      'small-copy'
+    )
+  })
+
+  it('only fires at the 360 (mobile) rung, never at desktop', () => {
+    const desktop = {
+      ...ok,
+      viewport: 'desktop',
+      tapTargets: [{ text: 'work', count: 1, w: 34, h: 22 }],
+      smallCopy: { tag: 'P', fontSizePx: 12, sample: 'x' },
+    }
+    expect(evaluateMeasurement(desktop)).toEqual([])
+  })
+
+  it('never forces a revision: faultsForOwner ignores both kinds', () => {
+    const findings = [
+      { ...mobile, surface: '/', kind: 'tap-target', severity: 'warning', detail: 'x' },
+      { ...mobile, surface: '/', kind: 'small-copy', severity: 'warning', detail: 'x' },
+    ]
+    expect(faultsForOwner(findings, 'react-engineer')).toEqual([])
+  })
+})
+
+describe('advisoryFaultsForOwner', () => {
+  const finding = (surface, kind, severity = 'warning') => ({
+    surface,
+    viewport: 'mobile',
+    width: 360,
+    scheme: 'light',
+    kind,
+    severity,
+    detail: 'x',
+  })
+
+  it('keeps only tap-target/small-copy findings on the owner’s surfaces', () => {
+    const findings = [
+      finding('/', 'tap-target'),
+      finding('/', 'small-copy'),
+      finding('/', 'overflow', 'error'),
+      finding('/experiments', 'tap-target'),
+    ]
+    expect(advisoryFaultsForOwner(findings, 'react-engineer').map((f) => f.kind)).toEqual([
+      'tap-target',
+      'small-copy',
+    ])
+    expect(advisoryFaultsForOwner(findings, 'human').map((f) => f.kind)).toEqual(['tap-target'])
+  })
+
+  it('is empty for no findings', () => {
+    expect(advisoryFaultsForOwner([], 'react-engineer')).toEqual([])
+    expect(advisoryFaultsForOwner(undefined, 'react-engineer')).toEqual([])
+  })
+})
+
+describe('formatAdvisoryForRepairBrief', () => {
+  const tapTarget = {
+    surface: '/',
+    width: 360,
+    kind: 'tap-target',
+    detail:
+      "'work' is a 34x22px target; a thumb needs 44x44. Give it padding or a taller line box.",
+  }
+
+  it('says nothing when there is nothing to report', () => {
+    expect(formatAdvisoryForRepairBrief([])).toBe('')
+    expect(formatAdvisoryForRepairBrief(undefined)).toBe('')
+  })
+
+  it('headers the section and lists the finding', () => {
+    const out = formatAdvisoryForRepairBrief([tapTarget])
+    expect(out).toContain('## Advisory at 360')
+    expect(out).toContain(`/ at 360px: ${tapTarget.detail}`)
+  })
+
+  it('does not block the build in its own words', () => {
+    expect(formatAdvisoryForRepairBrief([tapTarget])).toContain('do not block the build')
   })
 })

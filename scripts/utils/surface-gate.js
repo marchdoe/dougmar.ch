@@ -25,6 +25,7 @@
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { ROOT } from './file-manager.js'
+import { BODY_TEXT_MIN_PX, TAP_TARGET_MIN_PX } from './responsive-thresholds.js'
 import { withPreviewServer } from './snapshot.js'
 
 /**
@@ -77,6 +78,14 @@ export const OVERFLOW_TOLERANCE_PX = 1
  * column and the model starts counting one defect as many.
  */
 export const MAX_CLIPPED_REPORTED = 3
+
+/**
+ * How many distinct tap-target texts one measurement reports (#488). A
+ * repeated nav renders the same handful of links at every breakpoint, so
+ * this is a cap on distinct labels, not on elements — six names the shape of
+ * the fault without turning the brief into a link-by-link inventory.
+ */
+export const MAX_TAP_TARGET_REPORTED = 6
 
 /**
  * How many pages to measure at once. Four keeps one headless Chromium
@@ -187,6 +196,10 @@ export function evaluateMeasurement(m, { tolerancePx = OVERFLOW_TOLERANCE_PX } =
     })
   }
 
+  // Tap targets and running copy nobody can read at a thumb's width (#488).
+  // Split into its own function — see advisory360Findings.
+  findings.push(...advisory360Findings(m))
+
   if (m.consoleErrors?.length) {
     findings.push({
       kind: 'console',
@@ -196,6 +209,68 @@ export function evaluateMeasurement(m, { tolerancePx = OVERFLOW_TOLERANCE_PX } =
   }
 
   return findings
+}
+
+/**
+ * The two advisory findings measured at the 360 rung only (#488): a tap
+ * target too small for a thumb, and running copy under the reading floor.
+ * Split out of `evaluateMeasurement` so that function stays one thing read
+ * top to bottom rather than growing a branch per advisory kind.
+ *
+ * From the 2026-09-07 nightly: 12 tap-target failures on the small-caps nav
+ * and running copy at 12.6px, both measured nightly by responsive-scorer.js
+ * and read by nothing. Advisory, not disqualifying — a target smaller than a
+ * thumb or a paragraph under the reading floor is not the geometry fault this
+ * gate exists to block a build on, and `m.viewport === 'mobile'` is the
+ * 360px rung: the only width a thumb operates at, and the only one
+ * `measureRoute` bothers measuring these on.
+ *
+ * @param {object} m - raw measurement from {@link measureRoute}
+ * @returns {Array<{ kind: string, severity: 'warning', detail: string }>}
+ */
+function advisory360Findings(m) {
+  if (m.viewport !== 'mobile') return []
+  const findings = []
+  for (const t of (m.tapTargets ?? []).slice(0, MAX_TAP_TARGET_REPORTED)) {
+    findings.push({ kind: 'tap-target', severity: 'warning', detail: describeTapTarget(t) })
+  }
+  if (m.smallCopy) {
+    findings.push({
+      kind: 'small-copy',
+      severity: 'warning',
+      detail: describeSmallCopy(m.smallCopy),
+    })
+  }
+  return findings
+}
+
+/**
+ * The words for one tap target too small for a thumb (#488). One finding per
+ * distinct visible text, so the same nav link repeated in a footer reads as
+ * one fault with a count, not four identical bullets.
+ *
+ * @param {{ text: string, count: number, w: number, h: number }} t
+ * @returns {string}
+ */
+function describeTapTarget(t) {
+  const times = t.count > 1 ? ` (×${t.count})` : ''
+  return (
+    `'${t.text}'${times} is a ${t.w}x${t.h}px target; a thumb needs ${TAP_TARGET_MIN_PX}x${TAP_TARGET_MIN_PX}. ` +
+    'Give it padding or a taller line box.'
+  )
+}
+
+/**
+ * The words for the worst running-copy block under the reading floor (#488).
+ *
+ * @param {{ tag: string, fontSizePx: number, sample: string }} c
+ * @returns {string}
+ */
+function describeSmallCopy(c) {
+  return (
+    `<${c.tag}> runs at ${c.fontSizePx}px, under the ${BODY_TEXT_MIN_PX}px reading floor — ` +
+    `"${c.sample}...". Set it on the body step.`
+  )
 }
 
 /**
@@ -350,6 +425,81 @@ export function findClippedElements(_viewportWidth, thresholds) {
 }
 
 /**
+ * Tap targets too small for a thumb (#488), measured at the 360 rung only —
+ * see `measureRoute`, which only calls this there.
+ *
+ * Runs inside the page; self-contained like {@link findClippedElements}, for
+ * the same reason: Playwright serialises it with `toString()`.
+ *
+ * Grouped by distinct visible text rather than reported per element: a nav
+ * repeated in a footer, or a filter bar's five identical "view" links, is one
+ * design decision, not five findings. The count and the smallest box travel
+ * with the group so the report says how often and how small.
+ *
+ * @param {number} [_viewportWidth] unused; present for the shared signature
+ *   `findClippedElements` and responsive-scorer's CHECKS map both use
+ * @param {{ tapTargetMinPx?: number }} [thresholds]
+ * @returns {Array<{ text: string, count: number, w: number, h: number }>}
+ *   worst (smallest area) first
+ */
+export function findTapTargetFailures(_viewportWidth, thresholds) {
+  const minPx = thresholds?.tapTargetMinPx ?? 44
+  const selectors = 'a[href], button, [role="button"], input[type="button"], input[type="submit"]'
+  const byText = new Map()
+  for (const el of document.querySelectorAll(selectors)) {
+    const r = el.getBoundingClientRect()
+    if (r.width === 0 || r.height === 0) continue
+    if (r.width >= minPx && r.height >= minPx) continue
+    const text =
+      (el.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 40) || `<${el.tagName}>`
+    const w = Math.round(r.width)
+    const h = Math.round(r.height)
+    const existing = byText.get(text)
+    if (!existing) {
+      byText.set(text, { text, count: 1, w, h })
+    } else {
+      existing.count++
+      if (w * h < existing.w * existing.h) {
+        existing.w = w
+        existing.h = h
+      }
+    }
+  }
+  return [...byText.values()].sort((a, b) => a.w * a.h - b.w * b.h)
+}
+
+/**
+ * The worst running-copy block under the reading floor (#488), measured at
+ * the 360 rung only — see `measureRoute`, which only calls this there.
+ *
+ * Runs inside the page; self-contained like {@link findClippedElements}.
+ * Same tag set (`p, li, blockquote`) and the same 8-character floor as
+ * responsive-scorer's `bodyTextSize`, so a caption set in a `<small>` is
+ * excluded by tag exactly the way it already is there — not by size, which
+ * is what let a caption at the chassis's 11.2px step fail the check as noise
+ * (#469).
+ *
+ * @param {number} [_viewportWidth] unused; present for the shared signature
+ * @param {{ bodyTextMinPx?: number }} [thresholds]
+ * @returns {null | { tag: string, fontSizePx: number, sample: string }}
+ */
+export function findSmallCopy(_viewportWidth, thresholds) {
+  const minPx = thresholds?.bodyTextMinPx ?? 16
+  const root = document.querySelector('main') || document.body
+  let worst = null
+  for (const el of root.querySelectorAll('p, li, blockquote')) {
+    const text = (el.textContent || '').trim()
+    if (text.length < 8) continue
+    const fs = Number.parseFloat(getComputedStyle(el).fontSize)
+    if (!Number.isFinite(fs) || fs >= minPx) continue
+    if (!worst || fs < worst.fontSizePx) {
+      worst = { tag: el.tagName, fontSizePx: Math.round(fs * 10) / 10, sample: text.slice(0, 60) }
+    }
+  }
+  return worst
+}
+
+/**
  * Runs inside the page. Self-contained on purpose: Playwright serialises it
  * with toString(), so it can reference nothing from this module.
  *
@@ -429,7 +579,30 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
       ([src, thresholds]) => new Function(`return ${src}`)()(window.innerWidth, thresholds),
       [findClippedElements.toString(), { overflowTolerancePx: OVERFLOW_TOLERANCE_PX }]
     )
-    return { ...base, status: resp?.status() ?? null, ...box, clipped, consoleErrors }
+    // Tap targets and running copy at reading size only matter where a thumb
+    // does the tapping (#488): measured at the 360 rung only, so a desktop
+    // pass spends nothing on a question it cannot ask.
+    let tapTargets = []
+    let smallCopy = null
+    if (viewport.width === 360) {
+      tapTargets = await page.evaluate(
+        ([src, thresholds]) => new Function(`return ${src}`)()(window.innerWidth, thresholds),
+        [findTapTargetFailures.toString(), { tapTargetMinPx: TAP_TARGET_MIN_PX }]
+      )
+      smallCopy = await page.evaluate(
+        ([src, thresholds]) => new Function(`return ${src}`)()(window.innerWidth, thresholds),
+        [findSmallCopy.toString(), { bodyTextMinPx: BODY_TEXT_MIN_PX }]
+      )
+    }
+    return {
+      ...base,
+      status: resp?.status() ?? null,
+      ...box,
+      clipped,
+      tapTargets,
+      smallCopy,
+      consoleErrors,
+    }
   } catch (err) {
     return { ...base, error: err.message, consoleErrors }
   } finally {
@@ -579,6 +752,53 @@ export function faultsForOwner(findings, owner) {
   return (findings ?? []).filter(
     (f) => f.severity === 'error' && ownerForSurface(f.surface) === owner
   )
+}
+
+/**
+ * The `tap-target` and `small-copy` warnings on a given owner's surfaces
+ * (#488). These never force a revision — see `faultsForOwner`, which only
+ * ever sees `error` severity — but when a revision runs for another reason,
+ * the engineer is already about to touch the file, so it gets these for free
+ * in the repair brief. See `formatAdvisoryForRepairBrief`.
+ *
+ * @param {Array<object>} findings
+ * @param {'react-engineer'|'human'} owner
+ * @returns {Array<object>}
+ */
+export function advisoryFaultsForOwner(findings, owner) {
+  return (findings ?? []).filter(
+    (f) =>
+      (f.kind === 'tap-target' || f.kind === 'small-copy') && ownerForSurface(f.surface) === owner
+  )
+}
+
+/**
+ * Render advisory findings as a section for the react-engineer repair brief
+ * (#488), appended after the errors. Distinct from `formatFindingsForCritic`:
+ * that block is exact measurements handed to the critic as facts not up for
+ * debate; this one is handed to the engineer as things worth fixing while the
+ * file is already open, not things that put it there.
+ *
+ * @param {Array<object>} findings - from {@link advisoryFaultsForOwner}
+ * @returns {string} empty string when there is nothing to report
+ */
+export function formatAdvisoryForRepairBrief(findings) {
+  if (!findings?.length) return ''
+
+  const byKey = new Map()
+  for (const f of findings) {
+    const key = `${f.surface}|${f.kind}|${f.detail}`
+    if (!byKey.has(key)) byKey.set(key, f)
+  }
+  const lines = [...byKey.values()].map((f) => `- ${f.surface} at ${f.width}px: ${f.detail}`)
+
+  return [
+    '## Advisory at 360',
+    '',
+    'These do not block the build. Fix them while this file is open; do not open a file only for these.',
+    '',
+    ...lines,
+  ].join('\n')
 }
 
 /**

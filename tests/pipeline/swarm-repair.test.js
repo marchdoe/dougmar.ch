@@ -132,6 +132,20 @@ const CLIPPED_AT_360 = {
   detail: '<H1> is cut off: its right edge lands at 392px, 32px past the 360px viewport',
 }
 
+/**
+ * A tap target under 44x44 on an engineer-owned route (#488). Warning, not
+ * error: it never forces a revision on its own — see the tests below.
+ */
+const TAP_TARGET_AT_360 = {
+  surface: '/',
+  viewport: 'mobile',
+  width: 360,
+  scheme: 'light',
+  kind: 'tap-target',
+  severity: 'warning',
+  detail: "'work' is a 34x22px target; a thumb needs 44x44. Give it padding or a taller line box.",
+}
+
 const OLD_FRAMING = 'The previous attempt failed with this build error'
 
 function dirsUnder(root, date, prefix) {
@@ -802,5 +816,41 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     expect(run.callsFor('react-engineer')).toHaveLength(1)
     expect(run.fakes.runSurfaceGate).toHaveLength(1)
     expect(run.fakes.archive).toHaveLength(1)
+  })
+
+  it('does not revise for a tap-target warning alone, and it never reaches the repair brief without one', async () => {
+    // #488: a tap-target or small-copy warning is advisory. It must not force
+    // the revision that would put it in front of the engineer.
+    const run = await runSwarm({
+      gate: [{ findings: [TAP_TARGET_AT_360], measured: 8, errorCount: 0 }],
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.callsFor('react-engineer')).toHaveLength(1)
+    expect(run.fakes.runSurfaceGate).toHaveLength(1)
+  })
+
+  it('carries tap-target and small-copy warnings into the repair brief when a revision runs for another reason (#488)', async () => {
+    // The gate forces a revision on OVERFLOW_AT_390 (an error); the
+    // tap-target warning rides along for free, after the errors.
+    const run = await runSwarm({
+      gate: [
+        { findings: [OVERFLOW_AT_390, TAP_TARGET_AT_360], measured: 8, errorCount: 1 },
+        CLEAN_GATE,
+      ],
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.retries).toBe(1)
+
+    const [first, revision] = run.callsFor('react-engineer')
+    expect(first.userPrompt).not.toContain('## Advisory at 360')
+
+    const errors = formatFindingsForCritic([OVERFLOW_AT_390])
+    const advisoryIdx = revision.userPrompt.indexOf('## Advisory at 360')
+    expect(advisoryIdx).toBeGreaterThan(-1)
+    // After the errors, as the issue asks.
+    expect(revision.userPrompt.indexOf(errors)).toBeLessThan(advisoryIdx)
+    expect(revision.userPrompt).toContain(TAP_TARGET_AT_360.detail)
   })
 })

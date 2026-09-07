@@ -2047,9 +2047,13 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       // the single-page critic could never have seen. Measurements cost no
       // tokens, so this runs in full on every build; its findings are handed
       // to the critic below as text rather than as more image blocks.
-      const { runSurfaceGate, faultsForOwner, formatFindingsForCritic } = await import(
-        './utils/surface-gate.js'
-      )
+      const {
+        runSurfaceGate,
+        faultsForOwner,
+        formatFindingsForCritic,
+        advisoryFaultsForOwner,
+        formatAdvisoryForRepairBrief,
+      } = await import('./utils/surface-gate.js')
 
       /**
        * Measure every route and record what was found. Round 1 runs before
@@ -2319,8 +2323,16 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
               : ''
           // The measured faults ride along whether or not the critic mentioned
           // them: they are exact, and they are the reason a SHIP is being
-          // revised when the gate forced it.
-          const feedback = [criticFeedback, formatFindingsForCritic(engineerFaults)]
+          // revised when the gate forced it. The tap-target and small-copy
+          // warnings ride along too, after the errors (#488): a revision is
+          // already opening this file, which is the cheapest point there
+          // ever is to also widen a link or bump a font-size.
+          const advisoryFaults = advisoryFaultsForOwner(surfaceFindings, 'react-engineer')
+          const feedback = [
+            criticFeedback,
+            formatFindingsForCritic(engineerFaults),
+            formatAdvisoryForRepairBrief(advisoryFaults),
+          ]
             .filter(Boolean)
             .join('\n\n')
 
