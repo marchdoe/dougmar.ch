@@ -225,15 +225,13 @@ Written to `archive/YYYY-MM-DD/build-{id}/responsive-metrics.json`:
     "check": "horizontalScroll",
     "detail": "document.scrollWidth was 540, viewport 360 — hero type overflowed",
     "suggestedCause": "fixed font-size on hero; use clamp()"
-  },
-  "usedInPromptFor": []
+  }
 }
 ```
 
 - Per-viewport `score` is 1–5, inverted from failure count (0 failures = 5, 1 = 4, 2 = 3, 3 = 2, ≥4 = 1).
 - `overallScore` = minimum across viewports (weak-link metric).
 - `worstFailure` = the single worst individual check; what gets injected into tomorrow's prompt.
-- `usedInPromptFor` = dates where this failure was already injected; used by the feedback selector to avoid repeating.
 
 ### Orchestration
 
@@ -299,68 +297,15 @@ screenshotter + scorer against the selected build's archived HTML
 (served from public/archive). Used for backfilling historical metrics
 and for re-running after scoring rules change.
 
-## Feedback Loop
+## Feedback Loop (retired)
 
-New file `scripts/utils/prompt-feedback-selector.js`.
-
-### Selection algorithm
-
-```
-1. Pull last 7 BUILDS with responsive-metrics.json (not 7 calendar days —
-   CI may skip a day, and "builds" is the deterministic unit).
-2. If fewer than 3 builds scored: return null (cold-start guard).
-3. Get today's archetype.
-4. Prefer: a build in the SAME archetype with overallScore ≤ 3
-   AND that has been injected fewer than 2 times
-   (tracked via usedInPromptFor in the metrics JSON).
-5. Otherwise: most recent build in any archetype with overallScore ≤ 3
-   meeting the same reuse cap.
-6. If nothing qualifies: return null.
-7. On select: append today's date to usedInPromptFor in the selected
-   build's responsive-metrics.json (in-place write-back). This mutates
-   a single tracking field in the archive JSON; the design output and
-   scoring fields are never modified.
-```
-
-### Formatted lesson example
-
-```
-Recent lesson (2026-04-13, Specimen archetype, mobile score 1/5):
-
-The hero "DOUG MARCH" was rendered at a fixed 180px font-size, which
-produced horizontal overflow at 360px (scrollWidth 540 > viewport 360).
-The specimen composition was strong — the failure was mechanical scaling.
-
-Today's archetype is Specimen. When using specimen-scale type, wrap
-font-size in clamp() with a mobile floor — e.g.
-font-size: clamp(3rem, 14vw, 11.25rem) keeps the character without
-breaking layout.
-```
-
-### Injection in `scripts/utils/prompt-builder.js`
-
-```js
-const recentLesson = await selectRecentFailure({
-  history: await readResponsiveHistory(),
-  today: new Date(),
-})
-if (recentLesson) {
-  userPrompt += `\n\n## Lesson from Recent Builds\n\n${recentLesson}`
-}
-```
-
-Gated behind `RESPONSIVE_FEEDBACK_LOOP=1` env var so it can be enabled
-in CI independently of local dev.
-
-### Ossification safeguards
-
-1. **Age cap:** only injections from the last 7 days.
-2. **Reuse cap:** each failure injected at most twice.
-3. **Archetype-scoped:** matching-archetype failures preferred; prevents
-   cross-archetype noise.
-4. **Null-safe:** if no qualifying failure exists, inject nothing — the
-   prompt falls back to the static mobile-first guidance from the
-   prompt layer alone.
+This section specified a selector that picked a cautionary example from
+recent build history and injected it into the next prompt, gated behind
+an env var. Issue #479 found no workflow ever set that variable, the
+archetype matching it depended on was never exercised, and
+`scripts/utils/lessons.js` already carries the same findings to every
+agent — so the selector, its history reader, and the tracking field on
+`responsive-metrics.json` were all removed.
 
 ## Testing Strategy
 
@@ -410,7 +355,7 @@ each is rolled back without touching the others.
 | 1. Measurement | `viewport-screenshotter` + `responsive-scorer` + orchestration in `daily-redesign.js` + extend `archiver.js` to copy screenshots to `public/` | revert commit, delete 2 files |
 | 2. Prompt layer | `unified-designer.md` + 8 seed files | revert prompt files |
 | 3. /dev rating card | `app/dev-panel.tsx` card renders when metrics exist | revert component |
-| 4. Feedback loop | `prompt-feedback-selector.js` + injection in `prompt-builder.js`, gated behind `RESPONSIVE_FEEDBACK_LOOP=1` | flip env var off |
+| 4. Feedback loop | `prompt-feedback-selector.js` + injection in `prompt-builder.js`, gated behind an env var (retired by #479) | flip env var off |
 | 5. Trend dashboard | `app/routes/dev.responsive.tsx` + `readResponsiveHistory()` | delete route file |
 
 ### Sequencing reasoning

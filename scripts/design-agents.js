@@ -1310,46 +1310,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       artDirectorResult.rationale,
     ].join('\n')
 
-    // Responsive feedback loop: inject a cautionary lesson from a recent failing build
-    // into the React Engineer's prompt. Env-gated; non-blocking on failure.
-    let responsiveLesson = null
-    if (process.env.RESPONSIVE_FEEDBACK_LOOP === '1' && chosenArchetype) {
-      try {
-        const { readResponsiveHistory } = await import('./utils/read-responsive-history.js')
-        const { selectRecentFailure } = await import('./utils/prompt-feedback-selector.js')
-        const history = await readResponsiveHistory({ root, limit: 7 })
-        const { lesson, selectedBuildId } = selectRecentFailure({
-          history,
-          todayArchetype: chosenArchetype,
-        })
-        if (lesson) {
-          responsiveLesson = lesson
-          if (selectedBuildId) {
-            const b = history.find((x) => x.buildId === selectedBuildId)
-            if (b) {
-              const metricsPath = path.join(
-                root,
-                'archive',
-                b.date,
-                `build-${b.buildId}`,
-                'responsive-metrics.json'
-              )
-              try {
-                const raw = JSON.parse(await readFile(metricsPath, 'utf8'))
-                raw.usedInPromptFor = [...(raw.usedInPromptFor || []), today]
-                await writeFile(metricsPath, JSON.stringify(raw, null, 2), 'utf8')
-              } catch {
-                /* non-blocking */
-              }
-            }
-          }
-          console.log(`  responsive lesson injected from build ${selectedBuildId}`)
-        }
-      } catch (err) {
-        console.warn(`  responsive feedback injection failed (non-blocking): ${err.message}`)
-      }
-    }
-
     // -----------------------------------------------------------------------
     // Phase 2a: Mockup Designer → 2b: Mockup Critic loop (blocking, ≤2 revisions)
     // -----------------------------------------------------------------------
@@ -1652,9 +1612,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         `## Mobile Declaration (the design at base; the mockup already renders it, keep it)\n\n${formatMobile(mobileDecl)}`,
         '## One-line Design Brief (for og:description context)\n\n' +
           (artDirectorResult.designBrief || ''),
-        responsiveLesson
-          ? `## Responsive Lesson (recent failure to avoid)\n\n${responsiveLesson}`
-          : '',
         // The engineer previously received zero historical feedback despite
         // being the agent screenshot-critic failures usually blame — same
         // capped block the mockup designer sees.
