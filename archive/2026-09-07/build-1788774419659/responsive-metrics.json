@@ -1,0 +1,223 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 12.6,
+          "passing": false
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "work",
+            "w": 33,
+            "h": 44
+          },
+          {
+            "tag": "A",
+            "text": "about",
+            "w": 37,
+            "h": 44
+          },
+          {
+            "tag": "A",
+            "text": "View project →",
+            "w": 107,
+            "h": 21
+          },
+          {
+            "tag": "A",
+            "text": "Spaceman",
+            "w": 74,
+            "h": 16
+          },
+          {
+            "tag": "A",
+            "text": "FishSticks",
+            "w": 74,
+            "h": 16
+          },
+          {
+            "tag": "A",
+            "text": "15th Club",
+            "w": 67,
+            "h": 16
+          },
+          {
+            "tag": "A",
+            "text": "dougmar.ch",
+            "w": 84,
+            "h": 16
+          },
+          {
+            "tag": "A",
+            "text": "TeeTurn",
+            "w": 55,
+            "h": 16
+          },
+          {
+            "tag": "A",
+            "text": "Politweets",
+            "w": 75,
+            "h": 16
+          },
+          {
+            "tag": "A",
+            "text": "Twittertale",
+            "w": 77,
+            "h": 16
+          },
+          {
+            "tag": "A",
+            "text": "about",
+            "w": 42,
+            "h": 16
+          },
+          {
+            "tag": "A",
+            "text": "Product Designer & Developer ·",
+            "w": 302,
+            "h": 35
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "tablet": {
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 12.6,
+          "passing": false
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "work",
+            "w": 33,
+            "h": 44
+          },
+          {
+            "tag": "A",
+            "text": "about",
+            "w": 37,
+            "h": 44
+          },
+          {
+            "tag": "A",
+            "text": "View project →",
+            "w": 107,
+            "h": 21
+          },
+          {
+            "tag": "A",
+            "text": "Spaceman",
+            "w": 74,
+            "h": 16
+          },
+          {
+            "tag": "A",
+            "text": "FishSticks",
+            "w": 74,
+            "h": 16
+          },
+          {
+            "tag": "A",
+            "text": "15th Club",
+            "w": 67,
+            "h": 16
+          },
+          {
+            "tag": "A",
+            "text": "dougmar.ch",
+            "w": 84,
+            "h": 16
+          },
+          {
+            "tag": "A",
+            "text": "TeeTurn",
+            "w": 55,
+            "h": 16
+          },
+          {
+            "tag": "A",
+            "text": "Politweets",
+            "w": 75,
+            "h": 16
+          },
+          {
+            "tag": "A",
+            "text": "Twittertale",
+            "w": 77,
+            "h": 16
+          },
+          {
+            "tag": "A",
+            "text": "about",
+            "w": 42,
+            "h": 16
+          },
+          {
+            "tag": "A",
+            "text": "Product Designer & Developer ·",
+            "w": 378,
+            "h": 18
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 12.6,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 12.6,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    }
+  },
+  "overallScore": 3,
+  "worstFailure": {
+    "viewport": "mobile",
+    "check": "bodyTextSize",
+    "detail": "body text min 12.6px (floor 16px)"
+  },
+  "buildId": "1788774419659",
+  "date": "2026-09-07",
+  "archetype": "a creed that assembles itself as you scroll"
+}

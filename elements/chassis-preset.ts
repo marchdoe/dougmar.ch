@@ -1,7 +1,7 @@
 import { definePreset } from '@pandacss/dev'
 
 /**
- * Generated from elements/chassis/alfa-rubik.js by scripts/utils/chassis.js.
+ * Generated from elements/chassis/zilla-worksans.js by scripts/utils/chassis.js.
  * Listed LAST in panda.config.ts so the chassis type system — fonts,
  * fontSizes, fontWeights, lineHeights, letterSpacings, spacing, textStyles —
  * wins over any values the Art Director emits in elements/preset.ts.
@@ -24,22 +24,22 @@ export const chassisPreset = definePreset({
     extend: {
       tokens: {
         fonts: {
-          display: { value: "\"Alfa Slab One\", Rockwell, Georgia, serif" },
-          body: { value: "Rubik, system-ui, -apple-system, sans-serif" },
+          display: { value: "\"Zilla Slab\", Georgia, serif" },
+          body: { value: "\"Work Sans\", system-ui, -apple-system, sans-serif" },
         },
         fontSizes: {
           '2xs': { value: "0.702rem" },
           xs: { value: "0.79rem" },
           sm: { value: "0.889rem" },
           base: { value: "1rem" },
-          md: { value: "1.618rem" },
-          lg: { value: "2.618rem" },
-          xl: { value: "4.236rem" },
-          '2xl': { value: "6.854rem" },
-          '3xl': { value: "11.089rem" },
-          '4xl': { value: "17.942rem" },
-          '5xl': { value: "29.03rem" },
-          hero: { value: "clamp(6.854rem, 5.442rem + 6.274vw, 11.089rem)" },
+          md: { value: "1.333rem" },
+          lg: { value: "1.777rem" },
+          xl: { value: "clamp(2.09rem, 1.997rem + 0.413vw, 2.369rem)" },
+          '2xl': { value: "clamp(2.458rem, 2.225rem + 1.036vw, 3.157rem)" },
+          '3xl': { value: "clamp(2.891rem, 2.452rem + 1.953vw, 4.209rem)" },
+          '4xl': { value: "clamp(3.401rem, 2.665rem + 3.273vw, 5.61rem)" },
+          '5xl': { value: "clamp(4rem, 2.841rem + 5.153vw, 7.478rem)" },
+          hero: { value: "clamp(4rem, 3.333rem + 2.963vw, 6rem)" },
         },
         fontWeights: {
           light: { value: "400" },
@@ -49,13 +49,13 @@ export const chassisPreset = definePreset({
           bold: { value: "700" },
         },
         lineHeights: {
-          tight: { value: "0.95" },
-          snug: { value: "1.1" },
+          tight: { value: "1.02" },
+          snug: { value: "1.15" },
           normal: { value: "1.5" },
           loose: { value: "1.7" },
         },
         letterSpacings: {
-          tight: { value: "0" },
+          tight: { value: "-0.01em" },
           normal: { value: "0" },
           wide: { value: "0.04em" },
           wider: { value: "0.08em" },
@@ -81,11 +81,11 @@ export const chassisPreset = definePreset({
         md: { value: { fontSize: "md", lineHeight: "1.4", letterSpacing: "0" } },
         lg: { value: { fontSize: "lg", lineHeight: "1.3", letterSpacing: "-0.005em" } },
         xl: { value: { fontSize: "xl", lineHeight: "1.2", letterSpacing: "-0.01em" } },
-        '2xl': { value: { fontSize: "2xl", lineHeight: "1.1", letterSpacing: "0" } },
-        '3xl': { value: { fontSize: "3xl", lineHeight: "1.05", letterSpacing: "0" } },
-        '4xl': { value: { fontSize: "4xl", lineHeight: "1", letterSpacing: "0" } },
-        '5xl': { value: { fontSize: "5xl", lineHeight: "0.95", letterSpacing: "0" } },
-        hero: { value: { fontSize: "hero", lineHeight: "0.95", letterSpacing: "0.005em" } },
+        '2xl': { value: { fontSize: "2xl", lineHeight: "1.15", letterSpacing: "-0.01em" } },
+        '3xl': { value: { fontSize: "3xl", lineHeight: "1.1", letterSpacing: "-0.01em" } },
+        '4xl': { value: { fontSize: "4xl", lineHeight: "1", letterSpacing: "-0.02em" } },
+        '5xl': { value: { fontSize: "5xl", lineHeight: "0.95", letterSpacing: "-0.025em" } },
+        hero: { value: { fontSize: "hero", lineHeight: "1.02", letterSpacing: "-0.005em" } },
       },
     },
   },

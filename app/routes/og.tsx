@@ -1,80 +1,48 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { css } from '../../styled-system/css'
+import { Box, styled } from '../../styled-system/jsx'
 import { BrandLockup } from '../components/BrandLockup'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
 function OgCard() {
   return (
-    <div
-      className={css({
-        position: 'fixed',
-        inset: 0,
-        zIndex: 9999,
-        bg: 'field',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      })}
+    <Box
+      position="fixed"
+      inset="0"
+      zIndex="9999"
+      bg="field"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
     >
-      <div
-        className={css({
-          width: '1200px',
-          height: '630px',
-          position: 'relative',
-          bg: 'field',
-          color: 'fieldInk',
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          px: '80px',
-        })}
+      <Box
+        width="1200px"
+        height="630px"
+        bg="field"
+        color="fieldInk"
+        position="relative"
+        display="flex"
+        flexDirection="column"
+        justifyContent="space-between"
+        padding="64px"
+        overflow="hidden"
       >
-        <p
-          className={css({
-            textStyle: 'sm',
-            fontWeight: 500,
-            letterSpacing: 'wide',
-            textTransform: 'uppercase',
-            color: 'fieldInkMuted',
-            mb: '6',
-          })}
+        <Box color="fieldInk">
+          <BrandLockup variant="stacked-lg" mode="original" />
+        </Box>
+        <styled.h1
+          fontFamily="display"
+          fontWeight="500"
+          color="fieldInk"
+          fontSize="hero"
+          lineHeight="1.02"
+          letterSpacing="tight"
+          maxWidth="16ch"
+          margin="0"
         >
-          Final · Sept 5, 2026 · Detroit
-        </p>
-        <h1
-          className={css({
-            fontFamily: 'display',
-            fontWeight: 400,
-            textStyle: 'hero',
-            color: 'fieldInk',
-          })}
-        >
-          6–0.
-        </h1>
-        <p
-          className={css({
-            fontFamily: 'display',
-            fontWeight: 400,
-            textStyle: '5xl',
-            color: 'fieldInk',
-            mt: '2',
-          })}
-        >
-          Shutout.
-        </p>
-        <div
-          className={css({
-            position: 'absolute',
-            bottom: '48px',
-            right: '64px',
-            color: 'fieldInk',
-          })}
-        >
-          <BrandLockup variant="stacked-md" mode="original" roleLine />
-        </div>
-      </div>
-    </div>
+          It finally assumes a tangible outward form.
+        </styled.h1>
+      </Box>
+    </Box>
   )
 }

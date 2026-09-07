@@ -50,28 +50,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: '6–0. Shutout.' },
-      { property: 'og:title', content: '6–0. Shutout.' },
+      { title: 'It finally assumes a tangible outward form.' },
+      { property: 'og:title', content: 'It finally assumes a tangible outward form.' },
       {
         property: 'og:description',
         content:
-          'Scoreboard split — "6–0. Shutout." in fat trophy-gold slab, the day\'s signals racked as a box score in warm chalk opposite.',
+          'Clear-morning azure on cool paper, a Yogananda creed set in sturdy slab and threaded down one spine so the thought assembles into tangible form as you scroll.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-06.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-07.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: '6–0. Shutout.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-06.png' },
+      { name: 'twitter:title', content: 'It finally assumes a tangible outward form.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-07.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Alfa+Slab+One:wght@400&family=Rubik:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Work+Sans:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -231,7 +231,7 @@ function RootDocument({ children, bare = false }: { children: ReactNode; bare?: 
         {children}
         {bare ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive — 127 designs
+            Archive — 128 designs
           </a>
         )}
         <ScrollRestoration />
