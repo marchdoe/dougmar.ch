@@ -109,6 +109,7 @@ describe('archiveArtifacts', () => {
       'mockup-screenshot.png',
       'mockup-screenshot-mobile.jpg',
       'fingerprint.json',
+      'mockup-measurables.json',
     ]) {
       expect(out[name], name).toBeNull()
     }
@@ -159,6 +160,38 @@ describe('archiveArtifacts', () => {
     // The achieved side is added later, by archiver.js, once the responsive
     // scorer's browser pass produces it — not here.
     expect(written.measured).toBeUndefined()
+  })
+
+  // #487: the mockup-side measured numbers, one entry per revision round the
+  // critic saw, so the mockup-versus-build gap is visible per night beside
+  // measurables.json (the built page's numbers).
+  it('writes nothing for mockup-measurables.json when no round was measured', () => {
+    const out = archiveArtifacts(base)
+    expect(out['mockup-measurables.json']).toBeNull()
+  })
+
+  it('archives one entry per mockup revision round, beside the declared floors', () => {
+    const measurablesDecl = {
+      canvas_utilization_min: 68,
+      hero_scale: 'clamp(64px, 7vw, 96px)',
+      color_coverage_min: 40,
+    }
+    const mockupMeasurableRounds = [
+      {
+        round: 0,
+        measured: { canvas_utilization: 35.1, color_coverage: 19.5, hero_px: 96 },
+        measuredAt: '2026-09-07T00:00:00.000Z',
+      },
+      {
+        round: 1,
+        measured: { canvas_utilization: 70.2, color_coverage: 41.8, hero_px: 96 },
+        measuredAt: '2026-09-07T00:05:00.000Z',
+      },
+    ]
+    const out = archiveArtifacts({ ...base, measurablesDecl, mockupMeasurableRounds })
+    const written = JSON.parse(out['mockup-measurables.json'])
+    expect(written.rounds).toEqual(mockupMeasurableRounds)
+    expect(written.declared).toEqual(measurablesDecl)
   })
 })
 

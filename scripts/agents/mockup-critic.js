@@ -5,7 +5,35 @@
 import { budgetFor } from '../utils/budgets.js'
 import { imageBlock, textBlock } from '../utils/claude-sdk.js'
 import { parseCriticVerdict } from '../utils/critic-verdict.js'
+import { DESIGN_FIDELITY_METHOD } from '../utils/design-fidelity.js'
 import { callVisionAgent } from '../utils/vision-router.js'
+
+/**
+ * Render the numbers `measureDesignFidelity` measured on the rendered mockup
+ * (#487) as one line of text beside the Art Director's declared floors, plus
+ * the method note so a reader who was not there knows how they were produced.
+ *
+ * Replaces the critic eyeballing canvas utilization and colour coverage off
+ * the screenshot: the mockup is an HTML file the capture pass already opens
+ * in Playwright, so the same browser measures what it just rendered instead
+ * of the critic guessing at it (2026-09-07's mockup measured 35.1%/19.5%
+ * against 68%/40% floors and was approved anyway on a by-eye estimate).
+ *
+ * @param {{canvas_utilization: number, color_coverage: number, hero_px: number}|null|undefined} measured
+ * @param {{canvas_utilization_min: number|null, color_coverage_min: number|null, hero_scale: string|null}|null|undefined} declared
+ * @returns {string|null} null when there is nothing measured (a failed capture)
+ */
+export function formatMeasuredFidelity(measured, declared) {
+  if (!measured) return null
+  const d = declared || {}
+  const floor = (v) => (typeof v === 'number' ? `${v}%` : 'n/a')
+  return (
+    `Measured on this mockup at 1440x900: canvas utilization ${measured.canvas_utilization}% ` +
+    `(floor ${floor(d.canvas_utilization_min)}), colour coverage ${measured.color_coverage}% ` +
+    `(floor ${floor(d.color_coverage_min)}), largest first-fold text ${measured.hero_px}px ` +
+    `(declared hero ${d.hero_scale ?? 'n/a'}).\n\n${DESIGN_FIDELITY_METHOD}`
+  )
+}
 
 export function parseMockupCriticResponse(raw) {
   const { verdict, malformed } = parseCriticVerdict(raw, 'APPROVE')
@@ -28,7 +56,7 @@ export function parseMockupCriticResponse(raw) {
 }
 
 /**
- * @param {{ systemPrompt: string, screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, enrichedBrief: string, measurables: string, shell: string, header?: string, mobile?: string, collapse?: string|null }} ctx
+ * @param {{ systemPrompt: string, screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, enrichedBrief: string, measurables: string, measured?: {canvas_utilization: number, color_coverage: number, hero_px: number}|null, measurablesDecl?: object|null, shell: string, header?: string, mobile?: string, collapse?: string|null }} ctx
  * @returns {Promise<{ verdict: 'APPROVE'|'REVISE', feedback: string }>}
  */
 export async function runMockupCritic(ctx) {
@@ -72,13 +100,18 @@ export async function runMockupCritic(ctx) {
  * against: the declared carrier, first fold and order, not a general sense
  * of whether the phone "looks fine".
  *
- * @param {{ screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, enrichedBrief: string, measurables: string, shell: string, header?: string, mobile?: string, collapse?: string|null }} ctx
+ * @param {{ screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, enrichedBrief: string, measurables: string, measured?: {canvas_utilization: number, color_coverage: number, hero_px: number}|null, measurablesDecl?: object|null, shell: string, header?: string, mobile?: string, collapse?: string|null }} ctx
  * @returns {Array<{type: string, text?: string, source?: object}>}
  */
 export function buildMockupCriticBlocks(ctx) {
+  const measuredFidelity = formatMeasuredFidelity(ctx.measured, ctx.measurablesDecl)
   return [
     textBlock(`## Brief + Visual Specification\n\n${ctx.enrichedBrief}`),
     textBlock(`## Measurables (declared floors)\n\n${ctx.measurables}`),
+    // The achieved half of the same numbers (#487), measured on this mockup
+    // rather than estimated from the screenshot below — beside the declared
+    // floors so the two are read together, not the image alone.
+    measuredFidelity ? textBlock(`## Measured Fidelity\n\n${measuredFidelity}`) : null,
     textBlock(`## Shell Declaration\n\n${ctx.shell}`),
     ctx.header ? textBlock(`## Header Declaration\n\n${ctx.header}`) : null,
     ctx.mobile

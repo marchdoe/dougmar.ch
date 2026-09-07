@@ -13,6 +13,7 @@ import path from 'node:path'
 import { ROOT } from './file-manager.js'
 import { STEP_BUDGETS } from './budgets.js'
 import { FINGERPRINT_VIEWPORT, collectGeometry } from './geometry-fingerprint.js'
+import { measureDesignFidelity } from './design-fidelity.js'
 
 /**
  * Inline CSS, strip JavaScript, and rewrite nav links for self-contained browsing.
@@ -705,10 +706,14 @@ export async function captureScreenshot(port, { headerCrop } = {}) {
  *
  * @param {string} filePath - absolute path to the HTML file
  * @param {{ width?: number, height?: number, headerCrop?: { placement?: string|null, heightPx?: number|null } }} [opts]
- * @returns {Promise<{png: Buffer, jpeg: Buffer, headerJpeg: Buffer|null, mobileJpeg: Buffer|null}>}
+ * @returns {Promise<{png: Buffer, jpeg: Buffer, headerJpeg: Buffer|null, mobileJpeg: Buffer|null, measured: {canvas_utilization: number, color_coverage: number, hero_px: number}}>}
  *   image buffers — PNG for archives, JPEG (downscaled, q70) for critic
  *   prompts (see captureScreenshot), plus a 2x crop of the declared header
- *   region and the same mockup rendered at the phone rung
+ *   region, the same mockup rendered at the phone rung, and the
+ *   design-fidelity numbers (#487) measured on this same page at the
+ *   viewport size above — the achieved-side counterpart the built page
+ *   already gets from `scoreResponsive`'s desktop rung, so the Mockup
+ *   Critic stops estimating them by eye.
  */
 export async function captureHtmlFileScreenshot(
   filePath,
@@ -722,6 +727,9 @@ export async function captureHtmlFileScreenshot(
     await page.waitForTimeout(1000) // fonts
     const png = await page.screenshot({ type: 'png', fullPage: false })
     const jpeg = await downscaleForCritic(page, png)
+    // Same page, same load — no second browser or navigation just to measure
+    // what is already rendered.
+    const measured = await page.evaluate(measureDesignFidelity)
     const headerJpeg = await captureHeaderCrop(browser, `file://${filePath}`, {
       width,
       height,
@@ -733,7 +741,7 @@ export async function captureHtmlFileScreenshot(
     // and engineering, and until now it had never seen anything past 640px
     // of the phone (#466).
     const mobileJpeg = await capturePhoneFilmstrip(browser, `file://${filePath}`)
-    return { png, jpeg, headerJpeg, mobileJpeg }
+    return { png, jpeg, headerJpeg, mobileJpeg, measured }
   } finally {
     await browser.close()
   }
