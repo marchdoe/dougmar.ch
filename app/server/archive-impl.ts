@@ -79,7 +79,6 @@ export interface ResponsiveMetrics {
       checks: ResponsiveChecks
     }
   >
-  usedInPromptFor?: string[]
 }
 
 /**

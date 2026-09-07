@@ -312,9 +312,9 @@ export async function archive(
   // a port: `withPreviewServer` builds one by starting `vite preview` itself
   // against the same `dist/` the rest of `archive()` already assumes exists.
   //
-  // A miss is now recorded rather than swallowed, so its absence is data a
-  // reader can see (`read-responsive-history.js` skips these) instead of
-  // silence that looks identical to "the site scored perfectly."
+  // A miss is now recorded rather than swallowed, so its absence is data the
+  // dev panel can see instead of silence that looks identical to "the site
+  // scored perfectly."
   try {
     const { withPreviewServer } = await import('./snapshot.js')
     const { chromium } = await import('@playwright/test')
@@ -343,7 +343,6 @@ export async function archive(
     metrics.buildId = buildId
     metrics.date = dateStr
     metrics.archetype = archetype
-    metrics.usedInPromptFor = []
 
     await writeFile(
       path.join(buildDir, 'responsive-metrics.json'),
