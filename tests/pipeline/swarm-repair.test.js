@@ -25,6 +25,7 @@ import {
   fixtureFor,
   mockFactories as m,
   runSwarm,
+  withChannel,
 } from './swarm-harness.js'
 
 vi.mock('../../scripts/utils/claude-cli.js', (o) => m['scripts/utils/claude-cli.js'](o))
@@ -598,6 +599,63 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     ])
     const shipGate = run.verdicts.find((v) => v.critic === 'ship-gate')
     expect(shipGate.feedback).toContain(REVISE_FEEDBACK)
+  })
+
+  it('records UNVERIFIED instead of SHIPPED-WITH-FAULTS when the final re-judge never reaches the SDK vision channel (#486)', async () => {
+    const marker = 'post-critic revision'
+    const run = await runSwarm({
+      agents: {
+        'react-engineer': [
+          ENGINEER_FIXTURE,
+          patchReply([markedFile('app/components/Sidebar.tsx', marker)]),
+        ],
+        // Round 1 REVISE triggers the repair. The final re-judge falls back
+        // to a text-only channel and answers REVISE for lack of images — the
+        // build was never actually re-seen, so that REVISE is not a
+        // confirmed fault (#486, the night that shipped a SHIPPED-WITH-FAULTS
+        // notice for a build nothing was ever wrong with).
+        'screenshot-critic': [REVISE_REPLY, withChannel(REVISE_REPLY, 'cli-text-fallback')],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.calls.map((c) => c.agent)).toEqual([
+      'art-director',
+      'spec-critic',
+      'mockup-designer',
+      'mockup-critic',
+      'react-engineer',
+      'screenshot-critic',
+      'react-engineer',
+      'screenshot-critic',
+    ])
+
+    expect(
+      run.verdicts.map(({ critic, round, verdict, channel }) => ({
+        critic,
+        round,
+        verdict,
+        channel,
+      }))
+    ).toEqual([
+      { critic: 'spec-critic', round: undefined, verdict: 'APPROVED', channel: undefined },
+      { critic: 'mockup-critic', round: 0, verdict: 'APPROVE', channel: 'sdk-vision' },
+      { critic: 'surface-gate', round: 1, verdict: 'SHIP', channel: undefined },
+      { critic: 'screenshot-critic', round: undefined, verdict: 'REVISE', channel: 'sdk-vision' },
+      { critic: 'surface-gate', round: 2, verdict: 'SHIP', channel: undefined },
+      {
+        critic: 'screenshot-critic',
+        round: 'final',
+        verdict: 'UNVERIFIED',
+        channel: 'cli-text-fallback',
+      },
+    ])
+    // No ship-gate entry at all: an unverified re-judge is not a fault to log.
+    expect(run.verdicts.some((v) => v.critic === 'ship-gate')).toBe(false)
+    // The build still ships — an unreachable vision channel is not a build
+    // failure, just an unconfirmed one.
+    expect(onDisk(run.root, 'app/components/Sidebar.tsx')).toContain(marker)
+    expect(run.fakes.archive).toHaveLength(1)
   })
 
   it('rolls a revision that fails to build back to the passing state and ships that', async () => {

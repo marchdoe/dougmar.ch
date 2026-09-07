@@ -197,7 +197,20 @@ function renderBlocks(blocks) {
     .join('\n\n---\n\n')
 }
 
-/** The `callVisionAgent({ agentName, ... })` fake. Always answers as `sdk-vision`. */
+/**
+ * Wrap a queued response so `fakeCallVisionAgent` reports it through a
+ * specific `onChannel` value instead of the default `sdk-vision` — for a
+ * scenario where the vision router fell back to a text channel or gave up on
+ * a truncated reply (#486), and the real response text still matters (a
+ * critic's REVISE text, or the router's truncation reason).
+ * @param {unknown} text - the response `takeResponse` would otherwise return
+ * @param {string} channel
+ */
+export function withChannel(text, channel) {
+  return { __visionChannel: channel, text }
+}
+
+/** The `callVisionAgent({ agentName, ... })` fake. Answers as `sdk-vision` unless the queued entry was wrapped with `withChannel`. */
 async function fakeCallVisionAgent(args) {
   const { agentName, systemPrompt, contentBlocks, maxTokens, timeoutMs, stallTimeoutMs } = args
   const call = {
@@ -211,6 +224,10 @@ async function fakeCallVisionAgent(args) {
   }
   state.calls.push(call)
   const response = takeResponse(agentName, call)
+  if (response && typeof response === 'object' && '__visionChannel' in response) {
+    args.onChannel?.(response.__visionChannel)
+    return response.text
+  }
   args.onChannel?.('sdk-vision')
   return response
 }

@@ -143,7 +143,9 @@ Respond with exactly:
 ===VERDICT===
 APPROVE | REVISE
 ===FEEDBACK===
-<If REVISE: numbered, specific, actionable items. Cite the measured
-utilization and coverage numbers. If APPROVE: one sentence on what carries
-the design.>
+<If REVISE: at most six items, worst first, one to three sentences each,
+naming the check number and what to change. Cite the measured utilization
+and coverage numbers wherever a check turns on them, not your own estimate.
+Write nothing for a check that passed. If APPROVE: one sentence on what
+carries the design.>
 ===END===

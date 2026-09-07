@@ -17,6 +17,14 @@
  * nothing at all before it is presumed dead. A stall window longer than the
  * timeout is dead code, which is how claude-cli.js's old 900000 default sat
  * against a 600000 timeout.
+ *
+ * The two vision critics also carry `maxTokens`, spread by callVisionAgent
+ * into the SDK call. Their prompts were rewritten to a capped issues list
+ * (#486) after a first pass wrote 11k output tokens and a re-judge truncated
+ * at the 16k SDK default — 6000 is enough for the capped format and fails a
+ * runaway reply fast instead of burning the rest of the cap on prose. Left
+ * off every other agent, react-engineer included: this key only ever reaches
+ * callVisionAgent, which only the two vision critics call.
  */
 export const AGENT_BUDGETS = {
   // 25 min hard cap — the AD has run 8-17 min of extended thinking.
@@ -25,8 +33,8 @@ export const AGENT_BUDGETS = {
   'mockup-designer': { timeoutMs: 1_800_000, stallTimeoutMs: 480_000 },
   'react-engineer': { timeoutMs: 1_800_000, stallTimeoutMs: 480_000 },
   'spec-critic': { timeoutMs: 600_000, stallTimeoutMs: 300_000 },
-  'mockup-critic': { timeoutMs: 600_000, stallTimeoutMs: 300_000 },
-  'screenshot-critic': { timeoutMs: 600_000, stallTimeoutMs: 300_000 },
+  'mockup-critic': { timeoutMs: 600_000, stallTimeoutMs: 300_000, maxTokens: 6000 },
+  'screenshot-critic': { timeoutMs: 600_000, stallTimeoutMs: 300_000, maxTokens: 6000 },
 }
 
 /** The call defaults when an agent is not in the table above. */

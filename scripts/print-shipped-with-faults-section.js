@@ -1,6 +1,6 @@
 /**
- * Print the day's "Shipped with faults" section for the rating issue, or
- * nothing.
+ * Print the day's "Shipped with faults" section for the rating issue, or its
+ * "Final check" section, or nothing.
  *
  * Run from the nightly workflow's `publish` job, after `Push changes` has
  * committed `archive/<date>/build-<id>/verdicts.json` into the local checkout —
@@ -13,17 +13,33 @@
  * print-needs-human-section.js (#468) for the SHIPPED-WITH-FAULTS verdict a
  * final REVISE after a repair round writes (#467).
  *
+ * The two verdicts are mutually exclusive by construction (#486):
+ * design-agents.js only ever writes SHIPPED-WITH-FAULTS when the final round
+ * actually reached the SDK vision channel, and UNVERIFIED when it did not.
+ * The UNVERIFIED check runs first, so a build with neither prints nothing,
+ * same as before this file learned to carry the second case.
+ *
  * Usage: node scripts/print-shipped-with-faults-section.js <YYYY-MM-DD>
  */
 
 import { isMain } from './utils/cli.js'
-import { buildShippedWithFaultsSection, readShippedWithFaultsEntries } from './utils/needs-human.js'
+import {
+  buildFinalCheckSection,
+  buildShippedWithFaultsSection,
+  readFinalCheckUnverifiedEntry,
+  readShippedWithFaultsEntries,
+} from './utils/needs-human.js'
 
 function main() {
   const date = process.argv[2]
   if (!date) {
     console.error('usage: node scripts/print-shipped-with-faults-section.js <YYYY-MM-DD>')
     process.exit(1)
+  }
+  const unverified = buildFinalCheckSection(readFinalCheckUnverifiedEntry('archive', date))
+  if (unverified) {
+    process.stdout.write(unverified)
+    return
   }
   process.stdout.write(buildShippedWithFaultsSection(readShippedWithFaultsEntries('archive', date)))
 }

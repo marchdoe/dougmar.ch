@@ -23,9 +23,17 @@ vi.mock('../../scripts/utils/agent-fixtures.js', async (importOriginal) => {
 })
 
 const { imageBlock, textBlock } = await import('../../scripts/utils/claude-sdk.js')
-const { NO_IMAGE_NOTICE, blocksToText, callVisionAgent } = await import(
-  '../../scripts/utils/vision-router.js'
-)
+const { BOUNDED_FORMAT_RETRY_NOTICE, NO_IMAGE_NOTICE, blocksToText, callVisionAgent } =
+  await import('../../scripts/utils/vision-router.js')
+
+/** Mirrors the `truncated: true` error claude-sdk.js's assertNotTruncated throws. */
+function truncatedError(agentName = 'screenshot-critic') {
+  const err = new Error(
+    `[${agentName}] response truncated at max_tokens (16000 output tokens, cap 16000)`
+  )
+  err.truncated = true
+  return err
+}
 
 const BLOCKS = [
   textBlock('## Brief'),
@@ -101,6 +109,71 @@ describe('callVisionAgent', () => {
 
     expect(sdkMock).not.toHaveBeenCalled()
     expect(cliMock).toHaveBeenCalledTimes(1)
+  })
+
+  // #486: a max_tokens stop is not a transport failure — the critic saw the
+  // images and had something to say. Retrying once (bounded-format nudge)
+  // and getting a real answer must count as 'sdk-vision', not a fallback.
+  it('retries once with a bounded-format instruction when the SDK call truncates, and succeeds', async () => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'sk-test')
+    sdkMock.mockRejectedValueOnce(truncatedError())
+    sdkMock.mockResolvedValueOnce('===VERDICT===\nSHIP\n===END===')
+
+    const channels = []
+    const result = await callVisionAgent({
+      agentName: 'screenshot-critic',
+      systemPrompt: 'sys',
+      contentBlocks: BLOCKS,
+      onChannel: (c) => channels.push(c),
+    })
+
+    expect(result).toBe('===VERDICT===\nSHIP\n===END===')
+    expect(cliMock).not.toHaveBeenCalled()
+    expect(sdkMock).toHaveBeenCalledTimes(2)
+    expect(channels).toEqual(['sdk-vision'])
+    // The retry keeps the same images and appends the one-line instruction.
+    const retryBlocks = sdkMock.mock.calls[1][2]
+    expect(retryBlocks.slice(0, BLOCKS.length)).toEqual(BLOCKS)
+    expect(retryBlocks.at(-1)).toEqual(textBlock(BOUNDED_FORMAT_RETRY_NOTICE))
+  })
+
+  it('resolves UNVERIFIED without touching the CLI when the retry also truncates', async () => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'sk-test')
+    sdkMock.mockRejectedValueOnce(truncatedError())
+    sdkMock.mockRejectedValueOnce(truncatedError())
+
+    const channels = []
+    const result = await callVisionAgent({
+      agentName: 'screenshot-critic',
+      systemPrompt: 'sys',
+      contentBlocks: BLOCKS,
+      onChannel: (c) => channels.push(c),
+    })
+
+    expect(cliMock).not.toHaveBeenCalled()
+    expect(sdkMock).toHaveBeenCalledTimes(2)
+    expect(channels).toEqual(['sdk-vision-truncated'])
+    expect(result).toMatch(/truncated at max_tokens/)
+  })
+
+  it('falls back to the CLI when the retry after a truncation fails for a real transport reason', async () => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'sk-test')
+    sdkMock.mockRejectedValueOnce(truncatedError())
+    sdkMock.mockRejectedValueOnce(new Error('overloaded'))
+    cliMock.mockResolvedValue('cli fallback')
+
+    const channels = []
+    const result = await callVisionAgent({
+      agentName: 'screenshot-critic',
+      systemPrompt: 'sys',
+      contentBlocks: BLOCKS,
+      onChannel: (c) => channels.push(c),
+    })
+
+    expect(result).toBe('cli fallback')
+    expect(sdkMock).toHaveBeenCalledTimes(2)
+    expect(cliMock).toHaveBeenCalledTimes(1)
+    expect(channels).toEqual(['cli-text-fallback'])
   })
 
   it('falls back to the CLI when the SDK call throws', async () => {
