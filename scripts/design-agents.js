@@ -155,6 +155,47 @@ async function captureOgCard(date, { root = ROOT } = {}) {
 }
 
 /**
+ * Phone filmstrips of `/about` and a case study route for the screenshot
+ * critic — the pages the phone gate never covered before #466, when only the
+ * home page ever got a mobile image, and only its first 640px at that.
+ * Pulled out of `judgeScreenshot` so the shared capture-and-critic path
+ * (#467) stays under the complexity budget: each capture is independent and
+ * best-effort, one failing costs the critic one image, never the run.
+ *
+ * @param {{ route: string } | null | undefined} slugRoute - the first case
+ *   study route, from `listGeneratedRoutes`, or null when none was found
+ * @returns {Promise<Array<{ label: string, jpeg: Buffer }>>}
+ */
+async function capturePhoneFilmstripsForCritic(slugRoute) {
+  try {
+    const { captureRoutePhoneFilmstrip } = await import('./utils/snapshot.js')
+    const filmstripRoutes = [
+      { label: '/about', route: '/about' },
+      slugRoute ? { label: slugRoute.route, route: slugRoute.route } : null,
+    ].filter(Boolean)
+    const phoneFilmstrips = []
+    for (const r of filmstripRoutes) {
+      const jpeg = await captureRoutePhoneFilmstrip(r.route)
+      if (jpeg) {
+        phoneFilmstrips.push({
+          label:
+            `A phone filmstrip of ${r.label}, light scheme: the whole page at 360 wide, ` +
+            "cut into 640px folds and laid side by side (the fold labels are ours, not the site's):",
+          jpeg,
+        })
+      }
+    }
+    console.log(`  [screenshot-critic] +${phoneFilmstrips.length} phone filmstrips`)
+    return phoneFilmstrips
+  } catch (err) {
+    console.warn(
+      `  [screenshot-critic] phone filmstrip capture failed (non-blocking): ${err.message}`
+    )
+    return []
+  }
+}
+
+/**
  * Write the day's archetype beside its record. Descriptive only: never
  * validated or enforced. The load-bearing structural record is
  * composition.json.
@@ -2174,36 +2215,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           routeShots = []
         }
 
-        // Phone filmstrips of /about and the first case study route — the
-        // pages the phone gate never covered before #466, when only the home
-        // page ever got a mobile image, and only its first 640px at that.
-        // Each capture is independent and best-effort: one failing costs the
-        // critic one image, never the run.
-        let phoneFilmstrips = []
-        try {
-          const { captureRoutePhoneFilmstrip } = await import('./utils/snapshot.js')
-          const filmstripRoutes = [
-            { label: '/about', route: '/about' },
-            slugRoute ? { label: slugRoute.route, route: slugRoute.route } : null,
-          ].filter(Boolean)
-          for (const r of filmstripRoutes) {
-            const jpeg = await captureRoutePhoneFilmstrip(r.route)
-            if (jpeg) {
-              phoneFilmstrips.push({
-                label:
-                  `A phone filmstrip of ${r.label}, light scheme: the whole page at 360 wide, ` +
-                  "cut into 640px folds and laid side by side (the fold labels are ours, not the site's):",
-                jpeg,
-              })
-            }
-          }
-          console.log(`  [screenshot-critic] +${phoneFilmstrips.length} phone filmstrips`)
-        } catch (err) {
-          console.warn(
-            `  [screenshot-critic] phone filmstrip capture failed (non-blocking): ${err.message}`
-          )
-          phoneFilmstrips = []
-        }
+        // Phone filmstrips of /about and the first case study route (#466),
+        // extracted so this shared capture-and-critic path (#467) stays
+        // under the complexity budget.
+        const phoneFilmstrips = await capturePhoneFilmstripsForCritic(slugRoute)
 
         const criticBlocks = buildScreenshotCriticBlocks({
           // enrichedBrief carries hero copy, rationale, and the full visual
