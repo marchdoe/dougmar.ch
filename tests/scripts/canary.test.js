@@ -20,7 +20,7 @@ import {
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { refusalReason, runCanary } from '../../scripts/canary.js'
+import { defaultExec, refusalReason, runCanary } from '../../scripts/canary.js'
 
 let root
 let worktree
@@ -105,6 +105,38 @@ describe('refusalReason', () => {
   it('still refuses under --mock when GITHUB_ACTIONS is set', () => {
     const reason = refusalReason({ root, env: { GITHUB_ACTIONS: 'true' }, mock: true })
     expect(reason).toMatch(/GITHUB_ACTIONS/)
+  })
+})
+
+// #449: a 45-minute pipeline run used to write nothing to canary.log until
+// it finished, so there was nothing to `tail -f`. These exercise the
+// streaming exec path directly, against a real (short-lived) child process,
+// rather than through runCanary's injected fake — the fakes elsewhere in
+// this file return synchronously and never touch a log file at all.
+describe('defaultExec streaming', () => {
+  it('writes chunks to the log as they arrive, and the final file matches the buffered stdout', async () => {
+    const logPath = path.join(worktree, 'stream.log')
+    writeFileSync(logPath, '')
+    const chunks = []
+    const onChunk = (text) => {
+      chunks.push(text)
+      writeFileSync(logPath, chunks.join(''))
+    }
+    const script = "console.log('line-one'); setTimeout(() => console.log('line-two'), 200)"
+    const pending = defaultExec(`node -e ${JSON.stringify(script)}`, { onChunk })
+
+    // The child is still running (asleep in its setTimeout) but has already
+    // printed its first line — the log should already have it on disk.
+    await new Promise((resolve) => setTimeout(resolve, 60))
+    const partial = readFileSync(logPath, 'utf8')
+    expect(partial).toContain('line-one')
+    expect(partial).not.toContain('line-two')
+
+    const result = await pending
+    const final = readFileSync(logPath, 'utf8')
+    expect(final).toBe(result.stdout)
+    expect(final).toContain('line-one')
+    expect(final).toContain('line-two')
   })
 })
 
@@ -211,6 +243,32 @@ describe('runCanary — the pipeline call', () => {
       expect(pipelineCall).toBeDefined()
       expect(pipelineCall.options.env.MOCK_MODE).toBe('true')
       expect(pipelineCall.options.env.DRY_RUN).toBe('true')
+    }))
+
+  it('creates the evidence log before the pipeline runs, and prints its path first (#449)', async () =>
+    withEnv(clearGuardEnv, async () => {
+      const printed = []
+      const origLog = console.log
+      console.log = (...args) => printed.push(args.join(' '))
+      let logExistedBeforePipelineRan = false
+      try {
+        const exec = (command, options) => {
+          if (command.includes('run-pipeline.js')) {
+            logExistedBeforePipelineRan = printed.length > 0 && existsSync(printed[0])
+          }
+          return { status: 0, stdout: '', stderr: '' }
+        }
+        const result = await runCanary({
+          exec,
+          now: () => new Date(2026, 8, 2, 14, 5, 0),
+          root,
+          worktreePath: worktree,
+        })
+        expect(printed[0]).toBe(path.join(result.evidenceDir, 'canary.log'))
+        expect(logExistedBeforePipelineRan).toBe(true)
+      } finally {
+        console.log = origLog
+      }
     }))
 })
 
