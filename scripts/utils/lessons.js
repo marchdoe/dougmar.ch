@@ -234,11 +234,7 @@ export function formatMobileLessonBlock(entries, { limit = 6 } = {}) {
     if (lines.length >= limit) break
   }
   if (!lines.length) return ''
-  return [
-    '## Mobile Reality — what recent compositions actually became at 360px',
-    '',
-    ...lines,
-  ].join('\n')
+  return ['## Mobile reality at 360px', '', ...lines].join('\n')
 }
 
 /**
