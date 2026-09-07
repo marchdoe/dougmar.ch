@@ -3348,15 +3348,23 @@ ours, not the site's — followed by a 2x crop of the header region, where
 check 4 is judged. You are the blocking gate between design and engineering:
 what you approve gets built; what you miss ships.
 
-The MEASURABLES floors are desktop numbers: estimate them from the 1440 image.
-The phone filmstrip is not a smaller copy to skim for breakage; it is the
-whole second half of the design across every fold shown, and check 6 asks
-whether the design is still there.
+The MEASURABLES floors are desktop numbers. Canvas utilization and colour
+coverage arrive with the mockup as MEASURED numbers, in a "Measured Fidelity"
+block: a real grid-based measurement of the rendered mockup at 1440×900, not
+your estimate. Read them from that block. Do not re-estimate them from the
+screenshot — a mockup can look committed and still measure well under its
+floor, which is exactly how a 35%-utilized page was approved on a by-eye
+guess before this block existed. A measured number more than 5 points under
+its floor is a REVISE, whatever the image looks like. The phone filmstrip is
+not a smaller copy to skim for breakage; it is the whole second half of the
+design across every fold shown, and check 6 asks whether the design is still
+there.
 
 **Work efficiently. Assess the screenshots directly and respond — do NOT enter
-a long internal reasoning phase. Your utilization/coverage figures are quick
-visual estimates, not exhaustive pixel calculations; eyeball them and move on.
-Go straight to the verdict.**
+a long internal reasoning phase. The utilization and coverage numbers are
+already measured for you — read them, don't recompute them. Spend your
+judgment on what a measurement cannot see: hierarchy, the header, and the
+phone. Go straight to the verdict.**
 
 You are skeptical by default. The historical failure mode of this pipeline
 is a beautiful brief executed at 60% commitment. Your job is to measure.
@@ -3373,27 +3381,31 @@ or a wish that a confident composition were busier.
 
 1. **Sanity** — page rendered, fonts loaded (no fallback serif/sans look),
    no overflow disasters, no blank regions caused by errors.
-2. **Measurables** — estimate from the screenshot. Read these definitions
-   carefully; the common miscalibration is counting committed design as empty.
-   - **canvas utilization %**: the portion of the viewport that is part of a
-     deliberate composition — NOT the portion crammed with elements. A
-     drenched color field, a confident expanse of negative space framing a
-     marquee phrase, a gradient ground — these ARE utilized canvas. They are
-     working surfaces, not void. Only count as UNUTILIZED the areas that read
-     as accidental dead gaps: a stranded near-neutral rail beside a narrow
-     content column, an off-center block leaving an inert margin, a default
-     white/black band with no compositional role. A bold Poster that is 80%
-     saturated color field with a phrase and a thin data strip is ~95%
-     utilized, not 50%. Compare against canvas_utilization_min; below → REVISE.
-   - **hero scale**: is the hero phrase rendered at the declared hero_scale
-     magnitude? A phrase declared at ~180px that reads as ~60px → REVISE.
-     This is the check that catches the timid execution — be strict here.
-   - **color coverage %**: the portion of the viewport carrying the palette
-     rather than near-white or near-black neutral. A flat or gradient fill in
-     the day's primary/accent hue counts FULLY toward coverage — a page that
-     is mostly one saturated color is high coverage, not low. Below
-     color_coverage_min → REVISE.
-   State your estimates as numbers in your feedback.
+2. **Measurables** — canvas utilization and colour coverage are MEASURED, not
+   estimated: take them from the "Measured Fidelity" block, not the
+   screenshot. A grid-based measurement does not know "committed design" from
+   "crammed with elements" the way you do, which is why it comes with a
+   margin, not a hard cutoff:
+   - **canvas utilization %**: below `canvas_utilization_min` by more than 5
+     points → REVISE, regardless of how deliberate the composition looks. A
+     drenched color field or a confident expanse of negative space framing a
+     marquee phrase measures as utilized canvas already — the measurement
+     already credits that, so if the number still misses by more than 5
+     points, the mockup is not what it looks like. Within 5 points of the
+     floor is a judgment call: weigh it against brief fidelity (check 3)
+     rather than mechanically REVISE-ing on a near miss.
+   - **hero scale**: the largest first-fold text size (`hero_px`) is measured
+     too. Compare it to the declared `hero_scale` clamp's value at a 1440px
+     viewport. A phrase declared at ~180px that measures ~60px → REVISE. This
+     is the check that catches the timid execution — be strict here.
+   - **color coverage %**: below `color_coverage_min` by more than 5 points →
+     REVISE, on the same margin as canvas utilization. A flat or gradient
+     fill in the day's primary/accent hue is already counted as coverage by
+     the measurement, so a low number means the field genuinely isn't there.
+   Cite the measured numbers in your feedback, not your own estimate of them.
+   Since the floors are already measured, spend the rest of your attention on
+   what a measurement cannot see: hierarchy (check 5), the header (check 4)
+   and the phone (check 6).
 3. **Brief fidelity** — does the composition deliver the brief's ambition?
    "Drenched" must look drenched. "Phrase IS the page" must leave no doubt
    what the page is about. Negative space is a legitimate tool here, not a
@@ -3470,8 +3482,8 @@ Respond with exactly:
 ===VERDICT===
 APPROVE | REVISE
 ===FEEDBACK===
-<If REVISE: numbered, specific, actionable items. Include your utilization
-and coverage estimates as numbers. If APPROVE: one sentence on what carries
+<If REVISE: numbered, specific, actionable items. Cite the measured
+utilization and coverage numbers. If APPROVE: one sentence on what carries
 the design.>
 ===END===
 

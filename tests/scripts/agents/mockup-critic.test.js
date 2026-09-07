@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   buildMockupCriticBlocks,
+  formatMeasuredFidelity,
   parseMockupCriticResponse,
 } from '../../../scripts/agents/mockup-critic.js'
 
@@ -102,5 +103,64 @@ describe('buildMockupCriticBlocks', () => {
     expect(text).toContain('shell decl')
     // The screenshot must never ride along as a data-URI in text.
     expect(text).not.toContain('base64')
+  })
+
+  it('carries the measured fidelity numbers as a text block beside the declared floors (#487)', () => {
+    const blocks = buildMockupCriticBlocks({
+      ...ctx,
+      measured: { canvas_utilization: 35.1, color_coverage: 19.5, hero_px: 96 },
+      measurablesDecl: {
+        canvas_utilization_min: 68,
+        color_coverage_min: 40,
+        hero_scale: 'clamp(64px, 7vw, 96px)',
+      },
+    })
+    const text = blocks
+      .filter((b) => b.type === 'text')
+      .map((b) => b.text)
+      .join('\n')
+    expect(text).toContain('Measured Fidelity')
+    expect(text).toContain('canvas utilization 35.1%')
+    expect(text).toContain('floor 68%')
+    expect(text).toContain('colour coverage 19.5%')
+    expect(text).toContain('floor 40%')
+    expect(text).toContain('96px')
+    expect(text).toContain('clamp(64px, 7vw, 96px)')
+  })
+
+  it('omits the measured fidelity block when the capture produced no numbers', () => {
+    const blocks = buildMockupCriticBlocks({ ...ctx, measured: null })
+    expect(blocks.some((b) => b.type === 'text' && b.text.includes('Measured Fidelity'))).toBe(
+      false
+    )
+  })
+})
+
+describe('formatMeasuredFidelity', () => {
+  it('returns null when nothing was measured', () => {
+    expect(formatMeasuredFidelity(null, { canvas_utilization_min: 68 })).toBeNull()
+    expect(formatMeasuredFidelity(undefined, undefined)).toBeNull()
+  })
+
+  it('states the measured numbers beside the declared floors and the method note', () => {
+    const text = formatMeasuredFidelity(
+      { canvas_utilization: 35.1, color_coverage: 19.5, hero_px: 96 },
+      { canvas_utilization_min: 68, color_coverage_min: 40, hero_scale: 'clamp(64px, 7vw, 96px)' }
+    )
+    expect(text).toContain('canvas utilization 35.1% (floor 68%)')
+    expect(text).toContain('colour coverage 19.5% (floor 40%)')
+    expect(text).toContain('largest first-fold text 96px (declared hero clamp(64px, 7vw, 96px))')
+    // The one-line method note travels with the numbers, for a reader who
+    // was not there.
+    expect(text).toMatch(/Measured at 1440x900 on a \d+px grid/)
+  })
+
+  it('falls back to n/a for a missing declared floor rather than throwing', () => {
+    const text = formatMeasuredFidelity(
+      { canvas_utilization: 10, color_coverage: 5, hero_px: 40 },
+      null
+    )
+    expect(text).toContain('floor n/a')
+    expect(text).toContain('declared hero n/a')
   })
 })

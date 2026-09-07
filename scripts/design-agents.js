@@ -236,6 +236,11 @@ async function writeArchetype(date, archetype, { root = ROOT } = {}) {
  *   the Art Director's parsed MEASURABLES block (#456) — persisted as the
  *   `declared` half of measurables.json; the `measured` half is added later
  *   by archiver.js once the responsive-scoring browser pass runs.
+ * @param {Array<{round: number, measured: {canvas_utilization: number, color_coverage: number, hero_px: number}, measuredAt: string}>|null|undefined} run.mockupMeasurableRounds
+ *   the design-fidelity numbers measured on the mockup itself, one entry per
+ *   revision round the critic saw (#487) — the mockup-side counterpart to
+ *   `measurablesDecl`/measurables.json, which only ever measured the built
+ *   page.
  * @returns {Record<string, Buffer|string|null>}
  */
 export function archiveArtifacts(run) {
@@ -270,6 +275,13 @@ export function archiveArtifacts(run) {
     // scorer's browser pass produces it, after this artifact is on disk.
     'measurables.json': run.measurablesDecl
       ? json({ declared: run.measurablesDecl, declaredAt: new Date().toISOString() })
+      : null,
+    // The mockup-side measured numbers (#487), one entry per revision round —
+    // the mockup-versus-build gap this file makes visible is a per-night
+    // reading of measurables.json (the built page) beside this one (the
+    // mockup the critic actually approved).
+    'mockup-measurables.json': run.mockupMeasurableRounds?.length
+      ? json({ rounds: run.mockupMeasurableRounds, declared: run.measurablesDecl ?? null })
       : null,
   }
 }
@@ -1476,6 +1488,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     let mockup
     let mockupScreenshot = null
     let revisionFeedback = ''
+    // The measured design-fidelity numbers (#487) per mockup revision round,
+    // so the mockup-versus-build gap is visible for every round the critic
+    // saw, not only the last — archived as mockup-measurables.json.
+    const mockupMeasurableRounds = []
     const MAX_MOCKUP_REVISIONS = 2
     for (let round = 0; round <= MAX_MOCKUP_REVISIONS; round++) {
       // The optional steps check the deadline before starting; the two
@@ -1561,6 +1577,17 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         mockupScreenshot = null
         break
       }
+      if (mockupScreenshot.measured) {
+        mockupMeasurableRounds.push({
+          round,
+          measured: mockupScreenshot.measured,
+          measuredAt: new Date().toISOString(),
+        })
+        console.log(
+          `  measured mockup — canvas=${mockupScreenshot.measured.canvas_utilization}% ` +
+            `color=${mockupScreenshot.measured.color_coverage}% hero=${mockupScreenshot.measured.hero_px}px`
+        )
+      }
       let critique
       try {
         critique = await runMockupCritic({
@@ -1570,6 +1597,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           headerCrop: mockupScreenshot.headerJpeg,
           enrichedBrief,
           measurables: artDirectorResult.measurables,
+          measured: mockupScreenshot.measured,
+          measurablesDecl,
           shell: artDirectorResult.shell,
           header: formatHeader(headerDecl),
           mobile: formatMobile(mobileDecl),
@@ -1925,6 +1954,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           chosenComposition,
           chosenLane,
           measurablesDecl,
+          mockupMeasurableRounds,
         }),
         { root }
       )

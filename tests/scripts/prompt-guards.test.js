@@ -72,7 +72,12 @@ describe('mockup-critic.md load-bearing directives', () => {
     const c = read('mockup-critic.md')
     expect(c).toContain('canvas_utilization_min')
     expect(c).toContain('color_coverage_min')
-    expect(c).toMatch(/estimates as numbers/i)
+    expect(c).toMatch(/MEASURED, not\s+estimated/i)
+  })
+  it('requires a REVISE when a measured floor is missed by more than 5 points', () => {
+    const c = read('mockup-critic.md')
+    expect(c).toMatch(/more than 5\s+points/i)
+    expect(c).toContain('REVISE')
   })
 })
 
