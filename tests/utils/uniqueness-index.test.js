@@ -400,6 +400,40 @@ describe('computeUniqueness', () => {
     expect(r.composite).toBeNull()
     expect(r.date).toBeNull()
   })
+
+  // #456: declared and measured were parsed and logged but never wired into
+  // computeUniqueness, so every archived uniqueness.json shows fidelity: null.
+  describe('fidelity, once declared and measured both arrive (#456)', () => {
+    it('returns a number instead of null when both sides are present', () => {
+      const r = computeUniqueness({
+        ...build,
+        declared: { canvas_utilization_min: 70, color_coverage_min: 40 },
+        measured: { canvas_utilization: 82, color_coverage: 55 },
+      })
+      expect(r.metrics.fidelity.score).toBe(1)
+      expect(r.metrics.fidelity.checks).toHaveLength(2)
+    })
+
+    it('folds fidelity into the composite once it scores', () => {
+      const withoutFidelity = computeUniqueness(build, [])
+      const withFidelity = computeUniqueness(
+        {
+          ...build,
+          declared: { canvas_utilization_min: 70 },
+          measured: { canvas_utilization: 10 }, // floor missed
+        },
+        []
+      )
+      expect(withFidelity.metrics.fidelity.score).toBe(0)
+      expect(withFidelity.composite).not.toBe(withoutFidelity.composite)
+    })
+
+    it('still returns null, and never throws, for a build with no measurables.json', () => {
+      const r = computeUniqueness({ ...build, declared: null, measured: null }, [])
+      expect(r.metrics.fidelity.score).toBeNull()
+      expect(r.metrics.fidelity.checks).toEqual([])
+    })
+  })
 })
 
 describe('geometry, wired into the index (#255)', () => {

@@ -138,6 +138,28 @@ describe('archiveArtifacts', () => {
     // The phone declaration lands beside the tuple it explains (#452).
     expect(JSON.parse(out['mobile.json'])).toEqual(base.mobileDecl)
   })
+
+  // #456: the declared MEASURABLES floors were parsed every night and thrown
+  // away. This is the first time they land on disk.
+  it('writes nothing for measurables.json when no MEASURABLES block was parsed', () => {
+    const out = archiveArtifacts(base)
+    expect(out['measurables.json']).toBeNull()
+  })
+
+  it('persists the declared MEASURABLES block as measurables.json', () => {
+    const measurablesDecl = {
+      canvas_utilization_min: 80,
+      hero_scale: 'clamp(96px, 13vw, 200px)',
+      color_coverage_min: 40,
+    }
+    const out = archiveArtifacts({ ...base, measurablesDecl })
+    const written = JSON.parse(out['measurables.json'])
+    expect(written.declared).toEqual(measurablesDecl)
+    expect(written.declaredAt).toMatch(/^\d{4}-\d{2}-\d{2}T/)
+    // The achieved side is added later, by archiver.js, once the responsive
+    // scorer's browser pass produces it — not here.
+    expect(written.measured).toBeUndefined()
+  })
 })
 
 describe('one run date', () => {

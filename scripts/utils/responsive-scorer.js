@@ -1,5 +1,6 @@
 import { chromium } from '@playwright/test'
 import { OVERFLOW_TOLERANCE_PX, findClippedElements } from './surface-gate.js'
+import { measureDesignFidelity } from './design-fidelity.js'
 
 /**
  * What each check measures against. The checks below run inside the page
@@ -185,7 +186,8 @@ function formatFailureDetail(check, viewportResult) {
  * @param {object} [opts]
  * @param {import('@playwright/test').Browser} [opts.browser] - optional
  *   externally-managed browser (tests reuse one; production launches its own)
- * @returns {Promise<object>} metrics
+ * @returns {Promise<object>} metrics, plus `measured` (design-fidelity
+ *   numbers, see design-fidelity.js) when a `desktop` viewport ran, else null
  */
 export async function scoreResponsive(url, viewports, opts = {}) {
   const ownBrowser = !opts.browser
@@ -194,6 +196,7 @@ export async function scoreResponsive(url, viewports, opts = {}) {
   try {
     const page = await browser.newPage()
     const viewportResults = {}
+    let measured = null
 
     for (const vp of viewports) {
       await page.setViewportSize({ width: vp.width, height: vp.height })
@@ -220,6 +223,13 @@ export async function scoreResponsive(url, viewports, opts = {}) {
         checks,
         score: scoreFromFailureCount(countFailures(checks)),
       }
+
+      // The achieved MEASURABLES numbers (#456) — declared floors are desktop
+      // numbers, so this rides the desktop rung of the pass this loop already
+      // runs, rather than opening a second page or a second browser.
+      if (vp.name === 'desktop') {
+        measured = await page.evaluate(measureDesignFidelity)
+      }
     }
 
     const overallScore = Math.min(...Object.values(viewportResults).map((v) => v.score))
@@ -239,7 +249,7 @@ export async function scoreResponsive(url, viewports, opts = {}) {
     }
 
     await page.close()
-    return { viewports: viewportResults, overallScore, worstFailure }
+    return { viewports: viewportResults, overallScore, worstFailure, measured }
   } finally {
     if (ownBrowser) await browser.close()
   }
