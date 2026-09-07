@@ -382,6 +382,17 @@ jobs:
           node scripts/print-needs-human-section.js "$TODAY" > "$RUNNER_TEMP/needs-human.md"
           echo "wrote $(wc -c < "$RUNNER_TEMP/needs-human.md" | tr -d ' ') byte(s)"
 
+      - name: Read shipped-with-faults findings
+        # Same shape as the step above, for the SHIPPED-WITH-FAULTS entry a
+        # final REVISE after a repair round writes (#467).
+        id: shipped_with_faults
+        env:
+          RUN_DATE: ${{ needs.redesign.outputs.date }}
+        run: |
+          TODAY="${RUN_DATE:-$(TZ=America/New_York date +%Y-%m-%d)}"
+          node scripts/print-shipped-with-faults-section.js "$TODAY" > "$RUNNER_TEMP/shipped-with-faults.md"
+          echo "wrote $(wc -c < "$RUNNER_TEMP/shipped-with-faults.md" | tr -d ' ') byte(s)"
+
       - name: Open today's rating issue
         uses: actions/github-script@v7
         env:
@@ -413,6 +424,15 @@ jobs:
             try {
               needsHuman = fs.readFileSync(process.env.RUNNER_TEMP + '/needs-human.md', 'utf8').trim()
             } catch {}
+            // Written by the previous step from verdicts.json — see #467.
+            // Empty when the build shipped clean, which leaves the body
+            // below unchanged.
+            let shippedWithFaults = ''
+            try {
+              shippedWithFaults = fs
+                .readFileSync(process.env.RUNNER_TEMP + '/shipped-with-faults.md', 'utf8')
+                .trim()
+            } catch {}
             const body = [
               `![today's design](${img})`,
               ``,
@@ -430,6 +450,7 @@ jobs:
               'try: ""',
               '```',
               ...(needsHuman ? ['', needsHuman] : []),
+              ...(shippedWithFaults ? ['', shippedWithFaults] : []),
             ].join('\n')
             await github.rest.issues.create({
               owner: context.repo.owner,

@@ -488,6 +488,9 @@ describe('after the build passes: the screenshot critic and the surface gate', (
       'react-engineer',
       'screenshot-critic',
       'react-engineer',
+      // The final re-judge (#467): the build that ships after a repair round
+      // is judged one more time, against the same fixture queue's second entry.
+      'screenshot-critic',
     ])
     // The same brief as a repair, with the critic's feedback as the report.
     const [first, revision] = run.callsFor('react-engineer')
@@ -530,11 +533,57 @@ describe('after the build passes: the screenshot critic and the surface gate', (
       { critic: 'surface-gate', round: 1, verdict: 'SHIP' },
       { critic: 'screenshot-critic', round: undefined, verdict: 'REVISE' },
       { critic: 'surface-gate', round: 2, verdict: 'SHIP' },
+      { critic: 'screenshot-critic', round: 'final', verdict: 'SHIP' },
     ])
     expect(run.trace.dir).toMatch(/^build-\d+$/)
     for (const rel of REQUIRED_ENGINEER_FILES) {
       expect(existsSync(path.join(run.root, rel)), `${rel} under the root`).toBe(true)
     }
+  })
+
+  it('ships with the fault logged when the final re-judge still says REVISE (#467)', async () => {
+    const marker = 'post-critic revision'
+    const run = await runSwarm({
+      agents: {
+        'react-engineer': [
+          ENGINEER_FIXTURE,
+          patchReply([markedFile('app/components/Sidebar.tsx', marker)]),
+        ],
+        // Round 1 and the final re-judge both come back REVISE: the revision
+        // did not clear the critic's objection, and the owner's call (#467)
+        // is to ship anyway rather than spend a second repair.
+        'screenshot-critic': [REVISE_REPLY, REVISE_REPLY],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.calls.map((c) => c.agent)).toEqual([
+      'art-director',
+      'spec-critic',
+      'mockup-designer',
+      'mockup-critic',
+      'react-engineer',
+      'screenshot-critic',
+      'react-engineer',
+      'screenshot-critic',
+    ])
+    // No second repair: one retry only.
+    expect(run.retries).toBe(1)
+    expect(onDisk(run.root, 'app/components/Sidebar.tsx')).toContain(marker)
+    expect(run.result.files.map((f) => f.path)).toEqual(['elements/preset.ts', ...FIXTURE_PATHS])
+    expect(run.fakes.archive).toHaveLength(1)
+
+    expect(run.verdicts.map(({ critic, round, verdict }) => ({ critic, round, verdict }))).toEqual([
+      { critic: 'spec-critic', round: undefined, verdict: 'APPROVED' },
+      { critic: 'mockup-critic', round: 0, verdict: 'APPROVE' },
+      { critic: 'surface-gate', round: 1, verdict: 'SHIP' },
+      { critic: 'screenshot-critic', round: undefined, verdict: 'REVISE' },
+      { critic: 'surface-gate', round: 2, verdict: 'SHIP' },
+      { critic: 'screenshot-critic', round: 'final', verdict: 'REVISE' },
+      { critic: 'ship-gate', round: undefined, verdict: 'SHIPPED-WITH-FAULTS' },
+    ])
+    const shipGate = run.verdicts.find((v) => v.critic === 'ship-gate')
+    expect(shipGate.feedback).toContain(REVISE_FEEDBACK)
   })
 
   it('rolls a revision that fails to build back to the passing state and ships that', async () => {
@@ -656,6 +705,7 @@ describe('after the build passes: the screenshot critic and the surface gate', (
       'react-engineer',
       'screenshot-critic',
       'react-engineer',
+      'screenshot-critic',
     ])
     const faults = formatFindingsForCritic([OVERFLOW_AT_390])
     expect(faults).toContain(
@@ -696,6 +746,7 @@ describe('after the build passes: the screenshot critic and the surface gate', (
         verdict: 'SHIP',
         feedback: 'all surfaces fit their viewport',
       },
+      { critic: 'screenshot-critic', round: 'final', verdict: 'SHIP', feedback: undefined },
     ])
     expect(run.trace.dir).toMatch(/^build-\d+$/)
   })
@@ -714,6 +765,7 @@ describe('after the build passes: the screenshot critic and the surface gate', (
       'react-engineer',
       'screenshot-critic',
       'react-engineer',
+      'screenshot-critic',
     ])
 
     // The finding routes to the engineer through ownerForSurface('/'), so the
