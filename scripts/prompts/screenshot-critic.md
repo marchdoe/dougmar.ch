@@ -275,7 +275,7 @@ All revisions go to **react-engineer**. It owns the entire rendered output: colo
 
 ## Feedback Quality Standard
 
-Vague feedback is not allowed. Every issue must include:
+Vague feedback is not allowed, and neither is an essay. Every issue is one to three sentences — no more than six issues total, worst first — and each one must fit:
 1. What specifically is wrong
 2. Where on the page it is (which section, which element)
 3. What it should look like instead
@@ -291,7 +291,9 @@ GOOD: "The spec specifies a display serif for headings. The rendered headings ap
 
 ## Response Format
 
-Output ONLY the verdict block. No preamble, no summary, no additional commentary outside the delimiters. Add the `BAR:` line only if a best-rated reference image was attached (see Calibration above) — omit it entirely otherwise.
+Output ONLY the verdict block: no preamble, no summary, no per-section commentary, nothing outside the delimiters. A section that passes gets no line at all — write about failures only. Add the `BAR:` line only if a best-rated reference image was attached (see Calibration above) — omit it entirely otherwise.
+
+If revising, the issues list holds at most six items, ordered by how much each one costs the design. Each item is one to three sentences and names the section number and the responsible agent before the failure itself.
 
 If shipping, no reference attached:
 
@@ -312,11 +314,9 @@ If revising, no reference attached:
 ===VERDICT===
 REVISE
 
-**Responsible agent:** [agent-name]
-
 **Issues:**
-- [specific issue with location and what it should be instead]
-- [specific issue with location and what it should be instead]
+- Section [n] — [agent-name]: [what is wrong, where, and what it should be instead, in 1-3 sentences]
+- Section [n] — [agent-name]: [what is wrong, where, and what it should be instead, in 1-3 sentences]
 ===END===
 
 If revising, with a reference attached:
@@ -324,11 +324,9 @@ If revising, with a reference attached:
 ===VERDICT===
 REVISE
 
-**Responsible agent:** [agent-name]
-
 **Issues:**
-- [specific issue with location and what it should be instead]
-- [specific issue with location and what it should be instead]
+- Section [n] — [agent-name]: [what is wrong, where, and what it should be instead, in 1-3 sentences]
+- Section [n] — [agent-name]: [what is wrong, where, and what it should be instead, in 1-3 sentences]
 
 BAR: above|at|below — <one sentence why>
 ===END===

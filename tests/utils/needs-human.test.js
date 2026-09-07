@@ -3,8 +3,10 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import {
+  buildFinalCheckSection,
   buildNeedsHumanSection,
   buildShippedWithFaultsSection,
+  readFinalCheckUnverifiedEntry,
   readNeedsHumanEntries,
   readShippedWithFaultsEntries,
 } from '../../scripts/utils/needs-human.js'
@@ -159,5 +161,85 @@ describe('buildShippedWithFaultsSection', () => {
 
   it('skips an entry with no feedback text', () => {
     expect(buildShippedWithFaultsSection([{ feedback: '' }, { feedback: '   ' }])).toBe('')
+  })
+})
+
+// #486: a final re-judge that never reached the SDK vision channel — a
+// truncated SDK reply, or a channel that fell back to a text-only critic —
+// is not a confirmed fault and must not read like one.
+describe('readFinalCheckUnverifiedEntry', () => {
+  it('returns the final-round UNVERIFIED verdict and drops everything else', () => {
+    writeBuild('2026-09-07', '100', {
+      'verdicts.json': JSON.stringify([
+        { critic: 'screenshot-critic', round: undefined, verdict: 'REVISE' },
+        {
+          critic: 'screenshot-critic',
+          round: 'final',
+          verdict: 'UNVERIFIED',
+          channel: 'sdk-vision-truncated',
+          feedback:
+            '[screenshot-critic] response truncated at max_tokens (16000 output tokens, cap 16000)',
+        },
+      ]),
+    })
+
+    expect(readFinalCheckUnverifiedEntry(archiveDir, '2026-09-07')).toEqual({
+      critic: 'screenshot-critic',
+      round: 'final',
+      verdict: 'UNVERIFIED',
+      channel: 'sdk-vision-truncated',
+      feedback:
+        '[screenshot-critic] response truncated at max_tokens (16000 output tokens, cap 16000)',
+    })
+  })
+
+  it('ignores an UNVERIFIED verdict outside the final round', () => {
+    writeBuild('2026-09-07', '100', {
+      'verdicts.json': JSON.stringify([
+        {
+          critic: 'screenshot-critic',
+          round: undefined,
+          verdict: 'UNVERIFIED',
+          channel: 'cli-text-fallback',
+        },
+      ]),
+    })
+    expect(readFinalCheckUnverifiedEntry(archiveDir, '2026-09-07')).toBeNull()
+  })
+
+  it('returns null when the final round is SHIPPED-WITH-FAULTS instead', () => {
+    writeBuild('2026-09-07', '100', {
+      'verdicts.json': JSON.stringify([
+        { critic: 'screenshot-critic', round: 'final', verdict: 'REVISE' },
+        { critic: 'ship-gate', verdict: 'SHIPPED-WITH-FAULTS', feedback: 'nav overlaps' },
+      ]),
+    })
+    expect(readFinalCheckUnverifiedEntry(archiveDir, '2026-09-07')).toBeNull()
+  })
+
+  it('returns null when the date has no build', () => {
+    expect(readFinalCheckUnverifiedEntry(archiveDir, '2026-09-07')).toBeNull()
+  })
+})
+
+describe('buildFinalCheckSection', () => {
+  it('renders a single line under a "Final check" heading, naming the reason', () => {
+    const section = buildFinalCheckSection({
+      channel: 'sdk-vision-truncated',
+      feedback: 'response truncated at max_tokens',
+    })
+
+    expect(section).toBe(
+      '## Final check\n\nFinal check could not see the build (its reply was cut off at the output cap twice in a row).'
+    )
+  })
+
+  it('describes an unrecognized channel generically rather than throwing', () => {
+    const section = buildFinalCheckSection({ channel: 'some-new-channel' })
+    expect(section).toContain('some-new-channel')
+  })
+
+  it('returns an empty string when there is no entry', () => {
+    expect(buildFinalCheckSection(null)).toBe('')
   })
 })

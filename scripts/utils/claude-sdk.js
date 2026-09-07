@@ -128,15 +128,22 @@ function bookUsage(agentName, model, usage, ms) {
  * before its ===VERDICT=== block used to fail closed to REVISE and buy a
  * full engineer round for a formatting accident (#300). Called after the
  * usage is booked: the tokens were spent either way.
+ *
+ * The thrown error carries `truncated: true` so a caller (vision-router.js)
+ * can tell this apart from a transport failure: a vision critic cut off at
+ * the cap saw the images and had something to say, which is a different
+ * situation from a dead connection or a bad model id (#486).
  * @param {string} agentName
  * @param {{ stop_reason?: string, usage?: { output_tokens?: number } }} response
  * @param {number} maxTokens
  */
 function assertNotTruncated(agentName, response, maxTokens) {
   if (response.stop_reason !== 'max_tokens') return
-  throw new Error(
+  const err = new Error(
     `[${agentName}] response truncated at max_tokens (${response.usage?.output_tokens ?? '?'} output tokens, cap ${maxTokens})`
   )
+  err.truncated = true
+  throw err
 }
 
 /**

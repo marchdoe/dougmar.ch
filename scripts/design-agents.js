@@ -2434,17 +2434,31 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
                 // needed here.
                 try {
                   const final = await judgeScreenshot(regate?.findings ?? [])
+                  // The build that ships after a repair round only means
+                  // something if the critic that judged it actually saw it.
+                  // A REVISE reached through a text-only fallback (or a
+                  // truncated SDK reply, #486) is not a verified fault: it is
+                  // no verdict at all, and must never become
+                  // SHIPPED-WITH-FAULTS — that section says "the final
+                  // critique still found a fault," which was never true when
+                  // nothing was re-seen.
+                  const sawTheBuild = final.visionChannel === 'sdk-vision'
+                  const finalVerdict = sawTheBuild ? final.verdict : 'UNVERIFIED'
                   verdicts.push({
                     critic: 'screenshot-critic',
                     round: 'final',
-                    verdict: final.verdict,
+                    verdict: finalVerdict,
                     feedback: final.criticResponse.slice(0, 2000),
                     channel: final.visionChannel,
                     ts: Date.now(),
                   })
-                  console.log(`  [screenshot-critic] final verdict: ${final.verdict}`)
+                  console.log(`  [screenshot-critic] final verdict: ${finalVerdict}`)
 
-                  if (final.verdict === 'REVISE') {
+                  if (!sawTheBuild) {
+                    console.warn(
+                      `  [screenshot-critic] final re-judge did not reach the SDK vision channel (${final.visionChannel}) — recording UNVERIFIED instead of a faults verdict`
+                    )
+                  } else if (finalVerdict === 'REVISE') {
                     // The owner's call (#467): a final REVISE does not buy
                     // another repair. Ship it, but log the fault where the
                     // archive, the lessons block and the rating issue can
