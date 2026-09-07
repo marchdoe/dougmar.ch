@@ -148,7 +148,7 @@ describe('buildScreenshotCriticBlocks', () => {
     expect(at('Other surfaces')).toBeLessThan(at('highest-rated'))
   })
 
-  it('carries the phone render next to its desktop counterpart, both labelled', () => {
+  it('carries the phone filmstrip next to its desktop counterpart, both labelled', () => {
     const blocks = buildScreenshotCriticBlocks({
       ...baseCtx,
       screenshotBuffer: { ...baseCtx.screenshotBuffer, mobileJpeg: Buffer.from([0x07]) },
@@ -158,7 +158,7 @@ describe('buildScreenshotCriticBlocks', () => {
 
     const kinds = blocks.map((b) => (b.type === 'image' ? 'image' : b.text))
     const light = kinds.findIndex((k) => k.includes('LIGHT scheme, 1440×900'))
-    const phone = kinds.findIndex((k) => k.includes('360×640 (PHONE)'))
+    const phone = kinds.findIndex((k) => k.includes('phone filmstrip'))
     const dark = kinds.findIndex((k) => k.includes('DARK scheme, 1440×900'))
     // light label, light image, phone label, phone image, dark label, dark image
     expect(phone).toBe(light + 2)
@@ -173,7 +173,43 @@ describe('buildScreenshotCriticBlocks', () => {
       screenshotBuffer: { ...baseCtx.screenshotBuffer, mobileJpeg: null },
     })
     expect(blocks.filter((b) => b.type === 'image')).toHaveLength(2)
-    expect(blocks.some((b) => b.type === 'text' && b.text.includes('PHONE'))).toBe(false)
+    expect(blocks.some((b) => b.type === 'text' && b.text.includes('phone filmstrip'))).toBe(false)
+  })
+
+  it('carries phone filmstrips of other routes, prioritized over route shots and the reference', () => {
+    const blocks = buildScreenshotCriticBlocks({
+      ...baseCtx,
+      screenshotBuffer: {
+        ...baseCtx.screenshotBuffer,
+        mobileJpeg: Buffer.from([0x07]),
+        headerJpeg: Buffer.from([0x05]),
+      },
+      mockupScreenshot: { jpeg: Buffer.from([0x01]), headerJpeg: Buffer.from([0x06]) },
+      phoneFilmstrips: [
+        { label: 'A phone filmstrip of /about:', jpeg: Buffer.from([0x08]) },
+        { label: 'A phone filmstrip of /work/spaceman:', jpeg: Buffer.from([0x09]) },
+      ],
+      routeShots: [{ label: 'A project page (/work/spaceman):', png: Buffer.from([0x02]) }],
+      bestReference: { buffer: Buffer.from([0x89, 0x50, 0x4e, 0x47]), description: 'ref' },
+    })
+    const images = blocks.filter((b) => b.type === 'image')
+    // mockup + light + home phone + dark + 2 header crops + 2 phone
+    // filmstrips = 8, the ceiling. The 1440 route shot and the calibration
+    // reference are squeezed out entirely.
+    expect(images).toHaveLength(MAX_SCREENSHOT_CRITIC_IMAGES)
+    expect(blocks.some((b) => b.type === 'text' && b.text.includes('/about'))).toBe(true)
+    expect(blocks.some((b) => b.type === 'text' && b.text.includes('/work/spaceman'))).toBe(true)
+    expect(blocks.some((b) => b.type === 'text' && b.text.includes('Other surfaces'))).toBe(false)
+    expect(blocks.some((b) => b.type === 'text' && b.text.includes('highest-rated'))).toBe(false)
+  })
+
+  it('drops a phone filmstrip capture failure without losing the rest', () => {
+    const blocks = buildScreenshotCriticBlocks({
+      ...baseCtx,
+      phoneFilmstrips: [{ label: 'A phone filmstrip of /about:', jpeg: null }],
+    })
+    expect(blocks.filter((b) => b.type === 'image')).toHaveLength(2)
+    expect(blocks.some((b) => b.type === 'text' && b.text.includes('/about'))).toBe(false)
   })
 
   it('drops a share card before the phone when the ceiling binds', () => {
@@ -195,7 +231,7 @@ describe('buildScreenshotCriticBlocks', () => {
     })
     const images = blocks.filter((b) => b.type === 'image')
     expect(images).toHaveLength(MAX_SCREENSHOT_CRITIC_IMAGES)
-    expect(blocks.some((b) => b.type === 'text' && b.text.includes('360×640 (PHONE)'))).toBe(true)
+    expect(blocks.some((b) => b.type === 'text' && b.text.includes('phone filmstrip'))).toBe(true)
     expect(blocks.some((b) => b.type === 'text' && b.text.includes('share card'))).toBe(false)
   })
 

@@ -104,8 +104,10 @@ describe('archiveArtifacts', () => {
     for (const name of [
       'screenshot.png',
       'screenshot-dark.png',
+      'screenshot-mobile.jpg',
       'mockup.html',
       'mockup-screenshot.png',
+      'mockup-screenshot-mobile.jpg',
       'fingerprint.json',
     ]) {
       expect(out[name], name).toBeNull()
@@ -115,17 +117,20 @@ describe('archiveArtifacts', () => {
 
   it('carries every capture through when it happened', () => {
     const png = Buffer.from([1])
+    const jpeg = Buffer.from([2])
     const out = archiveArtifacts({
       ...base,
-      finalScreenshot: { png, darkPng: png, fingerprint: { elements: [1] } },
+      finalScreenshot: { png, darkPng: png, mobileJpeg: jpeg, fingerprint: { elements: [1] } },
       mockup: { mockupHtml: '<html>' },
-      mockupScreenshot: { png },
+      mockupScreenshot: { png, mobileJpeg: jpeg },
       heroSource: 'weather',
     })
     expect(out['screenshot.png']).toBe(png)
     expect(out['screenshot-dark.png']).toBe(png)
+    expect(out['screenshot-mobile.jpg']).toBe(jpeg)
     expect(out['mockup.html']).toBe('<html>')
     expect(out['mockup-screenshot.png']).toBe(png)
+    expect(out['mockup-screenshot-mobile.jpg']).toBe(jpeg)
     expect(JSON.parse(out['fingerprint.json'])).toEqual({ elements: [1] })
     expect(JSON.parse(out['hero-source.json'])).toEqual({ source: 'weather' })
     expect(JSON.parse(out['lane.json'])).toEqual({ laneId: 'quiet', register: 'plain' })

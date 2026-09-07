@@ -64,7 +64,7 @@ describe('buildMockupCriticBlocks', () => {
     expect(blocks.filter((b) => b.type === 'image')).toHaveLength(1)
   })
 
-  it('carries the phone render next to the desktop one, each labelled with its width', () => {
+  it('carries the phone filmstrip next to the desktop render, each labelled', () => {
     const blocks = buildMockupCriticBlocks({
       ...ctx,
       mobileScreenshot: Buffer.from([0x01]),
@@ -75,10 +75,10 @@ describe('buildMockupCriticBlocks', () => {
 
     const kinds = blocks.map((b) => (b.type === 'image' ? 'image' : b.text))
     const desktopLabel = kinds.findIndex((k) => k.includes('1440×900'))
-    const mobileLabel = kinds.findIndex((k) => k.includes('360×640'))
+    const mobileLabel = kinds.findIndex((k) => k.includes('phone filmstrip'))
     expect(desktopLabel).toBeGreaterThan(-1)
     expect(mobileLabel).toBeGreaterThan(-1)
-    // label, image, label, image: the phone is adjacent to its counterpart.
+    // label, image, label, image: the filmstrip is adjacent to its counterpart.
     expect(kinds[desktopLabel + 1]).toBe('image')
     expect(mobileLabel).toBe(desktopLabel + 2)
     expect(kinds[mobileLabel + 1]).toBe('image')
@@ -89,7 +89,7 @@ describe('buildMockupCriticBlocks', () => {
   it('drops the phone block rather than the run when the capture failed', () => {
     const blocks = buildMockupCriticBlocks({ ...ctx, mobileScreenshot: null })
     expect(blocks.filter((b) => b.type === 'image')).toHaveLength(1)
-    expect(blocks.some((b) => b.type === 'text' && b.text.includes('360×640'))).toBe(false)
+    expect(blocks.some((b) => b.type === 'text' && b.text.includes('phone filmstrip'))).toBe(false)
   })
 
   it('carries brief, measurables and shell as text blocks', () => {

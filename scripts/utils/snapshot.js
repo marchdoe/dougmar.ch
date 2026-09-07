@@ -218,35 +218,192 @@ async function captureHeaderCrop(browser, url, opts) {
  */
 export const CRITIC_MOBILE_VIEWPORT = { width: 360, height: 640 }
 
+/** Height of one filmstrip fold, in CSS px. Matches the phone viewport's own
+ * height, so a fold is what the phone actually shows in one screen. */
+const PHONE_FILMSTRIP_FOLD_HEIGHT = CRITIC_MOBILE_VIEWPORT.height
+/** Folds shown side by side before the rest are summarized as "not shown". */
+const PHONE_FILMSTRIP_MAX_FOLDS = 6
+/** Device-pixel gap between adjacent folds in the composed image. */
+const PHONE_FILMSTRIP_GUTTER = 16
+const PHONE_FILMSTRIP_DSF = 2
+/** Matches HEADER_CROP_WIDTH: the largest edge the API keeps without
+ * downscaling server-side, so the folds' fine detail survives the trip. */
+const PHONE_FILMSTRIP_WIDTH = 1568
+const PHONE_FILMSTRIP_QUALITY = 75
+
 /**
- * One page at one viewport, downscaled for a critic. Best-effort, like the
- * header crop: a missing image costs a critic one block, never the run.
+ * How a full page height splits into filmstrip folds. Pure and
+ * side-effect-free so the arithmetic is testable without a browser.
  *
- * At 360 wide the downscale is a no-op — `computeDownscaleDimensions` never
- * upscales — so the phone render costs roughly a fifth of the desktop one in
- * image tokens.
+ * @param {number} pageHeightPx - full page height, CSS px
+ * @param {{ foldHeightPx?: number, maxFolds?: number }} [opts]
+ * @returns {{ totalFolds: number, shownFolds: number, moreFolds: number }}
+ */
+export function computePhoneFilmstripFolds(
+  pageHeightPx,
+  { foldHeightPx = PHONE_FILMSTRIP_FOLD_HEIGHT, maxFolds = PHONE_FILMSTRIP_MAX_FOLDS } = {}
+) {
+  const totalFolds = Math.max(1, Math.ceil(pageHeightPx / foldHeightPx))
+  const shownFolds = Math.min(totalFolds, maxFolds)
+  const moreFolds = totalFolds - shownFolds
+  return { totalFolds, shownFolds, moreFolds }
+}
+
+/**
+ * The "N more folds not shown" suffix for the last shown fold, or null when
+ * every fold is already shown.
+ * @param {number} moreFolds
+ * @returns {string|null}
+ */
+export function phoneFilmstripMoreLabel(moreFolds) {
+  if (moreFolds <= 0) return null
+  return `${moreFolds} more fold${moreFolds === 1 ? '' : 's'} not shown`
+}
+
+/**
+ * Crop a full-page screenshot into folds and lay them side by side into one
+ * PNG, each fold labeled so the critic knows the labels are ours, not the
+ * site's. Runs in the page's own <canvas>, the same trick `downscaleForCritic`
+ * uses, so composing costs no image-processing dependency.
+ *
+ * @param {import('playwright').Page} page
+ * @param {Buffer} pngBuffer - full-page screenshot at `dsf`
+ * @param {{ totalFolds: number, shownFolds: number, moreFolds: number, foldHeightPx: number, gutterPx: number, dsf: number }} plan
+ * @returns {Promise<Buffer>}
+ */
+async function composePhoneFilmstrip(
+  page,
+  pngBuffer,
+  { totalFolds, shownFolds, moreFolds, foldHeightPx, gutterPx, dsf }
+) {
+  const dataUrl = await page.evaluate(
+    async ({ base64, totalFolds, shownFolds, moreFolds, foldHeightPx, gutterPx, dsf }) => {
+      const img = new Image()
+      img.src = `data:image/png;base64,${base64}`
+      await img.decode()
+      const foldWidth = img.naturalWidth
+      const foldHeight = foldHeightPx * dsf
+      const canvas = document.createElement('canvas')
+      canvas.width = shownFolds * foldWidth + (shownFolds - 1) * gutterPx
+      canvas.height = foldHeight
+      const ctx = canvas.getContext('2d')
+      ctx.fillStyle = '#0a0a0a'
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      const barHeight = 64
+      for (let i = 0; i < shownFolds; i++) {
+        const index = i + 1
+        const srcY = i * foldHeight
+        const srcHeight = Math.min(foldHeight, Math.max(0, img.naturalHeight - srcY))
+        const destX = i * (foldWidth + gutterPx)
+        if (srcHeight > 0) {
+          ctx.drawImage(img, 0, srcY, foldWidth, srcHeight, destX, 0, foldWidth, srcHeight)
+        }
+        let label = `fold ${index} of ${totalFolds}`
+        if (moreFolds > 0 && index === shownFolds) {
+          label += ` — ${moreFolds} more fold${moreFolds === 1 ? '' : 's'} not shown`
+        }
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.72)'
+        ctx.fillRect(destX, 0, foldWidth, barHeight)
+        ctx.fillStyle = '#ffffff'
+        ctx.font = 'bold 32px -apple-system, sans-serif'
+        ctx.textBaseline = 'middle'
+        ctx.fillText(label, destX + 16, barHeight / 2, foldWidth - 32)
+      }
+      return canvas.toDataURL('image/png')
+    },
+    {
+      base64: pngBuffer.toString('base64'),
+      totalFolds,
+      shownFolds,
+      moreFolds,
+      foldHeightPx,
+      gutterPx,
+      dsf,
+    }
+  )
+  return Buffer.from(dataUrl.slice(dataUrl.indexOf(',') + 1), 'base64')
+}
+
+/**
+ * A whole page at 360 wide, as one filmstrip image: a full-page capture at
+ * device scale factor 2, cut into 640-CSS-px folds and laid side by side,
+ * each fold labeled, up to six folds shown. Best-effort, like the header
+ * crop: a missing image costs a critic one block, never the run.
+ *
+ * Replaces the single viewport-clipped 360 image every critic used to
+ * receive (#466) — that crop showed only the first 640px of the phone, so a
+ * hero phrase one fold further down was never seen, and `/about` at 9361px
+ * tall was never seen at all.
  *
  * @param {import('playwright').Browser} browser
  * @param {string} url
- * @param {{ width: number, height: number, colorScheme?: 'light'|'dark' }} opts
+ * @param {{ colorScheme?: 'light'|'dark' }} [opts]
  * @returns {Promise<Buffer|null>}
  */
-async function captureViewportJpeg(browser, url, { width, height, colorScheme }) {
+export async function capturePhoneFilmstrip(browser, url, { colorScheme } = {}) {
   let page = null
   try {
     page = await browser.newPage({
-      viewport: { width, height },
+      viewport: { width: CRITIC_MOBILE_VIEWPORT.width, height: PHONE_FILMSTRIP_FOLD_HEIGHT },
+      deviceScaleFactor: PHONE_FILMSTRIP_DSF,
       ...(colorScheme ? { colorScheme } : {}),
     })
     await page.goto(url, { waitUntil: 'networkidle' })
     await page.waitForTimeout(1000) // fonts
-    const png = await page.screenshot({ type: 'png', fullPage: false })
-    return await downscaleForCritic(page, png)
+    const pageHeightPx = await page.evaluate(() =>
+      Math.max(
+        document.documentElement.scrollHeight,
+        document.body ? document.body.scrollHeight : 0
+      )
+    )
+    const { totalFolds, shownFolds, moreFolds } = computePhoneFilmstripFolds(pageHeightPx, {
+      foldHeightPx: PHONE_FILMSTRIP_FOLD_HEIGHT,
+      maxFolds: PHONE_FILMSTRIP_MAX_FOLDS,
+    })
+    const png = await page.screenshot({ type: 'png', fullPage: true })
+    const composed = await composePhoneFilmstrip(page, png, {
+      totalFolds,
+      shownFolds,
+      moreFolds,
+      foldHeightPx: PHONE_FILMSTRIP_FOLD_HEIGHT,
+      gutterPx: PHONE_FILMSTRIP_GUTTER,
+      dsf: PHONE_FILMSTRIP_DSF,
+    })
+    return await downscaleForCritic(page, composed, {
+      targetWidth: PHONE_FILMSTRIP_WIDTH,
+      quality: PHONE_FILMSTRIP_QUALITY,
+    })
   } catch {
     return null
   } finally {
     if (page) await page.close().catch(() => {})
   }
+}
+
+/**
+ * `capturePhoneFilmstrip` for a route on the served build, managing its own
+ * preview server and browser — the same shape as `captureRouteScreenshot`,
+ * used the same way in `design-agents.js`'s screenshot-critic step to add
+ * `/about` and a case study to what only the home page used to get (#466).
+ *
+ * @param {string} route - e.g. "/about"
+ * @param {{ port?: number, colorScheme?: 'light'|'dark' }} [opts]
+ * @returns {Promise<Buffer|null>}
+ */
+export async function captureRoutePhoneFilmstrip(route, { port, colorScheme } = {}) {
+  const { chromium } = await import('playwright')
+  return await withPreviewServer(
+    async (baseUrl) => {
+      let browser = null
+      try {
+        browser = await chromium.launch({ headless: true })
+        return await capturePhoneFilmstrip(browser, `${baseUrl}${route}`, { colorScheme })
+      } finally {
+        if (browser) await browser.close()
+      }
+    },
+    { port }
+  )
 }
 
 /**
@@ -517,12 +674,12 @@ export async function captureScreenshot(port, { headerCrop } = {}) {
           declaredHeightPx: headerCrop?.heightPx ?? null,
         })
 
-        // The same page on a phone. Both critics now receive it beside the
-        // 1440 render, because the desktop-only diet is how a design that has
-        // no idea left at 360 shipped with every check green.
-        const mobileJpeg = await captureViewportJpeg(browser, `${baseUrl}/`, {
-          ...CRITIC_MOBILE_VIEWPORT,
-        })
+        // The whole page on a phone, as a filmstrip. Both critics now receive
+        // it beside the 1440 render, because the desktop-only diet is how a
+        // design that has no idea left at 360 shipped with every check green,
+        // and a single 640px crop is how a hero one fold further down went
+        // unseen (#466).
+        const mobileJpeg = await capturePhoneFilmstrip(browser, `${baseUrl}/`)
 
         // The rendered-geometry fingerprint (#255). Taken from the same served
         // build the critic is about to judge, so the silhouette recorded is the
@@ -571,12 +728,11 @@ export async function captureHtmlFileScreenshot(
       placement: headerCrop?.placement ?? null,
       declaredHeightPx: headerCrop?.heightPx ?? null,
     })
-    // The mockup on a phone, for the same reason the shipped page gets one:
-    // the mockup critic is the blocking gate between design and engineering,
-    // and until now it had never seen anything but 1440.
-    const mobileJpeg = await captureViewportJpeg(browser, `file://${filePath}`, {
-      ...CRITIC_MOBILE_VIEWPORT,
-    })
+    // The mockup on a phone, as a filmstrip, for the same reason the shipped
+    // page gets one: the mockup critic is the blocking gate between design
+    // and engineering, and until now it had never seen anything past 640px
+    // of the phone (#466).
+    const mobileJpeg = await capturePhoneFilmstrip(browser, `file://${filePath}`)
     return { png, jpeg, headerJpeg, mobileJpeg }
   } finally {
     await browser.close()

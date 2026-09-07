@@ -181,9 +181,9 @@ async function writeArchetype(date, archetype, { root = ROOT } = {}) {
  * test, rather than nine defaults inside a closure nothing can reach.
  *
  * @param {object} run
- * @param {{png?: Buffer, darkPng?: Buffer, fingerprint?: object}|null} run.finalScreenshot
+ * @param {{png?: Buffer, darkPng?: Buffer, mobileJpeg?: Buffer, fingerprint?: object}|null} run.finalScreenshot
  * @param {{mockupHtml?: string}|null} run.mockup
- * @param {{png?: Buffer}|null} run.mockupScreenshot
+ * @param {{png?: Buffer, mobileJpeg?: Buffer}|null} run.mockupScreenshot
  * @param {Array<object>} run.verdicts
  * @param {object} run.shellDecl
  * @param {object} run.headerDecl
@@ -198,8 +198,12 @@ export function archiveArtifacts(run) {
   return {
     'screenshot.png': run.finalScreenshot?.png ?? null,
     'screenshot-dark.png': run.finalScreenshot?.darkPng ?? null,
+    // The phone filmstrip that traveled to the critics, archived beside the
+    // captures it was judged with (#466) — until now it never reached disk.
+    'screenshot-mobile.jpg': run.finalScreenshot?.mobileJpeg ?? null,
     'mockup.html': run.mockup?.mockupHtml ?? null,
     'mockup-screenshot.png': run.mockupScreenshot?.png ?? null,
+    'mockup-screenshot-mobile.jpg': run.mockupScreenshot?.mobileJpeg ?? null,
     'verdicts.json': json(run.verdicts),
     'shell.json': json(run.shellDecl),
     'header.json': json(run.headerDecl),
@@ -2150,12 +2154,11 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         // that measurement covers, and the phone is where a design either
         // survives the width or stops existing.
         let routeShots = []
+        let slugRoute = null
         try {
           const { captureRouteScreenshot } = await import('./utils/snapshot.js')
           const { listGeneratedRoutes } = await import('./utils/surface-gate.js')
-          const slugRoute = (await listGeneratedRoutes(root)).find((r) =>
-            r.route.startsWith('/work/')
-          )
+          slugRoute = (await listGeneratedRoutes(root)).find((r) => r.route.startsWith('/work/'))
           const extra = [
             slugRoute ? { label: 'A project page', route: slugRoute.route, w: 1440, h: 900 } : null,
           ].filter(Boolean)
@@ -2171,6 +2174,37 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           routeShots = []
         }
 
+        // Phone filmstrips of /about and the first case study route — the
+        // pages the phone gate never covered before #466, when only the home
+        // page ever got a mobile image, and only its first 640px at that.
+        // Each capture is independent and best-effort: one failing costs the
+        // critic one image, never the run.
+        let phoneFilmstrips = []
+        try {
+          const { captureRoutePhoneFilmstrip } = await import('./utils/snapshot.js')
+          const filmstripRoutes = [
+            { label: '/about', route: '/about' },
+            slugRoute ? { label: slugRoute.route, route: slugRoute.route } : null,
+          ].filter(Boolean)
+          for (const r of filmstripRoutes) {
+            const jpeg = await captureRoutePhoneFilmstrip(r.route)
+            if (jpeg) {
+              phoneFilmstrips.push({
+                label:
+                  `A phone filmstrip of ${r.label}, light scheme: the whole page at 360 wide, ` +
+                  "cut into 640px folds and laid side by side (the fold labels are ours, not the site's):",
+                jpeg,
+              })
+            }
+          }
+          console.log(`  [screenshot-critic] +${phoneFilmstrips.length} phone filmstrips`)
+        } catch (err) {
+          console.warn(
+            `  [screenshot-critic] phone filmstrip capture failed (non-blocking): ${err.message}`
+          )
+          phoneFilmstrips = []
+        }
+
         const criticBlocks = buildScreenshotCriticBlocks({
           // enrichedBrief carries hero copy, rationale, and the full visual
           // spec. The nightly context has no `brief` key, so the old
@@ -2184,6 +2218,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           screenshotBuffer,
           bestReference,
           routeShots,
+          phoneFilmstrips,
           measuredFaults: formatFindingsForCritic(measuredFindings),
         })
 
