@@ -1,22 +1,22 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { AboutHero } from '../components/generated/AboutHero'
-import { AboutField } from '../components/generated/AboutField'
+import { IdentityStatement } from '../components/generated/IdentityStatement'
 import { TimelineList } from '../components/generated/TimelineList'
-import { RecordGrid } from '../components/generated/RecordGrid'
-import { SiteColophon } from '../components/generated/SiteColophon'
-import { timeline, education } from '../content/timeline'
-import { personal } from '../content/about'
+import { CapabilitiesPanel } from '../components/generated/CapabilitiesPanel'
+import { EducationBlock } from '../components/generated/EducationBlock'
+import { PersonalStamps } from '../components/generated/PersonalStamps'
+import { identity, personal } from '../content/about'
+import { timeline, capabilities, education } from '../content/timeline'
 
 export const Route = createFileRoute('/about')({ component: AboutPage })
 
 function AboutPage() {
   return (
     <>
-      <AboutHero />
-      <AboutField />
+      <IdentityStatement statement={identity.statement} role={identity.role} />
       <TimelineList entries={timeline} />
-      <RecordGrid education={education} personal={personal} />
-      <SiteColophon />
+      <CapabilitiesPanel capabilities={capabilities} />
+      <EducationBlock education={education} />
+      <PersonalStamps personal={personal} />
     </>
   )
 }

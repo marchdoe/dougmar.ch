@@ -1,0 +1,1491 @@
+{
+  "date": "2026-09-08",
+  "startedAt": "2026-09-08T08:52:45.731Z",
+  "completedAt": "2026-09-08T09:26:14.846Z",
+  "steps": [
+    {
+      "name": "signals-loaded",
+      "phase": 0,
+      "input": {
+        "providersAvailable": 18
+      },
+      "output": {
+        "air_quality": {
+          "aqi_index": 1,
+          "uv_index": 0,
+          "air_quality_label": "Good"
+        },
+        "books": {
+          "currently_reading": []
+        },
+        "day_of_week": {
+          "day": "Tuesday",
+          "is_weekend": false,
+          "day_index": 2
+        },
+        "github": {
+          "repos": [
+            {
+              "name": "heygen-com/hyperframes/stargazers",
+              "description": "",
+              "language": "TypeScript",
+              "stars": null
+            },
+            {
+              "name": "microsoft/markitdown/stargazers",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            },
+            {
+              "name": "sponsors/mksglu",
+              "description": "",
+              "language": "TypeScript",
+              "stars": null
+            },
+            {
+              "name": "jo-inc/camofox-browser/stargazers",
+              "description": "",
+              "language": "JavaScript",
+              "stars": null
+            },
+            {
+              "name": "MoonTechLab/LunaTV/stargazers",
+              "description": "",
+              "language": "TypeScript",
+              "stars": null
+            }
+          ]
+        },
+        "golf": {
+          "tournament": "Biltmore Championship Asheville",
+          "status": "Scheduled",
+          "leaders": []
+        },
+        "hacker_news": {
+          "stories": [
+            {
+              "title": "I've factored the RSA keys of a Certificate Authority from the 90s",
+              "url": "https://mcpherrin.ca/2026/09/07/rsa.html",
+              "score": 299,
+              "by": "ahlCVA"
+            },
+            {
+              "title": "Mistral raises €3B",
+              "url": "https://mistral.ai/news/mistral-makes-sovereign-open-weight-ai-to-frontier/",
+              "score": 389,
+              "by": "kuberwastaken"
+            },
+            {
+              "title": "We have a year to fix security everywhere",
+              "url": "https://jyn.dev/a-year-to-fix-security/",
+              "score": 204,
+              "by": "saikatsg"
+            },
+            {
+              "title": "Multi-Agents LLM Financial Trading Framework",
+              "url": "https://github.com/TauricResearch/TradingAgents",
+              "score": 38,
+              "by": "fittingopposite"
+            },
+            {
+              "title": "My Feed, My Way",
+              "url": "https://www.pm.gov.au/media/my-feed-my-way",
+              "score": 105,
+              "by": "dotcoma"
+            }
+          ]
+        },
+        "holidays": {
+          "today": null,
+          "upcoming": []
+        },
+        "lunar": {
+          "phase": "waning crescent",
+          "illumination": 0.082,
+          "days_into_cycle": 26.81
+        },
+        "market": {
+          "symbol": "SPY",
+          "price": "770.1900",
+          "change": "-2.9800",
+          "change_percent": "-0.3854%",
+          "direction": "down"
+        },
+        "music": {
+          "bands": [
+            "My Morning Jacket",
+            "Tobin Sprout"
+          ],
+          "rotation": true
+        },
+        "news": {
+          "headlines": [
+            {
+              "title": "China pulls in Big Tobacco to help with smaller-than-expected finance-industry capital injections - CNBC",
+              "source": "CNBC",
+              "url": "https://www.cnbc.com/2026/09/07/china-state-banks-lenders-insurers-capital-solvency-bankrupt-nim-.html"
+            },
+            {
+              "title": "Amazon cargo plane crashes at Miami airport, killing five people - The Washington Post",
+              "source": "The Washington Post",
+              "url": "https://www.washingtonpost.com/nation/2026/09/06/amazon-cargo-plane-crashes-after-veering-off-runway-miami-airport/"
+            },
+            {
+              "title": "Fuel prices at record Labor Day high in US thanks to Iran War and refinery issues - apnews.com",
+              "source": "Associated Press",
+              "url": "https://apnews.com/article/labor-day-record-high-gas-prices-dffb7d3fa06ef930aaeebc380e5e4e0e"
+            },
+            {
+              "title": "Western Michigan-Michigan outcome created chaos for Kalshi - NBC Sports",
+              "source": "NBCSports.com",
+              "url": "https://www.nbcsports.com/nfl/profootballtalk/rumor-mill/news/western-michigan-michigan-outcome-created-chaos-for-kalshi"
+            },
+            {
+              "title": "Amy Acton unharmed after man lunges at her during campaign event; suspect now in custody - wlwt.com",
+              "source": "WLWT Cincinnati",
+              "url": "https://www.wlwt.com/article/amy-acton-attacked-at-campaign-event-near-youngstown/73625988"
+            }
+          ]
+        },
+        "quote": {
+          "text": "Life is one long process of getting tired.",
+          "author": "Samuel Butler"
+        },
+        "season": {
+          "season": "fall",
+          "month": 9,
+          "day": 8,
+          "day_of_year": 251,
+          "month_name": "September"
+        },
+        "sidebar": {
+          "links": [
+            {
+              "title": "When the canvas starts acting, who’s really in control?",
+              "url": "https://uxdesign.cc/when-the-canvas-starts-acting-whos-really-in-control-0128f641223c",
+              "source": "uxdesign.cc",
+              "description": "How agentic interfaces are changing what designers control, from interactions to agency, orchestration and attention."
+            },
+            {
+              "title": "Agent memory as a file format",
+              "url": "https://calpaterson.com/memoryfields.html",
+              "source": "calpaterson.com",
+              "description": "A vastly simpler way to do agent memory"
+            },
+            {
+              "title": "RecipeTables",
+              "url": "https://recipetables.com/",
+              "source": "recipetables.com",
+              "description": "Any recipe at a glance. Paste a recipe (or a URL) and get it back as a nested prep table. Ingredients as rows, steps as merged columns."
+            },
+            {
+              "title": "Lucet",
+              "url": "https://lucet.design/",
+              "source": "lucet.design",
+              "description": "AI interface patterns for what comes next: the missing states designed, the missing features working."
+            },
+            {
+              "title": "Burnt out on a three-day week",
+              "url": "https://jennywanger.com/articles/burnt-out-on-a-three-day-week/",
+              "source": "jennywanger.com",
+              "description": "She works three days a week. She’s still burnt out. When rest doesn’t fix the exhaustion, the workload was never the problem."
+            }
+          ]
+        },
+        "sports": {
+          "teams": [
+            {
+              "name": "Detroit Lions",
+              "league": "NFL",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            },
+            {
+              "name": "Detroit Red Wings",
+              "league": "NHL",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            },
+            {
+              "name": "Detroit Pistons",
+              "league": "NBA",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            },
+            {
+              "name": "Detroit Tigers",
+              "league": "MLB",
+              "last_game": "2026-09-07T19:10Z",
+              "result": "win",
+              "score": "5-4"
+            }
+          ]
+        },
+        "sun": {
+          "sunrise": "06:51",
+          "sunset": "19:23",
+          "daylight_hours": 12.5
+        },
+        "weather": {
+          "location": "Aldie, Virginia",
+          "conditions": "Clear",
+          "temp_f": 63.9,
+          "temp_c": 17.7,
+          "humidity": 62,
+          "wind_mph": 3.4,
+          "wind_dir": "SSW",
+          "feels_like_f": 62.2
+        },
+        "date": "2026-09-08"
+      },
+      "durationMs": 0,
+      "timestamp": "2026-09-08T08:52:45.741Z"
+    },
+    {
+      "name": "art-director",
+      "phase": 1,
+      "input": {
+        "compositionMandate": "## Composition Mandate\n\nRecency is tracked per axis, not per whole tuple: a value used on any of the last 3 builds is discouraged for that axis. The starting values below are derived from today's date — they are a specific place to begin, not an instruction.\n\n- **columns** — start from `masonry` (avoid `single`, `two-asymmetric`, `irregular-twelve`)\n- **axis** — start from `diagonal` (avoid `vertical`, `horizontal`, `radial`)\n- **symmetry** — start from `right-weighted` (avoid `broken`, `left-we"
+      },
+      "output": {
+        "hero_copy": "I rebuilt myself overnight.",
+        "archetype": "a nocturnal poster that argues with itself across a split",
+        "composition": {
+          "columns": "two-equal",
+          "axis": "diagonal",
+          "symmetry": "right-weighted",
+          "hero_zone": "full-bleed",
+          "density": "dense",
+          "rhythm": "even",
+          "shell_posture": "footer-only",
+          "field_ratio": "field-dominant",
+          "collapse": "split-to-sequence"
+        },
+        "mobile": {
+          "carrier": "The two violet fields stack into a sequence — the exhausted-world thesis directly above the rebuilt answer — so the irony survives by adjacency once the diagonal split is gone.",
+          "first_fold": "The hero \"I rebuilt myself overnight.\" with Butler's tired-world deck immediately beneath it, the ironic pair held together in the first 640px.",
+          "order": "hero statement + Butler deck, exhausted-internet evidence (burnout · security · market), rebuild log (Tigers W 5–4 · weather · moon), work index, footer colophon",
+          "hero_step_360": "3xl",
+          "nav_360": "footer collapses to a full-width stack — mark + wordmark, then WORK · ABOUT · CONTACT uppercase, then stamps"
+        },
+        "chassisId": "unbounded-figtree",
+        "specLength": 4275,
+        "specPreview": "### 1. Color Specification\n- **Primary hue** — 265° violet/indigo. The site rebuilds itself overnight; violet is the color of those hours, and the open hue window (242–298°) makes it the freshest committed choice available.\n- **Neutral palette (violet-tinted)** — 50 `#f5f3fa`, 100 `#e9e5f2`, 200 `#d3cde3`, 300 `#b1a8c8`, 400 `#877da2`, 500 `#665c84`, 600 `#4d4466`, 700 `#38314c`, 800 `#261f3a`, 900 `#17122c`\n- **Accent color (orchid pulse)** — light `#cbabff`, default `#ac81ff`, dark `#8149e0`, ",
+        "selfCheck": "1. Hero quotability: Yes — \"I rebuilt myself overnight.\" is a screenshot-worthy first-person machine flex, not descriptive copy.\n2. Because-of chain: Yes — split argument, diagonal right-weighting, blocky Unbounded, violet drench and footer shell all trace to the phrase and its irony.\n3. Render feas"
+      },
+      "durationMs": 320846,
+      "timestamp": "2026-09-08T08:58:06.596Z"
+    },
+    {
+      "name": "spec-critic",
+      "phase": 1,
+      "input": {
+        "specLength": 4275
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "REVISE\n\n- Preset `surface` token does not match visual spec. The preset sets `surface: { value: { base: '{colors.night.800}' } }` = #261f3a, but the visual spec explicitly declares \"raised surface `#2a2246`.\" These are different hex values. The preset's surface is darker than specified, breaking the intended visual hierarchy (raised surfaces should be lighter than their ground). Update the preset to `surface: { value: { base: '#2a2246' } }`.\n\n- Self-check and mobile declaration make an unverifia"
+      },
+      "durationMs": 136205,
+      "timestamp": "2026-09-08T09:00:24.778Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 0
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "**Check 2 — Measurables (canvas utilization and color coverage both critically miss floors)**\n\nMeasured canvas utilization is 67%, more than 15 points under the 82% floor — this is not a near miss. The composition reads as committed in places but the grid measurement confirms it: too much of the 1440×900 viewport is unoccupied or carries no designed content. The drench field dominates the eye but does not fill the utilization target. Revise to densify: either push the signal rows (burnout, secur"
+      },
+      "durationMs": 230005,
+      "timestamp": "2026-09-08T09:04:14.841Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "**Check 2: Measurables — Canvas Utilization and Color Coverage Critical Shortfall**\nMeasured canvas utilization is 46.3% against a floor of 82% — a 35.7-point deficit, far exceeding the 5-point tolerance. Measured colour coverage is 20% against a floor of 72% — a 52-point shortfall. The brief demands a \"drench\" field with a committed violet plane; the mockup renders as sparse and underdeveloped. The hero phrase at 128px is correctly scaled, but the page's utilization and chromatic commitment are"
+      },
+      "durationMs": 312564,
+      "timestamp": "2026-09-08T09:09:27.405Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "1. **Measurables — Canvas utilization critically short**: Measured 67.3% against floor 82%, a shortfall of 14.7 points. The composition relies on negative space around the hero phrase and the two-field split, but the measurement shows the designed content does not occupy enough of the viewport. The drench field is present and chromatic (color coverage 100% ✓, hero scale 128px ✓), but canvas utilization must reach at least 77% (within the 5-point margin). Increase content density: expand the Butl"
+      },
+      "durationMs": 247776,
+      "timestamp": "2026-09-08T09:13:35.181Z"
+    },
+    {
+      "name": "react-engineer",
+      "phase": 3,
+      "input": {
+        "tokenContext": 3271,
+        "briefLength": 8424,
+        "mockupLength": 19790
+      },
+      "output": {
+        "files": [
+          "app/components/Layout.tsx",
+          "app/components/Sidebar.tsx",
+          "app/components/generated/HeroPhrase.tsx",
+          "app/components/generated/EvidenceRow.tsx",
+          "app/components/generated/ExhaustedField.tsx",
+          "app/components/generated/RebuildField.tsx",
+          "app/components/generated/Stage.tsx",
+          "app/components/generated/ProjectColumn.tsx",
+          "app/components/generated/FeaturedProject.tsx",
+          "app/components/generated/WorkIndexSection.tsx",
+          "app/routes/index.tsx",
+          "app/components/generated/IdentityStatement.tsx",
+          "app/components/generated/TimelineList.tsx",
+          "app/components/generated/CapabilitiesPanel.tsx",
+          "app/components/generated/EducationBlock.tsx",
+          "app/components/generated/PersonalStamps.tsx",
+          "app/routes/about.tsx",
+          "app/components/generated/CaseStudyHeader.tsx",
+          "app/components/generated/CaseStudyNarrative.tsx",
+          "app/components/generated/CaseStudyMeta.tsx",
+          "app/components/generated/WhitePaperSection.tsx",
+          "app/routes/work.$slug.tsx",
+          "app/routes/og.tsx"
+        ],
+        "rationale": ""
+      },
+      "durationMs": 206558,
+      "timestamp": "2026-09-08T09:17:01.744Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 3,
+      "input": {
+        "after": "react-engineer"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/CapabilitiesPanel.tsx",
+          "app/components/generated/CaseStudyHeader.tsx",
+          "app/components/generated/CaseStudyMeta.tsx",
+          "app/components/generated/CaseStudyNarrative.tsx",
+          "app/components/generated/EducationBlock.tsx",
+          "app/components/generated/EvidenceRow.tsx",
+          "app/components/generated/ExhaustedField.tsx",
+          "app/components/generated/FeaturedProject.tsx",
+          "app/components/generated/HeroPhrase.tsx",
+          "app/components/generated/IdentityStatement.tsx",
+          "app/components/generated/PersonalStamps.tsx",
+          "app/components/generated/ProjectColumn.tsx",
+          "app/components/generated/RebuildField.tsx",
+          "app/components/generated/Stage.tsx",
+          "app/components/generated/TimelineList.tsx",
+          "app/components/generated/WhitePaperSection.tsx",
+          "app/components/generated/WorkIndexSection.tsx"
+        ],
+        "removed": [
+          "app/components/generated/AboutField.tsx",
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/AlmanacGrid.tsx",
+          "app/components/generated/ColophonFooter.tsx",
+          "app/components/generated/FeaturedInterjection.tsx",
+          "app/components/generated/FieldBand.tsx",
+          "app/components/generated/HeroIntro.tsx",
+          "app/components/generated/HomeFieldPayoff.tsx",
+          "app/components/generated/Masthead.tsx",
+          "app/components/generated/ProjectContext.tsx",
+          "app/components/generated/ProjectDecisions.tsx",
+          "app/components/generated/ProjectHero.tsx",
+          "app/components/generated/ProjectNarrative.tsx",
+          "app/components/generated/ProjectProcess.tsx",
+          "app/components/generated/ProjectReferences.tsx",
+          "app/components/generated/RecordGrid.tsx",
+          "app/components/generated/SiteColophon.tsx"
+        ]
+      },
+      "durationMs": 6,
+      "timestamp": "2026-09-08T09:17:01.751Z"
+    },
+    {
+      "name": "build-validation",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "success": false,
+        "error": "1 of 4 gates failed:\n\nThe build compiled but does not pass the checks CI runs on main.\nFix every error listed below; formatting has already been corrected.\n\nType errors (tsc --noEmit), 7 total, every one listed:\napp/components/generated/EducationBlock.tsx(21,25): error TS2322: Type '{ gap: \"6px\"; align: string; children: Element[]; }' is not assignable to type 'IntrinsicAttributes & VstackProps'. Property 'align' does not exist on type 'IntrinsicAttributes & VstackProps'.\napp/components/generate"
+      },
+      "durationMs": 0,
+      "timestamp": "2026-09-08T09:17:10.850Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 5,
+      "input": {
+        "after": "React Engineer repair"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/CapabilitiesPanel.tsx",
+          "app/components/generated/CaseStudyHeader.tsx",
+          "app/components/generated/CaseStudyMeta.tsx",
+          "app/components/generated/CaseStudyNarrative.tsx",
+          "app/components/generated/EducationBlock.tsx",
+          "app/components/generated/EvidenceRow.tsx",
+          "app/components/generated/ExhaustedField.tsx",
+          "app/components/generated/FeaturedProject.tsx",
+          "app/components/generated/HeroPhrase.tsx",
+          "app/components/generated/IdentityStatement.tsx",
+          "app/components/generated/PersonalStamps.tsx",
+          "app/components/generated/ProjectColumn.tsx",
+          "app/components/generated/RebuildField.tsx",
+          "app/components/generated/Stage.tsx",
+          "app/components/generated/TimelineList.tsx",
+          "app/components/generated/WhitePaperSection.tsx",
+          "app/components/generated/WorkIndexSection.tsx"
+        ],
+        "removed": []
+      },
+      "durationMs": 1,
+      "timestamp": "2026-09-08T09:17:39.524Z"
+    },
+    {
+      "name": "repair",
+      "phase": 5,
+      "input": {
+        "attempt": 1,
+        "error": "1 of 4 gates failed:\n\nThe build compiled but does not pass the checks CI runs on main.\nFix every error listed below; formatting has already been corrected.\n\nType errors (tsc --noEmit), 7 total, every one listed:\napp/components/generated/EducationBlock.tsx(21,25): error TS2322: Type '{ gap: \"6px\"; align: string; children: Element[]; }' is not assignable to type 'IntrinsicAttributes & VstackProps'. Property 'align' does not exist on type 'IntrinsicAttributes & VstackProps'.\napp/components/generated/ExhaustedField.tsx(57,23): error TS2322: Type '{ gap: \"0\"; align: string; children: Element[]; }' is not assignable to type 'IntrinsicAttributes & VstackProps'. Property 'align' does not exist on type 'IntrinsicAttributes & VstackProps'.\napp/components/generated/TimelineList.tsx(22,23): error TS2322: Type '{ gap: \"0\"; align: string; children: Element[]; }' is not assignable to type 'IntrinsicAttributes & VstackProps'. Property 'align' does not exist on type 'IntrinsicAttributes & VstackProps'.\napp/components/generated/WhitePaperSection.tsx(2,15): error TS2305: Module '\"../../content/projects\"' has no exported member 'Project_WhitePaper'.\napp/components/generated/WhitePaperSection.tsx(43,21): error TS2322: Type '{ gap: \"0\"; align: string; mb: \"30px\"; children: Element[]; }' is not assignable to type 'IntrinsicAttributes & VstackProps'. Property 'align' does not exist on type 'IntrinsicAttributes & VstackProps'.\napp/components/generated/WhitePaperSection.tsx(77,21): error TS2322: Type '{ gap: \"0\"; align: string; mb: \"30px\"; children: Element[]; }' is not assignable to type 'IntrinsicAttributes & VstackProps'. Property 'align' does not exist on type 'IntrinsicAttributes & VstackProps'.\napp/components/generated/WhitePaperSection.tsx(99,21): error TS2322: Type '{ gap: \"0\"; align: string; children: Element[]; }' is not assignable to type 'IntrinsicAttributes & VstackProps'. Property 'align' does not exist on type 'IntrinsicAttributes & VstackProps'."
+      },
+      "output": {
+        "files": 4,
+        "written": 4,
+        "deleted": 0,
+        "merged": 23,
+        "success": true
+      },
+      "durationMs": 36259,
+      "timestamp": "2026-09-08T09:17:47.109Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "measured": 44,
+        "errorCount": 62,
+        "findings": [
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 81px wider than the 360px viewport (scrollWidth 441)"
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<DIV> is cut off: its right edge lands at 441px, 81px past the 360px viewport, severing \"Selected workFishSticksSaaS202515th ClubAI2025doug...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<DIV> is cut off: its right edge lands at 441px, 81px past the 360px viewport, severing \"ExperimentsTeeTurnExperiment2020PolitweetsExperime...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<SPAN> holds text wider than its own box: \"overnight....\" needs 358px and the box is 289px, so 69px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "234 characters of running copy set at 54px (over 48px) — \"Independent design and engineering work doesn't always fit n...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 81px wider than the 360px viewport (scrollWidth 441)"
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<DIV> is cut off: its right edge lands at 441px, 81px past the 360px viewport, severing \"Selected workFishSticksSaaS202515th ClubAI2025doug...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<DIV> is cut off: its right edge lands at 441px, 81px past the 360px viewport, severing \"ExperimentsTeeTurnExperiment2020PolitweetsExperime...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<SPAN> holds text wider than its own box: \"overnight....\" needs 358px and the box is 289px, so 69px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "234 characters of running copy set at 54px (over 48px) — \"Independent design and engineering work doesn't always fit n...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 73px wider than the 360px viewport (scrollWidth 433)"
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<DIV> is cut off: its right edge lands at 433px, 73px past the 360px viewport, severing \"Sr. Engineer, Web + Mobile · LivingSocialWorked ac...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<DIV> is cut off: its right edge lands at 425px, 65px past the 360px viewport, severing \"Director of Engineering · InterfolioResponsible fo...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<DIV> is cut off: its right edge lands at 418px, 58px past the 360px viewport, severing \"Founder & Consultant · SpacemanIndependent design ...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/about",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "340 characters of running copy set at 81px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 73px wider than the 360px viewport (scrollWidth 433)"
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<DIV> is cut off: its right edge lands at 433px, 73px past the 360px viewport, severing \"Sr. Engineer, Web + Mobile · LivingSocialWorked ac...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<DIV> is cut off: its right edge lands at 425px, 65px past the 360px viewport, severing \"Director of Engineering · InterfolioResponsible fo...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<DIV> is cut off: its right edge lands at 418px, 58px past the 360px viewport, severing \"Founder & Consultant · SpacemanIndependent design ...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/about",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "340 characters of running copy set at 81px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Work' is a 40x76px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "small-copy",
+            "severity": "warning",
+            "detail": "<P> runs at 12.6px, under the 16px reading floor — \"Featured...\". Set it on the body step."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Work' is a 40x76px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "small-copy",
+            "severity": "warning",
+            "detail": "<P> runs at 12.6px, under the 16px reading floor — \"Featured...\". Set it on the body step."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 4px wider than the 360px viewport (scrollWidth 364)"
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"Experiments...\" needs 360px and the box is 352px, so 8px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TeeTurnExperiment2020' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'PolitweetsExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TwittertaleExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 4px wider than the 360px viewport (scrollWidth 364)"
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"Experiments...\" needs 360px and the box is 352px, so 8px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TeeTurnExperiment2020' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'PolitweetsExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TwittertaleExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 45px wider than the 360px viewport (scrollWidth 405)"
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"Spaceman...\" needs 377px and the box is 304px, so 73px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "234 characters of running copy set at 54px (over 48px) — \"Independent design and engineering work doesn't always fit n...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 45px wider than the 360px viewport (scrollWidth 405)"
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"Spaceman...\" needs 377px and the box is 304px, so 73px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "234 characters of running copy set at 54px (over 48px) — \"Independent design and engineering work doesn't always fit n...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 39px wider than the 360px viewport (scrollWidth 399)"
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"FishSticks...\" needs 371px and the box is 304px, so 67px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 39px wider than the 360px viewport (scrollWidth 399)"
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"FishSticks...\" needs 371px and the box is 304px, so 67px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "186 characters of running copy set at 54px (over 48px) — \"Kids struggle to practice spelling lists from school — the t...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "186 characters of running copy set at 54px (over 48px) — \"Kids struggle to practice spelling lists from school — the t...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 89px wider than the 360px viewport (scrollWidth 449)"
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"dougmar.ch...\" needs 421px and the box is 304px, so 117px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Deletion Test' is a 175x19px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Phoenix Primitives' is a 226x19px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "small-copy",
+            "severity": "warning",
+            "detail": "<LI> runs at 14.2px, under the 16px reading floor — \"It redesigns itself unattended. Nothing may wait on me appro...\". Set it on the body step."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 49px wider than the 1440px viewport (scrollWidth 1489)"
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "218 characters of running copy set at 54px (over 48px) — \"A portfolio argues that you can design and build things, the...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"dougmar.ch...\" needs 1401px and the box is 1264px, so 137px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 49px wider than the 1440px viewport (scrollWidth 1489)"
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "218 characters of running copy set at 54px (over 48px) — \"A portfolio argues that you can design and build things, the...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"dougmar.ch...\" needs 1401px and the box is 1264px, so 137px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 89px wider than the 360px viewport (scrollWidth 449)"
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"dougmar.ch...\" needs 421px and the box is 304px, so 117px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Deletion Test' is a 175x19px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Phoenix Primitives' is a 226x19px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "small-copy",
+            "severity": "warning",
+            "detail": "<LI> runs at 14.2px, under the 16px reading floor — \"It redesigns itself unattended. Nothing may wait on me appro...\". Set it on the body step."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 47px wider than the 360px viewport (scrollWidth 407)"
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"Politweets...\" needs 379px and the box is 304px, so 75px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<P> holds text wider than its own box: \"Built over a weekend with the Character140 collect...\" needs 376px and the box is 304px, so 72px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 47px wider than the 360px viewport (scrollWidth 407)"
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"Politweets...\" needs 379px and the box is 304px, so 75px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<P> holds text wider than its own box: \"Built over a weekend with the Character140 collect...\" needs 376px and the box is 304px, so 72px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "448 characters of running copy set at 54px (over 48px) — \"Built over a weekend with the Character140 collective — a gr...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "448 characters of running copy set at 54px (over 48px) — \"Built over a weekend with the Character140 collective — a gr...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 73px wider than the 360px viewport (scrollWidth 433)"
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"Twittertale...\" needs 405px and the box is 304px, so 101px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 73px wider than the 360px viewport (scrollWidth 433)"
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"Twittertale...\" needs 405px and the box is 304px, so 101px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "406 characters of running copy set at 54px (over 48px) — \"One of the earliest experiments using the Twitter API to tra...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"Twittertale...\" needs 1352px and the box is 1264px, so 88px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "406 characters of running copy set at 54px (over 48px) — \"One of the earliest experiments using the Twitter API to tra...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"Twittertale...\" needs 1352px and the box is 1264px, so 88px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          }
+        ]
+      },
+      "durationMs": 20941,
+      "timestamp": "2026-09-08T09:18:08.072Z"
+    },
+    {
+      "name": "screenshot-critic",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 — react-engineer: The hero's own accent word \"overnight.\" is severed at 360px — the span needs 358px but its box is only 289px, cutting 69px off the end of the word with no wrap. This is the load-bearing word of the entire page's concept and it's cut off in the very first fold of the homepage filmstrip.\n- Section 10 — react-engineer: The homepage document is 81px wider than the 360px viewport, and that overflow severs the work-index and experiments "
+      },
+      "durationMs": 79845,
+      "timestamp": "2026-09-08T09:19:27.917Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 5,
+      "input": {
+        "after": "React Engineer revision"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/CapabilitiesPanel.tsx",
+          "app/components/generated/CaseStudyHeader.tsx",
+          "app/components/generated/CaseStudyMeta.tsx",
+          "app/components/generated/CaseStudyNarrative.tsx",
+          "app/components/generated/EducationBlock.tsx",
+          "app/components/generated/EvidenceRow.tsx",
+          "app/components/generated/ExhaustedField.tsx",
+          "app/components/generated/FeaturedProject.tsx",
+          "app/components/generated/HeroPhrase.tsx",
+          "app/components/generated/IdentityStatement.tsx",
+          "app/components/generated/PersonalStamps.tsx",
+          "app/components/generated/ProjectColumn.tsx",
+          "app/components/generated/RebuildField.tsx",
+          "app/components/generated/Stage.tsx",
+          "app/components/generated/TimelineList.tsx",
+          "app/components/generated/WhitePaperSection.tsx",
+          "app/components/generated/WorkIndexSection.tsx"
+        ],
+        "removed": []
+      },
+      "durationMs": 1,
+      "timestamp": "2026-09-08T09:24:18.531Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "measured": 44,
+        "errorCount": 10,
+        "findings": [
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 22px wider than the 360px viewport (scrollWidth 382)"
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H2> holds text wider than its own box: \"Capabilities...\" needs 354px and the box is 304px, so 50px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 22px wider than the 360px viewport (scrollWidth 382)"
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H2> holds text wider than its own box: \"Capabilities...\" needs 354px and the box is 304px, so 50px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Work' is a 40x76px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "small-copy",
+            "severity": "warning",
+            "detail": "<P> runs at 12.6px, under the 16px reading floor — \"Featured...\". Set it on the body step."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Work' is a 40x76px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "small-copy",
+            "severity": "warning",
+            "detail": "<P> runs at 12.6px, under the 16px reading floor — \"Featured...\". Set it on the body step."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 4px wider than the 360px viewport (scrollWidth 364)"
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"Experiments...\" needs 360px and the box is 352px, so 8px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TeeTurnExperiment2020' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'PolitweetsExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TwittertaleExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "overflow",
+            "severity": "error",
+            "detail": "document is 4px wider than the 360px viewport (scrollWidth 364)"
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"Experiments...\" needs 360px and the box is 352px, so 8px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TeeTurnExperiment2020' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'PolitweetsExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TwittertaleExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Deletion Test' is a 175x19px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Phoenix Primitives' is a 226x19px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "small-copy",
+            "severity": "warning",
+            "detail": "<LI> runs at 14.2px, under the 16px reading floor — \"It redesigns itself unattended. Nothing may wait on me appro...\". Set it on the body step."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Deletion Test' is a 175x19px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Phoenix Primitives' is a 226x19px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "small-copy",
+            "severity": "warning",
+            "detail": "<LI> runs at 14.2px, under the 16px reading floor — \"It redesigns itself unattended. Nothing may wait on me appro...\". Set it on the body step."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<P> holds text wider than its own box: \"Built over a weekend with the Character140 collect...\" needs 328px and the box is 304px, so 24px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<P> holds text wider than its own box: \"Built over a weekend with the Character140 collect...\" needs 328px and the box is 304px, so 24px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          }
+        ]
+      },
+      "durationMs": 20342,
+      "timestamp": "2026-09-08T09:24:46.439Z"
+    }
+  ]
+}

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — I rebuilt myself overnight.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#17122c;
+    --bgAlt:#201a34;
+    --surface:#261f3a;
+    --raised:#2a2246;
+    --text:#f2edfb;
+    --textMuted:#c6bce0;
+    --textFaint:#a99ec9;
+    --accent:#ac81ff;
+    --accentLight:#cbabff;
+    --accentGlow:#ddc6ff;
+    --accentDark:#8149e0;
+    --field:#352060;
+    --violet900:#22163f;
+    --violet700:#492c82;
+    --violet600:#5e39a6;
+    --border:#38314c;
+    --fieldBorder:#5e39a6;
+    --pad:clamp(28px,5vw,88px);
+    --hero:clamp(44px,9vw,128px);
+    --step2xl:clamp(27px,4vw,40px);
+    --stepXl:clamp(21px,2.6vw,29px);
+    --stepLg:clamp(18px,1.6vw,22px);
+    --stepBase:clamp(16px,1.1vw,17px);
+    --stepSm:14px;
+    --stepXs:12px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Figtree',system-ui,sans-serif;
+    font-size:var(--stepBase);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  a{color:var(--text);text-decoration:none;transition:color 140ms ease;}
+  a:hover{color:var(--accent);}
+  ::selection{background:var(--accent);color:var(--bg);}
+  h1,h2,h3{margin:0;font-weight:inherit;}
+  p{margin:0;text-wrap:pretty;}
+
+  .label{
+    font-size:var(--stepSm);
+    text-transform:uppercase;
+    letter-spacing:0.11em;
+    color:var(--accentLight);
+    font-weight:700;
+  }
+  .micro{
+    font-size:var(--stepXs);
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    color:var(--textFaint);
+    font-weight:500;
+  }
+  .tnum{font-variant-numeric:tabular-nums;}
+
+  /* ===== STAGE (two-equal drench field) ===== */
+  .stage{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    background:var(--bg);
+  }
+  .stage::before{
+    content:"";
+    position:absolute;inset:0;z-index:0;
+    background:
+      radial-gradient(120% 80% at 82% 22%, rgba(129,73,224,.28), transparent 60%),
+      linear-gradient(160deg,#17122c,#22163f);
+  }
+
+  /* Hero band */
+  .hero{
+    position:relative;z-index:3;
+    padding:calc(var(--pad) + 12px) var(--pad) 0;
+    pointer-events:none;
+  }
+  .hero h1{
+    font-family:'Unbounded',sans-serif;
+    font-weight:900;
+    font-size:var(--hero);
+    line-height:1.02;
+    letter-spacing:-0.02em;
+    text-transform:none;
+  }
+  .hero .l1{display:block;}
+  .hero .l2{display:block;margin-left:0.14em;}
+  .hero .l3{display:block;margin-left:0.28em;color:var(--accent);
+    text-shadow:0 0 40px rgba(172,129,255,.35);}
+
+  /* Fields */
+  .fields{
+    position:relative;z-index:2;
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+  .field{
+    padding:clamp(30px,4vw,52px) var(--pad);
+    display:flex;flex-direction:column;
+    gap:clamp(18px,2.4vw,28px);
+  }
+  .field-left{
+    background:linear-gradient(150deg,rgba(23,18,44,.2),rgba(34,22,63,.55));
+  }
+  .field-right{
+    background:linear-gradient(150deg,var(--field),#231a3c);
+    border-top:1px solid var(--fieldBorder);
+  }
+  .field-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;}
+  .field-head .tag{
+    font-size:var(--stepXs);letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--textFaint);font-weight:600;
+  }
+
+  /* Butler deck */
+  .deck{
+    font-family:'Unbounded',sans-serif;
+    font-weight:400;
+    font-size:var(--step2xl);
+    line-height:1.14;
+    letter-spacing:-0.01em;
+    color:var(--text);
+    max-width:22ch;
+  }
+  .deck cite{
+    display:block;margin-top:14px;
+    font-family:'Figtree',sans-serif;font-style:normal;
+    font-size:var(--stepSm);letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--textFaint);font-weight:600;
+  }
+
+  /* Evidence rows */
+  .evidence{display:flex;flex-direction:column;}
+  .erow{
+    display:grid;
+    grid-template-columns:minmax(96px,120px) 1fr;
+    gap:clamp(14px,2vw,26px);
+    padding:clamp(14px,1.8vw,20px) 0;
+    border-top:1px solid var(--fieldBorder);
+    align-items:baseline;
+  }
+  .erow:last-child{border-bottom:1px solid var(--fieldBorder);}
+  .erow .k{font-size:var(--stepSm);text-transform:uppercase;letter-spacing:0.1em;
+    color:var(--accentLight);font-weight:700;}
+  .erow .v{color:var(--textMuted);font-size:var(--stepBase);max-width:52ch;}
+  .erow .v b{color:var(--text);font-weight:600;}
+  .erow .fig{font-family:'Unbounded',sans-serif;font-weight:700;
+    font-size:var(--stepLg);color:var(--text);}
+  .erow .neg{color:var(--accentLight);font-weight:600;}
+
+  /* Right field statement + log */
+  .statement{
+    font-size:var(--stepXl);
+    line-height:1.35;
+    color:var(--textMuted);
+    max-width:34ch;
+    font-weight:400;
+  }
+  .statement b{color:var(--text);font-weight:600;}
+  .logrow{
+    display:flex;flex-direction:column;gap:6px;
+    padding:clamp(14px,1.8vw,20px) 0;
+    border-top:1px solid var(--fieldBorder);
+  }
+  .win{
+    display:flex;align-items:center;gap:clamp(16px,2vw,28px);
+    padding:clamp(18px,2.2vw,26px) clamp(18px,2.4vw,28px);
+    background:var(--raised);
+    border:1px solid var(--fieldBorder);
+    border-radius:3px;
+  }
+  .win .score{
+    font-family:'Unbounded',sans-serif;font-weight:900;
+    font-size:clamp(38px,6vw,62px);
+    line-height:0.9;color:var(--accent);
+    text-shadow:0 0 34px rgba(172,129,255,.35);
+  }
+  .win .meta{display:flex;flex-direction:column;gap:5px;}
+  .win .meta .t{font-family:'Unbounded',sans-serif;font-weight:700;
+    font-size:var(--stepLg);color:var(--text);}
+  .stamps{display:flex;flex-wrap:wrap;gap:clamp(16px,3vw,40px);margin-top:4px;}
+  .stamp{display:flex;flex-direction:column;gap:4px;}
+  .stamp .b{font-family:'Unbounded',sans-serif;font-weight:700;
+    font-size:var(--stepLg);color:var(--text);}
+
+  /* ===== WORK INDEX ===== */
+  .work{
+    position:relative;
+    background:linear-gradient(180deg,#201a34,#17122c);
+    border-top:1px solid var(--violet600);
+    padding:clamp(48px,7vw,90px) var(--pad) clamp(40px,5vw,60px);
+  }
+  .work-top{
+    display:flex;align-items:baseline;justify-content:space-between;
+    flex-wrap:wrap;gap:16px;margin-bottom:clamp(28px,4vw,44px);
+  }
+  .work-top h2{
+    font-family:'Unbounded',sans-serif;font-weight:700;
+    font-size:var(--step2xl);letter-spacing:-0.01em;
+  }
+  .featured{
+    display:grid;grid-template-columns:1fr;gap:clamp(18px,2.4vw,30px);
+    background:var(--raised);
+    border:1px solid var(--violet600);
+    border-left:4px solid var(--accent);
+    border-radius:3px;
+    padding:clamp(26px,3.4vw,44px);
+    margin-bottom:clamp(30px,4vw,48px);
+  }
+  .featured .ftitle{
+    font-family:'Unbounded',sans-serif;font-weight:900;
+    font-size:clamp(34px,5.2vw,64px);line-height:0.98;letter-spacing:-0.02em;
+  }
+  .featured .fmeta{display:flex;gap:18px;flex-wrap:wrap;}
+  .featured p{color:var(--textMuted);font-size:var(--stepXl);
+    line-height:1.4;max-width:56ch;}
+  .featured .flink{
+    display:inline-flex;align-items:center;gap:10px;
+    align-self:flex-start;
+    background:var(--accent);color:var(--bg);
+    font-weight:700;font-size:var(--stepSm);
+    text-transform:uppercase;letter-spacing:0.08em;
+    padding:14px 22px;border-radius:3px;min-height:44px;
+  }
+  .featured .flink:hover{background:var(--accentGlow);color:var(--bg);}
+
+  .catgrid{
+    display:grid;grid-template-columns:1fr;
+    gap:clamp(34px,4vw,56px);
+  }
+  .catcol h3{
+    font-size:var(--stepSm);text-transform:uppercase;letter-spacing:0.12em;
+    color:var(--accentLight);font-weight:700;
+    padding-bottom:12px;margin-bottom:4px;
+    border-bottom:1px solid var(--violet600);
+  }
+  .prow{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:12px 20px;
+    align-items:baseline;
+    padding:clamp(15px,1.8vw,19px) 0;
+    border-bottom:1px solid var(--border);
+  }
+  .prow .pt{font-family:'Unbounded',sans-serif;font-weight:700;
+    font-size:var(--stepLg);letter-spacing:-0.01em;color:var(--text);}
+  .prow .pmeta{display:flex;gap:14px;align-items:baseline;}
+  .prow .ptype{font-size:var(--stepSm);color:var(--textMuted);
+    text-transform:uppercase;letter-spacing:0.08em;}
+  .prow .pyear{font-size:var(--stepSm);color:var(--textFaint);
+    font-variant-numeric:tabular-nums;}
+  .prow:hover .pt{color:var(--accent);}
+
+  /* ===== FOOTER COLOPHON ===== */
+  footer{
+    min-height:120px;
+    background:var(--bg);
+    border-top:1px solid var(--violet600);
+    padding:clamp(24px,3vw,30px) var(--pad);
+    display:flex;flex-direction:column;gap:22px;
+  }
+  .lockup{display:flex;align-items:center;gap:12px;}
+  .lockup svg{height:26px;width:auto;display:block;color:var(--text);}
+  .lockup .wm{
+    font-family:'Unbounded',sans-serif;font-weight:700;
+    font-size:19px;letter-spacing:-0.015em;line-height:1;color:var(--text);
+  }
+  .fnav{display:flex;gap:clamp(18px,3vw,34px);flex-wrap:wrap;}
+  .fnav a{
+    font-size:var(--stepSm);text-transform:uppercase;letter-spacing:0.12em;
+    font-weight:600;color:var(--textMuted);
+    padding:11px 0;display:inline-flex;align-items:center;min-height:44px;
+  }
+  .fnav a:hover{color:var(--accent);}
+  .colophon{
+    font-size:var(--stepXs);text-transform:uppercase;letter-spacing:0.1em;
+    color:var(--textFaint);line-height:1.9;
+  }
+  .colophon b{color:var(--textMuted);font-weight:600;}
+
+  /* ===== DESKTOP ===== */
+  @media (min-width:768px){
+    .field-right{border-top:none;}
+  }
+  @media (min-width:900px){
+    .stage{min-height:100vh;}
+    .hero{padding-bottom:clamp(20px,3vw,40px);}
+    .fields{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+    }
+    .field-left{
+      background:transparent;
+      border-right:1px solid var(--fieldBorder);
+    }
+    .field-right{
+      background:linear-gradient(155deg,var(--field),#231a3c);
+    }
+    .stage::after{
+      content:"";position:absolute;z-index:1;inset:0;
+      background:linear-gradient(112deg,transparent 47%,
+        rgba(172,129,255,.20) 49.4%,rgba(221,198,255,.30) 50%,
+        rgba(172,129,255,.20) 50.6%,transparent 53%);
+      pointer-events:none;
+    }
+    .catgrid{grid-template-columns:1.2fr 1fr;}
+    .featured{grid-template-columns:1.15fr 0.85fr;align-items:start;}
+    .featured .ftitle{grid-column:1;}
+    .featured .fbody{grid-column:2;grid-row:1 / span 2;display:flex;
+      flex-direction:column;gap:20px;justify-content:flex-start;}
+    .featured .fmeta{grid-column:1;}
+    footer{
+      flex-direction:row;align-items:center;justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .colophon{flex-basis:100%;order:3;}
+  }
+  @media (min-width:1200px){
+    .hero{padding-top:clamp(40px,4.5vw,72px);}
+    .field{gap:clamp(24px,2.4vw,34px);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;}
+  }
+</style>
+</head>
+<body>
+
+<main>
+  <section class="stage" aria-label="Home">
+    <div class="hero">
+      <h1>
+        <span class="l1">I rebuilt</span>
+        <span class="l2">myself</span>
+        <span class="l3">overnight.</span>
+      </h1>
+    </div>
+
+    <div class="fields">
+      <!-- LEFT: the exhausted internet (thesis / evidence) -->
+      <div class="field field-left">
+        <div class="field-head">
+          <span class="label">The Tired Internet</span>
+          <span class="tag">Sept 8, 2026 · evidence</span>
+        </div>
+
+        <p class="deck">Life is one long process of getting tired.
+          <cite>Samuel Butler</cite></p>
+
+        <div class="evidence">
+          <div class="erow">
+            <span class="k">Burnout</span>
+            <span class="v">Three sidebar essays in a row on <b>lost agency
+              and exhaustion</b> — the loudest convergence of the day.</span>
+          </div>
+          <div class="erow">
+            <span class="k">Security</span>
+            <span class="v">Hacker News, top of the feed:
+              <b>"we have a year to fix security everywhere."</b></span>
+          </div>
+          <div class="erow">
+            <span class="k">Market</span>
+            <span class="v"><span class="fig tnum">SPY 770.19</span>
+              <span class="neg">&nbsp;−0.39%</span> — the tired-world tape.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: tonight's rebuild log (the answer) -->
+      <div class="field field-right">
+        <div class="field-head">
+          <span class="label">Tonight&rsquo;s Rebuild Log</span>
+          <span class="tag">03:00 EDT · commit</span>
+        </div>
+
+        <p class="statement">While the internet slept, this page
+          <b>tore itself down and built itself back.</b> Against a tired web,
+          the one honest flex is a fact — here is the log.</p>
+
+        <div class="win">
+          <span class="score tnum">5&ndash;4</span>
+          <span class="meta">
+            <span class="t">Detroit · W</span>
+            <span class="micro">The day&rsquo;s single bright fact</span>
+          </span>
+        </div>
+
+        <div class="stamps">
+          <div class="stamp">
+            <span class="b tnum">63.9°F</span>
+            <span class="micro">Clear · Aldie VA</span>
+          </div>
+          <div class="stamp">
+            <span class="b tnum">8%</span>
+            <span class="micro">Waning crescent · near-new</span>
+          </div>
+          <div class="stamp">
+            <span class="b tnum">v.0908</span>
+            <span class="micro">Rebuilt nightly · from scratch</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK INDEX -->
+  <section class="work" id="work" aria-label="Selected work">
+    <div class="work-top">
+      <h2>What survived the rebuild</h2>
+      <span class="micro">Index · 2008 &ndash; 2026</span>
+    </div>
+
+    <article class="featured">
+      <h3 class="ftitle">dougmar.ch</h3>
+      <div class="fmeta">
+        <span class="ptype" style="color:var(--accentLight);">AI</span>
+        <span class="pyear tnum">2026</span>
+        <span class="micro" style="color:var(--textFaint);">Featured</span>
+      </div>
+      <div class="fbody">
+        <p>A portfolio that demolishes and rebuilds its own front end every
+          night, so the design on screen is never more than a day old — the
+          machine speaking in the first person about the work it just remade.</p>
+        <a class="flink" href="https://dougmar.ch">Visit dougmar.ch →</a>
+      </div>
+    </article>
+
+    <div class="catgrid">
+      <div class="catcol">
+        <h3>Selected work</h3>
+        <a class="prow" href="#spaceman">
+          <span class="pt">Spaceman</span>
+          <span class="pmeta"><span class="ptype">Founder</span><span class="pyear tnum">2018</span></span>
+        </a>
+        <a class="prow" href="#fishsticks">
+          <span class="pt">FishSticks</span>
+          <span class="pmeta"><span class="ptype">SaaS</span><span class="pyear tnum">2025</span></span>
+        </a>
+        <a class="prow" href="#15th-club">
+          <span class="pt">15th Club</span>
+          <span class="pmeta"><span class="ptype">AI</span><span class="pyear tnum">2025</span></span>
+        </a>
+        <a class="prow" href="#dougmar-ch">
+          <span class="pt">dougmar.ch</span>
+          <span class="pmeta"><span class="ptype">AI</span><span class="pyear tnum">2026</span></span>
+        </a>
+      </div>
+      <div class="catcol">
+        <h3>Experiments</h3>
+        <a class="prow" href="#teeturn">
+          <span class="pt">TeeTurn</span>
+          <span class="pmeta"><span class="ptype">Experiment</span><span class="pyear tnum">2020</span></span>
+        </a>
+        <a class="prow" href="#politweets">
+          <span class="pt">Politweets</span>
+          <span class="pmeta"><span class="ptype">Experiment</span><span class="pyear tnum">2008</span></span>
+        </a>
+        <a class="prow" href="#twittertale">
+          <span class="pt">Twittertale</span>
+          <span class="pmeta"><span class="ptype">Experiment</span><span class="pyear tnum">2008</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER COLOPHON -->
+  <footer>
+    <div class="lockup">
+      <svg width="71" height="59" viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Doug March logo">
+        <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="currentColor"/>
+        <circle cx="30.0829" cy="29.3002" r="0.98668" fill="currentColor"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="20.033" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="22.114" stroke="currentColor" stroke-width="0.25"/>
+        <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="currentColor"/>
+      </svg>
+      <span class="wm">Doug March</span>
+    </div>
+    <nav class="fnav" aria-label="Footer">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <p class="colophon">
+      <b>Rebuilt nightly, from scratch</b> · Autumn 2026 · Waning crescent 8%
+      · On rotation: My Morning Jacket / Tobin Sprout
+    </p>
+  </footer>
+</main>
+
+</body>
+</html>

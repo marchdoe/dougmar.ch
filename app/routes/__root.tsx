@@ -50,28 +50,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'It finally assumes a tangible outward form.' },
-      { property: 'og:title', content: 'It finally assumes a tangible outward form.' },
+      { title: 'I rebuilt myself overnight.' },
+      { property: 'og:title', content: 'I rebuilt myself overnight.' },
       {
         property: 'og:description',
         content:
-          'Clear-morning azure on cool paper, a Yogananda creed set in sturdy slab and threaded down one spine so the thought assembles into tangible form as you scroll.',
+          'Overnight-violet drench, a two-field argument between an exhausted internet and a portfolio that remade itself, Unbounded blocks bridging the split with one orchid pulse on the word "overnight."',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-07.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-08.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'It finally assumes a tangible outward form.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-07.png' },
+      { name: 'twitter:title', content: 'I rebuilt myself overnight.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-08.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Work+Sans:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Figtree:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -231,7 +231,7 @@ function RootDocument({ children, bare = false }: { children: ReactNode; bare?: 
         {children}
         {bare ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive — 128 designs
+            Archive — 129 designs
           </a>
         )}
         <ScrollRestoration />

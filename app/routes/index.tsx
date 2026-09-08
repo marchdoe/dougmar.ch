@@ -1,18 +1,19 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { HeroIntro } from '../components/generated/HeroIntro'
-import { FeaturedInterjection } from '../components/generated/FeaturedInterjection'
-import { HomeFieldPayoff } from '../components/generated/HomeFieldPayoff'
-import { SiteColophon } from '../components/generated/SiteColophon'
+import { Stage } from '../components/generated/Stage'
+import { WorkIndexSection } from '../components/generated/WorkIndexSection'
+import { featuredProject, selectedWork, experiments } from '../content/projects'
 
 export const Route = createFileRoute('/')({ component: HomePage })
 
 function HomePage() {
   return (
     <>
-      <HeroIntro />
-      <FeaturedInterjection />
-      <HomeFieldPayoff />
-      <SiteColophon />
+      <Stage />
+      <WorkIndexSection
+        featured={featuredProject}
+        selected={selectedWork}
+        experiments={experiments}
+      />
     </>
   )
 }

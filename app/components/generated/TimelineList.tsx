@@ -1,57 +1,63 @@
 import { Box } from '../../../styled-system/jsx'
+import type { TimelineEntry } from '../../content/timeline'
 
-type Entry = { year: string; role: string; company: string; description: string; current?: boolean }
-
-export function TimelineList({ entries }: { entries: Entry[] }) {
+export function TimelineList({ entries }: { entries: TimelineEntry[] }) {
   return (
     <Box
       as="section"
-      bg="bg"
-      paddingInline="clamp(24px, 8vw, 160px)"
-      paddingBlock={{ base: '9', lg: '9' }}
+      px={{ base: '28px', md: '52px', lg: '88px' }}
+      py={{ base: '30px', md: '52px' }}
+      bg="field"
+      color="fieldInk"
     >
       <Box
-        as="p"
-        fontFamily="body"
-        textStyle="xs"
-        fontWeight="600"
-        textTransform="uppercase"
-        letterSpacing="wide"
-        color="textFaint"
-        marginBottom={{ base: '6', lg: '7' }}
+        as="h2"
+        fontFamily="display"
+        fontWeight="700"
+        textStyle="2xl"
+        mb={{ base: '20px', md: '30px' }}
       >
         Timeline
       </Box>
-      {entries.map((entry) => (
-        <Box
-          key={`${entry.year}-${entry.company}`}
-          display="flex"
-          gap="6"
-          borderTop="1px solid"
-          borderColor="border"
-          paddingY="5"
-          flexWrap="wrap"
-        >
+      <Box display="flex" flexDirection="column" alignItems="stretch" gap="0">
+        {entries.map((entry) => (
           <Box
-            flex="0 0 120px"
-            minWidth="120px"
-            fontFamily="body"
-            textStyle="sm"
-            color={entry.current ? 'accent' : 'textFaint'}
-            fontVariantCaps="all-small-caps"
+            key={`${entry.year}-${entry.company}`}
+            display="grid"
+            gridTemplateColumns={{ base: '1fr', md: 'minmax(120px, 120px) 1fr' }}
+            gap={{ base: '6px', md: '26px' }}
+            py={{ base: '14px', md: '20px' }}
+            borderTop="1px solid"
+            borderColor="fieldBorder"
+            alignItems="baseline"
           >
-            {entry.year}
-          </Box>
-          <Box flex="1 1 300px" maxWidth="40ch">
-            <Box fontFamily="body" fontWeight="600" textStyle="sm" color="text">
-              {entry.role} — {entry.company}
+            <Box
+              as="span"
+              textStyle="sm"
+              fontVariantNumeric="tabular-nums"
+              color="accentAlt"
+              fontWeight="700"
+            >
+              {entry.year}
             </Box>
-            <Box fontFamily="body" textStyle="sm" color="textMuted" marginTop="1" lineHeight="1.45">
-              {entry.description}
+            <Box display="flex" flexDirection="column" gap="6px" minW="0">
+              <Box
+                as="span"
+                fontFamily="display"
+                fontWeight="700"
+                textStyle="lg"
+                color="fieldInk"
+                overflowWrap="break-word"
+              >
+                {entry.role} · {entry.company}
+              </Box>
+              <Box as="p" textStyle="base" color="fieldInkMuted" maxW="62ch">
+                {entry.description}
+              </Box>
             </Box>
           </Box>
-        </Box>
-      ))}
+        ))}
+      </Box>
     </Box>
   )
 }
