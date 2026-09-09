@@ -1,10 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Box } from '../../styled-system/jsx'
+import { projects } from '../content/projects'
 import { CaseStudyHeader } from '../components/generated/CaseStudyHeader'
 import { CaseStudyNarrative } from '../components/generated/CaseStudyNarrative'
-import { CaseStudyMeta } from '../components/generated/CaseStudyMeta'
-import { WhitePaperSection } from '../components/generated/WhitePaperSection'
-import { projects } from '../content/projects'
+import { WhitePaperSections } from '../components/generated/WhitePaperSections'
+import { Colophon } from '../components/generated/Colophon'
+import { Box } from '../../styled-system/jsx'
+import { css } from '../../styled-system/css'
 
 export const Route = createFileRoute('/work/$slug')({ component: WorkDetailPage })
 
@@ -14,24 +15,32 @@ function WorkDetailPage() {
 
   if (!project) {
     return (
-      <Box bg="bg" color="text" px={{ base: '28px', md: '88px' }} py="88px" textStyle="xl">
-        Project not found.
+      <Box as="main" paddingInline={{ base: '20px', md: '6', lg: '8' }} paddingBlock="9">
+        <Box className={css({ textStyle: 'lg', color: 'textMuted' })}>Project not found.</Box>
       </Box>
     )
   }
 
   return (
     <>
-      <CaseStudyHeader project={project} />
       <Box
-        display={{ base: 'flex', lg: 'grid' }}
+        as="main"
+        paddingInline={{ base: '20px', md: '6', lg: '8' }}
+        paddingBlock={{ base: '9', md: '9' }}
+        display="flex"
         flexDirection="column"
-        gridTemplateColumns={{ lg: '1fr 1fr' }}
+        gap="6"
       >
+        <CaseStudyHeader project={project} />
         <CaseStudyNarrative project={project} />
-        <CaseStudyMeta project={project} />
+        <WhitePaperSections project={project} />
       </Box>
-      <WhitePaperSection paper={project} />
+      <Colophon
+        signals={[
+          { label: 'Project', value: project.title },
+          { label: 'Year', value: String(project.year) },
+        ]}
+      />
     </>
   )
 }

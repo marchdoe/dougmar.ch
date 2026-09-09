@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — Limit the number of details</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,600;0,800;1,400;1,600;1,800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void900:#06110f; --void700:#0f2620; --void600:#0d3a2c; --void500:#1f5142;
+    --field:#0d3a2c; --surface:#0f2620;
+    --text:#e8f4ef; --textMuted:#9dbdb2; --textFaint:#7f9f94;
+    --accent:#2ecf9d; --accentLight:#6ef0c6; --accentGlow:#8ff6d6; --accentDark:#12a37a;
+    --border:#1f5142; --borderStrong:#3a6d5c;
+    --space-1:8px; --space-2:16px; --space-3:24px; --space-4:32px;
+    --space-5:48px; --space-6:64px; --space-8:96px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Hanken Grotesk',system-ui,sans-serif;
+    color:var(--text);
+    background:var(--void600);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    font-kerning:normal;
+    text-rendering:optimizeLegibility;
+    min-height:100dvh;
+    overflow-x:hidden;
+    /* drenched teal field: whole canvas carries the hue */
+    background:
+      radial-gradient(120% 90% at 50% 34%, rgba(143,246,214,0.12) 0%, rgba(46,207,157,0.06) 22%, rgba(31,81,66,0) 55%),
+      radial-gradient(140% 120% at 50% 8%, #1f5142 0%, #0d3a2c 42%, #0f2620 78%, #0a1a16 100%);
+    background-attachment:fixed;
+  }
+  a{color:inherit;text-decoration:none;transition:color 140ms ease;}
+  ::selection{background:var(--accent);color:#06201b;}
+
+  .page{
+    display:flex;
+    flex-direction:column;
+    min-height:100dvh;
+    padding-inline:clamp(20px,6vw,96px);
+  }
+
+  /* ---------- HEADER : corner cluster top-left ---------- */
+  header.brand{
+    min-height:72px;
+    display:flex;
+    align-items:flex-start;
+    padding-top:20px;
+  }
+  .cluster{display:flex;flex-direction:column;gap:10px;}
+  .lockup{display:flex;align-items:center;gap:12px;}
+  .lockup svg{height:34px;width:auto;display:block;}
+  .wordmark{
+    font-weight:600;
+    font-size:clamp(22px,2.6vw,28px);
+    letter-spacing:-0.015em;
+    line-height:1;
+    color:var(--text);
+  }
+  nav.corner{
+    display:flex;
+    gap:20px;
+    padding-left:52px; /* aligns under wordmark, past the mark */
+  }
+  nav.corner a{
+    font-size:13px;
+    font-variant-caps:all-small-caps;
+    letter-spacing:0.12em;
+    color:var(--textMuted);
+    padding:8px 0;
+    min-height:44px;
+    display:inline-flex;
+    align-items:center;
+    border-bottom:1px solid transparent;
+  }
+  nav.corner a:hover{color:var(--accent);border-bottom-color:var(--accent);}
+
+  /* ---------- HERO FOLD ---------- */
+  main.hero{
+    flex:1 1 auto;
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    justify-items:center;
+    align-content:center;
+    text-align:center;
+    padding-block:clamp(56px,12vh,140px);
+    gap:var(--space-3);
+  }
+  .eyebrow{
+    font-size:13px;
+    font-variant-caps:all-small-caps;
+    letter-spacing:0.22em;
+    color:var(--accentGlow);
+    font-weight:600;
+  }
+  h1.marquee{
+    max-width:16ch;
+    margin:0;
+    font-weight:800;
+    font-size:clamp(64px,8vw,96px);
+    line-height:0.98;
+    letter-spacing:-0.03em;
+    text-wrap:balance;
+    color:var(--text);
+  }
+  h1.marquee .dot{color:var(--accent);}
+  .standfirst{
+    max-width:38ch;
+    margin:0;
+    font-size:clamp(18px,2.2vw,23px);
+    line-height:1.45;
+    font-weight:400;
+    color:var(--textMuted);
+    text-wrap:pretty;
+  }
+  .standfirst em{color:var(--accentLight);font-style:italic;}
+
+  /* ---------- COLOPHON ---------- */
+  footer.colophon{
+    border-top:1px solid var(--borderStrong);
+    padding-block:var(--space-4) var(--space-5);
+    display:flex;
+    flex-direction:column;
+    gap:var(--space-3);
+  }
+  .quote{
+    font-size:14px;
+    line-height:1.5;
+    color:var(--textFaint);
+    font-style:italic;
+    max-width:52ch;
+  }
+  .quote .who{
+    font-style:normal;
+    font-variant-caps:all-small-caps;
+    letter-spacing:0.12em;
+    color:var(--textMuted);
+    margin-left:8px;
+  }
+  .signals{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px 22px;
+    font-size:12px;
+    font-variant-caps:all-small-caps;
+    letter-spacing:0.1em;
+    color:var(--textFaint);
+  }
+  .signals span{white-space:nowrap;}
+  .signals b{
+    font-weight:400;
+    color:var(--textMuted);
+    font-feature-settings:"tnum" 1;
+    font-variant-numeric:tabular-nums;
+  }
+  .signals .live{color:var(--accent);}
+  .rot{
+    font-size:12px;
+    font-variant-caps:all-small-caps;
+    letter-spacing:0.1em;
+    color:var(--textFaint);
+  }
+  .rot b{color:var(--textMuted);font-weight:400;}
+
+  @media (min-width:768px){
+    main.hero{gap:var(--space-4);}
+    .colophon .signals{gap:14px 30px;}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .stagger{opacity:0;transform:translateY(10px);animation:rise 720ms cubic-bezier(0.16,1,0.3,1) forwards;}
+    .d1{animation-delay:80ms;} .d2{animation-delay:200ms;} .d3{animation-delay:340ms;} .d4{animation-delay:480ms;}
+    @keyframes rise{to{opacity:1;transform:none;}}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="brand">
+    <div class="cluster">
+      <a class="lockup" href="/" aria-label="Doug March home">
+        <svg width="71" height="59" viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <title>Doug March logo</title>
+        <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+        <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+        <circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+        <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+        </svg>
+        <span class="wordmark">Doug March</span>
+      </a>
+      <nav class="corner" aria-label="Primary">
+        <a href="/work">work</a>
+        <a href="/about">about</a>
+        <a href="/contact">contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="hero">
+    <p class="eyebrow stagger d1">A portfolio that rebuilds itself nightly</p>
+    <h1 class="marquee stagger d2">Limit the number of details<span class="dot">.</span></h1>
+    <p class="standfirst stagger d3">Every detail asks for attention. <em>Limiting how many we add</em> is what gives us room to make the ones that remain better. Tonight's new moon is 3.3% lit — the darkest of the cycle — so the honest gesture is not to add, but to withhold.</p>
+  </main>
+
+  <footer class="colophon stagger d4">
+    <p class="quote">“Express yourself as though everyone is listening.”<span class="who">Mandela</span></p>
+    <div class="signals">
+      <span>New moon <b>3.3%</b> lit</span>
+      <span>Overcast <b>69°F</b> · Aldie VA</span>
+      <span>SPY <b>765.96</b> <b>(−0.55%)</b></span>
+      <span>AQI <b>Good</b> · UV <b>0</b></span>
+      <span>Tigers <b>2–3</b></span>
+      <span>Biltmore Championship <b>scheduled</b></span>
+    </div>
+    <p class="rot">On rotation — <b>Radiohead · Guided by Voices · My Morning Jacket</b></p>
+  </footer>
+
+</div>
+</body>
+</html>

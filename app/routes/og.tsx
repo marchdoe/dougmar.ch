@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Box } from '../../styled-system/jsx'
+import { css } from '../../styled-system/css'
 import { BrandLockup } from '../components/BrandLockup'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
@@ -9,43 +10,39 @@ function OgCard() {
     <Box
       position="fixed"
       inset="0"
-      zIndex="9999"
-      bg="bg"
+      zIndex={9999}
+      bg="field"
       display="flex"
       alignItems="center"
       justifyContent="center"
     >
-      <Box
-        width="1200px"
-        height="630px"
-        position="relative"
-        bg="field"
-        overflow="hidden"
-        display="flex"
-        flexDirection="column"
-        justifyContent="space-between"
-        px="72px"
-        py="64px"
-      >
-        <Box color="fieldInk">
-          <BrandLockup variant="horizontal-sm" mode="single-color" />
+      <Box position="relative" width="1200px" height="630px" bg="field" overflow="hidden">
+        <Box position="absolute" top="48px" left="64px" className={css({ color: 'fieldInk' })}>
+          <BrandLockup variant="horizontal-md" mode="original" />
         </Box>
         <Box
-          fontFamily="display"
-          fontWeight="900"
-          textStyle="hero"
-          lineHeight="tight"
-          letterSpacing="tight"
-          color="fieldInk"
+          position="absolute"
+          inset="0"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          paddingInline="100px"
         >
-          <Box as="span" display="block">
-            I rebuilt
-          </Box>
-          <Box as="span" display="block" ml="0.14em">
-            myself
-          </Box>
-          <Box as="span" display="block" ml="0.28em" color="accent">
-            overnight.
+          <Box
+            as="h1"
+            textAlign="center"
+            className={css({
+              textStyle: 'hero',
+              fontWeight: '800',
+              fontFamily: 'display',
+              color: 'fieldInk',
+              letterSpacing: 'tight',
+              maxWidth: '16ch',
+              margin: 0,
+            })}
+          >
+            Limit the number of details
+            <span className={css({ color: 'accent' })}>.</span>
           </Box>
         </Box>
       </Box>

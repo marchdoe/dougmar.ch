@@ -1,13 +1,41 @@
 import { Box } from '../../../styled-system/jsx'
-import { EvidenceRow } from './EvidenceRow'
-import type { Project } from '../../content/projects'
+import { css } from '../../../styled-system/css'
 
-export function CaseStudyNarrative({ project }: { project: Project }) {
+type NarrativeProject = {
+  problem?: string
+  approach?: string
+  outcome?: string
+}
+
+const fields: { key: keyof NarrativeProject; label: string }[] = [
+  { key: 'problem', label: 'Problem' },
+  { key: 'approach', label: 'Approach' },
+  { key: 'outcome', label: 'Outcome' },
+]
+
+export function CaseStudyNarrative({ project }: { project: NarrativeProject }) {
   return (
-    <Box bg="bgAlt" px={{ base: '28px', md: '52px', lg: '88px' }} py={{ base: '30px', md: '52px' }}>
-      <EvidenceRow k="Problem">{project.problem}</EvidenceRow>
-      <EvidenceRow k="Approach">{project.approach}</EvidenceRow>
-      <EvidenceRow k="Outcome">{project.outcome}</EvidenceRow>
+    <Box display="flex" flexDirection="column" gap="5">
+      {fields.map(({ key, label }) => {
+        const value = project[key]
+        if (!value) return null
+        return (
+          <Box key={key}>
+            <Box
+              className={css({
+                textStyle: 'xs',
+                fontVariantCaps: 'all-small-caps',
+                letterSpacing: 'wide',
+                color: 'textFaint',
+                marginBottom: '1',
+              })}
+            >
+              {label}
+            </Box>
+            <Box className={css({ textStyle: 'lg', color: 'text', maxWidth: '60ch' })}>{value}</Box>
+          </Box>
+        )
+      })}
     </Box>
   )
 }

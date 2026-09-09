@@ -16,6 +16,7 @@ import { Route as ElementsRouteImport } from './routes/elements'
 import { Route as ExperimentsRouteImport } from './routes/experiments'
 import { Route as OgRouteImport } from './routes/og'
 import { Route as PanelRouteImport } from './routes/panel'
+import { Route as WorkRouteImport } from './routes/work'
 import { Route as HowDateRouteImport } from './routes/how.$date'
 import { Route as WorkIndexRouteImport } from './routes/work.index'
 import { Route as WorkSlugRouteImport } from './routes/work.$slug'
@@ -55,20 +56,25 @@ const PanelRoute = PanelRouteImport.update({
   path: '/panel',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WorkRoute = WorkRouteImport.update({
+  id: '/work',
+  path: '/work',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HowDateRoute = HowDateRouteImport.update({
   id: '/how/$date',
   path: '/how/$date',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WorkIndexRoute = WorkIndexRouteImport.update({
-  id: '/work/',
-  path: '/work/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => WorkRoute,
 } as any)
 const WorkSlugRoute = WorkSlugRouteImport.update({
-  id: '/work/$slug',
-  path: '/work/$slug',
-  getParentRoute: () => rootRouteImport,
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => WorkRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -79,6 +85,7 @@ export interface FileRoutesByFullPath {
   '/experiments': typeof ExperimentsRoute
   '/og': typeof OgRoute
   '/panel': typeof PanelRoute
+  '/work': typeof WorkRouteWithChildren
   '/how/$date': typeof HowDateRoute
   '/work/$slug': typeof WorkSlugRoute
   '/work/': typeof WorkIndexRoute
@@ -104,6 +111,7 @@ export interface FileRoutesById {
   '/experiments': typeof ExperimentsRoute
   '/og': typeof OgRoute
   '/panel': typeof PanelRoute
+  '/work': typeof WorkRouteWithChildren
   '/how/$date': typeof HowDateRoute
   '/work/$slug': typeof WorkSlugRoute
   '/work/': typeof WorkIndexRoute
@@ -118,6 +126,7 @@ export interface FileRouteTypes {
     | '/experiments'
     | '/og'
     | '/panel'
+    | '/work'
     | '/how/$date'
     | '/work/$slug'
     | '/work/'
@@ -142,6 +151,7 @@ export interface FileRouteTypes {
     | '/experiments'
     | '/og'
     | '/panel'
+    | '/work'
     | '/how/$date'
     | '/work/$slug'
     | '/work/'
@@ -155,9 +165,8 @@ export interface RootRouteChildren {
   ExperimentsRoute: typeof ExperimentsRoute
   OgRoute: typeof OgRoute
   PanelRoute: typeof PanelRoute
+  WorkRoute: typeof WorkRouteWithChildren
   HowDateRoute: typeof HowDateRoute
-  WorkSlugRoute: typeof WorkSlugRoute
-  WorkIndexRoute: typeof WorkIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -211,6 +220,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PanelRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/work': {
+      id: '/work'
+      path: '/work'
+      fullPath: '/work'
+      preLoaderRoute: typeof WorkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/how/$date': {
       id: '/how/$date'
       path: '/how/$date'
@@ -220,20 +236,32 @@ declare module '@tanstack/react-router' {
     }
     '/work/': {
       id: '/work/'
-      path: '/work'
+      path: '/'
       fullPath: '/work/'
       preLoaderRoute: typeof WorkIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof WorkRoute
     }
     '/work/$slug': {
       id: '/work/$slug'
-      path: '/work/$slug'
+      path: '/$slug'
       fullPath: '/work/$slug'
       preLoaderRoute: typeof WorkSlugRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof WorkRoute
     }
   }
 }
+
+interface WorkRouteChildren {
+  WorkSlugRoute: typeof WorkSlugRoute
+  WorkIndexRoute: typeof WorkIndexRoute
+}
+
+const WorkRouteChildren: WorkRouteChildren = {
+  WorkSlugRoute: WorkSlugRoute,
+  WorkIndexRoute: WorkIndexRoute,
+}
+
+const WorkRouteWithChildren = WorkRoute._addFileChildren(WorkRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -243,9 +271,8 @@ const rootRouteChildren: RootRouteChildren = {
   ExperimentsRoute: ExperimentsRoute,
   OgRoute: OgRoute,
   PanelRoute: PanelRoute,
+  WorkRoute: WorkRouteWithChildren,
   HowDateRoute: HowDateRoute,
-  WorkSlugRoute: WorkSlugRoute,
-  WorkIndexRoute: WorkIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

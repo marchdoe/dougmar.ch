@@ -50,28 +50,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'I rebuilt myself overnight.' },
-      { property: 'og:title', content: 'I rebuilt myself overnight.' },
+      { title: 'Limit the number of details' },
+      { property: 'og:title', content: 'Limit the number of details' },
       {
         property: 'og:description',
         content:
-          'Overnight-violet drench, a two-field argument between an exhausted internet and a portfolio that remade itself, Unbounded blocks bridging the split with one orchid pulse on the word "overnight."',
+          'New-moon teal-black void, one green line held at poster scale and everything else edited away — a single-voice grotesk enacting the words it carries: limit the number of details.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-08.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-09.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'I rebuilt myself overnight.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-08.png' },
+      { name: 'twitter:title', content: 'Limit the number of details' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-09.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Figtree:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,600;0,800;1,400;1,600;1,800&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -231,7 +231,7 @@ function RootDocument({ children, bare = false }: { children: ReactNode; bare?: 
         {children}
         {bare ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive — 129 designs
+            Archive — 130 designs
           </a>
         )}
         <ScrollRestoration />

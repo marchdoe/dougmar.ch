@@ -1,61 +1,52 @@
-import { Box } from '../../../styled-system/jsx'
-import type { Project } from '../../content/projects'
+import { Box, Flex } from '../../../styled-system/jsx'
+import { css } from '../../../styled-system/css'
 
-export function CaseStudyHeader({ project }: { project: Project }) {
-  const standfirst = project.description ?? project.problem
+type HeaderProject = {
+  title: string
+  type: string
+  year: number
+  role?: string
+  stack?: string[]
+  liveUrl?: string
+}
+
+export function CaseStudyHeader({ project }: { project: HeaderProject }) {
   return (
-    <Box
-      as="header"
-      bg="bgAlt"
-      px={{ base: '28px', md: '52px', lg: '88px' }}
-      py={{ base: '40px', md: '64px' }}
-      display="flex"
-      flexDirection="column"
-      gap="16px"
-    >
-      <Box display="flex" gap="18px" flexWrap="wrap" alignItems="baseline">
-        <Box
-          as="span"
-          textStyle="sm"
-          textTransform="uppercase"
-          letterSpacing="wide"
-          color="accentAlt"
-          fontWeight="700"
-        >
-          {project.type}
-        </Box>
-        <Box as="span" textStyle="sm" color="textFaint" fontVariantNumeric="tabular-nums">
-          {project.year}
-        </Box>
-        {project.role ? (
-          <Box
-            as="span"
-            textStyle="sm"
-            color="textMuted"
-            textTransform="uppercase"
-            letterSpacing="wide"
-          >
-            {project.role}
-          </Box>
-        ) : null}
+    <Box display="flex" flexDirection="column" gap="3">
+      <Box
+        className={css({
+          textStyle: 'sm',
+          fontVariantCaps: 'all-small-caps',
+          letterSpacing: 'wide',
+          color: 'accentAlt',
+        })}
+      >
+        {project.type} · {project.year}
+        {project.role ? ` · ${project.role}` : ''}
       </Box>
       <Box
         as="h1"
-        fontFamily="display"
-        fontWeight="900"
-        fontSize={{ base: '32px', md: '40px', lg: '56px', xl: '72px' }}
-        lineHeight="tight"
-        letterSpacing="tight"
-        overflowWrap="break-word"
-        wordBreak="break-word"
+        className={css({
+          textStyle: '4xl',
+          fontWeight: '800',
+          fontFamily: 'display',
+          color: 'text',
+          maxWidth: '20ch',
+          margin: 0,
+        })}
       >
         {project.title}
       </Box>
-      {standfirst ? (
-        <Box as="p" textStyle="lg" color="textMuted" maxW="56ch" lineHeight="normal">
-          {standfirst}
-        </Box>
-      ) : null}
+      {(project.stack || project.liveUrl) && (
+        <Flex wrap="wrap" gap="3" className={css({ textStyle: 'sm', color: 'textMuted' })}>
+          {project.stack && <span>{project.stack.join(' · ')}</span>}
+          {project.liveUrl && (
+            <a href={project.liveUrl} className={css({ color: 'accent' })}>
+              visit live →
+            </a>
+          )}
+        </Flex>
+      )}
     </Box>
   )
 }
