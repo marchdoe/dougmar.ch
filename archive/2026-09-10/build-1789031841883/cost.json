@@ -1,0 +1,113 @@
+{
+  "total_usd": 2.6965,
+  "estimated": true,
+  "partial": false,
+  "retries": 1,
+  "calls": 8,
+  "byAgent": [
+    {
+      "agent": "art-director",
+      "model": "claude-opus-4-8",
+      "source": "cli",
+      "input": 2,
+      "output": 15565,
+      "cache_read": 0,
+      "cache_write": 41944,
+      "cost_usd": 0.667622,
+      "estimated": false,
+      "ms": 236044,
+      "num_turns": 1
+    },
+    {
+      "agent": "spec-critic",
+      "model": "claude-haiku-4-5",
+      "source": "cli",
+      "input": 10,
+      "output": 9189,
+      "cache_read": 0,
+      "cache_write": 12568,
+      "cost_usd": 0.06877899999999999,
+      "estimated": false,
+      "ms": 109538,
+      "num_turns": 1
+    },
+    {
+      "agent": "mockup-designer",
+      "model": "claude-opus-4-8",
+      "source": "cli",
+      "input": 1,
+      "output": 13048,
+      "cache_read": 0,
+      "cache_write": 37788,
+      "cost_usd": 0.576369,
+      "estimated": false,
+      "ms": 166051,
+      "num_turns": 1
+    },
+    {
+      "agent": "mockup-critic",
+      "model": "claude-haiku-4-5",
+      "source": "sdk",
+      "input": 12782,
+      "output": 417,
+      "cache_read": 0,
+      "cache_write": 0,
+      "cost_usd": 0.014867,
+      "estimated": true,
+      "ms": 8777,
+      "num_turns": null
+    },
+    {
+      "agent": "react-engineer",
+      "model": "claude-sonnet-5",
+      "source": "cli",
+      "input": 2,
+      "output": 41829,
+      "cache_read": 0,
+      "cache_write": 28015,
+      "cost_usd": 0.7428482499999999,
+      "estimated": false,
+      "ms": 333131,
+      "num_turns": 1
+    },
+    {
+      "agent": "screenshot-critic",
+      "model": "claude-sonnet-5",
+      "source": "sdk",
+      "input": 29944,
+      "output": 4265,
+      "cache_read": 0,
+      "cache_write": 0,
+      "cost_usd": 0.15380699999999997,
+      "estimated": true,
+      "ms": 49980,
+      "num_turns": null
+    },
+    {
+      "agent": "react-engineer",
+      "model": "claude-sonnet-5",
+      "source": "cli",
+      "input": 2,
+      "output": 12754,
+      "cache_read": 0,
+      "cache_write": 33383,
+      "cost_usd": 0.33074024999999996,
+      "estimated": false,
+      "ms": 123959,
+      "num_turns": 1
+    },
+    {
+      "agent": "screenshot-critic",
+      "model": "claude-sonnet-5",
+      "source": "sdk",
+      "input": 28691,
+      "output": 3693,
+      "cache_read": 0,
+      "cache_write": 0,
+      "cost_usd": 0.141468,
+      "estimated": true,
+      "ms": 42762,
+      "num_turns": null
+    }
+  ]
+}

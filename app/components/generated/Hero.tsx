@@ -1,62 +1,52 @@
-import { Flex } from '../../../styled-system/jsx'
+import { Box } from '../../../styled-system/jsx'
 import { css } from '../../../styled-system/css'
 
 export function Hero() {
   return (
-    <Flex
-      as="main"
-      direction="column"
-      align="center"
-      justify="center"
-      textAlign="center"
-      flex="1 1 auto"
-      gap="4"
-      paddingBlock={{ base: '56px', md: '96px', lg: '140px' }}
-      paddingInline={{ base: '20px', md: '6', lg: '8' }}
-    >
-      <p
-        className={css({
-          textStyle: 'sm',
-          fontSize: 'base',
-          fontVariantCaps: 'all-small-caps',
-          letterSpacing: 'widest',
-          color: 'accentAlt',
-          fontWeight: '600',
-          margin: 0,
-        })}
-      >
-        A portfolio that rebuilds itself nightly
-      </p>
+    <Box className={css({ marginTop: { base: '2', lg: '0px' }, maxWidth: '100%', minWidth: 0 })}>
       <h1
         className={css({
-          maxWidth: '16ch',
-          margin: 0,
-          fontWeight: '800',
           fontFamily: 'display',
-          textStyle: 'hero',
-          letterSpacing: 'tight',
           color: 'text',
+          textStyle: { base: 'xl', lg: '4xl' },
+          lineHeight: 'tight',
+          letterSpacing: 'tight',
+          margin: 0,
+          maxWidth: '100%',
+          overflowWrap: 'break-word',
+          wordBreak: 'break-word',
         })}
       >
-        Limit the number of details
-        <span className={css({ color: 'accent' })}>.</span>
+        <span className={css({ display: 'block' })}>The future</span>
+        <span className={css({ display: 'block' })}>is the worst thing</span>
+        <span className={css({ display: 'block' })}>about the present.</span>
       </h1>
       <p
         className={css({
-          maxWidth: '38ch',
-          margin: 0,
-          textStyle: 'xl',
-          fontWeight: '400',
+          marginTop: { base: '4', lg: '7' },
+          fontFamily: 'body',
+          fontWeight: '600',
+          textStyle: 'sm',
+          fontVariant: 'small-caps',
+          letterSpacing: 'wide',
           color: 'textMuted',
         })}
       >
-        Every detail asks for attention.{' '}
-        <em className={css({ color: 'accentAlt', fontStyle: 'italic' })}>
-          Limiting how many we add
-        </em>{' '}
-        is what gives us room to make the ones that remain better. Tonight&apos;s new moon is 3.3%
-        lit — the darkest of the cycle — so the honest gesture is not to add, but to withhold.
+        — Gustave Flaubert
       </p>
-    </Flex>
+      <p
+        className={css({
+          marginTop: { base: '8', lg: '9' },
+          maxWidth: '30ch',
+          fontFamily: 'body',
+          textStyle: { base: 'base', lg: 'xl' },
+          lineHeight: 'snug',
+          color: 'text',
+        })}
+      >
+        A portfolio that demolishes and rebuilds itself every night — today&apos;s version, already
+        dreading tomorrow&apos;s.
+      </p>
+    </Box>
   )
 }

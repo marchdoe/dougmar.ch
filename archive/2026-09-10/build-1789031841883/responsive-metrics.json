@@ -1,0 +1,144 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "H3",
+            "text": "Spaceman",
+            "cause": "text",
+            "right": 287,
+            "over": 50,
+            "boxWidth": 214
+          },
+          {
+            "tag": "SPAN",
+            "text": "Experiment · 2008",
+            "cause": "viewport",
+            "right": 397,
+            "over": 37,
+            "boxWidth": 100
+          },
+          {
+            "tag": "SPAN",
+            "text": "Experiment · 2008",
+            "cause": "viewport",
+            "right": 379,
+            "over": 19,
+            "boxWidth": 100
+          },
+          {
+            "tag": "SPAN",
+            "text": "AI · 2026",
+            "cause": "viewport",
+            "right": 363,
+            "over": 3,
+            "boxWidth": 52
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 11.2,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "tablet": {
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 11.2,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "text": "Independent design and engineering work doesn't al",
+            "cause": "viewport",
+            "right": 1577,
+            "over": 553,
+            "boxWidth": 95
+          },
+          {
+            "tag": "DIV",
+            "text": "Spaceman · Founder · 2018Spaceman",
+            "cause": "viewport",
+            "right": 1354,
+            "over": 330,
+            "boxWidth": 916
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 11.2,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "text": "Independent design and engineering work doesn't al",
+            "cause": "viewport",
+            "right": 1994,
+            "over": 554,
+            "boxWidth": 95
+          },
+          {
+            "tag": "DIV",
+            "text": "Spaceman · Founder · 2018Spaceman",
+            "cause": "viewport",
+            "right": 1771,
+            "over": 331,
+            "boxWidth": 1308
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 11.2,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    }
+  },
+  "overallScore": 3,
+  "worstFailure": {
+    "viewport": "mobile",
+    "check": "clippedElements",
+    "detail": "4 element(s) clipped (first: <H3>)"
+  },
+  "buildId": "1789031841883",
+  "date": "2026-09-10",
+  "archetype": "a didone specimen with a resigned smirk"
+}

@@ -8,42 +8,43 @@ export const Route = createFileRoute('/og')({ component: OgCard })
 function OgCard() {
   return (
     <Box
-      position="fixed"
-      inset="0"
-      zIndex={9999}
-      bg="field"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
+      className={css({
+        position: 'fixed',
+        inset: 0,
+        zIndex: 9999,
+        bg: 'field',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      })}
     >
-      <Box position="relative" width="1200px" height="630px" bg="field" overflow="hidden">
-        <Box position="absolute" top="48px" left="64px" className={css({ color: 'fieldInk' })}>
-          <BrandLockup variant="horizontal-md" mode="original" />
-        </Box>
-        <Box
-          position="absolute"
-          inset="0"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          paddingInline="100px"
+      <Box
+        className={css({
+          width: '1200px',
+          height: '630px',
+          bg: 'bg',
+          color: 'text',
+          position: 'relative',
+          padding: '80px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        })}
+      >
+        <h1
+          className={css({
+            fontFamily: 'display',
+            textStyle: 'hero',
+            lineHeight: 'tight',
+            letterSpacing: 'tight',
+            color: 'text',
+            maxWidth: '18ch',
+          })}
         >
-          <Box
-            as="h1"
-            textAlign="center"
-            className={css({
-              textStyle: 'hero',
-              fontWeight: '800',
-              fontFamily: 'display',
-              color: 'fieldInk',
-              letterSpacing: 'tight',
-              maxWidth: '16ch',
-              margin: 0,
-            })}
-          >
-            Limit the number of details
-            <span className={css({ color: 'accent' })}>.</span>
-          </Box>
+          The future is the worst thing about the present.
+        </h1>
+        <Box className={css({ color: 'text' })}>
+          <BrandLockup variant="stacked-md" mode="single-color" />
         </Box>
       </Box>
     </Box>

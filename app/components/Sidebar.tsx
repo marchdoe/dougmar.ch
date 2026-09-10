@@ -1,61 +1,114 @@
-import { Box, Flex } from '../../styled-system/jsx'
-import { css } from '../../styled-system/css'
 import { BrandLockup } from './BrandLockup'
+import { Box } from '../../styled-system/jsx'
+import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
+import { SignalLedger } from './generated/SignalLedger'
 
-const navLinkStyle = css({
-  textStyle: 'sm',
-  fontVariantCaps: 'all-small-caps',
-  letterSpacing: 'wide',
-  color: 'textMuted',
-  paddingX: '3',
-  paddingY: '2',
-  minHeight: '44px',
-  minWidth: '44px',
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderBottom: '1px solid transparent',
-  _hover: { color: 'accent', borderBottomColor: 'accent' },
-})
+function NavItem({ href, children }: { href: string; children: string }) {
+  return (
+    <Box as="li" className={css({ listStyle: 'none' })}>
+      <a
+        href={href}
+        className={css({
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: { base: '44px', lg: '48px' },
+          minWidth: '44px',
+          paddingX: '3',
+          fontFamily: 'body',
+          fontWeight: '500',
+          textStyle: 'sm',
+          fontVariant: 'small-caps',
+          letterSpacing: { base: 'wide', lg: 'wider' },
+          color: 'fieldInk',
+          _hover: { color: 'accent' },
+        })}
+      >
+        {children}
+      </a>
+    </Box>
+  )
+}
 
 export function Sidebar() {
   return (
-    <Box
-      as="header"
-      paddingInline={{ base: '20px', md: '6', lg: '8' }}
-      paddingTop="5"
-      minHeight="72px"
-    >
-      <Flex direction="column" gap="2">
-        <a
-          href="/"
-          aria-label={`${identity.name} home`}
-          className={css({ display: 'inline-flex', width: 'fit-content' })}
-        >
-          <BrandLockup variant="horizontal-md" mode="original" />
+    <>
+      <Box
+        as="header"
+        className={css({
+          gridArea: 'brand',
+          bg: 'field',
+          color: 'fieldInk',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: { lg: 'center' },
+          paddingX: '5',
+          paddingTop: { base: '6', lg: '7' },
+          paddingBottom: { base: '5', lg: '6' },
+          minHeight: { lg: '120px' },
+          minWidth: 0,
+          maxWidth: '100%',
+          borderBottom: '1px solid',
+          borderColor: 'fieldBorder',
+          borderRight: { lg: '1px solid' },
+        })}
+      >
+        <a href="/" aria-label="Doug March — home" className={css({ color: 'fieldInk' })}>
+          <BrandLockup variant="stacked-md" mode="single-color" />
         </a>
-        <nav
-          aria-label="Primary"
+      </Box>
+
+      <Box
+        as="nav"
+        aria-label="Primary"
+        className={css({
+          gridArea: 'nav',
+          bg: 'field',
+          color: 'fieldInk',
+          borderBottom: '1px solid',
+          borderColor: 'fieldBorder',
+          borderRight: { lg: '1px solid' },
+          paddingTop: { base: '2', lg: '6' },
+          paddingBottom: { base: '5', lg: '6' },
+          paddingX: { base: '5', lg: '6' },
+          minWidth: 0,
+          maxWidth: '100%',
+        })}
+      >
+        <Box
+          as="ul"
           className={css({
+            listStyle: 'none',
+            margin: 0,
+            padding: 0,
             display: 'flex',
+            flexDirection: { base: 'row', lg: 'column' },
             flexWrap: 'wrap',
-            gap: { base: '1', md: '5' },
-            paddingLeft: { base: '0px', md: '52px' },
-            marginLeft: { base: '-3', md: '0px' },
+            rowGap: { base: '1', lg: '0' },
+            columnGap: { base: '4', lg: '0' },
           })}
         >
-          <a href="/work" className={navLinkStyle}>
-            work
-          </a>
-          <a href="/about" className={navLinkStyle}>
-            about
-          </a>
-          <a href={`mailto:${identity.email}`} className={navLinkStyle}>
-            contact
-          </a>
-        </nav>
-      </Flex>
-    </Box>
+          <NavItem href="/#work">work</NavItem>
+          <NavItem href="/about">about</NavItem>
+          <NavItem href={`mailto:${identity.email}`}>contact</NavItem>
+        </Box>
+      </Box>
+
+      <Box
+        aria-hidden
+        className={css({
+          gridArea: 'spacer',
+          display: { base: 'none', lg: 'block' },
+          bg: 'field',
+          borderRight: '1px solid',
+          borderColor: 'fieldBorder',
+          minWidth: 0,
+        })}
+      />
+
+      <SignalLedger />
+    </>
   )
 }

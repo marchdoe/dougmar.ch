@@ -1,46 +1,66 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { projects } from '../content/projects'
-import { CaseStudyHeader } from '../components/generated/CaseStudyHeader'
-import { CaseStudyNarrative } from '../components/generated/CaseStudyNarrative'
-import { WhitePaperSections } from '../components/generated/WhitePaperSections'
-import { Colophon } from '../components/generated/Colophon'
 import { Box } from '../../styled-system/jsx'
 import { css } from '../../styled-system/css'
+import { ProjectHeader } from '../components/generated/ProjectHeader'
+import { ProjectNarrative } from '../components/generated/ProjectNarrative'
+import { ProjectMeta } from '../components/generated/ProjectMeta'
+import { WhitePaper } from '../components/generated/WhitePaper'
+import { projects } from '../content/projects'
+
+type ExtendedProject = (typeof projects)[number] & {
+  timeline?: string
+  status?: string
+  context?: string
+  constraints?: string[]
+  process?: { phase: string; does: string; produces: string }[]
+  decisions?: { decision: string; why: string }[]
+  references?: { title: string; url: string; note?: string }[]
+}
 
 export const Route = createFileRoute('/work/$slug')({ component: WorkDetailPage })
 
 function WorkDetailPage() {
   const { slug } = Route.useParams()
-  const project = projects.find((p) => p.slug === slug)
+  const project = projects.find((p) => p.slug === slug) as ExtendedProject | undefined
 
   if (!project) {
     return (
-      <Box as="main" paddingInline={{ base: '20px', md: '6', lg: '8' }} paddingBlock="9">
-        <Box className={css({ textStyle: 'lg', color: 'textMuted' })}>Project not found.</Box>
+      <Box className={css({ bg: 'bg', color: 'text', minHeight: '100vh', padding: '9' })}>
+        <p className={css({ textStyle: 'lg' })}>Project not found.</p>
       </Box>
     )
   }
 
   return (
-    <>
-      <Box
-        as="main"
-        paddingInline={{ base: '20px', md: '6', lg: '8' }}
-        paddingBlock={{ base: '9', md: '9' }}
-        display="flex"
-        flexDirection="column"
-        gap="6"
-      >
-        <CaseStudyHeader project={project} />
-        <CaseStudyNarrative project={project} />
-        <WhitePaperSections project={project} />
-      </Box>
-      <Colophon
-        signals={[
-          { label: 'Project', value: project.title },
-          { label: 'Year', value: String(project.year) },
-        ]}
+    <Box className={css({ bg: 'bg', color: 'text', minHeight: '100vh' })}>
+      <ProjectHeader
+        title={project.title}
+        type={project.type}
+        year={project.year}
+        role={project.role}
+        timeline={project.timeline}
+        status={project.status}
       />
-    </>
+      <Box
+        className={css({
+          paddingX: { base: '5', lg: '6vw' },
+          paddingBottom: { base: '9', lg: '9' },
+        })}
+      >
+        <ProjectNarrative
+          problem={project.problem}
+          approach={project.approach}
+          outcome={project.outcome}
+        />
+        <ProjectMeta stack={project.stack} liveUrl={project.liveUrl} />
+        <WhitePaper
+          context={project.context}
+          constraints={project.constraints}
+          process={project.process}
+          decisions={project.decisions}
+          references={project.references}
+        />
+      </Box>
+    </Box>
   )
 }

@@ -50,28 +50,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Limit the number of details' },
-      { property: 'og:title', content: 'Limit the number of details' },
+      { title: 'The future is the worst thing about the present.' },
+      { property: 'og:title', content: 'The future is the worst thing about the present.' },
       {
         property: 'og:description',
         content:
-          'New-moon teal-black void, one green line held at poster scale and everything else edited away — a single-voice grotesk enacting the words it carries: limit the number of details.',
+          "Old-gold present shadowed by an espresso future — a didone Flaubert aphorism reversed out of a lit field, one marigold pulse on the day's lone win.",
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-09.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-10.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Limit the number of details' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-09.png' },
+      { name: 'twitter:title', content: 'The future is the worst thing about the present.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-10.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,600;0,800;1,400;1,600;1,800&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital,wght@0,400;1,400&family=Public+Sans:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -231,7 +231,7 @@ function RootDocument({ children, bare = false }: { children: ReactNode; bare?: 
         {children}
         {bare ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive — 130 designs
+            Archive — 131 designs
           </a>
         )}
         <ScrollRestoration />
