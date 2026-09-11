@@ -1,0 +1,1988 @@
+{
+  "date": "2026-09-11",
+  "startedAt": "2026-09-11T08:55:40.569Z",
+  "completedAt": "2026-09-11T09:32:37.594Z",
+  "steps": [
+    {
+      "name": "signals-loaded",
+      "phase": 0,
+      "input": {
+        "providersAvailable": 18
+      },
+      "output": {
+        "air_quality": {
+          "aqi_index": 1,
+          "uv_index": 0,
+          "air_quality_label": "Good"
+        },
+        "books": {
+          "currently_reading": []
+        },
+        "day_of_week": {
+          "day": "Friday",
+          "is_weekend": false,
+          "day_index": 5
+        },
+        "github": {
+          "repos": [
+            {
+              "name": "ayghri/i-have-adhd/stargazers",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            },
+            {
+              "name": "bilawalsidhu/gods-eye-view/stargazers",
+              "description": "",
+              "language": "JavaScript",
+              "stars": null
+            },
+            {
+              "name": "sponsors/obra",
+              "description": "",
+              "language": "Shell",
+              "stars": null
+            },
+            {
+              "name": "alsk1992/CloddsBot/stargazers",
+              "description": "",
+              "language": "TypeScript",
+              "stars": null
+            },
+            {
+              "name": "Tencent/teamai-cli/stargazers",
+              "description": "",
+              "language": "TypeScript",
+              "stars": null
+            }
+          ]
+        },
+        "golf": {
+          "tournament": "Biltmore Championship Asheville",
+          "status": "Scheduled",
+          "leaders": []
+        },
+        "hacker_news": {
+          "stories": [
+            {
+              "title": "Shopify is moving from React Native back to Swift and Kotlin",
+              "url": "https://shopify.engineering/back-to-native",
+              "score": 1036,
+              "by": "fnthawar2"
+            },
+            {
+              "title": "Don't let anyone take away your big box of cables",
+              "url": "https://blog.jim-nielsen.com/2026/hands-off-my-cables/",
+              "score": 506,
+              "by": "Brajeshwar"
+            },
+            {
+              "title": "Working with Git Worktrees in Magit",
+              "url": "https://emacsredux.com/blog/2026/09/02/working-with-git-worktrees-in-magit/",
+              "score": 40,
+              "by": "srijan4"
+            },
+            {
+              "title": "OpenAI Agents API",
+              "url": "https://developers.openai.com/api/docs/guides/agents-api/overview",
+              "score": 249,
+              "by": "aquir"
+            },
+            {
+              "title": "The Deathray: A simple way for an untrusted site to freeze a Mac",
+              "url": "https://auberon.xyz/blog/posts/deathray/",
+              "score": 173,
+              "by": "auberonedu"
+            }
+          ]
+        },
+        "holidays": {
+          "today": null,
+          "upcoming": []
+        },
+        "lunar": {
+          "phase": "new moon",
+          "illumination": 0.001,
+          "days_into_cycle": 0.28
+        },
+        "market": {
+          "symbol": "SPY",
+          "price": "757.8300",
+          "change": "-4.5700",
+          "change_percent": "-0.5994%",
+          "direction": "down"
+        },
+        "music": {
+          "bands": [
+            "Guided by Voices",
+            "The War on Drugs"
+          ],
+          "rotation": true
+        },
+        "news": {
+          "headlines": [
+            {
+              "title": "A pilot of the Amazon cargo plane in Miami crash warned it was coming in too fast - NPR",
+              "source": "NPR",
+              "url": "https://www.npr.org/2026/09/10/g-s1-142664/cargo-plane-miami-crash"
+            },
+            {
+              "title": "‘Jimmy Kimmel Live’ Moves Interview With Texas Senate Candidate James Talarico From TV to YouTube Due to FCC Threats - Variety",
+              "source": "Variety",
+              "url": "https://variety.com/2026/tv/news/jimmy-kimmel-live-james-talarico-youtube-fcc-1236856911/"
+            },
+            {
+              "title": "Dodgers To Promote Josue De Paula - MLB Trade Rumors",
+              "source": "MLB Trade Rumors",
+              "url": "https://www.mlbtraderumors.com/2026/09/dodgers-to-promote-josue-de-paula.html"
+            },
+            {
+              "title": "Supreme Court is asked to settle Missouri dispute causing electoral chaos - The Washington Post",
+              "source": "The Washington Post",
+              "url": "https://www.washingtonpost.com/politics/2026/09/09/missouri-electoral-map-chaos-after-clashing-rulings-by-kavanaugh-judge/"
+            },
+            {
+              "title": "Mike Macdonald: Sam Darnold did not suffer hip fracture, more tests to come - NBC Sports",
+              "source": "NBCSports.com",
+              "url": "https://www.nbcsports.com/nfl/profootballtalk/rumor-mill/news/mike-macdonald-sam-darnold-did-not-suffer-hip-fracture-more-tests-to-come"
+            }
+          ]
+        },
+        "quote": {
+          "text": "Your happiness is what truly matters most. Do what you have to do in order to be happy.",
+          "author": "Brian Tracy"
+        },
+        "season": {
+          "season": "fall",
+          "month": 9,
+          "day": 11,
+          "day_of_year": 254,
+          "month_name": "September"
+        },
+        "sidebar": {
+          "links": [
+            {
+              "title": "AI is making us build too much",
+              "url": "https://sjg.io/writing/ai-is-making-us-build-too-much/",
+              "source": "sjg.io",
+              "description": "AI has made code, tests, policy, documentation, and organisational machinery almost free to produce. It has not made any of them free to own."
+            },
+            {
+              "title": "Kugiri (区切り)",
+              "url": "https://edoardolunardi.github.io/kugiri/",
+              "source": "edoardolunardi.github.io",
+              "description": "Splits text into lines, words and characters exactly where the browser already broke it."
+            },
+            {
+              "title": "Don’t ask to ask, just ask",
+              "url": "https://dontasktoask.com/",
+              "source": "dontasktoask.com",
+              "description": "If you're not willing to do the work to solve your problem, why should we?"
+            },
+            {
+              "title": "Why products get worse",
+              "url": "https://www.worseonpurpose.com/p/on-quality",
+              "source": "worseonpurpose.com",
+              "description": "Where quality lives, and how companies drain it from your products without a metric moving."
+            },
+            {
+              "title": "Building data-driven design systems",
+              "url": "https://ky.fyi/posts/data-driven",
+              "source": "ky.fyi",
+              "description": "How I scaled Scribe’s design system to help serve over 6 million users."
+            }
+          ]
+        },
+        "sports": {
+          "teams": [
+            {
+              "name": "Detroit Lions",
+              "league": "NFL",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            },
+            {
+              "name": "Detroit Red Wings",
+              "league": "NHL",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            },
+            {
+              "name": "Detroit Pistons",
+              "league": "NBA",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            },
+            {
+              "name": "Detroit Tigers",
+              "league": "MLB",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            }
+          ]
+        },
+        "sun": {
+          "sunrise": "06:54",
+          "sunset": "19:18",
+          "daylight_hours": 12.4
+        },
+        "weather": {
+          "location": "Aldie, Virginia",
+          "conditions": "Overcast",
+          "temp_f": 74.3,
+          "temp_c": 23.5,
+          "humidity": 73,
+          "wind_mph": 4.7,
+          "wind_dir": "NNW",
+          "feels_like_f": 77
+        },
+        "date": "2026-09-11"
+      },
+      "durationMs": 0,
+      "timestamp": "2026-09-11T08:55:40.579Z"
+    },
+    {
+      "name": "art-director",
+      "phase": 1,
+      "input": {
+        "compositionMandate": "## Composition Mandate\n\nRecency is tracked per axis, not per whole tuple: a value used on any of the last 3 builds is discouraged for that axis. The starting values below are derived from today's date — they are a specific place to begin, not an instruction.\n\n- **columns** — start from `masonry` (avoid `two-asymmetric`, `single`, `two-equal`)\n- **axis** — start from `radial` (avoid `horizontal`, `vertical`, `diagonal`)\n- **symmetry** — start from `broken` (avoid `left-weighted`, `symmetric`, `ri"
+      },
+      "output": {
+        "hero_copy": "Free to produce. Not free to own.",
+        "archetype": "A build-log poster — over-production as texture, ownership as the one clean line.",
+        "composition": {
+          "columns": "irregular-twelve",
+          "axis": "vertical",
+          "symmetry": "broken",
+          "hero_zone": "lower-third",
+          "density": "crowded",
+          "rhythm": "interrupted",
+          "shell_posture": "folded-into-hero",
+          "field_ratio": "type-dominant",
+          "collapse": "reorder"
+        },
+        "mobile": {
+          "carrier": "The owned marquee \"Not free to own.\" reversed out of the forest panel leads, and the produce-noise stacks beneath it as the evidence.",
+          "first_fold": "The hero phrase \"Not free to own.\" on the deep-forest panel with the lockup above it.",
+          "order": "hero-owned-panel, produce-noise-field, work-index, build-log-foot",
+          "hero_step_360": "2xl",
+          "nav_360": "lockup shrinks and stacks full-width at the very top; nav becomes one small-caps row of three links beneath it."
+        },
+        "chassisId": "space-mono-archivo",
+        "specLength": 4842,
+        "specPreview": "### 1. Color Specification\n- **Primary hue** — 125° HSL (signal/spring green). Chosen because the essay is a critique of over-production; a sharp, alert green reads as \"stop building,\" and 125° sits inside the allowed green band (92–132° HSL), clear of the forbidden warm/violet/magenta zones, and 32° off the last teal (162°) — a different green in feel, not a repeat.\n- **Neutral palette (sage, green-tinted)** — 50 `#F3F8F2` · 100 `#E7F1E6` · 200 `#D3E2D2` · 300 `#B2C9B1` · 400 `#86A385` · 500 `#",
+        "selfCheck": "1. Hero quotability: Yes — \"Free to produce. Not free to own.\" is a self-contained parallel aphorism with a turn, screenshot-worthy on its own.\n2. Because-of chain: Yes — the two-clause turn dictates interrupted rhythm and the lower-third owned line; over-production dictates the crowded produce fiel"
+      },
+      "durationMs": 410400,
+      "timestamp": "2026-09-11T09:02:30.988Z"
+    },
+    {
+      "name": "spec-critic",
+      "phase": 1,
+      "input": {
+        "specLength": 4842
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "REVISE\n\n- **Hero scale and mobile step conflict**: The declared hero_scale clamp is `clamp(56px, 8.5vw, 122px)` (enforcing 56px minimum at 360px), but hero_step_360 declares `2xl`, which is 48→81px—delivering only 48px at 360. At 360px, the clamp wins (56 > 48), so the text renders at 56px, not 2xl. Update hero_scale to `clamp(48px, 8.5vw, 122px)` to align with the mobile step, or change hero_step_360 to `hero` (81px at 360) if you want the larger floor. If you change the clamp to 48px, verify t"
+      },
+      "durationMs": 108906,
+      "timestamp": "2026-09-11T09:04:21.835Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 0
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "1. **Sanity** — Page rendered cleanly; fonts loaded (Space Mono and Archivo visible); no overflow or blank regions. Header and footer execute; all declared zones present.\n\n2. **Measurables** — Canvas utilization measured at 52.1% (floor 76%); shortfall of 23.9 points, well beyond the 5-point margin. This is a critical miss. Colour coverage at 40.2% meets the floor (40%) by 0.2 points. Hero text measured at 44px; declared clamp is `clamp(56px, 8.5vw, 122px)`, which at 1440px resolves to approxima"
+      },
+      "durationMs": 277192,
+      "timestamp": "2026-09-11T09:08:59.088Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "1. **Measurables — Canvas utilization critically under floor.** Measured 61.9% against floor 76%, a 14.1-point gap well beyond the 5-point margin. The composition is genuinely under-utilized: the produce field is sparse (monospace fragments with heavy air between), and the owned panel, while visually commanding, does not carry enough density to close the shortfall. The irregular-twelve grid and crowded-density declaration are not reflected in the rendered occupancy. The mockup reads as committed"
+      },
+      "durationMs": 196059,
+      "timestamp": "2026-09-11T09:12:15.147Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "**Check 2 — Measurables (Canvas Utilization Critical)**\nMeasured canvas utilization is 52.1%, floor is 76% — a shortfall of **23.9 points**, far exceeding the 5-point tolerance. This is not a near miss; the page is substantially under-committed. The mockup shows white space dominating the composition, particularly in the lower two-thirds where the owned panel should anchor and command the field. The produce-noise field at top is real, but the resolution zone below it is hollow. The declared `her"
+      },
+      "durationMs": 241772,
+      "timestamp": "2026-09-11T09:16:16.919Z"
+    },
+    {
+      "name": "react-engineer",
+      "phase": 3,
+      "input": {
+        "tokenContext": 2871,
+        "briefLength": 8756,
+        "mockupLength": 19700
+      },
+      "output": {
+        "files": [
+          "app/components/Layout.tsx",
+          "app/components/Sidebar.tsx",
+          "app/routes/index.tsx",
+          "app/routes/about.tsx",
+          "app/routes/work.$slug.tsx",
+          "app/routes/og.tsx",
+          "app/components/generated/ProduceField.tsx",
+          "app/components/generated/OwnedPanel.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/BuildLogFoot.tsx",
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/TimelineList.tsx",
+          "app/components/generated/CapabilitiesGrid.tsx",
+          "app/components/generated/EducationCard.tsx",
+          "app/components/generated/PersonalLog.tsx",
+          "app/components/generated/AboutClosingPanel.tsx",
+          "app/components/generated/CaseStudyHero.tsx",
+          "app/components/generated/CaseStudyNarrative.tsx",
+          "app/components/generated/CaseStudyStack.tsx",
+          "app/components/generated/CaseStudyContext.tsx",
+          "app/components/generated/CaseStudyProcess.tsx",
+          "app/components/generated/CaseStudyDecisions.tsx"
+        ],
+        "rationale": ""
+      },
+      "durationMs": 369644,
+      "timestamp": "2026-09-11T09:22:26.564Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 3,
+      "input": {
+        "after": "react-engineer"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutClosingPanel.tsx",
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/BuildLogFoot.tsx",
+          "app/components/generated/CapabilitiesGrid.tsx",
+          "app/components/generated/CaseStudyContext.tsx",
+          "app/components/generated/CaseStudyDecisions.tsx",
+          "app/components/generated/CaseStudyHero.tsx",
+          "app/components/generated/CaseStudyNarrative.tsx",
+          "app/components/generated/CaseStudyProcess.tsx",
+          "app/components/generated/CaseStudyStack.tsx",
+          "app/components/generated/Colophon.tsx",
+          "app/components/generated/EducationCard.tsx",
+          "app/components/generated/IndexRow.tsx",
+          "app/components/generated/OwnedPanel.tsx",
+          "app/components/generated/PersonalLog.tsx",
+          "app/components/generated/ProduceField.tsx",
+          "app/components/generated/TimelineList.tsx",
+          "app/components/generated/WorkIndex.tsx"
+        ],
+        "removed": [
+          "app/components/generated/CapabilitiesChips.tsx",
+          "app/components/generated/FeaturedProject.tsx",
+          "app/components/generated/Hero.tsx",
+          "app/components/generated/IdentityStandfirst.tsx",
+          "app/components/generated/PersonalSignal.tsx",
+          "app/components/generated/ProjectHeader.tsx",
+          "app/components/generated/ProjectMeta.tsx",
+          "app/components/generated/ProjectNarrative.tsx",
+          "app/components/generated/ProjectRows.tsx",
+          "app/components/generated/SignalLedger.tsx",
+          "app/components/generated/TimelineRows.tsx",
+          "app/components/generated/WhitePaper.tsx"
+        ]
+      },
+      "durationMs": 6,
+      "timestamp": "2026-09-11T09:22:26.570Z"
+    },
+    {
+      "name": "build-validation",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "success": false,
+        "error": "1 of 4 gates failed:\n\nBuild output smoke checks:\nBuild output smoke check failed:\n  - 1 token reference did not resolve. PandaCSS passes an unknown token through as a literal, so these shipped as invalid CSS that the browser drops, or as a px value nobody asked for.\n\nNames that are not in any token scale:\n  - app/routes/work.$slug.tsx, app/components/generated/CaseStudyDecisions.tsx, app/components/generated/CaseStudyProcess.tsx, app/components/generated/CaseStudyContext.tsx, app/components/gene"
+      },
+      "durationMs": 0,
+      "timestamp": "2026-09-11T09:22:35.391Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 5,
+      "input": {
+        "after": "React Engineer repair"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutClosingPanel.tsx",
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/BuildLogFoot.tsx",
+          "app/components/generated/CapabilitiesGrid.tsx",
+          "app/components/generated/CaseStudyContext.tsx",
+          "app/components/generated/CaseStudyDecisions.tsx",
+          "app/components/generated/CaseStudyHero.tsx",
+          "app/components/generated/CaseStudyNarrative.tsx",
+          "app/components/generated/CaseStudyProcess.tsx",
+          "app/components/generated/CaseStudyStack.tsx",
+          "app/components/generated/Colophon.tsx",
+          "app/components/generated/EducationCard.tsx",
+          "app/components/generated/IndexRow.tsx",
+          "app/components/generated/OwnedPanel.tsx",
+          "app/components/generated/PersonalLog.tsx",
+          "app/components/generated/ProduceField.tsx",
+          "app/components/generated/TimelineList.tsx",
+          "app/components/generated/WorkIndex.tsx"
+        ],
+        "removed": []
+      },
+      "durationMs": 1,
+      "timestamp": "2026-09-11T09:24:41.712Z"
+    },
+    {
+      "name": "repair",
+      "phase": 5,
+      "input": {
+        "attempt": 1,
+        "error": "1 of 4 gates failed:\n\nBuild output smoke checks:\nBuild output smoke check failed:\n  - 1 token reference did not resolve. PandaCSS passes an unknown token through as a literal, so these shipped as invalid CSS that the browser drops, or as a px value nobody asked for.\n\nNames that are not in any token scale:\n  - app/routes/work.$slug.tsx, app/components/generated/CaseStudyDecisions.tsx, app/components/generated/CaseStudyProcess.tsx, app/components/generated/CaseStudyContext.tsx, app/components/generated/CaseStudyStack.tsx, app/components/generated/CaseStudyNarrative.tsx, app/components/generated/CaseStudyHero.tsx, app/routes/og.tsx, app/components/generated/WorkIndex.tsx, app/components/generated/ProduceField.tsx, app/components/generated/OwnedPanel.tsx, app/components/MobileFooter.tsx, app/components/generated/AboutClosingPanel.tsx, app/components/generated/PersonalLog.tsx, app/components/generated/EducationCard.tsx, app/components/generated/CapabilitiesGrid.tsx, app/components/generated/TimelineList.tsx, app/components/generated/AboutHero.tsx, app/components/generated/BuildLogFoot.tsx, app/components/Sidebar.tsx: font-family: 'mono' emitted `font-family:mono`. There is no fonts.mono token, so the declaration is invalid and the browser drops it. Use a token that exists in that scale, or write an explicit CSS value.\n\n--- last 1500 chars of build output ---\n hashes\n  how/2026-06-27/index.html: 3 hashes\n  how/2026-06-28/index.html: 3 hashes\n  how/2026-06-29/index.html: 3 hashes\n  how/2026-06-30/index.html: 3 hashes\n  how/2026-07-01/index.html: 3 hashes\n  how/2026-07-02/index.html: 3 hashes\n  how/2026-07-03/index.html: 3 hashes\n  how/2026-07-04/index.html: 3 hashes\n  how/2026-07-05/index.html: 3 hashes\n  how/2026-07-06/index.html: 3 hashes\n  how/2026-07-07/index.html: 3 hashes\n  how/2026-07-08/index.html: 3 hashes\n  how/2026-07-09/index.html: 3 hashes\n  how/2026-07-10/index.html: 3 hashes\n  how/2026-07-12/index.html: 3 hashes\n  how/2026-07-13/index.html: 3 hashes\n  how/20"
+      },
+      "output": {
+        "files": 19,
+        "written": 18,
+        "deleted": 0,
+        "merged": 22,
+        "success": false,
+        "error": "1 of 4 gates failed:\n\nBuild output smoke checks:\nBuild output smoke check failed:\n  - 1 token reference did not resolve. PandaCSS passes an unknown token through as a literal, so these shipped as invalid CSS that the browser drops, or as a px value nobody asked for.\n\nNames that are not in any token scale:\n  - app/routes/work.$slug.tsx, app/components/MobileFooter.tsx: font-family: 'mono' emitted `font-family:mono`. There is no fonts.mono token, so the declaration is invalid and the browser drops it. Use a token that exists in that scale, or write an explicit CSS value.\n\n--- last 1500 chars of build output ---\n hashes\n  how/2026-06-28/index.html: 3 hashes\n  how/2026-06-29/index.html: 3 hashes\n  how/2026-06-30/index.html: 3 hashes\n  how/2026-07-01/index.html: 3 hashes\n  how/2026-07-02/index.html: 3 hashes\n  how/2026-07-03/index.html: 3 hashes\n  how/2026-07-04/index.html: 3 hashes\n  how/2026-07-05/index.html: 3 hashes\n  how/2026-07-06/index.html: 3 hashes\n  how/2026-07-07/index.html: 3 hashes\n  how/2026-07-08/index.html: 3 hashes\n  how/2026-07-09/index.html: 3 hashes\n  how/2026-07-10/index.html: 3 hashes\n  how/2026-07-12/index.html: 3 hashes\n  how/2026-07-13/index.html: 3 hashes\n  how/2026-07-14/index.html: 3 hashes\n  how/2026-07-16/index.html: 3 hashes\n  how/2026-07-17/index.html: 3 hashes\n  how/2026-07-18/index.html: 3 hashes\n  how/2026-07-19/index.html: 3 hashes\n  how/2026-07-20/index.html: 3 hashes\n  how/2026-07-21/index.html: 3 hashes\n  how/2026-07-22/index.html: 3 hashes\n  how/2026-07-23/index.html: 3 hashes\n  how/2026-07-24/index.html: 3 hashes\n  how/2026-07-26/index.html: 3 hashes\n  how/2026-07-27/index.html: 3 hashes\n  how/2026-07-29/index.html: 3 hashes\n  how/2026-08-30/index.html: 3 hashes\n  how/2026-09-02/index.html: 3 hashes\n  how/2026-09-04/index.html: 3 hashes\n  how/2026-09-05/index.html: 3 hashes\n  how/2026-09-06/index.html: 3 hashes\n  how/2026-09-07/index.html: 3 hashes\n  how/2026-09-08/index.html: 3 hashes\n  how/2026-09-09/index.html: 3 hashes\n  how/2"
+      },
+      "durationMs": 134163,
+      "timestamp": "2026-09-11T09:24:49.554Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 5,
+      "input": {
+        "after": "React Engineer repair"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutClosingPanel.tsx",
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/BuildLogFoot.tsx",
+          "app/components/generated/CapabilitiesGrid.tsx",
+          "app/components/generated/CaseStudyContext.tsx",
+          "app/components/generated/CaseStudyDecisions.tsx",
+          "app/components/generated/CaseStudyHero.tsx",
+          "app/components/generated/CaseStudyNarrative.tsx",
+          "app/components/generated/CaseStudyProcess.tsx",
+          "app/components/generated/CaseStudyStack.tsx",
+          "app/components/generated/Colophon.tsx",
+          "app/components/generated/EducationCard.tsx",
+          "app/components/generated/IndexRow.tsx",
+          "app/components/generated/OwnedPanel.tsx",
+          "app/components/generated/PersonalLog.tsx",
+          "app/components/generated/ProduceField.tsx",
+          "app/components/generated/TimelineList.tsx",
+          "app/components/generated/WorkIndex.tsx"
+        ],
+        "removed": []
+      },
+      "durationMs": 1,
+      "timestamp": "2026-09-11T09:25:13.299Z"
+    },
+    {
+      "name": "repair",
+      "phase": 5,
+      "input": {
+        "attempt": 2,
+        "error": "1 of 4 gates failed:\n\nBuild output smoke checks:\nBuild output smoke check failed:\n  - 1 token reference did not resolve. PandaCSS passes an unknown token through as a literal, so these shipped as invalid CSS that the browser drops, or as a px value nobody asked for.\n\nNames that are not in any token scale:\n  - app/routes/work.$slug.tsx, app/components/MobileFooter.tsx: font-family: 'mono' emitted `font-family:mono`. There is no fonts.mono token, so the declaration is invalid and the browser drops it. Use a token that exists in that scale, or write an explicit CSS value.\n\n--- last 1500 chars of build output ---\n hashes\n  how/2026-06-28/index.html: 3 hashes\n  how/2026-06-29/index.html: 3 hashes\n  how/2026-06-30/index.html: 3 hashes\n  how/2026-07-01/index.html: 3 hashes\n  how/2026-07-02/index.html: 3 hashes\n  how/2026-07-03/index.html: 3 hashes\n  how/2026-07-04/index.html: 3 hashes\n  how/2026-07-05/index.html: 3 hashes\n  how/2026-07-06/index.html: 3 hashes\n  how/2026-07-07/index.html: 3 hashes\n  how/2026-07-08/index.html: 3 hashes\n  how/2026-07-09/index.html: 3 hashes\n  how/2026-07-10/index.html: 3 hashes\n  how/2026-07-12/index.html: 3 hashes\n  how/2026-07-13/index.html: 3 hashes\n  how/2026-07-14/index.html: 3 hashes\n  how/2026-07-16/index.html: 3 hashes\n  how/2026-07-17/index.html: 3 hashes\n  how/2026-07-18/index.html: 3 hashes\n  how/2026-07-19/index.html: 3 hashes\n  how/2026-07-20/index.html: 3 hashes\n  how/2026-07-21/index.html: 3 hashes\n  how/2026-07-22/index.html: 3 hashes\n  how/2026-07-23/index.html: 3 hashes\n  how/2026-07-24/index.html: 3 hashes\n  how/2026-07-26/index.html: 3 hashes\n  how/2026-07-27/index.html: 3 hashes\n  how/2026-07-29/index.html: 3 hashes\n  how/2026-08-30/index.html: 3 hashes\n  how/2026-09-02/index.html: 3 hashes\n  how/2026-09-04/index.html: 3 hashes\n  how/2026-09-05/index.html: 3 hashes\n  how/2026-09-06/index.html: 3 hashes\n  how/2026-09-07/index.html: 3 hashes\n  how/2026-09-08/index.html: 3 hashes\n  how/2026-09-09/index.html: 3 hashes\n  how/2"
+      },
+      "output": {
+        "files": 2,
+        "written": 1,
+        "deleted": 0,
+        "merged": 22,
+        "success": true
+      },
+      "durationMs": 31808,
+      "timestamp": "2026-09-11T09:25:21.362Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "measured": 44,
+        "errorCount": 8,
+        "findings": [
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<DIV> is cut off: its right edge lands at 411px, 51px past the 360px viewport, severing \"Sr. Engineer, Web + Mobile · LivingSocialWorked ac...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"I work at the intersection of design and engineeri...\" needs 337px and the box is 296px, so 41px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<DIV> is cut off: its right edge lands at 390px, 30px past the 360px viewport, severing \"Director of Engineering · InterfolioResponsible fo...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "small-copy",
+            "severity": "warning",
+            "detail": "<P> runs at 14.2px, under the 16px reading floor — \"Acquired by iCapital in January 2025....\". Set it on the body step."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<DIV> is cut off: its right edge lands at 411px, 51px past the 360px viewport, severing \"Sr. Engineer, Web + Mobile · LivingSocialWorked ac...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<H1> holds text wider than its own box: \"I work at the intersection of design and engineeri...\" needs 337px and the box is 296px, so 41px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<DIV> is cut off: its right edge lands at 390px, 30px past the 360px viewport, severing \"Director of Engineering · InterfolioResponsible fo...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "small-copy",
+            "severity": "warning",
+            "detail": "<P> runs at 14.2px, under the 16px reading floor — \"Acquired by iCapital in January 2025....\". Set it on the body step."
+          },
+          {
+            "surface": "/about",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "340 characters of running copy set at 81px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/about",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "340 characters of running copy set at 81px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TeeTurnExperiment2020' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'PolitweetsExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TwittertaleExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TeeTurnExperiment2020' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'PolitweetsExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TwittertaleExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          }
+        ]
+      },
+      "durationMs": 20408,
+      "timestamp": "2026-09-11T09:25:41.788Z"
+    },
+    {
+      "name": "screenshot-critic",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "[screenshot-critic] response truncated at max_tokens (6000 output tokens, cap 6000)"
+      },
+      "durationMs": 167065,
+      "timestamp": "2026-09-11T09:28:28.853Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 5,
+      "input": {
+        "after": "React Engineer revision"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutClosingPanel.tsx",
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/BuildLogFoot.tsx",
+          "app/components/generated/CapabilitiesGrid.tsx",
+          "app/components/generated/CaseStudyContext.tsx",
+          "app/components/generated/CaseStudyDecisions.tsx",
+          "app/components/generated/CaseStudyHero.tsx",
+          "app/components/generated/CaseStudyNarrative.tsx",
+          "app/components/generated/CaseStudyProcess.tsx",
+          "app/components/generated/CaseStudyStack.tsx",
+          "app/components/generated/Colophon.tsx",
+          "app/components/generated/EducationCard.tsx",
+          "app/components/generated/IndexRow.tsx",
+          "app/components/generated/OwnedPanel.tsx",
+          "app/components/generated/PersonalLog.tsx",
+          "app/components/generated/ProduceField.tsx",
+          "app/components/generated/TimelineList.tsx",
+          "app/components/generated/WorkIndex.tsx"
+        ],
+        "removed": []
+      },
+      "durationMs": 2,
+      "timestamp": "2026-09-11T09:29:16.602Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "measured": 44,
+        "errorCount": 0,
+        "findings": [
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TeeTurnExperiment2020' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'PolitweetsExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TwittertaleExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TeeTurnExperiment2020' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'PolitweetsExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TwittertaleExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 26x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 136x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          }
+        ]
+      },
+      "durationMs": 20606,
+      "timestamp": "2026-09-11T09:29:45.076Z"
+    }
+  ]
+}

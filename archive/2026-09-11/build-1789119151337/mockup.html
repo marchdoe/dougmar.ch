@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — Free to produce. Not free to own.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sage-50:#F3F8F2; --sage-100:#E7F1E6; --sage-200:#D3E2D2; --sage-300:#B2C9B1;
+    --sage-400:#86A385; --sage-500:#5F7D5E; --sage-600:#476246; --sage-700:#354A34;
+    --sage-800:#212F21; --sage-900:#101810;
+    --green-200:#9FE0AC; --green-300:#6BCE7F; --green-500:#2BAE3B; --green-700:#176B24;
+    --green-900:#0E3316; --green-800:#12531E;
+    --bg:var(--sage-50); --surface:#FFFFFF; --text:var(--sage-900);
+    --muted:var(--sage-700); --faint:var(--sage-600); --accent:var(--green-500);
+    --field:var(--green-900); --field-ink:var(--sage-50); --field-muted:var(--green-200);
+    --border:var(--sage-200); --border-strong:var(--sage-700); --field-border:var(--green-800);
+    --pad:clamp(24px,6vw,96px);
+    --mono:"Space Mono",ui-monospace,monospace;
+    --body:"Archivo",system-ui,sans-serif;
+    --hero:clamp(56px,8.5vw,122px);
+    --t2xl:clamp(30px,4.4vw,56px);
+    --txl:clamp(23px,3.1vw,40px);
+    --tlg:clamp(19px,2.1vw,26px);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;max-width:100%;overflow-x:hidden;}
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--body);
+    font-size:17px; line-height:1.55;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility; font-kerning:normal;
+  }
+  ::selection{background:var(--accent);color:var(--sage-900);}
+  a{color:inherit;text-decoration:none;transition:color 120ms ease;}
+  h1,h2,h3,h4{margin:0;font-weight:inherit;}
+  p{margin:0;text-wrap:pretty;}
+
+  main{display:flex;flex-direction:column;}
+
+  /* ---------- HEADER folded into hero ---------- */
+  .masthead{order:0;padding:clamp(28px,4vw,44px) var(--pad) 0;}
+  .lockup{display:flex;flex-direction:column;align-items:flex-start;gap:14px;}
+  .lockup svg{height:56px;width:auto;display:block;}
+  .wordmark{
+    font-family:var(--mono);font-weight:700;
+    font-size:var(--t2xl);line-height:1;letter-spacing:-0.015em;
+    color:var(--text);
+  }
+  .navrow{
+    display:flex;align-items:center;flex-wrap:wrap;gap:0;
+    margin-top:clamp(20px,3vw,30px);
+    font-family:var(--mono);font-size:14px;
+    font-variant-caps:small-caps;text-transform:lowercase;
+    letter-spacing:0.06em;color:var(--muted);
+  }
+  .navrow a{padding:10px 0;min-height:44px;display:inline-flex;align-items:center;}
+  .navrow a:hover{color:var(--green-700);}
+  .navrow a:hover span.lbl{box-shadow:inset 0 -0.35em 0 var(--green-300);}
+  .navrow .dot{color:var(--accent);padding:0 12px;font-weight:700;}
+  .rule{height:0;border:0;border-top:2px solid var(--border-strong);
+    margin:clamp(18px,2.4vw,26px) var(--pad) 0;}
+
+  /* ---------- PRODUCE FIELD ---------- */
+  .produce{
+    order:2;
+    padding:clamp(28px,4vh,54px) var(--pad) clamp(34px,5vh,64px);
+    min-height:52vh;
+    display:grid;grid-template-columns:repeat(2,1fr);
+    gap:6px;grid-auto-flow:row dense;
+    border-bottom:2px solid var(--border-strong);
+  }
+  .field-eyebrow{
+    grid-column:1/-1;font-family:var(--mono);font-size:13px;
+    letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);
+    display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    padding-bottom:6px;
+  }
+  .frag{
+    padding:10px 12px;border:1px solid var(--border);background:var(--surface);
+    font-family:var(--mono);overflow-wrap:anywhere;
+  }
+  .frag.big{
+    font-weight:700;font-size:var(--t2xl);line-height:0.98;
+    letter-spacing:-0.02em;color:var(--text);background:transparent;border:none;padding:6px 0;
+  }
+  .frag.big.ghost{color:var(--sage-300);}
+  .frag.mid{font-weight:700;font-size:var(--txl);line-height:1;letter-spacing:-0.01em;
+    background:transparent;border:none;padding:4px 0;color:var(--sage-500);}
+  .frag.sig{font-size:14px;line-height:1.5;color:var(--muted);white-space:normal;}
+  .frag.sig b{color:var(--text);font-weight:700;}
+  .frag.chip{
+    background:var(--accent);border:none;color:var(--sage-900);
+    font-weight:700;font-size:15px;line-height:1.35;letter-spacing:-0.01em;
+    display:flex;align-items:center;
+  }
+  .frag.chip.dk{background:var(--green-700);color:var(--sage-50);}
+  .frag.code{font-size:13.5px;line-height:1.55;color:var(--faint);background:var(--sage-100);border:1px solid var(--border);white-space:normal;}
+  .frag.code .p{color:var(--green-700);font-weight:700;}
+
+  /* ---------- OWNED PANEL ---------- */
+  .owned{
+    order:1;
+    background:var(--field);color:var(--field-ink);
+    padding:clamp(40px,6vh,88px) var(--pad);
+    min-height:42vh;
+    display:flex;flex-direction:column;justify-content:center;gap:clamp(22px,3.4vh,40px);
+    border-bottom:2px solid var(--field-border);
+  }
+  .owned .kicker{
+    font-family:var(--mono);font-size:14px;letter-spacing:0.12em;
+    text-transform:uppercase;color:var(--field-muted);
+    display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  }
+  .owned .kicker .prod{color:var(--field-ink);opacity:.55;text-transform:none;letter-spacing:0;font-size:15px;}
+  .ownline{
+    font-family:var(--mono);font-weight:700;
+    font-size:var(--hero);line-height:0.94;letter-spacing:-0.03em;
+    color:var(--field-ink);text-wrap:balance;
+  }
+  .ownline .own{
+    background:var(--accent);color:var(--sage-900);
+    padding:0 0.12em 0.04em;display:inline-block;
+  }
+  .owned .stand{
+    font-family:var(--body);font-size:clamp(17px,1.5vw,20px);line-height:1.55;
+    color:var(--field-muted);max-width:52ch;
+  }
+  .owned .stand em{color:var(--field-ink);font-style:normal;
+    box-shadow:inset 0 -0.3em 0 rgba(43,174,59,0.35);}
+
+  /* ---------- WORK INDEX ---------- */
+  .work{order:3;padding:clamp(44px,6vh,88px) var(--pad);border-bottom:2px solid var(--border-strong);}
+  .sec-head{
+    font-family:var(--mono);font-size:14px;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--faint);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:clamp(24px,3vh,36px);
+  }
+  .featured{
+    background:var(--surface);border:1px solid var(--border);border-top:2px solid var(--accent);
+    padding:clamp(24px,3.4vw,40px);margin-bottom:clamp(36px,5vh,56px);
+    display:grid;gap:clamp(16px,2vw,26px);
+  }
+  .featured .ftitle{font-family:var(--mono);font-weight:700;font-size:var(--t2xl);
+    line-height:1;letter-spacing:-0.02em;}
+  .featured .fmeta{font-family:var(--mono);font-size:14px;letter-spacing:0.06em;
+    text-transform:uppercase;color:var(--faint);}
+  .featured .fprob{font-size:clamp(17px,1.5vw,20px);line-height:1.55;max-width:64ch;color:var(--muted);}
+  .featured .flink{
+    font-family:var(--mono);font-size:15px;font-weight:700;color:var(--green-700);
+    display:inline-flex;align-items:center;gap:8px;min-height:44px;align-self:start;
+  }
+  .featured .flink:hover span{box-shadow:inset 0 -0.3em 0 var(--green-300);}
+
+  .rows{display:grid;gap:0;}
+  .row{
+    display:grid;grid-template-columns:1fr auto;gap:8px 18px;align-items:baseline;
+    padding:clamp(16px,2vh,22px) 0;border-top:1px solid var(--border);
+  }
+  .row:last-child{border-bottom:1px solid var(--border);}
+  .row:hover .rtitle span{box-shadow:inset 0 -0.28em 0 var(--green-300);}
+  .row:hover{color:var(--green-700);}
+  .rtitle{font-family:var(--mono);font-weight:700;font-size:var(--tlg);letter-spacing:-0.01em;line-height:1.1;}
+  .rmeta{font-family:var(--mono);font-size:14px;letter-spacing:0.05em;text-transform:uppercase;
+    color:var(--faint);text-align:right;grid-column:2;grid-row:1;}
+  .rtype{font-family:var(--body);font-size:15px;color:var(--muted);grid-column:1;grid-row:2;}
+  .exp-head{margin-top:clamp(40px,5vh,60px);}
+
+  /* ---------- BUILD-LOG FOOT ---------- */
+  .foot{order:4;background:var(--sage-100);padding:clamp(40px,5vh,72px) var(--pad) clamp(48px,6vh,80px);}
+  .foot-rule{height:0;border:0;border-top:2px solid var(--accent);margin-bottom:clamp(24px,3vh,34px);}
+  .foot-head{font-family:var(--mono);font-size:13px;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--faint);margin-bottom:18px;}
+  .log{display:grid;grid-template-columns:1fr;gap:2px;
+    font-family:var(--mono);font-size:14px;line-height:1.7;color:var(--muted);}
+  .log .r{display:flex;gap:12px;padding:4px 0;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+  .log .r .k{color:var(--green-700);font-weight:700;min-width:90px;}
+  .log .r b{color:var(--text);font-weight:700;}
+  .quote{
+    margin-top:clamp(28px,3.4vh,40px);font-family:var(--mono);font-size:14px;line-height:1.7;
+    color:var(--faint);max-width:70ch;
+  }
+  .quote span{color:var(--text);}
+  .colophon{margin-top:24px;font-family:var(--mono);font-size:13px;letter-spacing:0.06em;
+    text-transform:uppercase;color:var(--faint);display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between;}
+
+  /* ---------- DESKTOP ---------- */
+  @media (min-width:880px){
+    .lockup svg{height:72px;}
+    .produce{
+      order:1;grid-template-columns:repeat(12,1fr);
+      column-gap:clamp(12px,1.6vw,28px);row-gap:8px;min-height:62vh;
+    }
+    .owned{order:2;min-height:38vh;}
+    .field-eyebrow{grid-column:1/-1;}
+    .c1-5{grid-column:1/6;} .c6-9{grid-column:6/10;} .c9-13{grid-column:9/13;}
+    .c1-8{grid-column:1/8;} .c8-13{grid-column:8/13;} .c1-6{grid-column:1/7;}
+    .c7-13{grid-column:7/13;} .c3-11{grid-column:3/11;} .c1-4{grid-column:1/5;}
+    .c4-8{grid-column:4/8;} .c8-11{grid-column:8/11;} .c11-13{grid-column:11/13;}
+    .c1-3{grid-column:1/4;} .c4-7{grid-column:4/7;} .c7-10{grid-column:7/10;}
+    .c10-13{grid-column:10/13;}
+    .featured{grid-template-columns:1.4fr 1fr;align-items:start;}
+    .featured .ftitle{grid-column:1;} .featured .fmeta{grid-column:2;grid-row:1;text-align:right;}
+    .featured .fprob{grid-column:1/-1;} .featured .flink{grid-column:1/-1;}
+    .log{grid-template-columns:1fr 1fr;column-gap:clamp(28px,4vw,64px);}
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <!-- HEADER folded into hero -->
+  <header class="masthead">
+    <div class="lockup">
+      <svg width="71" height="59" viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Doug March logo">
+        <title>Doug March logo</title>
+        <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+        <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+        <circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+        <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+      </svg>
+      <div class="wordmark">Doug March</div>
+    </div>
+    <nav class="navrow" aria-label="Primary">
+      <a href="#work"><span class="lbl">work</span></a><span class="dot">·</span>
+      <a href="#about"><span class="lbl">about</span></a><span class="dot">·</span>
+      <a href="#contact"><span class="lbl">contact</span></a>
+    </nav>
+  </header>
+  <hr class="rule">
+
+  <!-- PRODUCE FIELD (crowded) -->
+  <section class="produce" aria-label="The abundance clause — over-production as texture">
+    <div class="field-eyebrow"><span>build log ▸ over-produced</span><span>2026·09·11 · aldie va</span></div>
+
+    <div class="frag big c1-8">FREE TO PRODUCE.</div>
+    <div class="frag chip c8-13">code · tests · policy · docs — almost free</div>
+
+    <div class="frag code c1-5"><span class="p">$</span> generate --code --tests --docs --policy &amp; ship ×∞</div>
+    <div class="frag sig c6-9"><b>DET</b> · all clubs · off season · no game</div>
+    <div class="frag sig c9-13"><b>spy</b> −0.60% · close · muted</div>
+
+    <div class="frag big ghost c1-6">free to produce.</div>
+    <div class="frag chip dk c7-13">why products get worse — worse on purpose</div>
+
+    <div class="frag sig c1-3"><b>new moon</b> · 0% illum · cycle day 0</div>
+    <div class="frag sig c4-7"><b>aqi 1</b> good · uv 0</div>
+    <div class="frag sig c7-10"><b>aldie va</b> · overcast · 74°F</div>
+    <div class="frag mid c10-13">free to produce.</div>
+
+    <div class="frag big c3-11">FREE TO PRODUCE.</div>
+
+    <div class="frag code c1-4"><span class="p">$</span> rebuild self --nightly --autonomous</div>
+    <div class="frag chip c4-8">quality drained, no metric moved</div>
+    <div class="frag sig c8-11">on rotation ▸ <b>guided by voices</b> · the war on drugs</div>
+    <div class="frag mid c11-13">produce.</div>
+
+    <div class="frag big ghost c1-6">free to produce.</div>
+    <div class="frag code c7-13"><span class="p">$</span> diff yesterday today — abundance ↑ · ownership ?</div>
+  </section>
+
+  <!-- OWNED PANEL (the payoff) -->
+  <section class="owned" aria-label="The one thing that isn't free">
+    <div class="kicker">the turn <span class="prod">— everything above was almost free</span></div>
+    <h1 class="ownline">Not free to <span class="own">own</span>.</h1>
+    <p class="stand">AI made code, tests, policy and documentation almost free to produce. It has <em>not</em> made any of them free to own. This portfolio rebuilds itself every night — and this is the line it's willing to be judged against.</p>
+  </section>
+
+  <!-- WORK INDEX -->
+  <section class="work" id="work" aria-label="Selected work">
+    <div class="sec-head"><span>featured</span><span>the thing that owns itself</span></div>
+
+    <article class="featured" id="dougmar-ch">
+      <h2 class="ftitle">dougmar.ch</h2>
+      <div class="fmeta">AI · 2026</div>
+      <p class="fprob">A portfolio that art-directs, designs and rebuilds a wholly new version of itself every night — free to produce, forced to answer what it costs to own. Each morning is a fresh argument about production, quality and authorship, staged on the site itself.</p>
+      <a class="flink" href="https://dougmar.ch" target="_blank" rel="noopener"><span>visit dougmar.ch</span> ▸</a>
+    </article>
+
+    <div class="sec-head"><span>selected work</span><span>03</span></div>
+    <div class="rows">
+      <a class="row" href="#spaceman">
+        <div class="rtitle"><span>Spaceman</span></div>
+        <div class="rtype">Founder — company built from zero</div>
+        <div class="rmeta">Founder · 2018</div>
+      </a>
+      <a class="row" href="#fishsticks">
+        <div class="rtitle"><span>FishSticks</span></div>
+        <div class="rtype">SaaS — product design &amp; front-end</div>
+        <div class="rmeta">SaaS · 2025</div>
+      </a>
+      <a class="row" href="#15th-club">
+        <div class="rtitle"><span>15th Club</span></div>
+        <div class="rtype">AI — applied model tooling</div>
+        <div class="rmeta">AI · 2025</div>
+      </a>
+    </div>
+
+    <div class="sec-head exp-head"><span>experiments</span><span>03</span></div>
+    <div class="rows">
+      <a class="row" href="#teeturn">
+        <div class="rtitle"><span>TeeTurn</span></div>
+        <div class="rtype">Experiment — golf tee-time mechanics</div>
+        <div class="rmeta">Experiment · 2020</div>
+      </a>
+      <a class="row" href="#politweets">
+        <div class="rtitle"><span>Politweets</span></div>
+        <div class="rtype">Experiment — political signal on Twitter</div>
+        <div class="rmeta">Experiment · 2008</div>
+      </a>
+      <a class="row" href="#twittertale">
+        <div class="rtitle"><span>Twittertale</span></div>
+        <div class="rtype">Experiment — serialized narrative feed</div>
+        <div class="rmeta">Experiment · 2008</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- BUILD-LOG FOOT -->
+  <footer class="foot" id="contact" aria-label="Build log">
+    <hr class="foot-rule">
+    <div class="foot-head">build log · 2026·09·11 · signals as produced</div>
+    <div class="log">
+      <div class="r"><span class="k">sports</span> DET · all clubs · off season · <b>no game</b></div>
+      <div class="r"><span class="k">market</span> SPY <b>−0.60%</b> · close · muted</div>
+      <div class="r"><span class="k">moon</span> new moon · <b>0% illum</b> · cycle day 0</div>
+      <div class="r"><span class="k">air</span> AQI <b>1</b> good · UV 0</div>
+      <div class="r"><span class="k">weather</span> Aldie VA · overcast · <b>74°F</b></div>
+      <div class="r"><span class="k">rotation</span> guided by voices · <b>the war on drugs</b></div>
+    </div>
+    <p class="quote">footnote — <span>"You cannot control what you cannot measure."</span> Brian Tracy. Logged, not enshrined; the metric that didn't move is the one this build is about.</p>
+    <div class="colophon">
+      <span>Doug March · design + engineering</span>
+      <span>work · about · contact</span>
+      <span>free to produce — not free to own</span>
+    </div>
+  </footer>
+
+</main>
+</body>
+</html>

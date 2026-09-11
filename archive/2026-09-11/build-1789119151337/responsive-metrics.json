@@ -1,0 +1,122 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 24,
+          "passing": true
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "work",
+            "w": 26,
+            "h": 50
+          },
+          {
+            "tag": "A",
+            "text": "about",
+            "w": 33,
+            "h": 50
+          },
+          {
+            "tag": "A",
+            "text": "hello@dougmar.ch",
+            "w": 136,
+            "h": 18
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "tablet": {
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 24,
+          "passing": true
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "work",
+            "w": 26,
+            "h": 50
+          },
+          {
+            "tag": "A",
+            "text": "about",
+            "w": 33,
+            "h": 50
+          },
+          {
+            "tag": "A",
+            "text": "hello@dougmar.ch",
+            "w": 136,
+            "h": 18
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 24,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 5
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 24,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": [
+          {
+            "chars": 234,
+            "lines": 3,
+            "avgPerLine": 78,
+            "excerpt": "Independent design and engineering work "
+          }
+        ]
+      },
+      "score": 4
+    }
+  },
+  "overallScore": 4,
+  "worstFailure": {
+    "viewport": "mobile",
+    "check": "tapTargetFailures",
+    "detail": "3 interactive element(s) below 44×44px"
+  },
+  "buildId": "1789119151337",
+  "date": "2026-09-11",
+  "archetype": "A build-log poster — over-production as texture, ownership as the one clean line."
+}

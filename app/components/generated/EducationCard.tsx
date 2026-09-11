@@ -1,37 +1,56 @@
 import { Box } from '../../../styled-system/jsx'
 import { css } from '../../../styled-system/css'
+import { education } from '../../content/timeline'
 
-type Education = { school: string; degree: string; concentration: string; years: string }
-
-export function EducationCard({ education }: { education: Education }) {
+export function EducationCard() {
   return (
     <Box
+      as="section"
+      aria-label="Education"
       className={css({
-        bg: 'surface',
-        border: '1px solid',
+        paddingInline: { base: '5', md: '6', lg: '8' },
+        paddingBlock: { base: '8', lg: '9' },
+        borderBottom: '1px solid',
         borderColor: 'border',
-        padding: '5',
-        marginTop: '6',
-        maxWidth: '48ch',
       })}
     >
-      <p className={css({ textStyle: 'lg', fontFamily: 'display', color: 'text' })}>
-        {education.school}
-      </p>
-      <p className={css({ textStyle: 'sm', color: 'textMuted', marginTop: '2' })}>
-        {education.degree} · {education.concentration}
-      </p>
-      <p
+      <Box
         className={css({
-          textStyle: '2xs',
-          color: 'textFaint',
-          marginTop: '2',
-          fontVariant: 'small-caps',
-          letterSpacing: 'wide',
+          bg: 'surface',
+          border: '1px solid',
+          borderColor: 'border',
+          borderTop: '2px solid',
+          borderTopColor: 'accent',
+          padding: { base: '6', lg: '8' },
+          display: 'grid',
+          gap: '2',
         })}
       >
-        {education.years}
-      </p>
+        <div
+          className={css({
+            fontFamily: 'display',
+            fontWeight: 'bold',
+            textStyle: 'xl',
+            letterSpacing: 'tight',
+          })}
+        >
+          {education.school}
+        </div>
+        <div className={css({ fontFamily: 'body', textStyle: 'md', color: 'textMuted' })}>
+          {education.degree} · {education.concentration}
+        </div>
+        <div
+          className={css({
+            fontFamily: 'display',
+            textStyle: 'xs',
+            letterSpacing: 'wide',
+            textTransform: 'uppercase',
+            color: 'textFaint',
+          })}
+        >
+          {education.years}
+        </div>
+      </Box>
     </Box>
   )
 }

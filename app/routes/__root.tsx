@@ -50,28 +50,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'The future is the worst thing about the present.' },
-      { property: 'og:title', content: 'The future is the worst thing about the present.' },
+      { title: 'Free to produce. Not free to own.' },
+      { property: 'og:title', content: 'Free to produce. Not free to own.' },
       {
         property: 'og:description',
         content:
-          "Old-gold present shadowed by an espresso future — a didone Flaubert aphorism reversed out of a lit field, one marigold pulse on the day's lone win.",
+          'Build-log poster on sage paper — over-production packed as ragged monospace noise, the one line not free to own reversed out of a deep-forest panel with a single signal-green block on the word that costs.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-10.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-11.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'The future is the worst thing about the present.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-10.png' },
+      { name: 'twitter:title', content: 'Free to produce. Not free to own.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-11.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital,wght@0,400;1,400&family=Public+Sans:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -231,7 +231,7 @@ function RootDocument({ children, bare = false }: { children: ReactNode; bare?: 
         {children}
         {bare ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive — 131 designs
+            Archive — 132 designs
           </a>
         )}
         <ScrollRestoration />

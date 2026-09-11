@@ -1,7 +1,7 @@
 import { definePreset } from '@pandacss/dev'
 
 /**
- * Generated from elements/chassis/dm-serif-public.js by scripts/utils/chassis.js.
+ * Generated from elements/chassis/space-mono-archivo.js by scripts/utils/chassis.js.
  * Listed LAST in panda.config.ts so the chassis type system — fonts,
  * fontSizes, fontWeights, lineHeights, letterSpacings, spacing, textStyles —
  * wins over any values the Art Director emits in elements/preset.ts.
@@ -24,22 +24,22 @@ export const chassisPreset = definePreset({
     extend: {
       tokens: {
         fonts: {
-          display: { value: "\"DM Serif Display\", Georgia, \"Times New Roman\", serif" },
-          body: { value: "\"Public Sans\", system-ui, -apple-system, sans-serif" },
+          display: { value: "\"Space Mono\", SFMono-Regular, Menlo, monospace" },
+          body: { value: "Archivo, system-ui, -apple-system, sans-serif" },
         },
         fontSizes: {
           '2xs': { value: "0.702rem" },
           xs: { value: "0.79rem" },
           sm: { value: "0.889rem" },
           base: { value: "1rem" },
-          md: { value: "1.618rem" },
-          lg: { value: "2.618rem" },
-          xl: { value: "clamp(2.917rem, 2.477rem + 1.954vw, 4.236rem)" },
-          '2xl': { value: "clamp(3.251rem, 2.05rem + 5.338vw, 6.854rem)" },
-          '3xl': { value: "clamp(3.623rem, 1.134rem + 11.061vw, 11.089rem)" },
-          '4xl': { value: "clamp(4.038rem, -0.597rem + 20.599vw, 17.942rem)" },
-          '5xl': { value: "clamp(4.5rem, -3.677rem + 36.341vw, 29.03rem)" },
-          hero: { value: "clamp(6.854rem, 5.442rem + 6.274vw, 11.089rem)" },
+          md: { value: "1.5rem" },
+          lg: { value: "2.25rem" },
+          xl: { value: "clamp(2.585rem, 2.322rem + 1.17vw, 3.375rem)" },
+          '2xl': { value: "clamp(2.969rem, 2.271rem + 3.102vw, 5.063rem)" },
+          '3xl': { value: "clamp(3.41rem, 2.015rem + 6.199vw, 7.594rem)" },
+          '4xl': { value: "clamp(3.917rem, 1.426rem + 11.073vw, 11.391rem)" },
+          '5xl': { value: "clamp(4.5rem, 0.305rem + 18.646vw, 17.086rem)" },
+          hero: { value: "clamp(5.063rem, 4.219rem + 3.75vw, 7.594rem)" },
         },
         fontWeights: {
           light: { value: "400" },
@@ -49,13 +49,13 @@ export const chassisPreset = definePreset({
           bold: { value: "700" },
         },
         lineHeights: {
-          tight: { value: "0.98" },
+          tight: { value: "1" },
           snug: { value: "1.1" },
           normal: { value: "1.5" },
           loose: { value: "1.7" },
         },
         letterSpacings: {
-          tight: { value: "-0.005em" },
+          tight: { value: "-0.02em" },
           normal: { value: "0" },
           wide: { value: "0.04em" },
           wider: { value: "0.08em" },
@@ -81,11 +81,11 @@ export const chassisPreset = definePreset({
         md: { value: { fontSize: "md", lineHeight: "1.4", letterSpacing: "0" } },
         lg: { value: { fontSize: "lg", lineHeight: "1.3", letterSpacing: "-0.005em" } },
         xl: { value: { fontSize: "xl", lineHeight: "1.2", letterSpacing: "-0.01em" } },
-        '2xl': { value: { fontSize: "2xl", lineHeight: "1.1", letterSpacing: "-0.005em" } },
-        '3xl': { value: { fontSize: "3xl", lineHeight: "1.05", letterSpacing: "-0.005em" } },
-        '4xl': { value: { fontSize: "4xl", lineHeight: "1", letterSpacing: "0" } },
-        '5xl': { value: { fontSize: "5xl", lineHeight: "0.95", letterSpacing: "0" } },
-        hero: { value: { fontSize: "hero", lineHeight: "0.98", letterSpacing: "0" } },
+        '2xl': { value: { fontSize: "2xl", lineHeight: "1.1", letterSpacing: "-0.02em" } },
+        '3xl': { value: { fontSize: "3xl", lineHeight: "1.05", letterSpacing: "-0.025em" } },
+        '4xl': { value: { fontSize: "4xl", lineHeight: "1", letterSpacing: "-0.03em" } },
+        '5xl': { value: { fontSize: "5xl", lineHeight: "0.95", letterSpacing: "-0.03em" } },
+        hero: { value: { fontSize: "hero", lineHeight: "1", letterSpacing: "-0.03em" } },
       },
     },
   },
