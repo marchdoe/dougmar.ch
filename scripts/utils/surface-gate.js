@@ -548,40 +548,47 @@ function brandMarkFindings(m) {
   if (!brand || ownerForSurface(m.route) !== 'react-engineer') return []
   const rung = VIEWPORT_RUNGS.find((v) => v.name === m.viewport)?.width ?? m.clientWidth
   const where = `at ${rung} (${m.scheme})`
-  const findings = []
 
-  if (!brand.inFold) {
-    const detail =
-      brand.count === 0
-        ? `no brand mark rendered ${where}`
-        : `no brand mark inside the first fold ${where}: nearest mark at y=${brand.nearestY}, ` +
-          `viewport ${brand.viewportHeight} tall`
-    findings.push({ kind: 'brand-fold', severity: 'error', detail })
-    return findings
-  }
+  if (!brand.inFold) return [brandMissingFinding(brand, where)]
+  return [
+    brandHeightFinding(brand.inFold, rung, where),
+    brandContrastFinding(brand.inFold, where),
+  ].filter(Boolean)
+}
 
-  if (rung === 1440 && brand.inFold.height < BRAND_MARK_MIN_PX) {
-    findings.push({
-      kind: 'brand-fold',
-      severity: 'error',
-      detail: `mark rendered ${brand.inFold.height}px tall ${where}, floor ${BRAND_MARK_MIN_PX}`,
-    })
-  }
+/** The `brand-fold` finding for a page with no mark in the viewport. */
+function brandMissingFinding(brand, where) {
+  const detail =
+    brand.count === 0
+      ? `no brand mark rendered ${where}`
+      : `no brand mark inside the first fold ${where}: nearest mark at y=${brand.nearestY}, ` +
+        `viewport ${brand.viewportHeight} tall`
+  return { kind: 'brand-fold', severity: 'error', detail }
+}
 
-  const { mode, ink, ground } = brand.inFold
-  if (mode === 'single-color' && ink && ground) {
-    const ratio = contrastRatio(ink, ground)
-    if (ratio < BRAND_CONTRAST_MIN) {
-      findings.push({
-        kind: 'brand-contrast',
-        severity: 'error',
-        detail:
-          `single-colour mark ${rgbToHex(ink)} on ${rgbToHex(ground)} ${where}, ` +
-          `${ratio.toFixed(1)}:1 (floor ${BRAND_CONTRAST_MIN}:1)`,
-      })
-    }
+/** The `brand-fold` finding for a mark under the height floor at 1440, else null. */
+function brandHeightFinding(inFold, rung, where) {
+  if (rung !== 1440 || inFold.height >= BRAND_MARK_MIN_PX) return null
+  return {
+    kind: 'brand-fold',
+    severity: 'error',
+    detail: `mark rendered ${inFold.height}px tall ${where}, floor ${BRAND_MARK_MIN_PX}`,
   }
-  return findings
+}
+
+/** The `brand-contrast` finding for a single-colour mark under the ratio floor, else null. */
+function brandContrastFinding(inFold, where) {
+  const { mode, ink, ground } = inFold
+  if (mode !== 'single-color' || !ink || !ground) return null
+  const ratio = contrastRatio(ink, ground)
+  if (ratio >= BRAND_CONTRAST_MIN) return null
+  return {
+    kind: 'brand-contrast',
+    severity: 'error',
+    detail:
+      `single-colour mark ${rgbToHex(ink)} on ${rgbToHex(ground)} ${where}, ` +
+      `${ratio.toFixed(1)}:1 (floor ${BRAND_CONTRAST_MIN}:1)`,
+  }
 }
 
 /**
@@ -633,33 +640,39 @@ export function findBrandMark(_viewportWidth, _thresholds) {
     return body && body.a > 0 ? channels(body) : { r: 255, g: 255, b: 255 }
   }
 
-  const marks = document.querySelectorAll('[data-brand-mark]')
-  let inFold = null
-  let nearestY = null
-  let nearestDistance = Number.POSITIVE_INFINITY
-  for (const el of marks) {
-    const r = el.getBoundingClientRect()
-    if (!(r.width > 0 && r.height > 0)) continue
-    const intersects = r.right > 0 && r.bottom > 0 && r.left < vw && r.top < vh
-    if (intersects && !inFold) {
-      const ink = parseRgb(getComputedStyle(el).color)
-      inFold = {
-        x: Math.round(r.x),
-        y: Math.round(r.y),
-        width: Math.round(r.width),
-        height: Math.round(r.height),
-        mode: el.getAttribute('data-brand-mode'),
-        ink: ink ? channels(ink) : null,
-        ground: groundFor(el),
-      }
-    }
-    const distance = r.bottom <= 0 ? -r.bottom : r.top >= vh ? r.top - vh : 0
-    if (distance < nearestDistance) {
-      nearestDistance = distance
-      nearestY = Math.round(r.top)
+  const describe = ({ el, r }) => {
+    const ink = parseRgb(getComputedStyle(el).color)
+    return {
+      x: Math.round(r.x),
+      y: Math.round(r.y),
+      width: Math.round(r.width),
+      height: Math.round(r.height),
+      mode: el.getAttribute('data-brand-mode'),
+      ink: ink ? channels(ink) : null,
+      ground: groundFor(el),
     }
   }
-  return { count: marks.length, viewportHeight: vh, nearestY, inFold }
+  // Pixels between the box and the viewport, vertically; 0 when they overlap.
+  const distanceOf = (r) => Math.max(0, -r.bottom, r.top - vh)
+
+  const marks = document.querySelectorAll('[data-brand-mark]')
+  const boxes = Array.from(marks, (el) => ({ el, r: el.getBoundingClientRect() })).filter(
+    ({ r }) => r.width > 0 && r.height > 0
+  )
+  const hit = boxes.find(({ r }) => r.right > 0 && r.bottom > 0 && r.left < vw && r.top < vh)
+
+  let nearest = null
+  for (const { r } of boxes) {
+    const distance = distanceOf(r)
+    if (nearest === null || distance < nearest.distance)
+      nearest = { distance, y: Math.round(r.top) }
+  }
+  return {
+    count: marks.length,
+    viewportHeight: vh,
+    nearestY: nearest ? nearest.y : null,
+    inFold: hit ? describe(hit) : null,
+  }
 }
 
 /**
