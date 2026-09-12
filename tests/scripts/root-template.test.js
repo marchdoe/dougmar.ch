@@ -121,7 +121,7 @@ describe.each([
 describe('app/routes/__root.tsx carries a default title (#327)', () => {
   it('emits a title in its head() meta, from the OG_META block', () => {
     expect(generated).toMatch(/head:\s*\(\)\s*=>/)
-    expect(generated).toContain('{ title:')
+    expect(generated).toMatch(/\{\s*title:/)
   })
 })
 
