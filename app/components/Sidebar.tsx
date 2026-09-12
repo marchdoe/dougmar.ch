@@ -1,67 +1,132 @@
-import { Box } from '../../styled-system/jsx'
 import { css } from '../../styled-system/css'
+import { Box, Flex } from '../../styled-system/jsx'
 import { BrandLockup } from './BrandLockup'
 import { identity } from '../content/about'
 
-const navLinkClass = css({
-  padding: '3 0',
-  minHeight: '44px',
-  display: 'inline-flex',
-  alignItems: 'center',
-  _hover: { color: 'accentAlt' },
-})
-
-const dotClass = css({ color: 'accent', padding: '0 3', fontWeight: 'bold' })
+const signals: { label: string; value: string; win?: boolean }[] = [
+  { label: 'score', value: 'DET 6–2 · W vs CLE', win: true },
+  { label: 'market', value: 'SPY 764.29 ▲0.85%', win: true },
+  { label: 'moon', value: 'New · 1.8% illum' },
+  { label: 'weather', value: 'Overcast 67°F · Aldie, VA' },
+  { label: 'air', value: 'AQI — Good' },
+  { label: 'now playing', value: 'Guided by Voices · Tobin Sprout · The War on Drugs' },
+]
 
 export function Sidebar() {
   return (
     <Box
-      as="header"
+      as="footer"
       className={css({
-        paddingInline: { base: '5', md: '6', lg: '8' },
-        paddingTop: { base: '6', md: '8' },
+        bg: 'bgAlt',
+        borderTop: '1px solid',
+        borderColor: 'borderStrong',
+        paddingInline: { base: '5', lg: '9' },
+        paddingBottom: { base: '8', lg: '9' },
       })}
     >
-      <Box className={css({ color: 'text' })}>
-        <BrandLockup variant="stacked-lg" mode="original" />
-      </Box>
-      <nav
-        aria-label="Primary"
+      <Flex
+        wrap="wrap"
+        align="center"
+        justify="space-between"
+        gap="5"
         className={css({
-          display: 'flex',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '0',
-          marginTop: { base: '5', md: '6' },
-          fontFamily: 'display',
-          textStyle: 'sm',
-          fontVariantCaps: 'small-caps',
-          textTransform: 'lowercase',
-          letterSpacing: 'wide',
-          color: 'textMuted',
+          minHeight: '96px',
+          paddingBlock: '6',
+          borderBottom: '1px solid',
+          borderColor: 'border',
         })}
       >
-        <a href="/#work" className={navLinkClass}>
-          <span>work</span>
+        <a
+          href="/"
+          aria-label="Doug March — home"
+          className={css({ display: 'flex', alignItems: 'center', gap: '3', color: 'text' })}
+        >
+          <BrandLockup variant="horizontal-sm" mode="single-color" />
         </a>
-        <span className={dotClass}>·</span>
-        <a href="/about" className={navLinkClass}>
-          <span>about</span>
-        </a>
-        <span className={dotClass}>·</span>
-        <a href={`mailto:${identity.email}`} className={navLinkClass}>
-          <span>contact</span>
-        </a>
-      </nav>
-      <hr
+        <nav aria-label="Primary" className={css({ display: 'flex', gap: '6' })}>
+          <a
+            href="/"
+            className={css({
+              textStyle: 'xs',
+              textTransform: 'lowercase',
+              letterSpacing: 'wide',
+              color: 'textMuted',
+              fontVariant: 'small-caps',
+              paddingBlock: '3',
+            })}
+          >
+            work
+          </a>
+          <a
+            href="/about"
+            className={css({
+              textStyle: 'xs',
+              textTransform: 'lowercase',
+              letterSpacing: 'wide',
+              color: 'textMuted',
+              fontVariant: 'small-caps',
+              paddingBlock: '3',
+            })}
+          >
+            about
+          </a>
+          <a
+            href={`mailto:${identity.email}`}
+            className={css({
+              textStyle: 'xs',
+              textTransform: 'lowercase',
+              letterSpacing: 'wide',
+              color: 'textMuted',
+              fontVariant: 'small-caps',
+              paddingBlock: '3',
+            })}
+          >
+            contact
+          </a>
+        </nav>
+      </Flex>
+
+      <Box
         className={css({
-          height: 0,
-          border: 0,
-          borderTop: '2px solid',
-          borderColor: 'borderStrong',
-          marginTop: { base: '5', md: '6' },
+          borderTop: '1px solid',
+          borderColor: 'border',
+          display: 'grid',
+          gridTemplateColumns: { base: '1fr', md: '1fr 1fr' },
+          columnGap: { md: '9' },
         })}
-      />
+      >
+        {signals.map((s) => (
+          <Flex
+            key={s.label}
+            justify="space-between"
+            align="baseline"
+            gap="4"
+            className={css({ paddingBlock: '4', borderBottom: '1px solid', borderColor: 'border' })}
+          >
+            <span
+              className={css({
+                textStyle: 'xs',
+                textTransform: 'lowercase',
+                letterSpacing: 'wide',
+                color: 'textFaint',
+                fontVariant: 'small-caps',
+              })}
+            >
+              {s.label}
+            </span>
+            <span
+              className={css({
+                textStyle: 'sm',
+                color: s.win ? 'accent' : 'textMuted',
+                fontVariantNumeric: 'tabular-nums',
+                letterSpacing: 'normal',
+              })}
+            >
+              {s.value}
+            </span>
+          </Flex>
+        ))}
+      </Box>
     </Box>
   )
 }

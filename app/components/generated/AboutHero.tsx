@@ -1,39 +1,36 @@
-import { Box } from '../../../styled-system/jsx'
 import { css } from '../../../styled-system/css'
+import { Box } from '../../../styled-system/jsx'
 import { identity } from '../../content/about'
 
 export function AboutHero() {
   return (
     <Box
-      as="section"
-      aria-label="About"
+      as="header"
       className={css({
-        paddingInline: { base: '5', md: '6', lg: '8' },
+        bg: 'field',
+        paddingInline: { base: '5', lg: '9' },
         paddingBlock: { base: '8', lg: '9' },
-        borderBottom: '1px solid',
-        borderColor: 'border',
       })}
     >
-      <div
+      <span
         className={css({
-          fontFamily: 'display',
-          textStyle: 'sm',
-          letterSpacing: 'wide',
+          textStyle: 'xs',
           textTransform: 'uppercase',
-          color: 'textFaint',
-          marginBottom: '4',
+          letterSpacing: 'wide',
+          color: 'fieldInkMuted',
+          display: 'block',
+          marginBottom: '5',
         })}
       >
         {identity.name} · {identity.role}
-      </div>
-      {/* Long-form statement runs on the body step, not a display heading step —
-          a 340-character sentence at display scale is a wall, not a hero. */}
+      </span>
       <p
         className={css({
           fontFamily: 'body',
           textStyle: 'lg',
-          color: 'text',
-          maxWidth: '60ch',
+          lineHeight: 'normal',
+          color: 'fieldInk',
+          maxWidth: '48ch',
         })}
       >
         {identity.statement}

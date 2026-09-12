@@ -1,0 +1,115 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 12.6,
+          "passing": false
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "Doug March",
+            "w": 130,
+            "h": 27
+          },
+          {
+            "tag": "A",
+            "text": "work",
+            "w": 29,
+            "h": 50
+          },
+          {
+            "tag": "A",
+            "text": "about",
+            "w": 33,
+            "h": 50
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "tablet": {
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 12.6,
+          "passing": false
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "Doug March",
+            "w": 130,
+            "h": 27
+          },
+          {
+            "tag": "A",
+            "text": "work",
+            "w": 29,
+            "h": 50
+          },
+          {
+            "tag": "A",
+            "text": "about",
+            "w": 33,
+            "h": 50
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 12.6,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 12.6,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    }
+  },
+  "overallScore": 3,
+  "worstFailure": {
+    "viewport": "mobile",
+    "check": "bodyTextSize",
+    "detail": "body text min 12.6px (floor 16px)"
+  },
+  "buildId": "1789203694187",
+  "date": "2026-09-12",
+  "archetype": "a drenched specimen that reads like a creed"
+}

@@ -50,28 +50,39 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Free to produce. Not free to own.' },
-      { property: 'og:title', content: 'Free to produce. Not free to own.' },
+      {
+        title:
+          "There will be nothing learned from any challenge in which we don't try our hardest.",
+      },
+      {
+        property: 'og:title',
+        content:
+          "There will be nothing learned from any challenge in which we don't try our hardest.",
+      },
       {
         property: 'og:description',
         content:
-          'Build-log poster on sage paper — over-production packed as ragged monospace noise, the one line not free to own reversed out of a deep-forest panel with a single signal-green block on the word that costs.',
+          "Emerald drench, a Waitzkin creed waterfalling diagonally in quiet Spectral serif reversed out of the field, one spring-green pulse on the day's win.",
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-11.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-12.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Free to produce. Not free to own.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-11.png' },
+      {
+        name: 'twitter:title',
+        content:
+          "There will be nothing learned from any challenge in which we don't try our hardest.",
+      },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-12.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Albert+Sans:wght@400;500;600&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -231,7 +242,7 @@ function RootDocument({ children, bare = false }: { children: ReactNode; bare?: 
         {children}
         {bare ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive — 132 designs
+            Archive — 133 designs
           </a>
         )}
         <ScrollRestoration />

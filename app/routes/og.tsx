@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Box } from '../../styled-system/jsx'
 import { css } from '../../styled-system/css'
+import { Box } from '../../styled-system/jsx'
 import { BrandLockup } from '../components/BrandLockup'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
@@ -8,58 +8,59 @@ export const Route = createFileRoute('/og')({ component: OgCard })
 function OgCard() {
   return (
     <Box
-      position="fixed"
-      inset={0}
-      zIndex={9999}
-      bg="field"
-      className={css({ display: 'flex', alignItems: 'center', justifyContent: 'center' })}
+      className={css({
+        position: 'fixed',
+        inset: 0,
+        zIndex: 9999,
+        bg: 'field',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      })}
     >
       <Box
-        width="1200px"
-        height="630px"
-        bg="field"
-        color="fieldInk"
         className={css({
+          width: '1200px',
+          height: '630px',
+          position: 'relative',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: '9',
           overflow: 'hidden',
-          borderBottom: '2px solid',
-          borderColor: 'fieldBorder',
         })}
       >
-        <Box className={css({ color: 'fieldInk' })}>
-          <BrandLockup variant="stacked-lg" mode="original" />
-        </Box>
+        <span
+          className={css({
+            textStyle: 'xs',
+            fontWeight: '600',
+            textTransform: 'uppercase',
+            letterSpacing: 'wide',
+            color: 'accentAlt',
+          })}
+        >
+          Today&rsquo;s creed
+        </span>
+
         <h1
           className={css({
             fontFamily: 'display',
-            fontWeight: 'bold',
-            textStyle: 'hero',
+            fontWeight: '500',
+            fontSize: '92px',
+            lineHeight: 'tight',
             letterSpacing: 'tight',
             color: 'fieldInk',
-            maxWidth: '1000px',
+            maxWidth: '920px',
           })}
         >
-          Free to produce.
-          <br />
-          Not free to{' '}
-          <span className={css({ bg: 'accent', color: 'accentText', paddingInline: '2' })}>
-            own
+          There will be nothing learned from any challenge in which we don&rsquo;t{' '}
+          <span className={css({ fontStyle: 'italic', fontWeight: '700', color: 'accentAlt' })}>
+            try our hardest.
           </span>
-          .
         </h1>
-        <Box
-          className={css({
-            fontFamily: 'display',
-            textStyle: 'sm',
-            color: 'fieldInkMuted',
-            letterSpacing: 'wide',
-            textTransform: 'uppercase',
-          })}
-        >
-          dougmar.ch
+
+        <Box className={css({ color: 'fieldInk' })}>
+          <BrandLockup variant="horizontal-sm" mode="single-color" />
         </Box>
       </Box>
     </Box>
