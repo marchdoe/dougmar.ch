@@ -60,7 +60,7 @@ function OgCard() {
         </h1>
 
         <Box className={css({ color: 'fieldInk' })}>
-          <BrandLockup variant="horizontal-sm" mode="single-color" />
+          <BrandLockup variant="horizontal-md" mode="single-color" />
         </Box>
       </Box>
     </Box>

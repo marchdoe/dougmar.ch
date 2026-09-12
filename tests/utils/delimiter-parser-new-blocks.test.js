@@ -11,7 +11,7 @@ describe('parseDelimiterResponse — new blocks', () => {
       'color_coverage_min: 60',
       '===SHELL===',
       'nav: bottom rail',
-      'brand_lockup: mark-only-sm',
+      'brand_lockup: mark-only-md',
       '===INTERIOR_NOTES===',
       'About page carries the same rail.',
       '===RATIONALE===',

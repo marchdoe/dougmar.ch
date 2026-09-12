@@ -16,6 +16,8 @@ import {
   VIEWPORT_RUNGS,
   RUNNING_COPY_MAX_PX,
   RUNNING_COPY_MIN_CHARS,
+  BRAND_MARK_MIN_PX,
+  BRAND_CONTRAST_MIN,
 } from '../../scripts/utils/surface-gate.js'
 
 const ok = {
@@ -466,5 +468,167 @@ describe('formatAdvisoryForRepairBrief', () => {
 
   it('does not block the build in its own words', () => {
     expect(formatAdvisoryForRepairBrief([tapTarget])).toContain('do not block the build')
+  })
+})
+
+describe('brand-fold and brand-contrast findings (#503)', () => {
+  // 2026-09-08 and 2026-09-12 declared footer-only and shipped with no mark
+  // in the first fold at either rung; 2026-09-09 and 09-10 set the
+  // single-colour mark on a ground it sank into. Nothing measured any of it.
+  const markInFold = {
+    x: 40,
+    y: 32,
+    width: 48,
+    height: 40,
+    mode: 'single-color',
+    ink: { r: 243, g: 247, b: 244 },
+    ground: { r: 10, g: 70, b: 47 },
+  }
+  const brandOk = { count: 1, viewportHeight: 900, nearestY: 32, inFold: markInFold }
+  const kinds = (m) => evaluateMeasurement(m).map((f) => f.kind)
+
+  it('passes a mark inside the fold, tall enough, with contrast', () => {
+    expect(evaluateMeasurement({ ...ok, brand: brandOk })).toEqual([])
+  })
+
+  it('errors when the only mark sits below the fold, naming rung, scheme, y and fold end', () => {
+    const findings = evaluateMeasurement({
+      ...ok,
+      brand: { count: 1, viewportHeight: 900, nearestY: 2140, inFold: null },
+    })
+    expect(findings).toHaveLength(1)
+    expect(findings[0]).toMatchObject({ kind: 'brand-fold', severity: 'error' })
+    expect(findings[0].detail).toContain('at 1440 (light)')
+    expect(findings[0].detail).toContain('nearest mark at y=2140')
+    expect(findings[0].detail).toContain('viewport 900 tall')
+  })
+
+  it('names the 360 rung on the mobile measurement', () => {
+    const [f] = evaluateMeasurement({
+      ...ok,
+      viewport: 'mobile',
+      clientWidth: 360,
+      scrollWidth: 360,
+      scheme: 'dark',
+      brand: { count: 2, viewportHeight: 640, nearestY: 1810, inFold: null },
+    })
+    expect(f.kind).toBe('brand-fold')
+    expect(f.detail).toContain('at 360 (dark)')
+    expect(f.detail).toContain('viewport 640 tall')
+  })
+
+  it('is the same finding with a different detail when no mark is on the page at all', () => {
+    const [f] = evaluateMeasurement({
+      ...ok,
+      brand: { count: 0, viewportHeight: 900, nearestY: null, inFold: null },
+    })
+    expect(f.kind).toBe('brand-fold')
+    expect(f.detail).toContain('no brand mark rendered')
+    expect(f.detail).not.toContain('nearest')
+  })
+
+  it('errors on a mark under the 32px floor at 1440, and says how tall it rendered', () => {
+    const [f] = evaluateMeasurement({
+      ...ok,
+      brand: { ...brandOk, inFold: { ...markInFold, height: 24 } },
+    })
+    expect(f.kind).toBe('brand-fold')
+    expect(f.detail).toContain('mark rendered 24px tall')
+    expect(f.detail).toContain(`floor ${BRAND_MARK_MIN_PX}`)
+  })
+
+  it('does not apply the height floor at 360, where the lockup is meant to shrink', () => {
+    expect(
+      kinds({
+        ...ok,
+        viewport: 'mobile',
+        clientWidth: 360,
+        scrollWidth: 360,
+        brand: { ...brandOk, viewportHeight: 640, inFold: { ...markInFold, height: 24 } },
+      })
+    ).toEqual([])
+  })
+
+  it('errors on a single-colour mark under 3:1, naming both colours and the ratio', () => {
+    const [f] = evaluateMeasurement({
+      ...ok,
+      brand: {
+        ...brandOk,
+        inFold: { ...markInFold, ink: { r: 26, g: 47, b: 26 }, ground: { r: 11, g: 61, b: 46 } },
+      },
+    })
+    expect(f).toMatchObject({ kind: 'brand-contrast', severity: 'error' })
+    expect(f.detail).toContain('single-colour mark #1a2f1a on #0b3d2e')
+    expect(f.detail).toMatch(/\d\.\d:1 \(floor 3:1\)/)
+    expect(f.detail).toContain(`floor ${BRAND_CONTRAST_MIN}:1`)
+  })
+
+  it('leaves an original-mode mark alone whatever its ground: it carries its own disc', () => {
+    expect(
+      kinds({
+        ...ok,
+        brand: {
+          ...brandOk,
+          inFold: {
+            ...markInFold,
+            mode: 'original',
+            ink: { r: 26, g: 47, b: 26 },
+            ground: { r: 11, g: 61, b: 46 },
+          },
+        },
+      })
+    ).toEqual([])
+  })
+
+  it('reports the height floor and the contrast floor together when both are missed', () => {
+    expect(
+      kinds({
+        ...ok,
+        brand: {
+          ...brandOk,
+          inFold: {
+            ...markInFold,
+            height: 20,
+            ink: { r: 26, g: 47, b: 26 },
+            ground: { r: 11, g: 61, b: 46 },
+          },
+        },
+      })
+    ).toEqual(['brand-fold', 'brand-contrast'])
+  })
+
+  it('only fires on engineer-owned routes', () => {
+    const below = { count: 1, viewportHeight: 900, nearestY: 2140, inFold: null }
+    expect(kinds({ ...ok, route: '/experiments', brand: below })).toEqual([])
+    expect(kinds({ ...ok, route: '/work', brand: below })).toEqual([])
+    expect(kinds({ ...ok, route: '/about', brand: below })).toEqual(['brand-fold'])
+    expect(kinds({ ...ok, route: '/work/spaceman', brand: below })).toEqual(['brand-fold'])
+  })
+
+  it('says nothing when the measurement carries no brand block', () => {
+    expect(evaluateMeasurement(ok)).toEqual([])
+  })
+
+  it('forces a revision: faultsForOwner keeps both kinds', () => {
+    const findings = [
+      { ...ok, surface: '/', kind: 'brand-fold', severity: 'error', detail: 'x' },
+      { ...ok, surface: '/', kind: 'brand-contrast', severity: 'error', detail: 'y' },
+    ]
+    expect(faultsForOwner(findings, 'react-engineer').map((f) => f.kind)).toEqual([
+      'brand-fold',
+      'brand-contrast',
+    ])
+  })
+
+  it('reaches the critic and the repair brief with the mark position and the fold end', () => {
+    const [f] = evaluateMeasurement({
+      ...ok,
+      brand: { count: 1, viewportHeight: 900, nearestY: 2140, inFold: null },
+    })
+    const out = formatFindingsForCritic([
+      { ...f, surface: '/', viewport: 'desktop', width: 1440, scheme: 'light' },
+    ])
+    expect(out).toContain('- [error] / at 1440px (light): no brand mark inside the first fold')
+    expect(out).toContain('nearest mark at y=2140, viewport 900 tall')
   })
 })

@@ -6,6 +6,7 @@ import { budgetFor } from '../utils/budgets.js'
 import { imageBlock, textBlock } from '../utils/claude-sdk.js'
 import { parseCriticVerdict } from '../utils/critic-verdict.js'
 import { DESIGN_FIDELITY_METHOD } from '../utils/design-fidelity.js'
+import { describeHeaderCropAnchor } from '../utils/snapshot.js'
 import { callVisionAgent } from '../utils/vision-router.js'
 
 /**
@@ -56,7 +57,7 @@ export function parseMockupCriticResponse(raw) {
 }
 
 /**
- * @param {{ systemPrompt: string, screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, enrichedBrief: string, measurables: string, measured?: {canvas_utilization: number, color_coverage: number, hero_px: number}|null, measurablesDecl?: object|null, shell: string, header?: string, mobile?: string, collapse?: string|null }} ctx
+ * @param {{ systemPrompt: string, screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null, enrichedBrief: string, measurables: string, measured?: {canvas_utilization: number, color_coverage: number, hero_px: number}|null, measurablesDecl?: object|null, shell: string, header?: string, mobile?: string, collapse?: string|null }} ctx
  * @returns {Promise<{ verdict: 'APPROVE'|'REVISE', feedback: string }>}
  */
 export async function runMockupCritic(ctx) {
@@ -100,7 +101,7 @@ export async function runMockupCritic(ctx) {
  * against: the declared carrier, first fold and order, not a general sense
  * of whether the phone "looks fine".
  *
- * @param {{ screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, enrichedBrief: string, measurables: string, measured?: {canvas_utilization: number, color_coverage: number, hero_px: number}|null, measurablesDecl?: object|null, shell: string, header?: string, mobile?: string, collapse?: string|null }} ctx
+ * @param {{ screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null, enrichedBrief: string, measurables: string, measured?: {canvas_utilization: number, color_coverage: number, hero_px: number}|null, measurablesDecl?: object|null, shell: string, header?: string, mobile?: string, collapse?: string|null }} ctx
  * @returns {Array<{type: string, text?: string, source?: object}>}
  */
 export function buildMockupCriticBlocks(ctx) {
@@ -137,7 +138,7 @@ export function buildMockupCriticBlocks(ctx) {
     ctx.mobileScreenshot ? imageBlock(ctx.mobileScreenshot) : null,
     ctx.headerCrop
       ? textBlock(
-          'A 2x crop of the header region of that same mockup follows. Measure the mark against the declared mark_px here, not in the full-page shot:'
+          `A 2x crop of the header region of that same mockup follows.${describeHeaderCropAnchor(ctx.headerCropAnchor)} Measure the mark against the declared mark_px here, not in the full-page shot:`
         )
       : null,
     ctx.headerCrop ? imageBlock(ctx.headerCrop) : null,

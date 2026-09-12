@@ -24,6 +24,7 @@
 
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
+import { contrastRatio, rgbToHex } from './contrast.js'
 import { ROOT } from './file-manager.js'
 import { BODY_TEXT_MIN_PX, TAP_TARGET_MIN_PX } from './responsive-thresholds.js'
 import { withPreviewServer } from './snapshot.js'
@@ -93,6 +94,24 @@ export const MAX_TAP_TARGET_REPORTED = 6
  * roughly twenty seconds.
  */
 export const GATE_CONCURRENCY = 4
+
+/**
+ * The brand mark in the first fold (#503).
+ *
+ * Two of the eight builds before this shipped with no mark in the first fold
+ * at 360 or 1440 (`shell_posture: footer-only`), and two more set the
+ * single-colour mark on a ground it sank into. Nothing measured either; the
+ * only checks were two vision critics reading a crop taken from the declared
+ * placement, which on a footer-only day is the bottom of the viewport.
+ *
+ * The height floor is the smallest band the Brand Contract still publishes
+ * (`horizontal-md`, 32–48px) now that the two small variants are gone, and
+ * it is checked at 1440 only: at 360 the lockup is meant to shrink. The
+ * contrast floor is WCAG 1.4.11's 3:1 for non-text graphics, applied to the
+ * `single-color` mode only, because `original` carries its own white disc.
+ */
+export const BRAND_MARK_MIN_PX = 32
+export const BRAND_CONTRAST_MIN = 3
 
 /**
  * Routes this gate walks.
@@ -199,6 +218,11 @@ export function evaluateMeasurement(m, { tolerancePx = OVERFLOW_TOLERANCE_PX } =
   // Tap targets and running copy nobody can read at a thumb's width (#488).
   // Split into its own function — see advisory360Findings.
   findings.push(...advisory360Findings(m))
+
+  // The brand mark: inside the first fold, tall enough, and readable against
+  // its ground (#503). Split into its own function for the same reason as
+  // the advisories.
+  findings.push(...brandMarkFindings(m))
 
   if (m.consoleErrors?.length) {
     findings.push({
@@ -500,6 +524,158 @@ export function findSmallCopy(_viewportWidth, thresholds) {
 }
 
 /**
+ * The `brand-fold` and `brand-contrast` findings (#503), from what
+ * {@link findBrandMark} measured. Engineer-owned routes only: `/experiments`
+ * and `/work` are authored files, and a fault there is a ticket for a human
+ * the way every other finding on those routes already is.
+ *
+ * `brand-fold` fires when no mark box intersects the viewport at scroll
+ * position zero, when no mark is on the page at all, and when the mark that
+ * is in the fold renders under {@link BRAND_MARK_MIN_PX} tall at 1440. The
+ * detail names the rung and the scheme, and where the nearest mark is against
+ * where the fold ends, so the engineer is told the two numbers that have to
+ * meet. It does not compare against the declared `mark_px`; the critics do.
+ *
+ * `brand-contrast` fires for a `single-color` mark whose `currentColor`
+ * reads under {@link BRAND_CONTRAST_MIN}:1 against the first painted
+ * background behind it.
+ *
+ * @param {object} m - raw measurement from {@link measureRoute}
+ * @returns {Array<{ kind: string, severity: 'error', detail: string }>}
+ */
+function brandMarkFindings(m) {
+  const brand = m.brand
+  if (!brand || ownerForSurface(m.route) !== 'react-engineer') return []
+  const rung = VIEWPORT_RUNGS.find((v) => v.name === m.viewport)?.width ?? m.clientWidth
+  const where = `at ${rung} (${m.scheme})`
+
+  if (!brand.inFold) return [brandMissingFinding(brand, where)]
+  return [
+    brandHeightFinding(brand.inFold, rung, where),
+    brandContrastFinding(brand.inFold, where),
+  ].filter(Boolean)
+}
+
+/** The `brand-fold` finding for a page with no mark in the viewport. */
+function brandMissingFinding(brand, where) {
+  const detail =
+    brand.count === 0
+      ? `no brand mark rendered ${where}`
+      : `no brand mark inside the first fold ${where}: nearest mark at y=${brand.nearestY}, ` +
+        `viewport ${brand.viewportHeight} tall`
+  return { kind: 'brand-fold', severity: 'error', detail }
+}
+
+/** The `brand-fold` finding for a mark under the height floor at 1440, else null. */
+function brandHeightFinding(inFold, rung, where) {
+  if (rung !== 1440 || inFold.height >= BRAND_MARK_MIN_PX) return null
+  return {
+    kind: 'brand-fold',
+    severity: 'error',
+    detail: `mark rendered ${inFold.height}px tall ${where}, floor ${BRAND_MARK_MIN_PX}`,
+  }
+}
+
+/** The `brand-contrast` finding for a single-colour mark under the ratio floor, else null. */
+function brandContrastFinding(inFold, where) {
+  const { mode, ink, ground } = inFold
+  if (mode !== 'single-color' || !ink || !ground) return null
+  const ratio = contrastRatio(ink, ground)
+  if (ratio >= BRAND_CONTRAST_MIN) return null
+  return {
+    kind: 'brand-contrast',
+    severity: 'error',
+    detail:
+      `single-colour mark ${rgbToHex(ink)} on ${rgbToHex(ground)} ${where}, ` +
+      `${ratio.toFixed(1)}:1 (floor ${BRAND_CONTRAST_MIN}:1)`,
+  }
+}
+
+/**
+ * Where the brand mark is, and what it sits on (#503).
+ *
+ * Runs inside the page; self-contained like {@link findClippedElements}, with
+ * the same `(viewportWidth, thresholds)` signature, for the same reason:
+ * Playwright serialises it with `toString()`.
+ *
+ * Every `[data-brand-mark]` element is measured with `getBoundingClientRect`
+ * at scroll position zero. The first whose box intersects the viewport
+ * (`documentElement.clientWidth` × `clientHeight`, not `innerWidth`, for the
+ * scrollbar reason #319 found) is reported with its box, its declared mode,
+ * its ink and its ground. When none does, `nearestY` is the top of the mark
+ * closest to the viewport, so the finding can say how far away it is.
+ *
+ * Ink is `getComputedStyle(svg).color`: the single-colour mark inherits
+ * `currentColor`. Ground is the first ancestor `backgroundColor` with alpha
+ * above zero, then `body`'s, then white. Alpha compositing beyond "alpha > 0
+ * counts as painted" is ignored on purpose: a translucent tint over a field
+ * is read as the tint, which errs toward reporting a low ratio, and the
+ * engineer can answer that with a solid ground.
+ *
+ * @param {number} [_viewportWidth] unused; present for the shared signature
+ * @param {object} [_thresholds] unused; present for the shared signature
+ * @returns {{ count: number, viewportHeight: number, nearestY: number|null,
+ *   inFold: null | { x: number, y: number, width: number, height: number,
+ *     mode: string|null, ink: { r: number, g: number, b: number }|null,
+ *     ground: { r: number, g: number, b: number } } }}
+ */
+export function findBrandMark(_viewportWidth, _thresholds) {
+  const vw = document.documentElement.clientWidth
+  const vh = document.documentElement.clientHeight
+
+  // Same parsing shape as measureDesignFidelity in design-fidelity.js.
+  const parseRgb = (str) => {
+    const m = /rgba?\(([^)]+)\)/.exec(str || '')
+    if (!m) return null
+    const parts = m[1].split(/[\s,/]+/).map((s) => Number.parseFloat(s))
+    return { r: parts[0], g: parts[1], b: parts[2], a: parts.length > 3 ? parts[3] : 1 }
+  }
+  const channels = (rgb) => ({ r: rgb.r, g: rgb.g, b: rgb.b })
+  const groundFor = (el) => {
+    for (let p = el.parentElement; p; p = p.parentElement) {
+      const rgb = parseRgb(getComputedStyle(p).backgroundColor)
+      if (rgb && rgb.a > 0) return channels(rgb)
+    }
+    const body = parseRgb(getComputedStyle(document.body).backgroundColor)
+    return body && body.a > 0 ? channels(body) : { r: 255, g: 255, b: 255 }
+  }
+
+  const describe = ({ el, r }) => {
+    const ink = parseRgb(getComputedStyle(el).color)
+    return {
+      x: Math.round(r.x),
+      y: Math.round(r.y),
+      width: Math.round(r.width),
+      height: Math.round(r.height),
+      mode: el.getAttribute('data-brand-mode'),
+      ink: ink ? channels(ink) : null,
+      ground: groundFor(el),
+    }
+  }
+  // Pixels between the box and the viewport, vertically; 0 when they overlap.
+  const distanceOf = (r) => Math.max(0, -r.bottom, r.top - vh)
+
+  const marks = document.querySelectorAll('[data-brand-mark]')
+  const boxes = Array.from(marks, (el) => ({ el, r: el.getBoundingClientRect() })).filter(
+    ({ r }) => r.width > 0 && r.height > 0
+  )
+  const hit = boxes.find(({ r }) => r.right > 0 && r.bottom > 0 && r.left < vw && r.top < vh)
+
+  let nearest = null
+  for (const { r } of boxes) {
+    const distance = distanceOf(r)
+    if (nearest === null || distance < nearest.distance)
+      nearest = { distance, y: Math.round(r.top) }
+  }
+  return {
+    count: marks.length,
+    viewportHeight: vh,
+    nearestY: nearest ? nearest.y : null,
+    inFold: hit ? describe(hit) : null,
+  }
+}
+
+/**
  * Runs inside the page. Self-contained on purpose: Playwright serialises it
  * with toString(), so it can reference nothing from this module.
  *
@@ -582,6 +758,11 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
     // Tap targets and running copy at reading size only matter where a thumb
     // does the tapping (#488): measured at the 360 rung only, so a desktop
     // pass spends nothing on a question it cannot ask.
+    // The brand mark, at both rungs and in both schemes (#503).
+    const brand = await page.evaluate(
+      ([src, thresholds]) => new Function(`return ${src}`)()(window.innerWidth, thresholds),
+      [findBrandMark.toString(), {}]
+    )
     let tapTargets = []
     let smallCopy = null
     if (viewport.width === 360) {
@@ -599,6 +780,7 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
       status: resp?.status() ?? null,
       ...box,
       clipped,
+      brand,
       tapTargets,
       smallCopy,
       consoleErrors,

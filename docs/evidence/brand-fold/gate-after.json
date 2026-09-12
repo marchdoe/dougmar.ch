@@ -1,0 +1,96 @@
+{
+  "findings": [
+    {
+      "surface": "/",
+      "viewport": "desktop",
+      "width": 1440,
+      "scheme": "dark",
+      "kind": "console",
+      "severity": "warning",
+      "detail": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` wh"
+    },
+    {
+      "surface": "/",
+      "viewport": "desktop",
+      "width": 1440,
+      "scheme": "light",
+      "kind": "console",
+      "severity": "warning",
+      "detail": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` wh"
+    },
+    {
+      "surface": "/",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "light",
+      "kind": "tap-target",
+      "severity": "warning",
+      "detail": "'work' is a 29x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+    },
+    {
+      "surface": "/",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "light",
+      "kind": "tap-target",
+      "severity": "warning",
+      "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+    },
+    {
+      "surface": "/",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "light",
+      "kind": "small-copy",
+      "severity": "warning",
+      "detail": "<P> runs at 12.6px, under the 16px reading floor — \"Founder · 2018...\". Set it on the body step."
+    },
+    {
+      "surface": "/",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "light",
+      "kind": "console",
+      "severity": "warning",
+      "detail": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` wh"
+    },
+    {
+      "surface": "/",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "dark",
+      "kind": "tap-target",
+      "severity": "warning",
+      "detail": "'work' is a 29x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+    },
+    {
+      "surface": "/",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "dark",
+      "kind": "tap-target",
+      "severity": "warning",
+      "detail": "'about' is a 33x50px target; a thumb needs 44x44. Give it padding or a taller line box."
+    },
+    {
+      "surface": "/",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "dark",
+      "kind": "small-copy",
+      "severity": "warning",
+      "detail": "<P> runs at 12.6px, under the 16px reading floor — \"Founder · 2018...\". Set it on the body step."
+    },
+    {
+      "surface": "/",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "dark",
+      "kind": "console",
+      "severity": "warning",
+      "detail": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` wh"
+    }
+  ],
+  "measured": 4,
+  "errorCount": 0
+}

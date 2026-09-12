@@ -43,7 +43,7 @@ const FAR = {
 }
 
 const SHELL = {
-  brand_lockup: 'mark-only-sm',
+  brand_lockup: 'mark-only-md',
   brand_color_mode: 'single-color',
   ground_strategy: 'dark-void',
 }

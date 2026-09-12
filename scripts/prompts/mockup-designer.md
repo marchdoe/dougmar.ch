@@ -138,6 +138,9 @@ The brand mark is an inline SVG in the mockup — copy the provided SVG source;
 never redraw it. Use the original-color source for `brand_color_mode: original`
 and the `currentColor` source for `single-color`.
 
+The mark sits inside the first fold at 360 and at 1440 whatever the placement;
+`footer-only` and `none` move the nav, never the mark.
+
 ## Composition
 
 For each mockup, make a deliberate choice across these axes of variation (not templates — each can take infinite values):

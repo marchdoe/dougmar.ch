@@ -41,7 +41,7 @@ export function Sidebar() {
           aria-label="Doug March — home"
           className={css({ display: 'flex', alignItems: 'center', gap: '3', color: 'text' })}
         >
-          <BrandLockup variant="horizontal-sm" mode="single-color" />
+          <BrandLockup variant="horizontal-md" mode="single-color" />
         </a>
         <nav aria-label="Primary" className={css({ display: 'flex', gap: '6' })}>
           <a

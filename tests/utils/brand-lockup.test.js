@@ -19,15 +19,18 @@ const TEMPLATE = resolve(process.cwd(), 'scripts/templates/BrandLockup.tsx.templ
 const chassis = (weights) => ({ fonts: { display: { weights } } })
 
 describe('LOCKUP_VARIANTS', () => {
-  it('carries the six Brand Contract ids and nothing else', () => {
-    expect(LOCKUP_IDS).toEqual([
-      'mark-only-sm',
-      'mark-only-md',
-      'horizontal-sm',
-      'horizontal-md',
-      'stacked-md',
-      'stacked-lg',
-    ])
+  it('carries the four Brand Contract ids and nothing else', () => {
+    expect(LOCKUP_IDS).toEqual(['mark-only-md', 'horizontal-md', 'stacked-md', 'stacked-lg'])
+  })
+
+  it('floors every band at 32px, so the size floor falls out of the catalogue (#503)', () => {
+    // horizontal-sm (20–28) and mark-only-sm (24–32) are gone: two builds
+    // shipped a 24px mark that read as a speck at 1440.
+    for (const id of LOCKUP_IDS) {
+      expect(LOCKUP_VARIANTS[id].markMinPx).toBeGreaterThanOrEqual(32)
+    }
+    expect(LOCKUP_VARIANTS['horizontal-sm']).toBeUndefined()
+    expect(LOCKUP_VARIANTS['mark-only-sm']).toBeUndefined()
   })
 
   it('gives every variant a ramp step and a mark band with room in it', () => {
@@ -115,6 +118,14 @@ describe('renderBrandLockupFile', () => {
     const src = renderBrandLockupFile(chassis([400]))
     expect(src).toContain(`height: '${MARK_EM}em'`)
     expect(src).not.toContain('--brand-mark-h')
+  })
+
+  it('marks the mark for the surface gate and the header crop (#503)', () => {
+    const src = renderBrandLockupFile(chassis([400]))
+    expect(src).toContain('data-brand-mark=""')
+    expect(src).toContain('data-brand-mode={mode}')
+    expect(src).not.toContain("'horizontal-sm'")
+    expect(src).not.toContain("'mark-only-sm'")
   })
 
   it('is SSR-safe: no hooks, no browser globals, no inline style props', () => {

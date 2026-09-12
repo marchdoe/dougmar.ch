@@ -19,9 +19,7 @@ every single day. It participates in the design without being reinvented by it.
 
 | id | composition | wordmark step | mark_px band |
 |---|---|---|---|
-| `mark-only-sm` | mark alone | `base` | 24–32px |
 | `mark-only-md` | mark alone | `lg` | 40–56px |
-| `horizontal-sm` | mark + wordmark on one line | `base` | 20–28px |
 | `horizontal-md` | mark + wordmark on one line | `lg` | 32–48px |
 | `stacked-md` | mark above wordmark, centered | `lg` | 40–56px |
 | `stacked-lg` | mark above wordmark, centered | `2xl` | 64–96px |
@@ -37,6 +35,13 @@ was cut down to fit.
 
 Orientation (horizontal vs stacked) may follow the day's header placement — a
 `left-rail` header usually wants a stacked lockup, a `top-bar` a horizontal one.
+
+### Position
+
+The mark sits inside the first fold at 360 and at 1440, whatever the
+placement. `footer-only` and `none` move the nav, never the mark; the `nav`
+line says where in the hero it lives. A `single-color` mark needs 3:1
+against its ground. Both are measured on the built page.
 
 ### The wordmark
 

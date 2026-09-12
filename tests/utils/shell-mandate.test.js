@@ -27,7 +27,7 @@ describe('shell-mandate', () => {
     seedBuild(archiveDir, '2026-06-09', {
       nav: 'top bar',
       footer: 'data strip',
-      brand_lockup: 'mark-only-sm',
+      brand_lockup: 'mark-only-md',
     })
     seedBuild(archiveDir, '2026-06-10', {
       nav: 'left spine',
@@ -43,7 +43,7 @@ describe('shell-mandate', () => {
     seedBuild(archiveDir, '2026-06-08', {
       nav: 'top bar',
       footer: 'data strip',
-      brand_lockup: 'mark-only-sm',
+      brand_lockup: 'mark-only-md',
     })
     seedBuild(archiveDir, '2026-06-09', {
       nav: 'top bar',
@@ -70,7 +70,7 @@ describe('shell-mandate', () => {
     seedBuild(archiveDir, '2026-06-10', {
       nav: 'top bar',
       footer: 'data strip',
-      brand_lockup: 'mark-only-sm',
+      brand_lockup: 'mark-only-md',
     })
     const block = formatShellMandateForPrompt(computeShellMandate({ archiveDir, lookbackDays: 7 }))
     expect(block).toContain('## Shell Mandate')
