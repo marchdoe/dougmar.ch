@@ -90,8 +90,42 @@ the pipeline never writes to this file.
   colour is, the nav labels are checked against it, not against the default
   surface. Extends the header complaint above.
 
+- **The subject is Doug, not the pipeline.** Reviewed 2026-09-05 to -12: five
+  of eight heroes were a random quote (Flaubert, Yogananda, Butler, Waitzkin)
+  or the site talking about itself ("I rebuilt myself overnight", "tonight's
+  rebuild log"), and every hero rationale leaned on "a portfolio that rebuilds
+  itself every night". That lens is the machine's, not the owner's. A hero
+  line has to pass one test: would Doug say this, about design, engineering,
+  golf, Detroit, music, or the work? A quote that fails it is a poster of
+  somebody else. The nightly conceit is never the thesis.
+
+- **Brand in the first fold, at 360 and 1440, every shell posture.** 2026-09-08
+  and -12 ran `footer-only` and the mark reached neither first fold. On drench
+  days the single-colour mark sank into the ground (-09 green, -10 rail). Mark
+  floor 32px, contrast checked against its actual ground, and the wordmark
+  face does not have to change daily: recognition comes from constancy.
+
+- **Type varies by family, never by style.** Eight days, eight chassis, one
+  treatment: mixed case, left or centred, one big step and body. Condensed
+  faces in the catalog went unused. Case, italic-led, weight extreme,
+  alignment, justified, type-as-texture are decisions, and the composition
+  reads as templated until they move.
+
+- **One poster line every day is itself the template.** Eyebrow, statement,
+  deck, signal list, "work · about · contact" in small caps, eight of eight.
+  The object on the page has to change, not only the grid around it: some
+  days the work leads, a figure leads, an index leads, one word leads.
+
 ## All-time grade ledger
 
 - 2026-07-20 — C — "colors are nice, typography is decent" / header messed up
 - 2026-07-22 — C — "colors are good, well spaced" / missing brand, cycling templates
 - 2026-07-23 — C — "header a lot better" / rounded corners, top nav disliked
+- 2026-09-05 — B — ochre drench committed / vignette reads as blur, hero below phone fold
+- 2026-09-06 — A — gold split, condensed caps, box score earns its half / SHUTOUT clips at 360
+- 2026-09-07 — C — original-colour mark on paper / centred logo over a quote, not my voice
+- 2026-09-08 — B — "I rebuilt myself overnight" holds / no brand in first fold
+- 2026-09-09 — B — restraint fits the line / mono mark lost in the green
+- 2026-09-10 — B — didone at scale, best type of the week / mark a blob, Flaubert not me
+- 2026-09-11 — C — void above the fold at 1440, stacked letters read as collage error
+- 2026-09-12 — B — Spectral on emerald / no brand in first fold, quote poster
