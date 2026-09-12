@@ -337,6 +337,13 @@ Three things fail the build: importing `app/assets/logo.svg` or
 `logo-mono.svg` from any file a route reaches, pasting the mark's path data
 into a component, and a SHELL declaration naming a lockup that no file renders.
 
+`<BrandLockup />` renders inside the first fold on every route: `/`, `/about`
+and every `/work/<slug>`, at 360 and at 1440. `footer-only` means the nav goes
+in the footer; the lockup still sits up top, where the HEADER `nav` line says.
+The surface gate measures the rendered mark's box against the viewport at
+scroll position zero, and a mark outside the fold, or under 32px tall at 1440,
+or a `single-color` mark under 3:1 against its ground, forces a revision.
+
 **All pages:** The contact address renders on every page as a real `mailto:` link built from `identity.email` — never hardcoded, never a `/#contact` page anchor. Where it sits is yours (footer, nav, hero); that it is reachable and clickable is not. Name and role render on every page, in whatever form today's SHELL declaration and `shell_posture` call for. Nav links render alongside them — **except when `shell_posture: none`: render zero `<nav>` elements anywhere in the output.** Projects and other routes stay reachable through in-content `<a>` links instead. `folded-into-hero` and `footer-only` move the nav out of its usual Sidebar slot (into the hero composition, or to the page foot) — the mockup shows where; match it.
 
 **og.tsx data-render:** Today's hero phrase at display scale + today's palette as field + `<BrandLockup />`. No project listings.

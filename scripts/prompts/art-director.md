@@ -256,7 +256,7 @@ of it against what you write here.
   table. The lockup component clamps to the same band, so a number inside it
   is a number that will render.
 - `wordmark_step` is the ramp step the name is set at. It is `none` — and only
-  `none` — for the two mark-only lockups, which have no wordmark.
+  `none` — for the mark-only lockup, which has no wordmark.
 - `wordmark_weight` is a preference. The lockup resolves it to the nearest
   weight today's display face actually loads, because a weight the chassis did
   not load renders as a synthesized bold that distorts the letterforms.
@@ -268,6 +268,13 @@ of it against what you write here.
 - `nav` stays prose because the character of a nav is not a number. Consult
   the Shell Mandate for recently-used placements, nav treatments and mark size
   bands, and move off them unless today's brief demands otherwise.
+- The mark sits inside the first fold at 360 and at 1440, whatever the
+  placement. `footer-only` and `none` defer the nav, never the mark. On those
+  days the `nav` line also names where the mark lives in the hero ("nav in the
+  footer band; mark top-left of the hero field"). The surface gate measures
+  the rendered mark's box against the viewport on every route at both rungs,
+  and a mark outside the fold forces a revision. Two of the last eight builds
+  shipped with no mark in the first fold; that is what this rule is for.
 
 A top bar with a wordmark on the left and text links on the right is the
 pattern the owner has rejected in three consecutive ratings. It is still
@@ -388,7 +395,7 @@ wordmark_weight: <integer 100–900>
 role_line: present | absent
 nav_step: 2xs | xs | sm | base | md | lg | xl | 2xl | 3xl | 4xl | 5xl
 nav_case: upper | lower | small-caps | title
-nav: <treatment in prose, e.g. bottom rail / corner mark / floating pills / left spine / top bar / none — must be "none" when placement is "none">
+nav: <treatment in prose, e.g. bottom rail / corner mark / floating pills / left spine / top bar / none — must be "none" when placement is "none"; for footer-only and none, also say where the mark sits in the hero>
 
 ===MOBILE===
 carrier: <one sentence: what carries the idea at 360>

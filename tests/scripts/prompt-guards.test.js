@@ -27,6 +27,20 @@ describe('brand-contract.md load-bearing directives', () => {
     expect(c).toContain('single-color')
     expect(c).toMatch(/two modes|exactly two/i)
   })
+  it('publishes four lockup rows, none under a 32px floor (#503)', () => {
+    const rows = contract()
+      .split('\n')
+      .filter((l) => /^\| `[a-z-]+` \|/.test(l))
+    expect(rows).toHaveLength(4)
+    expect(rows.join('\n')).not.toMatch(/`horizontal-sm`|`mark-only-sm`/)
+    expect(rows.join('\n')).not.toMatch(/\| 2\d–\d+px \|/)
+  })
+  it('states the fold rule and the 3:1 contrast floor under a Position subsection (#503)', () => {
+    const c = contract()
+    expect(c).toContain('### Position')
+    expect(c).toMatch(/first fold[^.]*360[^.]*1440/)
+    expect(c).toMatch(/3:1/)
+  })
 })
 
 describe('art-director.md output contract', () => {
@@ -38,6 +52,12 @@ describe('art-director.md output contract', () => {
   it('requires the SHELL block', () => {
     expect(ad()).toContain('===SHELL===')
     expect(ad()).toContain('brand_color_mode')
+  })
+  it('puts the mark inside the first fold whatever the placement (#503)', () => {
+    const text = ad()
+    expect(text).toMatch(/mark sits inside the first fold at 360 and at 1440/)
+    expect(text).toMatch(/`footer-only` and `none` defer the nav, never the mark/)
+    expect(text).not.toContain('two mark-only lockups')
   })
   it('requires the MOBILE block and the collapse axis (#452)', () => {
     const text = ad()
@@ -64,6 +84,9 @@ describe('mockup-designer.md load-bearing directives', () => {
   })
   it('forbids the generic shell', () => {
     expect(md()).toMatch(/logo top-left.*nav top-right/i)
+  })
+  it('keeps the mark in the first fold on footer-only and none days (#503)', () => {
+    expect(md()).toMatch(/mark sits inside the first fold at 360 and at 1440/)
   })
 })
 
@@ -99,6 +122,13 @@ describe('react-engineer.md load-bearing directives', () => {
     ]) {
       expect(c).toContain(f)
     }
+  })
+  it('renders the lockup inside the first fold on every route (#503)', () => {
+    const c = re()
+    expect(c).toMatch(/<BrandLockup \/>` renders inside the first fold on every route/)
+    expect(c).toMatch(
+      /`footer-only` means the nav goes\s+in the footer; the lockup still sits up top/
+    )
   })
   it('specifies the OG card dimensions', () => {
     expect(re()).toContain('1200')

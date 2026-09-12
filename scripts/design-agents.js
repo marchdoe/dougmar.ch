@@ -1595,6 +1595,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           screenshotBuffer: mockupScreenshot.jpeg,
           mobileScreenshot: mockupScreenshot.mobileJpeg,
           headerCrop: mockupScreenshot.headerJpeg,
+          headerCropAnchor: mockupScreenshot.headerCropAnchor,
           enrichedBrief,
           measurables: artDirectorResult.measurables,
           measured: mockupScreenshot.measured,

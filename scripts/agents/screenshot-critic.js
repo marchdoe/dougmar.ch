@@ -4,6 +4,7 @@
  * reference wiring are unit-testable without the full orchestrator.
  */
 import { imageBlock, textBlock } from '../utils/claude-sdk.js'
+import { describeHeaderCropAnchor } from '../utils/snapshot.js'
 
 /**
  * Hard ceiling on image blocks per call: mockup + light at 1440 + a phone
@@ -124,8 +125,8 @@ function routeShotBlocks(existing, routeShots) {
  * @param {string} [ctx.measuredFaults] - rendered output of
  *   `surface-gate.formatFindingsForCritic`; empty string when nothing is wrong
  * @param {string} [ctx.references] - design reference block, if any
- * @param {{ jpeg: Buffer, headerJpeg?: Buffer|null } | null} [ctx.mockupScreenshot] - approved mockup, if any
- * @param {{ jpeg: Buffer, darkJpeg: Buffer, headerJpeg?: Buffer|null, mobileJpeg?: Buffer|null }} ctx.screenshotBuffer -
+ * @param {{ jpeg: Buffer, headerJpeg?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null } | null} [ctx.mockupScreenshot] - approved mockup, if any
+ * @param {{ jpeg: Buffer, darkJpeg: Buffer, headerJpeg?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null, mobileJpeg?: Buffer|null }} ctx.screenshotBuffer -
  *   rendered homepage: both schemes at 1440, plus a phone filmstrip of the
  *   whole page in the light scheme
  * @param {Array<{ label: string, jpeg: Buffer }>} [ctx.phoneFilmstrips] -
@@ -172,9 +173,12 @@ export function buildScreenshotCriticBlocks(ctx) {
     // of the prompt is judged off these — the full-page shots arrive at 1024px
     // wide, where a mark at a quarter of its declared size is indistinguishable
     // from one at full size (#254).
-    ...shot("A 2x crop of the APPROVED MOCKUP's header region:", ctx.mockupScreenshot?.headerJpeg),
     ...shot(
-      "A 2x crop of the RENDERED page's header region, same viewport and same region. Measure the mark against the declared mark_px here, and against the mockup crop above:",
+      `A 2x crop of the APPROVED MOCKUP's header region.${describeHeaderCropAnchor(ctx.mockupScreenshot?.headerCropAnchor)}`,
+      ctx.mockupScreenshot?.headerJpeg
+    ),
+    ...shot(
+      `A 2x crop of the RENDERED page's header region, same viewport.${describeHeaderCropAnchor(ctx.screenshotBuffer.headerCropAnchor)} Measure the mark against the declared mark_px here, and against the mockup crop above:`,
       ctx.screenshotBuffer.headerJpeg
     ),
   ]

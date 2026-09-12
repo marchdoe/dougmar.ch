@@ -279,7 +279,7 @@ of it against what you write here.
   table. The lockup component clamps to the same band, so a number inside it
   is a number that will render.
 - `wordmark_step` is the ramp step the name is set at. It is `none` — and only
-  `none` — for the two mark-only lockups, which have no wordmark.
+  `none` — for the mark-only lockup, which has no wordmark.
 - `wordmark_weight` is a preference. The lockup resolves it to the nearest
   weight today's display face actually loads, because a weight the chassis did
   not load renders as a synthesized bold that distorts the letterforms.
@@ -291,6 +291,13 @@ of it against what you write here.
 - `nav` stays prose because the character of a nav is not a number. Consult
   the Shell Mandate for recently-used placements, nav treatments and mark size
   bands, and move off them unless today's brief demands otherwise.
+- The mark sits inside the first fold at 360 and at 1440, whatever the
+  placement. `footer-only` and `none` defer the nav, never the mark. On those
+  days the `nav` line also names where the mark lives in the hero ("nav in the
+  footer band; mark top-left of the hero field"). The surface gate measures
+  the rendered mark's box against the viewport on every route at both rungs,
+  and a mark outside the fold forces a revision. Two of the last eight builds
+  shipped with no mark in the first fold; that is what this rule is for.
 
 A top bar with a wordmark on the left and text links on the right is the
 pattern the owner has rejected in three consecutive ratings. It is still
@@ -411,7 +418,7 @@ wordmark_weight: <integer 100–900>
 role_line: present | absent
 nav_step: 2xs | xs | sm | base | md | lg | xl | 2xl | 3xl | 4xl | 5xl
 nav_case: upper | lower | small-caps | title
-nav: <treatment in prose, e.g. bottom rail / corner mark / floating pills / left spine / top bar / none — must be "none" when placement is "none">
+nav: <treatment in prose, e.g. bottom rail / corner mark / floating pills / left spine / top bar / none — must be "none" when placement is "none"; for footer-only and none, also say where the mark sits in the hero>
 
 ===MOBILE===
 carrier: <one sentence: what carries the idea at 360>
@@ -1059,9 +1066,7 @@ every single day. It participates in the design without being reinvented by it.
 
 | id | composition | wordmark step | mark_px band |
 |---|---|---|---|
-| `mark-only-sm` | mark alone | `base` | 24–32px |
 | `mark-only-md` | mark alone | `lg` | 40–56px |
-| `horizontal-sm` | mark + wordmark on one line | `base` | 20–28px |
 | `horizontal-md` | mark + wordmark on one line | `lg` | 32–48px |
 | `stacked-md` | mark above wordmark, centered | `lg` | 40–56px |
 | `stacked-lg` | mark above wordmark, centered | `2xl` | 64–96px |
@@ -1077,6 +1082,13 @@ was cut down to fit.
 
 Orientation (horizontal vs stacked) may follow the day's header placement — a
 `left-rail` header usually wants a stacked lockup, a `top-bar` a horizontal one.
+
+### Position
+
+The mark sits inside the first fold at 360 and at 1440, whatever the
+placement. `footer-only` and `none` move the nav, never the mark; the `nav`
+line says where in the hero it lives. A `single-color` mark needs 3:1
+against its ground. Both are measured on the built page.
 
 ### The wordmark
 
@@ -1972,6 +1984,9 @@ The brand mark is an inline SVG in the mockup — copy the provided SVG source;
 never redraw it. Use the original-color source for `brand_color_mode: original`
 and the `currentColor` source for `single-color`.
 
+The mark sits inside the first fold at 360 and at 1440 whatever the placement;
+`footer-only` and `none` move the nav, never the mark.
+
 ## Composition
 
 For each mockup, make a deliberate choice across these axes of variation (not templates — each can take infinite values):
@@ -2703,9 +2718,7 @@ every single day. It participates in the design without being reinvented by it.
 
 | id | composition | wordmark step | mark_px band |
 |---|---|---|---|
-| `mark-only-sm` | mark alone | `base` | 24–32px |
 | `mark-only-md` | mark alone | `lg` | 40–56px |
-| `horizontal-sm` | mark + wordmark on one line | `base` | 20–28px |
 | `horizontal-md` | mark + wordmark on one line | `lg` | 32–48px |
 | `stacked-md` | mark above wordmark, centered | `lg` | 40–56px |
 | `stacked-lg` | mark above wordmark, centered | `2xl` | 64–96px |
@@ -2721,6 +2734,13 @@ was cut down to fit.
 
 Orientation (horizontal vs stacked) may follow the day's header placement — a
 `left-rail` header usually wants a stacked lockup, a `top-bar` a horizontal one.
+
+### Position
+
+The mark sits inside the first fold at 360 and at 1440, whatever the
+placement. `footer-only` and `none` move the nav, never the mark; the `nav`
+line says where in the hero it lives. A `single-color` mark needs 3:1
+against its ground. Both are measured on the built page.
 
 ### The wordmark
 
@@ -3030,7 +3050,7 @@ https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Figtr
 ## Brand Mark SVG (original colors)
 
 ```html
-<svg width="71" height="59" viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="71" height="59" viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" data-brand-mark="">
 <title>Doug March logo</title>
 <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
 <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
@@ -3048,7 +3068,7 @@ https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Figtr
 ## Brand Mark SVG (single-color / currentColor)
 
 ```html
-<svg width="71" height="59" viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="71" height="59" viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" data-brand-mark="">
 <title>Doug March logo</title>
 <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="currentColor"/>
 <circle cx="30.0829" cy="29.3002" r="0.98668" fill="currentColor"/>
@@ -4159,6 +4179,13 @@ by hand against a mockup that had it at 44px.
 Three things fail the build: importing `app/assets/logo.svg` or
 `logo-mono.svg` from any file a route reaches, pasting the mark's path data
 into a component, and a SHELL declaration naming a lockup that no file renders.
+
+`<BrandLockup />` renders inside the first fold on every route: `/`, `/about`
+and every `/work/<slug>`, at 360 and at 1440. `footer-only` means the nav goes
+in the footer; the lockup still sits up top, where the HEADER `nav` line says.
+The surface gate measures the rendered mark's box against the viewport at
+scroll position zero, and a mark outside the fold, or under 32px tall at 1440,
+or a `single-color` mark under 3:1 against its ground, forces a revision.
 
 **All pages:** The contact address renders on every page as a real `mailto:` link built from `identity.email` — never hardcoded, never a `/#contact` page anchor. Where it sits is yours (footer, nav, hero); that it is reachable and clickable is not. Name and role render on every page, in whatever form today's SHELL declaration and `shell_posture` call for. Nav links render alongside them — **except when `shell_posture: none`: render zero `<nav>` elements anywhere in the output.** Projects and other routes stay reachable through in-content `<a>` links instead. `folded-into-hero` and `footer-only` move the nav out of its usual Sidebar slot (into the hero composition, or to the page foot) — the mockup shows where; match it.
 
@@ -5773,7 +5800,7 @@ DARK scheme, 1440×900 (DESKTOP):
 
 ---
 
-A 2x crop of the APPROVED MOCKUP's header region:
+A 2x crop of the APPROVED MOCKUP's header region.
 
 ---
 
@@ -5781,7 +5808,7 @@ A 2x crop of the APPROVED MOCKUP's header region:
 
 ---
 
-A 2x crop of the RENDERED page's header region, same viewport and same region. Measure the mark against the declared mark_px here, and against the mockup crop above:
+A 2x crop of the RENDERED page's header region, same viewport. Measure the mark against the declared mark_px here, and against the mockup crop above:
 
 ---
 

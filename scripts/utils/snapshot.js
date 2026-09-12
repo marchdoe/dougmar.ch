@@ -151,14 +151,8 @@ export const DEFAULT_HEADER_CROP_HEIGHT = 160
 export function headerCropRegion(placement, { width, height, declaredHeightPx } = {}) {
   const w = width ?? 1440
   const h = height ?? 900
-  // Take the declared height plus room to see what sits under it, so a header
-  // that overflows its own declaration is visible in the crop rather than
-  // cropped out of it.
-  const band = Math.min(
-    h,
-    Math.max(DEFAULT_HEADER_CROP_HEIGHT, Math.round((declaredHeightPx || 0) * 1.4) + 48)
-  )
-  const rail = Math.min(w, Math.max(360, Math.round(w * 0.34)))
+  const band = cropBandHeight(h, declaredHeightPx)
+  const rail = railWidth(w)
   switch (placement) {
     case 'left-rail':
       return { x: 0, y: 0, width: rail, height: h }
@@ -172,15 +166,115 @@ export function headerCropRegion(placement, { width, height, declaredHeightPx } 
 }
 
 /**
+ * Depth of a horizontal header band: the declared height plus room to see
+ * what sits under it, so a header that overflows its own declaration is
+ * visible in the crop rather than cropped out of it.
+ * @param {number} h viewport height
+ * @param {number|null|undefined} declaredHeightPx
+ * @returns {number}
+ */
+function cropBandHeight(h, declaredHeightPx) {
+  return Math.min(
+    h,
+    Math.max(DEFAULT_HEADER_CROP_HEIGHT, Math.round((declaredHeightPx || 0) * 1.4) + 48)
+  )
+}
+
+/**
+ * Width of a vertical rail crop for a marginal header.
+ * @param {number} w viewport width
+ * @returns {number}
+ */
+function railWidth(w) {
+  return Math.min(w, Math.max(360, Math.round(w * 0.34)))
+}
+
+/**
+ * The header crop when the rendered mark has been found (#503): the same band
+ * `headerCropRegion` would take, centred on the mark's box and clamped to the
+ * viewport, so a footer-only day's crop shows the mark wherever the engineer
+ * put it rather than the bottom of the viewport the declaration implied. A
+ * marginal header keeps its rail-shaped crop, anchored to whichever side the
+ * mark is on.
+ *
+ * Pure, like `headerCropRegion`; `mark` is viewport-relative CSS pixels, the
+ * shape `getBoundingClientRect` returns.
+ *
+ * @param {string|null|undefined} placement
+ * @param {{ x: number, y: number, width: number, height: number }} mark
+ * @param {{ width: number, height: number, declaredHeightPx?: number|null }} viewport
+ * @returns {{ x: number, y: number, width: number, height: number }}
+ */
+export function markCropRegion(placement, mark, { width, height, declaredHeightPx } = {}) {
+  const w = width ?? 1440
+  const h = height ?? 900
+  const centreX = mark.x + mark.width / 2
+  const centreY = mark.y + mark.height / 2
+  if (placement === 'left-rail' || placement === 'right-margin') {
+    const rail = railWidth(w)
+    return { x: centreX < w / 2 ? 0 : w - rail, y: 0, width: rail, height: h }
+  }
+  const band = cropBandHeight(h, declaredHeightPx)
+  const y = Math.min(Math.max(0, Math.round(centreY - band / 2)), h - band)
+  return { x: 0, y, width: w, height: band }
+}
+
+/**
+ * The sentence a critic prompt adds after "a 2x crop of the header region",
+ * saying which path `captureHeaderCrop` took. Empty for a capture that
+ * predates the anchor, so the swarm fixtures read as they did.
+ * @param {'mark'|'placement'|null|undefined} anchor
+ * @returns {string}
+ */
+export function describeHeaderCropAnchor(anchor) {
+  if (anchor === 'mark') return ' The crop is centred on the rendered mark.'
+  if (anchor === 'placement')
+    return ' No mark was found; the crop is taken from the declared placement.'
+  return ''
+}
+
+/**
+ * Runs inside the page; self-contained because Playwright serialises it with
+ * `toString()`. The first `[data-brand-mark]` whose box intersects the
+ * viewport at scroll position zero, else the first one with a box at all
+ * after scrolling it into view, else null. The box comes back
+ * viewport-relative, which is the frame a non-fullPage `clip` is taken in.
+ * @returns {{ x: number, y: number, width: number, height: number }|null}
+ */
+function locateBrandMarkForCrop() {
+  const vw = document.documentElement.clientWidth
+  const vh = document.documentElement.clientHeight
+  const box = (el) => {
+    const r = el.getBoundingClientRect()
+    return { x: r.x, y: r.y, width: r.width, height: r.height }
+  }
+  const marks = [...document.querySelectorAll('[data-brand-mark]')].filter((el) => {
+    const r = el.getBoundingClientRect()
+    return r.width > 0 && r.height > 0
+  })
+  const visible = marks.find((el) => {
+    const r = el.getBoundingClientRect()
+    return r.right > 0 && r.bottom > 0 && r.left < vw && r.top < vh
+  })
+  if (visible) return box(visible)
+  if (!marks.length) return null
+  marks[0].scrollIntoView({ block: 'center', inline: 'nearest' })
+  return box(marks[0])
+}
+
+/**
  * Render one page at deviceScaleFactor 2 and return a JPEG of the header
- * region. Best-effort: the caller treats a null as "no crop this run" rather
- * than a failure, because a missing crop must never be the reason a nightly
- * build stops.
+ * region, with which path chose the region: `mark` when a rendered
+ * `[data-brand-mark]` was found and the crop is centred on it (#503),
+ * `placement` when none was and the crop follows the declared placement.
+ * Best-effort: the caller treats a null as "no crop this run" rather than a
+ * failure, because a missing crop must never be the reason a nightly build
+ * stops.
  *
  * @param {import('playwright').Browser} browser
  * @param {string} url page URL (http or file://)
  * @param {{ width: number, height: number, placement?: string|null, declaredHeightPx?: number|null, colorScheme?: 'light'|'dark' }} opts
- * @returns {Promise<Buffer|null>}
+ * @returns {Promise<{ jpeg: Buffer, anchor: 'mark'|'placement' }|null>}
  */
 async function captureHeaderCrop(browser, url, opts) {
   const { width = 1440, height = 900, placement, declaredHeightPx, colorScheme } = opts
@@ -193,12 +287,16 @@ async function captureHeaderCrop(browser, url, opts) {
     })
     await page.goto(url, { waitUntil: 'networkidle' })
     await page.waitForTimeout(1000) // fonts
-    const clip = headerCropRegion(placement, { width, height, declaredHeightPx })
+    const mark = await page.evaluate(locateBrandMarkForCrop)
+    const clip = mark
+      ? markCropRegion(placement, mark, { width, height, declaredHeightPx })
+      : headerCropRegion(placement, { width, height, declaredHeightPx })
     const png = await page.screenshot({ type: 'png', clip })
-    return await downscaleForCritic(page, png, {
+    const jpeg = await downscaleForCritic(page, png, {
       targetWidth: HEADER_CROP_WIDTH,
       quality: HEADER_CROP_QUALITY,
     })
+    return { jpeg, anchor: mark ? 'mark' : 'placement' }
   } catch {
     return null
   } finally {
@@ -632,7 +730,7 @@ export async function captureSnapshot(date, buildId, { root = ROOT } = {}) {
  * @param {number} [port] - Optional port if server is already running
  * @param {{ headerCrop?: { placement?: string|null, heightPx?: number|null } }} [opts]
  *   the day's HEADER declaration, which decides where the header crop is taken
- * @returns {Promise<{png: Buffer, jpeg: Buffer, darkPng: Buffer, darkJpeg: Buffer, headerJpeg: Buffer|null, mobileJpeg: Buffer|null, fingerprint: object|null}>}
+ * @returns {Promise<{png: Buffer, jpeg: Buffer, darkPng: Buffer, darkJpeg: Buffer, headerJpeg: Buffer|null, headerCropAnchor: 'mark'|'placement'|null, mobileJpeg: Buffer|null, fingerprint: object|null}>}
  */
 export async function captureScreenshot(port, { headerCrop } = {}) {
   const { chromium } = await import('playwright')
@@ -668,12 +766,14 @@ export async function captureScreenshot(port, { headerCrop } = {}) {
         // Header crop, rendered separately at 2x and 1440 wide so it lines up
         // with the mockup's crop. Never blocking — a missing crop costs the
         // critics one image, not the run.
-        const headerJpeg = await captureHeaderCrop(browser, `${baseUrl}/`, {
+        const header = await captureHeaderCrop(browser, `${baseUrl}/`, {
           width: 1440,
           height: 900,
           placement: headerCrop?.placement ?? null,
           declaredHeightPx: headerCrop?.heightPx ?? null,
         })
+        const headerJpeg = header?.jpeg ?? null
+        const headerCropAnchor = header?.anchor ?? null
 
         // The whole page on a phone, as a filmstrip. Both critics now receive
         // it beside the 1440 render, because the desktop-only diet is how a
@@ -687,7 +787,16 @@ export async function captureScreenshot(port, { headerCrop } = {}) {
         // silhouette that shipped.
         const fingerprint = await captureFingerprint(browser, `${baseUrl}/`)
 
-        return { png, jpeg, darkPng, darkJpeg, headerJpeg, mobileJpeg, fingerprint }
+        return {
+          png,
+          jpeg,
+          darkPng,
+          darkJpeg,
+          headerJpeg,
+          headerCropAnchor,
+          mobileJpeg,
+          fingerprint,
+        }
       } finally {
         // Close in finally so a throw from page.goto / screenshot (dead preview
         // server, networkidle timeout) can't orphan the headless Chromium — the
@@ -706,7 +815,7 @@ export async function captureScreenshot(port, { headerCrop } = {}) {
  *
  * @param {string} filePath - absolute path to the HTML file
  * @param {{ width?: number, height?: number, headerCrop?: { placement?: string|null, heightPx?: number|null } }} [opts]
- * @returns {Promise<{png: Buffer, jpeg: Buffer, headerJpeg: Buffer|null, mobileJpeg: Buffer|null, measured: {canvas_utilization: number, color_coverage: number, hero_px: number}}>}
+ * @returns {Promise<{png: Buffer, jpeg: Buffer, headerJpeg: Buffer|null, headerCropAnchor: 'mark'|'placement'|null, mobileJpeg: Buffer|null, measured: {canvas_utilization: number, color_coverage: number, hero_px: number}}>}
  *   image buffers — PNG for archives, JPEG (downscaled, q70) for critic
  *   prompts (see captureScreenshot), plus a 2x crop of the declared header
  *   region, the same mockup rendered at the phone rung, and the
@@ -730,18 +839,20 @@ export async function captureHtmlFileScreenshot(
     // Same page, same load — no second browser or navigation just to measure
     // what is already rendered.
     const measured = await page.evaluate(measureDesignFidelity)
-    const headerJpeg = await captureHeaderCrop(browser, `file://${filePath}`, {
+    const header = await captureHeaderCrop(browser, `file://${filePath}`, {
       width,
       height,
       placement: headerCrop?.placement ?? null,
       declaredHeightPx: headerCrop?.heightPx ?? null,
     })
+    const headerJpeg = header?.jpeg ?? null
+    const headerCropAnchor = header?.anchor ?? null
     // The mockup on a phone, as a filmstrip, for the same reason the shipped
     // page gets one: the mockup critic is the blocking gate between design
     // and engineering, and until now it had never seen anything past 640px
     // of the phone (#466).
     const mobileJpeg = await capturePhoneFilmstrip(browser, `file://${filePath}`)
-    return { png, jpeg, headerJpeg, mobileJpeg, measured }
+    return { png, jpeg, headerJpeg, headerCropAnchor, mobileJpeg, measured }
   } finally {
     await browser.close()
   }

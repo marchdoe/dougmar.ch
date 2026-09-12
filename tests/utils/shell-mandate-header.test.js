@@ -58,7 +58,7 @@ describe('shell mandate — the header half (#254)', () => {
 
   it('still reads nav out of a legacy shell.json with no header beside it', () => {
     seedBuild(archiveDir, '2026-08-28', {
-      shell: { nav: 'top bar', footer: 'none', brand_lockup: 'horizontal-sm' },
+      shell: { nav: 'top bar', footer: 'none', brand_lockup: 'horizontal-md' },
     })
     const [s] = extractRecentShells(archiveDir, 30)
     expect(s.nav).toBe('top bar')
@@ -68,7 +68,7 @@ describe('shell mandate — the header half (#254)', () => {
 
   it('soft-forbids the last three distinct placements and mark bands', () => {
     seedBuild(archiveDir, '2026-08-26', {
-      shell: { footer: 'a', brand_lockup: 'horizontal-sm', brand_color_mode: 'single-color' },
+      shell: { footer: 'a', brand_lockup: 'horizontal-md', brand_color_mode: 'single-color' },
       header: { placement: 'top-bar', mark_px: 24, nav: 'a' },
     })
     seedBuild(archiveDir, '2026-08-27', {

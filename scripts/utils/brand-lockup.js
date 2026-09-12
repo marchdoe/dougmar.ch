@@ -10,7 +10,7 @@
  *
  * This module is the half of the fix that lives outside React:
  *
- *   LOCKUP_VARIANTS         the six Brand Contract ids, with the ramp step
+ *   LOCKUP_VARIANTS         the four Brand Contract ids, with the ramp step
  *                           each renders at and its permitted mark band
  *   renderBrandLockupFile   app/components/BrandLockup.tsx, written by the
  *                           orchestrator every run the same way __root.tsx is
@@ -51,7 +51,12 @@ export const MARK_TO_CAP = 2.4
 export const MARK_EM = Math.round(CAP_RATIO * MARK_TO_CAP * 1000) / 1000
 
 /**
- * The six lockup ids from the Brand Contract.
+ * The four lockup ids from the Brand Contract.
+ *
+ * There were six until #503. `horizontal-sm` (20–28px) and `mark-only-sm`
+ * (24–32px) were retired because two nightly builds shipped a 24px mark that
+ * read as a speck at 1440; every remaining band floors at 32px, so the size
+ * floor falls out of the catalogue rather than needing a separate rule.
  *
  * `step` is the ramp step the wordmark renders at, which is also what the
  * mark's height is derived from — pick the step and the mark follows, so the
@@ -63,15 +68,13 @@ export const MARK_EM = Math.round(CAP_RATIO * MARK_TO_CAP * 1000) / 1000
  * next to a 96px mark. See stepClamp below.
  */
 export const LOCKUP_VARIANTS = {
-  'mark-only-sm': { orientation: 'mark', step: 'base', markMinPx: 24, markMaxPx: 32 },
   'mark-only-md': { orientation: 'mark', step: 'lg', markMinPx: 40, markMaxPx: 56 },
-  'horizontal-sm': { orientation: 'row', step: 'base', markMinPx: 20, markMaxPx: 28 },
   'horizontal-md': { orientation: 'row', step: 'lg', markMinPx: 32, markMaxPx: 48 },
   'stacked-md': { orientation: 'column', step: 'lg', markMinPx: 40, markMaxPx: 56 },
   'stacked-lg': { orientation: 'column', step: '2xl', markMinPx: 64, markMaxPx: 96 },
 }
 
-/** The six ids, in contract order. @type {string[]} */
+/** The four ids, in contract order. @type {string[]} */
 export const LOCKUP_IDS = Object.keys(LOCKUP_VARIANTS)
 
 /**

@@ -12,6 +12,7 @@ import {
   OVERFLOW_TOLERANCE_PX,
   RUNNING_COPY_MIN_CHARS,
   collectSurfaceMetrics,
+  findBrandMark,
   findClippedElements,
   findSmallCopy,
   findTapTargetFailures,
@@ -387,5 +388,119 @@ describe('findSmallCopy', () => {
         `<li style="font-size:12px">Twelve pixels of running copy here.</li>`
     )
     expect(found).toMatchObject({ tag: 'LI', fontSizePx: 12 })
+  })
+})
+
+/**
+ * The brand-mark locator, against real geometry (#503). Rebuilt from its own
+ * source inside the page the way `measureRoute` runs it.
+ */
+describe('findBrandMark', () => {
+  let browser
+  beforeAll(async () => {
+    browser = await chromium.launch({ headless: true })
+  })
+  afterAll(async () => {
+    await browser?.close()
+  })
+
+  const MARK = (attrs = '', style = '') =>
+    `<svg data-brand-mark="" ${attrs} viewBox="0 0 71 59" style="display:block;width:48px;height:40px;${style}"><circle r="20" cx="30" cy="30" fill="currentColor"/></svg>`
+
+  async function brand(html, { width = 1440, height = 900 } = {}) {
+    const page = await browser.newPage({ viewport: { width, height } })
+    try {
+      await page.setContent(
+        `<!doctype html><html><head><style>html,body{margin:0;padding:0}</style></head>` +
+          `<body>${html}</body></html>`
+      )
+      return await page.evaluate(
+        ([src, thresholds]) => new Function(`return ${src}`)()(window.innerWidth, thresholds),
+        [findBrandMark.toString(), {}]
+      )
+    } finally {
+      await page.close()
+    }
+  }
+
+  it('reports the mark in the fold with its box, mode, ink and ground', async () => {
+    const out = await brand(
+      `<div style="background:rgb(10,70,47);color:rgb(243,247,244);padding:32px 40px">` +
+        `${MARK('data-brand-mode="single-color"')}</div>`
+    )
+    expect(out.count).toBe(1)
+    expect(out.viewportHeight).toBe(900)
+    expect(out.inFold).toMatchObject({
+      x: 40,
+      y: 32,
+      width: 48,
+      height: 40,
+      mode: 'single-color',
+      ink: { r: 243, g: 247, b: 244 },
+      ground: { r: 10, g: 70, b: 47 },
+    })
+  })
+
+  it('reports no mark in the fold, and how far down the nearest one is', async () => {
+    // The footer-only shape: a page of content, then the mark in the foot.
+    const out = await brand(`<div style="height:2100px"></div>${MARK()}`)
+    expect(out.count).toBe(1)
+    expect(out.inFold).toBeNull()
+    expect(out.nearestY).toBe(2100)
+  })
+
+  it('reports zero marks when the page has none', async () => {
+    const out = await brand('<p>no mark here</p>')
+    expect(out).toMatchObject({ count: 0, inFold: null, nearestY: null })
+  })
+
+  it('walks past transparent ancestors to the first painted ground, then body, then white', async () => {
+    const painted = await brand(
+      `<div style="background:rgb(11,61,46)"><div style="background:transparent">` +
+        `<div style="background:rgba(0,0,0,0)">${MARK()}</div></div></div>`
+    )
+    expect(painted.inFold.ground).toEqual({ r: 11, g: 61, b: 46 })
+
+    const page = await browser.newPage({ viewport: { width: 1440, height: 900 } })
+    try {
+      await page.setContent(
+        `<!doctype html><html><body style="background:rgb(24,32,27)"><div>${MARK()}</div></body></html>`
+      )
+      const body = await page.evaluate(
+        ([src]) => new Function(`return ${src}`)()(window.innerWidth, {}),
+        [findBrandMark.toString()]
+      )
+      expect(body.inFold.ground).toEqual({ r: 24, g: 32, b: 27 })
+    } finally {
+      await page.close()
+    }
+
+    const white = await brand(`<div>${MARK()}</div>`)
+    expect(white.inFold.ground).toEqual({ r: 255, g: 255, b: 255 })
+  })
+
+  it('takes the first intersecting mark when the page carries several', async () => {
+    const out = await brand(
+      `<div style="height:2000px"></div>${MARK('id="foot"')}` +
+        `<div style="position:fixed;top:10px;left:10px">${MARK('data-brand-mode="original"')}</div>`
+    )
+    expect(out.count).toBe(2)
+    expect(out.inFold).toMatchObject({ x: 10, y: 10, mode: 'original' })
+  })
+
+  it('ignores a mark with no box, such as one hidden at this width', async () => {
+    const out = await brand(`${MARK('', 'display:none')}<div style="height:1500px"></div>${MARK()}`)
+    expect(out.count).toBe(2)
+    expect(out.inFold).toBeNull()
+    expect(out.nearestY).toBe(1500)
+  })
+
+  it('measures the phone rung at its own viewport height', async () => {
+    const out = await brand(`<div style="height:700px"></div>${MARK()}`, {
+      width: 360,
+      height: 640,
+    })
+    expect(out.viewportHeight).toBe(640)
+    expect(out.inFold).toBeNull()
   })
 })

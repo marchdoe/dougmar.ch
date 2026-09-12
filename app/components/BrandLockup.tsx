@@ -32,13 +32,7 @@ import { identity } from '../content/about'
  * Positive, so nothing overflows the row upward.
  */
 
-type BrandLockupVariant =
-  | 'mark-only-sm'
-  | 'mark-only-md'
-  | 'horizontal-sm'
-  | 'horizontal-md'
-  | 'stacked-md'
-  | 'stacked-lg'
+type BrandLockupVariant = 'mark-only-md' | 'horizontal-md' | 'stacked-md' | 'stacked-lg'
 
 type BrandLockupMode = 'original' | 'single-color'
 
@@ -79,9 +73,7 @@ type BrandLockupProps = {
  * scripts/utils/brand-lockup.js.
  */
 const variantStyles: Record<BrandLockupVariant, string> = {
-  'mark-only-sm': css({ fontSize: 'clamp(14.286px, token(fontSizes.base), 19.048px)' }),
   'mark-only-md': css({ fontSize: 'clamp(23.81px, token(fontSizes.lg), 33.333px)' }),
-  'horizontal-sm': css({ fontSize: 'clamp(11.905px, token(fontSizes.base), 16.667px)' }),
   'horizontal-md': css({ fontSize: 'clamp(19.048px, token(fontSizes.lg), 28.571px)' }),
   'stacked-md': css({ fontSize: 'clamp(23.81px, token(fontSizes.lg), 33.333px)' }),
   'stacked-lg': css({ fontSize: 'clamp(38.095px, token(fontSizes.2xl), 57.143px)' }),
@@ -141,10 +133,10 @@ const wordmark = css({
 })
 
 /**
- * The role line is set off the ramp on purpose. At `horizontal-sm` the lockup
- * runs at the `base` step, and a proportional role line would land near 7px —
- * under the Art Director's own 14px floor. The clamp keeps it legible at the
- * small end and stops it competing with the wordmark at the large end.
+ * The role line is set off the ramp on purpose. At `horizontal-md` the lockup
+ * floors at 19px, and a proportional role line would land near 8px — under
+ * the Art Director's own 14px floor. The clamp keeps it legible at the small
+ * end and stops it competing with the wordmark at the large end.
  */
 const roleLineStyle = css({
   fontFamily: 'body',
@@ -162,6 +154,11 @@ const roleLineStyle = css({
  * the white disc the mark is drawn on and keeps the authored greens and blue;
  * `single-color` drops the disc and inherits one colour through currentColor.
  * Geometry is identical either way — the Brand Contract forbids redrawing it.
+ *
+ * `data-brand-mark` is how scripts/utils/surface-gate.js finds the mark to
+ * measure whether it sits inside the first fold, and how the header crop in
+ * scripts/utils/snapshot.js centres on it; `data-brand-mode` tells the gate's
+ * contrast check which marks have no disc of their own (#503).
  */
 function Mark({ mode, labelled }: { mode: BrandLockupMode; labelled: boolean }) {
   const original = mode === 'original'
@@ -176,6 +173,8 @@ function Mark({ mode, labelled }: { mode: BrandLockupMode; labelled: boolean }) 
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       focusable="false"
+      data-brand-mark=""
+      data-brand-mode={mode}
       role={labelled ? 'img' : undefined}
       aria-label={labelled ? `${identity.name} logo` : undefined}
       aria-hidden={labelled ? undefined : true}
@@ -220,7 +219,7 @@ export function BrandLockup({
   const sizing = variantStyles[variant] ?? variantStyles['horizontal-md']
   const tint = color ? colorStyles[color] : undefined
 
-  if (variant === 'mark-only-sm' || variant === 'mark-only-md') {
+  if (variant === 'mark-only-md') {
     return (
       <span className={cx(rootMark, sizing, tint, className)}>
         <Mark mode={mode} labelled />
