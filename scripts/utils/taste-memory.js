@@ -13,7 +13,7 @@ import path from 'node:path'
 // roughly 2k tokens it is among the cheapest things in a prompt that runs
 // tens of thousands. Raise it again rather than let the tail fall off; the
 // truncation notice is the signal that it needs raising.
-export const MAX_TASTE_MEMORY_BYTES = 8 * 1024
+export const MAX_TASTE_MEMORY_BYTES = 16 * 1024
 const MAX_BYTES = MAX_TASTE_MEMORY_BYTES
 
 /**
