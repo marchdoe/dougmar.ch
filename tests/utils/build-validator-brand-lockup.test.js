@@ -5,6 +5,9 @@ import path from 'node:path'
 import { validateGenerated } from '../../scripts/utils/build-validator.js'
 import { renderBrandLockupFile } from '../../scripts/utils/brand-lockup.js'
 
+// biome-ignore lint/suspicious/noTemplateCurlyInString: the fixture must carry the literal interpolation; the validator reads it as source text.
+const MAILTO_HREF = '{`mailto:${identity.email}`}'
+
 /**
  * A minimal tree that satisfies every OTHER check in validateGenerated, so a
  * failure in these tests is a brand-lockup failure and nothing else. The
@@ -47,7 +50,7 @@ function seedRepo() {
       '  return (',
       '    <div>',
       '      <BrandLockup variant="horizontal-md" mode="single-color" />',
-      '      <a href={`mailto:${identity.email}`}>mail</a>',
+      `      <a href=${MAILTO_HREF}>mail</a>`,
       '      {children}',
       '    </div>',
       '  )',
@@ -94,7 +97,7 @@ describe('validateGenerated — the brand lockup (#254)', () => {
         "import { identity } from '../content/about'",
         "import { BrandLockup } from './BrandLockup'",
         'export function Layout({ children }) {',
-        '  return (<div><img src={logo} alt="" /><BrandLockup /><a href={`mailto:${identity.email}`}>m</a>{children}</div>)',
+        `  return (<div><img src={logo} alt="" /><BrandLockup /><a href=${MAILTO_HREF}>m</a>{children}</div>)`,
         '}',
       ].join('\n')
     )
@@ -110,7 +113,7 @@ describe('validateGenerated — the brand lockup (#254)', () => {
         "import { identity } from '../content/about'",
         "import { BrandLockup } from './BrandLockup'",
         'export function Layout({ children }) {',
-        '  return (<div><img src={logoMono} alt="" /><BrandLockup /><a href={`mailto:${identity.email}`}>m</a>{children}</div>)',
+        `  return (<div><img src={logoMono} alt="" /><BrandLockup /><a href=${MAILTO_HREF}>m</a>{children}</div>)`,
         '}',
       ].join('\n')
     )
@@ -131,7 +134,7 @@ describe('validateGenerated — the brand lockup (#254)', () => {
         '      <svg viewBox="0 0 71 59">',
         '        <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431Z" />',
         '      </svg>',
-        '      <BrandLockup /><a href={`mailto:${identity.email}`}>m</a>{children}',
+        `      <BrandLockup /><a href=${MAILTO_HREF}>m</a>{children}`,
         '    </div>',
         '  )',
         '}',
@@ -151,7 +154,7 @@ describe('validateGenerated — the brand lockup (#254)', () => {
         'export function Layout({ children }) {',
         '  const d =',
         '    "M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856Z"',
-        '  return (<div><svg><path d={d} /></svg><BrandLockup /><a href={`mailto:${identity.email}`}>m</a>{children}</div>)',
+        `  return (<div><svg><path d={d} /></svg><BrandLockup /><a href=${MAILTO_HREF}>m</a>{children}</div>)`,
         '}',
       ].join('\n')
     )
@@ -189,7 +192,7 @@ describe('validateGenerated — the brand lockup (#254)', () => {
       [
         "import { identity } from '../content/about'",
         'export function Layout({ children }) {',
-        '  return (<div><a href={`mailto:${identity.email}`}>m</a>{children}</div>)',
+        `  return (<div><a href=${MAILTO_HREF}>m</a>{children}</div>)`,
         '}',
       ].join('\n')
     )
@@ -204,7 +207,7 @@ describe('validateGenerated — the brand lockup (#254)', () => {
       [
         "import { identity } from '../content/about'",
         'export function Layout({ children }) {',
-        '  return (<div><a href={`mailto:${identity.email}`}>m</a>{children}</div>)',
+        `  return (<div><a href=${MAILTO_HREF}>m</a>{children}</div>)`,
         '}',
       ].join('\n')
     )
@@ -217,7 +220,7 @@ describe('validateGenerated — the brand lockup (#254)', () => {
       [
         "import { identity } from '../content/about'",
         'export function Layout({ children }) {',
-        '  return (<div><a href={`mailto:${identity.email}`}>m</a>{children}</div>)',
+        `  return (<div><a href=${MAILTO_HREF}>m</a>{children}</div>)`,
         '}',
       ].join('\n')
     )
