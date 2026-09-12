@@ -83,7 +83,7 @@ async function attemptSdkVision({ agentName, systemPrompt, contentBlocks, maxTok
   // max_tokens stop — the caller tells those apart.
   async function callSdkVision(blocks) {
     const text = await callClaudeSDK(agentName, systemPrompt, blocks, { maxTokens, timeoutMs })
-    if (!text || !text.trim()) {
+    if (!text?.trim()) {
       throw new ModelTransportError({ agent: agentName, channel: 'sdk-vision', emptyReply: true })
     }
     // The CLI path records inside callClaudeCLI; the SDK path has to do it

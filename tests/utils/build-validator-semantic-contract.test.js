@@ -61,6 +61,7 @@ function seedRepo({ presetNames = SEMANTIC_COLOR_NAMES, layoutColor = 'text' } =
       "import { css } from '../../styled-system/css'",
       'export function Layout({ children }: { children: React.ReactNode }) {',
       `  return (<div className={css({ color: '${layoutColor}' })}>`,
+      // biome-ignore lint/suspicious/noTemplateCurlyInString: the fixture must carry the literal interpolation; the validator reads it as source text.
       '      <a href={`mailto:${identity.email}`}>mail</a>',
       '      {children}',
       '    </div>)',

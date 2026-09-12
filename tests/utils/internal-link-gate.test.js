@@ -42,6 +42,7 @@ describe('finding the links in a source file', () => {
   it('skips template expressions rather than guessing at them', () => {
     // `/work/${slug}` is not a literal and cannot be resolved here. Reporting
     // it would be a false positive on correct code, and this gate blocks.
+    // biome-ignore lint/suspicious/noTemplateCurlyInString: the literal interpolation is the input under test.
     expect(internalHrefs('<a href={`/work/${slug}`}>d</a>')).toEqual([])
   })
 

@@ -252,7 +252,7 @@ describe('runCanary — the pipeline call', () => {
       console.log = (...args) => printed.push(args.join(' '))
       let logExistedBeforePipelineRan = false
       try {
-        const exec = (command, options) => {
+        const exec = (command) => {
           if (command.includes('run-pipeline.js')) {
             logExistedBeforePipelineRan = printed.length > 0 && existsSync(printed[0])
           }
