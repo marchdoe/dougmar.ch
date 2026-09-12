@@ -458,6 +458,7 @@ function MonthGrid({
       {cells.map((c, i) =>
         c === null ? (
           // Leading blanks have no date; their slot is what identifies them.
+          // biome-ignore lint/suspicious/noArrayIndexKey: leading blanks have no date; the slot index is their only identity and the row is never reordered.
           <div key={`pad-${ym}-slot${i}`} />
         ) : c.state === 'empty' || !c.entry ? (
           <div key={c.date} className={cell}>
@@ -522,6 +523,7 @@ function ContactSheet({
               ))}
               {cells.map((c, i) =>
                 c === null ? (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: same as the calendar above; padding slots are identified by position only.
                   <div key={`spad-${ym}-slot${i}`} />
                 ) : c.state === 'empty' || !c.entry ? (
                   <div key={c.date} className={sheetCell} />

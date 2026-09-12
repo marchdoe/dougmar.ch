@@ -17,7 +17,7 @@
  *   --check   report what would change and write nothing (exit 1 if anything would)
  */
 
-import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { ROOT } from './utils/file-manager.js'
 import { archivedDates } from './utils/archive-fs.js'

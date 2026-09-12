@@ -176,9 +176,9 @@ function Mark({ mode, labelled }: { mode: BrandLockupMode; labelled: boolean }) 
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       focusable="false"
-      {...(labelled
-        ? { role: 'img', 'aria-label': `${identity.name} logo` }
-        : { 'aria-hidden': true })}
+      role={labelled ? 'img' : undefined}
+      aria-label={labelled ? `${identity.name} logo` : undefined}
+      aria-hidden={labelled ? undefined : true}
     >
       {original ? (
         <path
