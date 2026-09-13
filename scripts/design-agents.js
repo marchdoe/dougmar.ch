@@ -70,9 +70,15 @@ import { runDate } from './utils/run-date.js'
 import { isMain } from './utils/cli.js'
 import { computeMandateSections } from './pipeline/mandates.js'
 import { runArtDirector } from './agents/art-director.js'
-import { parseCompositionBlock, parseHeaderBlock, parseMobileBlock } from './utils/spec-blocks.js'
+import {
+  parseCompositionBlock,
+  parseHeaderBlock,
+  parseMobileBlock,
+  parseTypeTreatmentBlock,
+} from './utils/spec-blocks.js'
 import { renderBrandLockupFile } from './utils/brand-lockup.js'
 import { formatHeader } from './utils/header-grammar.js'
+import { formatTypeTreatment } from './utils/type-grammar.js'
 import { formatMobile } from './utils/mobile-grammar.js'
 import { formatTuple } from './utils/composition-grammar.js'
 import { findEngineerOutputProblem } from './utils/engineer-output-check.js'
@@ -233,6 +239,7 @@ async function writeArchetype(date, archetype, { root = ROOT } = {}) {
  * @param {Array<object>} run.verdicts
  * @param {object} run.shellDecl
  * @param {object} run.headerDecl
+ * @param {object} run.typeDecl
  * @param {object} run.mobileDecl
  * @param {string|null|undefined} run.heroSource
  * @param {object} run.chosenComposition
@@ -262,6 +269,8 @@ export function archiveArtifacts(run) {
     'verdicts.json': json(run.verdicts),
     'shell.json': json(run.shellDecl),
     'header.json': json(run.headerDecl),
+    // How the type is set (#502), beside the header it shares a page with.
+    'type-treatment.json': json(run.typeDecl),
     // What the composition becomes at 360 (#452), beside the tuple whose
     // `collapse` axis it explains.
     'mobile.json': json(run.mobileDecl),
@@ -909,6 +918,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       heroSource: heroSourceMandateSection,
       composition: compositionMandateSection,
       chassis: chassisMandateSection,
+      typeTreatment: typeTreatmentMandateSection,
     } = mandate
 
     // -----------------------------------------------------------------------
@@ -981,6 +991,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         heroSourceMandateSection,
         compositionMandateSection,
         chassisMandateSection,
+        typeTreatmentMandateSection,
         brandContract,
         weightsBlock,
         tasteMemoryBlock,
@@ -1016,6 +1027,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           heroSourceMandateSection,
           compositionMandateSection,
           chassisMandateSection,
+          typeTreatmentMandateSection,
           brandContract,
           weightsBlock,
           tasteMemoryBlock,
@@ -1044,6 +1056,9 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // the declared wordmark weight, which arrives in ===HEADER===. Re-parsed
     // after any codegen retry, like the composition tuple.
     let headerDecl = parseHeaderBlock(artDirectorResult.header)
+    // How the type is set (#502) rides with the header: re-parsed after any
+    // retry, archived as type-treatment.json, handed to every downstream agent.
+    let typeDecl = parseTypeTreatmentBlock(artDirectorResult.typeTreatment)
     // The phone declaration (#452) rides with the header: re-parsed after any
     // retry, archived as mobile.json, and handed to every downstream agent.
     let mobileDecl = parseMobileBlock(artDirectorResult.mobile)
@@ -1171,6 +1186,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           heroSourceMandateSection,
           compositionMandateSection,
           chassisMandateSection,
+          typeTreatmentMandateSection,
           brandContract,
           weightsBlock,
           tasteMemoryBlock,
@@ -1240,12 +1256,14 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     const { parseShellBlock, parseMeasurablesBlock } = await import('./utils/spec-blocks.js')
     const shellDecl = parseShellBlock(artDirectorResult.shell)
     headerDecl = parseHeaderBlock(artDirectorResult.header)
+    typeDecl = parseTypeTreatmentBlock(artDirectorResult.typeTreatment)
     mobileDecl = parseMobileBlock(artDirectorResult.mobile)
     const measurablesDecl = parseMeasurablesBlock(artDirectorResult.measurables)
     chosenComposition = parseCompositionBlock(artDirectorResult.composition)
     console.log(
       `  header: ${headerDecl.placement} @ ${headerDecl.height_px}px | mark=${headerDecl.mark_px}px | wordmark=${headerDecl.wordmark_step}/${headerDecl.wordmark_weight} | role=${headerDecl.role_line} | nav=${headerDecl.nav} (${headerDecl.nav_step}, ${headerDecl.nav_case})`
     )
+    console.log(`  type: ${formatTypeTreatment(typeDecl).replace(/\n/g, ' | ')}`)
     console.log(
       `  shell: footer=${shellDecl.footer} | lockup=${shellDecl.brand_lockup} (${shellDecl.brand_color_mode}) | ground=${shellDecl.ground_strategy}`
     )
@@ -1281,6 +1299,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         heroSourceMandateSection,
         compositionMandateSection,
         chassisMandateSection,
+        typeTreatmentMandateSection,
       ]
         .filter(Boolean)
         .join('\n\n')
@@ -1294,6 +1313,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         `## Self-Check\n\n${artDirectorResult.selfCheck}`,
         `## Measurables (declared floors)\n\n${artDirectorResult.measurables}`,
         `## Shell Declaration\n\n${artDirectorResult.shell}`,
+        `## Type Treatment (execute exactly)\n\n${formatTypeTreatment(typeDecl)}`,
         `## Mobile Declaration (what the composition becomes at 360)\n\n${formatMobile(mobileDecl)}`,
         `## elements/preset.ts\n\n\`\`\`typescript\n${artDirectorResult.presetTs}\n\`\`\``,
         mandatesBlock
@@ -1496,6 +1516,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       measurables: artDirectorResult.measurables,
       shell: artDirectorResult.shell,
       header: formatHeader(headerDecl),
+      typeTreatment: formatTypeTreatment(typeDecl),
       mobile: formatMobile(mobileDecl),
       collapse: chosenComposition.collapse,
       brandSvg,
@@ -1627,6 +1648,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           measurablesDecl,
           shell: artDirectorResult.shell,
           header: formatHeader(headerDecl),
+          typeTreatment: formatTypeTreatment(typeDecl),
           mobile: formatMobile(mobileDecl),
           collapse: chosenComposition.collapse,
         })
@@ -1720,6 +1742,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         `## Composition\n\n${formatTuple(chosenComposition)}`,
         `## Shell Declaration\n\n${artDirectorResult.shell}`,
         `## Header Declaration (execute these numbers exactly)\n\n${formatHeader(headerDecl)}`,
+        `## Type Treatment (execute exactly)\n\n${formatTypeTreatment(typeDecl)}`,
         `## Mobile Declaration (the design at base; the mockup already renders it, keep it)\n\n${formatMobile(mobileDecl)}`,
         '## One-line Design Brief (for og:description context)\n\n' +
           (artDirectorResult.designBrief || ''),
@@ -1975,6 +1998,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           verdicts,
           shellDecl,
           headerDecl,
+          typeDecl,
           mobileDecl,
           heroSource: artDirectorResult.heroSource,
           chosenComposition,
@@ -2271,6 +2295,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           // `${brief}` here rendered the literal string "undefined".
           enrichedBrief,
           header: formatHeader(headerDecl),
+          typeTreatment: formatTypeTreatment(typeDecl),
           mobile: formatMobile(mobileDecl),
           collapse: chosenComposition.collapse,
           references,

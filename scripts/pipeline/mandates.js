@@ -14,6 +14,10 @@ import {
   formatCompositionMandateForPrompt,
 } from '../utils/composition-mandate.js'
 import { computeChassisMandate, formatChassisMandateForPrompt } from '../utils/chassis-mandate.js'
+import {
+  computeTypeTreatmentMandate,
+  formatTypeTreatmentMandateForPrompt,
+} from '../utils/type-treatment-mandate.js'
 import { HUE_FORBIDDEN_ZONE_RADIUS } from '../utils/hue-thresholds.js'
 
 /**
@@ -41,7 +45,7 @@ export const OPEN_COLOR_MANDATE = {
 
 /**
  * @param {{ root: string, signals: object, date: string }} ctx
- * @returns {{ colorMandate: object, sections: { color: string, shell: string, paletteFormula: string, heroSource: string, composition: string, chassis: string } }}
+ * @returns {{ colorMandate: object, sections: { color: string, shell: string, paletteFormula: string, heroSource: string, composition: string, chassis: string, typeTreatment: string } }}
  */
 export function computeMandateSections({ root, signals, date }) {
   const archiveDir = path.join(root, 'archive')
@@ -81,6 +85,11 @@ export function computeMandateSections({ root, signals, date }) {
     // carries at the date level, so nothing new is persisted.
     chassis: () =>
       formatChassisMandateForPrompt(computeChassisMandate({ archiveDir, lookbackDays: 14 })),
+    // How the type was set on recent nights (#502), per field.
+    typeTreatment: () =>
+      formatTypeTreatmentMandateForPrompt(
+        computeTypeTreatmentMandate({ archiveDir, lookbackDays: 7 })
+      ),
   }
 
   const sections = { color: formatMandateForPrompt(colorMandate) }
@@ -103,4 +112,5 @@ const LOG_NAMES = {
   heroSource: 'hero-source-mandate',
   composition: 'composition-mandate',
   chassis: 'chassis-mandate',
+  typeTreatment: 'type-treatment-mandate',
 }

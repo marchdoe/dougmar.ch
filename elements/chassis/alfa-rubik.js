@@ -25,6 +25,7 @@ import { scaleSteps } from './scale.js'
 /** @type {import('./types.js').ChassisEntry} */
 export const alfaRubik = {
   id: 'alfa-rubik',
+  class: 'display',
   name: 'Alfa Slab One + Rubik',
   description: 'Ultra-bold fatface slab with rounded grotesk body — carnival-loud, warm, physical.',
   moods: ['fat', 'playful', 'carnival', 'loud', 'rounded'],

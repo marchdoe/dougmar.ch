@@ -16,6 +16,7 @@ export function buildMockupDesignerUserPrompt({
   measurables,
   shell,
   header,
+  typeTreatment,
   mobile,
   collapse,
   brandSvg,
@@ -35,6 +36,9 @@ export function buildMockupDesignerUserPrompt({
   sections.push(`## Measurables (the critic will measure these)\n\n${measurables}`)
   sections.push(`## Shell Declaration (execute exactly)\n\n${shell}`)
   if (header) sections.push(`## Header Declaration (execute these numbers exactly)\n\n${header}`)
+  // How the type is set (#502): case, lead, weight, alignment, texture. The
+  // critic reads the hero against each line.
+  if (typeTreatment) sections.push(`## Type Treatment (execute exactly)\n\n${typeTreatment}`)
   // The phone declaration (#452): the collapse strategy from the composition
   // tuple and the MOBILE block that says what it means today. The mockup's
   // unqueried CSS is the 360 design, so this is the design at base.

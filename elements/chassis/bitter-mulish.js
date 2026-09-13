@@ -25,6 +25,7 @@ import { scaleSteps } from './scale.js'
 /** @type {import('./types.js').ChassisEntry} */
 export const bitterMulish = {
   id: 'bitter-mulish',
+  class: 'slab',
   name: 'Bitter + Mulish',
   description: 'Screen slab with real heavy cuts + soft humanist body — sturdy, warm, weighted.',
   moods: ['slab', 'grounded', 'sturdy', 'editorial', 'contemporary'],

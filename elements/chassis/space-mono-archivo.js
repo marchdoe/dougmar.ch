@@ -26,6 +26,7 @@ import { scaleSteps } from './scale.js'
 /** @type {import('./types.js').ChassisEntry} */
 export const spaceMonoArchivo = {
   id: 'space-mono-archivo',
+  class: 'mono',
   name: 'Space Mono + Archivo',
   description:
     'Retro-futurist monospace display with neutral grotesk body — technical, precise, terminal-adjacent.',

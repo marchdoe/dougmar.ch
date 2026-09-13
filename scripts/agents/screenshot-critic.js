@@ -120,6 +120,7 @@ function routeShotBlocks(existing, routeShots) {
  * @param {object} ctx
  * @param {string} ctx.enrichedBrief - hero copy, rationale, visual spec
  * @param {string} [ctx.header] - the day's ===HEADER=== declaration
+ * @param {string} [ctx.typeTreatment] - the day's ===TYPE_TREATMENT=== declaration (#502); section 11 is judged against it
  * @param {string} [ctx.mobile] - the day's ===MOBILE=== declaration (#452); section 10 is judged against it
  * @param {string|null} [ctx.collapse] - the composition's collapse axis value
  * @param {string} [ctx.measuredFaults] - rendered output of
@@ -143,6 +144,7 @@ export function buildScreenshotCriticBlocks(ctx) {
     // enrichedBrief carries hero copy, rationale, and the full visual spec.
     textBlock(`## Structured Brief\n\n${ctx.enrichedBrief}`),
     ...prose(ctx.header && `## Header Declaration\n\n${ctx.header}`),
+    ...prose(ctx.typeTreatment && `## Type Treatment (execute exactly)\n\n${ctx.typeTreatment}`),
     ...prose(
       ctx.mobile &&
         `## Mobile Declaration (section 10 is judged against this)\n\ncollapse: ${ctx.collapse ?? '?'}\n${ctx.mobile}`

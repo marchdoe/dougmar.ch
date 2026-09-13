@@ -81,6 +81,29 @@ describe('parseDelimiterResponse — new blocks', () => {
     expect(p.files[0].content).toBe('export const elementsPreset = {}')
   })
 
+  it('captures TYPE_TREATMENT between HEADER and MOBILE, and terminates a FILE block at it (#502)', () => {
+    const raw = [
+      '===HEADER===',
+      'placement: top-bar',
+      '===TYPE_TREATMENT===',
+      'case: caps',
+      'lead: roman',
+      '===MOBILE===',
+      'carrier: the hero phrase',
+      '===FILE:elements/preset.ts===',
+      'export const elementsPreset = {}',
+      '===TYPE_TREATMENT===',
+      'case: second',
+      '===RATIONALE===',
+      'because',
+    ].join('\n')
+    const p = parseDelimiterResponse(raw)
+    expect(p.header).toBe('placement: top-bar')
+    expect(p.type_treatment).toBe('case: caps\nlead: roman')
+    expect(p.mobile).toBe('carrier: the hero phrase')
+    expect(p.files[0].content).toBe('export const elementsPreset = {}')
+  })
+
   it('leaves mobile undefined when the block is absent', () => {
     expect(parseDelimiterResponse('===HERO_COPY===\nX\n===RATIONALE===\nr').mobile).toBeUndefined()
   })

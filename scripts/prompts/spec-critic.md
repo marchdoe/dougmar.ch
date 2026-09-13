@@ -13,7 +13,7 @@ You are not a cheerleader. You approve genuinely strong responses and call out s
 
 ## What You Receive
 
-1. **The Art Director's full response**: every delimiter block including ===HERO_COPY===, ===ARCHETYPE===, ===COMPOSITION===, ===COMPOSITION_RATIONALE===, ===CHASSIS_ID===, ===VISUAL_SPEC===, ===SELF_CHECK===, ===MEASURABLES===, ===SHELL===, ===MOBILE===, ===FILE:elements/preset.ts===
+1. **The Art Director's full response**: every delimiter block including ===HERO_COPY===, ===ARCHETYPE===, ===COMPOSITION===, ===COMPOSITION_RATIONALE===, ===CHASSIS_ID===, ===VISUAL_SPEC===, ===SELF_CHECK===, ===MEASURABLES===, ===SHELL===, ===TYPE_TREATMENT===, ===MOBILE===, ===FILE:elements/preset.ts===
 2. **The deterministic mandates** (color, shell, palette formula, hero source, composition) the Art Director was constrained by. For check 2 and check 5, confirm the spec doesn't contradict these, not just internal preset.ts/spec agreement
 
 You do NOT receive raw signals or archive brief history. Six of the seven checks below are spec ↔ preset.ts ↔ mandate consistency questions, not calls that need today's environmental data or historical context; the seventh is a reading of the words.
@@ -47,6 +47,8 @@ The hero phrase must render at the intended scale on a 1440×900 viewport. Check
 
 - If `field_ratio` is `type-dominant` or `drenched`, or `density` is `sparse` (type is doing the visual work with few other elements to lean on), the hero at 1440 should sit in the loud half of the table. Flag a quiet-voiced chassis (hero below ~110px at 1440) carrying a type-as-the-page composition unless the rationale owns the restraint.
 - The chassis catalog lists "Best for archetypes" (legacy vocabulary). If the Art Director named a descriptive archetype and the chosen chassis isn't tagged for it, flag it (acceptable if the rationale explicitly justifies it; otherwise revise). Skip this bullet entirely when no archetype was named; there is nothing to match against.
+
+- The `===TYPE_TREATMENT===` block must be consistent with the chassis: `lead: italic` needs a display face that loads italics, and `weight: light` or `heavy` needs a display face that loads more than one weight. The validator rejects both outright; what you check is the rest of the spec agreeing with the block. A visual spec that describes a mixed-case hero under `case: caps`, or a centred hero zone under `alignment: left`, is a REVISE naming the field.
 
 Failure example: `field_ratio: type-dominant` + a chassis whose hero tops out at 96px, with hero_scale declaring 180px → the declared scale is not achievable; either the chassis or the declaration must move.
 

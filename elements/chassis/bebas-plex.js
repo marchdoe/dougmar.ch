@@ -24,6 +24,7 @@ import { scaleSteps } from './scale.js'
 /** @type {import('./types.js').ChassisEntry} */
 export const bebasPlex = {
   id: 'bebas-plex',
+  class: 'condensed',
   name: 'Bebas Neue + IBM Plex Sans',
   description:
     'Condensed editorial display + humanist workhorse body — editorial, catalog, declarative.',

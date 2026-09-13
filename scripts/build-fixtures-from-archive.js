@@ -219,6 +219,26 @@ export function mobileBlock(mobile, ad) {
   ].join('\n')
 }
 
+/**
+ * A TYPE_TREATMENT block the grammar accepts (#502).
+ *
+ * Builds before #502 declared nothing about how the type was set, so one is
+ * synthesized: the values every chassis accepts, marked as such in the block.
+ */
+export function typeTreatmentBlock(typeTreatment) {
+  if (typeTreatment) return kvBlock(typeTreatment)
+  return [
+    '# synthesized: this build predates the TYPE_TREATMENT declaration (#502)',
+    kvBlock({
+      case: 'mixed',
+      lead: 'roman',
+      weight: 'regular',
+      alignment: 'left',
+      texture: 'none',
+    }),
+  ].join('\n')
+}
+
 /** MEASURABLES is never persisted; these are the values the gate accepts. */
 const MEASURABLE_DEFAULTS = {
   canvas_utilization_min: 85,
@@ -234,6 +254,7 @@ export function artDirectorArtifacts(build) {
     brief: readFileSync(path.join(build, 'brief.md'), 'utf8'),
     shell: readJson(path.join(build, 'shell.json')) ?? {},
     header: readJson(path.join(build, 'header.json')),
+    typeTreatment: readJson(path.join(build, 'type-treatment.json')),
     mobile: readJson(path.join(build, 'mobile.json')),
     composition: readJson(path.join(build, 'composition.json')) ?? {},
     scheme: readJson(path.join(build, 'color-scheme.json')),
@@ -253,7 +274,18 @@ export function artDirectorArtifacts(build) {
  * @returns {string}
  */
 export function artDirectorBlocks(artifacts) {
-  const { ad, brief, shell, header, mobile, composition, scheme, heroSource, preset } = artifacts
+  const {
+    ad,
+    brief,
+    shell,
+    header,
+    typeTreatment,
+    mobile,
+    composition,
+    scheme,
+    heroSource,
+    preset,
+  } = artifacts
   // A build before #452 has no collapse axis; `stack` contradicts nothing.
   const tuple = composition.collapse ? composition : { ...composition, collapse: 'stack' }
   const rationale = briefSection(brief, "Claude's Rationale")
@@ -277,6 +309,7 @@ export function artDirectorBlocks(artifacts) {
       ground_strategy: shell.ground_strategy,
     })}`,
     `===HEADER===\n${headerBlock(header, shell, composition)}`,
+    `===TYPE_TREATMENT===\n${typeTreatmentBlock(typeTreatment)}`,
     `===MOBILE===\n${mobileBlock(mobile, ad)}`,
     `===COMPOSITION===\n${kvBlock(tuple)}`,
     `===COMPOSITION_RATIONALE===\n${rationale.slice(0, 600) || fallbackRationale}`,

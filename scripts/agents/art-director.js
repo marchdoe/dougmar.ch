@@ -22,10 +22,13 @@ import {
   parseHeaderBlock,
   parseCompositionBlock,
   parseMobileBlock,
+  parseTypeTreatmentBlock,
 } from '../utils/spec-blocks.js'
 import { isValidTuple } from '../utils/composition-grammar.js'
 import { isValidHeader } from '../utils/header-grammar.js'
 import { isValidMobile } from '../utils/mobile-grammar.js'
+import { isValidTypeTreatment } from '../utils/type-grammar.js'
+import { CHASSIS_CATALOG } from '../../elements/chassis/index.js'
 import { LOCKUP_IDS } from '../utils/brand-lockup.js'
 import { modelFor } from '../utils/models.js'
 import { budgetFor } from '../utils/budgets.js'
@@ -49,6 +52,7 @@ export function buildArtDirectorUserPrompt({
   heroSourceMandateSection,
   compositionMandateSection,
   chassisMandateSection,
+  typeTreatmentMandateSection,
   brandContract,
   weightsBlock,
   tasteMemoryBlock,
@@ -72,6 +76,7 @@ export function buildArtDirectorUserPrompt({
     heroSourceMandateSection,
     compositionMandateSection,
     chassisMandateSection,
+    typeTreatmentMandateSection,
     brandContract,
     weightsBlock && `## Creative Weights\n\n${weightsBlock}`,
     tasteMemoryBlock,
@@ -195,6 +200,27 @@ export function validateArtDirectorResult(parsed) {
   if (!mobileCheck.valid) {
     throw new Error(`Art Director MOBILE block is invalid: ${mobileCheck.errors.join('; ')}`)
   }
+  validateTypeTreatment(parsed)
+}
+
+/**
+ * TYPE_TREATMENT is validated the way HEADER is (#502), against the chosen
+ * chassis: an italic lead on a face that loads no italic, or a weight extreme
+ * on a face that loads one weight, would render as a synthesized cut, so it is
+ * rejected at declaration time rather than found in pixels. An unknown
+ * chassis_id gets no cross-check here; the orchestrator warns and falls back.
+ */
+function validateTypeTreatment(parsed) {
+  if (!parsed.type_treatment) {
+    throw new Error('Art Director response missing ===TYPE_TREATMENT===')
+  }
+  const chassis = CHASSIS_CATALOG.find((c) => c.id === parsed.chassis_id) ?? null
+  const typeCheck = isValidTypeTreatment(parseTypeTreatmentBlock(parsed.type_treatment), {
+    chassis,
+  })
+  if (!typeCheck.valid) {
+    throw new Error(`Art Director TYPE_TREATMENT block is invalid: ${typeCheck.errors.join('; ')}`)
+  }
 }
 
 /**
@@ -214,6 +240,7 @@ export function validateArtDirectorResult(parsed) {
  *   heroSourceMandateSection?: string,
  *   compositionMandateSection?: string,
  *   chassisMandateSection?: string,
+ *   typeTreatmentMandateSection?: string,
  *   weightsBlock: string,
  *   tasteMemoryBlock: string,
  *   voiceBlock?: string,
@@ -223,7 +250,7 @@ export function validateArtDirectorResult(parsed) {
  *   systemPrompt: string,
  *   designReferenceImages?: Array<{ data: string, media_type: string, title?: string }>,
  * }} ctx
- * @returns {Promise<{ heroCopy: string, heroRationale: string, heroSource: string, archetype: string, chassisId: string, presetTs: string, visualSpec: string, selfCheck: string, rationale: string, designBrief: string, colorScheme: object|null, shell: string, header: string, mobile: string, composition: string, compositionRationale: string, brief: string }>}
+ * @returns {Promise<{ heroCopy: string, heroRationale: string, heroSource: string, archetype: string, chassisId: string, presetTs: string, visualSpec: string, selfCheck: string, rationale: string, designBrief: string, colorScheme: object|null, shell: string, header: string, typeTreatment: string, mobile: string, composition: string, compositionRationale: string, brief: string }>}
  */
 export async function runArtDirector(ctx) {
   const userPrompt = buildArtDirectorUserPrompt(ctx)
@@ -259,6 +286,7 @@ export async function runArtDirector(ctx) {
       'measurables',
       'shell',
       'header',
+      'type_treatment',
       'mobile',
     ].filter((k) => parsed[k])
     const absent = [
@@ -271,6 +299,7 @@ export async function runArtDirector(ctx) {
       'measurables',
       'shell',
       'header',
+      'type_treatment',
       'mobile',
     ].filter((k) => !parsed[k])
     console.error(
@@ -332,6 +361,7 @@ export async function runArtDirector(ctx) {
     measurables: parsed.measurables,
     shell: parsed.shell,
     header: parsed.header,
+    typeTreatment: parsed.type_treatment,
     mobile: parsed.mobile,
     composition: parsed.composition,
     compositionRationale: parsed.composition_rationale,

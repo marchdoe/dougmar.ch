@@ -65,6 +65,7 @@ describe('buildArtDirectorUserPrompt', () => {
       paletteFormulaMandateSection: '## Palette Formula Mandate\navoid dark-void',
       heroSourceMandateSection: '## Hero Source Mandate\navoid quote',
       compositionMandateSection: '## Composition Mandate\navoid columns=two-equal',
+      typeTreatmentMandateSection: '## Type Treatment Mandate\navoid case=caps',
       weightsBlock: '',
     })
     expect(prompt).toContain('## Palette Formula Mandate')
@@ -150,6 +151,7 @@ describe('validateArtDirectorResult', () => {
       'canvas_utilization_min: 70\nhero_scale: clamp(96px, 13vw, 200px)\ncolor_coverage_min: 60',
     shell: 'footer: data strip\nbrand_lockup: horizontal-md\nbrand_color_mode: original',
     header: validHeader,
+    type_treatment: 'case: caps\nlead: roman\nweight: heavy\nalignment: left\ntexture: none',
     mobile: validMobile,
     files: [{ path: 'elements/preset.ts', content: "export const elementsPreset = 'stub'" }],
     rationale: 'r',
@@ -271,6 +273,22 @@ describe('validateArtDirectorResult', () => {
     expect(() => validateArtDirectorResult({ ...valid, chassis_id: undefined })).toThrow(
       /chassis_id/
     )
+  })
+
+  it('throws when TYPE_TREATMENT is missing (#502)', () => {
+    expect(() => validateArtDirectorResult({ ...valid, type_treatment: undefined })).toThrow(
+      /===TYPE_TREATMENT===/
+    )
+  })
+
+  it('throws when the type treatment contradicts the chosen chassis', () => {
+    // big-shoulders-atkinson loads no display italic.
+    expect(() =>
+      validateArtDirectorResult({
+        ...valid,
+        type_treatment: valid.type_treatment.replace('lead: roman', 'lead: italic'),
+      })
+    ).toThrow(/TYPE_TREATMENT block is invalid: lead: italic/)
   })
 })
 

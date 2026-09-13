@@ -25,7 +25,15 @@ describe('computeMandateSections', () => {
       date: '2026-08-30',
     })
     expect(Object.keys(sections).sort()).toEqual(
-      ['chassis', 'color', 'composition', 'heroSource', 'paletteFormula', 'shell'].sort()
+      [
+        'chassis',
+        'color',
+        'composition',
+        'heroSource',
+        'paletteFormula',
+        'shell',
+        'typeTreatment',
+      ].sort()
     )
     // The colour mandate always renders; the others say nothing with no history.
     expect(sections.color).toContain('## Color Mandate')
