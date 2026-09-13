@@ -64,7 +64,7 @@ export function buildMockupDesignerUserPrompt({
   if (calibrationNote) sections.push(calibrationNote)
   if (tasteMemoryBlock) sections.push(tasteMemoryBlock)
   // polish.md rides in the user prompt — the system prompt is at its
-  // size budget (CLI 2.1.92 fails on ~56KB+ system prompts).
+  // size budget (MOCKUP_DESIGNER_PROMPT_MAX in utils/mockup-designer-prompt.js; the old CLI crash near 56KB is gone with the 2.1.207 pin).
   if (polishRef) sections.push(`## Execution Polish Reference (apply throughout)\n\n${polishRef}`)
   if (revisionFeedback)
     sections.push(
