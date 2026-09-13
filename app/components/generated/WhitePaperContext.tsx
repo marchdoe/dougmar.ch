@@ -1,70 +1,56 @@
+import { Box } from '../../../styled-system/jsx'
 import { css } from '../../../styled-system/css'
 
-type Props = { context?: string; constraints?: string[] }
+const headCss = css({
+  fontSize: 'xs',
+  fontWeight: 'bold',
+  textTransform: 'uppercase',
+  letterSpacing: 'wide',
+  color: 'textFaint',
+  marginBottom: '4',
+})
 
-export function WhitePaperContext({ context, constraints }: Props) {
+const bodyCss = css({ fontSize: 'base', lineHeight: 'normal', color: 'text', maxWidth: '68ch' })
+
+const listCss = css({
+  marginTop: '4',
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: '2',
+  listStyle: 'none',
+  padding: 0,
+})
+
+const itemCss = css({
+  fontSize: 'sm',
+  color: 'textMuted',
+  border: '1px solid',
+  borderColor: 'border',
+  borderRadius: 'md',
+  padding: '2 3',
+})
+
+export function WhitePaperContext({
+  context,
+  constraints,
+}: {
+  context?: string
+  constraints?: string[]
+}) {
+  if (!context && !constraints) return null
   return (
-    <div
-      className={css({
-        bg: 'bg',
-        paddingInline: { base: '5', lg: '9' },
-        paddingBlock: '7',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '5',
-        borderTop: '1px solid',
-        borderColor: 'border',
-      })}
-    >
-      {context && (
-        <div>
-          <span
-            className={css({
-              textStyle: 'xs',
-              textTransform: 'uppercase',
-              letterSpacing: 'wide',
-              color: 'textFaint',
-              display: 'block',
-              marginBottom: '3',
-            })}
-          >
-            Context
-          </span>
-          <p className={css({ textStyle: 'base', color: 'textMuted', maxWidth: '65ch' })}>
-            {context}
-          </p>
-        </div>
-      )}
+    <Box as="section" padding={{ base: '24px 20px', md: '0 7vw 48px' }}>
+      <Box className={headCss}>Context</Box>
+      {context && <p className={bodyCss}>{context}</p>}
       {constraints && (
-        <div>
-          <span
-            className={css({
-              textStyle: 'xs',
-              textTransform: 'uppercase',
-              letterSpacing: 'wide',
-              color: 'textFaint',
-              display: 'block',
-              marginBottom: '3',
-            })}
-          >
-            Constraints
-          </span>
-          <ul
-            className={css({
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '2',
-              paddingLeft: '5',
-            })}
-          >
-            {constraints.map((c) => (
-              <li key={c} className={css({ textStyle: 'sm', color: 'textMuted' })}>
-                {c}
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ul className={listCss}>
+          {constraints.map((c) => (
+            <li key={c} className={itemCss}>
+              {c}
+            </li>
+          ))}
+        </ul>
       )}
-    </div>
+    </Box>
   )
 }

@@ -1,47 +1,32 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { css } from '../../styled-system/css'
-import { Box } from '../../styled-system/jsx'
-import { AboutHero } from '../components/generated/AboutHero'
-import { TimelineList } from '../components/generated/TimelineList'
-import { CapabilitiesRow } from '../components/generated/CapabilitiesRow'
-import { EducationBlock } from '../components/generated/EducationBlock'
-import { PersonalLedger } from '../components/generated/PersonalLedger'
+import { FieldBand } from '../components/generated/FieldBand'
+import { TimelineLedger } from '../components/generated/TimelineLedger'
+import { CapabilityTags } from '../components/generated/CapabilityTags'
+import { DataGrid, type DataGridItem } from '../components/generated/DataGrid'
+import { identity, personal } from '../content/about'
+import { timeline, capabilities, education } from '../content/timeline'
 
 export const Route = createFileRoute('/about')({ component: AboutPage })
 
 function AboutPage() {
+  const statsItems: DataGridItem[] = [
+    {
+      k: 'Education',
+      v: education.school,
+      sub: `${education.degree} · ${education.concentration} · ${education.years}`,
+    },
+    { k: 'Holes in one', v: String(personal.holesInOne) },
+    { k: 'Sport', v: personal.sport },
+    { k: 'Teams', v: personal.teams.join(', ') },
+    { k: 'Current focus', v: personal.currentFocus },
+  ]
+
   return (
     <>
-      <AboutHero />
-      <Box
-        className={css({
-          bg: 'bg',
-          paddingInline: { base: '5', lg: '9' },
-          paddingBlock: { base: '8', lg: '9' },
-        })}
-      >
-        <TimelineList />
-
-        <Box className={css({ marginTop: '9' })}>
-          <span
-            className={css({
-              textStyle: 'xs',
-              fontWeight: '600',
-              textTransform: 'uppercase',
-              letterSpacing: 'wide',
-              color: 'textFaint',
-              display: 'block',
-              marginBottom: '5',
-            })}
-          >
-            Capabilities
-          </span>
-          <CapabilitiesRow />
-        </Box>
-
-        <EducationBlock />
-        <PersonalLedger />
-      </Box>
+      <FieldBand eyebrow={identity.role} title={identity.name} standfirst={identity.statement} />
+      <TimelineLedger entries={timeline} />
+      <CapabilityTags items={capabilities} />
+      <DataGrid heading="Education & personal" items={statsItems} />
     </>
   )
 }

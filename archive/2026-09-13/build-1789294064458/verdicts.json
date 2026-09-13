@@ -1,0 +1,61 @@
+[
+  {
+    "critic": "spec-critic",
+    "verdict": "REVISE",
+    "feedback": "REVISE\n\n- **Hero scale is unachievable.** The declared hero_scale is `clamp(110px, 15vw, 200px)`, which resolves to 200px at 1440px. big-shoulders-atkinson's hero step maxes out at 177px at 1440px. The self-check claims \"condensed caps render '11–7' at ~200px\" but the chassis cannot deliver this. Either lower the hero_scale to `clamp(110px, 15vw, 177px)`, or move the score numerals to the 5xl step (`clamp(72px, 12.5vw, 465px)`) — but the visual spec explicitly says \"hero step,\" so the first option is correct.",
+    "ts": 1789292786697
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 0,
+    "verdict": "REVISE",
+    "feedback": "**Check 2 — Measurables: Canvas utilization shortfall.** Measured 61.8%, floor 72%; 10.2 points under, well beyond the 5-point margin. The sparse composition (by design) has left the page genuinely underutilized. The red field panel occupies the center, but the void around it and the light-touch deck below do not add up. The declared drenched field_ratio and sparse density are in tension here — the measurement shows sparse won, and sparse alone does not satisfy the utilization floor. Either increase the red panel's footprint, deepen the deck below the score, or add a visual field element that carries weight without breaking the scoreboard read.\n\n**Check 2 — Measurables: Color coverage at floor.** Measured 61.4%, floor 60%; within the 5-point margin but sitting directly on the line. The single saturated red field is carrying the coverage, and it is doing so barely. Any shift toward lighter text, less red panel height, or reduction of the field's visual weight would drop this below floor. The current balance is fragile; confirm the red panel dimensions and text color contrast are locked before build.\n\n**Check 4 — Header mark size.** The circular mark in the crop measures approximately 28–32px rendered height; declared mark_px is 40px. That is 70–80% of the declared size, below the 60% threshold that triggers REVISE, but visibly smaller than the brief requires. Increase the mark to the declared 40px; at 2x crop scale, it should read as clearly as the wordmark beside it.\n\n**Check 6 — Phone first fold declaration.** The declaration states \"The hero 'TIGERS 11–7' on the red field, with the corner mark top-left; nothing else.\" Fold 1 shows exactly that: mark + wordmark at top-left, the full red scoreboard block dominating the fold, and the deck below it (which is *also* in fold 1 on mobile). The declaration lists no deck in first_fold, only \"hero, deck, box-score strip, work index, footer\" in order below. This contradicts the mockup: the deck sits inside the red panel at 3",
+    "channel": "sdk-vision",
+    "ts": 1789292975027
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "**Check 2 — Measurables: Canvas utilization critically short.** Measured utilization is 67.9%, below the floor of 72% by 4.1 points — within the 5-point tolerance, but the margin is thin and the composition reads sparse to the edge of underbaked. The hero dominates, the void is real, and the intent is clear (accelerating rhythm, sparse density), but the measured shortfall signals the field is not as drenched as the brief demands. The red panel is bold, but the overall canvas commitment is 4 points under floor. Revise to either expand the hero field height, deepen the box-score strip presence in the hero fold, or add a subtle sustained background texture/gradient to the void that reads as designed surface rather than empty space — anything that pushes measured utilization back above 72%.\n\n**Check 4 — Header: Mark undersized and lockup variant unclear.** The circular mark in the crop measures roughly 24–28px rendered, well under the declared 40px (60–70% of target). The declared lockup is `horizontal-md`, which should place the mark beside the wordmark \"Doug March\" on one line; the image shows mark + wordmark horizontally, but the mark is distinctly small. At 40px, the mark should be roughly 60% the height of the wordmark text; here it appears 40–50% of that. Enlarge the mark to 40px and ensure the lockup scales proportionally so the wordmark and mark sit in optical balance on one line.\n\n**Check 6 — Phone: Carrier idea survives, but hero step and first-fold declaration mismatch.** The declared `hero_step_360` is `hero` (the largest display scale), and fold 1 should show \"TIGERS 11–7\" on the red field with the corner mark, nothing else. The filmstrip shows fold 1 with the full hero block and mark (correct), but the score numerals \"11–7\" measure significantly smaller than the desktop 200px → scaled to ~120–140px (a vw-based clamp is working, but the floor of the clamp may be too low). The declared `first_fold` is \"The hero 'TIGERS 11–7' on the red field, with the corner",
+    "channel": "sdk-vision",
+    "ts": 1789293170981
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 2,
+    "verdict": "REVISE",
+    "feedback": "**Check 2: Measurables — Canvas utilization critically short.** Measured utilization is 65.6%, which is 6.4 points below the floor of 72%. This exceeds the 5-point margin. The composition, while confident, leaves too much void untouched. The sparse/drenched strategy is intentional, but the measurement shows the red field panel and surrounding void are not registering as utilization in sufficient quantity. Audit whether the red panel dimensions, padding, or content density need adjustment to cross 70%.\n\n**Check 4: Mark size undersized.** In the 2x header crop, the circular mark measures approximately 24–26px rendered height. The declared `mark_px: 40` means the mark should stand at 40px. At roughly 65% of the declared size, this is a clear shortfall. The mark must be enlarged to 40px to match the declaration and ensure the brand sits visibly in the first fold at both 1440 and 360.\n\n**Check 6: Mobile — hero type did not scale.** On the filmstrip, fold 1 shows \"TIGERS 11–7\" at a size that appears static, not responsive. The declared `hero_step_360: hero` requires the numerals to resize via `clamp()` to fit the 360px column. The numerals appear to be set at a fixed size (likely the desktop 200px) and reflow into the column rather than scale down. Verify that the hero numerals are set in `clamp(...)` with a `vw` term so they shrink proportionally on mobile; as rendered, they do not.",
+    "channel": "sdk-vision",
+    "ts": 1789293311351
+  },
+  {
+    "critic": "surface-gate",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "/about @1440: 340 characters of running copy set at 68px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: <H1> holds text wider than its own box: \"Doug March...\" needs 1243px and the box is 1238px, so 5px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @1440: 340 characters of running copy set at 68px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: <H1> holds text wider than its own box: \"Doug March...\" needs 1243px and the box is 1238px, so 5px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/experiments @360: 'TeeTurnExperiment2020' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'PolitweetsExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'TwittertaleExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'TeeTurnExperiment2020' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'PolitweetsExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'TwittertaleExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.",
+    "ts": 1789293637384
+  },
+  {
+    "critic": "screenshot-critic",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 7/2 — react-engineer: The typography spec states the numerals \"11–7\" should be the largest element (hero step, ~200px) with \"TIGERS\" as a smaller 2xl label above it — the numerals are supposed to be the sun. The render inverts this: \"TIGERS\" balloons to dominate the panel while \"11–7\" reads comparatively small, contradicting both the spec's stated ramp and the approved mockup's scale relationship.\n- Section 5 — react-engineer: On the 1440 screenshot, \"TIGERS\" overflows the red field panel's left and right edges (the letters extend past the panel border into the void), an unintended overflow bug not present in the mockup, where \"TIGERS\" sits with comfortable margin inside the panel.\n- Section 3 — react-engineer: The \"11\" numeral renders as a low-contrast, translucent red/pink against the red field panel, nearly illegible next to the crisp white \"7\" beside it. Spec calls for both numerals reversed in cream with only a glow accent on \"11,\" not reduced opacity that erases it.\n- Section 10 — react-engineer: `nav_360` declares work/about/contact should collapse to one row above the footer, leaving only mark+wordmark in the header at 360. Fold 1 of the home filmstrip still shows the full \"WORK ABOUT CONTACT\" row directly beneath the header wordmark, contradicting the declaration and crowding the hero-only first fold.\n- Section 2/5 — react-engineer: Measured faults on `/about` (both schemes): a 340-character paragraph is set at 68px display size (a wall, not a hero — should be body-step prose), and the H1 \"Doug March\" is 5px wider than its box and gets clipped rather than wrapping. Set prose at the body step and size/wrap the H1 to fit its column.\n===END===",
+    "channel": "sdk-vision",
+    "ts": 1789293794078
+  },
+  {
+    "critic": "surface-gate",
+    "round": 2,
+    "verdict": "SHIP",
+    "feedback": "/experiments @360: 'TeeTurnExperiment2020' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'PolitweetsExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'TwittertaleExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'TeeTurnExperiment2020' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'PolitweetsExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'TwittertaleExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.",
+    "ts": 1789293898505
+  },
+  {
+    "critic": "screenshot-critic",
+    "round": "final",
+    "verdict": "UNVERIFIED",
+    "feedback": "[screenshot-critic] response truncated at max_tokens (6000 output tokens, cap 6000)",
+    "channel": "sdk-vision-truncated",
+    "ts": 1789294061121
+  }
+]

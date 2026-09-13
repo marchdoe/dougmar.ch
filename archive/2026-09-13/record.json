@@ -1,0 +1,710 @@
+{
+  "date": "2026-09-13",
+  "era": "header-declared",
+  "generatedAt": "2026-09-13T10:07:51.594Z",
+  "buildId": "1789294064458",
+  "attempts": 1,
+  "brief": "Detroit-red scoreboard glowing out of a warm near-black void — 11–7 mirrored across a dash in athletic condensed caps, the real green-and-blue mark back in the corner, one accent pulse on the winning number.",
+  "rationale": "The phrase decides everything, and today the strongest line is Doug's, not the machine's: the Detroit Tigers won 11–7. After a week where five of eight heroes were borrowed quotes or the site talking about itself, a scoreboard fact returns the subject to the owner — a Detroit sports fan on a Sunday morning — and it plays directly to his two highest grades, both of which were score-led (the trophy-gold scoreboard flood and the fairway split). Stated plainly as a signal-event, \"TIGERS 11–7\" is quotable in isolation and it wants marquee numerals.\n\nBecause the phrase is a scoreboard, the composition is radial and mirrored around a single center: \"11\" and \"7\" reflected across a dash, the score as the sun with everything radiating and accelerating downward. That demands an athletic signage voice, so the chassis is big-shoulders-atkinson — its condensed display is the literal register of stadium numerals (not a lazy default-to-condensed-for-scale, but the exact use case), and it is fresh, unused in the last fourteen builds. The palette turns on one saturated hue at volume: Detroit red at 356°, the city's own color, glowing off a warm near-black void. This deviates from the 140–180° green mandate deliberately — the last three greens (158°, 162°, 125°) dominated the recent window, the repetition check demanded a hue 60°+ off them, and triumph calls for a single saturated hue; red is both fresh and genuinely Detroit (Red Wings).\n\nLayout and shell answer the owner's standing complaints head-on. Ground strategy is dark-void (fresh against the week's drench/light-ground/duotone run), and crucially a warm dark ground gives the original green-and-blue mark somewhere to sit — so brand_color_mode is original for the first time in effectively 17 builds, addressing \"the single-color mark disappears\" directly. Shell posture is standard with a corner header, putting the real circular mark in the first fold at both 1440 and 360, which fixes the repeated \"no brand above the fold\" failure. The scoreboard sits on a large saturated red field panel centered in the void; every other signal — market up-tick, fog, crescent moon, golf, music-on-rotation, and a demoted Aristophanes footnote — lives as a subordinate tabular box-score strip.",
+  "filesChanged": [
+    "elements/preset.ts",
+    "app/components/Layout.tsx",
+    "app/components/Sidebar.tsx",
+    "app/components/generated/HeroScoreboard.tsx",
+    "app/components/generated/DataGrid.tsx",
+    "app/components/generated/BoxScoreStrip.tsx",
+    "app/components/generated/Footer.tsx",
+    "app/components/generated/FieldBand.tsx",
+    "app/components/generated/TimelineLedger.tsx",
+    "app/components/generated/CapabilityTags.tsx",
+    "app/components/generated/CaseStudyNarrative.tsx",
+    "app/components/generated/CaseStudyMeta.tsx",
+    "app/components/generated/WhitePaperContext.tsx",
+    "app/components/generated/WhitePaperProcess.tsx",
+    "app/components/generated/WhitePaperDecisions.tsx",
+    "app/components/generated/WhitePaperReferences.tsx",
+    "app/routes/index.tsx",
+    "app/routes/about.tsx",
+    "app/routes/work.$slug.tsx",
+    "app/routes/og.tsx"
+  ],
+  "legacyArchetype": null,
+  "signals": {
+    "air_quality": {
+      "aqi_index": 1,
+      "uv_index": 0,
+      "air_quality_label": "Good"
+    },
+    "awwwards": {
+      "sites_of_the_day": [
+        {
+          "title": "The Tuscan Journey Begins",
+          "description": "MONOGRID created an interactive journey for Weekend Max Mara, transforming Italian craftsmanship into an immersive digital experience.",
+          "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/07/6a4f5b3f3e376480567855.jpg"
+        },
+        {
+          "title": "The Explora Journal",
+          "description": "A digital magazine by Explora Journeys, The Explora Journal tells stories of destinations, cultural discoveries, ships, wellness and dining through considered...",
+          "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/08/6a917804551a0509938274.png"
+        },
+        {
+          "title": "The Thread: A Personal Story",
+          "description": "An exercise in creative, web-native storytelling with interactive maps and innovative navigation: a woven timeline on large screens, a dial on smaller...",
+          "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/08/6a92950517219503338896.jpg"
+        }
+      ]
+    },
+    "books": {
+      "currently_reading": []
+    },
+    "day_of_week": {
+      "day": "Sunday",
+      "is_weekend": true,
+      "day_index": 0
+    },
+    "github": {
+      "repos": [
+        {
+          "name": "bilawalsidhu/gods-eye-view/stargazers",
+          "description": "",
+          "language": "JavaScript",
+          "stars": null
+        },
+        {
+          "name": "melgarafael/DeskcommCRM/stargazers",
+          "description": "",
+          "language": "TypeScript",
+          "stars": null
+        },
+        {
+          "name": "sponsors/asgeirtj",
+          "description": "",
+          "language": "JavaScript",
+          "stars": null
+        },
+        {
+          "name": "nab138/iloader/stargazers",
+          "description": "",
+          "language": "TypeScript",
+          "stars": null
+        },
+        {
+          "name": "Flowseal/zapret-discord-youtube/stargazers",
+          "description": "",
+          "language": "Batchfile",
+          "stars": null
+        }
+      ]
+    },
+    "golf": {
+      "tournament": "Biltmore Championship Asheville",
+      "status": "Scheduled",
+      "leaders": []
+    },
+    "hacker_news": {
+      "stories": [
+        {
+          "title": "JetKVM Mini",
+          "url": "https://jetkvm.com/blog/introducing-jetkvm-mini",
+          "score": 71,
+          "by": "taubek"
+        },
+        {
+          "title": "Why are AI agents lying, cheating and coordinating?",
+          "url": "https://yoshuabengio.org/en/publication/why-are-ai-agents-lying-cheating-and-coordinating",
+          "score": 190,
+          "by": "jonifico"
+        },
+        {
+          "title": "The Interim Computer Museum",
+          "url": "https://icm.museum/",
+          "score": 108,
+          "by": "mulmen"
+        },
+        {
+          "title": "Make your first edit to OpenStreetMap",
+          "url": "https://high5apps.github.io/josm-plugin-website-wizard/",
+          "score": 452,
+          "by": "juliantigler"
+        },
+        {
+          "title": "I Added a Non-Wi-Fi Mitsubishi AC to Home Assistant",
+          "url": "https://medium.com/@ivangomezarnedo/how-i-added-a-non-wi-fi-mitsubishi-ac-to-home-assistant-22770661dd77",
+          "score": 74,
+          "by": "ichacas"
+        }
+      ]
+    },
+    "holidays": {
+      "today": null,
+      "upcoming": []
+    },
+    "lunar": {
+      "phase": "waxing crescent",
+      "illumination": 0.059,
+      "days_into_cycle": 2.3
+    },
+    "market": {
+      "symbol": "SPY",
+      "price": "764.2900",
+      "change": "6.4600",
+      "change_percent": "0.8524%",
+      "direction": "up"
+    },
+    "music": {
+      "bands": [
+        "The War on Drugs",
+        "My Morning Jacket"
+      ],
+      "rotation": true
+    },
+    "news": {
+      "headlines": [
+        {
+          "title": "BRICS leaders meet in India as wars and US tensions test the bloc - AP News",
+          "source": "Associated Press",
+          "url": "https://apnews.com/article/india-brics-modi-russia-china-iran-wars-5393274f87a16461b195d13f324e747a"
+        },
+        {
+          "title": "Oil routes in peril as attacks shut Saudi pipeline and Houthis threaten key waterway - The Washington Post",
+          "source": "The Washington Post",
+          "url": "https://www.washingtonpost.com/world/2026/09/11/iran-denounces-us-israeli-oppression-houthis-advance-yemen/"
+        },
+        {
+          "title": "Iran, Houthis block 2 key global shipping routes, straining the global economy - USA Today",
+          "source": "USA Today",
+          "url": "https://www.usatoday.com/story/news/world/2026/09/11/iran-houthis-block-strait-of-hormuz-and-bab-el-mandeb/91709250007/"
+        },
+        {
+          "title": "Lady Gaga Welcomes First Child With Fiancé Michael Polansky - The Hollywood Reporter",
+          "source": "Hollywood Reporter",
+          "url": "http://www.hollywoodreporter.com/music/music-news/lady-gaga-first-baby-1236698474/"
+        },
+        {
+          "title": "Yankees, sports world remember 25th anniversary of 9/11 with 'God Bless America' and moments of silence - Fox News",
+          "source": "Fox News",
+          "url": "https://www.foxnews.com/outkick-sports/yankees-sports-world-remember-25th-anniversary-9-11-god-bless-america-moments-silence"
+        }
+      ]
+    },
+    "quote": {
+      "text": "High thoughts must have high language.",
+      "author": "Aristophanes"
+    },
+    "season": {
+      "season": "fall",
+      "month": 9,
+      "day": 13,
+      "day_of_year": 256,
+      "month_name": "September"
+    },
+    "sidebar": {
+      "links": [
+        {
+          "title": "AI is making us build too much",
+          "url": "https://sjg.io/writing/ai-is-making-us-build-too-much/",
+          "source": "sjg.io",
+          "description": "AI has made code, tests, policy, documentation, and organisational machinery almost free to produce. It has not made any of them free to own."
+        },
+        {
+          "title": "Kugiri (区切り)",
+          "url": "https://edoardolunardi.github.io/kugiri/",
+          "source": "edoardolunardi.github.io",
+          "description": "Splits text into lines, words and characters exactly where the browser already broke it."
+        },
+        {
+          "title": "Don’t ask to ask, just ask",
+          "url": "https://dontasktoask.com/",
+          "source": "dontasktoask.com",
+          "description": "If you're not willing to do the work to solve your problem, why should we?"
+        },
+        {
+          "title": "Why products get worse",
+          "url": "https://www.worseonpurpose.com/p/on-quality",
+          "source": "worseonpurpose.com",
+          "description": "Where quality lives, and how companies drain it from your products without a metric moving."
+        },
+        {
+          "title": "Building data-driven design systems",
+          "url": "https://ky.fyi/posts/data-driven",
+          "source": "ky.fyi",
+          "description": "How I scaled Scribe’s design system to help serve over 6 million users."
+        }
+      ]
+    },
+    "sports": {
+      "teams": [
+        {
+          "name": "Detroit Lions",
+          "league": "NFL",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Red Wings",
+          "league": "NHL",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Pistons",
+          "league": "NBA",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Tigers",
+          "league": "MLB",
+          "last_game": "2026-09-12T17:10Z",
+          "result": "win",
+          "score": "11-7"
+        }
+      ]
+    },
+    "sun": {
+      "sunrise": "06:55",
+      "sunset": "19:15",
+      "daylight_hours": 12.3
+    },
+    "weather": {
+      "location": "Aldie, Virginia",
+      "conditions": "Fog",
+      "temp_f": 71.7,
+      "temp_c": 22.1,
+      "humidity": 97,
+      "wind_mph": 2.2,
+      "wind_dir": "WNW",
+      "feels_like_f": 79
+    },
+    "date": "2026-09-13"
+  },
+  "hero": {
+    "copy": "TIGERS 11–7",
+    "rationale": "The Tigers took it 11–7 yesterday — a Detroit win is the one signal today that is unambiguously Doug's, not the machine's, and it passes the owner's test cleanly (\"would Doug say this, about... Detroit\"). It also plays to the owner's two A-grade gestures: the trophy-gold scoreboard flood and the fairway split-as-argument, both scoreboard/score-led. Stated as a signal-event, the score is quotable in isolation and demands marquee numerals. It breaks the quote streak the mandate flags and puts the subject back on Doug.",
+    "source": "signal-event"
+  },
+  "chassis": "big-shoulders-atkinson",
+  "adBrief": {
+    "visualSpecification": "### 1. Color Specification\n- **Primary hue** — 356° (deep saturated red). Chosen for triumph (a win → one saturated hue) and because red is genuinely a Detroit color (Red Wings), tying the hue to Doug's fandom rather than to a stock accent.\n- **Neutral palette** (warm red-tinted \"oxblood ash\") — 50 `#FAF3F2`, 100 `#EFE3E1`, 200 `#D8C4C1`, 300 `#B89C98`, 400 `#8F6E69`, 500 `#6B4C48`, 600 `#4E3532`, 700 `#362321`, 800 `#241413`, 900 `#160A09`\n- **Accent color** — light `#E4564C`, default `#D0281E`, dark `#85140E`, glow `#FF8A7A`\n- **Secondary accent** — none. One hue carries the page.\n- **Background** — page bg `#160A09` (warm near-black void), card/surface `#362321`, scoreboard field panel `#AE1A12` (saturated red plane)\n- **Text colors** — primary `#FAF3F2`, secondary `#B89C98`, muted/faint `#8F6E69` (micro labels only)\n\n### 2. Typography\n- **Hero phrase rendering** — `display` (Big Shoulders Display) at the `hero` ramp step. The numerals \"11–7\" set the largest, mirrored across an en-dash on the red field panel, reversed in cream; the word \"TIGERS\" sits above at `2xl` as the label. Marquee target `clamp(110px, 15vw, 200px)`.\n- **Type treatment** — hero = `hero` step for the score; label \"TIGERS\" = `2xl`; deck/standfirst = `xl` (Big Shoulders in a lighter cut, mixed case) to spend the mid-scale; section labels = `sm` small-caps with 0.09em tracking; body/ledger = `base` Atkinson Hyperlegible at 1.5 leading, capped 60–68ch. Case contrast (condensed caps score vs. humanist mixed-case deck) does the varying, not scale alone.\n\n### 3. Layout Specification\n- **Composition** — single / radial / mirrored / center / sparse / accelerating / standard / drenched / hero-only. The score is the sun: it sits at the optical center, \"11\" and \"7\" mirrored across the dash (the scoreboard made literal), everything else radiating out and accelerating downward. One column, drenched dark-void ground.\n- **CSS grid/flex structure** — `display: grid; grid-template-rows: auto 1fr auto; justify-items: center` for the page; the scoreboard is `display: grid; grid-template-columns: 1fr auto 1fr; align-items: center` (number · dash · number).\n- **Major dimensions**:\n  - Hero/scoreboard field area: `min-height: 82vh`, red panel `max-width: 1100px; margin: 0 auto`\n  - No sidebar.\n  - Max content width: `max-width: none`; side padding `96px 7vw` (desktop), `40px 6vw` (mobile). Body ledger insets to ≤68ch.\n  - Section padding: `clamp(48px, 8vh, 128px)` top/bottom, shrinking toward the footer (accelerating rhythm).\n- **Nav placement** — corner header, top-left, inside the hero field: mark + \"Doug March\" wordmark on one line, work · about · contact small-caps beneath. Header height ~96px. No top bar, no band.\n- **Hero phrase grid zone** — center of the first fold, rows 2–3 of the page grid, occupying roughly the middle 60% of a 1440×900 viewport; numerals render at ~200px.\n\n### 4. Component Character\n- **Border radius** — cards 0, buttons 2px, tags 0. Hard corners throughout (owner dislikes rounded).\n- **Border treatment** — bordered where needed with `border` (`#362321`) hairlines on the void; `fieldBorder` (`#E4564C`) inside the red panel.\n- **Shadow** — none. Depth comes from surface lightness (dark-void discipline).\n- **Density** — sparse: the score dominates, few elements, generous void.\n- **Interactive states** — links shift to `accentAlt` (`#E4564C`) on hover with a 1px underline offset; nav small-caps gain a red baseline rule on hover.\n\n### 5. Signal Integration\n- **Where signal elements live** — a single tabular \"box-score\" data strip beneath the hero and in the footer, on the dark void.\n- **Sports scores** — the hero. 11–7 as mirrored marquee numerals reversed out of the red field, accent glow on the winning \"11\".\n- **Quote** — Aristophanes (\"High thoughts must have high language\") is deliberately NOT the hero; demoted to one hairline footnote line in the footer at `sm`, italic — a nod, not a poster.\n- **Holiday elements** — none today.\n- **Music** — War on Drugs / My Morning Jacket labeled \"on rotation\" as a quiet footnote pair, never presented as a today-event beside the score or market.\n- **Other signals** — market SPY 764.29 ▲0.85% with a small accent up-arrow; weather \"Fog · 71.7°F · 97%\" over Aldie; waxing crescent moon 5.9%; Biltmore Championship (Asheville, scheduled); AQI Good / UV 0 — all as tabular rows in the box-score strip, subordinate to the score.",
+    "selfCheck": "1. Hero quotability: Yes — \"TIGERS 11–7\" is a scoreboard fact Doug would post, quotable alone.\n2. Because-of chain: Yes — score → scoreboard center/mirror/radial → athletic Big Shoulders → triumphant Detroit red → drenched void with the score reversed.\n3. Render feasibility: Yes — condensed caps render \"11–7\" at ~200px centered on 1440×900 without overflow, hero in the first fold.\n4. Canvas floor feasible: Yes — drenched dark-void with a large red field panel fills the declared 72%.\n5. Phone: Yes — hero-only collapse shows \"11–7\" at the `hero` step (110px condensed) inside 640px at 360, no word cut, mark in the corner.",
+    "rationale": "The phrase decides everything, and today the strongest line is Doug's, not the machine's: the Detroit Tigers won 11–7. After a week where five of eight heroes were borrowed quotes or the site talking about itself, a scoreboard fact returns the subject to the owner — a Detroit sports fan on a Sunday morning — and it plays directly to his two highest grades, both of which were score-led (the trophy-gold scoreboard flood and the fairway split). Stated plainly as a signal-event, \"TIGERS 11–7\" is quotable in isolation and it wants marquee numerals.\n\nBecause the phrase is a scoreboard, the composition is radial and mirrored around a single center: \"11\" and \"7\" reflected across a dash, the score as the sun with everything radiating and accelerating downward. That demands an athletic signage voice, so the chassis is big-shoulders-atkinson — its condensed display is the literal register of stadium numerals (not a lazy default-to-condensed-for-scale, but the exact use case), and it is fresh, unused in the last fourteen builds. The palette turns on one saturated hue at volume: Detroit red at 356°, the city's own color, glowing off a warm near-black void. This deviates from the 140–180° green mandate deliberately — the last three greens (158°, 162°, 125°) dominated the recent window, the repetition check demanded a hue 60°+ off them, and triumph calls for a single saturated hue; red is both fresh and genuinely Detroit (Red Wings).\n\nLayout and shell answer the owner's standing complaints head-on. Ground strategy is dark-void (fresh against the week's drench/light-ground/duotone run), and crucially a warm dark ground gives the original green-and-blue mark somewhere to sit — so brand_color_mode is original for the first time in effectively 17 builds, addressing \"the single-color mark disappears\" directly. Shell posture is standard with a corner header, putting the real circular mark in the first fold at both 1440 and 360, which fixes the repeated \"no brand above the fold\" failure. The scoreboard sits on a large saturated red field panel centered in the void; every other signal — market up-tick, fog, crescent moon, golf, music-on-rotation, and a demoted Aristophanes footnote — lives as a subordinate tabular box-score strip.",
+    "compositionRationale": "A scoreboard is radial and mirrored by nature — two numbers reflected across a dash, radiating from a single center — so I took the mandate's suggested radial/mirrored/sparse/accelerating/drenched and single directly. I moved hero_zone off the suggested `interleaved` to `center` because a score cannot be threaded through content without destroying the scoreboard read, and I moved shell_posture off the suggested `none` to `standard` because the owner has flagged \"no brand in the first fold\" three ratings running — `none` would repeat that exact failure. Collapse is `hero-only` (not the suggested `split-to-sequence`, which contradicts a single column and caused yesterday's rejection): the score alone is the phone's first fold.",
+    "signalIntegration": "- **Where signal elements live** — a single tabular \"box-score\" data strip beneath the hero and in the footer, on the dark void.\n- **Sports scores** — the hero. 11–7 as mirrored marquee numerals reversed out of the red field, accent glow on the winning \"11\".\n- **Quote** — Aristophanes (\"High thoughts must have high language\") is deliberately NOT the hero; demoted to one hairline footnote line in the footer at `sm`, italic — a nod, not a poster.\n- **Holiday elements** — none today.\n- **Music** — War on Drugs / My Morning Jacket labeled \"on rotation\" as a quiet footnote pair, never presented as a today-event beside the score or market.\n- **Other signals** — market SPY 764.29 ▲0.85% with a small accent up-arrow; weather \"Fog · 71.7°F · 97%\" over Aldie; waxing crescent moon 5.9%; Biltmore Championship (Asheville, scheduled); AQI Good / UV 0 — all as tabular rows in the box-score strip, subordinate to the score."
+  },
+  "tokens": {
+    "colors": {
+      "ramps": {
+        "primary": {
+          "50": "#FEF2F1",
+          "100": "#FCDEDB",
+          "200": "#F7BAB5",
+          "300": "#EF8A83",
+          "400": "#E4564C",
+          "500": "#D0281E",
+          "600": "#AE1A12",
+          "700": "#85140E",
+          "800": "#5A0F0B",
+          "900": "#300807"
+        },
+        "accentGlow": "#FF8A7A",
+        "neutral": {
+          "50": "#FAF3F2",
+          "100": "#EFE3E1",
+          "200": "#D8C4C1",
+          "300": "#B89C98",
+          "400": "#8F6E69",
+          "500": "#6B4C48",
+          "600": "#4E3532",
+          "700": "#362321",
+          "800": "#241413",
+          "900": "#160A09"
+        }
+      },
+      "semantic": {
+        "bg": {
+          "base": "{colors.neutral.900}"
+        },
+        "bgAlt": {
+          "base": "{colors.neutral.800}"
+        },
+        "surface": {
+          "base": "{colors.neutral.700}"
+        },
+        "text": {
+          "base": "{colors.neutral.50}"
+        },
+        "textMuted": {
+          "base": "{colors.neutral.300}"
+        },
+        "textFaint": {
+          "base": "{colors.neutral.400}"
+        },
+        "accent": {
+          "base": "{colors.primary.500}"
+        },
+        "accentText": {
+          "base": "{colors.primary.50}"
+        },
+        "accentAlt": {
+          "base": "{colors.primary.400}"
+        },
+        "border": {
+          "base": "{colors.neutral.700}"
+        },
+        "borderStrong": {
+          "base": "{colors.neutral.600}"
+        },
+        "field": {
+          "base": "{colors.primary.600}"
+        },
+        "fieldInk": {
+          "base": "{colors.primary.50}"
+        },
+        "fieldInkMuted": {
+          "base": "{colors.primary.200}"
+        },
+        "fieldBorder": {
+          "base": "{colors.primary.400}"
+        }
+      }
+    },
+    "radii": {
+      "none": "0",
+      "sm": "0px",
+      "md": "2px",
+      "lg": "4px",
+      "full": "9999px"
+    }
+  },
+  "colorScheme": {
+    "primary_hue": {
+      "h": 356,
+      "s": 67,
+      "l": 47,
+      "name": "Detroit red"
+    },
+    "secondary_accent": null,
+    "neutral_family": {
+      "tinted_toward": "red",
+      "name": "oxblood ash"
+    },
+    "mood_word": "triumphant",
+    "color_story": "A saturated Detroit red — the city's own color, Red Wings red — glowing off a warm near-black void, because an 11–7 win is triumph and triumph wants one committed hue at scoreboard scale."
+  },
+  "shell": {
+    "nav": null,
+    "footer": "data strip — one hairline-topped tabular box-score line of the day's signals, with the Aristophanes line as a single italic footnote beneath",
+    "brand_lockup": "horizontal-md",
+    "brand_color_mode": "original",
+    "ground_strategy": "dark-void"
+  },
+  "header": {
+    "placement": "corner",
+    "height_px": 96,
+    "mark_px": 40,
+    "wordmark_step": "lg",
+    "wordmark_weight": 700,
+    "role_line": "absent",
+    "nav_step": "sm",
+    "nav_case": "small-caps",
+    "nav": "corner cluster top-left inside the hero field — original green-and-blue mark + \"Doug March\" wordmark on one line, work · about · contact small-caps tucked beneath; no band, no top bar, no border"
+  },
+  "verdicts": [
+    {
+      "critic": "spec-critic",
+      "verdict": "REVISE",
+      "feedback": "REVISE\n\n- **Hero scale is unachievable.** The declared hero_scale is `clamp(110px, 15vw, 200px)`, which resolves to 200px at 1440px. big-shoulders-atkinson's hero step maxes out at 177px at 1440px. The self-check claims \"condensed caps render '11–7' at ~200px\" but the chassis cannot deliver this. Either lower the hero_scale to `clamp(110px, 15vw, 177px)`, or move the score numerals to the 5xl step (`clamp(72px, 12.5vw, 465px)`) — but the visual spec explicitly says \"hero step,\" so the first option is correct.",
+      "ts": 1789292786697
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 0,
+      "verdict": "REVISE",
+      "feedback": "**Check 2 — Measurables: Canvas utilization shortfall.** Measured 61.8%, floor 72%; 10.2 points under, well beyond the 5-point margin. The sparse composition (by design) has left the page genuinely underutilized. The red field panel occupies the center, but the void around it and the light-touch deck below do not add up. The declared drenched field_ratio and sparse density are in tension here — the measurement shows sparse won, and sparse alone does not satisfy the utilization floor. Either increase the red panel's footprint, deepen the deck below the score, or add a visual field element that carries weight without breaking the scoreboard read.\n\n**Check 2 — Measurables: Color coverage at floor.** Measured 61.4%, floor 60%; within the 5-point margin but sitting directly on the line. The single saturated red field is carrying the coverage, and it is doing so barely. Any shift toward lighter text, less red panel height, or reduction of the field's visual weight would drop this below floor. The current balance is fragile; confirm the red panel dimensions and text color contrast are locked before build.\n\n**Check 4 — Header mark size.** The circular mark in the crop measures approximately 28–32px rendered height; declared mark_px is 40px. That is 70–80% of the declared size, below the 60% threshold that triggers REVISE, but visibly smaller than the brief requires. Increase the mark to the declared 40px; at 2x crop scale, it should read as clearly as the wordmark beside it.\n\n**Check 6 — Phone first fold declaration.** The declaration states \"The hero 'TIGERS 11–7' on the red field, with the corner mark top-left; nothing else.\" Fold 1 shows exactly that: mark + wordmark at top-left, the full red scoreboard block dominating the fold, and the deck below it (which is *also* in fold 1 on mobile). The declaration lists no deck in first_fold, only \"hero, deck, box-score strip, work index, footer\" in order below. This contradicts the mockup: the deck sits inside the red panel at 3",
+      "channel": "sdk-vision",
+      "ts": 1789292975027
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "**Check 2 — Measurables: Canvas utilization critically short.** Measured utilization is 67.9%, below the floor of 72% by 4.1 points — within the 5-point tolerance, but the margin is thin and the composition reads sparse to the edge of underbaked. The hero dominates, the void is real, and the intent is clear (accelerating rhythm, sparse density), but the measured shortfall signals the field is not as drenched as the brief demands. The red panel is bold, but the overall canvas commitment is 4 points under floor. Revise to either expand the hero field height, deepen the box-score strip presence in the hero fold, or add a subtle sustained background texture/gradient to the void that reads as designed surface rather than empty space — anything that pushes measured utilization back above 72%.\n\n**Check 4 — Header: Mark undersized and lockup variant unclear.** The circular mark in the crop measures roughly 24–28px rendered, well under the declared 40px (60–70% of target). The declared lockup is `horizontal-md`, which should place the mark beside the wordmark \"Doug March\" on one line; the image shows mark + wordmark horizontally, but the mark is distinctly small. At 40px, the mark should be roughly 60% the height of the wordmark text; here it appears 40–50% of that. Enlarge the mark to 40px and ensure the lockup scales proportionally so the wordmark and mark sit in optical balance on one line.\n\n**Check 6 — Phone: Carrier idea survives, but hero step and first-fold declaration mismatch.** The declared `hero_step_360` is `hero` (the largest display scale), and fold 1 should show \"TIGERS 11–7\" on the red field with the corner mark, nothing else. The filmstrip shows fold 1 with the full hero block and mark (correct), but the score numerals \"11–7\" measure significantly smaller than the desktop 200px → scaled to ~120–140px (a vw-based clamp is working, but the floor of the clamp may be too low). The declared `first_fold` is \"The hero 'TIGERS 11–7' on the red field, with the corner",
+      "channel": "sdk-vision",
+      "ts": 1789293170981
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 2,
+      "verdict": "REVISE",
+      "feedback": "**Check 2: Measurables — Canvas utilization critically short.** Measured utilization is 65.6%, which is 6.4 points below the floor of 72%. This exceeds the 5-point margin. The composition, while confident, leaves too much void untouched. The sparse/drenched strategy is intentional, but the measurement shows the red field panel and surrounding void are not registering as utilization in sufficient quantity. Audit whether the red panel dimensions, padding, or content density need adjustment to cross 70%.\n\n**Check 4: Mark size undersized.** In the 2x header crop, the circular mark measures approximately 24–26px rendered height. The declared `mark_px: 40` means the mark should stand at 40px. At roughly 65% of the declared size, this is a clear shortfall. The mark must be enlarged to 40px to match the declaration and ensure the brand sits visibly in the first fold at both 1440 and 360.\n\n**Check 6: Mobile — hero type did not scale.** On the filmstrip, fold 1 shows \"TIGERS 11–7\" at a size that appears static, not responsive. The declared `hero_step_360: hero` requires the numerals to resize via `clamp()` to fit the 360px column. The numerals appear to be set at a fixed size (likely the desktop 200px) and reflow into the column rather than scale down. Verify that the hero numerals are set in `clamp(...)` with a `vw` term so they shrink proportionally on mobile; as rendered, they do not.",
+      "channel": "sdk-vision",
+      "ts": 1789293311351
+    },
+    {
+      "critic": "surface-gate",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "/about @1440: 340 characters of running copy set at 68px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: <H1> holds text wider than its own box: \"Doug March...\" needs 1243px and the box is 1238px, so 5px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @1440: 340 characters of running copy set at 68px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: <H1> holds text wider than its own box: \"Doug March...\" needs 1243px and the box is 1238px, so 5px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/experiments @360: 'TeeTurnExperiment2020' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'PolitweetsExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'TwittertaleExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'TeeTurnExperiment2020' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'PolitweetsExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'TwittertaleExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.",
+      "ts": 1789293637384
+    },
+    {
+      "critic": "screenshot-critic",
+      "verdict": "REVISE",
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 7/2 — react-engineer: The typography spec states the numerals \"11–7\" should be the largest element (hero step, ~200px) with \"TIGERS\" as a smaller 2xl label above it — the numerals are supposed to be the sun. The render inverts this: \"TIGERS\" balloons to dominate the panel while \"11–7\" reads comparatively small, contradicting both the spec's stated ramp and the approved mockup's scale relationship.\n- Section 5 — react-engineer: On the 1440 screenshot, \"TIGERS\" overflows the red field panel's left and right edges (the letters extend past the panel border into the void), an unintended overflow bug not present in the mockup, where \"TIGERS\" sits with comfortable margin inside the panel.\n- Section 3 — react-engineer: The \"11\" numeral renders as a low-contrast, translucent red/pink against the red field panel, nearly illegible next to the crisp white \"7\" beside it. Spec calls for both numerals reversed in cream with only a glow accent on \"11,\" not reduced opacity that erases it.\n- Section 10 — react-engineer: `nav_360` declares work/about/contact should collapse to one row above the footer, leaving only mark+wordmark in the header at 360. Fold 1 of the home filmstrip still shows the full \"WORK ABOUT CONTACT\" row directly beneath the header wordmark, contradicting the declaration and crowding the hero-only first fold.\n- Section 2/5 — react-engineer: Measured faults on `/about` (both schemes): a 340-character paragraph is set at 68px display size (a wall, not a hero — should be body-step prose), and the H1 \"Doug March\" is 5px wider than its box and gets clipped rather than wrapping. Set prose at the body step and size/wrap the H1 to fit its column.\n===END===",
+      "channel": "sdk-vision",
+      "ts": 1789293794078
+    },
+    {
+      "critic": "surface-gate",
+      "round": 2,
+      "verdict": "SHIP",
+      "feedback": "/experiments @360: 'TeeTurnExperiment2020' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'PolitweetsExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'TwittertaleExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'TeeTurnExperiment2020' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'PolitweetsExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'TwittertaleExperiment2008' is a 352x31px target; a thumb needs 44x44. Give it padding or a taller line box.",
+      "ts": 1789293898505
+    },
+    {
+      "critic": "screenshot-critic",
+      "round": "final",
+      "verdict": "UNVERIFIED",
+      "feedback": "[screenshot-critic] response truncated at max_tokens (6000 output tokens, cap 6000)",
+      "channel": "sdk-vision-truncated",
+      "ts": 1789294061121
+    }
+  ],
+  "composition": {
+    "columns": "single",
+    "axis": "radial",
+    "symmetry": "mirrored",
+    "hero_zone": "center",
+    "density": "sparse",
+    "rhythm": "accelerating",
+    "shell_posture": "standard",
+    "field_ratio": "drenched",
+    "collapse": "hero-only"
+  },
+  "lane": {
+    "laneId": "apple",
+    "register": "cinematic-monochrome-verticality"
+  },
+  "cost": {
+    "total_usd": 4.789465,
+    "estimated": true,
+    "partial": false,
+    "calls": 15,
+    "retries": 4,
+    "byAgent": [
+      {
+        "agent": "art-director",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 23822,
+        "cache_read": 0,
+        "cache_write": 43864,
+        "cost_usd": 0.887427,
+        "estimated": false,
+        "ms": 362413,
+        "num_turns": 1
+      },
+      {
+        "agent": "art-director",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 21685,
+        "cache_read": 0,
+        "cache_write": 43965,
+        "cost_usd": 0.8347032499999999,
+        "estimated": false,
+        "ms": 324635,
+        "num_turns": 1
+      },
+      {
+        "agent": "spec-critic",
+        "model": "claude-haiku-4-5",
+        "source": "cli",
+        "input": 10,
+        "output": 6684,
+        "cache_read": 0,
+        "cache_write": 12419,
+        "cost_usd": 0.05590875000000001,
+        "estimated": false,
+        "ms": 78885,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-designer",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 1,
+        "output": 12511,
+        "cache_read": 0,
+        "cache_write": 38667,
+        "cost_usd": 0.56908275,
+        "estimated": false,
+        "ms": 170501,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "model": "claude-haiku-4-5",
+        "source": "sdk",
+        "input": 11646,
+        "output": 581,
+        "cache_read": 0,
+        "cache_write": 0,
+        "cost_usd": 0.014551,
+        "estimated": true,
+        "ms": 10126,
+        "num_turns": null
+      },
+      {
+        "agent": "mockup-designer",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 13263,
+        "cache_read": 20553,
+        "cache_write": 18901,
+        "cost_usd": 0.47520275000000006,
+        "estimated": false,
+        "ms": 177361,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "model": "claude-haiku-4-5",
+        "source": "sdk",
+        "input": 11646,
+        "output": 696,
+        "cache_read": 0,
+        "cache_write": 0,
+        "cost_usd": 0.015126,
+        "estimated": true,
+        "ms": 10868,
+        "num_turns": null
+      },
+      {
+        "agent": "mockup-designer",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 10088,
+        "cache_read": 20553,
+        "cache_write": 19040,
+        "cost_usd": 0.3967965,
+        "estimated": false,
+        "ms": 125879,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "model": "claude-haiku-4-5",
+        "source": "sdk",
+        "input": 11646,
+        "output": 388,
+        "cache_read": 0,
+        "cache_write": 0,
+        "cost_usd": 0.013586,
+        "estimated": true,
+        "ms": 6842,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "model": "claude-sonnet-5",
+        "source": "cli",
+        "input": 2,
+        "output": 33286,
+        "cache_read": 0,
+        "cache_write": 27832,
+        "cost_usd": 0.6137520000000001,
+        "estimated": false,
+        "ms": 293521,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 26107,
+        "output": 6000,
+        "cache_read": 0,
+        "cache_write": 0,
+        "cost_usd": 0.168321,
+        "estimated": true,
+        "ms": 71247,
+        "num_turns": null
+      },
+      {
+        "agent": "screenshot-critic",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 26170,
+        "output": 5835,
+        "cache_read": 0,
+        "cache_write": 0,
+        "cost_usd": 0.166035,
+        "estimated": true,
+        "ms": 63818,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "model": "claude-sonnet-5",
+        "source": "cli",
+        "input": 2,
+        "output": 7808,
+        "cache_read": 0,
+        "cache_write": 30600,
+        "cost_usd": 0.243474,
+        "estimated": false,
+        "ms": 74170,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 25885,
+        "output": 6000,
+        "cache_read": 0,
+        "cache_write": 0,
+        "cost_usd": 0.167655,
+        "estimated": true,
+        "ms": 66729,
+        "num_turns": null
+      },
+      {
+        "agent": "screenshot-critic",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 25948,
+        "output": 6000,
+        "cache_read": 0,
+        "cache_write": 0,
+        "cost_usd": 0.167844,
+        "estimated": true,
+        "ms": 74365,
+        "num_turns": null
+      }
+    ]
+  },
+  "measurables": {
+    "declared": {
+      "canvas_utilization_min": 72,
+      "hero_scale": "clamp(110px, 15vw, 200px)",
+      "color_coverage_min": 60
+    },
+    "declaredAt": "2026-09-13T10:07:44.458Z",
+    "measured": {
+      "canvas_utilization": 63.9,
+      "color_coverage": 63.4,
+      "hero_px": 287
+    },
+    "measuredAt": "2026-09-13T10:07:51.591Z",
+    "method": "Measured at 1440x900 on a 20px grid over the viewport at scroll position zero. canvas_utilization: % of grid cells touched by an element carrying designed content (visible text, an image/SVG/video/canvas, or a background colour distinct from the page background and not transparent). color_coverage: % of grid cells whose sampled background or text colour is chromatic (HSL saturation > 12%, lightness 8-92%). hero_px: the largest computed font-size among first-fold elements that set visible text."
+  }
+}

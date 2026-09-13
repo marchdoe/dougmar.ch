@@ -1,47 +1,37 @@
+import { Box } from '../../../styled-system/jsx'
 import { css } from '../../../styled-system/css'
 
 type Decision = { decision: string; why: string }
 
-export function WhitePaperDecisions({ decisions }: { decisions: Decision[] }) {
+const headCss = css({
+  fontSize: 'xs',
+  fontWeight: 'bold',
+  textTransform: 'uppercase',
+  letterSpacing: 'wide',
+  color: 'textFaint',
+  marginBottom: '4',
+})
+
+const rowCss = css({ borderBottom: '1px solid', borderColor: 'border', padding: '4 0' })
+const decisionCss = css({
+  fontSize: 'lg',
+  fontWeight: 'bold',
+  fontFamily: 'display',
+  color: 'text',
+})
+const whyCss = css({ fontSize: 'base', color: 'textMuted', marginTop: '1', maxWidth: '64ch' })
+
+export function WhitePaperDecisions({ decisions }: { decisions?: Decision[] }) {
+  if (!decisions || decisions.length === 0) return null
   return (
-    <div
-      className={css({
-        bg: 'bg',
-        paddingInline: { base: '5', lg: '9' },
-        paddingBlock: '7',
-        borderTop: '1px solid',
-        borderColor: 'border',
-      })}
-    >
-      <span
-        className={css({
-          textStyle: 'xs',
-          textTransform: 'uppercase',
-          letterSpacing: 'wide',
-          color: 'textFaint',
-          display: 'block',
-          marginBottom: '5',
-        })}
-      >
-        Decisions
-      </span>
-      <div className={css({ display: 'flex', flexDirection: 'column', gap: '5' })}>
-        {decisions.map((d) => (
-          <div key={d.decision}>
-            <p
-              className={css({
-                textStyle: 'sm',
-                fontWeight: '600',
-                color: 'text',
-                marginBottom: '2',
-              })}
-            >
-              {d.decision}
-            </p>
-            <p className={css({ textStyle: 'sm', color: 'textMuted' })}>{d.why}</p>
-          </div>
-        ))}
-      </div>
-    </div>
+    <Box as="section" padding={{ base: '24px 20px', md: '0 7vw 48px' }}>
+      <Box className={headCss}>Decisions</Box>
+      {decisions.map((d) => (
+        <Box key={d.decision} className={rowCss}>
+          <p className={decisionCss}>{d.decision}</p>
+          <p className={whyCss}>{d.why}</p>
+        </Box>
+      ))}
+    </Box>
   )
 }

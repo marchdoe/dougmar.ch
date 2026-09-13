@@ -1,57 +1,40 @@
+import { Box } from '../../../styled-system/jsx'
 import { css } from '../../../styled-system/css'
 
 type Reference = { title: string; url: string; note?: string }
 
-export function WhitePaperReferences({ references }: { references: Reference[] }) {
+const headCss = css({
+  fontSize: 'xs',
+  fontWeight: 'bold',
+  textTransform: 'uppercase',
+  letterSpacing: 'wide',
+  color: 'textFaint',
+  marginBottom: '4',
+})
+
+const rowCss = css({ borderBottom: '1px solid', borderColor: 'border', padding: '4 0' })
+const linkCss = css({
+  fontSize: 'lg',
+  fontWeight: 'bold',
+  fontFamily: 'display',
+  color: 'accent',
+  _hover: { color: 'accentAlt' },
+})
+const noteCss = css({ fontSize: 'base', color: 'textMuted', marginTop: '1', maxWidth: '64ch' })
+
+export function WhitePaperReferences({ references }: { references?: Reference[] }) {
+  if (!references || references.length === 0) return null
   return (
-    <div
-      className={css({
-        bg: 'bg',
-        paddingInline: { base: '5', lg: '9' },
-        paddingBlock: '7',
-        borderTop: '1px solid',
-        borderColor: 'border',
-      })}
-    >
-      <span
-        className={css({
-          textStyle: 'xs',
-          textTransform: 'uppercase',
-          letterSpacing: 'wide',
-          color: 'textFaint',
-          display: 'block',
-          marginBottom: '5',
-        })}
-      >
-        References
-      </span>
-      <ul
-        className={css({
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '3',
-          listStyle: 'none',
-          margin: 0,
-          padding: 0,
-        })}
-      >
-        {references.map((r) => (
-          <li key={r.url}>
-            <a
-              href={r.url}
-              rel="noopener"
-              className={css({ textStyle: 'sm', fontWeight: '600', color: 'text' })}
-            >
-              {r.title} ↗
-            </a>
-            {r.note && (
-              <span className={css({ textStyle: 'xs', color: 'textFaint', marginLeft: '3' })}>
-                {r.note}
-              </span>
-            )}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Box as="section" padding={{ base: '24px 20px', md: '0 7vw 56px' }}>
+      <Box className={headCss}>References</Box>
+      {references.map((r) => (
+        <Box key={r.url} className={rowCss}>
+          <a href={r.url} className={linkCss}>
+            {r.title}
+          </a>
+          {r.note && <p className={noteCss}>{r.note}</p>}
+        </Box>
+      ))}
+    </Box>
   )
 }
