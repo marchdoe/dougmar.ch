@@ -17,6 +17,7 @@
  */
 
 import { CHASSIS_CATALOG } from '../../elements/chassis/index.js'
+import { checkVocabulary } from './vocabulary-check.js'
 
 /**
  * The five fields and their vocabularies.
@@ -47,20 +48,6 @@ function displayFont(chassis) {
 /** Chassis ids whose display face loads italics, for the error message. */
 function italicChassisIds() {
   return CHASSIS_CATALOG.filter((c) => displayFont(c)?.italics).map((c) => c.id)
-}
-
-/** Every field present and inside its vocabulary. */
-function checkVocabulary(decl) {
-  const errors = []
-  for (const [field, allowed] of Object.entries(TYPE_FIELDS)) {
-    const value = decl[field]
-    if (value === undefined || value === null || value === '') {
-      errors.push(`missing field: ${field}`)
-    } else if (!allowed.includes(value)) {
-      errors.push(`invalid ${field}: "${value}" (expected one of: ${allowed.join(', ')})`)
-    }
-  }
-  return errors
 }
 
 /**
@@ -101,7 +88,7 @@ export function isValidTypeTreatment(decl, context = {}) {
     return { valid: false, errors: ['type treatment must be an object of field → value'] }
   }
   const errors = [
-    ...checkVocabulary(decl),
+    ...checkVocabulary(decl, TYPE_FIELDS),
     ...checkItalicLead(decl, context.chassis),
     ...checkWeightReach(decl, context.chassis),
   ]

@@ -14,6 +14,7 @@ import { ROOT } from './file-manager.js'
 import { STEP_BUDGETS } from './budgets.js'
 import { FINGERPRINT_VIEWPORT, collectGeometry } from './geometry-fingerprint.js'
 import { measureDesignFidelity } from './design-fidelity.js'
+import { hasFirstPaintMotion } from './motion-grammar.js'
 
 /** MIME type per client-mark extension, for the data: URI the snapshot inlines (#505). */
 const IMAGE_MIME = {
@@ -517,6 +518,190 @@ export async function capturePhoneFilmstrip(browser, url, { colorScheme } = {}) 
 }
 
 /**
+ * Offsets, in ms after `domcontentloaded`, at which the motion strip's frames
+ * are taken (#506). The entrance keyframes run 500ms with up to 240ms of
+ * stagger, so 0 and 200 catch the hero not yet arrived, 500 catches the h1
+ * settled with its last sibling still moving, and 1000 is the still every
+ * other capture already takes.
+ */
+export const MOTION_FRAME_OFFSETS_MS = [0, 200, 500, 1000]
+/** Device-pixel gap between adjacent frames in the composed strip. */
+const MOTION_STRIP_GUTTER = 16
+/** How long after the hero's first painted frame its text tiles are rastered. */
+const MOTION_RASTER_SETTLE_MS = 50
+/** Matches the filmstrip: the largest edge the API keeps without downscaling. */
+const MOTION_STRIP_WIDTH = PHONE_FILMSTRIP_WIDTH
+const MOTION_STRIP_QUALITY = PHONE_FILMSTRIP_QUALITY
+
+/**
+ * Where each frame lands in the composed motion strip. Pure and
+ * side-effect-free so the layout is testable without a browser: N frames of
+ * one size laid left to right with a gutter between, each labelled with the
+ * offset it was taken at.
+ *
+ * @param {number[]} offsetsMs
+ * @param {{ frameWidth: number, frameHeight: number, gutterPx?: number }} frame
+ * @returns {{ width: number, height: number, gutterPx: number, frames: Array<{ index: number, offsetMs: number, label: string, destX: number }> }}
+ */
+export function computeMotionStripLayout(
+  offsetsMs,
+  { frameWidth, frameHeight, gutterPx = MOTION_STRIP_GUTTER }
+) {
+  const frames = offsetsMs.map((offsetMs, index) => ({
+    index,
+    offsetMs,
+    label: `${offsetMs}ms after the hero painted`,
+    destX: index * (frameWidth + gutterPx),
+  }))
+  return {
+    width: offsetsMs.length * frameWidth + Math.max(0, offsetsMs.length - 1) * gutterPx,
+    height: frameHeight,
+    gutterPx,
+    frames,
+  }
+}
+
+/**
+ * Lay the captured frames side by side into one PNG, each labelled with its
+ * offset, in the page's own <canvas>: the same trick `composePhoneFilmstrip`
+ * uses, so the strip costs no image-processing dependency.
+ *
+ * @param {import('playwright').Page} page
+ * @param {Buffer[]} frames - one viewport PNG per offset, in order
+ * @param {ReturnType<typeof computeMotionStripLayout>} layout
+ * @returns {Promise<Buffer>}
+ */
+async function composeMotionStrip(page, frames, layout) {
+  const dataUrl = await page.evaluate(
+    async ({ sources, layout }) => {
+      const canvas = document.createElement('canvas')
+      canvas.width = layout.width
+      canvas.height = layout.height
+      const ctx = canvas.getContext('2d')
+      ctx.fillStyle = '#0a0a0a'
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      const barHeight = 64
+      for (const frame of layout.frames) {
+        const img = new Image()
+        img.src = `data:image/png;base64,${sources[frame.index]}`
+        await img.decode()
+        ctx.drawImage(img, frame.destX, 0)
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.72)'
+        ctx.fillRect(frame.destX, 0, img.naturalWidth, barHeight)
+        ctx.fillStyle = '#ffffff'
+        ctx.font = 'bold 32px -apple-system, sans-serif'
+        ctx.textBaseline = 'middle'
+        ctx.fillText(frame.label, frame.destX + 16, barHeight / 2, img.naturalWidth - 32)
+      }
+      return canvas.toDataURL('image/png')
+    },
+    { sources: frames.map((f) => f.toString('base64')), layout }
+  )
+  return Buffer.from(dataUrl.slice(dataUrl.indexOf(',') + 1), 'base64')
+}
+
+/**
+ * Four frames of a page's first second, as one strip (#506).
+ *
+ * Every other capture waits for `networkidle` and then a flat second, which
+ * is after any entrance has finished, so no critic has ever seen the page
+ * move. This one navigates with `domcontentloaded` and screenshots at the
+ * offsets in `MOTION_FRAME_OFFSETS_MS`, then composes them at the
+ * filmstrip's width. Each screenshot takes real time, so the offsets are the
+ * earliest a frame is asked for, not a guarantee; the labels carry the
+ * nominal offset.
+ *
+ * Three things anchor the clock so the frames show motion and nothing else.
+ * The page is visited once first, to `networkidle`, so the stylesheet and
+ * the webfonts are in this context's cache and a face swapping in between
+ * frames cannot read as an entrance. Then, after the real navigation, the
+ * clock waits for the page's one `h1` to be in the DOM: on the dev server
+ * the hero section mounts some tens of milliseconds after
+ * `domcontentloaded`, and its entrance starts when it mounts, so a frame
+ * taken at the document's first paint showed the shell with no hero on it
+ * at all. Then `document.fonts.ready`, two painted frames, and a short
+ * raster settle: the frame right after the hero mounts still had the nav
+ * and footer text unrastered, and a nav that "appears" between frames one
+ * and two would read to the critic as a cascade. The first frame is
+ * therefore a complete paint of the hero some 50ms into its entrance, which
+ * the labels round to zero; they say "after the hero painted" for that reason.
+ *
+ * The frames themselves come from CDP `Page.captureScreenshot`, not from
+ * `page.screenshot`. Playwright's screenshot injects a stylesheet, captures,
+ * and removes it again, and that repaint left the next capture with the
+ * text tiles unrastered: a field with no words on it, or words with no
+ * field. A raw surface capture leaves the page alone between frames.
+ *
+ * Takes an open page rather than a browser so a caller can emulate reduced
+ * motion on it first (`page.emulateMedia({ reducedMotion: 'reduce' })`) and
+ * see every frame arrive settled.
+ *
+ * @param {import('playwright').Page} page - viewport already set
+ * @param {string} url
+ * @param {{ offsetsMs?: number[] }} [opts]
+ * @returns {Promise<Buffer>} the strip, as a critic-bound JPEG
+ */
+export async function captureMotionFrames(page, url, { offsetsMs = MOTION_FRAME_OFFSETS_MS } = {}) {
+  await page.goto(url, { waitUntil: 'networkidle' })
+  await page.goto(url, { waitUntil: 'domcontentloaded' })
+  // Every route renders one h1 (the surface gate fails a route without
+  // one); a page that somehow has none is captured from the document's own
+  // first paint instead of failing the strip.
+  await page.waitForSelector('h1', { state: 'attached', timeout: 5000 }).catch(() => null)
+  await page.evaluate(() => document.fonts.ready)
+  await page.evaluate(
+    () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))
+  )
+  await page.waitForTimeout(MOTION_RASTER_SETTLE_MS)
+  const cdp = await page.context().newCDPSession(page)
+  const t0 = Date.now()
+  const frames = []
+  try {
+    for (const offset of offsetsMs) {
+      const wait = t0 + offset - Date.now()
+      if (wait > 0) await page.waitForTimeout(wait)
+      const { data } = await cdp.send('Page.captureScreenshot', {
+        format: 'png',
+        fromSurface: true,
+      })
+      frames.push(Buffer.from(data, 'base64'))
+    }
+  } finally {
+    await cdp.detach().catch(() => {})
+  }
+  const viewport = page.viewportSize() ?? { width: 1440, height: 900 }
+  const layout = computeMotionStripLayout(offsetsMs, {
+    frameWidth: viewport.width,
+    frameHeight: viewport.height,
+  })
+  const composed = await composeMotionStrip(page, frames, layout)
+  return await downscaleForCritic(page, composed, {
+    targetWidth: MOTION_STRIP_WIDTH,
+    quality: MOTION_STRIP_QUALITY,
+  })
+}
+
+/**
+ * `captureMotionFrames` on a fresh 1440x900 page, best-effort like the
+ * header crop: a missing strip costs the critic one image, never the run.
+ *
+ * @param {import('playwright').Browser} browser
+ * @param {string} url
+ * @returns {Promise<Buffer|null>}
+ */
+async function captureMotionStrip(browser, url) {
+  let page = null
+  try {
+    page = await browser.newPage({ viewport: { width: 1440, height: 900 } })
+    return await captureMotionFrames(page, url)
+  } catch {
+    return null
+  } finally {
+    if (page) await page.close().catch(() => {})
+  }
+}
+
+/**
  * `capturePhoneFilmstrip` for a route on the served build, managing its own
  * preview server and browser — the same shape as `captureRouteScreenshot`,
  * used the same way in `design-agents.js`'s screenshot-critic step to add
@@ -765,11 +950,13 @@ export async function captureSnapshot(date, buildId, { root = ROOT } = {}) {
  * CRITIC_JPEG_WIDTH above).
  *
  * @param {number} [port] - Optional port if server is already running
- * @param {{ headerCrop?: { placement?: string|null, heightPx?: number|null } }} [opts]
- *   the day's HEADER declaration, which decides where the header crop is taken
- * @returns {Promise<{png: Buffer, jpeg: Buffer, darkPng: Buffer, darkJpeg: Buffer, headerJpeg: Buffer|null, headerCropAnchor: 'mark'|'placement'|null, mobileJpeg: Buffer|null, fingerprint: object|null}>}
+ * @param {{ headerCrop?: { placement?: string|null, heightPx?: number|null }, motion?: { entrance?: string|null, ground?: string|null }|null }} [opts]
+ *   the day's HEADER declaration, which decides where the header crop is
+ *   taken, and its MOTION declaration (#506), which decides whether the
+ *   frame strip is taken at all
+ * @returns {Promise<{png: Buffer, jpeg: Buffer, darkPng: Buffer, darkJpeg: Buffer, headerJpeg: Buffer|null, headerCropAnchor: 'mark'|'placement'|null, mobileJpeg: Buffer|null, motionStripJpeg: Buffer|null, fingerprint: object|null}>}
  */
-export async function captureScreenshot(port, { headerCrop } = {}) {
+export async function captureScreenshot(port, { headerCrop, motion } = {}) {
   const { chromium } = await import('playwright')
 
   return await withPreviewServer(
@@ -819,6 +1006,14 @@ export async function captureScreenshot(port, { headerCrop } = {}) {
         // unseen (#466).
         const mobileJpeg = await capturePhoneFilmstrip(browser, `${baseUrl}/`)
 
+        // The first second, as four frames (#506). Only on a night that
+        // declared an entrance or a drifting ground: a still page has no
+        // strip to judge, and the image slot goes back to the discretionary
+        // captures.
+        const motionStripJpeg = hasFirstPaintMotion(motion)
+          ? await captureMotionStrip(browser, `${baseUrl}/`)
+          : null
+
         // The rendered-geometry fingerprint (#255). Taken from the same served
         // build the critic is about to judge, so the silhouette recorded is the
         // silhouette that shipped.
@@ -832,6 +1027,7 @@ export async function captureScreenshot(port, { headerCrop } = {}) {
           headerJpeg,
           headerCropAnchor,
           mobileJpeg,
+          motionStripJpeg,
           fingerprint,
         }
       } finally {

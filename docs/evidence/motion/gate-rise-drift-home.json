@@ -1,0 +1,72 @@
+{
+  "findings": [
+    {
+      "surface": "/",
+      "viewport": "desktop",
+      "width": 1440,
+      "scheme": "dark",
+      "kind": "console",
+      "severity": "warning",
+      "detail": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` wh"
+    },
+    {
+      "surface": "/",
+      "viewport": "desktop",
+      "width": 1440,
+      "scheme": "light",
+      "kind": "copy-tell",
+      "tell": "em-dash",
+      "severity": "error",
+      "detail": "em dash in rendered copy: \"...EP 12 AL CENTRAL TIGERS 11 – 7 DETROIT — WIN COMERICA PARK A Detroit win is the...\". Use a period or a comma."
+    },
+    {
+      "surface": "/",
+      "viewport": "desktop",
+      "width": 1440,
+      "scheme": "light",
+      "kind": "copy-tell",
+      "tell": "em-dash",
+      "severity": "error",
+      "detail": "em dash in rendered copy: \"...s morning that is unambiguously Doug's — a scoreboard, not a slogan. THE BOX SC...\". Use a period or a comma."
+    },
+    {
+      "surface": "/",
+      "viewport": "desktop",
+      "width": 1440,
+      "scheme": "light",
+      "kind": "copy-tell",
+      "tell": "em-dash",
+      "severity": "error",
+      "detail": "em dash in rendered copy: \"...igh thoughts must have high language.” — Aristophanes. © 2026 Doug March. Archi...\". Use a period or a comma."
+    },
+    {
+      "surface": "/",
+      "viewport": "desktop",
+      "width": 1440,
+      "scheme": "light",
+      "kind": "console",
+      "severity": "warning",
+      "detail": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` wh"
+    },
+    {
+      "surface": "/",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "dark",
+      "kind": "console",
+      "severity": "warning",
+      "detail": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` wh"
+    },
+    {
+      "surface": "/",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "light",
+      "kind": "console",
+      "severity": "warning",
+      "detail": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` wh"
+    }
+  ],
+  "measured": 4,
+  "errorCount": 3
+}

@@ -75,6 +75,11 @@ order: nav band, hero field, colophon
 hero_step_360: hero
 nav_360: the rotated spine becomes one horizontal band of small-caps links at the top
 
+===MOTION===
+entrance: none
+ground: static
+reveal: none
+
 ===COMPOSITION===
 columns: two-asymmetric
 axis: vertical
@@ -153,7 +158,7 @@ describe('an Art Director response with ===HEADER===, end to end', () => {
 
   it('rejects the same response with the MOBILE block removed', () => {
     const parsed = parseDelimiterResponse(
-      RESPONSE.replace(/===MOBILE===[\s\S]*?(?====COMPOSITION===)/, '')
+      RESPONSE.replace(/===MOBILE===[\s\S]*?(?====MOTION===)/, '')
     )
     expect(() => validateArtDirectorResult(parsed)).toThrow(/===MOBILE===/)
   })

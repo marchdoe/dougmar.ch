@@ -30,6 +30,7 @@ describe('computeMandateSections', () => {
         'color',
         'composition',
         'heroSource',
+        'motion',
         'paletteFormula',
         'shell',
         'typeTreatment',

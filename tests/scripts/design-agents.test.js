@@ -94,6 +94,7 @@ describe('archiveArtifacts', () => {
     shellDecl: { posture: 'standard' },
     headerDecl: { placement: 'top' },
     mobileDecl: { carrier: 'the hero', hero_step_360: 'hero' },
+    motionDecl: { entrance: 'none', ground: 'static', reveal: 'none' },
     heroSource: undefined,
     chosenComposition: { hero: 'poster' },
     chosenLane: { id: 'quiet', register: 'plain' },
@@ -108,6 +109,7 @@ describe('archiveArtifacts', () => {
       'mockup.html',
       'mockup-screenshot.png',
       'mockup-screenshot-mobile.jpg',
+      'motion-strip.jpg',
       'fingerprint.json',
       'mockup-measurables.json',
     ]) {
@@ -138,6 +140,8 @@ describe('archiveArtifacts', () => {
     expect(JSON.parse(out['verdicts.json'])).toEqual(base.verdicts)
     // The phone declaration lands beside the tuple it explains (#452).
     expect(JSON.parse(out['mobile.json'])).toEqual(base.mobileDecl)
+    // The motion declaration lands beside it (#506).
+    expect(JSON.parse(out['motion.json'])).toEqual(base.motionDecl)
   })
 
   // #456: the declared MEASURABLES floors were parsed every night and thrown

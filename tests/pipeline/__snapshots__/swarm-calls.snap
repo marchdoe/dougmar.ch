@@ -406,6 +406,31 @@ block that contradicts the axis is rejected, not reconciled.
   one that lands the phrase inside the first fold without cutting a word.
 - `nav_360` is one line: what the header and nav become at 360.
 
+## Motion Declaration (required)
+
+Nothing on the shipped site has ever moved. The reference sites the owner
+points at are defined by motion: type settling in, a ground that drifts,
+sections revealing on scroll. Three fields, every one a choice, executed by
+the engineer in CSS and read by the screenshot critic off four frames of the
+first second:
+
+- `entrance` is how the hero arrives: `none`, `settle` (opacity and an 8px
+  lift), `rise` (opacity and a 24px lift) or `wipe` (a clip-path reveal, left
+  to right). It is one gesture on the hero block, not a cascade down the page:
+  the h1 and its siblings arrive together with a short stagger, and nothing
+  else animates on load.
+- `ground` is `static` or `drift`: whether the field or the material moves,
+  slowly, over forty seconds. It is never judged from a still.
+- `reveal` is `none` or `on-scroll`: whether sections below the fold rise
+  into place as they enter the viewport. Progressive enhancement; every
+  section is visible without it.
+
+`none / static / none` is a real choice, not a shortfall: a poster day that
+arrives fully formed and holds still is a decision, and it is the right one
+when the phrase is a slab. Consult the Motion Mandate in your inputs:
+recently used entrances are listed. Move off them unless today's phrase
+demands otherwise, and say why in your rationale.
+
 ## Ground Strategy (part of the SHELL block, required)
 
 Name the palette's ground strategy. Not the hue, the FORMULA. Hue rotation
@@ -519,6 +544,11 @@ first_fold: <what sits inside the first 640px at 360 — name the hero phrase, o
 order: <zone, zone, zone — top to bottom at 360, at least two>
 hero_step_360: hero | 5xl | 4xl | 3xl | 2xl
 nav_360: <one line: what the header and nav become at 360>
+
+===MOTION===
+entrance: none | settle | rise | wipe     # how the hero arrives, one gesture
+ground: static | drift                    # whether the field or material moves, slowly
+reveal: none | on-scroll                  # sections below the fold
 
 ===COMPOSITION===
 columns: single | two-asymmetric | two-equal | three | irregular-twelve | masonry
@@ -3124,6 +3154,14 @@ The carrier is what holds the idea at 360; first_fold is what sits inside the fi
 
 ---
 
+## Motion Declaration (informational; the mockup is static, the engineer executes this)
+
+entrance: none
+ground: static
+reveal: none
+
+---
+
 ## Design Tokens (elements/preset.ts — use ONLY these colors)
 
 ```typescript
@@ -4198,6 +4236,49 @@ composition at the mockup's scale and opacity; `vertical` is `writingMode:
 line; `outline` is `WebkitTextStroke` with a transparent `color`; `stacked`
 is one word per line, each word `display: 'block'`, flush to the alignment;
 `none` needs nothing.
+
+## Motion
+
+The Motion block in your inputs is three `key: value` lines: `entrance`,
+`ground`, `reveal`. The keyframes are already defined in
+`elements/chassis-preset.ts` (`settle`, `rise`, `wipe`, `drift`), and so is the
+reduced-motion rule; you name them in `animation`, you never write a
+`@keyframes` of your own, and you never touch `window` or `matchMedia` to
+decide whether to animate. First paint is server-rendered and cannot depend on
+JS, so every rule here is CSS.
+
+- `entrance` is one gesture on the hero, not a cascade down the page. Set
+  `animation: '<name> 500ms cubic-bezier(0.16, 1, 0.3, 1) both'` on the hero's
+  `h1` and on each of its siblings inside the hero block (eyebrow, deck, the
+  figure), and stagger them with `animationDelay` from the fixed set `'0ms'`,
+  `'80ms'`, `'160ms'`, `'240ms'`, in source order, the `h1` at `'0ms'`. `both`
+  is what holds a delayed sibling at its starting state until its turn.
+  `settle` is opacity with an 8px lift, `rise` opacity with a 24px lift, `wipe`
+  a clip-path reveal left to right. Nothing outside the hero block animates on
+  load. `none` sets nothing.
+- `ground: drift` sets `animation: 'drift 40s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate'`
+  on the hero's field (its background layer), or the material component when
+  one is declared. The layer that drifts is the ground, never the container
+  holding the type: give the field an absolutely positioned child (or a
+  `_before` pseudo-element) with `inset: '-4%'` carrying the `bg`, put the
+  animation on that, and keep `overflow: 'hidden'` on the parent. `static` sets
+  nothing.
+- `reveal: on-scroll` sets, on each section wrapper below the hero,
+  `animationName: 'rise'`, `animationTimeline: 'view()'`,
+  `animationRange: 'entry 0% entry 40%'`, `animationFillMode: 'both'`, and it
+  does so ONLY inside `'@supports (animation-timeline: view())': { ... }`.
+  Every section is visible without it: no `opacity: 0` and no `transform`
+  outside that `@supports` block, so a browser without scroll-driven
+  animations shows the page fully formed. `none` sets nothing.
+- Animate only `opacity`, `transform` and `clip-path`. Never `width`,
+  `height`, `top`, `left`, margins, or a colour.
+- Do not set `prefers-reduced-motion` rules of your own. The chassis preset's
+  global rule collapses every animation to its end state.
+
+The screenshot critic receives four frames of the first second and reads them
+against the block: on an `entrance` day the first frame shows the hero not yet
+arrived and the last shows it settled, and a page that arrives fully formed in
+frame one is a REVISE.
 
 ## Copy
 
@@ -5514,6 +5595,14 @@ nav_360: The three marginal links become one lowercase row under the mark at the
 
 ---
 
+## Motion (execute exactly; see the Motion section of your instructions)
+
+entrance: none
+ground: static
+reveal: none
+
+---
+
 ## One-line Design Brief (for og:description context)
 
 
@@ -5576,6 +5665,11 @@ Only after this sanity gate passes, proceed to the design evaluation below.
 - The mobile declaration (the composition's `collapse` value, the carrier,
   the first fold, the zone order, the hero step at 360, the nav at 360),
   which section 10 is judged against
+- The motion declaration (`entrance`, `ground`, `reveal`), which section 12
+  is judged against, and, on a night that declared an entrance or a drifting
+  ground, a motion strip: four frames of the light 1440 render at 0, 200, 500
+  and 1000ms after the hero first painted, laid side by side and labelled with
+  the offsets (the labels are ours, not the site's)
 - The Design Director's visual specification
 - Reference material (if provided)
 - The approved mockup screenshot (if available)
@@ -5777,6 +5871,26 @@ miss is a REVISE naming the field.
 
 When this fails, owner is **react-engineer**.
 
+### 12. Motion
+
+Judged from the motion strip against the Motion Declaration. Skip this
+section entirely when no strip was attached: a `none / static / none` night
+has nothing to judge here, and a still page on such a night is correct.
+
+On a `settle`, `rise` or `wipe` day, read the strip left to right. The first
+frame must show the hero not yet arrived: faded, lifted, or partly clipped
+(`wipe` reveals left to right). The last frame must show it settled, and that
+end state must match the 1440 still above. Nothing else on the page moves
+between frames: a nav that fades, a list that rises, or a footer that drifts
+is a cascade, not an entrance. A page that arrives fully formed in frame one
+on a declared entrance is a REVISE naming the declared value.
+
+`ground: drift` is judged not at all from stills: it moves a few pixels over
+forty seconds and no strip can show it. `reveal` is judged not at all here:
+it happens below the fold and no capture scrolls.
+
+When this fails, owner is **react-engineer**.
+
 ### Mockup fidelity (replaces taste judgment)
 
 The user prompt includes the approved mockup screenshot alongside the
@@ -5823,7 +5937,7 @@ did" is).
 
 ## Verdict Rules
 
-**SHIP** if: All applicable areas are acceptable: sections 1 through 11 plus mockup fidelity, skipping Section 8 unless `density: sparse`. Minor imperfections are fine. No build is perfect. Ship when a real visitor would have a good experience and the design intent is clearly executed.
+**SHIP** if: All applicable areas are acceptable: sections 1 through 12 plus mockup fidelity, skipping Section 8 unless `density: sparse` and Section 12 unless a motion strip was attached. Minor imperfections are fine. No build is perfect. Ship when a real visitor would have a good experience and the design intent is clearly executed.
 
 **REVISE** if: One or more areas have a clear, specific failure that meaningfully degrades the experience or contradicts the spec. Identify exactly what is wrong and who is responsible.
 
@@ -6187,6 +6301,14 @@ first_fold: The gold field: the mark, then the hero phrase "Select a busy man." 
 order: gold thesis field, nav row, ledger signals, featured project, selected work, experiments, ledger foot
 hero_step_360: hero
 nav_360: The three marginal links become one lowercase row under the mark at the top of the gold field; the ledger keeps no nav of its own.
+
+---
+
+## Motion Declaration (section 12 is judged against this)
+
+entrance: none
+ground: static
+reveal: none
 
 ---
 

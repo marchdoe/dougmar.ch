@@ -1,6 +1,8 @@
 import { describe, it, expect, afterEach, vi } from 'vitest'
 import {
+  MOTION_FRAME_OFFSETS_MS,
   computeDownscaleDimensions,
+  computeMotionStripLayout,
   computePhoneFilmstripFolds,
   phoneFilmstripMoreLabel,
   processHtml,
@@ -51,6 +53,59 @@ describe('computePhoneFilmstripFolds', () => {
       shownFolds: 6,
       moreFolds: 3,
     })
+  })
+})
+
+describe('computeMotionStripLayout (#506)', () => {
+  it('takes four frames at 0, 200, 500 and 1000ms', () => {
+    expect(MOTION_FRAME_OFFSETS_MS).toEqual([0, 200, 500, 1000])
+  })
+
+  it('lays the frames left to right with a gutter between, labelled with their offsets', () => {
+    const layout = computeMotionStripLayout(MOTION_FRAME_OFFSETS_MS, {
+      frameWidth: 1440,
+      frameHeight: 900,
+      gutterPx: 16,
+    })
+    expect(layout).toMatchInlineSnapshot(`
+      {
+        "frames": [
+          {
+            "destX": 0,
+            "index": 0,
+            "label": "0ms after the hero painted",
+            "offsetMs": 0,
+          },
+          {
+            "destX": 1456,
+            "index": 1,
+            "label": "200ms after the hero painted",
+            "offsetMs": 200,
+          },
+          {
+            "destX": 2912,
+            "index": 2,
+            "label": "500ms after the hero painted",
+            "offsetMs": 500,
+          },
+          {
+            "destX": 4368,
+            "index": 3,
+            "label": "1000ms after the hero painted",
+            "offsetMs": 1000,
+          },
+        ],
+        "gutterPx": 16,
+        "height": 900,
+        "width": 5808,
+      }
+    `)
+  })
+
+  it('has no gutter for a single frame', () => {
+    const layout = computeMotionStripLayout([0], { frameWidth: 100, frameHeight: 50 })
+    expect(layout.width).toBe(100)
+    expect(layout.frames).toHaveLength(1)
   })
 })
 

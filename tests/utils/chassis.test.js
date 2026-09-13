@@ -478,6 +478,27 @@ describe('renderChassisPresetFile', () => {
     expect(source).toContain(`bold: { value: "900" }`)
   })
 
+  it('emits the motion keyframes under theme.extend and the reduced-motion rule under globalCss.extend (#506)', () => {
+    const extendBlock = source.slice(source.indexOf('theme:'))
+    expect(extendBlock).toContain('keyframes: {')
+    expect(extendBlock).toContain(
+      `settle: { from: { opacity: "0", transform: "translateY(8px)" }, to: { opacity: "1", transform: "translateY(0)" } }`
+    )
+    expect(extendBlock).toContain(
+      `rise: { from: { opacity: "0", transform: "translateY(24px)" }, to: { opacity: "1", transform: "translateY(0)" } }`
+    )
+    expect(extendBlock).toContain(
+      `wipe: { from: { clipPath: "inset(0 100% 0 0)" }, to: { clipPath: "inset(0 0 0 0)" } }`
+    )
+    expect(extendBlock).toMatch(/drift: \{ from: \{ transform: "translate3d\(0, 0, 0\)/)
+    const globalCss = source.slice(source.indexOf('globalCss'), source.indexOf('theme:'))
+    expect(globalCss).toContain(`'@media (prefers-reduced-motion: reduce)': {`)
+    expect(globalCss).toContain(
+      `'*, *::before, *::after': { animationDuration: "0.01ms !important", animationDelay: "0s !important", animationIterationCount: "1 !important", transitionDuration: "0.01ms !important" },`
+    )
+    expect(globalCss.indexOf('extend:')).toBeLessThan(globalCss.indexOf('prefers-reduced-motion'))
+  })
+
   it('emits textStyles as a sibling of tokens under theme.extend', () => {
     expect(source).toContain('textStyles: {')
     expect(source).toContain(

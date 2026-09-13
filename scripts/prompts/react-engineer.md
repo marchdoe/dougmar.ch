@@ -80,6 +80,49 @@ line; `outline` is `WebkitTextStroke` with a transparent `color`; `stacked`
 is one word per line, each word `display: 'block'`, flush to the alignment;
 `none` needs nothing.
 
+## Motion
+
+The Motion block in your inputs is three `key: value` lines: `entrance`,
+`ground`, `reveal`. The keyframes are already defined in
+`elements/chassis-preset.ts` (`settle`, `rise`, `wipe`, `drift`), and so is the
+reduced-motion rule; you name them in `animation`, you never write a
+`@keyframes` of your own, and you never touch `window` or `matchMedia` to
+decide whether to animate. First paint is server-rendered and cannot depend on
+JS, so every rule here is CSS.
+
+- `entrance` is one gesture on the hero, not a cascade down the page. Set
+  `animation: '<name> 500ms cubic-bezier(0.16, 1, 0.3, 1) both'` on the hero's
+  `h1` and on each of its siblings inside the hero block (eyebrow, deck, the
+  figure), and stagger them with `animationDelay` from the fixed set `'0ms'`,
+  `'80ms'`, `'160ms'`, `'240ms'`, in source order, the `h1` at `'0ms'`. `both`
+  is what holds a delayed sibling at its starting state until its turn.
+  `settle` is opacity with an 8px lift, `rise` opacity with a 24px lift, `wipe`
+  a clip-path reveal left to right. Nothing outside the hero block animates on
+  load. `none` sets nothing.
+- `ground: drift` sets `animation: 'drift 40s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate'`
+  on the hero's field (its background layer), or the material component when
+  one is declared. The layer that drifts is the ground, never the container
+  holding the type: give the field an absolutely positioned child (or a
+  `_before` pseudo-element) with `inset: '-4%'` carrying the `bg`, put the
+  animation on that, and keep `overflow: 'hidden'` on the parent. `static` sets
+  nothing.
+- `reveal: on-scroll` sets, on each section wrapper below the hero,
+  `animationName: 'rise'`, `animationTimeline: 'view()'`,
+  `animationRange: 'entry 0% entry 40%'`, `animationFillMode: 'both'`, and it
+  does so ONLY inside `'@supports (animation-timeline: view())': { ... }`.
+  Every section is visible without it: no `opacity: 0` and no `transform`
+  outside that `@supports` block, so a browser without scroll-driven
+  animations shows the page fully formed. `none` sets nothing.
+- Animate only `opacity`, `transform` and `clip-path`. Never `width`,
+  `height`, `top`, `left`, margins, or a colour.
+- Do not set `prefers-reduced-motion` rules of your own. The chassis preset's
+  global rule collapses every animation to its end state.
+
+The screenshot critic receives four frames of the first second and reads them
+against the block: on an `entrance` day the first frame shows the hero not yet
+arrived and the last shows it settled, and a page that arrives fully formed in
+frame one is a REVISE.
+
 ## Copy
 
 Any words you write or carry over from the mockup (a deck, an eyebrow, a

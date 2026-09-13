@@ -123,14 +123,16 @@ function routeShotBlocks(existing, routeShots) {
  * @param {string} [ctx.header] - the day's ===HEADER=== declaration
  * @param {string} [ctx.typeTreatment] - the day's ===TYPE_TREATMENT=== declaration (#502); section 11 is judged against it
  * @param {string} [ctx.mobile] - the day's ===MOBILE=== declaration (#452); section 10 is judged against it
+ * @param {string} [ctx.motion] - the day's ===MOTION=== declaration (#506); section 12 is judged against it
  * @param {string|null} [ctx.collapse] - the composition's collapse axis value
  * @param {string} [ctx.measuredFaults] - rendered output of
  *   `surface-gate.formatFindingsForCritic`; empty string when nothing is wrong
  * @param {string} [ctx.references] - design reference block, if any
  * @param {{ jpeg: Buffer, headerJpeg?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null } | null} [ctx.mockupScreenshot] - approved mockup, if any
- * @param {{ jpeg: Buffer, darkJpeg: Buffer, headerJpeg?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null, mobileJpeg?: Buffer|null }} ctx.screenshotBuffer -
+ * @param {{ jpeg: Buffer, darkJpeg: Buffer, headerJpeg?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null, mobileJpeg?: Buffer|null, motionStripJpeg?: Buffer|null }} ctx.screenshotBuffer -
  *   rendered homepage: both schemes at 1440, plus a phone filmstrip of the
- *   whole page in the light scheme
+ *   whole page in the light scheme, plus the motion frame strip on a night
+ *   that declared an entrance or a drifting ground (#506)
  * @param {Array<{ label: string, jpeg: Buffer }>} [ctx.phoneFilmstrips] -
  *   phone filmstrips of other routes (/about, a case study); prioritized
  *   over routeShots and bestReference when the ceiling binds
@@ -150,6 +152,9 @@ export function buildScreenshotCriticBlocks(ctx) {
     ...prose(
       ctx.mobile &&
         `## Mobile Declaration (section 10 is judged against this)\n\ncollapse: ${ctx.collapse ?? '?'}\n${ctx.mobile}`
+    ),
+    ...prose(
+      ctx.motion && `## Motion Declaration (section 12 is judged against this)\n\n${ctx.motion}`
     ),
     ...prose(ctx.measuredFaults),
     ...prose(ctx.references && `## Design References\n\n${ctx.references}`),
@@ -184,6 +189,16 @@ export function buildScreenshotCriticBlocks(ctx) {
     ...shot(
       `A 2x crop of the RENDERED page's header region, same viewport.${describeHeaderCropAnchor(ctx.screenshotBuffer.headerCropAnchor)} Measure the mark against the declared mark_px here, and against the mockup crop above:`,
       ctx.screenshotBuffer.headerJpeg
+    ),
+    // The motion strip (#506): four frames of the light 1440 render at 0,
+    // 200, 500 and 1000ms after the hero first painted, laid side by side. Section
+    // 12 is judged on it. It sits after the crops and before the
+    // discretionary slots, so when the ceiling binds it costs the
+    // calibration reference or a route capture, never a crop. Absent on a
+    // night that declared no first-paint motion.
+    ...shot(
+      "A MOTION STRIP of the rendered homepage, light scheme, 1440 wide: four frames at 0, 200, 500 and 1000ms after the hero first painted, left to right (the offset labels are ours, not the site's). Section 12 is judged on this against the Motion Declaration:",
+      ctx.screenshotBuffer.motionStripJpeg
     ),
   ]
 

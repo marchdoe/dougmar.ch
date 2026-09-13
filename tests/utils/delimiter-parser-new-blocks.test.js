@@ -104,6 +104,30 @@ describe('parseDelimiterResponse — new blocks', () => {
     expect(p.files[0].content).toBe('export const elementsPreset = {}')
   })
 
+  it('captures MOTION between MOBILE and COMPOSITION, and terminates a FILE block at it (#506)', () => {
+    const raw = [
+      '===MOBILE===',
+      'carrier: the hero phrase',
+      '===MOTION===',
+      'entrance: rise',
+      'ground: static',
+      'reveal: none',
+      '===COMPOSITION===',
+      'collapse: stack',
+      '===FILE:elements/preset.ts===',
+      'export const elementsPreset = {}',
+      '===MOTION===',
+      'entrance: second',
+      '===RATIONALE===',
+      'because',
+    ].join('\n')
+    const p = parseDelimiterResponse(raw)
+    expect(p.mobile).toBe('carrier: the hero phrase')
+    expect(p.motion).toBe('entrance: rise\nground: static\nreveal: none')
+    expect(p.composition).toBe('collapse: stack')
+    expect(p.files[0].content).toBe('export const elementsPreset = {}')
+  })
+
   it('leaves mobile undefined when the block is absent', () => {
     expect(parseDelimiterResponse('===HERO_COPY===\nX\n===RATIONALE===\nr').mobile).toBeUndefined()
   })

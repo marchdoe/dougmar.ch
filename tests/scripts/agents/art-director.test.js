@@ -156,6 +156,7 @@ describe('validateArtDirectorResult', () => {
     header: validHeader,
     type_treatment: 'case: caps\nlead: roman\nweight: heavy\nalignment: left\ntexture: none',
     mobile: validMobile,
+    motion: 'entrance: none\nground: static\nreveal: none',
     files: [{ path: 'elements/preset.ts', content: "export const elementsPreset = 'stub'" }],
     rationale: 'r',
     design_brief: 'b',
@@ -293,6 +294,19 @@ describe('validateArtDirectorResult', () => {
     expect(() => validateArtDirectorResult({ ...valid, chassis_id: undefined })).toThrow(
       /chassis_id/
     )
+  })
+
+  it('throws when MOTION is missing (#506)', () => {
+    expect(() => validateArtDirectorResult({ ...valid, motion: undefined })).toThrow(/===MOTION===/)
+  })
+
+  it('throws when MOTION carries a value outside the vocabulary (#506)', () => {
+    expect(() =>
+      validateArtDirectorResult({
+        ...valid,
+        motion: valid.motion.replace('ground: static', 'ground: wobble'),
+      })
+    ).toThrow(/MOTION block is invalid: invalid ground: "wobble"/)
   })
 
   it('throws when TYPE_TREATMENT is missing (#502)', () => {

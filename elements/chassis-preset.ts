@@ -18,10 +18,22 @@ export const chassisPreset = definePreset({
       // from the base step's size times its leading, and rhythm only means
       // something if the body actually renders at that leading.
       body: { fontFamily: 'body', lineHeight: 'normal' },
+      // Every animation and transition collapses to its end state when the
+      // visitor asks for reduced motion (#506). See scripts/utils/chassis.js.
+      '@media (prefers-reduced-motion: reduce)': {
+        '*, *::before, *::after': { animationDuration: "0.01ms !important", animationDelay: "0s !important", animationIterationCount: "1 !important", transitionDuration: "0.01ms !important" },
+      },
     },
   },
   theme: {
     extend: {
+      // The entrances and the ground drift the engineer may name (#506).
+      keyframes: {
+        settle: { from: { opacity: "0", transform: "translateY(8px)" }, to: { opacity: "1", transform: "translateY(0)" } },
+        rise: { from: { opacity: "0", transform: "translateY(24px)" }, to: { opacity: "1", transform: "translateY(0)" } },
+        wipe: { from: { clipPath: "inset(0 100% 0 0)" }, to: { clipPath: "inset(0 0 0 0)" } },
+        drift: { from: { transform: "translate3d(0, 0, 0) scale(1.04)" }, to: { transform: "translate3d(-2%, 1.5%, 0) scale(1.04)" } },
+      },
       tokens: {
         fonts: {
           display: { value: "\"Big Shoulders Display\", Impact, \"Arial Narrow\", sans-serif" },
