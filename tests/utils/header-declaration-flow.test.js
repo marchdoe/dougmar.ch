@@ -47,6 +47,7 @@ footer: data strip
 brand_lockup: stacked-md
 brand_color_mode: original
 ground_strategy: light-ground
+ground_material: none
 
 ===HEADER===
 placement: left-rail

@@ -33,6 +33,30 @@ describe('buildMockupDesignerUserPrompt', () => {
       expect(p).toContain(s)
     }
   })
+  it('carries the client marks block after the brand mark and omits it when empty (#505)', () => {
+    const base = {
+      enrichedBrief: 'B',
+      tokenContext: 'T',
+      contentSummary: 'SITE CONTENT',
+      measurables: 'M',
+      shell: 'S',
+      brandSvg: 'V',
+      brandMonoSvg: 'W',
+      googleFontsUrl: 'G',
+    }
+    const withMarks = buildMockupDesignerUserPrompt({
+      ...base,
+      clientMarksBlock:
+        '## Client Marks (inline SVG source; paste, never redraw)\n\n<svg id="rolex"/>',
+    })
+    expect(withMarks).toContain('<svg id="rolex"/>')
+    expect(withMarks.indexOf('Client Marks')).toBeGreaterThan(withMarks.indexOf('Brand Mark SVG'))
+    expect(withMarks.indexOf('Client Marks')).toBeLessThan(withMarks.indexOf('SITE CONTENT'))
+    expect(buildMockupDesignerUserPrompt({ ...base, clientMarksBlock: '' })).not.toContain(
+      'Client Marks'
+    )
+  })
+
   it('appends revision feedback as the final section when present', () => {
     const p = buildMockupDesignerUserPrompt({
       enrichedBrief: 'B',

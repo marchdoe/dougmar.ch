@@ -266,6 +266,24 @@ Choose differently unless today's brief demands repetition (then justify it
 in your rationale). Pick the brand lockup and color mode from the Brand
 Contract. The header is declared separately, below.
 
+`ground_material` is the texture the hero's colour field carries. The built
+site draws it from a component the engineer places and cannot redraw, so
+declare only what you mean the page to show:
+
+- `grain`: film grain, a fractal-noise filter in the `text` ink at low
+  opacity; for a photographic or printed register.
+- `mesh`: three or four soft radial blooms in `accent`, `accentAlt` and `bg`;
+  for atmosphere, light, weather, a sky.
+- `halftone`: a rotated dot screen in `text` at low alpha; for a newspaper,
+  a poster, a printed register.
+- `rule`: ruled lines in `border`; for a ledger, a notebook, a broadsheet.
+- `dots`: a dot field in `accent`; for a grid, a scoreboard, a specimen sheet.
+- `none`: no texture. This is the honest answer on a type-only day, and most
+  days are; a material is a decision the field needs, not a default.
+
+The material sits on the field, never in place of it: the colour floor is
+measured off backgrounds, and a material paints none.
+
 ## Header Declaration (required)
 
 The header is a first-class design surface, and the owner has said so three
@@ -451,6 +469,7 @@ footer: <treatment, e.g. data strip / colophon block / folded-into-nav / none>
 brand_lockup: <one id from the Brand Contract table>
 brand_color_mode: original | single-color
 ground_strategy: light-ground | dark-void | drench | duotone | split-field
+ground_material: none | grain | mesh | halftone | rule | dots
 
 ===HEADER===
 placement: top-bar | left-rail | right-margin | corner | folded-into-hero | footer-only | none

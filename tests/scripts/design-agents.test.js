@@ -425,10 +425,12 @@ describe('buildCompositionContractBlock', () => {
     }
   })
 
-  it('says the artifact client set comes from project.clients and renders as names only', () => {
+  it('says the artifact client set renders as its marks from project.clients[].logo, as a set (#505)', () => {
     const block = buildCompositionContractBlock({ density: 'dense', hero_object: 'artifact' })
-    expect(block).toContain('project.clients')
-    expect(block).toContain('names only')
+    expect(block).toContain('project.clients[].logo')
+    expect(block).toContain('name-only for an entry without a logo')
+    expect(block).toContain('never as a footer strip')
+    expect(block).not.toContain('names only')
   })
 
   it('stacks the sparse block and the hero-object block when both apply', () => {

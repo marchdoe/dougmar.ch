@@ -1,8 +1,9 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, afterEach, vi } from 'vitest'
 import {
   computeDownscaleDimensions,
   computePhoneFilmstripFolds,
   phoneFilmstripMoreLabel,
+  processHtml,
 } from '../../scripts/utils/snapshot.js'
 
 describe('computeDownscaleDimensions', () => {
@@ -64,5 +65,63 @@ describe('phoneFilmstripMoreLabel', () => {
 
   it('is plural for more than one hidden fold', () => {
     expect(phoneFilmstripMoreLabel(3)).toBe('3 more folds not shown')
+  })
+})
+
+describe('processHtml', () => {
+  const baseUrl = 'http://localhost:14321'
+  const SVG = '<svg xmlns="http://www.w3.org/2000/svg"><circle r="4"/></svg>'
+  const b64 = (s) => Buffer.from(s).toString('base64')
+
+  /** A fetch that serves the stylesheet and the client marks, and 404s the rest. */
+  function stubFetch(routes) {
+    const calls = []
+    vi.stubGlobal('fetch', async (url) => {
+      calls.push(url)
+      const body = routes[url]
+      if (body === undefined) return { ok: false, status: 404 }
+      return {
+        ok: true,
+        status: 200,
+        text: async () => body,
+        arrayBuffer: async () => Uint8Array.from(Buffer.from(body)).buffer,
+      }
+    })
+    return calls
+  }
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
+  it('inlines a client mark as a data: URI so a snapshot opened from disk still shows it (#505)', async () => {
+    const calls = stubFetch({ [`${baseUrl}/clients/rolex.svg`]: SVG })
+    const html =
+      '<a href="/work/spaceman"><img src="/clients/rolex.svg" alt="Rolex"></a>' +
+      '<img src="/clients/rolex.svg" alt="Rolex again">'
+    const out = await processHtml(html, baseUrl)
+    const uri = `data:image/svg+xml;base64,${b64(SVG)}`
+    expect(out).toBe(
+      `<a href="work/spaceman.html"><img src="${uri}" alt="Rolex"></a><img src="${uri}" alt="Rolex again">`
+    )
+    // One fetch per distinct mark, not per occurrence.
+    expect(calls).toEqual([`${baseUrl}/clients/rolex.svg`])
+  })
+
+  it('picks the MIME type from the extension', async () => {
+    stubFetch({ [`${baseUrl}/clients/framebridge.png`]: 'PNG' })
+    const out = await processHtml('<img src="/clients/framebridge.png" alt="Framebridge">', baseUrl)
+    expect(out).toContain(`src="data:image/png;base64,${b64('PNG')}"`)
+  })
+
+  it('leaves the src alone when the mark cannot be fetched, and never touches other srcs', async () => {
+    stubFetch({})
+    const html = '<img src="/clients/missing.svg" alt=""><img src="/og/2026-09-13.png" alt="">'
+    expect(await processHtml(html, baseUrl)).toBe(html)
+  })
+
+  it('still rewrites the nav links the way it always has', async () => {
+    stubFetch({})
+    const out = await processHtml('<a href="/">home</a><a href="/about">about</a>', baseUrl)
+    expect(out).toBe('<a href="index.html">home</a><a href="about.html">about</a>')
   })
 })

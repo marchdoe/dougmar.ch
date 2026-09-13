@@ -313,7 +313,13 @@ export function artDirectorBlocks(artifacts) {
       brand_lockup: shell.brand_lockup,
       brand_color_mode: shell.brand_color_mode,
       ground_strategy: shell.ground_strategy,
-    })}`,
+      ground_material: shell.ground_material,
+    })}${
+      // A build before #505 declared no material, and rendered none.
+      shell.ground_material
+        ? ''
+        : '\n# synthesized: this build predates the ground_material field (#505)\nground_material: none'
+    }`,
     `===HEADER===\n${headerBlock(header, shell, composition)}`,
     `===TYPE_TREATMENT===\n${typeTreatmentBlock(typeTreatment)}`,
     `===MOBILE===\n${mobileBlock(mobile, ad)}`,

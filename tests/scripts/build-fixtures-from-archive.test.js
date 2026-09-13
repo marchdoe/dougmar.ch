@@ -186,6 +186,22 @@ describe('artDirectorBlocks', () => {
     expect(out).not.toContain('hero_object: statement')
   })
 
+  it('synthesizes ground_material: none for a shell.json written before the field (#505)', () => {
+    const out = artDirectorBlocks(artifacts)
+    expect(out).toContain(
+      '===SHELL===\nfooter: ledger foot\nbrand_lockup: horizontal-md\nbrand_color_mode: single-color\n# synthesized: this build predates the ground_material field (#505)\nground_material: none'
+    )
+  })
+
+  it('keeps a recorded ground_material as it is', () => {
+    const out = artDirectorBlocks({
+      ...artifacts,
+      shell: { ...artifacts.shell, ground_material: 'halftone' },
+    })
+    expect(out).toContain('brand_color_mode: single-color\nground_material: halftone\n')
+    expect(out).not.toContain('predates the ground_material')
+  })
+
   it('carries the rationale from the brief into both rationale blocks', () => {
     const out = artDirectorBlocks(artifacts)
     expect(out).toContain('===HERO_RATIONALE===\nThe phrase is an order.')

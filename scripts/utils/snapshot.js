@@ -15,13 +15,23 @@ import { STEP_BUDGETS } from './budgets.js'
 import { FINGERPRINT_VIEWPORT, collectGeometry } from './geometry-fingerprint.js'
 import { measureDesignFidelity } from './design-fidelity.js'
 
+/** MIME type per client-mark extension, for the data: URI the snapshot inlines (#505). */
+const IMAGE_MIME = {
+  svg: 'image/svg+xml',
+  png: 'image/png',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  webp: 'image/webp',
+}
+
 /**
  * Inline CSS, strip JavaScript, and rewrite nav links for self-contained browsing.
+ * Exported for its tests; captureSnapshot is the only production caller.
  * @param {string} html - raw HTML from the server
  * @param {string} baseUrl - e.g. "http://localhost:14321"
  * @returns {Promise<string>} processed HTML
  */
-async function processHtml(html, baseUrl) {
+export async function processHtml(html, baseUrl) {
   // 1. Inline CSS: find <link rel="stylesheet" href="..."> tags
   //    Fetch each CSS URL from the running server, replace <link> with <style>
   const cssLinkRegex = /<link\s+[^>]*rel=["']stylesheet["'][^>]*href=["']([^"']+)["'][^>]*\/?>/gi
@@ -48,6 +58,33 @@ async function processHtml(html, baseUrl) {
   processed = processed.replace(/href="\/"(?=[^a-z])/g, 'href="index.html"')
   processed = processed.replace(/href="\/about"/g, 'href="about.html"')
   processed = processed.replace(/href="\/work\/([^"]+)"/g, 'href="work/$1.html"')
+
+  // 4. Inline the client marks (#505). `<img src="/clients/rolex.svg">` is
+  //    the one image source the engineer may use. The path resolves on the
+  //    live domain, where public/ is served, and nowhere else: a snapshot
+  //    opened from disk sits at archive/<date>/site/ or one level deeper, and
+  //    no relative rewrite is right for both of those and for the served copy
+  //    under public/archive/. So the file is fetched from the preview server
+  //    and inlined as a data: URI, the way the stylesheet is, and the page
+  //    stays self-contained. A fetch failure leaves the src as it was.
+  const markSrcs = [
+    ...new Set([...processed.matchAll(/src="(\/clients\/[^"]+)"/g)].map((m) => m[1])),
+  ]
+  for (const src of markSrcs) {
+    const mime = IMAGE_MIME[src.slice(src.lastIndexOf('.') + 1).toLowerCase()]
+    if (!mime) continue
+    try {
+      const resp = await fetch(`${baseUrl}${src}`)
+      if (!resp.ok) continue
+      const bytes = Buffer.from(await resp.arrayBuffer())
+      processed = processed.replaceAll(
+        `src="${src}"`,
+        `src="data:${mime};base64,${bytes.toString('base64')}"`
+      )
+    } catch {
+      // Leave the root-relative src if fetch fails
+    }
+  }
 
   return processed
 }

@@ -44,7 +44,7 @@ export function parseMeasurablesBlock(text) {
  * before that date, and the shell mandate's history window, keep parsing.
  * New responses put it in HEADER; parseHeaderBlock is what reads it.
  *
- * @returns {{ nav: string|null, footer: string|null, brand_lockup: string|null, brand_color_mode: string|null, ground_strategy: string|null }}
+ * @returns {{ nav: string|null, footer: string|null, brand_lockup: string|null, brand_color_mode: string|null, ground_strategy: string|null, ground_material: string|null }}
  */
 export function parseShellBlock(text) {
   const kv = parseKeyValues(text)
@@ -58,6 +58,10 @@ export function parseShellBlock(text) {
     // structural declaration like nav/footer, not a poetic color spec.
     // Optional: old archives and pre-mandate responses won't have it.
     ground_strategy: kv.ground_strategy ? kv.ground_strategy.toLowerCase().trim() : null,
+    // The texture on the hero field (#505): one of the material library's
+    // names, validated in validateArtDirectorResult. Null on a shell.json
+    // written before the field existed.
+    ground_material: kv.ground_material ? kv.ground_material.toLowerCase().trim() : null,
   }
 }
 

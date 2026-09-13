@@ -79,7 +79,9 @@ or a wish that a confident composition were busier.
    deficiency: for Poster and Specimen especially, a phrase commanding a
    saturated field with room to breathe IS the brief executed well. Do not
    demand the designer fill that room with more elements. Judge whether the
-   gesture lands, not whether the pixels are busy.
+   gesture lands, not whether the pixels are busy. On a `hero_object:
+   artifact` day the featured project's client marks are present beside its
+   title and legible at 1440, a set and not a footer strip.
 4. **Shell and header**: the declared footer treatment is visibly executed,
    and the header matches its declaration. Judge the header from the 2x crop,
    not from the full-page shot: at page scale an 11px mark and a 44px mark are
@@ -104,6 +106,9 @@ or a wish that a confident composition were busier.
      row of labels, `numbered` prefixes 01 02 03, `sentence` runs them in one
      sentence, `list` stacks them with a rule per row, `word` is one word
      that reveals them).
+   - **Ground material**: SHELL's `ground_material` is on the hero field
+     where it names one and absent where it says `none`; grain that reads as
+     a broken image or a grey box is a REVISE.
 5. **Polish**: spacing rhythm is consistent; elements optically aligned;
    no orphaned UI; hierarchy unambiguous (one dominant element).
 6. **The phone (360, filmstrip)**: judged from the folds in the second

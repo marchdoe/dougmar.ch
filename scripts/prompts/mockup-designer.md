@@ -82,7 +82,7 @@ The composition's `hero_object` says which element dominates the canvas, and it 
 - **`hero_object: figure`**: a number from today's signals dominates the canvas at `hero_scale`; the hero phrase sits beneath it at `2xl` to `4xl` as its caption.
 - **`hero_object: word`**: one word from the hero phrase dominates the canvas at `hero_scale`; the rest of the phrase sits beneath it at `2xl` to `4xl` as the deck.
 - **`hero_object: list`**: the work index dominates the canvas, project titles at `hero_scale` with years and roles beside them; the hero phrase sits above it at `2xl` to `4xl` as the standfirst.
-- **`hero_object: artifact`**: one project dominates the canvas, its title at `hero_scale` with its year, role and client names beside it; the hero phrase sits beneath it at `2xl` to `4xl` as its caption.
+- **`hero_object: artifact`**: one project dominates the canvas, its title at `hero_scale` with its year, role and client set beside it, the clients as their marks (the inline SVG under "Client Marks", the name for a client without one) at a size that reads as a set, never as a footer strip; the hero phrase sits beneath it at `2xl` to `4xl` as its caption.
 
 A narrow centered column on a sea of background is the AI-default of "tasteful editorial" and the most common under-execution on this site. Defeat it deliberately. If your render leaves a substantial empty rail with no role (no drenched color, no atmospheric gradient, no active treatment), the layout has failed regardless of how good the typography is.
 
@@ -98,6 +98,8 @@ External image URLs are blocked. The only allowed external URLs are Google Fonts
 - Typography-as-image. Letterforms set at scale that the type IS the visual
 
 The brief's *scale and dominance* are still binding. "Full-bleed photograph of a moon at very large scale" becomes a full-bleed CSS gradient with an inline SVG circle at very large scale, never an `<img src>` to an external URL.
+
+The client marks in `public/clients/` are the one owned image set. The built site renders them as `<img src="/clients/rolex.svg">`; the mockup is captured from a `file://` URL where that path resolves to nothing, so on a `hero_object: artifact` day the marks arrive in your inputs as inline SVG source under "Client Marks". Paste each one as an inline `<svg>` where the design shows it (strip its `width` and `height` attributes and size it with CSS), never redraw one, and set a client listed without source as its name. On every other day the client set is names.
 
 The MEASURABLES block in your inputs is the contract form of the brief:
 - `canvas_utilization_min`: at 1440×900, at least this % of the viewport
@@ -153,6 +155,37 @@ and the `currentColor` source for `single-color`.
 
 The mark sits inside the first fold at 360 and at 1440 whatever the placement;
 `footer-only` and `none` move the nav, never the mark.
+
+## Ground material
+
+SHELL carries `ground_material`. It is a texture on the hero's colour field,
+never a replacement for it: the field stays a flat token colour (`bg`,
+`field`, `surface`, or the drench) and the material sits on top at low
+strength, so the colour floor is met by the field alone. Build it as an
+absolutely positioned layer filling the hero (`position: absolute; inset: 0;
+pointer-events: none; z-index: 0`) with the hero's content above it. The
+built site renders it from a component; your mockup is what that component
+is checked against. Recipes, in the token names the built site uses:
+
+- `grain`: an inline `<svg>` filling the hero, `color: <text>; opacity: 0.2`,
+  with `<filter><feTurbulence type="fractalNoise" baseFrequency="0.75"
+  numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="luminanceToAlpha"/>
+  <feFlood flood-color="currentColor"/><feComposite operator="in"/></filter>`
+  applied to a full-bleed `<rect>`. Film grain over the field, not a grey box.
+- `mesh`: `background-image` of three or four `radial-gradient(at X% Y%,
+  <accent> 0, transparent 45%)` blooms in `accent`, `accentAlt` and `bg`, at
+  different positions and radii, over the field.
+- `halftone`: `background-image: radial-gradient(circle, <text> 1.5px,
+  transparent 1.7px); background-size: 8px 8px; opacity: 0.14`, the layer
+  oversized and rotated a few degrees (`inset: -100%; transform: rotate(8deg)`)
+  inside a hero with `overflow: hidden`, so the turn leaves no bare corner.
+- `rule`: `background-image: repeating-linear-gradient(to bottom, <border> 0
+  1px, transparent 1px 24px)`: ruled lines in `border` at one pitch.
+- `dots`: `background-image: radial-gradient(circle, <accent> 1.5px,
+  transparent 1.8px); background-size: 20px 20px; opacity: 0.55`: a dot field
+  in `accent`.
+- `none`: no layer. Most days are `none`; do not add texture the declaration
+  did not ask for.
 
 ## Type treatment
 

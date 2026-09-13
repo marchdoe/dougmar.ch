@@ -30,6 +30,7 @@ import { isValidMobile } from '../utils/mobile-grammar.js'
 import { isValidTypeTreatment } from '../utils/type-grammar.js'
 import { CHASSIS_CATALOG } from '../../elements/chassis/index.js'
 import { LOCKUP_IDS } from '../utils/brand-lockup.js'
+import { MATERIAL_NAMES, isMaterialName } from '../utils/material.js'
 import { modelFor } from '../utils/models.js'
 import { budgetFor } from '../utils/budgets.js'
 
@@ -161,6 +162,17 @@ export function validateArtDirectorResult(parsed) {
   if (!BRAND_LOCKUP_IDS.has(shell.brand_lockup)) {
     console.warn(
       `  [AD] brand_lockup "${shell.brand_lockup}" is not a Brand Contract id — accepting (warn-only)`
+    )
+  }
+  // The texture on the hero field (#505) is enumerated the way
+  // brand_color_mode is: the component draws exactly these six, and a name
+  // it does not know renders nothing.
+  if (!shell.ground_material) {
+    throw new Error('SHELL block missing ground_material')
+  }
+  if (!isMaterialName(shell.ground_material)) {
+    throw new Error(
+      `SHELL ground_material must be one of ${MATERIAL_NAMES.join(', ')}, got "${shell.ground_material}"`
     )
   }
   // HEADER is validated the way COMPOSITION is, and for the same reason: a

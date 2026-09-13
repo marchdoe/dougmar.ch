@@ -37,19 +37,26 @@ const className = css({ display: 'flex', gap: '4', color: 'text' })
 
 ### `../content/projects` (from components) or `'../content/projects'` (from routes)
 ```typescript
-type Client = { name: string; logo?: string; url?: string; description?: string }
+type Client = {
+  name: string
+  logo?: string        // root-relative path under /clients/, e.g. '/clients/rolex.svg'; absent for a name-only client
+  url?: string
+  description?: string
+}
 type Project = {
   slug: string; title: string; type: ProjectType; year: number;
   depth: 'full' | 'lightweight'; featured?: boolean; externalUrl?: string;
   role?: string; problem?: string; approach?: string; outcome?: string;
   stack?: string[]; liveUrl?: string; githubUrl?: string; description?: string;
-  clients?: Client[];   // the client set behind a project; render names only, no logo lane yet
+  clients?: Client[];   // the client set behind a project: a mark where logo is set, the name where it is not
 }
 export const projects: Project[]
 export const featuredProject: Project | undefined
 export const selectedWork: Project[]    // depth === 'full' && !featured
 export const experiments: Project[]      // depth === 'lightweight'
 ```
+
+`<img src={client.logo} alt={client.name}>` is allowed, and it is the only image source that is: the files live in `public/clients/`, ship with the site, and pass the CSP and the URL gate. No other `<img>`, no external image URL, no generated picture.
 
 ### `../content/timeline`
 ```typescript

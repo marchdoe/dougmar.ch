@@ -119,6 +119,7 @@ function routeShotBlocks(existing, routeShots) {
  *
  * @param {object} ctx
  * @param {string} ctx.enrichedBrief - hero copy, rationale, visual spec
+ * @param {string} [ctx.shell] - the day's ===SHELL=== declaration (#505); the ground material line is judged against it
  * @param {string} [ctx.header] - the day's ===HEADER=== declaration
  * @param {string} [ctx.typeTreatment] - the day's ===TYPE_TREATMENT=== declaration (#502); section 11 is judged against it
  * @param {string} [ctx.mobile] - the day's ===MOBILE=== declaration (#452); section 10 is judged against it
@@ -143,6 +144,7 @@ export function buildScreenshotCriticBlocks(ctx) {
   const blocks = [
     // enrichedBrief carries hero copy, rationale, and the full visual spec.
     textBlock(`## Structured Brief\n\n${ctx.enrichedBrief}`),
+    ...prose(ctx.shell && `## Shell Declaration\n\n${ctx.shell}`),
     ...prose(ctx.header && `## Header Declaration\n\n${ctx.header}`),
     ...prose(ctx.typeTreatment && `## Type Treatment (execute exactly)\n\n${ctx.typeTreatment}`),
     ...prose(

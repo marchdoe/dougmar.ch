@@ -66,6 +66,26 @@ describe('shell-mandate', () => {
     expect(formatShellMandateForPrompt(m)).toContain('No recent shell history')
   })
 
+  it('soft-forbids recently used ground materials and reads null off a shell.json written before the field (#505)', () => {
+    seedBuild(archiveDir, '2026-09-10', { footer: 'colophon', brand_lockup: 'stacked-md' })
+    seedBuild(archiveDir, '2026-09-11', {
+      footer: 'data strip',
+      brand_lockup: 'horizontal-md',
+      ground_material: 'grain',
+    })
+    seedBuild(archiveDir, '2026-09-12', {
+      footer: 'none',
+      brand_lockup: 'mark-only-md',
+      ground_material: 'none',
+    })
+    const m = computeShellMandate({ archiveDir, lookbackDays: 7 })
+    expect(m.recentShells.map((s) => s.ground_material)).toEqual(['none', 'grain', null])
+    expect(m.softForbidden.ground_material).toEqual(['none', 'grain'])
+    const block = formatShellMandateForPrompt(m)
+    expect(block).toContain('Ground materials used recently (avoid):** none, grain')
+    expect(block).toContain('material=grain')
+  })
+
   it('formats a prompt block with guidance language', () => {
     seedBuild(archiveDir, '2026-06-10', {
       nav: 'top bar',

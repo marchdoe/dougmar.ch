@@ -83,6 +83,18 @@ describe('parseShellBlock', () => {
     )
     expect(s.ground_strategy).toBeNull()
   })
+
+  it('parses ground_material and normalizes to lowercase (#505)', () => {
+    const s = parseShellBlock('ground_material: Halftone   # a rotated dot screen')
+    expect(s.ground_material).toBe('halftone')
+  })
+
+  it('returns null ground_material for a SHELL block written before the field', () => {
+    const s = parseShellBlock(
+      ['footer: data strip', 'brand_lockup: horizontal-md', 'ground_strategy: drench'].join('\n')
+    )
+    expect(s.ground_material).toBeNull()
+  })
 })
 
 describe('parseCompositionBlock', () => {

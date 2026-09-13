@@ -11,6 +11,7 @@ import { ROOT } from './file-manager.js'
 export const MUTABLE_FILES = [
   'elements/preset.ts',
   'app/components/BrandLockup.tsx',
+  'app/components/Material.tsx',
   'app/components/Layout.tsx',
   'app/components/Sidebar.tsx',
   // SelectedWork, Experiments, Bio, Timeline, Capabilities and Personal used
@@ -43,6 +44,8 @@ export const ORCHESTRATOR_FILES = [
   // if an agent emits one, and in MUTABLE_FILES above so backup/restore covers
   // it on a rollback.
   'app/components/BrandLockup.tsx',
+  // The material library (#505), on the same terms as the lockup.
+  'app/components/Material.tsx',
 ]
 
 /**

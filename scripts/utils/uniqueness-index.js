@@ -24,8 +24,18 @@ import { HUE_ASK_FOR_DISTANCE, HUE_NEAR_REPEAT } from './hue-thresholds.js'
 /** Builds compared against. @type {number} */
 export const WINDOW = 7
 
-/** Shell fields with enumerated values. `footer` is free prose and cannot be compared exactly. */
-export const SHELL_FIELDS = ['brand_lockup', 'brand_color_mode', 'ground_strategy']
+/**
+ * Shell fields with enumerated values. `footer` is free prose and cannot be
+ * compared exactly. `ground_material` (#505) is the fourth; a shell.json
+ * written before the field contributes a null the comparable-field filter
+ * drops.
+ */
+export const SHELL_FIELDS = [
+  'brand_lockup',
+  'brand_color_mode',
+  'ground_strategy',
+  'ground_material',
+]
 
 /**
  * Header fields with enumerated values. `nav` moved here from shell.json with
