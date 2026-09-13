@@ -16,6 +16,7 @@ import {
 import { shouldPin } from '../pin-inline-scripts.js'
 import { MUTABLE_FILES, ORCHESTRATOR_FILES } from './site-context.js'
 import { MARK_PATH_FINGERPRINTS, lockupIsDeclared } from './brand-lockup.js'
+import { MATERIAL_OWNER } from './material.js'
 import { parseObjectLiteral } from './preset-parser.js'
 import {
   SEMANTIC_COLOR_NAMES,
@@ -668,8 +669,22 @@ export function validateGenerated({ root = ROOT, shell = null } = {}) {
         .slice(root.length + 1)
         .split(sep)
         .join('/')
-      if (rel === LOCKUP_OWNER) continue
+      if (rel === LOCKUP_OWNER || rel === MATERIAL_OWNER) continue
       engineerSources.push([rel, source])
+    }
+
+    // Check 7b: nobody synthesizes a material but Material.tsx (#505). The
+    // material library is generated from scripts/templates/Material.tsx.template
+    // the way the lockup is, and an `feTurbulence` in an engineer file is a
+    // hand-rolled grain standing in for the declared one, the same failure as
+    // pasted mark path data.
+    for (const [rel, source] of engineerSources) {
+      if (/\bfeTurbulence\b/.test(source)) {
+        errors.push(
+          `${rel}: defines its own feTurbulence, and material is owned by ${MATERIAL_OWNER}. ` +
+            'Render <Ground material=... seed=... /> with the declared line instead of redrawing it.'
+        )
+      }
     }
 
     for (const [rel, source] of engineerSources) {

@@ -289,6 +289,24 @@ Choose differently unless today's brief demands repetition (then justify it
 in your rationale). Pick the brand lockup and color mode from the Brand
 Contract. The header is declared separately, below.
 
+`ground_material` is the texture the hero's colour field carries. The built
+site draws it from a component the engineer places and cannot redraw, so
+declare only what you mean the page to show:
+
+- `grain`: film grain, a fractal-noise filter in the `text` ink at low
+  opacity; for a photographic or printed register.
+- `mesh`: three or four soft radial blooms in `accent`, `accentAlt` and `bg`;
+  for atmosphere, light, weather, a sky.
+- `halftone`: a rotated dot screen in `text` at low alpha; for a newspaper,
+  a poster, a printed register.
+- `rule`: ruled lines in `border`; for a ledger, a notebook, a broadsheet.
+- `dots`: a dot field in `accent`; for a grid, a scoreboard, a specimen sheet.
+- `none`: no texture. This is the honest answer on a type-only day, and most
+  days are; a material is a decision the field needs, not a default.
+
+The material sits on the field, never in place of it: the colour floor is
+measured off backgrounds, and a material paints none.
+
 ## Header Declaration (required)
 
 The header is a first-class design surface, and the owner has said so three
@@ -474,6 +492,7 @@ footer: <treatment, e.g. data strip / colophon block / folded-into-nav / none>
 brand_lockup: <one id from the Brand Contract table>
 brand_color_mode: original | single-color
 ground_strategy: light-ground | dark-void | drench | duotone | split-field
+ground_material: none | grain | mesh | halftone | rule | dots
 
 ===HEADER===
 placement: top-bar | left-rail | right-margin | corner | folded-into-hero | footer-only | none
@@ -1055,8 +1074,9 @@ Computed from recent builds. The page shell (footer treatment, brand lockup) and
 - **Footer treatments used recently (avoid):** ledger foot — build stamp + season + music folded into the base of the right ledger column, running foot — signals as one line of small caps across the base
 - **Brand lockups used recently (avoid):** horizontal-md, masthead-lg
 - **Mark size bands used recently (avoid):** 28-44
+- **Ground materials:** no recent history.
 
-- **Rationale:** Last 2 shells: 2026-08-30: placement=right-margin, nav=marginal — three lowercase links stacked in the top-right margin of the dark ledger panel, no band, no pills, no border, footer=ledger foot — build stamp + season + music folded into the base of the right ledger column, lockup=horizontal-md (single-color), mark=28-44 | 2026-08-29: placement=masthead, nav=band — a full-width masthead bar with three uppercase links right-aligned, footer=running foot — signals as one line of small caps across the base, lockup=masthead-lg (original), mark=28-44
+- **Rationale:** Last 2 shells: 2026-08-30: placement=right-margin, nav=marginal — three lowercase links stacked in the top-right margin of the dark ledger panel, no band, no pills, no border, footer=ledger foot — build stamp + season + music folded into the base of the right ledger column, lockup=horizontal-md (single-color), mark=28-44, material=null | 2026-08-29: placement=masthead, nav=band — a full-width masthead bar with three uppercase links right-aligned, footer=running foot — signals as one line of small caps across the base, lockup=masthead-lg (original), mark=28-44, material=null
 
 If today's brief genuinely calls for a recently-used treatment, you may reuse it — justify why in your rationale. Fit > novelty.
 
@@ -1733,6 +1753,7 @@ footer: ledger foot — build stamp + season + music folded into the base of the
 brand_lockup: horizontal-md
 brand_color_mode: single-color
 ground_strategy: split-field
+ground_material: none
 
 ---
 
@@ -1941,8 +1962,9 @@ Computed from recent builds. The page shell (footer treatment, brand lockup) and
 - **Footer treatments used recently (avoid):** ledger foot — build stamp + season + music folded into the base of the right ledger column, running foot — signals as one line of small caps across the base
 - **Brand lockups used recently (avoid):** horizontal-md, masthead-lg
 - **Mark size bands used recently (avoid):** 28-44
+- **Ground materials:** no recent history.
 
-- **Rationale:** Last 2 shells: 2026-08-30: placement=right-margin, nav=marginal — three lowercase links stacked in the top-right margin of the dark ledger panel, no band, no pills, no border, footer=ledger foot — build stamp + season + music folded into the base of the right ledger column, lockup=horizontal-md (single-color), mark=28-44 | 2026-08-29: placement=masthead, nav=band — a full-width masthead bar with three uppercase links right-aligned, footer=running foot — signals as one line of small caps across the base, lockup=masthead-lg (original), mark=28-44
+- **Rationale:** Last 2 shells: 2026-08-30: placement=right-margin, nav=marginal — three lowercase links stacked in the top-right margin of the dark ledger panel, no band, no pills, no border, footer=ledger foot — build stamp + season + music folded into the base of the right ledger column, lockup=horizontal-md (single-color), mark=28-44, material=null | 2026-08-29: placement=masthead, nav=band — a full-width masthead bar with three uppercase links right-aligned, footer=running foot — signals as one line of small caps across the base, lockup=masthead-lg (original), mark=28-44, material=null
 
 If today's brief genuinely calls for a recently-used treatment, you may reuse it — justify why in your rationale. Fit > novelty.
 
@@ -2090,7 +2112,7 @@ The composition's `hero_object` says which element dominates the canvas, and it 
 - **`hero_object: figure`**: a number from today's signals dominates the canvas at `hero_scale`; the hero phrase sits beneath it at `2xl` to `4xl` as its caption.
 - **`hero_object: word`**: one word from the hero phrase dominates the canvas at `hero_scale`; the rest of the phrase sits beneath it at `2xl` to `4xl` as the deck.
 - **`hero_object: list`**: the work index dominates the canvas, project titles at `hero_scale` with years and roles beside them; the hero phrase sits above it at `2xl` to `4xl` as the standfirst.
-- **`hero_object: artifact`**: one project dominates the canvas, its title at `hero_scale` with its year, role and client names beside it; the hero phrase sits beneath it at `2xl` to `4xl` as its caption.
+- **`hero_object: artifact`**: one project dominates the canvas, its title at `hero_scale` with its year, role and client set beside it, the clients as their marks (the inline SVG under "Client Marks", the name for a client without one) at a size that reads as a set, never as a footer strip; the hero phrase sits beneath it at `2xl` to `4xl` as its caption.
 
 A narrow centered column on a sea of background is the AI-default of "tasteful editorial" and the most common under-execution on this site. Defeat it deliberately. If your render leaves a substantial empty rail with no role (no drenched color, no atmospheric gradient, no active treatment), the layout has failed regardless of how good the typography is.
 
@@ -2106,6 +2128,8 @@ External image URLs are blocked. The only allowed external URLs are Google Fonts
 - Typography-as-image. Letterforms set at scale that the type IS the visual
 
 The brief's *scale and dominance* are still binding. "Full-bleed photograph of a moon at very large scale" becomes a full-bleed CSS gradient with an inline SVG circle at very large scale, never an `<img src>` to an external URL.
+
+The client marks in `public/clients/` are the one owned image set. The built site renders them as `<img src="/clients/rolex.svg">`; the mockup is captured from a `file://` URL where that path resolves to nothing, so on a `hero_object: artifact` day the marks arrive in your inputs as inline SVG source under "Client Marks". Paste each one as an inline `<svg>` where the design shows it (strip its `width` and `height` attributes and size it with CSS), never redraw one, and set a client listed without source as its name. On every other day the client set is names.
 
 The MEASURABLES block in your inputs is the contract form of the brief:
 - `canvas_utilization_min`: at 1440×900, at least this % of the viewport
@@ -2161,6 +2185,37 @@ and the `currentColor` source for `single-color`.
 
 The mark sits inside the first fold at 360 and at 1440 whatever the placement;
 `footer-only` and `none` move the nav, never the mark.
+
+## Ground material
+
+SHELL carries `ground_material`. It is a texture on the hero's colour field,
+never a replacement for it: the field stays a flat token colour (`bg`,
+`field`, `surface`, or the drench) and the material sits on top at low
+strength, so the colour floor is met by the field alone. Build it as an
+absolutely positioned layer filling the hero (`position: absolute; inset: 0;
+pointer-events: none; z-index: 0`) with the hero's content above it. The
+built site renders it from a component; your mockup is what that component
+is checked against. Recipes, in the token names the built site uses:
+
+- `grain`: an inline `<svg>` filling the hero, `color: <text>; opacity: 0.2`,
+  with `<filter><feTurbulence type="fractalNoise" baseFrequency="0.75"
+  numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="luminanceToAlpha"/>
+  <feFlood flood-color="currentColor"/><feComposite operator="in"/></filter>`
+  applied to a full-bleed `<rect>`. Film grain over the field, not a grey box.
+- `mesh`: `background-image` of three or four `radial-gradient(at X% Y%,
+  <accent> 0, transparent 45%)` blooms in `accent`, `accentAlt` and `bg`, at
+  different positions and radii, over the field.
+- `halftone`: `background-image: radial-gradient(circle, <text> 1.5px,
+  transparent 1.7px); background-size: 8px 8px; opacity: 0.14`, the layer
+  oversized and rotated a few degrees (`inset: -100%; transform: rotate(8deg)`)
+  inside a hero with `overflow: hidden`, so the turn leaves no bare corner.
+- `rule`: `background-image: repeating-linear-gradient(to bottom, <border> 0
+  1px, transparent 1px 24px)`: ruled lines in `border` at one pitch.
+- `dots`: `background-image: radial-gradient(circle, <accent> 1.5px,
+  transparent 1.8px); background-size: 20px 20px; opacity: 0.55`: a dot field
+  in `accent`.
+- `none`: no layer. Most days are `none`; do not add texture the declaration
+  did not ask for.
 
 ## Type treatment
 
@@ -3027,6 +3082,7 @@ footer: ledger foot — build stamp + season + music folded into the base of the
 brand_lockup: horizontal-md
 brand_color_mode: single-color
 ground_strategy: split-field
+ground_material: none
 
 ---
 
@@ -3629,7 +3685,9 @@ or a wish that a confident composition were busier.
    deficiency: for Poster and Specimen especially, a phrase commanding a
    saturated field with room to breathe IS the brief executed well. Do not
    demand the designer fill that room with more elements. Judge whether the
-   gesture lands, not whether the pixels are busy.
+   gesture lands, not whether the pixels are busy. On a `hero_object:
+   artifact` day the featured project's client marks are present beside its
+   title and legible at 1440, a set and not a footer strip.
 4. **Shell and header**: the declared footer treatment is visibly executed,
    and the header matches its declaration. Judge the header from the 2x crop,
    not from the full-page shot: at page scale an 11px mark and a 44px mark are
@@ -3654,6 +3712,9 @@ or a wish that a confident composition were busier.
      row of labels, `numbered` prefixes 01 02 03, `sentence` runs them in one
      sentence, `list` stacks them with a rule per row, `word` is one word
      that reveals them).
+   - **Ground material**: SHELL's `ground_material` is on the hero field
+     where it names one and absent where it says `none`; grain that reads as
+     a broken image or a grey box is a REVISE.
 5. **Polish**: spacing rhythm is consistent; elements optically aligned;
    no orphaned UI; hierarchy unambiguous (one dominant element).
 6. **The phone (360, filmstrip)**: judged from the folds in the second
@@ -3989,6 +4050,7 @@ footer: ledger foot — build stamp + season + music folded into the base of the
 brand_lockup: horizontal-md
 brand_color_mode: single-color
 ground_strategy: split-field
+ground_material: none
 
 ---
 
@@ -4305,11 +4367,13 @@ import { identity, personal } from '../content/about'
 
 ```typescript
 // ../content/projects
+type Client = { name: string; logo?: string; url?: string; description?: string }
 type Project = {
   slug: string; title: string; type: string; year: number;
   depth: 'full' | 'lightweight'; featured?: boolean; externalUrl?: string;
   role?: string; problem?: string; approach?: string; outcome?: string;
   stack?: string[]; liveUrl?: string; githubUrl?: string; description?: string;
+  clients?: Client[];   // logo is a root-relative path under /clients/; absent for a name-only client
 }
 // White-paper fields, present on some full-depth projects. All optional.
 type Project_WhitePaper = {
@@ -4346,6 +4410,10 @@ const personal: { holesInOne: number; sport: string; teams: string[]; currentFoc
 
 WARNING: There is NO `bio` export. Use `identity`.
 NOTE: Import `education` from `'../content/timeline'` alongside `timeline` and `capabilities`.
+
+### Images
+
+`<img src={client.logo} alt={client.name}>` is allowed, and it is the only image source that is: the client marks live in `public/clients/`, ship with the site, and pass the CSP and the URL gate. `alt` is required on every mark. Add `loading="lazy"` to a mark below the first fold and leave it off a mark inside it. No other `<img>`, no external image URL, no generated picture; a client whose `logo` is absent renders as its name.
 
 ### Data-render requirements
 
@@ -4483,6 +4551,39 @@ A name outside this set is a build failure, whether it resolves or not. That inc
 
 Reference font family tokens by name: `fontFamily: 'display'`, `fontFamily: 'body'`, `fontFamily: 'heading'`, `fontFamily: 'mono'`, whichever the current chassis exposes.
 
+## The ground material
+
+`app/components/Material.tsx` is generated by the orchestrator every run from
+a frozen template, the same way `BrandLockup.tsx` is. It owns every texture.
+You place it; you never draw one.
+
+The Shell Declaration carries `ground_material`, and the Ground Material
+block in your inputs carries the exact line to place when it is not `none`:
+
+```tsx
+import { Ground } from '../components/Material'   // from a route; '../Material' from app/components/generated/
+
+<section className={css({ position: 'relative', bg: 'field' })}>
+  <Ground material="grain" seed={123456} />
+  <div className={css({ position: 'relative', zIndex: 1 })}>...the hero's content...</div>
+</section>
+```
+
+Render `<Ground>` once, as the first child of the hero, and give the hero
+`position: relative`. The component is absolute, inset 0, `pointer-events:
+none`, `z-index: 0`; the hero's content sits in a sibling set `position:
+relative` and `zIndex: 1` so it paints above the material. Copy the line as
+given: the seed is the day's and the material is the declared one. Material
+sits on a token ground and never replaces it: keep the hero's `bg`, `field`
+or `surface` fill under it, because the colour floor is measured off
+backgrounds and a material alone paints none.
+
+Never redraw a material by hand. An `feTurbulence` in any file you write
+fails the build, the way pasted mark path data does, and a hand-made dot grid
+or ruled gradient standing in for a declared material is a divergence the
+screenshot critic reads. `ground_material: none` means no `<Ground>` at all:
+do not import the file.
+
 ## Size and shape
 
 CI runs an architecture audit (fallow) on every push to main, and the
@@ -4586,19 +4687,26 @@ const className = css({ display: 'flex', gap: '4', color: 'text' })
 
 ### `../content/projects` (from components) or `'../content/projects'` (from routes)
 ```typescript
-type Client = { name: string; logo?: string; url?: string; description?: string }
+type Client = {
+  name: string
+  logo?: string        // root-relative path under /clients/, e.g. '/clients/rolex.svg'; absent for a name-only client
+  url?: string
+  description?: string
+}
 type Project = {
   slug: string; title: string; type: ProjectType; year: number;
   depth: 'full' | 'lightweight'; featured?: boolean; externalUrl?: string;
   role?: string; problem?: string; approach?: string; outcome?: string;
   stack?: string[]; liveUrl?: string; githubUrl?: string; description?: string;
-  clients?: Client[];   // the client set behind a project; render names only, no logo lane yet
+  clients?: Client[];   // the client set behind a project: a mark where logo is set, the name where it is not
 }
 export const projects: Project[]
 export const featuredProject: Project | undefined
 export const selectedWork: Project[]    // depth === 'full' && !featured
 export const experiments: Project[]      // depth === 'lightweight'
 ```
+
+`<img src={client.logo} alt={client.name}>` is allowed, and it is the only image source that is: the files live in `public/clients/`, ship with the site, and pass the CSP and the URL gate. No other `<img>`, no external image URL, no generated picture.
 
 ### `../content/timeline`
 ```typescript
@@ -5361,6 +5469,13 @@ footer: ledger foot — build stamp + season + music folded into the base of the
 brand_lockup: horizontal-md
 brand_color_mode: single-color
 ground_strategy: split-field
+ground_material: none
+
+---
+
+## Ground Material
+
+ground_material: none. Render no <Ground /> and do not import app/components/Material.tsx; the hero field is a flat token colour today.
 
 ---
 
@@ -5480,6 +5595,7 @@ Does the render match what the Design Director specified? Check:
 - **Color**: Are the background, text, and accent colors visually consistent with the spec? (You cannot see hex values, but you can see if something is warm/cool/dark/light, whether there's a clear accent color, whether dark mode is applied if specified.)
 - **Composition**: Does the render match the declared tuple (columns, axis, symmetry, hero placement, density, rhythm, shell posture, field ratio, hero object)? Is the largest element what `hero_object` names: the phrase on a `statement` day, a number on `figure`, one word on `word`, the work index on `list`, one project on `artifact`? Is the nav where the header declaration's `placement` and the composition's `shell_posture` say it should be: present when `standard`/`marginal`/`folded-into-hero`/`footer-only`, genuinely absent when `shell_posture: none`?
 - **Typography**: Do heading and body fonts look like the specified fonts (serif vs sans-serif, display vs workhorse)? Are size relationships proportional to the spec?
+- **Material and marks**: the hero field shows the Shell Declaration's `ground_material` where it names one and none where it says `none`; grain that reads as a broken image or a grey box is a REVISE. On an `artifact` day the featured project's client marks are present beside its title and legible at 1440.
 
 Failures: Spec says dark background, render is white. Spec says left sidebar nav, render has top bar. Spec says display serif, render uses system sans.
 
@@ -6025,6 +6141,16 @@ The phrase is an order: "Select a busy man." Elbert Hubbard's line is a command 
 
 ## Art Director Rationale
 
+
+---
+
+## Shell Declaration
+
+footer: ledger foot — build stamp + season + music folded into the base of the right ledger column
+brand_lockup: horizontal-md
+brand_color_mode: single-color
+ground_strategy: split-field
+ground_material: none
 
 ---
 

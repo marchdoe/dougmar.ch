@@ -151,7 +151,8 @@ describe('validateArtDirectorResult', () => {
     self_check: '1. Yes 2. Yes 3. Yes',
     measurables:
       'canvas_utilization_min: 70\nhero_scale: clamp(96px, 13vw, 200px)\ncolor_coverage_min: 60',
-    shell: 'footer: data strip\nbrand_lockup: horizontal-md\nbrand_color_mode: original',
+    shell:
+      'footer: data strip\nbrand_lockup: horizontal-md\nbrand_color_mode: original\nground_material: none',
     header: validHeader,
     type_treatment: 'case: caps\nlead: roman\nweight: heavy\nalignment: left\ntexture: none',
     mobile: validMobile,
@@ -162,6 +163,23 @@ describe('validateArtDirectorResult', () => {
 
   it('passes when all required blocks present', () => {
     expect(() => validateArtDirectorResult(valid)).not.toThrow()
+  })
+
+  it('requires ground_material in SHELL and checks it against the material library (#505)', () => {
+    const without = valid.shell.replace('\nground_material: none', '')
+    expect(() => validateArtDirectorResult({ ...valid, shell: without })).toThrow(
+      /SHELL block missing ground_material/
+    )
+    expect(() =>
+      validateArtDirectorResult({ ...valid, shell: `${without}\nground_material: velvet` })
+    ).toThrow(
+      /ground_material must be one of none, grain, mesh, halftone, rule, dots, got "velvet"/
+    )
+    for (const name of ['grain', 'mesh', 'halftone', 'rule', 'dots']) {
+      expect(() =>
+        validateArtDirectorResult({ ...valid, shell: `${without}\nground_material: ${name}` })
+      ).not.toThrow()
+    }
   })
 
   it('throws when hero_copy is missing', () => {

@@ -48,6 +48,7 @@ const SHELL = {
   brand_lockup: 'mark-only-md',
   brand_color_mode: 'single-color',
   ground_strategy: 'dark-void',
+  ground_material: 'none',
 }
 
 describe('hammingTuple', () => {
@@ -240,6 +241,27 @@ describe('shellNovelty', () => {
   it('handles a legacy build with no shell at all', () => {
     const r = shellNovelty(cur, [{ date: 'legacy' }])
     expect(r).toMatchObject({ score: null, compared: 0 })
+  })
+
+  it('compares ground_material and drops it against a shell.json written before the field (#505)', () => {
+    expect(SHELL_FIELDS).toContain('ground_material')
+    const mine = { posture: 'standard', shell: { ...SHELL, ground_material: 'grain' } }
+    // Same everything but the material: one mismatch over five comparable fields.
+    const changed = shellNovelty(mine, [
+      { date: 'd', posture: 'standard', shell: { ...SHELL, ground_material: 'dots' } },
+    ])
+    expect(changed.raw).toBe(1)
+    expect(changed.score).toBeCloseTo(1 / (SHELL_FIELDS.length + 1))
+    // A neighbour that never declared a material differs from one that did.
+    const { ground_material: _dropped, ...older } = SHELL
+    const legacy = shellNovelty(mine, [{ date: 'd', posture: 'standard', shell: older }])
+    expect(legacy.raw).toBe(1)
+    expect(legacy.score).toBeCloseTo(1 / (SHELL_FIELDS.length + 1))
+    // Two builds that both predate the field are compared on the rest alone.
+    const both = shellNovelty({ posture: 'standard', shell: older }, [
+      { date: 'd', posture: 'none', shell: { ...older } },
+    ])
+    expect(both.score).toBeCloseTo(1 / SHELL_FIELDS.length)
   })
 
   it('scores a posture-only legacy pair over posture alone', () => {

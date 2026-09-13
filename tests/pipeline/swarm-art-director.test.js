@@ -358,13 +358,16 @@ describe('the codegen retry', () => {
     expect(run.fakes.cleanupOrphans).toEqual([])
     expect(run.retries).toBe(1)
 
-    // Both chassis files were formatted twice before the archive's final
-    // __root.tsx refresh, and the root on disk carries the retry's hero copy.
+    // All three generated files were formatted twice before the archive's
+    // final __root.tsx refresh, and the root on disk carries the retry's hero
+    // copy.
     expect(run.fakes.formatGeneratedFile.map((f) => f.relPath)).toEqual([
       'app/routes/__root.tsx',
       'app/components/BrandLockup.tsx',
+      'app/components/Material.tsx',
       'app/routes/__root.tsx',
       'app/components/BrandLockup.tsx',
+      'app/components/Material.tsx',
       'app/routes/__root.tsx',
     ])
     const rootTsx = read(run.root, 'app/routes/__root.tsx')
@@ -412,18 +415,20 @@ describe('the codegen retry', () => {
           'elements/chassis-preset.ts',
           'app/routes/__root.tsx',
           'app/components/BrandLockup.tsx',
+          'app/components/Material.tsx',
         ],
         root: run.root,
       },
     ])
 
-    // The seed is back and the three generated files are gone: all four are
+    // The seed is back and the four generated files are gone: all five are
     // in MUTABLE_FILES, so restore deletes what did not exist before.
     expect(read(run.root, 'elements/preset.ts')).toBe(seededPreset)
     for (const rel of [
       'elements/chassis-preset.ts',
       'app/routes/__root.tsx',
       'app/components/BrandLockup.tsx',
+      'app/components/Material.tsx',
       'signals/today.mockup.html',
       ...REQUIRED_ENGINEER_FILES,
     ]) {

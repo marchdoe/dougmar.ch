@@ -56,6 +56,7 @@ describe('validateWritePath', () => {
         'app/components/panel/api.ts',
         'app/components/Foo.tsx',
         'app/components/BrandLockup.tsx',
+        'app/components/Material.tsx',
       ]) {
         expect(() => validateWritePath(f), f).toThrow(/allowlist/)
       }

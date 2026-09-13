@@ -56,6 +56,7 @@ Does the render match what the Design Director specified? Check:
 - **Color**: Are the background, text, and accent colors visually consistent with the spec? (You cannot see hex values, but you can see if something is warm/cool/dark/light, whether there's a clear accent color, whether dark mode is applied if specified.)
 - **Composition**: Does the render match the declared tuple (columns, axis, symmetry, hero placement, density, rhythm, shell posture, field ratio, hero object)? Is the largest element what `hero_object` names: the phrase on a `statement` day, a number on `figure`, one word on `word`, the work index on `list`, one project on `artifact`? Is the nav where the header declaration's `placement` and the composition's `shell_posture` say it should be: present when `standard`/`marginal`/`folded-into-hero`/`footer-only`, genuinely absent when `shell_posture: none`?
 - **Typography**: Do heading and body fonts look like the specified fonts (serif vs sans-serif, display vs workhorse)? Are size relationships proportional to the spec?
+- **Material and marks**: the hero field shows the Shell Declaration's `ground_material` where it names one and none where it says `none`; grain that reads as a broken image or a grey box is a REVISE. On an `artifact` day the featured project's client marks are present beside its title and legible at 1440.
 
 Failures: Spec says dark background, render is white. Spec says left sidebar nav, render has top bar. Spec says display serif, render uses system sans.
 

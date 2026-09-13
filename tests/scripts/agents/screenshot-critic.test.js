@@ -19,6 +19,24 @@ describe('buildScreenshotCriticBlocks', () => {
     expect(images).toHaveLength(2)
   })
 
+  it('carries the SHELL declaration as text ahead of the header, and omits it when absent (#505)', () => {
+    const blocks = buildScreenshotCriticBlocks({
+      ...baseCtx,
+      shell: 'brand_lockup: stacked-md\nground_material: grain',
+      header: 'placement: top-bar',
+    })
+    const texts = blocks.filter((b) => b.type === 'text').map((b) => b.text)
+    const shellIdx = texts.findIndex((t) => t.startsWith('## Shell Declaration'))
+    expect(shellIdx).toBeGreaterThan(-1)
+    expect(texts[shellIdx]).toContain('ground_material: grain')
+    expect(shellIdx).toBeLessThan(texts.findIndex((t) => t.startsWith('## Header Declaration')))
+    expect(
+      buildScreenshotCriticBlocks(baseCtx).some(
+        (b) => b.type === 'text' && b.text.startsWith('## Shell Declaration')
+      )
+    ).toBe(false)
+  })
+
   it('adds a mockup image block when a mockup screenshot is provided', () => {
     const blocks = buildScreenshotCriticBlocks({
       ...baseCtx,

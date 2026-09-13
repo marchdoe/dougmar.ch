@@ -77,6 +77,8 @@ import {
   parseTypeTreatmentBlock,
 } from './utils/spec-blocks.js'
 import { renderBrandLockupFile } from './utils/brand-lockup.js'
+import { formatMaterialContractBlock, materialSeed, renderMaterialFile } from './utils/material.js'
+import { formatClientMarksForPrompt, readClientMarkSources } from './utils/client-marks.js'
 import { formatHeader } from './utils/header-grammar.js'
 import { formatTypeTreatment } from './utils/type-grammar.js'
 import { formatMobile } from './utils/mobile-grammar.js'
@@ -412,7 +414,8 @@ export function identifyFailingAgent(errorOutput) {
 /**
  * The binding sentence per non-statement `hero_object` value (#501).
  * `statement` is today's behaviour and needs no contract. On `artifact` the
- * client set is rendered as names only: no logo lane exists until #505.
+ * client set renders as its marks (#505): the files under public/clients/
+ * that project.clients[].logo points at, name-only where an entry has none.
  *
  * @type {Record<string, string>}
  */
@@ -422,7 +425,7 @@ const HERO_OBJECT_CONTRACTS = {
   word: 'The largest element on the page is one word lifted from the hero phrase at hero_scale; the rest of the phrase is the deck beneath it at 2xl to 4xl, and the whole phrase is still the h1.',
   list: 'The largest element on the page is the work index: project titles, years and roles are the first thing rendered, titles at hero_scale; the hero phrase is the standfirst above it at 2xl to 4xl, and is still the h1.',
   artifact:
-    "The largest element on the page is one piece of owned work: the featured project's title at hero_scale with its year, role and client set from project.clients beside it, the clients rendered as names only because no logo lane exists yet; the hero phrase is its caption at 2xl to 4xl, and is still the h1.",
+    "The largest element on the page is one piece of owned work: the featured project's title at hero_scale with its year, role and client set beside it, the clients rendered as their marks from project.clients[].logo (one <img> per mark, alt set to the client's name, name-only for an entry without a logo) at a size that reads as a set, never as a footer strip; the hero phrase is its caption at 2xl to 4xl, and is still the h1.",
 }
 
 /**
@@ -1163,6 +1166,14 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       formatGeneratedFile('app/components/BrandLockup.tsx', { root })
       writtenPaths.add('app/components/BrandLockup.tsx')
       console.log(`  [chassis] wrote BrandLockup.tsx from template`)
+
+      // The material library (#505), on the same terms: the engineer places
+      // <Ground> where the SHELL declaration asks for one and never draws a
+      // material itself.
+      await writeFile(path.join(root, 'app/components/Material.tsx'), renderMaterialFile(), 'utf8')
+      formatGeneratedFile('app/components/Material.tsx', { root })
+      writtenPaths.add('app/components/Material.tsx')
+      console.log(`  [chassis] wrote Material.tsx from template`)
     } catch (err) {
       await cleanupOrphans(writtenPaths, originalBackup, { root })
       await restore(originalBackup, { root })
@@ -1253,6 +1264,13 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           )
           formatGeneratedFile('app/components/BrandLockup.tsx', { root })
           console.log('  [chassis] regenerated BrandLockup.tsx after codegen retry')
+          await writeFile(
+            path.join(root, 'app/components/Material.tsx'),
+            renderMaterialFile(),
+            'utf8'
+          )
+          formatGeneratedFile('app/components/Material.tsx', { root })
+          console.log('  [chassis] regenerated Material.tsx after codegen retry')
         } catch (rootErr) {
           console.warn(
             `  __root.tsx og-meta refresh after retry failed (non-blocking): ${rootErr.message}`
@@ -1531,6 +1549,14 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     const compositionContractBlock = buildCompositionContractBlock(chosenComposition) || ''
     const brandSvg = await readFile(path.join(root, 'app/assets/logo.svg'), 'utf8')
     const brandMonoSvg = await readFile(path.join(root, 'app/assets/logo-mono.svg'), 'utf8')
+    // The client marks reach the mockup as inline SVG (#505), and only on an
+    // `artifact` day: the mockup is captured from a file:// URL where
+    // `/clients/*` resolves to nothing, and eight marks are 45KB of prompt
+    // the other four hero objects never draw.
+    const clientMarksBlock =
+      chosenComposition.hero_object === 'artifact'
+        ? formatClientMarksForPrompt(readClientMarkSources({ root }))
+        : ''
     const googleFontsUrl = buildGoogleFontsUrl(chosenChassis)
 
     const mockupPath = path.join(root, 'signals', 'today.mockup.html')
@@ -1546,6 +1572,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       collapse: chosenComposition.collapse,
       brandSvg,
       brandMonoSvg,
+      clientMarksBlock,
       googleFontsUrl,
       lessonsBlock,
       calibrationNote,
@@ -1766,6 +1793,9 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         `## Hero Copy\n\n${artDirectorResult.heroCopy}`,
         `## Composition\n\n${formatTuple(chosenComposition)}`,
         `## Shell Declaration\n\n${artDirectorResult.shell}`,
+        // The declared material as the exact JSX line to place (#505). The
+        // seed is the day's, so a re-run draws the same grain.
+        formatMaterialContractBlock(shellDecl.ground_material, materialSeed(today)),
         `## Header Declaration (execute these numbers exactly)\n\n${formatHeader(headerDecl)}`,
         `## Type Treatment (execute exactly)\n\n${formatTypeTreatment(typeDecl)}`,
         `## Mobile Declaration (the design at base; the mockup already renders it, keep it)\n\n${formatMobile(mobileDecl)}`,
@@ -2319,6 +2349,9 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           // spec. The nightly context has no `brief` key, so the old
           // `${brief}` here rendered the literal string "undefined".
           enrichedBrief,
+          // The SHELL text, so the critic can read the declared
+          // ground_material against the hero field (#505).
+          shell: artDirectorResult.shell,
           header: formatHeader(headerDecl),
           typeTreatment: formatTypeTreatment(typeDecl),
           mobile: formatMobile(mobileDecl),

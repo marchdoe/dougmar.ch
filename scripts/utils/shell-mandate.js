@@ -40,7 +40,7 @@ export function markBand(px) {
 /**
  * @param {string} archiveDir
  * @param {number} lookbackDays
- * @returns {Array<{ date: string, nav: string|null, footer: string|null, brand_lockup: string|null, brand_color_mode: string|null, placement: string|null, mark_band: string|null }>} newest first
+ * @returns {Array<{ date: string, nav: string|null, footer: string|null, brand_lockup: string|null, brand_color_mode: string|null, ground_material: string|null, placement: string|null, mark_band: string|null }>} newest first
  */
 export function extractRecentShells(archiveDir, lookbackDays) {
   return readRecentArtifacts(archiveDir, lookbackDays, ({ date, read }) => {
@@ -55,6 +55,8 @@ export function extractRecentShells(archiveDir, lookbackDays) {
       footer: s?.footer ?? null,
       brand_lockup: s?.brand_lockup ?? null,
       brand_color_mode: s?.brand_color_mode ?? null,
+      // The hero field's texture (#505). Null before the field existed.
+      ground_material: s?.ground_material ?? null,
       placement: h?.placement ?? null,
       mark_band: markBand(h?.mark_px),
     }
@@ -62,7 +64,7 @@ export function extractRecentShells(archiveDir, lookbackDays) {
 }
 
 /** Keys the mandate soft-forbids, in prompt order. */
-const FORBID_KEYS = ['placement', 'nav', 'footer', 'brand_lockup', 'mark_band']
+const FORBID_KEYS = ['placement', 'nav', 'footer', 'brand_lockup', 'mark_band', 'ground_material']
 
 /**
  * @param {{ archiveDir: string, lookbackDays?: number }} opts
@@ -93,7 +95,7 @@ export function computeShellMandate({ archiveDir, lookbackDays = 7 }) {
     ? `Last ${recentShells.length} shells: ${recentShells
         .map(
           (s) =>
-            `${s.date}: placement=${s.placement}, nav=${s.nav}, footer=${s.footer}, lockup=${s.brand_lockup} (${s.brand_color_mode}), mark=${s.mark_band}`
+            `${s.date}: placement=${s.placement}, nav=${s.nav}, footer=${s.footer}, lockup=${s.brand_lockup} (${s.brand_color_mode}), mark=${s.mark_band}, material=${s.ground_material}`
         )
         .join(' | ')}`
     : 'No recent shell history available; the shell is open.'
@@ -117,6 +119,7 @@ export function formatShellMandateForPrompt(mandate) {
     footer: 'Footer treatments',
     brand_lockup: 'Brand lockups',
     mark_band: 'Mark size bands',
+    ground_material: 'Ground materials',
   }
   for (const key of FORBID_KEYS) {
     const used = mandate.softForbidden?.[key] ?? []

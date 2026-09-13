@@ -21,6 +21,7 @@ export function buildMockupDesignerUserPrompt({
   collapse,
   brandSvg,
   brandMonoSvg,
+  clientMarksBlock,
   googleFontsUrl,
   lessonsBlock,
   calibrationNote,
@@ -61,6 +62,9 @@ export function buildMockupDesignerUserPrompt({
   sections.push(
     `## Brand Mark SVG (original colors)\n\n\`\`\`html\n${brandSvg}\n\`\`\`\n\n## Brand Mark SVG (single-color / currentColor)\n\n\`\`\`html\n${brandMonoSvg}\n\`\`\``
   )
+  // The client marks as inline SVG source (#505), present on an `artifact`
+  // day; see utils/client-marks.js for why they cannot arrive as <img src>.
+  if (clientMarksBlock) sections.push(clientMarksBlock)
   sections.push(
     `## Site Content (real content — render this, never placeholders)\n\n${contentSummary}`
   )
