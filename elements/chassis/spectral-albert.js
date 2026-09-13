@@ -23,6 +23,7 @@ import { scaleSteps } from './scale.js'
 /** @type {import('./types.js').ChassisEntry} */
 export const spectralAlbert = {
   id: 'spectral-albert',
+  class: 'serif',
   name: 'Spectral + Albert Sans',
   description: 'Transitional slab serif with humanist body — editorial, literary, considered.',
   moods: ['editorial', 'literary', 'considered', 'distinctive', 'reflective'],

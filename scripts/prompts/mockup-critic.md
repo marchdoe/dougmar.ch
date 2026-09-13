@@ -38,7 +38,7 @@ ideal. Reserve REVISE for real, nameable shortfalls (a hero at half the declared
 scale, a timid accent where the brief said drenched), not for taste preferences
 or a wish that a confident composition were busier.
 
-## Checks (run all six, in order)
+## Checks (run all seven, in order)
 
 1. **Sanity**: page rendered, fonts loaded (no fallback serif/sans look),
    no overflow disasters, no blank regions caused by errors.
@@ -135,6 +135,16 @@ or a wish that a confident composition were busier.
      that keeps a desktop size and reflows into a wall of eight short lines,
      or runs off the right edge and is cut mid-word, is a REVISE. Any content
      cut off at 360 is a REVISE on its own, whatever else is right.
+7. **Type treatment**: read the Type Treatment block against the 1440 image.
+   `case`: a `caps` hero set in mixed case, or a `small-caps` hero with no
+   small capitals, is a miss. `lead: italic`: the hero phrase itself is
+   italic, not one accent word. `alignment`: the hero block sits where it
+   says at 1440. `texture`: `type-as-texture` shows type as ground behind the
+   composition, `vertical` a rotated or stacked line, `outline` stroked
+   letterforms, `stacked` one word per line; `none` shows none of those.
+   `weight`: judge the direction only, that a `heavy` hero reads as the heavy
+   end of the face and a `light` one as the light end. A miss is a REVISE
+   naming the field.
 
 ## Verdict format
 

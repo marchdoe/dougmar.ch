@@ -28,6 +28,7 @@ import { scaleSteps } from './scale.js'
 /** @type {import('./types.js').ChassisEntry} */
 export const dmSerifPublic = {
   id: 'dm-serif-public',
+  class: 'serif',
   name: 'DM Serif Display + Public Sans',
   description:
     'High-contrast didone display with civic-neutral body — dramatic, fashion-editorial, declarative.',

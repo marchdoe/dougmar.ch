@@ -59,6 +59,16 @@ describe('art-director.md output contract', () => {
     expect(text).toMatch(/`footer-only` and `none` defer the nav, never the mark/)
     expect(text).not.toContain('two mark-only lockups')
   })
+  it('requires the TYPE_TREATMENT block and states the italic and weight constraints (#502)', () => {
+    const text = ad()
+    expect(text).toContain('## Type Treatment Declaration (required)')
+    expect(text).toContain('===TYPE_TREATMENT===')
+    expect(text).toContain('case: mixed | caps | lower | small-caps')
+    expect(text).toContain('texture: none | type-as-texture | vertical | outline | stacked')
+    expect(text).toMatch(/loads display italics/)
+    expect(text).toMatch(/single weight/)
+    expect(text).toContain('Type Treatment Mandate')
+  })
   it('requires the MOBILE block and the collapse axis (#452)', () => {
     const text = ad()
     expect(text).toContain('===MOBILE===')
@@ -88,6 +98,10 @@ describe('mockup-designer.md load-bearing directives', () => {
   it('keeps the mark in the first fold on footer-only and none days (#503)', () => {
     expect(md()).toMatch(/mark sits inside the first fold at 360 and at 1440/)
   })
+  it('executes the type treatment block and names the REVISE (#502)', () => {
+    expect(md()).toContain('## Type treatment')
+    expect(md()).toMatch(/A `caps` hero set in mixed case.*is a REVISE/)
+  })
 })
 
 describe('mockup-critic.md load-bearing directives', () => {
@@ -101,6 +115,11 @@ describe('mockup-critic.md load-bearing directives', () => {
     const c = read('mockup-critic.md')
     expect(c).toMatch(/more than 5\s+points/i)
     expect(c).toContain('REVISE')
+  })
+  it('runs a seventh check on the type treatment (#502)', () => {
+    const c = read('mockup-critic.md')
+    expect(c).toContain('run all seven')
+    expect(c).toContain('7. **Type treatment**')
   })
 })
 
@@ -137,6 +156,13 @@ describe('react-engineer.md load-bearing directives', () => {
   it('forbids raw hex in TSX', () => {
     expect(re()).toMatch(/raw hex|never.*hex|hex.*(token|never)/i)
   })
+  it('maps the type treatment fields to Panda properties (#502)', () => {
+    const c = re()
+    expect(c).toContain('## Type treatment')
+    expect(c).toContain("fontVariant: 'small-caps'")
+    expect(c).toContain("fontStyle: 'italic'")
+    expect(c).toContain('textAlign')
+  })
 
   // #432: run 33756500843 failed on dangerouslySetInnerHTML and a disallowed
   // URL host in one attempt each, and the prompt named neither. The gate list
@@ -164,6 +190,13 @@ describe('screenshot-critic.md load-bearing directives', () => {
     expect(c).toContain('BAR:')
     expect(c).toMatch(/above\|at\|below/)
     expect(c).toMatch(/Skip this section entirely if no reference image/i)
+  })
+  it('judges the type treatment in section 11, owned by the engineer (#502)', () => {
+    const c = sc()
+    expect(c).toContain('### 11. Type Treatment')
+    expect(c).toContain('sections 1 through 11')
+    const section = c.slice(c.indexOf('### 11. Type Treatment'), c.indexOf('### Mockup fidelity'))
+    expect(section).toContain('owner is **react-engineer**')
   })
 })
 
@@ -282,6 +315,12 @@ describe('the copy rules in the prompts (#504)', () => {
     expect(c).toContain('{{UNSLOP_PATTERNS}}')
     expect(c).toContain('### 7. Copy')
     expect(c).toContain('all seven checks pass')
+  })
+
+  it('spec-critic.md checks the type treatment against the chassis (#502)', () => {
+    const c = read('spec-critic.md')
+    expect(c).toContain('===TYPE_TREATMENT===')
+    expect(c).toMatch(/`lead: italic` needs a display face that loads italics/)
   })
 
   it('art-director.md names the owner first and the rebuild only as a mechanism', () => {

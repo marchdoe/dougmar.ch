@@ -26,6 +26,7 @@ import { scaleSteps } from './scale.js'
 /** @type {import('./types.js').ChassisEntry} */
 export const hankenSolo = {
   id: 'hanken-solo',
+  class: 'grotesque',
   name: 'Hanken Grotesk, alone',
   description: 'One humanist grotesk at three weights — single-voice, quiet, committed.',
   moods: ['humanist', 'single-voice', 'quiet', 'warm', 'understated'],

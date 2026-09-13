@@ -27,6 +27,7 @@ import { scaleSteps } from './scale.js'
 /** @type {import('./types.js').ChassisEntry} */
 export const sourceSerifText = {
   id: 'source-serif-text',
+  class: 'serif',
   name: 'Source Serif 4, alone',
   description:
     'Optically-sized text serif running display and body alike — literary, quiet, bookish.',

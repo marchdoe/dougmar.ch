@@ -26,6 +26,7 @@ import { scaleSteps } from './scale.js'
 /** @type {import('./types.js').ChassisEntry} */
 export const fraucesKarla = {
   id: 'fraunces-karla',
+  class: 'serif',
   name: 'Fraunces + Karla',
   description:
     'Fat, soft variable display serif with humanist grotesk body — warm, tactile, generous.',

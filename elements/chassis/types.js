@@ -54,6 +54,10 @@
  * @typedef {Object} ChassisEntry
  * @property {string} id
  *   Stable identifier. Lowercase, hyphenated. Used in Director output.
+ * @property {'serif'|'grotesque'|'condensed'|'slab'|'mono'|'display'} class
+ *   The register the display face belongs to (#502). The chassis mandate
+ *   soft-forbids a class after three nights running on it, so three
+ *   different condensed pairs no longer count as three different choices.
  * @property {string} name
  *   Human-readable name shown to the Director and in archive metadata.
  * @property {string} description

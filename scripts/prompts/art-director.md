@@ -294,6 +294,35 @@ pattern the owner has rejected in three consecutive ratings. It is still
 available; it is not the default, and choosing it needs a reason in your
 rationale.
 
+## Type Treatment Declaration (required)
+
+The chassis picks the faces; this block says how they are set. Eight builds
+running used eight different chassis and set every one the same way, mixed
+case, roman, left or centred, one display step plus body, so which pair
+loaded was the only typographic decision on the page. Five fields, every one
+a choice, and the Mockup Designer executes them exactly while both critics
+read the rendered type against them:
+
+- `case` is how the hero phrase and the display register are set: `mixed`,
+  `caps`, `lower` or `small-caps`.
+- `lead` is `roman` or `italic`. `italic` means the hero phrase itself leads
+  in italic, not an accent word inside it. It is only available when the
+  chosen chassis loads display italics; the chassis facts above name which
+  do. Declaring it on a chassis that loads none is rejected, not reconciled.
+- `weight` names the end of the loaded range to reach for: `light`,
+  `regular` or `heavy`. It resolves to the nearest loaded display weight. A
+  display face that loads a single weight takes `regular` only, and is
+  rejected otherwise.
+- `alignment` is the hero block's alignment at 1440: `left`, `centred`,
+  `right` or `justified`.
+- `texture` is type used as material: `none`; `type-as-texture` (repeated or
+  oversized type as ground); `vertical` (a stacked or rotated line);
+  `outline` (stroked letterforms); `stacked` (a word per line, flush).
+
+Consult the Type Treatment Mandate in your inputs: recently used values are
+listed per field. Move off them unless today's phrase demands otherwise, and
+say why in your rationale.
+
 ## Mobile Declaration (required)
 
 The composition's `collapse` axis names the strategy; `===MOBILE===` says
@@ -409,6 +438,13 @@ role_line: present | absent
 nav_step: 2xs | xs | sm | base | md | lg | xl | 2xl | 3xl | 4xl | 5xl
 nav_case: upper | lower | small-caps | title
 nav: <treatment in prose, e.g. bottom rail / corner mark / floating pills / left spine / top bar / none — must be "none" when placement is "none"; for footer-only and none, also say where the mark sits in the hero>
+
+===TYPE_TREATMENT===
+case: mixed | caps | lower | small-caps
+lead: roman | italic                    # italic only when the chassis loads display italics
+weight: light | regular | heavy         # resolved to the nearest loaded display weight
+alignment: left | centred | right | justified
+texture: none | type-as-texture | vertical | outline | stacked
 
 ===MOBILE===
 carrier: <one sentence: what carries the idea at 360>

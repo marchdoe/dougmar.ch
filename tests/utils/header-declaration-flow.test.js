@@ -59,6 +59,13 @@ nav_step: sm
 nav_case: small-caps
 nav: a vertical spine of rotated labels
 
+===TYPE_TREATMENT===
+case: caps
+lead: roman
+weight: regular
+alignment: left
+texture: none
+
 ===MOBILE===
 carrier: The drenched field with FOURTEEN HOURS OF LIGHT carries the page; the spine becomes a band above it.
 first_fold: The nav band, then FOURTEEN HOURS OF LIGHT at hero step filling the field.

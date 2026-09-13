@@ -29,6 +29,7 @@
  *   measurables?: string,
  *   shell?: string,
  *   header?: string,
+ *   type_treatment?: string,
  *   mobile?: string,
  *   interior_notes?: string,
  *   hero_source?: string,
@@ -46,7 +47,7 @@ export function parseDelimiterResponse(result, { keepEmptyFiles = false } = {}) 
   const src = fenceMatch ? fenceMatch[1] : result
   const withSentinel = src + sentinel
   const filePattern =
-    /^===FILE:([^=\n]+)===\s*\n([\s\S]*?)(?=^===FILE:|^===RATIONALE===|^===DESIGN_BRIEF===|^===COLOR_SCHEME===|^===HERO_COPY===|^===HERO_RATIONALE===|^===HERO_SOURCE===|^===ARCHETYPE===|^===CHASSIS_ID===|^===VISUAL_SPEC===|^===SELF_CHECK===|^===MEASURABLES===|^===SHELL===|^===HEADER===|^===MOBILE===|^===COMPOSITION===|^===COMPOSITION_RATIONALE===|^===INTERIOR_NOTES===|^===END_SENTINEL===)/gm
+    /^===FILE:([^=\n]+)===\s*\n([\s\S]*?)(?=^===FILE:|^===RATIONALE===|^===DESIGN_BRIEF===|^===COLOR_SCHEME===|^===HERO_COPY===|^===HERO_RATIONALE===|^===HERO_SOURCE===|^===ARCHETYPE===|^===CHASSIS_ID===|^===VISUAL_SPEC===|^===SELF_CHECK===|^===MEASURABLES===|^===SHELL===|^===HEADER===|^===TYPE_TREATMENT===|^===MOBILE===|^===COMPOSITION===|^===COMPOSITION_RATIONALE===|^===INTERIOR_NOTES===|^===END_SENTINEL===)/gm
   for (const match of withSentinel.matchAll(filePattern)) {
     const filePath = match[1].trim()
     const content = match[2].trim()
@@ -73,6 +74,7 @@ export function parseDelimiterResponse(result, { keepEmptyFiles = false } = {}) 
   const measurables = captureBlock('MEASURABLES')
   const shell = captureBlock('SHELL')
   const header = captureBlock('HEADER')
+  const type_treatment = captureBlock('TYPE_TREATMENT')
   const mobile = captureBlock('MOBILE')
   const composition = captureBlock('COMPOSITION')
   const composition_rationale = captureBlock('COMPOSITION_RATIONALE')
@@ -103,6 +105,7 @@ export function parseDelimiterResponse(result, { keepEmptyFiles = false } = {}) 
     measurables,
     shell,
     header,
+    type_treatment,
     mobile,
     composition,
     composition_rationale,

@@ -23,6 +23,7 @@ import { scaleSteps } from './scale.js'
 /** @type {import('./types.js').ChassisEntry} */
 export const bigShouldersAtkinson = {
   id: 'big-shoulders-atkinson',
+  class: 'condensed',
   name: 'Big Shoulders Display + Atkinson Hyperlegible',
   description: 'Condensed signage display with hyperlegible body — dramatic, athletic, brand-loud.',
   moods: ['dramatic', 'poster', 'condensed', 'athletic', 'signage'],

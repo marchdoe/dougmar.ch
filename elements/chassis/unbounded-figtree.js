@@ -23,6 +23,7 @@ import { scaleSteps } from './scale.js'
 /** @type {import('./types.js').ChassisEntry} */
 export const unboundedFigtree = {
   id: 'unbounded-figtree',
+  class: 'display',
   name: 'Unbounded + Figtree',
   description:
     'Blocky, wide geometric display with warm neutral grotesk body — expanded, confident, modern-loud.',

@@ -25,6 +25,7 @@ import { fluid, scaleSteps } from './scale.js'
 /** @type {import('./types.js').ChassisEntry} */
 export const anybodyFranklin = {
   id: 'anybody-franklin',
+  class: 'grotesque',
   name: 'Anybody + Libre Franklin',
   description:
     'Wide squarish grotesk with true italics + Franklin Gothic body — broad, sporty, emphatic.',

@@ -97,6 +97,27 @@ describe('runAgentSwarm on the recorded night', () => {
       expect(run.callsFor(agent)[0].userPrompt, agent).toContain('## Mobile Declaration')
       expect(run.callsFor(agent)[0].userPrompt, agent).toContain('hero_step_360: hero')
     }
+    // The type treatment (#502) is parsed, archived, and reaches every
+    // downstream agent under one heading.
+    expect(JSON.parse(artifacts['type-treatment.json'])).toEqual({
+      case: 'caps',
+      lead: 'roman',
+      weight: 'heavy',
+      alignment: 'left',
+      texture: 'stacked',
+    })
+    for (const agent of [
+      'spec-critic',
+      'mockup-designer',
+      'mockup-critic',
+      'react-engineer',
+      'screenshot-critic',
+    ]) {
+      expect(run.callsFor(agent)[0].userPrompt, agent).toContain(
+        '## Type Treatment (execute exactly)'
+      )
+      expect(run.callsFor(agent)[0].userPrompt, agent).toContain('texture: stacked')
+    }
 
     for (const rel of [
       'elements/preset.ts',

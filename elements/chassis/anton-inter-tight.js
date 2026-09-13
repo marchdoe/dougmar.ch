@@ -23,6 +23,7 @@ import { scaleSteps } from './scale.js'
 /** @type {import('./types.js').ChassisEntry} */
 export const antonInterTight = {
   id: 'anton-inter-tight',
+  class: 'condensed',
   name: 'Anton + Inter Tight',
   description: 'Condensed display heavy + workhorse sans body — confident, headline-led, modern.',
   moods: ['dramatic', 'poster', 'condensed', 'headline-led', 'modern'],

@@ -141,6 +141,10 @@ and the `currentColor` source for `single-color`.
 The mark sits inside the first fold at 360 and at 1440 whatever the placement;
 `footer-only` and `none` move the nav, never the mark.
 
+## Type treatment
+
+Execute the `===TYPE_TREATMENT===` block exactly; it arrives as five `key: value` lines under "Type Treatment (execute exactly)". `case` is how the hero phrase and the display register are set: `caps` is all capitals with opened tracking, `lower` is all lowercase, `small-caps` is small capitals with opened tracking, `mixed` is sentence case. `lead: italic` means the hero phrase itself is italic, not one accent word. `weight: light` or `heavy` means the lightest or heaviest cut the chassis loads, on the hero. `alignment` is the hero block at 1440. `texture` is type as material: `type-as-texture` repeats or oversizes type as the ground, `vertical` stacks or rotates a line, `outline` strokes the letterforms, `stacked` sets one word per line, flush. A `caps` hero set in mixed case, or an `italic` lead set roman, is a REVISE, and the critic reads these five lines against the image.
+
 ## Composition
 
 For each mockup, make a deliberate choice across these axes of variation (not templates, each can take infinite values):

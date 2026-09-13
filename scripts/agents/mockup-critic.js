@@ -57,7 +57,7 @@ export function parseMockupCriticResponse(raw) {
 }
 
 /**
- * @param {{ systemPrompt: string, screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null, enrichedBrief: string, measurables: string, measured?: {canvas_utilization: number, color_coverage: number, hero_px: number}|null, measurablesDecl?: object|null, shell: string, header?: string, mobile?: string, collapse?: string|null }} ctx
+ * @param {{ systemPrompt: string, screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null, enrichedBrief: string, measurables: string, measured?: {canvas_utilization: number, color_coverage: number, hero_px: number}|null, measurablesDecl?: object|null, shell: string, header?: string, typeTreatment?: string, mobile?: string, collapse?: string|null }} ctx
  * @returns {Promise<{ verdict: 'APPROVE'|'REVISE', feedback: string }>}
  */
 export async function runMockupCritic(ctx) {
@@ -115,6 +115,10 @@ export function buildMockupCriticBlocks(ctx) {
     measuredFidelity ? textBlock(`## Measured Fidelity\n\n${measuredFidelity}`) : null,
     textBlock(`## Shell Declaration\n\n${ctx.shell}`),
     ctx.header ? textBlock(`## Header Declaration\n\n${ctx.header}`) : null,
+    // How the type is set (#502); check 7 reads the hero against it.
+    ctx.typeTreatment
+      ? textBlock(`## Type Treatment (execute exactly)\n\n${ctx.typeTreatment}`)
+      : null,
     ctx.mobile
       ? textBlock(
           `## Mobile Declaration (check 6 is judged against this)\n\ncollapse: ${ctx.collapse ?? '?'}\n${ctx.mobile}`

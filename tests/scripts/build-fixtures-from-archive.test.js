@@ -153,6 +153,7 @@ describe('artDirectorBlocks', () => {
       'MEASURABLES',
       'SHELL',
       'HEADER',
+      'TYPE_TREATMENT',
       'MOBILE',
     ]) {
       expect(out).toContain(`===${block}===`)
@@ -166,6 +167,7 @@ describe('artDirectorBlocks', () => {
       '===COMPOSITION===\ncolumns: two-asymmetric\nshell_posture: marginal\ncollapse: stack'
     )
     expect(out).toContain('===MOBILE===\n# synthesized')
+    expect(out).toContain('===TYPE_TREATMENT===\n# synthesized')
   })
 
   it('keeps a recorded collapse and mobile.json as they are', () => {

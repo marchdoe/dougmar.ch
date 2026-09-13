@@ -24,6 +24,7 @@ import { scaleSteps } from './scale.js'
 /** @type {import('./types.js').ChassisEntry} */
 export const zillaWorksans = {
   id: 'zilla-worksans',
+  class: 'slab',
   name: 'Zilla Slab + Work Sans',
   description: 'Sturdy low-contrast slab serif with humanist body — confident, structural, civic.',
   moods: ['confident', 'structural', 'civic', 'editorial', 'grounded'],

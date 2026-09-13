@@ -5,6 +5,7 @@ import path from 'node:path'
 import {
   extractRecentChassis,
   computeChassisMandate,
+  classStreak,
   formatChassisMandateForPrompt,
 } from '../../scripts/utils/chassis-mandate.js'
 
@@ -68,6 +69,43 @@ describe('chassis-mandate', () => {
     expect(block).toContain('bricolage-manrope')
     expect(block).toContain('justify')
     expect(block).toContain('Fit > novelty')
+  })
+
+  it('names a class the last three shipped chassis share, and the classes still unshipped (#502)', () => {
+    // Three distinct condensed pairs: the id rule sees variety, the page does not.
+    seedRecord(archiveDir, '2026-09-08', 'spectral-albert')
+    seedRecord(archiveDir, '2026-09-09', 'big-shoulders-atkinson')
+    seedRecord(archiveDir, '2026-09-10', 'anton-inter-tight')
+    seedRecord(archiveDir, '2026-09-11', 'bebas-plex')
+    const m = computeChassisMandate({ archiveDir, lookbackDays: 14 })
+    expect(m.softForbidden).toEqual(['bebas-plex', 'anton-inter-tight', 'big-shoulders-atkinson'])
+    expect(m.classStreak).toEqual({
+      class: 'condensed',
+      unshipped: ['grotesque', 'slab', 'mono', 'display'],
+    })
+    const block = formatChassisMandateForPrompt(m)
+    expect(block).toContain('**Chassis class used three nights running (avoid):** condensed.')
+    expect(block).toContain('have not shipped in the window: grotesque, slab, mono, display.')
+  })
+
+  it('says nothing about class when the last three differ, or with fewer than three', () => {
+    expect(
+      classStreak([
+        { date: '2026-09-11', chassis: 'bebas-plex' },
+        { date: '2026-09-10', chassis: 'spectral-albert' },
+        { date: '2026-09-09', chassis: 'anton-inter-tight' },
+      ])
+    ).toBeNull()
+    expect(
+      classStreak([
+        { date: '2026-09-11', chassis: 'bebas-plex' },
+        { date: '2026-09-10', chassis: 'anton-inter-tight' },
+      ])
+    ).toBeNull()
+    seedRecord(archiveDir, '2026-09-11', 'bebas-plex')
+    expect(formatChassisMandateForPrompt(computeChassisMandate({ archiveDir }))).not.toContain(
+      'class used'
+    )
   })
 
   it('honors the lookback window', () => {

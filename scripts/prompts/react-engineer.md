@@ -64,6 +64,22 @@ Layout.tsx must use a named export (`export function Layout`), import and render
 - Brand mark: render `<BrandLockup />`. See "The brand lockup" below. Never
   import the SVG and never inline the path data. The build fails on both.
 
+## Type treatment
+
+The Type Treatment block in your inputs is already rendered in the mockup;
+map it to Panda properties, not to CSS strings. `case` is `textTransform`
+(`uppercase`, `lowercase`, `none` for mixed), and `small-caps` is
+`fontVariant: 'small-caps'` with `letterSpacing: 'wide'`. `lead: italic` is
+`fontStyle: 'italic'` on the hero element. `weight` is a `fontWeight` token,
+`light` or `bold` for the two ends and `normal` for regular, never a number.
+`alignment` is `textAlign` on the hero block. For `texture`:
+`type-as-texture` is an `aria-hidden` copy of the type positioned behind the
+composition at the mockup's scale and opacity; `vertical` is `writingMode:
+'vertical-rl'` or the `transform: 'rotate(...)'` the mockup uses on that
+line; `outline` is `WebkitTextStroke` with a transparent `color`; `stacked`
+is one word per line, each word `display: 'block'`, flush to the alignment;
+`none` needs nothing.
+
 ## Copy
 
 Any words you write or carry over from the mockup (a deck, an eyebrow, a

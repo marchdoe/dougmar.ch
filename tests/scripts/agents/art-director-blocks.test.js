@@ -45,6 +45,7 @@ const valid = () => ({
     'canvas_utilization_min: 70\nhero_scale: clamp(96px, 13vw, 200px)\ncolor_coverage_min: 60',
   shell: 'footer: data strip\nbrand_lockup: horizontal-md\nbrand_color_mode: original',
   header: validHeader,
+  type_treatment: 'case: mixed\nlead: roman\nweight: regular\nalignment: left\ntexture: none',
   mobile: validMobile,
   files: [{ path: 'elements/preset.ts', content: 'export const elementsPreset = {}' }],
 })

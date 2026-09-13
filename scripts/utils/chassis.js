@@ -393,7 +393,7 @@ function quoteKey(key) {
 
 /**
  * Render the chassis catalog as a markdown table for inclusion in the
- * Art Director prompt. Each row shows id, name, description, moods,
+ * Art Director prompt. Each row shows id, name, class, description, moods,
  * archetype affinities, and the rendered size of the two display registers
  * at the two ends of the fluid window — enough to match a chassis to the
  * day's brief, and to know how loud its marquee actually gets, without
@@ -406,14 +406,14 @@ function quoteKey(key) {
  */
 export function formatChassisCatalogForPrompt(catalog) {
   const lines = [
-    '| ID | Name | Feel | Moods | Best for archetypes | Hero px 360→1440 | 5xl px 360→1440 |',
-    '|----|------|------|-------|---------------------|------------------|-----------------|',
+    '| ID | Name | Class | Feel | Moods | Best for archetypes | Hero px 360→1440 | 5xl px 360→1440 |',
+    '|----|------|-------|------|-------|---------------------|------------------|-----------------|',
   ]
   for (const c of catalog) {
     const hero = c.type.steps.hero
     const top = c.type.steps['5xl']
     lines.push(
-      `| \`${c.id}\` | ${c.name} | ${c.description} | ${c.moods.join(', ')} | ${c.archetypes.join(', ')} | ${Math.round(stepPxAt(hero, 360))}→${Math.round(stepPxAt(hero, 1440))} | ${Math.round(stepPxAt(top, 360))}→${Math.round(stepPxAt(top, 1440))} |`
+      `| \`${c.id}\` | ${c.name} | ${c.class} | ${c.description} | ${c.moods.join(', ')} | ${c.archetypes.join(', ')} | ${Math.round(stepPxAt(hero, 360))}→${Math.round(stepPxAt(hero, 1440))} | ${Math.round(stepPxAt(top, 360))}→${Math.round(stepPxAt(top, 1440))} |`
     )
   }
   return lines.join('\n')
@@ -462,9 +462,20 @@ export function formatChassisSelectionForPrompt(catalog) {
     .filter((c) => c.moods.includes('condensed'))
     .map((c) => c.id)
     .join(', ')
+  // The two type treatment constraints (#502) the validator enforces, stated
+  // up front so the Art Director declares against what actually loads.
+  const italics = catalog
+    .filter((c) => c.fonts.display?.italics)
+    .map((c) => c.id)
+    .join(', ')
+  const singleWeight = catalog
+    .filter((c) => c.fonts.display?.weights.length === 1)
+    .map((c) => c.id)
+    .join(', ')
   return [
     `Every chassis renders the hero at 64px or more on a 360px viewport, so marquee is never infeasible; the choice is how loud the desktop marquee gets. Hero at 1440px, loudest first: ${voices}.`,
     `\`hero\` and every step from \`xl\` up are fluid clamps that shrink to fit a 360px column; \`lg\` and below are fixed and render the same size at every width. Spec a display step by the register you want, not by a pixel size — the numbers in the catalog table are the two ends of a range.`,
     `Reserve the quietest heroes for editorial or literary phrases that don't want shouting. The condensed-caps chassis (${condensed}) share one register — don't default to them every time a phrase wants scale.`,
+    `Display italics load on ${italics} only, so \`lead: italic\` is available on those. A single display weight loads on ${singleWeight}, so those take \`weight: regular\` only.`,
   ].join(' ')
 }

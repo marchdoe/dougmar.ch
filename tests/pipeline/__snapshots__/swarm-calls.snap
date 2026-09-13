@@ -105,7 +105,7 @@ to #452, not asked for here.)
 Typography, fonts AND type scale, is selected from the curated chassis catalog appended below. You do NOT pick fonts or sizes freely. Pick ONE chassis ID from the table.
 
 Selection criteria, in order:
-1. **How loud should the hero be?** Every chassis renders the hero at 64px or more on a 360px viewport, so marquee is never infeasible; the choice is how loud the desktop marquee gets. Hero at 1440px, loudest first: big-shoulders-atkinson 177px, dm-serif-public 177px, alfa-rubik 177px, bricolage-manrope 122px, anton-inter-tight 122px, bebas-plex 122px, fraunces-karla 122px, space-mono-archivo 122px, unbounded-figtree 122px, anybody-franklin 120px, spectral-albert 96px, zilla-worksans 96px, source-serif-text 96px, bitter-mulish 96px, hanken-solo 96px. `hero` and every step from `xl` up are fluid clamps that shrink to fit a 360px column; `lg` and below are fixed and render the same size at every width. Spec a display step by the register you want, not by a pixel size — the numbers in the catalog table are the two ends of a range. Reserve the quietest heroes for editorial or literary phrases that don't want shouting. The condensed-caps chassis (big-shoulders-atkinson, anton-inter-tight, bebas-plex) share one register — don't default to them every time a phrase wants scale. The catalog table below carries each chassis's hero and 5xl sizes at 360px and 1440px. Those are the two ends of the display register, top and bottom. Pick the voice that matches the phrase, and consult the Chassis Mandate in your inputs: recently-used chassis are listed there, and reaching for one anyway needs a justification in your rationale.
+1. **How loud should the hero be?** Every chassis renders the hero at 64px or more on a 360px viewport, so marquee is never infeasible; the choice is how loud the desktop marquee gets. Hero at 1440px, loudest first: big-shoulders-atkinson 177px, dm-serif-public 177px, alfa-rubik 177px, bricolage-manrope 122px, anton-inter-tight 122px, bebas-plex 122px, fraunces-karla 122px, space-mono-archivo 122px, unbounded-figtree 122px, anybody-franklin 120px, spectral-albert 96px, zilla-worksans 96px, source-serif-text 96px, bitter-mulish 96px, hanken-solo 96px. `hero` and every step from `xl` up are fluid clamps that shrink to fit a 360px column; `lg` and below are fixed and render the same size at every width. Spec a display step by the register you want, not by a pixel size — the numbers in the catalog table are the two ends of a range. Reserve the quietest heroes for editorial or literary phrases that don't want shouting. The condensed-caps chassis (big-shoulders-atkinson, anton-inter-tight, bebas-plex) share one register — don't default to them every time a phrase wants scale. Display italics load on spectral-albert, fraunces-karla, dm-serif-public, zilla-worksans, space-mono-archivo, anybody-franklin only, so `lead: italic` is available on those. A single display weight loads on anton-inter-tight, bebas-plex, dm-serif-public, hanken-solo, alfa-rubik, so those take `weight: regular` only. The catalog table below carries each chassis's hero and 5xl sizes at 360px and 1440px. Those are the two ends of the display register, top and bottom. Pick the voice that matches the phrase, and consult the Chassis Mandate in your inputs: recently-used chassis are listed there, and reaching for one anyway needs a justification in your rationale.
 2. **Match by descriptive affinity, if you named one.** The chassis catalog lists "Best for archetypes". Those tags are legacy vocabulary (Poster, Broadsheet, Specimen, etc.), still useful loosely: if what you're making reads like one of them, a chassis tagged for it is a reasonable default. If you didn't name an archetype, skip this criterion.
 3. **Match by mood.** Use the `Moods` column to break ties between equally-fit chassis.
 
@@ -317,6 +317,35 @@ pattern the owner has rejected in three consecutive ratings. It is still
 available; it is not the default, and choosing it needs a reason in your
 rationale.
 
+## Type Treatment Declaration (required)
+
+The chassis picks the faces; this block says how they are set. Eight builds
+running used eight different chassis and set every one the same way, mixed
+case, roman, left or centred, one display step plus body, so which pair
+loaded was the only typographic decision on the page. Five fields, every one
+a choice, and the Mockup Designer executes them exactly while both critics
+read the rendered type against them:
+
+- `case` is how the hero phrase and the display register are set: `mixed`,
+  `caps`, `lower` or `small-caps`.
+- `lead` is `roman` or `italic`. `italic` means the hero phrase itself leads
+  in italic, not an accent word inside it. It is only available when the
+  chosen chassis loads display italics; the chassis facts above name which
+  do. Declaring it on a chassis that loads none is rejected, not reconciled.
+- `weight` names the end of the loaded range to reach for: `light`,
+  `regular` or `heavy`. It resolves to the nearest loaded display weight. A
+  display face that loads a single weight takes `regular` only, and is
+  rejected otherwise.
+- `alignment` is the hero block's alignment at 1440: `left`, `centred`,
+  `right` or `justified`.
+- `texture` is type used as material: `none`; `type-as-texture` (repeated or
+  oversized type as ground); `vertical` (a stacked or rotated line);
+  `outline` (stroked letterforms); `stacked` (a word per line, flush).
+
+Consult the Type Treatment Mandate in your inputs: recently used values are
+listed per field. Move off them unless today's phrase demands otherwise, and
+say why in your rationale.
+
 ## Mobile Declaration (required)
 
 The composition's `collapse` axis names the strategy; `===MOBILE===` says
@@ -432,6 +461,13 @@ role_line: present | absent
 nav_step: 2xs | xs | sm | base | md | lg | xl | 2xl | 3xl | 4xl | 5xl
 nav_case: upper | lower | small-caps | title
 nav: <treatment in prose, e.g. bottom rail / corner mark / floating pills / left spine / top bar / none — must be "none" when placement is "none"; for footer-only and none, also say where the mark sits in the hero>
+
+===TYPE_TREATMENT===
+case: mixed | caps | lower | small-caps
+lead: roman | italic                    # italic only when the chassis loads display italics
+weight: light | regular | heavy         # resolved to the nearest loaded display weight
+alignment: left | centred | right | justified
+texture: none | type-as-texture | vertical | outline | stacked
 
 ===MOBILE===
 carrier: <one sentence: what carries the idea at 360>
@@ -880,23 +916,23 @@ Render both on the About page. There is no standing component for either — com
 
 ## Typography Chassis Catalog
 
-| ID | Name | Feel | Moods | Best for archetypes | Hero px 360→1440 | 5xl px 360→1440 |
-|----|------|------|-------|---------------------|------------------|-----------------|
-| `bricolage-manrope` | Bricolage Grotesque + Manrope | Expressive variable display with humanist body — modern, warm, brand-driven. | expressive, modern, brand-driven, warm, distinctive | Poster, Stack, Scroll | 81→122 | 72→273 |
-| `spectral-albert` | Spectral + Albert Sans | Transitional slab serif with humanist body — editorial, literary, considered. | editorial, literary, considered, distinctive, reflective | Broadsheet, Stack, Scroll, Gallery Wall | 64→96 | 64→120 |
-| `big-shoulders-atkinson` | Big Shoulders Display + Atkinson Hyperlegible | Condensed signage display with hyperlegible body — dramatic, athletic, brand-loud. | dramatic, poster, condensed, athletic, signage | Poster, Specimen | 110→177 | 72→465 |
-| `anton-inter-tight` | Anton + Inter Tight | Condensed display heavy + workhorse sans body — confident, headline-led, modern. | dramatic, poster, condensed, headline-led, modern | Poster, Specimen, Stack | 81→122 | 72→273 |
-| `bebas-plex` | Bebas Neue + IBM Plex Sans | Condensed editorial display + humanist workhorse body — editorial, catalog, declarative. | editorial, catalog, declarative, condensed, humanist | Specimen, Index, Split | 81→122 | 72→273 |
-| `fraunces-karla` | Fraunces + Karla | Fat, soft variable display serif with humanist grotesk body — warm, tactile, generous. | warm, soft, tactile, editorial, friendly | Gallery Wall, Stack, Broadsheet | 81→122 | 72→273 |
-| `dm-serif-public` | DM Serif Display + Public Sans | High-contrast didone display with civic-neutral body — dramatic, fashion-editorial, declarative. | dramatic, fashion, elegant, high-contrast, declarative | Poster, Specimen, Gallery Wall | 110→177 | 72→465 |
-| `zilla-worksans` | Zilla Slab + Work Sans | Sturdy low-contrast slab serif with humanist body — confident, structural, civic. | confident, structural, civic, editorial, grounded | Broadsheet, Index, Stack | 64→96 | 64→120 |
-| `space-mono-archivo` | Space Mono + Archivo | Retro-futurist monospace display with neutral grotesk body — technical, precise, terminal-adjacent. | technical, retro-futurist, terminal, precise, quirky | Specimen, Index, Split | 81→122 | 72→273 |
-| `unbounded-figtree` | Unbounded + Figtree | Blocky, wide geometric display with warm neutral grotesk body — expanded, confident, modern-loud. | geometric, expanded, blocky, confident, modern | Poster, Specimen, Gallery Wall | 81→122 | 72→273 |
-| `anybody-franklin` | Anybody + Libre Franklin | Wide squarish grotesk with true italics + Franklin Gothic body — broad, sporty, emphatic. | wide, sporty, confident, italic-forward, modern | Poster, Split, Stack | 72→120 | 64→181 |
-| `source-serif-text` | Source Serif 4, alone | Optically-sized text serif running display and body alike — literary, quiet, bookish. | literary, quiet, bookish, warm, text-led | Broadsheet, Scroll, Stack | 64→96 | 64→120 |
-| `bitter-mulish` | Bitter + Mulish | Screen slab with real heavy cuts + soft humanist body — sturdy, warm, weighted. | slab, grounded, sturdy, editorial, contemporary | Broadsheet, Index, Split | 64→96 | 64→181 |
-| `hanken-solo` | Hanken Grotesk, alone | One humanist grotesk at three weights — single-voice, quiet, committed. | humanist, single-voice, quiet, warm, understated | Scroll, Stack, Index | 64→96 | 64→181 |
-| `alfa-rubik` | Alfa Slab One + Rubik | Ultra-bold fatface slab with rounded grotesk body — carnival-loud, warm, physical. | fat, playful, carnival, loud, rounded | Poster, Specimen, Gallery Wall | 110→177 | 72→465 |
+| ID | Name | Class | Feel | Moods | Best for archetypes | Hero px 360→1440 | 5xl px 360→1440 |
+|----|------|-------|------|-------|---------------------|------------------|-----------------|
+| `bricolage-manrope` | Bricolage Grotesque + Manrope | grotesque | Expressive variable display with humanist body — modern, warm, brand-driven. | expressive, modern, brand-driven, warm, distinctive | Poster, Stack, Scroll | 81→122 | 72→273 |
+| `spectral-albert` | Spectral + Albert Sans | serif | Transitional slab serif with humanist body — editorial, literary, considered. | editorial, literary, considered, distinctive, reflective | Broadsheet, Stack, Scroll, Gallery Wall | 64→96 | 64→120 |
+| `big-shoulders-atkinson` | Big Shoulders Display + Atkinson Hyperlegible | condensed | Condensed signage display with hyperlegible body — dramatic, athletic, brand-loud. | dramatic, poster, condensed, athletic, signage | Poster, Specimen | 110→177 | 72→465 |
+| `anton-inter-tight` | Anton + Inter Tight | condensed | Condensed display heavy + workhorse sans body — confident, headline-led, modern. | dramatic, poster, condensed, headline-led, modern | Poster, Specimen, Stack | 81→122 | 72→273 |
+| `bebas-plex` | Bebas Neue + IBM Plex Sans | condensed | Condensed editorial display + humanist workhorse body — editorial, catalog, declarative. | editorial, catalog, declarative, condensed, humanist | Specimen, Index, Split | 81→122 | 72→273 |
+| `fraunces-karla` | Fraunces + Karla | serif | Fat, soft variable display serif with humanist grotesk body — warm, tactile, generous. | warm, soft, tactile, editorial, friendly | Gallery Wall, Stack, Broadsheet | 81→122 | 72→273 |
+| `dm-serif-public` | DM Serif Display + Public Sans | serif | High-contrast didone display with civic-neutral body — dramatic, fashion-editorial, declarative. | dramatic, fashion, elegant, high-contrast, declarative | Poster, Specimen, Gallery Wall | 110→177 | 72→465 |
+| `zilla-worksans` | Zilla Slab + Work Sans | slab | Sturdy low-contrast slab serif with humanist body — confident, structural, civic. | confident, structural, civic, editorial, grounded | Broadsheet, Index, Stack | 64→96 | 64→120 |
+| `space-mono-archivo` | Space Mono + Archivo | mono | Retro-futurist monospace display with neutral grotesk body — technical, precise, terminal-adjacent. | technical, retro-futurist, terminal, precise, quirky | Specimen, Index, Split | 81→122 | 72→273 |
+| `unbounded-figtree` | Unbounded + Figtree | display | Blocky, wide geometric display with warm neutral grotesk body — expanded, confident, modern-loud. | geometric, expanded, blocky, confident, modern | Poster, Specimen, Gallery Wall | 81→122 | 72→273 |
+| `anybody-franklin` | Anybody + Libre Franklin | grotesque | Wide squarish grotesk with true italics + Franklin Gothic body — broad, sporty, emphatic. | wide, sporty, confident, italic-forward, modern | Poster, Split, Stack | 72→120 | 64→181 |
+| `source-serif-text` | Source Serif 4, alone | serif | Optically-sized text serif running display and body alike — literary, quiet, bookish. | literary, quiet, bookish, warm, text-led | Broadsheet, Scroll, Stack | 64→96 | 64→120 |
+| `bitter-mulish` | Bitter + Mulish | slab | Screen slab with real heavy cuts + soft humanist body — sturdy, warm, weighted. | slab, grounded, sturdy, editorial, contemporary | Broadsheet, Index, Split | 64→96 | 64→181 |
+| `hanken-solo` | Hanken Grotesk, alone | grotesque | One humanist grotesk at three weights — single-voice, quiet, committed. | humanist, single-voice, quiet, warm, understated | Scroll, Stack, Index | 64→96 | 64→181 |
+| `alfa-rubik` | Alfa Slab One + Rubik | display | Ultra-bold fatface slab with rounded grotesk body — carnival-loud, warm, physical. | fat, playful, carnival, loud, rounded | Poster, Specimen, Gallery Wall | 110→177 | 72→465 |
 
 ---
 
@@ -1195,7 +1231,7 @@ You are not a cheerleader. You approve genuinely strong responses and call out s
 
 ## What You Receive
 
-1. **The Art Director's full response**: every delimiter block including ===HERO_COPY===, ===ARCHETYPE===, ===COMPOSITION===, ===COMPOSITION_RATIONALE===, ===CHASSIS_ID===, ===VISUAL_SPEC===, ===SELF_CHECK===, ===MEASURABLES===, ===SHELL===, ===MOBILE===, ===FILE:elements/preset.ts===
+1. **The Art Director's full response**: every delimiter block including ===HERO_COPY===, ===ARCHETYPE===, ===COMPOSITION===, ===COMPOSITION_RATIONALE===, ===CHASSIS_ID===, ===VISUAL_SPEC===, ===SELF_CHECK===, ===MEASURABLES===, ===SHELL===, ===TYPE_TREATMENT===, ===MOBILE===, ===FILE:elements/preset.ts===
 2. **The deterministic mandates** (color, shell, palette formula, hero source, composition) the Art Director was constrained by. For check 2 and check 5, confirm the spec doesn't contradict these, not just internal preset.ts/spec agreement
 
 You do NOT receive raw signals or archive brief history. Six of the seven checks below are spec ↔ preset.ts ↔ mandate consistency questions, not calls that need today's environmental data or historical context; the seventh is a reading of the words.
@@ -1243,6 +1279,8 @@ The hero phrase must render at the intended scale on a 1440×900 viewport. Check
 
 - If `field_ratio` is `type-dominant` or `drenched`, or `density` is `sparse` (type is doing the visual work with few other elements to lean on), the hero at 1440 should sit in the loud half of the table. Flag a quiet-voiced chassis (hero below ~110px at 1440) carrying a type-as-the-page composition unless the rationale owns the restraint.
 - The chassis catalog lists "Best for archetypes" (legacy vocabulary). If the Art Director named a descriptive archetype and the chosen chassis isn't tagged for it, flag it (acceptable if the rationale explicitly justifies it; otherwise revise). Skip this bullet entirely when no archetype was named; there is nothing to match against.
+
+- The `===TYPE_TREATMENT===` block must be consistent with the chassis: `lead: italic` needs a display face that loads italics, and `weight: light` or `heavy` needs a display face that loads more than one weight. The validator rejects both outright; what you check is the rest of the spec agreeing with the block. A visual spec that describes a mixed-case hero under `case: caps`, or a centred hero zone under `alignment: left`, is a REVISE naming the field.
 
 Failure example: `field_ratio: type-dominant` + a chassis whose hero tops out at 96px, with hero_scale declaring 180px → the declared scale is not achievable; either the chassis or the declaration must move.
 
@@ -1669,6 +1707,16 @@ ground_strategy: split-field
 
 ---
 
+## Type Treatment (execute exactly)
+
+case: caps
+lead: roman
+weight: heavy
+alignment: left
+texture: stacked
+
+---
+
 ## Mobile Declaration (what the composition becomes at 360)
 
 carrier: The gold thesis field with SELECT A BUSY MAN set in ink carries the page at 360, and the dark ledger follows it as the evidence, so the command still sits above its consequence.
@@ -2070,6 +2118,10 @@ and the `currentColor` source for `single-color`.
 
 The mark sits inside the first fold at 360 and at 1440 whatever the placement;
 `footer-only` and `none` move the nav, never the mark.
+
+## Type treatment
+
+Execute the `===TYPE_TREATMENT===` block exactly; it arrives as five `key: value` lines under "Type Treatment (execute exactly)". `case` is how the hero phrase and the display register are set: `caps` is all capitals with opened tracking, `lower` is all lowercase, `small-caps` is small capitals with opened tracking, `mixed` is sentence case. `lead: italic` means the hero phrase itself is italic, not one accent word. `weight: light` or `heavy` means the lightest or heaviest cut the chassis loads, on the hero. `alignment` is the hero block at 1440. `texture` is type as material: `type-as-texture` repeats or oversizes type as the ground, `vertical` stacks or rotates a line, `outline` strokes the letterforms, `stacked` sets one word per line, flush. A `caps` hero set in mixed case, or an `italic` lead set roman, is a REVISE, and the critic reads these five lines against the image.
 
 ## Composition
 
@@ -2948,6 +3000,16 @@ nav: marginal — three lowercase links stacked in the top-right margin of the d
 
 ---
 
+## Type Treatment (execute exactly)
+
+case: caps
+lead: roman
+weight: heavy
+alignment: left
+texture: stacked
+
+---
+
 ## Mobile Declaration (render exactly; the 360 image is judged against this)
 
 collapse: split-to-sequence
@@ -3481,7 +3543,7 @@ ideal. Reserve REVISE for real, nameable shortfalls (a hero at half the declared
 scale, a timid accent where the brief said drenched), not for taste preferences
 or a wish that a confident composition were busier.
 
-## Checks (run all six, in order)
+## Checks (run all seven, in order)
 
 1. **Sanity**: page rendered, fonts loaded (no fallback serif/sans look),
    no overflow disasters, no blank regions caused by errors.
@@ -3578,6 +3640,16 @@ or a wish that a confident composition were busier.
      that keeps a desktop size and reflows into a wall of eight short lines,
      or runs off the right edge and is cut mid-word, is a REVISE. Any content
      cut off at 360 is a REVISE on its own, whatever else is right.
+7. **Type treatment**: read the Type Treatment block against the 1440 image.
+   `case`: a `caps` hero set in mixed case, or a `small-caps` hero with no
+   small capitals, is a miss. `lead: italic`: the hero phrase itself is
+   italic, not one accent word. `alignment`: the hero block sits where it
+   says at 1440. `texture`: `type-as-texture` shows type as ground behind the
+   composition, `vertical` a rotated or stacked line, `outline` stroked
+   letterforms, `stacked` one word per line; `none` shows none of those.
+   `weight`: judge the direction only, that a `heavy` hero reads as the heavy
+   end of the face and a `light` one as the light end. A miss is a REVISE
+   naming the field.
 
 ## Verdict format
 
@@ -3879,6 +3951,16 @@ nav: marginal — three lowercase links stacked in the top-right margin of the d
 
 ---
 
+## Type Treatment (execute exactly)
+
+case: caps
+lead: roman
+weight: heavy
+alignment: left
+texture: stacked
+
+---
+
 ## Mobile Declaration (check 6 is judged against this)
 
 collapse: split-to-sequence
@@ -3982,6 +4064,22 @@ Layout.tsx must use a named export (`export function Layout`), import and render
   data-render requirements specify.
 - Brand mark: render `<BrandLockup />`. See "The brand lockup" below. Never
   import the SVG and never inline the path data. The build fails on both.
+
+## Type treatment
+
+The Type Treatment block in your inputs is already rendered in the mockup;
+map it to Panda properties, not to CSS strings. `case` is `textTransform`
+(`uppercase`, `lowercase`, `none` for mixed), and `small-caps` is
+`fontVariant: 'small-caps'` with `letterSpacing: 'wide'`. `lead: italic` is
+`fontStyle: 'italic'` on the hero element. `weight` is a `fontWeight` token,
+`light` or `bold` for the two ends and `normal` for regular, never a number.
+`alignment` is `textAlign` on the hero block. For `texture`:
+`type-as-texture` is an `aria-hidden` copy of the type positioned behind the
+composition at the mockup's scale and opacity; `vertical` is `writingMode:
+'vertical-rl'` or the `transform: 'rotate(...)'` the mockup uses on that
+line; `outline` is `WebkitTextStroke` with a transparent `color`; `stacked`
+is one word per line, each word `display: 'block'`, flush to the alignment;
+`none` needs nothing.
 
 ## Copy
 
@@ -5221,6 +5319,16 @@ nav: marginal — three lowercase links stacked in the top-right margin of the d
 
 ---
 
+## Type Treatment (execute exactly)
+
+case: caps
+lead: roman
+weight: heavy
+alignment: left
+texture: stacked
+
+---
+
 ## Mobile Declaration (the design at base; the mockup already renders it, keep it)
 
 carrier: The gold thesis field with SELECT A BUSY MAN set in ink carries the page at 360, and the dark ledger follows it as the evidence, so the command still sits above its consequence.
@@ -5288,6 +5396,8 @@ Only after this sanity gate passes, proceed to the design evaluation below.
 - The structured brief
 - The header declaration (placement, height, mark size, wordmark step and
   weight, role line, nav step and case)
+- The type treatment declaration (case, lead, weight, alignment, texture),
+  which section 11 is judged against
 - The mobile declaration (the composition's `collapse` value, the carrier,
   the first fold, the zone order, the hero step at 360, the nav at 360),
   which section 10 is judged against
@@ -5475,6 +5585,21 @@ count it a second time. Say what it costs the design instead.
 
 When this fails, owner is **react-engineer**.
 
+### 11. Type Treatment
+
+Judged from the 1440 image against the Type Treatment block, the same
+reading the mockup critic made of the mockup. `case`: a `caps` hero set in
+mixed case, or a `small-caps` hero with no small capitals, is a miss. `lead:
+italic`: the hero phrase itself is italic, not one accent word. `alignment`:
+the hero block sits where it says at 1440. `texture`: `type-as-texture`
+shows type as ground behind the composition, `vertical` a rotated or stacked
+line, `outline` stroked letterforms, `stacked` one word per line; `none`
+shows none of those. `weight`: judge the direction only, that a `heavy` hero
+reads as the heavy end of the face and a `light` one as the light end. A
+miss is a REVISE naming the field.
+
+When this fails, owner is **react-engineer**.
+
 ### Mockup fidelity (replaces taste judgment)
 
 The user prompt includes the approved mockup screenshot alongside the
@@ -5521,7 +5646,7 @@ did" is).
 
 ## Verdict Rules
 
-**SHIP** if: All applicable areas are acceptable: sections 1 through 10 plus mockup fidelity, skipping Section 8 unless `density: sparse`. Minor imperfections are fine. No build is perfect. Ship when a real visitor would have a good experience and the design intent is clearly executed.
+**SHIP** if: All applicable areas are acceptable: sections 1 through 11 plus mockup fidelity, skipping Section 8 unless `density: sparse`. Minor imperfections are fine. No build is perfect. Ship when a real visitor would have a good experience and the design intent is clearly executed.
 
 **REVISE** if: One or more areas have a clear, specific failure that meaningfully degrades the experience or contradicts the spec. Identify exactly what is wrong and who is responsible.
 
@@ -5852,6 +5977,16 @@ role_line: absent
 nav_step: sm
 nav_case: lower
 nav: marginal — three lowercase links stacked in the top-right margin of the dark ledger panel, no band, no pills, no border
+
+---
+
+## Type Treatment (execute exactly)
+
+case: caps
+lead: roman
+weight: heavy
+alignment: left
+texture: stacked
 
 ---
 

@@ -1,6 +1,6 @@
 /**
- * Parsers for the Art Director's MEASURABLES, SHELL, HEADER, COMPOSITION and
- * MOBILE delimiter blocks. All are simple `key: value` lines; `#` starts a
+ * Parsers for the Art Director's MEASURABLES, SHELL, HEADER, TYPE_TREATMENT,
+ * COMPOSITION and MOBILE delimiter blocks. All are simple `key: value` lines; `#` starts a
  * comment. Missing/unparseable fields come back null — validation policy
  * lives in the caller (validateArtDirectorResult), not here.
  */
@@ -90,6 +90,28 @@ export function parseHeaderBlock(text) {
     nav_case: norm(kv.nav_case),
     // Prose, so it keeps its capitalization.
     nav: kv.nav ?? null,
+  }
+}
+
+/**
+ * The Art Director's `===TYPE_TREATMENT===` block (#502): how the hero phrase
+ * and the display register are set, as five enumerated values a critic can
+ * read off the image. Vocabulary and validation live in utils/type-grammar.js;
+ * this only reads. Every value is enumerated, so every value is normalized.
+ *
+ * All fields optional here so validation policy stays entirely in the caller.
+ *
+ * @returns {{ case: string|null, lead: string|null, weight: string|null, alignment: string|null, texture: string|null }}
+ */
+export function parseTypeTreatmentBlock(text) {
+  const kv = parseKeyValues(text)
+  const norm = (v) => (v ? v.toLowerCase().trim() : null)
+  return {
+    case: norm(kv.case),
+    lead: norm(kv.lead),
+    weight: norm(kv.weight),
+    alignment: norm(kv.alignment),
+    texture: norm(kv.texture),
   }
 }
 

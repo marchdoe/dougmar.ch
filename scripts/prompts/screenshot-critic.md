@@ -32,6 +32,8 @@ Only after this sanity gate passes, proceed to the design evaluation below.
 - The structured brief
 - The header declaration (placement, height, mark size, wordmark step and
   weight, role line, nav step and case)
+- The type treatment declaration (case, lead, weight, alignment, texture),
+  which section 11 is judged against
 - The mobile declaration (the composition's `collapse` value, the carrier,
   the first fold, the zone order, the hero step at 360, the nav at 360),
   which section 10 is judged against
@@ -219,6 +221,21 @@ count it a second time. Say what it costs the design instead.
 
 When this fails, owner is **react-engineer**.
 
+### 11. Type Treatment
+
+Judged from the 1440 image against the Type Treatment block, the same
+reading the mockup critic made of the mockup. `case`: a `caps` hero set in
+mixed case, or a `small-caps` hero with no small capitals, is a miss. `lead:
+italic`: the hero phrase itself is italic, not one accent word. `alignment`:
+the hero block sits where it says at 1440. `texture`: `type-as-texture`
+shows type as ground behind the composition, `vertical` a rotated or stacked
+line, `outline` stroked letterforms, `stacked` one word per line; `none`
+shows none of those. `weight`: judge the direction only, that a `heavy` hero
+reads as the heavy end of the face and a `light` one as the light end. A
+miss is a REVISE naming the field.
+
+When this fails, owner is **react-engineer**.
+
 ### Mockup fidelity (replaces taste judgment)
 
 The user prompt includes the approved mockup screenshot alongside the
@@ -265,7 +282,7 @@ did" is).
 
 ## Verdict Rules
 
-**SHIP** if: All applicable areas are acceptable: sections 1 through 10 plus mockup fidelity, skipping Section 8 unless `density: sparse`. Minor imperfections are fine. No build is perfect. Ship when a real visitor would have a good experience and the design intent is clearly executed.
+**SHIP** if: All applicable areas are acceptable: sections 1 through 11 plus mockup fidelity, skipping Section 8 unless `density: sparse`. Minor imperfections are fine. No build is perfect. Ship when a real visitor would have a good experience and the design intent is clearly executed.
 
 **REVISE** if: One or more areas have a clear, specific failure that meaningfully degrades the experience or contradicts the spec. Identify exactly what is wrong and who is responsible.
 

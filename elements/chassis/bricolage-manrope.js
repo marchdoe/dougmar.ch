@@ -21,6 +21,7 @@ import { scaleSteps } from './scale.js'
 /** @type {import('./types.js').ChassisEntry} */
 export const bricolageManrope = {
   id: 'bricolage-manrope',
+  class: 'grotesque',
   name: 'Bricolage Grotesque + Manrope',
   description: 'Expressive variable display with humanist body — modern, warm, brand-driven.',
   moods: ['expressive', 'modern', 'brand-driven', 'warm', 'distinctive'],

@@ -21,6 +21,8 @@ import {
   rhythmPx,
   stepPxAt,
   renderChassisPresetFile,
+  formatChassisCatalogForPrompt,
+  formatChassisSelectionForPrompt,
 } from '../../scripts/utils/chassis.js'
 
 /** A plain 1.5-ratio chassis the worked-out numbers below refer to. */
@@ -312,6 +314,39 @@ describe('the catalog', () => {
   it('holds fifteen chassis with unique ids', () => {
     expect(CHASSIS_CATALOG).toHaveLength(15)
     expect(new Set(CHASSIS_CATALOG.map((c) => c.id)).size).toBe(15)
+  })
+
+  it('gives every chassis a class from the six the mandate tracks (#502)', () => {
+    const classes = ['serif', 'grotesque', 'condensed', 'slab', 'mono', 'display']
+    for (const c of CHASSIS_CATALOG) {
+      expect(classes, `${c.id} class`).toContain(c.class)
+    }
+    // Every class is represented, so "classes that have not shipped" is never empty by construction.
+    expect(new Set(CHASSIS_CATALOG.map((c) => c.class)).size).toBe(6)
+    expect(CHASSIS_CATALOG.filter((c) => c.class === 'condensed').map((c) => c.id)).toEqual([
+      'big-shoulders-atkinson',
+      'anton-inter-tight',
+      'bebas-plex',
+    ])
+  })
+
+  it('renders the catalog table with a Class column beside the name (#502)', () => {
+    const table = formatChassisCatalogForPrompt(CHASSIS_CATALOG)
+    expect(table.split('\n')[0]).toBe(
+      '| ID | Name | Class | Feel | Moods | Best for archetypes | Hero px 360→1440 | 5xl px 360→1440 |'
+    )
+    expect(table).toContain('| `bebas-plex` | Bebas Neue + IBM Plex Sans | condensed |')
+    expect(table).toContain('| `spectral-albert` | Spectral + Albert Sans | serif |')
+  })
+
+  it('states which chassis load display italics and which load one weight (#502)', () => {
+    const facts = formatChassisSelectionForPrompt(CHASSIS_CATALOG)
+    expect(facts).toContain(
+      'Display italics load on spectral-albert, fraunces-karla, dm-serif-public, zilla-worksans, space-mono-archivo, anybody-franklin only'
+    )
+    expect(facts).toContain(
+      'A single display weight loads on anton-inter-tight, bebas-plex, dm-serif-public, hanken-solo, alfa-rubik'
+    )
   })
 
   it.each(CHASSIS_CATALOG.map((c) => [c.id, c]))('%s passes the schema check', (_id, chassis) => {
