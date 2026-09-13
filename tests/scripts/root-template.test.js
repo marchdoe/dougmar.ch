@@ -179,7 +179,7 @@ describe('every import the template declares is one it uses', () => {
 describe('renderRootTemplate — the archive link', () => {
   it('substitutes the count into the rendered source', () => {
     const src = renderRootTemplate('https://fonts.example/x', '', 123)
-    expect(src).toContain('Archive — 123 designs')
+    expect(src).toContain('Archive · 123 designs')
     expect(src).not.toContain('{{ARCHIVE_COUNT}}')
   })
 
@@ -196,7 +196,7 @@ describe('renderRootTemplate — the archive link', () => {
   })
 
   it('defaults the count rather than leaving a raw placeholder', () => {
-    expect(renderRootTemplate('u')).toContain('Archive — 0 designs')
+    expect(renderRootTemplate('u')).toContain('Archive · 0 designs')
   })
 
   it('the template still carries every placeholder the renderer fills', () => {

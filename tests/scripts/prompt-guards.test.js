@@ -275,3 +275,59 @@ describe('logo-mono.svg', () => {
     expect(paints.every((p) => p === 'none' || p === 'currentColor')).toBe(true)
   })
 })
+
+describe('the copy rules in the prompts (#504)', () => {
+  it('spec-critic.md carries the {{UNSLOP_PATTERNS}} placeholder inside a seventh check', () => {
+    const c = read('spec-critic.md')
+    expect(c).toContain('{{UNSLOP_PATTERNS}}')
+    expect(c).toContain('### 7. Copy')
+    expect(c).toContain('all seven checks pass')
+  })
+
+  it('art-director.md names the owner first and the rebuild only as a mechanism', () => {
+    const ad = read('art-director.md')
+    const firstLine = ad.split('\n')[0]
+    expect(firstLine).toContain('Doug March')
+    expect(firstLine).toContain('Ashburn, Virginia')
+    expect(firstLine).not.toMatch(/redesigns itself/)
+    expect(ad).toContain("Owner's voice:")
+    expect(ad).toContain('scripts/prompts/unslop.md')
+    expect(ad).toContain('never the thesis')
+  })
+
+  it('react-engineer.md states the two copy rules and names the gate', () => {
+    const re = read('react-engineer.md')
+    expect(re).toContain('scripts/prompts/unslop.md')
+    expect(re).toMatch(/no em\s+dashes/i)
+    expect(re).toContain('copy gate fails the build')
+  })
+
+  // The prompts are the register the agents copy. Prose in them carries no
+  // em dash; code fences, tables, parsed output templates and quoted
+  // examples of bad copy are the only places one may still sit.
+  const prompts = [
+    ...readdirSync(promptDir)
+      .filter((f) => f.endsWith('.md') && f !== 'unslop.md')
+      .map((f) => path.join(promptDir, f)),
+    ...readdirSync(path.join(promptDir, 'lanes'))
+      .filter((f) => f.endsWith('.md'))
+      .map((f) => path.join(promptDir, 'lanes', f)),
+  ]
+  const prose = (text) =>
+    text
+      .replace(/```[\s\S]*?```/g, '')
+      .split('\n')
+      .filter((l) => !l.trimStart().startsWith('|'))
+      .filter((l) => !/BAR:|Section \[n\]/.test(l))
+      .join('\n')
+      .replace(/["'][^"'\n]*—[^"'\n]*["']/g, '')
+
+  it.each(prompts.map((p) => path.relative(promptDir, p)))(
+    '%s has no em dash in its prose',
+    (rel) => {
+      const text = prose(readFileSync(path.join(promptDir, rel), 'utf8'))
+      const hits = text.split('\n').filter((l) => l.includes('—'))
+      expect(hits, hits.join('\n')).toEqual([])
+    }
+  )
+})

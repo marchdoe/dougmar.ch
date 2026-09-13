@@ -57,6 +57,7 @@ import {
 } from './utils/semantic-contract.js'
 import { formatPatternPropsForPrompt, readPatternProps } from './utils/pattern-props.js'
 import { collectGateRules, formatGateRulesForPrompt } from './utils/gate-rules.js'
+import { unslopPatternsSection } from './utils/copy-tells.js'
 import { parseDelimiterResponse } from './utils/delimiter-parser.js'
 import { parseCriticVerdict } from './utils/critic-verdict.js'
 import { modelFor, isDevModelTier } from './utils/models.js'
@@ -746,6 +747,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       refSpatial,
       refCritique,
       brandContract,
+      unslopVendored,
     ] = await Promise.all([
       readFile(path.join(promptDir, 'spec-critic.md'), 'utf8'),
       readFile(path.join(promptDir, 'screenshot-critic.md'), 'utf8'),
@@ -756,6 +758,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       readFile(path.join(refDir, 'spatial-design.md'), 'utf8'),
       readFile(path.join(refDir, 'critique.md'), 'utf8'),
       readFile(path.join(promptDir, 'brand-contract.md'), 'utf8'),
+      readFile(path.join(promptDir, 'unslop.md'), 'utf8'),
     ])
 
     // Brand-register declaration. dougmar.ch is BRAND register — a personal
@@ -770,10 +773,18 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     if (!specCriticPromptRaw.includes('{{CHASSIS_RENDER_FACTS}}')) {
       throw new Error('spec-critic.md is missing its {{CHASSIS_RENDER_FACTS}} placeholder')
     }
-    const specCriticPrompt = `${specCriticPromptRaw.replace(
-      '{{CHASSIS_RENDER_FACTS}}',
-      formatChassisRenderFactsForPrompt(CHASSIS_CATALOG)
-    )}\n\n## Design Critique Heuristics\n\n${refCritique}`
+    // The copy check (#504) reads the owner's pattern list from the vendored
+    // copy at assembly time, so the critic judges against the same list the
+    // gate matches and the owner edits.
+    if (!specCriticPromptRaw.includes('{{UNSLOP_PATTERNS}}')) {
+      throw new Error('spec-critic.md is missing its {{UNSLOP_PATTERNS}} placeholder')
+    }
+    const specCriticPrompt = `${specCriticPromptRaw
+      .replace('{{CHASSIS_RENDER_FACTS}}', formatChassisRenderFactsForPrompt(CHASSIS_CATALOG))
+      .replace(
+        '{{UNSLOP_PATTERNS}}',
+        unslopPatternsSection(unslopVendored)
+      )}\n\n## Design Critique Heuristics\n\n${refCritique}`
     const screenshotCriticPrompt = `${screenshotCriticPromptRaw}\n\n## Design Critique Heuristics\n\n${refCritique}`
 
     // The semantic colour contract is generated from scripts/utils/semantic-contract.js
@@ -834,8 +845,12 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // 10-build ratings window above, this is hand-maintained and all-time.
     // Fed to both the Art Director and the Mockup Designer.
     // -----------------------------------------------------------------------
-    const { buildTasteMemoryBlock } = await import('./utils/taste-memory.js')
+    const { buildTasteMemoryBlock, buildVoiceBlock } = await import('./utils/taste-memory.js')
     const tasteMemoryBlock = buildTasteMemoryBlock(root)
+    // The owner's voice (signals/voice.md, #504): first person, hand-written,
+    // read the same way. Fed to the Art Director beside the taste block, so
+    // the hero and deck lines have a register to match.
+    const voiceBlock = buildVoiceBlock(root)
 
     // -----------------------------------------------------------------------
     // What the last several shipped nights' compositions actually became on
@@ -965,6 +980,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         brandContract,
         weightsBlock,
         tasteMemoryBlock,
+        voiceBlock,
         mobileLessonBlock,
         uniquenessBlock,
         failureDumpPath: path.join(root, 'signals', 'art-director-last-failed.txt'),
@@ -999,6 +1015,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           brandContract,
           weightsBlock,
           tasteMemoryBlock,
+          voiceBlock,
           mobileLessonBlock,
           uniquenessBlock,
           retryContext: `## Previous attempt was rejected\n\nYour previous response failed validation: ${firstErr.message}\nEmit ALL required blocks with exact delimiters and exact field formats this time.`,
@@ -1153,6 +1170,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           brandContract,
           weightsBlock,
           tasteMemoryBlock,
+          voiceBlock,
           mobileLessonBlock,
           uniquenessBlock,
           retryContext: `## Previous attempt failed codegen\n\n${codegenResult.error?.slice(0, 1500) || ''}`,
@@ -2054,24 +2072,40 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         formatFindingsForCritic,
         advisoryFaultsForOwner,
         formatAdvisoryForRepairBrief,
+        findingLocation,
       } = await import('./utils/surface-gate.js')
+      const { runCopyGate } = await import('./utils/copy-gate.js')
 
       /**
        * Measure every route and record what was found. Round 1 runs before
        * the critic; round 2 runs after a revision that rebuilt, so the archive
        * says whether the revision fixed what the gate measured (#306).
+       *
+       * The copy gate (#504) rides in the same list. Its rendered half runs
+       * inside `runSurfaceGate`, off the same page walk; its static half
+       * reads the engineer's files here and is merged in, so one list of
+       * findings routes to the engineer, the critic and the repair brief.
        * @param {number} round
        * @returns {Promise<{findings: Array<object>, measured: number, errorCount: number}|null>}
        */
       async function measureSurfaces(round) {
         try {
           const t0Gate = Date.now()
-          const gate = await runSurfaceGate({ root })
+          const measured = await runSurfaceGate({ root })
+          const copy = await runCopyGate({ root })
+          // A new object, not a push into the measured one: the caller's
+          // result is its own to keep.
+          const findings = [...measured.findings, ...copy.findings]
+          const gate = {
+            ...measured,
+            findings,
+            errorCount: findings.filter((f) => f.severity === 'error').length,
+          }
           console.log(
-            `  [surface-gate] round ${round}: ${gate.measured} measurements, ${gate.errorCount} error(s) in ${((Date.now() - t0Gate) / 1000).toFixed(1)}s`
+            `  [surface-gate] round ${round}: ${gate.measured} measurements, ${copy.scanned} files read for copy, ${gate.errorCount} error(s) in ${((Date.now() - t0Gate) / 1000).toFixed(1)}s`
           )
           for (const f of gate.findings) {
-            console.log(`    [${f.severity}] ${f.surface} @${f.width} (${f.scheme}): ${f.detail}`)
+            console.log(`    [${f.severity}] ${findingLocation(f, { scheme: true })}: ${f.detail}`)
           }
           trace.addStep({
             name: 'surface-gate',
@@ -2089,7 +2123,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
             round,
             verdict: gate.errorCount > 0 ? 'REVISE' : 'SHIP',
             feedback: gate.findings.length
-              ? gate.findings.map((f) => `${f.surface} @${f.width}: ${f.detail}`).join('\n')
+              ? gate.findings.map((f) => `${findingLocation(f)}: ${f.detail}`).join('\n')
               : 'all surfaces fit their viewport',
             ts: Date.now(),
           })

@@ -19,6 +19,7 @@
  *   vi.mock('../../scripts/utils/build-validator.js', (o) => m['scripts/utils/build-validator.js'](o))
  *   vi.mock('../../scripts/utils/snapshot.js', (o) => m['scripts/utils/snapshot.js'](o))
  *   vi.mock('../../scripts/utils/surface-gate.js', (o) => m['scripts/utils/surface-gate.js'](o))
+ *   vi.mock('../../scripts/utils/copy-gate.js', (o) => m['scripts/utils/copy-gate.js'](o))
  *   vi.mock('../../scripts/utils/archiver.js', (o) => m['scripts/utils/archiver.js'](o))
  *   vi.mock('../../scripts/seal-archive.js', (o) => m['scripts/seal-archive.js'](o))
  *   vi.mock('../../scripts/utils/file-manager.js', (o) => m['scripts/utils/file-manager.js'](o))
@@ -88,6 +89,7 @@ const state = {
     codegen: [],
     build: [],
     gate: [],
+    copy: [],
     mockupCapture: [],
     screenshot: [],
     routeCapture: [],
@@ -104,6 +106,7 @@ const state = {
     captureRouteScreenshot: [],
     captureRoutePhoneFilmstrip: [],
     runSurfaceGate: [],
+    runCopyGate: [],
     listGeneratedRoutes: [],
     archive: [],
     /** `{ seq, paths, map, root }` per real `restore` call */
@@ -324,6 +327,22 @@ async function fakeRunSurfaceGate(opts) {
   return r ?? CLEAN_GATE
 }
 
+/** The copy gate's static scan with nothing to report (#504). */
+export const CLEAN_COPY_GATE = { findings: [], scanned: 6, errorCount: 0 }
+
+/**
+ * The static copy scan is faked for the same reason the surface gate is: the
+ * recorded engineer fixture carries "The busy man — rebuilt nightly", and a
+ * real scan would force a revision in every scenario that never asked for one.
+ */
+async function fakeRunCopyGate(opts) {
+  state.fakes.runCopyGate.push({ ...opts })
+  const scripted = nextScript('copy', null)
+  const r = typeof scripted === 'function' ? scripted() : scripted
+  if (r instanceof Error) throw r
+  return r ?? CLEAN_COPY_GATE
+}
+
 export const DEFAULT_ROUTES = [
   { id: 'home', route: '/' },
   { id: 'about', route: '/about' },
@@ -443,6 +462,10 @@ export const mockFactories = {
     ...(await importOriginal()),
     runSurfaceGate: fakeRunSurfaceGate,
     listGeneratedRoutes: fakeListGeneratedRoutes,
+  }),
+  'scripts/utils/copy-gate.js': async (importOriginal) => ({
+    ...(await importOriginal()),
+    runCopyGate: fakeRunCopyGate,
   }),
   'scripts/utils/archiver.js': async (importOriginal) => ({
     ...(await importOriginal()),
@@ -589,6 +612,8 @@ export function readTrace(root, date) {
  *   `validateBuild` results in call order; `true` after the list ends.
  * @param {Array<{status: number, stdout?: string, stderr?: string}|Function>} [opts.codegen]
  *   `spawnSync` results for `panda codegen`; status 0 after the list ends.
+ * @param {Array<{findings: Array<object>, scanned: number, errorCount: number}|Error|Function>} [opts.copy]
+ *   `runCopyGate` results per round; `CLEAN_COPY_GATE` after the list ends.
  * @param {Array<{findings: Array<object>, measured: number, errorCount: number}|Error|Function>} [opts.gate]
  *   `runSurfaceGate` results per round; `CLEAN_GATE` after the list ends.
  * @param {Array<object|Error|Function>} [opts.mockupCapture] `captureHtmlFileScreenshot` results

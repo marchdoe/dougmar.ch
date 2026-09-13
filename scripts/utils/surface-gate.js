@@ -25,6 +25,7 @@
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { contrastRatio, rgbToHex } from './contrast.js'
+import { collectVisibleCopy, readCopyExemptions, renderedCopyFindings } from './copy-gate.js'
 import { ROOT } from './file-manager.js'
 import { BODY_TEXT_MIN_PX, TAP_TARGET_MIN_PX } from './responsive-thresholds.js'
 import { withPreviewServer } from './snapshot.js'
@@ -142,10 +143,15 @@ export async function listGeneratedRoutes(root = ROOT) {
  * Playwright. Pure.
  *
  * @param {object} m - raw measurement from {@link measureRoute}
- * @param {{ tolerancePx?: number }} [opts]
+ * @param {{ tolerancePx?: number,
+ *   exemptions?: import('./copy-gate.js').CopyExemptions }} [opts] `exemptions`
+ *   is what the copy scan may skip; see `readCopyExemptions`
  * @returns {Array<{ kind: string, severity: 'error'|'warning', detail: string }>}
  */
-export function evaluateMeasurement(m, { tolerancePx = OVERFLOW_TOLERANCE_PX } = {}) {
+export function evaluateMeasurement(
+  m,
+  { tolerancePx = OVERFLOW_TOLERANCE_PX, exemptions = undefined } = {}
+) {
   const findings = []
 
   if (m.error) {
@@ -223,6 +229,13 @@ export function evaluateMeasurement(m, { tolerancePx = OVERFLOW_TOLERANCE_PX } =
   // its ground (#503). Split into its own function for the same reason as
   // the advisories.
   findings.push(...brandMarkFindings(m))
+  // The words (#504). Same shape as the geometry findings, so an em dash on
+  // `/` forces a revision through the same path a clipped hero does.
+  findings.push(...copyFindings(m, exemptions))
+  // One h1 per page. 2026-09-13 shipped a home page without one and the
+  // site-health e2e on main went red on a page the nightly had already
+  // pushed; the check belongs here, before the push.
+  findings.push(...headingFindings(m))
 
   if (m.consoleErrors?.length) {
     findings.push({
@@ -266,6 +279,23 @@ function advisory360Findings(m) {
     })
   }
   return findings
+}
+
+/**
+ * The copy gate's rendered half (#504), on the one measurement per route
+ * that carries the body's visible text: the 1440 rung, light scheme, the
+ * only place `measureRoute` collects it. A route no agent owns reports its
+ * tells as warnings, for the same reason its overflow could never force a
+ * revision: nothing in the pipeline can open the file.
+ *
+ * @param {object} m - raw measurement from {@link measureRoute}
+ * @param {import('./copy-gate.js').CopyExemptions} [exemptions]
+ * @returns {Array<{ kind: 'copy-tell', severity: 'error'|'warning', detail: string }>}
+ */
+function copyFindings(m, exemptions) {
+  if (!m.visibleCopy) return []
+  const severity = ownerForSurface(m.route) === 'human' ? 'warning' : 'error'
+  return renderedCopyFindings(m.visibleCopy, { exemptions, severity })
 }
 
 /**
@@ -714,7 +744,29 @@ export function collectSurfaceMetrics({ minChars }) {
     clientWidth: document.documentElement.clientWidth,
     allowsXOverflow: document.body?.hasAttribute('data-allow-x-overflow') ?? false,
     worstCopy,
+    h1Count: document.querySelectorAll('h1').length,
   }
+}
+
+/**
+ * The `heading` finding: an engineer-owned route with no `<h1>`. The hero
+ * phrase is the page's h1 on every route; a page without one has no
+ * accessible name for what it is about, and the site-health e2e expects one.
+ * Undefined `h1Count` (a measurement that never ran the collector) is not a
+ * finding.
+ *
+ * @param {object} m - raw measurement from {@link measureRoute}
+ * @returns {Array<{ kind: string, severity: 'error', detail: string }>}
+ */
+function headingFindings(m) {
+  if (m.h1Count !== 0 || ownerForSurface(m.route) !== 'react-engineer') return []
+  return [
+    {
+      kind: 'heading',
+      severity: 'error',
+      detail: 'no <h1> on the page; the hero phrase is the h1 on every route',
+    },
+  ]
 }
 
 /**
@@ -775,6 +827,16 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
         [findSmallCopy.toString(), { bodyTextMinPx: BODY_TEXT_MIN_PX }]
       )
     }
+    // The words, once per route (#504): at the 1440 rung in light, because
+    // the text is the same at every rung and in both schemes, and one read
+    // is enough to fail a build on.
+    let visibleCopy = null
+    if (viewport.width === 1440 && scheme === 'light') {
+      visibleCopy = await page.evaluate(
+        ([src]) => new Function(`return ${src}`)()(),
+        [collectVisibleCopy.toString()]
+      )
+    }
     return {
       ...base,
       status: resp?.status() ?? null,
@@ -783,6 +845,7 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
       brand,
       tapTargets,
       smallCopy,
+      visibleCopy,
       consoleErrors,
     }
   } catch (err) {
@@ -814,6 +877,8 @@ export async function runSurfaceGate({
 } = {}) {
   const { chromium } = await import('playwright')
   const surfaces = routes ?? (await listGeneratedRoutes(root))
+  // What the copy scan may skip, read once rather than per page (#504).
+  const exemptions = readCopyExemptions(root)
 
   const jobs = []
   for (const surface of surfaces) {
@@ -842,7 +907,7 @@ export async function runSurfaceGate({
             if (!job) return
             const m = await measureRoute(browser, baseUrl, job.surface, job.viewport, job.scheme)
             measured++
-            for (const f of evaluateMeasurement(m)) {
+            for (const f of evaluateMeasurement(m, { exemptions })) {
               findings.push({
                 surface: job.surface.route,
                 viewport: job.viewport.name,
@@ -892,7 +957,7 @@ export function formatFindingsForCritic(findings) {
 
   const byKey = new Map()
   for (const f of findings) {
-    const key = `${f.surface}|${f.viewport}|${f.kind}|${f.detail}`
+    const key = `${f.surface}|${f.viewport}|${f.line}|${f.kind}|${f.detail}`
     if (!byKey.has(key)) byKey.set(key, { ...f, schemes: [] })
     byKey.get(key).schemes.push(f.scheme)
   }
@@ -904,7 +969,10 @@ export function formatFindingsForCritic(findings) {
     .map((f) => {
       const schemes =
         f.schemes.length === COLOR_SCHEMES.length ? 'both schemes' : f.schemes.join(' + ')
-      return `- [${f.severity}] ${f.surface} at ${f.width}px (${schemes}): ${f.detail}`
+      // A static copy finding (#504) names a file and a line, not a viewport.
+      const where =
+        f.line != null ? `${f.surface}:${f.line}` : `${f.surface} at ${f.width}px (${schemes})`
+      return `- [${f.severity}] ${where}: ${f.detail}`
     })
 
   return [
@@ -931,9 +999,24 @@ export function formatFindingsForCritic(findings) {
  * @returns {Array<object>}
  */
 export function faultsForOwner(findings, owner) {
+  // A static copy finding (#504) names a file, not a route, and carries its
+  // owner with it; everything measured off a route is routed by the route.
   return (findings ?? []).filter(
-    (f) => f.severity === 'error' && ownerForSurface(f.surface) === owner
+    (f) => f.severity === 'error' && (f.owner ?? ownerForSurface(f.surface)) === owner
   )
+}
+
+/**
+ * Where a finding is, for a log line: `route @width (scheme)` for a
+ * measurement, `file:line` for a static copy finding (#504).
+ *
+ * @param {object} f
+ * @param {{ scheme?: boolean }} [opts] include the colour scheme
+ * @returns {string}
+ */
+export function findingLocation(f, { scheme = false } = {}) {
+  if (f.line != null) return `${f.surface}:${f.line}`
+  return `${f.surface} @${f.width}${scheme && f.scheme ? ` (${f.scheme})` : ''}`
 }
 
 /**

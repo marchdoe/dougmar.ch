@@ -1,12 +1,12 @@
 # Design System API Reference
 
-This is the exact API surface available to you. Use ONLY what is documented here.
+This is the exact API available to you. Use ONLY what is documented here.
 
 ## Styled Components (from `../../styled-system/jsx`)
 
 Available components: `Box`, `Flex`, `Grid`, `Stack`, `VStack`, `HStack`, `Container`, `Center`, `Divider`, `Spacer`, `VisuallyHidden`, `styled`
 
-### `styled()` factory — create custom styled components:
+### `styled()` factory, create custom styled components:
 ```tsx
 const Card = styled('div', {
   base: { padding: '4', background: 'surface', borderRadius: '8px' },
@@ -23,7 +23,7 @@ const Card = styled('div', {
 
 {{PATTERN_PROPS}}
 
-**All components** also accept CSS props directly — `fontSize`, `color`, `padding`, `margin`, `background`, etc.
+**All components** also accept CSS props directly: `fontSize`, `color`, `padding`, `margin`, `background`, etc.
 
 ## CSS Function (from `../../styled-system/css`)
 
@@ -33,7 +33,7 @@ const className = css({ display: 'flex', gap: '4', color: 'text' })
 <div className={className}>Content</div>
 ```
 
-## Content Data — Exact Exports
+## Content Data: Exact Exports
 
 ### `../content/projects` (from components) or `'../content/projects'` (from routes)
 ```typescript
@@ -108,8 +108,8 @@ Components reference token names, NOT raw color values. A name outside these set
 - **Font sizes:** `2xs`, `xs`, `sm`, `base`, `md`, `lg`, `xl`, `2xl`, `3xl`, `4xl`, `5xl`, `hero`. Nothing above `5xl` exists. `hero` and every step from `xl` up are fluid clamps that shrink to fit a 360px column, so a heading set in one resizes on its own; `lg` and below are fixed.
 - **Text styles:** every ramp step is also a `textStyle` token (`textStyle: 'hero'`) carrying size, line-height and letter-spacing together, tuned per step by the day's chassis. Prefer `textStyle` over setting `fontSize` alone.
 - **Spacing:** `1`-`9`, derived from the chassis rhythm and landing close to 4, 8, 16, 24, 32, 48, 64, 96, 128px on every chassis. A bare number is a spacing token, so a literal size needs its unit (`width: '44px'`).
-- **Line heights:** `tight`, `snug`, `normal`, `loose` — derived from the chassis step table. A step's own leading comes free with `textStyle`.
-- **Letter spacings:** `tight`, `normal`, `wide`, `wider`, `widest` — also chassis-derived; `wide`+ are for caps labels and smallcaps.
+- **Line heights:** `tight`, `snug`, `normal`, `loose`, derived from the chassis step table. A step's own leading comes free with `textStyle`.
+- **Letter spacings:** `tight`, `normal`, `wide`, `wider`, `widest`, also chassis-derived; `wide`+ are for caps labels and smallcaps.
 
 ### Colors
 

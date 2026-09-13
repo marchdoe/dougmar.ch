@@ -6,10 +6,10 @@ affinity: vertical, accelerating, dense, full-bleed
 
 **Lane: Kinetic Sport Scroll**
 
-> Source: sport-brand launch pages (Nike and similar) — general genre characteristics of kinetic, color-block athletic marketing, not a specific copyrighted layout. Use as anchor reference, not copy target.
+> Source: sport-brand launch pages (Nike and similar). General genre characteristics of kinetic, color-block athletic marketing, not a specific copyrighted layout. Use as anchor reference, not copy target.
 
 ## Atmosphere
-Kinetic, high-contrast, motion-implied even in static images. Bold saturated color blocks punctuate an otherwise photography-driven scroll — energy over minimalism, but still one idea at a time.
+Kinetic, high-contrast, motion-implied even in static images. Bold saturated color blocks punctuate an otherwise photography-driven scroll. Energy over minimalism, but still one idea at a time.
 
 ## Color roles
 - bg: #000000 primary, alternating with full-bleed saturated color-block sections (e.g. #FF4400 or #FFE600) between photo sections
@@ -28,10 +28,10 @@ Kinetic, high-contrast, motion-implied even in static images. Bold saturated col
 - Cards: full-bleed photo/video blocks carrying a huge stat overlay (e.g. "26.2 MI")
 
 ## Anti-patterns specific to this style
-- DO NOT stay monochrome — at least one full-bleed saturated color-block section is required
+- DO NOT stay monochrome. At least one full-bleed saturated color-block section is required
 - DO NOT use a serif typeface
-- DO NOT shrink stat callouts — numbers should be huge and confident, never dainty
-- DO NOT use pastel colors — saturation stays high throughout
+- DO NOT shrink stat callouts. Numbers should be huge and confident, never dainty
+- DO NOT use pastel colors. Saturation stays high throughout
 
 ## Mobile strategy
-The saturated color keeps its extent and never thins into a stripe. Stat numbers scale via `clamp()` but keep their visual dominance — they should never read as smaller than the surrounding body text's weight would suggest.
+The saturated color keeps its extent and never thins into a stripe. Stat numbers scale via `clamp()` but keep their visual dominance. They should never read as smaller than the surrounding body text's weight would suggest.

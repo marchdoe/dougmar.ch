@@ -20,6 +20,7 @@ import { fileURLToPath } from 'node:url'
 import { describe, expect, it, vi } from 'vitest'
 import {
   CLEAN_GATE,
+  CLEAN_COPY_GATE,
   DEFAULT_BUILD_ERROR,
   REQUIRED_ENGINEER_FILES,
   fixtureFor,
@@ -33,6 +34,7 @@ vi.mock('../../scripts/utils/vision-router.js', (o) => m['scripts/utils/vision-r
 vi.mock('../../scripts/utils/build-validator.js', (o) => m['scripts/utils/build-validator.js'](o))
 vi.mock('../../scripts/utils/snapshot.js', (o) => m['scripts/utils/snapshot.js'](o))
 vi.mock('../../scripts/utils/surface-gate.js', (o) => m['scripts/utils/surface-gate.js'](o))
+vi.mock('../../scripts/utils/copy-gate.js', (o) => m['scripts/utils/copy-gate.js'](o))
 vi.mock('../../scripts/utils/archiver.js', (o) => m['scripts/utils/archiver.js'](o))
 vi.mock('../../scripts/seal-archive.js', (o) => m['scripts/seal-archive.js'](o))
 vi.mock('../../scripts/utils/file-manager.js', (o) => m['scripts/utils/file-manager.js'](o))
@@ -910,5 +912,82 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     // After the errors, as the issue asks.
     expect(revision.userPrompt.indexOf(errors)).toBeLessThan(advisoryIdx)
     expect(revision.userPrompt).toContain(TAP_TARGET_AT_360.detail)
+  })
+})
+
+describe('the copy gate (#504)', () => {
+  /** A static finding on an engineer file: the shape `runCopyGate` returns. */
+  const DASH_IN_DECK = {
+    surface: 'app/routes/index.tsx',
+    line: 14,
+    owner: 'react-engineer',
+    kind: 'copy-tell',
+    tell: 'em-dash',
+    severity: 'error',
+    detail: 'em dash: "<p>Rebuilt every night — again</p>". Use a period or a comma.',
+  }
+
+  it('revises on a SHIP when the static scan found a tell in an engineer file', async () => {
+    const run = await runSwarm({
+      copy: [{ findings: [DASH_IN_DECK], scanned: 6, errorCount: 1 }, CLEAN_COPY_GATE],
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.calls.map((c) => c.agent)).toEqual([
+      'art-director',
+      'spec-critic',
+      'mockup-designer',
+      'mockup-critic',
+      'react-engineer',
+      'screenshot-critic',
+      'react-engineer',
+      'screenshot-critic',
+    ])
+
+    // The line comes back verbatim, with the file and the line number, to
+    // the critic and then to the engineer's repair brief.
+    const faults = formatFindingsForCritic([DASH_IN_DECK])
+    expect(faults).toContain(
+      '- [error] app/routes/index.tsx:14: em dash: "<p>Rebuilt every night — again</p>". Use a period or a comma.'
+    )
+    expect(run.callsFor('screenshot-critic')[0].userPrompt).toContain(faults)
+    const [first, revision] = run.callsFor('react-engineer')
+    expect(first.userPrompt).not.toContain('## Measured layout faults')
+    expect(revision.userPrompt).toContain(faults)
+    expect(run.retries).toBe(1)
+
+    // Both halves run in both rounds, and the record says round 1 failed on it.
+    expect(run.fakes.runSurfaceGate).toHaveLength(2)
+    expect(run.fakes.runCopyGate).toHaveLength(2)
+    const gateVerdicts = run.verdicts.filter((v) => v.critic === 'surface-gate')
+    expect(gateVerdicts.map((v) => v.verdict)).toEqual(['REVISE', 'SHIP'])
+    expect(gateVerdicts[0].feedback).toContain('app/routes/index.tsx:14: em dash')
+  })
+
+  it('reports a tell in hand-written content as a warning that forces nothing', async () => {
+    const warning = {
+      ...DASH_IN_DECK,
+      surface: 'app/content/projects.ts',
+      line: 40,
+      owner: 'human',
+      severity: 'warning',
+    }
+    const run = await runSwarm({ copy: [{ findings: [warning], scanned: 6, errorCount: 0 }] })
+
+    expect(run.error).toBeNull()
+    expect(run.calls.map((c) => c.agent)).toEqual([
+      'art-director',
+      'spec-critic',
+      'mockup-designer',
+      'mockup-critic',
+      'react-engineer',
+      'screenshot-critic',
+    ])
+    expect(run.retries).toBe(0)
+    expect(run.callsFor('screenshot-critic')[0].userPrompt).toContain(
+      '- [warning] app/content/projects.ts:40: em dash'
+    )
+    expect(run.verdicts.find((v) => v.critic === 'surface-gate').verdict).toBe('SHIP')
+    expect(run.verdicts.some((v) => v.verdict === 'NEEDS-HUMAN')).toBe(false)
   })
 })

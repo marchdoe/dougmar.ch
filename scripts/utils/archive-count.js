@@ -2,7 +2,7 @@
  * How many designs the archive holds.
  *
  * Feeds the {{ARCHIVE_COUNT}} placeholder in __root.tsx.template, so every
- * nightly build carries a link reading "Archive — <n> designs".
+ * nightly build carries a link reading "Archive · <n> designs".
  *
  * Counts date directories under `archive/` rather than reading
  * public/archive/_data.json, which is regenerated at build time and is stale
