@@ -41,6 +41,10 @@ import { archive } from './utils/archiver.js'
 import { resetLedger, noteRetry, summarizeLedger } from './utils/cost-ledger.js'
 import { createTrace } from './utils/trace.js'
 import { selectLane } from './utils/select-lane.js'
+import {
+  assembleMockupDesignerSystemPrompt,
+  MOCKUP_DESIGNER_PROMPT_MAX,
+} from './utils/mockup-designer-prompt.js'
 import { hashToRange } from './utils/deterministic-hash.js'
 import { CHASSIS_CATALOG } from '../elements/chassis/index.js'
 import {
@@ -1440,25 +1444,28 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         (forbiddenLanes.includes(chosenLane.id) ? ', forbidden but strongest affinity match' : '') +
         `); conditional refs: ${conditionalRefs.length}`
     )
-    const mockupDesignerSystemPrompt = [
-      mockupDesignerPromptRaw.replace('<!-- SEED_ANCHOR -->', chosenLane.body),
-      brandRegisterDeclaration,
-      refTypography,
-      refColor,
-      refSpatial,
-      ...conditionalRefs,
-      brandContract,
-    ].join('\n\n')
+    const { text: mockupDesignerSystemPrompt, bytes: mockupDesignerPromptBytes } =
+      assembleMockupDesignerSystemPrompt({
+        raw: mockupDesignerPromptRaw,
+        laneBody: chosenLane.body,
+        brandRegisterDeclaration,
+        refs: [refTypography, refColor, refSpatial, ...conditionalRefs],
+        brandContract,
+      })
     console.log(
-      `  mockup-designer system prompt: ${(mockupDesignerSystemPrompt.length / 1024).toFixed(0)}KB`
+      `  mockup-designer system prompt: ${(mockupDesignerPromptBytes / 1024).toFixed(0)}KB`
     )
-    if (mockupDesignerSystemPrompt.length > 55 * 1024) {
-      // Fail fast rather than let the CLI emit a 0KB mockup near the ~56KB
-      // ceiling (the failure that pinned us to 2.1.92). Restore + throw so
-      // the day's run rolls back cleanly instead of shipping nothing.
+    if (mockupDesignerPromptBytes > MOCKUP_DESIGNER_PROMPT_MAX) {
+      // A budget, not a crash guard. The CLI 2.1.92 bug this ceiling used to
+      // guard against does not reproduce on the 2.1.207 pin in
+      // .github/workflows/daily-redesign.yml (PR #69, 2026-07-12). The
+      // model reads the whole prompt every revision round, so growth past
+      // this line is a cost and attention problem, not a correctness one.
+      // Restore + throw so the day's run rolls back cleanly instead of
+      // quietly getting more expensive.
       await restore(originalBackup, { root })
       throw new Error(
-        `mockup-designer system prompt is ${(mockupDesignerSystemPrompt.length / 1024).toFixed(0)}KB — over the 55KB ceiling (CLI 2.1.92 fails ~56KB). Trim a reference doc.`
+        `mockup-designer system prompt is ${(mockupDesignerPromptBytes / 1024).toFixed(0)}KB — over the ${(MOCKUP_DESIGNER_PROMPT_MAX / 1024).toFixed(0)}KB budget. Trim a reference doc.`
       )
     }
 
