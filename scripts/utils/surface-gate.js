@@ -232,6 +232,10 @@ export function evaluateMeasurement(
   // The words (#504). Same shape as the geometry findings, so an em dash on
   // `/` forces a revision through the same path a clipped hero does.
   findings.push(...copyFindings(m, exemptions))
+  // One h1 per page. 2026-09-13 shipped a home page without one and the
+  // site-health e2e on main went red on a page the nightly had already
+  // pushed; the check belongs here, before the push.
+  findings.push(...headingFindings(m))
 
   if (m.consoleErrors?.length) {
     findings.push({
@@ -740,7 +744,29 @@ export function collectSurfaceMetrics({ minChars }) {
     clientWidth: document.documentElement.clientWidth,
     allowsXOverflow: document.body?.hasAttribute('data-allow-x-overflow') ?? false,
     worstCopy,
+    h1Count: document.querySelectorAll('h1').length,
   }
+}
+
+/**
+ * The `heading` finding: an engineer-owned route with no `<h1>`. The hero
+ * phrase is the page's h1 on every route; a page without one has no
+ * accessible name for what it is about, and the site-health e2e expects one.
+ * Undefined `h1Count` (a measurement that never ran the collector) is not a
+ * finding.
+ *
+ * @param {object} m - raw measurement from {@link measureRoute}
+ * @returns {Array<{ kind: string, severity: 'error', detail: string }>}
+ */
+function headingFindings(m) {
+  if (m.h1Count !== 0 || ownerForSurface(m.route) !== 'react-engineer') return []
+  return [
+    {
+      kind: 'heading',
+      severity: 'error',
+      detail: 'no <h1> on the page; the hero phrase is the h1 on every route',
+    },
+  ]
 }
 
 /**

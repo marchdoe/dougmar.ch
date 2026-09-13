@@ -96,7 +96,7 @@ export function HeroScoreboard() {
         </Flex>
 
         <Box alignSelf="center" textAlign="center">
-          <p className={tigersCss}>Tigers</p>
+          <h1 className={tigersCss}>Tigers</h1>
           <Flex
             justify="center"
             align="center"

@@ -698,3 +698,22 @@ describe('the copy gate in the surface gate (#504)', () => {
     expect(findingLocation(measured, { scheme: true })).toBe('/ @360 (dark)')
   })
 })
+
+describe('the heading finding', () => {
+  // 2026-09-13 shipped a home page with no h1; the site-health e2e on main
+  // caught it after the push. The gate catches it before.
+  it('errors on an engineer-owned route with no h1', () => {
+    const [f] = evaluateMeasurement({ ...ok, h1Count: 0 })
+    expect(f).toMatchObject({ kind: 'heading', severity: 'error' })
+    expect(f.detail).toContain('no <h1>')
+  })
+
+  it('passes a page with one h1, and says nothing when the count was never measured', () => {
+    expect(evaluateMeasurement({ ...ok, h1Count: 1 })).toEqual([])
+    expect(evaluateMeasurement(ok)).toEqual([])
+  })
+
+  it('leaves hand-owned routes to a human', () => {
+    expect(evaluateMeasurement({ ...ok, route: '/experiments', h1Count: 0 })).toEqual([])
+  })
+})
