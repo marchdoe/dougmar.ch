@@ -19,6 +19,7 @@ vi.mock('../../scripts/utils/vision-router.js', (o) => m['scripts/utils/vision-r
 vi.mock('../../scripts/utils/build-validator.js', (o) => m['scripts/utils/build-validator.js'](o))
 vi.mock('../../scripts/utils/snapshot.js', (o) => m['scripts/utils/snapshot.js'](o))
 vi.mock('../../scripts/utils/surface-gate.js', (o) => m['scripts/utils/surface-gate.js'](o))
+vi.mock('../../scripts/utils/copy-gate.js', (o) => m['scripts/utils/copy-gate.js'](o))
 vi.mock('../../scripts/utils/archiver.js', (o) => m['scripts/utils/archiver.js'](o))
 vi.mock('../../scripts/seal-archive.js', (o) => m['scripts/seal-archive.js'](o))
 vi.mock('../../scripts/utils/file-manager.js', (o) => m['scripts/utils/file-manager.js'](o))

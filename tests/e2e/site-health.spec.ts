@@ -386,7 +386,7 @@ test.describe('site health — archive link (#155)', () => {
       const link = page.locator('a[data-archive-link]')
       await expect(link, `no visible archive link on ${path}`).toBeVisible({ timeout: 15000 })
       await expect(link).toHaveAttribute('href', '/archive')
-      await expect(link).toContainText(/Archive — \d+ designs/)
+      await expect(link).toContainText(/Archive [—·] \d+ designs/)
     }
   })
 

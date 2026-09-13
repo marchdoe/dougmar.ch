@@ -52,30 +52,35 @@ export function buildArtDirectorUserPrompt({
   brandContract,
   weightsBlock,
   tasteMemoryBlock,
+  voiceBlock,
   mobileLessonBlock,
   uniquenessBlock,
   retryContext,
 }) {
-  const sections = []
-  sections.push(`## Today's Raw Signals\n\n\`\`\`yaml\n${formatSignalsAsYaml(signals)}\n\`\`\``)
-  sections.push(`## Site Content (read-only — for hero phrase mining)\n\n${contentSummary}`)
-  sections.push(`## Typography Chassis Catalog\n\n${chassisCatalogBlock}`)
-  if (recentBriefs) sections.push(`## Recent Archive Briefs\n\n${recentBriefs}`)
-  if (recentRatings) sections.push(`## User Design Ratings (learn from these)\n\n${recentRatings}`)
-  if (references) sections.push(`## Design References\n\n${references}`)
-  if (colorMandateSection) sections.push(colorMandateSection)
-  if (shellMandateSection) sections.push(shellMandateSection)
-  if (paletteFormulaMandateSection) sections.push(paletteFormulaMandateSection)
-  if (heroSourceMandateSection) sections.push(heroSourceMandateSection)
-  if (compositionMandateSection) sections.push(compositionMandateSection)
-  if (chassisMandateSection) sections.push(chassisMandateSection)
-  if (brandContract) sections.push(brandContract)
-  if (weightsBlock) sections.push(`## Creative Weights\n\n${weightsBlock}`)
-  if (tasteMemoryBlock) sections.push(tasteMemoryBlock)
-  if (mobileLessonBlock) sections.push(mobileLessonBlock)
-  if (uniquenessBlock) sections.push(uniquenessBlock)
-  if (retryContext) sections.push(retryContext)
-  return sections.join('\n\n---\n\n')
+  // Every block after the first three is optional and skipped when empty;
+  // the order here is the order the Art Director reads them in.
+  const sections = [
+    `## Today's Raw Signals\n\n\`\`\`yaml\n${formatSignalsAsYaml(signals)}\n\`\`\``,
+    `## Site Content (read-only — for hero phrase mining)\n\n${contentSummary}`,
+    `## Typography Chassis Catalog\n\n${chassisCatalogBlock}`,
+    recentBriefs && `## Recent Archive Briefs\n\n${recentBriefs}`,
+    recentRatings && `## User Design Ratings (learn from these)\n\n${recentRatings}`,
+    references && `## Design References\n\n${references}`,
+    colorMandateSection,
+    shellMandateSection,
+    paletteFormulaMandateSection,
+    heroSourceMandateSection,
+    compositionMandateSection,
+    chassisMandateSection,
+    brandContract,
+    weightsBlock && `## Creative Weights\n\n${weightsBlock}`,
+    tasteMemoryBlock,
+    voiceBlock,
+    mobileLessonBlock,
+    uniquenessBlock,
+    retryContext,
+  ]
+  return sections.filter(Boolean).join('\n\n---\n\n')
 }
 
 function formatSignalsAsYaml(signals) {
@@ -211,6 +216,7 @@ export function validateArtDirectorResult(parsed) {
  *   chassisMandateSection?: string,
  *   weightsBlock: string,
  *   tasteMemoryBlock: string,
+ *   voiceBlock?: string,
  *   mobileLessonBlock?: string,
  *   uniquenessBlock?: string,
  *   retryContext?: string,

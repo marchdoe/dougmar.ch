@@ -16,6 +16,48 @@ import path from 'node:path'
 export const MAX_TASTE_MEMORY_BYTES = 16 * 1024
 const MAX_BYTES = MAX_TASTE_MEMORY_BYTES
 
+// signals/voice.md (#504) is the same kind of file: first person, hand-written,
+// never touched by the pipeline. Under 60 lines by its own rule, so the cap
+// is the taste file's and will not be reached.
+export const MAX_VOICE_BYTES = MAX_TASTE_MEMORY_BYTES
+
+/**
+ * Read one owner-curated file under signals/ and return a prompt-ready
+ * markdown block: heading, blank line, the file trimmed and capped. Pure
+ * I/O + trim, no LLM calls. Shared by the taste and voice blocks so the two
+ * cannot drift in how they read, trim or truncate.
+ *
+ * @param {string} root - repo root
+ * @param {string} name - file name under <root>/signals/
+ * @param {string} heading - the markdown heading for the block
+ * @param {number} maxBytes - prompt cap for the body
+ * @returns {string} markdown block, or '' when the file is absent/empty
+ */
+function buildOwnerBlock(root, name, heading, maxBytes) {
+  const file = path.join(root, 'signals', name)
+  if (!existsSync(file)) return ''
+
+  let raw
+  try {
+    raw = readFileSync(file, 'utf8').trim()
+  } catch {
+    return ''
+  }
+  if (!raw) return ''
+
+  let body = raw
+  if (Buffer.byteLength(body, 'utf8') > maxBytes) {
+    // Truncate on a character boundary that still fits within maxBytes,
+    // then note the truncation so the model knows the file runs longer.
+    while (Buffer.byteLength(body, 'utf8') > maxBytes && body.length > 0) {
+      body = body.slice(0, -1)
+    }
+    body = `${body.trimEnd()}\n\n*(truncated — signals/${name} exceeds the ${maxBytes / 1024}KB prompt cap; trim the file)*`
+  }
+
+  return [heading, '', body].join('\n')
+}
+
 /**
  * Read signals/taste.md (owner-curated, permanent taste memory) and return
  * a prompt-ready markdown block. Pure I/O + trim — no LLM calls.
@@ -24,26 +66,28 @@ const MAX_BYTES = MAX_TASTE_MEMORY_BYTES
  * @returns {string} markdown block, or '' when the file is absent/empty
  */
 export function buildTasteMemoryBlock(root) {
-  const tastePath = path.join(root, 'signals', 'taste.md')
-  if (!existsSync(tastePath)) return ''
+  return buildOwnerBlock(
+    root,
+    'taste.md',
+    '## Owner Taste Memory (permanent — these override recent trends)',
+    MAX_BYTES
+  )
+}
 
-  let raw
-  try {
-    raw = readFileSync(tastePath, 'utf8').trim()
-  } catch {
-    return ''
-  }
-  if (!raw) return ''
-
-  let body = raw
-  if (Buffer.byteLength(body, 'utf8') > MAX_BYTES) {
-    // Truncate on a character boundary that still fits within MAX_BYTES,
-    // then note the truncation so the model knows the file runs longer.
-    while (Buffer.byteLength(body, 'utf8') > MAX_BYTES && body.length > 0) {
-      body = body.slice(0, -1)
-    }
-    body = `${body.trimEnd()}\n\n*(truncated — signals/taste.md exceeds the ${MAX_BYTES / 1024}KB prompt cap; trim the file)*`
-  }
-
-  return ['## Owner Taste Memory (permanent — these override recent trends)', '', body].join('\n')
+/**
+ * Read signals/voice.md (the owner's voice, first person) and return a
+ * prompt-ready markdown block, the same way as the taste block. The Art
+ * Director reads it beside the taste memory so hero and deck lines have a
+ * register to match.
+ *
+ * @param {string} root - repo root (voice.md lives at <root>/signals/voice.md)
+ * @returns {string} markdown block, or '' when the file is absent/empty
+ */
+export function buildVoiceBlock(root) {
+  return buildOwnerBlock(
+    root,
+    'voice.md',
+    '## Owner Voice (permanent. Hero and deck copy sounds like this, never like the pipeline)',
+    MAX_VOICE_BYTES
+  )
 }

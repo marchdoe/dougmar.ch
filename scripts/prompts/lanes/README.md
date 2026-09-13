@@ -1,6 +1,6 @@
 # Aesthetic Lanes
 
-Concrete anchor references for the mockup-designer prompt — the successor to
+Concrete anchor references for the mockup-designer prompt, the successor to
 `scripts/prompts/seeds/`. A lane describes an aesthetic register only: mood,
 color roles, typography, component styling, and named anti-patterns. It says
 nothing about page structure (columns, axis, symmetry, hero placement,
@@ -15,15 +15,15 @@ archetype was chosen.
 Every lane carried a `Nav:` line until 2026-08-30, and between them they
 prescribed a fixed top bar, a left sidebar, a corner mark, a logo at the seam
 of two zones. That is placement, and placement is the composition tuple's and
-the `===HEADER===` block's. The pattern the lanes kept reaching for — a top bar
-with a wordmark on the left and text links on the right — is the one the owner
+the `===HEADER===` block's. The pattern the lanes kept reaching for, a top bar
+with a wordmark on the left and text links on the right, is the one the owner
 rejected in three consecutive ratings, which is roughly what you would expect
 from seventeen files quietly voting for it. The lines are gone (#254).
 
 What a lane may still say about the brand is typographic: that the wordmark
 wants small caps, that it is set in the display serif, that it reads all-caps
 like a section label. Those are register. Where it sits, how tall the mark is,
-whether there is a role line under it — those are declared per day and
+whether there is a role line under it. Those are declared per day and
 measured by both critics.
 
 ## A lane does not lay out the page either
@@ -33,7 +33,7 @@ found column counts in a mobile strategy, tiles pinned to a regular grid or to
 varied heights, an annotation column placed beside its glyph, a thumbnail placed
 at the left of a row, a kicker in the top-left corner, and half a dozen
 instructions to stack, collapse or re-center at a given width. Between them they
-were quietly asserting `columns`, `symmetry`, `density` and `hero_zone` — four of
+were quietly asserting `columns`, `symmetry`, `density` and `hero_zone`, four of
 the axes the Art Director is supposed to be free to set. The `collapse` axis
 (#452) is the same kind of decision: a lane says nothing about what stacks
 at 360 or in what order.
@@ -47,7 +47,7 @@ and where it sits is the `===HEADER===` block's.
 `scripts/utils/select-lane.js` scores every lane for the day: a deterministic
 hash-derived base, a bonus per composition-axis value the lane's `affinity`
 shares with today's tuple, and a penalty if the lane ran in the last 3
-builds. Highest score wins — affinity and recency are both a bias, never a
+builds. Highest score wins. Affinity and recency are both a bias, never a
 hard filter.
 
 ## Front-matter
@@ -60,9 +60,9 @@ affinity: full-bleed, sparse, single, edge-bound
 ---
 ```
 
-- `id` — matches the filename; used as the selection key and in `lane.json`.
-- `register` — a short kebab-case aesthetic label, for logs and rationale text.
-- `affinity` — 3-4 real composition-axis values (see `composition-grammar.js`
+- `id`, matches the filename; used as the selection key and in `lane.json`.
+- `register`, a short kebab-case aesthetic label, for logs and rationale text.
+- `affinity`, 3-4 real composition-axis values (see `composition-grammar.js`
   for the vocabulary) this lane's mood tends to suit. Advisory only.
 
 ## Lanes
@@ -87,7 +87,7 @@ affinity: full-bleed, sparse, single, edge-bound
 | `notion-mintlify` | soft-warm-minimalism | Stack |
 | `cash-app` | bold-saturated-color-blocking | Stack |
 
-The "former archetype" column is provenance only — selection never
+The "former archetype" column is provenance only. Selection never
 consults it. A lane born from the Poster seed can land on a `masonry`,
 `three`-column, or `radial` day exactly as readily as `single`/`full-bleed`.
 

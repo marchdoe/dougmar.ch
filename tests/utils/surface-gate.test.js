@@ -10,6 +10,7 @@ import {
   ownerForSurface,
   faultsForOwner,
   advisoryFaultsForOwner,
+  findingLocation,
   OVERFLOW_TOLERANCE_PX,
   MAX_CLIPPED_REPORTED,
   MAX_TAP_TARGET_REPORTED,
@@ -630,5 +631,70 @@ describe('brand-fold and brand-contrast findings (#503)', () => {
     ])
     expect(out).toContain('- [error] / at 1440px (light): no brand mark inside the first fold')
     expect(out).toContain('nearest mark at y=2140, viewport 900 tall')
+  })
+})
+
+describe('the copy gate in the surface gate (#504)', () => {
+  const visibleCopy = {
+    text: 'Select a busy man.\nA portfolio that rebuilds itself every night — today.\n',
+    allowed: [],
+  }
+
+  it('reports the words on an engineer-owned route as errors', () => {
+    const findings = evaluateMeasurement({ ...ok, visibleCopy })
+    expect(findings.map((f) => f.kind)).toEqual(['copy-tell', 'copy-tell', 'copy-tell'])
+    expect(findings.every((f) => f.severity === 'error')).toBe(true)
+    expect(findings[0].detail).toContain('self-reference "rebuilds itself"')
+    expect(findings[2].detail).toMatch(/^em dash in rendered copy: "/)
+  })
+
+  it('reports them on a route no agent owns as warnings', () => {
+    const findings = evaluateMeasurement({ ...ok, route: '/experiments', visibleCopy })
+    expect(findings).toHaveLength(3)
+    expect(findings.every((f) => f.severity === 'warning')).toBe(true)
+  })
+
+  it('says nothing when the measurement carried no text', () => {
+    expect(evaluateMeasurement({ ...ok, visibleCopy: null })).toEqual([])
+  })
+
+  it('skips what the exemptions cover', () => {
+    const quote = 'Hope — is the thing.'
+    const findings = evaluateMeasurement(
+      { ...ok, visibleCopy: { text: quote, allowed: [] } },
+      { exemptions: { quoteText: quote, contentTexts: [] } }
+    )
+    expect(findings).toEqual([])
+  })
+
+  const staticFinding = {
+    surface: 'app/routes/index.tsx',
+    line: 14,
+    owner: 'react-engineer',
+    kind: 'copy-tell',
+    tell: 'em-dash',
+    severity: 'error',
+    detail: 'em dash: "<p>A — B</p>". Use a period or a comma.',
+  }
+
+  it('routes a static finding by the owner it carries', () => {
+    expect(faultsForOwner([staticFinding], 'react-engineer')).toEqual([staticFinding])
+    expect(faultsForOwner([staticFinding], 'human')).toEqual([])
+    expect(faultsForOwner([{ ...staticFinding, owner: 'human' }], 'human')).toHaveLength(1)
+  })
+
+  it('renders a static finding as file:line for the critic and the repair brief', () => {
+    const out = formatFindingsForCritic([staticFinding])
+    expect(out).toContain(
+      '- [error] app/routes/index.tsx:14: em dash: "<p>A — B</p>". Use a period or a comma.'
+    )
+    expect(out).not.toContain('undefinedpx')
+  })
+
+  it('names a location for the log either way', () => {
+    expect(findingLocation(staticFinding)).toBe('app/routes/index.tsx:14')
+    const measured = { surface: '/', width: 360, scheme: 'dark' }
+    expect(findingLocation(measured)).toBe('/ @360')
+    expect(findingLocation(measured, { scheme: true })).toBe('/ @360 (dark)')
   })
 })

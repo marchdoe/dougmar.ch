@@ -273,3 +273,23 @@ describe('validateArtDirectorResult', () => {
     )
   })
 })
+
+describe('buildArtDirectorUserPrompt: the owner voice (#504)', () => {
+  it('places the voice block right after the taste block and omits it when empty', () => {
+    const base = {
+      signals: { date: '2026-09-12' },
+      contentSummary: 'content',
+      chassisCatalogBlock: 'catalog',
+      weightsBlock: '',
+      tasteMemoryBlock: '## Taste Memory\nkeep the footer quiet',
+      mobileLessonBlock: '## Mobile Reality\nnothing yet',
+    }
+    const withVoice = buildArtDirectorUserPrompt({
+      ...base,
+      voiceBlock: '## Owner Voice\n- Deep in both.',
+    })
+    expect(withVoice.indexOf('## Taste Memory')).toBeLessThan(withVoice.indexOf('## Owner Voice'))
+    expect(withVoice.indexOf('## Owner Voice')).toBeLessThan(withVoice.indexOf('## Mobile Reality'))
+    expect(buildArtDirectorUserPrompt({ ...base, voiceBlock: '' })).not.toContain('Owner Voice')
+  })
+})

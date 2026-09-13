@@ -33,7 +33,7 @@ disagree by much. The bound is on the step rather than on the mark, so the
 wordmark shrinks with the mark instead of being left oversized beside one that
 was cut down to fit.
 
-Orientation (horizontal vs stacked) may follow the day's header placement — a
+Orientation (horizontal vs stacked) may follow the day's header placement: a
 `left-rail` header usually wants a stacked lockup, a `top-bar` a horizontal one.
 
 ### Position
@@ -52,7 +52,7 @@ mockup matches what the built page will do.
 - Face: the day's `display` face. Never the body face, never a substitute.
 - Weight: whatever `wordmark_weight` you declare, resolved to the nearest
   weight the chassis actually loads, capped at 700. A chassis that loads only
-  400 sets the wordmark at 400 — a heavier request would render as a
+  400 sets the wordmark at 400. A heavier request would render as a
   synthesized bold and distort the letterforms.
 - Tracking: −0.015em. The name is short and set at display scale, where
   default tracking reads loose.
@@ -69,16 +69,16 @@ tracking, and floors at 13px so it stays legible when the lockup runs small.
 Absent is a real choice: mark-only and `corner` headers rarely want one, and a
 role line under a `stacked-lg` lockup competes with the hero.
 
-### Color — exactly two modes
+### Color: exactly two modes
 
-1. `original` — the mark's own colors, as authored in `logo.svg`.
-2. `single-color` — the mono variant, inheriting exactly ONE existing text or
+1. `original`: the mark's own colors, as authored in `logo.svg`.
+2. `single-color`: the mono variant, inheriting exactly ONE existing text or
    accent token from today's preset via `currentColor`.
 
 No other treatment is permitted: no gradients over the mark, no per-shape
 recolors, no opacity tricks, no outlines.
 
-Pick the mode that sits better on today's palette — but know that across 17
+Pick the mode that sits better on today's palette, but know that across 17
 builds carrying a shell declaration, `single-color` was chosen 16 times, so the
 green-and-blue mark has effectively never reached the page. `original` is the
 better choice whenever the palette gives it somewhere to sit: a light or paper

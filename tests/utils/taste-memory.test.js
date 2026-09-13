@@ -3,7 +3,12 @@ import { mkdtempSync, rmSync, mkdirSync, writeFileSync, readFileSync } from 'nod
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { MAX_TASTE_MEMORY_BYTES, buildTasteMemoryBlock } from '../../scripts/utils/taste-memory.js'
+import {
+  MAX_TASTE_MEMORY_BYTES,
+  MAX_VOICE_BYTES,
+  buildTasteMemoryBlock,
+  buildVoiceBlock,
+} from '../../scripts/utils/taste-memory.js'
 
 describe('buildTasteMemoryBlock', () => {
   let root
@@ -67,5 +72,52 @@ describe('buildTasteMemoryBlock', () => {
     const block = buildTasteMemoryBlock(root)
     expect(block).not.toContain('truncated')
     expect(block).toContain(content)
+  })
+})
+
+describe('buildVoiceBlock', () => {
+  let root
+  beforeEach(() => {
+    root = mkdtempSync(path.join(tmpdir(), 'voice-'))
+    mkdirSync(path.join(root, 'signals'), { recursive: true })
+  })
+  afterEach(() => {
+    rmSync(root, { recursive: true, force: true })
+  })
+
+  it('returns "" when signals/voice.md is absent or empty', () => {
+    expect(buildVoiceBlock(root)).toBe('')
+    writeFileSync(path.join(root, 'signals', 'voice.md'), ' \n')
+    expect(buildVoiceBlock(root)).toBe('')
+  })
+
+  it('wraps the file in the Owner Voice heading', () => {
+    writeFileSync(path.join(root, 'signals', 'voice.md'), '## Lines I would say\n\n- Deep in both.')
+    const block = buildVoiceBlock(root)
+    expect(block.startsWith('## Owner Voice (permanent.')).toBe(true)
+    expect(block).toContain('- Deep in both.')
+  })
+
+  it('truncates over the cap with the same note as the taste block', () => {
+    writeFileSync(path.join(root, 'signals', 'voice.md'), 'v'.repeat(MAX_VOICE_BYTES + 500))
+    const block = buildVoiceBlock(root)
+    expect(Buffer.byteLength(block, 'utf8')).toBeLessThan(MAX_VOICE_BYTES + 500)
+    expect(block).toContain('signals/voice.md exceeds')
+  })
+
+  // The real file: owner-curated, under 60 lines by its own rule, and read
+  // whole. No em dashes and nothing about the pipeline in the lines it offers.
+  it('carries the whole of the real voice file, which keeps to its own rules', () => {
+    const real = readFileSync(
+      path.join(path.dirname(fileURLToPath(import.meta.url)), '../../signals/voice.md'),
+      'utf8'
+    )
+    expect(real.split('\n').length).toBeLessThanOrEqual(60)
+    expect(real).not.toContain('—')
+    expect(real).toContain('The pipeline never writes here.')
+    writeFileSync(path.join(root, 'signals', 'voice.md'), real)
+    const block = buildVoiceBlock(root)
+    expect(block).not.toContain('truncated')
+    expect(block).toContain(real.trimEnd().split('\n').at(-1))
   })
 })
