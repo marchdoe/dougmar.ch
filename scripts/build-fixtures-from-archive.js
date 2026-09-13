@@ -242,6 +242,20 @@ export function typeTreatmentBlock(typeTreatment) {
   ].join('\n')
 }
 
+/**
+ * A MOTION block the grammar accepts (#506).
+ *
+ * Builds before #506 declared nothing about motion and shipped still pages,
+ * so the synthesized block says exactly that, marked as such.
+ */
+export function motionBlock(motion) {
+  if (motion) return kvBlock(motion)
+  return [
+    '# synthesized: this build predates the MOTION declaration (#506)',
+    kvBlock({ entrance: 'none', ground: 'static', reveal: 'none' }),
+  ].join('\n')
+}
+
 /** MEASURABLES is never persisted; these are the values the gate accepts. */
 const MEASURABLE_DEFAULTS = {
   canvas_utilization_min: 85,
@@ -259,6 +273,7 @@ export function artDirectorArtifacts(build) {
     header: readJson(path.join(build, 'header.json')),
     typeTreatment: readJson(path.join(build, 'type-treatment.json')),
     mobile: readJson(path.join(build, 'mobile.json')),
+    motion: readJson(path.join(build, 'motion.json')),
     composition: readJson(path.join(build, 'composition.json')) ?? {},
     scheme: readJson(path.join(build, 'color-scheme.json')),
     heroSource: readJson(path.join(build, 'hero-source.json')),
@@ -284,6 +299,7 @@ export function artDirectorBlocks(artifacts) {
     header,
     typeTreatment,
     mobile,
+    motion,
     composition,
     scheme,
     heroSource,
@@ -323,6 +339,7 @@ export function artDirectorBlocks(artifacts) {
     `===HEADER===\n${headerBlock(header, shell, composition)}`,
     `===TYPE_TREATMENT===\n${typeTreatmentBlock(typeTreatment)}`,
     `===MOBILE===\n${mobileBlock(mobile, ad)}`,
+    `===MOTION===\n${motionBlock(motion)}`,
     `===COMPOSITION===\n${kvBlock(tuple)}`,
     `===COMPOSITION_RATIONALE===\n${rationale.slice(0, 600) || fallbackRationale}`,
     scheme ? `===COLOR_SCHEME===\n${JSON.stringify(scheme, null, 2)}` : null,

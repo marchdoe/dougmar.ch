@@ -120,6 +120,26 @@ describe('runAgentSwarm on the recorded night', () => {
       expect(run.callsFor(agent)[0].userPrompt, agent).toContain('texture: stacked')
     }
 
+    // The motion declaration (#506) is parsed, archived, and reaches the
+    // designer, the engineer and the screenshot critic. The fixture holds
+    // still, so no strip was captured and none was archived.
+    expect(JSON.parse(artifacts['motion.json'])).toEqual({
+      entrance: 'none',
+      ground: 'static',
+      reveal: 'none',
+    })
+    expect(artifacts['motion-strip.jpg']).toBeNull()
+    expect(run.fakes.captureScreenshot[0].motion).toEqual({
+      entrance: 'none',
+      ground: 'static',
+      reveal: 'none',
+    })
+    for (const agent of ['mockup-designer', 'react-engineer', 'screenshot-critic']) {
+      expect(run.callsFor(agent)[0].userPrompt, agent).toContain('## Motion')
+      expect(run.callsFor(agent)[0].userPrompt, agent).toContain('entrance: none')
+    }
+    expect(run.callsFor('react-engineer')[0].userPrompt).not.toContain('## Motion Design Reference')
+
     for (const rel of [
       'elements/preset.ts',
       'elements/chassis-preset.ts',

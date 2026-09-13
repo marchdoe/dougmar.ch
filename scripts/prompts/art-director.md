@@ -383,6 +383,31 @@ block that contradicts the axis is rejected, not reconciled.
   one that lands the phrase inside the first fold without cutting a word.
 - `nav_360` is one line: what the header and nav become at 360.
 
+## Motion Declaration (required)
+
+Nothing on the shipped site has ever moved. The reference sites the owner
+points at are defined by motion: type settling in, a ground that drifts,
+sections revealing on scroll. Three fields, every one a choice, executed by
+the engineer in CSS and read by the screenshot critic off four frames of the
+first second:
+
+- `entrance` is how the hero arrives: `none`, `settle` (opacity and an 8px
+  lift), `rise` (opacity and a 24px lift) or `wipe` (a clip-path reveal, left
+  to right). It is one gesture on the hero block, not a cascade down the page:
+  the h1 and its siblings arrive together with a short stagger, and nothing
+  else animates on load.
+- `ground` is `static` or `drift`: whether the field or the material moves,
+  slowly, over forty seconds. It is never judged from a still.
+- `reveal` is `none` or `on-scroll`: whether sections below the fold rise
+  into place as they enter the viewport. Progressive enhancement; every
+  section is visible without it.
+
+`none / static / none` is a real choice, not a shortfall: a poster day that
+arrives fully formed and holds still is a decision, and it is the right one
+when the phrase is a slab. Consult the Motion Mandate in your inputs:
+recently used entrances are listed. Move off them unless today's phrase
+demands otherwise, and say why in your rationale.
+
 ## Ground Strategy (part of the SHELL block, required)
 
 Name the palette's ground strategy. Not the hue, the FORMULA. Hue rotation
@@ -496,6 +521,11 @@ first_fold: <what sits inside the first 640px at 360 — name the hero phrase, o
 order: <zone, zone, zone — top to bottom at 360, at least two>
 hero_step_360: hero | 5xl | 4xl | 3xl | 2xl
 nav_360: <one line: what the header and nav become at 360>
+
+===MOTION===
+entrance: none | settle | rise | wipe     # how the hero arrives, one gesture
+ground: static | drift                    # whether the field or material moves, slowly
+reveal: none | on-scroll                  # sections below the fold
 
 ===COMPOSITION===
 columns: single | two-asymmetric | two-equal | three | irregular-twelve | masonry

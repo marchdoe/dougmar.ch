@@ -296,6 +296,63 @@ function parseRem(value) {
 }
 
 /**
+ * The keyframes every declared entrance and ground reaches for (#506).
+ *
+ * Orchestrator-owned, like the ramp: the engineer names them in `animation`
+ * and never writes a keyframe of its own. Three entrances at 500ms (the
+ * motion-design reference's entrance band) and one ground drift over 40s.
+ * Only `opacity`, `transform` and `clip-path` are animated, so nothing here
+ * can move layout. `drift` is a transform, not a background-position, for the
+ * same reason: it works on any field, gradient or flat, and the engineer's
+ * property allowlist stays three long.
+ *
+ * @type {Record<string, Record<string, Record<string, string>>>}
+ */
+export const MOTION_KEYFRAMES = {
+  settle: {
+    from: { opacity: '0', transform: 'translateY(8px)' },
+    to: { opacity: '1', transform: 'translateY(0)' },
+  },
+  rise: {
+    from: { opacity: '0', transform: 'translateY(24px)' },
+    to: { opacity: '1', transform: 'translateY(0)' },
+  },
+  wipe: {
+    from: { clipPath: 'inset(0 100% 0 0)' },
+    to: { clipPath: 'inset(0 0 0 0)' },
+  },
+  drift: {
+    from: { transform: 'translate3d(0, 0, 0) scale(1.04)' },
+    to: { transform: 'translate3d(-2%, 1.5%, 0) scale(1.04)' },
+  },
+}
+
+/**
+ * The reduced-motion rule, emitted with the keyframes so a declared entrance
+ * is never the reason a visitor with `prefers-reduced-motion` sees the page
+ * lurch: every animation and transition collapses to its end state in 0.01ms.
+ * The values carry `!important` because the engineer's `animation` shorthand
+ * sets the duration on the element, and a global rule loses to that without it.
+ * The delay is zeroed too, which the usual snippet leaves out: a staggered
+ * sibling with `animation-fill-mode: both` sits at its starting state, which
+ * is invisible, for the whole of its delay, and a 0.01ms duration does nothing
+ * about that. The first reduced-motion strip showed the hero's rows arriving
+ * 80 to 240ms late on a page that was supposed to arrive fully formed.
+ *
+ * @type {Record<string, Record<string, Record<string, string>>>}
+ */
+export const REDUCED_MOTION_RULE = {
+  '@media (prefers-reduced-motion: reduce)': {
+    '*, *::before, *::after': {
+      animationDuration: '0.01ms !important',
+      animationDelay: '0s !important',
+      animationIterationCount: '1 !important',
+      transitionDuration: '0.01ms !important',
+    },
+  },
+}
+
+/**
  * Render the contents of `elements/chassis-preset.ts` for a chosen chassis.
  * The orchestrator writes this file each run so PandaCSS can merge the
  * chassis type system into the final design system.
@@ -316,6 +373,11 @@ function parseRem(value) {
  * whole selector, so a bare `globalCss.body` here would delete the Art
  * Director's background, colour and margin along with it. Under `extend` the
  * two objects deep-merge and only `fontFamily` is taken.
+ *
+ * Since #506 it also carries the motion keyframes under `theme.extend.keyframes`
+ * and the reduced-motion rule under the same `globalCss.extend`, for the same
+ * reason the ramp lives here: the engineer declares `animation: 'rise 500ms
+ * ...'` and must find `rise` defined whatever the Art Director wrote.
  */
 export function renderChassisPresetFile(chassis) {
   const fonts = buildFontTokens(chassis)
@@ -345,10 +407,15 @@ export const chassisPreset = definePreset({
       // from the base step's size times its leading, and rhythm only means
       // something if the body actually renders at that leading.
       body: { fontFamily: 'body', lineHeight: 'normal' },
+      // Every animation and transition collapses to its end state when the
+      // visitor asks for reduced motion (#506). See scripts/utils/chassis.js.
+${formatNestedBlock(REDUCED_MOTION_RULE, 6)}
     },
   },
   theme: {
     extend: {
+      // The entrances and the ground drift the engineer may name (#506).
+${formatKeyframesBlock(MOTION_KEYFRAMES, 6)}
       tokens: {
 ${formatTokenBlock('fonts', fonts, 8)}
 ${formatTokenBlock('fontSizes', sizes, 8)}
@@ -372,6 +439,43 @@ function formatTokenBlock(name, tokens, indent) {
     return `${inner}${quoteKey(key)}: { value: ${JSON.stringify(value)} },`
   })
   return `${pad}${name}: {\n${lines.join('\n')}\n${pad}},`
+}
+
+/**
+ * Format a nested selector-to-declarations object (the reduced-motion rule)
+ * as TS source: each key a quoted selector or at-rule, each leaf a style map.
+ */
+function formatNestedBlock(rules, indent) {
+  const pad = ' '.repeat(indent)
+  return Object.entries(rules)
+    .map(([selector, inner]) => {
+      const lines = Object.entries(inner).map(([sel, decls]) => {
+        const props = Object.entries(decls)
+          .map(([prop, v]) => `${prop}: ${JSON.stringify(v)}`)
+          .join(', ')
+        return `${pad}  '${sel}': { ${props} },`
+      })
+      return `${pad}'${selector}': {\n${lines.join('\n')}\n${pad}},`
+    })
+    .join('\n')
+}
+
+/** Format the keyframes object as TS source under theme.extend. */
+function formatKeyframesBlock(keyframes, indent) {
+  const pad = ' '.repeat(indent)
+  const inner = ' '.repeat(indent + 2)
+  const lines = Object.entries(keyframes).map(([name, stops]) => {
+    const body = Object.entries(stops)
+      .map(([stop, decls]) => {
+        const props = Object.entries(decls)
+          .map(([prop, v]) => `${prop}: ${JSON.stringify(v)}`)
+          .join(', ')
+        return `${stop}: { ${props} }`
+      })
+      .join(', ')
+    return `${inner}${quoteKey(name)}: { ${body} },`
+  })
+  return `${pad}keyframes: {\n${lines.join('\n')}\n${pad}},`
 }
 
 /** Format the textStyles object (nested style values) as TS source. */

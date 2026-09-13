@@ -1,6 +1,6 @@
 /**
  * Parsers for the Art Director's MEASURABLES, SHELL, HEADER, TYPE_TREATMENT,
- * COMPOSITION and MOBILE delimiter blocks. All are simple `key: value` lines; `#` starts a
+ * COMPOSITION, MOBILE and MOTION delimiter blocks. All are simple `key: value` lines; `#` starts a
  * comment. Missing/unparseable fields come back null — validation policy
  * lives in the caller (validateArtDirectorResult), not here.
  */
@@ -175,5 +175,25 @@ export function parseMobileBlock(text) {
     order: kv.order ?? null,
     hero_step_360: kv.hero_step_360 ? kv.hero_step_360.toLowerCase().trim() : null,
     nav_360: kv.nav_360 ?? null,
+  }
+}
+
+/**
+ * The Art Director's `===MOTION===` block (#506): how the hero arrives,
+ * whether the ground moves, and what sections below the fold do, as three
+ * enumerated values. Vocabulary and validation live in utils/motion-grammar.js;
+ * this only reads. Every value is enumerated, so every value is normalized.
+ *
+ * All fields optional here so validation policy stays entirely in the caller.
+ *
+ * @returns {{ entrance: string|null, ground: string|null, reveal: string|null }}
+ */
+export function parseMotionBlock(text) {
+  const kv = parseKeyValues(text)
+  const norm = (v) => (v ? v.toLowerCase().trim() : null)
+  return {
+    entrance: norm(kv.entrance),
+    ground: norm(kv.ground),
+    reveal: norm(kv.reveal),
   }
 }

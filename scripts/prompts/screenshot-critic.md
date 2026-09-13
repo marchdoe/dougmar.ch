@@ -37,6 +37,11 @@ Only after this sanity gate passes, proceed to the design evaluation below.
 - The mobile declaration (the composition's `collapse` value, the carrier,
   the first fold, the zone order, the hero step at 360, the nav at 360),
   which section 10 is judged against
+- The motion declaration (`entrance`, `ground`, `reveal`), which section 12
+  is judged against, and, on a night that declared an entrance or a drifting
+  ground, a motion strip: four frames of the light 1440 render at 0, 200, 500
+  and 1000ms after the hero first painted, laid side by side and labelled with
+  the offsets (the labels are ours, not the site's)
 - The Design Director's visual specification
 - Reference material (if provided)
 - The approved mockup screenshot (if available)
@@ -238,6 +243,26 @@ miss is a REVISE naming the field.
 
 When this fails, owner is **react-engineer**.
 
+### 12. Motion
+
+Judged from the motion strip against the Motion Declaration. Skip this
+section entirely when no strip was attached: a `none / static / none` night
+has nothing to judge here, and a still page on such a night is correct.
+
+On a `settle`, `rise` or `wipe` day, read the strip left to right. The first
+frame must show the hero not yet arrived: faded, lifted, or partly clipped
+(`wipe` reveals left to right). The last frame must show it settled, and that
+end state must match the 1440 still above. Nothing else on the page moves
+between frames: a nav that fades, a list that rises, or a footer that drifts
+is a cascade, not an entrance. A page that arrives fully formed in frame one
+on a declared entrance is a REVISE naming the declared value.
+
+`ground: drift` is judged not at all from stills: it moves a few pixels over
+forty seconds and no strip can show it. `reveal` is judged not at all here:
+it happens below the fold and no capture scrolls.
+
+When this fails, owner is **react-engineer**.
+
 ### Mockup fidelity (replaces taste judgment)
 
 The user prompt includes the approved mockup screenshot alongside the
@@ -284,7 +309,7 @@ did" is).
 
 ## Verdict Rules
 
-**SHIP** if: All applicable areas are acceptable: sections 1 through 11 plus mockup fidelity, skipping Section 8 unless `density: sparse`. Minor imperfections are fine. No build is perfect. Ship when a real visitor would have a good experience and the design intent is clearly executed.
+**SHIP** if: All applicable areas are acceptable: sections 1 through 12 plus mockup fidelity, skipping Section 8 unless `density: sparse` and Section 12 unless a motion strip was attached. Minor imperfections are fine. No build is perfect. Ship when a real visitor would have a good experience and the design intent is clearly executed.
 
 **REVISE** if: One or more areas have a clear, specific failure that meaningfully degrades the experience or contradicts the spec. Identify exactly what is wrong and who is responsible.
 

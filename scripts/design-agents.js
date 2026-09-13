@@ -75,6 +75,7 @@ import {
   parseHeaderBlock,
   parseMobileBlock,
   parseTypeTreatmentBlock,
+  parseMotionBlock,
 } from './utils/spec-blocks.js'
 import { renderBrandLockupFile } from './utils/brand-lockup.js'
 import { formatMaterialContractBlock, materialSeed, renderMaterialFile } from './utils/material.js'
@@ -82,6 +83,7 @@ import { formatClientMarksForPrompt, readClientMarkSources } from './utils/clien
 import { formatHeader } from './utils/header-grammar.js'
 import { formatTypeTreatment } from './utils/type-grammar.js'
 import { formatMobile } from './utils/mobile-grammar.js'
+import { formatMotion, wantsMotionReference } from './utils/motion-grammar.js'
 import { formatTuple } from './utils/composition-grammar.js'
 import { findEngineerOutputProblem } from './utils/engineer-output-check.js'
 import {
@@ -259,12 +261,15 @@ async function writeArchetype(date, archetype, { root = ROOT } = {}) {
  */
 export function archiveArtifacts(run) {
   const json = (value) => JSON.stringify(value, null, 2)
+  // One read for every image the final capture may or may not have taken:
+  // null, never an empty file, for a capture that did not happen.
+  const captured = (key) => run.finalScreenshot?.[key] ?? null
   return {
-    'screenshot.png': run.finalScreenshot?.png ?? null,
-    'screenshot-dark.png': run.finalScreenshot?.darkPng ?? null,
+    'screenshot.png': captured('png'),
+    'screenshot-dark.png': captured('darkPng'),
     // The phone filmstrip that traveled to the critics, archived beside the
     // captures it was judged with (#466) — until now it never reached disk.
-    'screenshot-mobile.jpg': run.finalScreenshot?.mobileJpeg ?? null,
+    'screenshot-mobile.jpg': captured('mobileJpeg'),
     'mockup.html': run.mockup?.mockupHtml ?? null,
     'mockup-screenshot.png': run.mockupScreenshot?.png ?? null,
     'mockup-screenshot-mobile.jpg': run.mockupScreenshot?.mobileJpeg ?? null,
@@ -276,6 +281,10 @@ export function archiveArtifacts(run) {
     // What the composition becomes at 360 (#452), beside the tuple whose
     // `collapse` axis it explains.
     'mobile.json': json(run.mobileDecl),
+    // How the hero arrives (#506), and the four frames the critic judged it
+    // on. The strip is null on a night that declared no first-paint motion.
+    'motion.json': json(run.motionDecl),
+    'motion-strip.jpg': captured('motionStripJpeg'),
     'hero-source.json': json({ source: run.heroSource || null }),
     'composition.json': json(run.chosenComposition),
     // The rendered silhouette (#255). Null when the capture failed, and
@@ -947,6 +956,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       composition: compositionMandateSection,
       chassis: chassisMandateSection,
       typeTreatment: typeTreatmentMandateSection,
+      motion: motionMandateSection,
     } = mandate
 
     // -----------------------------------------------------------------------
@@ -1020,6 +1030,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         compositionMandateSection,
         chassisMandateSection,
         typeTreatmentMandateSection,
+        motionMandateSection,
         brandContract,
         weightsBlock,
         tasteMemoryBlock,
@@ -1056,6 +1067,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           compositionMandateSection,
           chassisMandateSection,
           typeTreatmentMandateSection,
+          motionMandateSection,
           brandContract,
           weightsBlock,
           tasteMemoryBlock,
@@ -1090,6 +1102,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // The phone declaration (#452) rides with the header: re-parsed after any
     // retry, archived as mobile.json, and handed to every downstream agent.
     let mobileDecl = parseMobileBlock(artDirectorResult.mobile)
+    // How the hero arrives (#506) rides with the rest: re-parsed after any
+    // retry, archived as motion.json, handed to the designer, the engineer
+    // and the screenshot critic.
+    let motionDecl = parseMotionBlock(artDirectorResult.motion)
     let chosenChassis = CHASSIS_CATALOG.find((c) => c.id === artDirectorResult.chassisId)
     if (!chosenChassis) {
       console.warn(
@@ -1223,6 +1239,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           compositionMandateSection,
           chassisMandateSection,
           typeTreatmentMandateSection,
+          motionMandateSection,
           brandContract,
           weightsBlock,
           tasteMemoryBlock,
@@ -1301,12 +1318,14 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     headerDecl = parseHeaderBlock(artDirectorResult.header)
     typeDecl = parseTypeTreatmentBlock(artDirectorResult.typeTreatment)
     mobileDecl = parseMobileBlock(artDirectorResult.mobile)
+    motionDecl = parseMotionBlock(artDirectorResult.motion)
     const measurablesDecl = parseMeasurablesBlock(artDirectorResult.measurables)
     chosenComposition = parseCompositionBlock(artDirectorResult.composition)
     console.log(
       `  header: ${headerDecl.placement} @ ${headerDecl.height_px}px | mark=${headerDecl.mark_px}px | wordmark=${headerDecl.wordmark_step}/${headerDecl.wordmark_weight} | role=${headerDecl.role_line} | nav=${headerDecl.nav} (${headerDecl.nav_step}, ${headerDecl.nav_case})`
     )
     console.log(`  type: ${formatTypeTreatment(typeDecl).replace(/\n/g, ' | ')}`)
+    console.log(`  motion: ${formatMotion(motionDecl).replace(/\n/g, ' | ')}`)
     console.log(
       `  shell: footer=${shellDecl.footer} | lockup=${shellDecl.brand_lockup} (${shellDecl.brand_color_mode}) | ground=${shellDecl.ground_strategy}`
     )
@@ -1343,6 +1362,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         compositionMandateSection,
         chassisMandateSection,
         typeTreatmentMandateSection,
+        motionMandateSection,
       ]
         .filter(Boolean)
         .join('\n\n')
@@ -1570,6 +1590,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       typeTreatment: formatTypeTreatment(typeDecl),
       mobile: formatMobile(mobileDecl),
       collapse: chosenComposition.collapse,
+      motion: formatMotion(motionDecl),
       brandSvg,
       brandMonoSvg,
       clientMarksBlock,
@@ -1783,6 +1804,13 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         formatGateRulesForPrompt(collectGateRules({ root }))
       )}\n\n${designSystemReference}${brandRegisterDeclaration}`
 
+    // The motion-design reference (#506) rides in the engineer's user prompt
+    // on a night with an entrance or a scroll reveal to time. The engineer
+    // prompt has no size cap (only the mockup designer's is budgeted, see
+    // utils/mockup-designer-prompt.js), so the whole reference goes in.
+    const refMotion = wantsMotionReference(motionDecl)
+      ? await readFile(path.join(refDir, 'motion-design.md'), 'utf8')
+      : ''
     const buildEngineerUserPrompt = () =>
       [
         '## Approved Mockup (mockup.html — your fidelity target)\n\n```html\n' +
@@ -1799,12 +1827,15 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         `## Header Declaration (execute these numbers exactly)\n\n${formatHeader(headerDecl)}`,
         `## Type Treatment (execute exactly)\n\n${formatTypeTreatment(typeDecl)}`,
         `## Mobile Declaration (the design at base; the mockup already renders it, keep it)\n\n${formatMobile(mobileDecl)}`,
+        `## Motion (execute exactly; see the Motion section of your instructions)\n\n${formatMotion(motionDecl)}`,
         '## One-line Design Brief (for og:description context)\n\n' +
           (artDirectorResult.designBrief || ''),
         // The engineer previously received zero historical feedback despite
         // being the agent screenshot-critic failures usually blame — same
         // capped block the mockup designer sees.
         lessonsBlock,
+        refMotion &&
+          `## Motion Design Reference (timing, easing, stagger, reduced motion)\n\n${refMotion}`,
       ]
         .filter(Boolean)
         .join('\n\n---\n\n')
@@ -2055,6 +2086,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           headerDecl,
           typeDecl,
           mobileDecl,
+          motionDecl,
           heroSource: artDirectorResult.heroSource,
           chosenComposition,
           chosenLane,
@@ -2272,6 +2304,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         const { captureScreenshot } = await import('./utils/snapshot.js')
         const screenshotBuffer = await captureScreenshot(undefined, {
           headerCrop: { placement: headerDecl.placement, heightPx: headerDecl.height_px },
+          motion: motionDecl,
         })
         finalScreenshot = screenshotBuffer
         console.log(
@@ -2356,6 +2389,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           typeTreatment: formatTypeTreatment(typeDecl),
           mobile: formatMobile(mobileDecl),
           collapse: chosenComposition.collapse,
+          motion: formatMotion(motionDecl),
           references,
           mockupScreenshot,
           screenshotBuffer,

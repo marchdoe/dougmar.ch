@@ -50,6 +50,7 @@ const valid = () => ({
   header: validHeader,
   type_treatment: 'case: mixed\nlead: roman\nweight: regular\nalignment: left\ntexture: none',
   mobile: validMobile,
+  motion: 'entrance: none\nground: static\nreveal: none',
   files: [{ path: 'elements/preset.ts', content: 'export const elementsPreset = {}' }],
 })
 

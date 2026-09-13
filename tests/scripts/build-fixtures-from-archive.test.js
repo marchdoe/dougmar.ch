@@ -6,6 +6,7 @@ import {
   headerBlock,
   kvBlock,
   mobileBlock,
+  motionBlock,
 } from '../../scripts/build-fixtures-from-archive.js'
 import {
   SEMANTIC_COLOR_NAMES,
@@ -100,6 +101,21 @@ describe('headerBlock', () => {
   })
 })
 
+describe('motionBlock', () => {
+  it('passes a recorded declaration through as key: value lines', () => {
+    expect(motionBlock({ entrance: 'rise', ground: 'drift', reveal: 'none' })).toBe(
+      'entrance: rise\nground: drift\nreveal: none'
+    )
+  })
+  it('synthesizes a still page for a build that predates the block, and says so', () => {
+    const block = motionBlock(null)
+    expect(block).toContain('# synthesized')
+    expect(block).toContain('entrance: none')
+    expect(block).toContain('ground: static')
+    expect(block).toContain('reveal: none')
+  })
+})
+
 describe('mobileBlock', () => {
   it('uses the declared block when the build has one', () => {
     expect(mobileBlock({ carrier: 'the hero', hero_step_360: 'hero' }, {})).toBe(
@@ -159,6 +175,7 @@ describe('artDirectorBlocks', () => {
       'HEADER',
       'TYPE_TREATMENT',
       'MOBILE',
+      'MOTION',
     ]) {
       expect(out).toContain(`===${block}===`)
     }
@@ -172,6 +189,7 @@ describe('artDirectorBlocks', () => {
     )
     expect(out).toContain('===MOBILE===\n# synthesized')
     expect(out).toContain('===TYPE_TREATMENT===\n# synthesized')
+    expect(out).toContain('===MOTION===\n# synthesized')
   })
 
   it('keeps a recorded collapse, hero_object and mobile.json as they are', () => {

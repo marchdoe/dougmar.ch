@@ -19,6 +19,7 @@ export function buildMockupDesignerUserPrompt({
   typeTreatment,
   mobile,
   collapse,
+  motion,
   brandSvg,
   brandMonoSvg,
   clientMarksBlock,
@@ -53,6 +54,14 @@ export function buildMockupDesignerUserPrompt({
         '',
         'The carrier is what holds the idea at 360; first_fold is what sits inside the first 640px; order is the zones top to bottom; hero_step_360 is the ramp step the hero is set at on the phone; nav_360 is what the header and nav become. The critic reads the 360 image against each line: a `hero-only` first fold that shows a nav row and signal cards, a hero set above `hero_step_360` and cut mid-word, an `order` the page does not follow: each is a REVISE.',
       ].join('\n')
+    )
+  }
+  // The motion declaration (#506) is informational here: the mockup is a
+  // still, and the engineer executes it. It rides along so the mockup's
+  // composition leaves room for it (a wipe needs a hero edge to arrive from).
+  if (motion) {
+    sections.push(
+      `## Motion Declaration (informational; the mockup is static, the engineer executes this)\n\n${motion}`
     )
   }
   sections.push(

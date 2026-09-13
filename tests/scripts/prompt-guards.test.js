@@ -78,6 +78,17 @@ describe('art-director.md output contract', () => {
     )
     expect(text).toMatch(/5\. \*\*Phone:\*\*/)
   })
+  it('requires the MOTION block and says none/static/none is a real choice (#506)', () => {
+    const text = ad()
+    expect(text).toContain('## Motion Declaration (required)')
+    expect(text).toContain('===MOTION===')
+    expect(text).toContain('entrance: none | settle | rise | wipe')
+    expect(text).toContain('ground: static | drift')
+    expect(text).toContain('reveal: none | on-scroll')
+    expect(text).toMatch(/`none \/ static \/ none` is a real choice/)
+    expect(text).toMatch(/one gesture on the hero block, not a cascade/)
+    expect(text).toContain('Motion Mandate')
+  })
   it('requires the hero_object axis and the nav_form field (#501)', () => {
     const text = ad()
     expect(text).toContain('hero_object: statement | figure | word | list | artifact')
@@ -164,6 +175,19 @@ describe('react-engineer.md load-bearing directives', () => {
   it('forbids raw hex in TSX', () => {
     expect(re()).toMatch(/raw hex|never.*hex|hex.*(token|never)/i)
   })
+  it('maps the motion fields to Panda and keeps the page visible without scroll-driven animation (#506)', () => {
+    const c = re()
+    expect(c).toContain('## Motion')
+    expect(c).toContain("animation: '<name> 500ms cubic-bezier(0.16, 1, 0.3, 1) both'")
+    expect(c).toContain("`'0ms'`,\n  `'80ms'`, `'160ms'`, `'240ms'`")
+    expect(c).toContain("animation: 'drift 40s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate'")
+    expect(c).toContain("`animationTimeline: 'view()'`")
+    expect(c).toContain("`animationRange: 'entry 0% entry 40%'`")
+    expect(c).toContain("'@supports (animation-timeline: view())'")
+    expect(c).toMatch(/no `opacity: 0` and no `transform`\s+outside that `@supports` block/)
+    expect(c).toMatch(/Animate only `opacity`, `transform` and `clip-path`/)
+    expect(c).toMatch(/or the material component when\s+one is declared/)
+  })
   it('maps the type treatment fields to Panda properties (#502)', () => {
     const c = re()
     expect(c).toContain('## Type treatment')
@@ -202,9 +226,23 @@ describe('screenshot-critic.md load-bearing directives', () => {
   it('judges the type treatment in section 11, owned by the engineer (#502)', () => {
     const c = sc()
     expect(c).toContain('### 11. Type Treatment')
-    expect(c).toContain('sections 1 through 11')
-    const section = c.slice(c.indexOf('### 11. Type Treatment'), c.indexOf('### Mockup fidelity'))
+    expect(c).toContain('sections 1 through 12')
+    const section = c.slice(c.indexOf('### 11. Type Treatment'), c.indexOf('### 12. Motion'))
     expect(section).toContain('owner is **react-engineer**')
+  })
+  it('judges the motion strip in section 12 and skips it without a strip (#506)', () => {
+    const c = sc()
+    expect(c).toContain('### 12. Motion')
+    const section = c.slice(c.indexOf('### 12. Motion'), c.indexOf('### Mockup fidelity'))
+    expect(section).toMatch(/Skip this\s+section entirely when no strip was attached/)
+    expect(section).toMatch(/first\s+frame must show the hero not yet arrived/)
+    expect(section).toMatch(
+      /arrives fully formed in frame one\s+on a declared entrance is a REVISE/
+    )
+    expect(section).toMatch(/`ground: drift` is judged not at all from stills/)
+    expect(section).toMatch(/`reveal` is judged not at all here/)
+    expect(section).toContain('owner is **react-engineer**')
+    expect(c).toMatch(/Section 12 unless a motion strip was attached/)
   })
 })
 

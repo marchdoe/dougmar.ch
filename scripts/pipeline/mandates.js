@@ -18,6 +18,7 @@ import {
   computeTypeTreatmentMandate,
   formatTypeTreatmentMandateForPrompt,
 } from '../utils/type-treatment-mandate.js'
+import { computeMotionMandate, formatMotionMandateForPrompt } from '../utils/motion-mandate.js'
 import { HUE_FORBIDDEN_ZONE_RADIUS } from '../utils/hue-thresholds.js'
 
 /**
@@ -45,7 +46,7 @@ export const OPEN_COLOR_MANDATE = {
 
 /**
  * @param {{ root: string, signals: object, date: string }} ctx
- * @returns {{ colorMandate: object, sections: { color: string, shell: string, paletteFormula: string, heroSource: string, composition: string, chassis: string, typeTreatment: string } }}
+ * @returns {{ colorMandate: object, sections: { color: string, shell: string, paletteFormula: string, heroSource: string, composition: string, chassis: string, typeTreatment: string, motion: string } }}
  */
 export function computeMandateSections({ root, signals, date }) {
   const archiveDir = path.join(root, 'archive')
@@ -90,6 +91,9 @@ export function computeMandateSections({ root, signals, date }) {
       formatTypeTreatmentMandateForPrompt(
         computeTypeTreatmentMandate({ archiveDir, lookbackDays: 7 })
       ),
+    // How the hero arrived on recent nights (#506), keyed on the entrance.
+    motion: () =>
+      formatMotionMandateForPrompt(computeMotionMandate({ archiveDir, lookbackDays: 7 })),
   }
 
   const sections = { color: formatMandateForPrompt(colorMandate) }
@@ -113,4 +117,5 @@ const LOG_NAMES = {
   composition: 'composition-mandate',
   chassis: 'chassis-mandate',
   typeTreatment: 'type-treatment-mandate',
+  motion: 'motion-mandate',
 }

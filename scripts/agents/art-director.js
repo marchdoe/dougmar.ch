@@ -23,11 +23,13 @@ import {
   parseCompositionBlock,
   parseMobileBlock,
   parseTypeTreatmentBlock,
+  parseMotionBlock,
 } from '../utils/spec-blocks.js'
 import { isValidTuple } from '../utils/composition-grammar.js'
 import { isValidHeader } from '../utils/header-grammar.js'
 import { isValidMobile } from '../utils/mobile-grammar.js'
 import { isValidTypeTreatment } from '../utils/type-grammar.js'
+import { isValidMotion } from '../utils/motion-grammar.js'
 import { CHASSIS_CATALOG } from '../../elements/chassis/index.js'
 import { LOCKUP_IDS } from '../utils/brand-lockup.js'
 import { MATERIAL_NAMES, isMaterialName } from '../utils/material.js'
@@ -54,6 +56,7 @@ export function buildArtDirectorUserPrompt({
   compositionMandateSection,
   chassisMandateSection,
   typeTreatmentMandateSection,
+  motionMandateSection,
   brandContract,
   weightsBlock,
   tasteMemoryBlock,
@@ -78,6 +81,7 @@ export function buildArtDirectorUserPrompt({
     compositionMandateSection,
     chassisMandateSection,
     typeTreatmentMandateSection,
+    motionMandateSection,
     brandContract,
     weightsBlock && `## Creative Weights\n\n${weightsBlock}`,
     tasteMemoryBlock,
@@ -213,6 +217,7 @@ export function validateArtDirectorResult(parsed) {
     throw new Error(`Art Director MOBILE block is invalid: ${mobileCheck.errors.join('; ')}`)
   }
   validateTypeTreatment(parsed)
+  validateMotion(parsed)
 }
 
 /**
@@ -236,6 +241,22 @@ function validateTypeTreatment(parsed) {
 }
 
 /**
+ * MOTION is validated the way TYPE_TREATMENT is (#506): three enumerated
+ * fields, every one required, none cross-checked against anything else. A
+ * page that holds still declares `none / static / none`; it does not omit the
+ * block.
+ */
+function validateMotion(parsed) {
+  if (!parsed.motion) {
+    throw new Error('Art Director response missing ===MOTION===')
+  }
+  const motionCheck = isValidMotion(parseMotionBlock(parsed.motion))
+  if (!motionCheck.valid) {
+    throw new Error(`Art Director MOTION block is invalid: ${motionCheck.errors.join('; ')}`)
+  }
+}
+
+/**
  * Run the Art Director phase.
  *
  * @param {{
@@ -253,6 +274,7 @@ function validateTypeTreatment(parsed) {
  *   compositionMandateSection?: string,
  *   chassisMandateSection?: string,
  *   typeTreatmentMandateSection?: string,
+ *   motionMandateSection?: string,
  *   weightsBlock: string,
  *   tasteMemoryBlock: string,
  *   voiceBlock?: string,
@@ -262,7 +284,7 @@ function validateTypeTreatment(parsed) {
  *   systemPrompt: string,
  *   designReferenceImages?: Array<{ data: string, media_type: string, title?: string }>,
  * }} ctx
- * @returns {Promise<{ heroCopy: string, heroRationale: string, heroSource: string, archetype: string, chassisId: string, presetTs: string, visualSpec: string, selfCheck: string, rationale: string, designBrief: string, colorScheme: object|null, shell: string, header: string, typeTreatment: string, mobile: string, composition: string, compositionRationale: string, brief: string }>}
+ * @returns {Promise<{ heroCopy: string, heroRationale: string, heroSource: string, archetype: string, chassisId: string, presetTs: string, visualSpec: string, selfCheck: string, rationale: string, designBrief: string, colorScheme: object|null, shell: string, header: string, typeTreatment: string, mobile: string, motion: string, composition: string, compositionRationale: string, brief: string }>}
  */
 export async function runArtDirector(ctx) {
   const userPrompt = buildArtDirectorUserPrompt(ctx)
@@ -300,6 +322,7 @@ export async function runArtDirector(ctx) {
       'header',
       'type_treatment',
       'mobile',
+      'motion',
     ].filter((k) => parsed[k])
     const absent = [
       'hero_copy',
@@ -313,6 +336,7 @@ export async function runArtDirector(ctx) {
       'header',
       'type_treatment',
       'mobile',
+      'motion',
     ].filter((k) => !parsed[k])
     console.error(
       `  [AD] validation failed — present: [${present.join(', ')}] absent: [${absent.join(', ')}]`
@@ -375,6 +399,7 @@ export async function runArtDirector(ctx) {
     header: parsed.header,
     typeTreatment: parsed.type_treatment,
     mobile: parsed.mobile,
+    motion: parsed.motion,
     composition: parsed.composition,
     compositionRationale: parsed.composition_rationale,
     rationale: parsed.rationale || '',
