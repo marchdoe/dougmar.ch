@@ -117,6 +117,7 @@ describe('validateArtDirectorResult', () => {
     'shell_posture: standard',
     'field_ratio: balanced',
     'collapse: stack',
+    'hero_object: statement',
   ].join('\n')
 
   const validHeader = [
@@ -128,6 +129,7 @@ describe('validateArtDirectorResult', () => {
     'role_line: present',
     'nav_step: sm',
     'nav_case: upper',
+    'nav_form: labels',
     'nav: bottom rail',
   ].join('\n')
 

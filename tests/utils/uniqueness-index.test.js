@@ -27,6 +27,7 @@ const TUPLE = {
   shell_posture: 'standard',
   field_ratio: 'balanced',
   collapse: 'stack',
+  hero_object: 'statement',
 }
 
 /** A tuple that differs from TUPLE on every axis. */
@@ -40,6 +41,7 @@ const FAR = {
   shell_posture: 'none',
   field_ratio: 'drenched',
   collapse: 'hero-only',
+  hero_object: 'list',
 }
 
 const SHELL = {
@@ -60,7 +62,7 @@ describe('hammingTuple', () => {
 
   it('is the axis count when every axis differs', () => {
     expect(hammingTuple(TUPLE, FAR)).toBe(AXIS_NAMES.length)
-    expect(AXIS_NAMES.length).toBe(9)
+    expect(AXIS_NAMES.length).toBe(10)
   })
 
   it('counts a legacy record with no collapse axis as one axis apart, not invalid', () => {

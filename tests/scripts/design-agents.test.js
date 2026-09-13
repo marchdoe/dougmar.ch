@@ -407,6 +407,35 @@ describe('buildCompositionContractBlock', () => {
     expect(buildCompositionContractBlock(null)).toBe('')
     expect(buildCompositionContractBlock({})).toBe('')
   })
+
+  it('adds one binding sentence per non-statement hero_object (#501), none for statement', () => {
+    expect(buildCompositionContractBlock({ density: 'measured', hero_object: 'statement' })).toBe(
+      ''
+    )
+    for (const [value, leads] of [
+      ['figure', 'a number'],
+      ['word', 'one word'],
+      ['list', 'the work index'],
+      ['artifact', 'one piece of owned work'],
+    ]) {
+      const block = buildCompositionContractBlock({ density: 'measured', hero_object: value })
+      expect(block).toContain(`HERO OBJECT (${value})`)
+      expect(block).toContain(leads)
+      expect(block).toContain('still the h1')
+    }
+  })
+
+  it('says the artifact client set comes from project.clients and renders as names only', () => {
+    const block = buildCompositionContractBlock({ density: 'dense', hero_object: 'artifact' })
+    expect(block).toContain('project.clients')
+    expect(block).toContain('names only')
+  })
+
+  it('stacks the sparse block and the hero-object block when both apply', () => {
+    const block = buildCompositionContractBlock({ density: 'sparse', hero_object: 'word' })
+    expect(block).toContain('COMPOSITION CONTRACT — SPARSE')
+    expect(block).toContain('HERO OBJECT (word)')
+  })
 })
 
 describe('describeRiskTier', () => {

@@ -54,7 +54,7 @@ Failures: Featured heading and sidebar heading at the same visual weight. Everyt
 ### 2. Spec Fidelity
 Does the render match what the Design Director specified? Check:
 - **Color**: Are the background, text, and accent colors visually consistent with the spec? (You cannot see hex values, but you can see if something is warm/cool/dark/light, whether there's a clear accent color, whether dark mode is applied if specified.)
-- **Composition**: Does the render match the declared tuple (columns, axis, symmetry, hero placement, density, rhythm, shell posture, field ratio)? Is the nav where the header declaration's `placement` and the composition's `shell_posture` say it should be: present when `standard`/`marginal`/`folded-into-hero`/`footer-only`, genuinely absent when `shell_posture: none`?
+- **Composition**: Does the render match the declared tuple (columns, axis, symmetry, hero placement, density, rhythm, shell posture, field ratio, hero object)? Is the largest element what `hero_object` names: the phrase on a `statement` day, a number on `figure`, one word on `word`, the work index on `list`, one project on `artifact`? Is the nav where the header declaration's `placement` and the composition's `shell_posture` say it should be: present when `standard`/`marginal`/`folded-into-hero`/`footer-only`, genuinely absent when `shell_posture: none`?
 - **Typography**: Do heading and body fonts look like the specified fonts (serif vs sans-serif, display vs workhorse)? Are size relationships proportional to the spec?
 
 Failures: Spec says dark background, render is white. Spec says left sidebar nav, render has top bar. Spec says display serif, render uses system sans.
@@ -105,8 +105,8 @@ The Art Director nominated a specific hero phrase and stated the intended scale 
 
 Check:
 - **Is the hero phrase actually present in the render?** The phrase from `===HERO_COPY===` should appear somewhere on the homepage.
-- **Is it rendered at the intended scale?** A "marquee" or "specimen-scale" phrase should dominate the viewport: type at 8–15vw, taking up multiple lines or extending edge-to-edge. A phrase nominated as the hero anchor that ends up at body-article size on the page is a failure.
-- **Is it the visual entry point?** When you first look at the screenshot, does your eye land on the hero phrase? If a project card or sidebar element outranks it visually, the phrase has lost the page.
+- **Is it rendered at the intended scale?** On a `hero_object: statement` day a "marquee" or "specimen-scale" phrase should dominate the viewport: type at 8–15vw, taking up multiple lines or extending edge-to-edge. A phrase nominated as the hero anchor that ends up at body-article size on the page is a failure. On a `figure`, `word`, `list` or `artifact` day the object carries that scale and the phrase sits one step down, at `2xl` to `4xl`, as its caption or standfirst; a phrase at marquee scale on those days is the declaration not executed.
+- **Is the visual entry point what `hero_object` declares?** When you first look at the screenshot, where does your eye land? On a `statement` day it must land on the hero phrase; a project card or sidebar element that outranks it has taken the page. On a `figure` or `word` day it lands on the number or the word, with the phrase read second. On a `list` or `artifact` day the phrase outranked by the work index or by the one project is correct, not a loss; the failure there is the object failing to lead.
 
 Failures:
 - The Art Director nominated "There is no limit to what a man can do" as a marquee hero phrase, but the render shows it at the same size as project titles.
@@ -147,7 +147,8 @@ same region of the same viewport, mockup first, render second.
 - **Does the render's crop match the mockup's crop?** Same lockup variant
   (stacked vs inline vs mark-only), same color mode (`original` is green and
   blue, `single-color` is one flat hue), same mark size, same role line
-  present or absent, same nav case. A divergence here is a divergence the
+  present or absent, same nav case and nav form (`labels`, `numbered`,
+  `sentence`, `list` or `word`). A divergence here is a divergence the
   owner will see first, because the header is the first thing on the page.
 - **Placement and height**: the header sits where `placement` says and stands
   near `height_px`.

@@ -57,6 +57,7 @@ wordmark_weight: 500
 role_line: absent
 nav_step: sm
 nav_case: small-caps
+nav_form: list
 nav: a vertical spine of rotated labels
 
 ===TYPE_TREATMENT===
@@ -83,6 +84,7 @@ rhythm: interrupted
 shell_posture: marginal
 field_ratio: drenched
 collapse: rail-to-band
+hero_object: statement
 
 ===COMPOSITION_RATIONALE===
 A left-weighted asymmetric split gives the spine somewhere to live without a top bar.
@@ -130,13 +132,14 @@ describe('an Art Director response with ===HEADER===, end to end', () => {
     expect(() => validateArtDirectorResult(parsed)).toThrow(/===HEADER===/)
   })
 
-  it('parses and persists mobile.json beside composition.json, nine keys deep', () => {
+  it('parses and persists mobile.json beside composition.json, ten keys deep', () => {
     const parsed = parseDelimiterResponse(RESPONSE)
     expect(() => validateArtDirectorResult(parsed)).not.toThrow()
     const composition = parseCompositionBlock(parsed.composition)
     const mobile = parseMobileBlock(parsed.mobile)
-    expect(Object.keys(composition)).toHaveLength(9)
+    expect(Object.keys(composition)).toHaveLength(10)
     expect(composition.collapse).toBe('rail-to-band')
+    expect(composition.hero_object).toBe('statement')
     expect(mobile.hero_step_360).toBe('hero')
     expect(mobile.order).toBe('nav band, hero field, colophon')
 

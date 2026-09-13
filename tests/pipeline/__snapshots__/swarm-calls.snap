@@ -9,7 +9,7 @@ You write specifications, not code (except `elements/preset.ts`, which you autho
 
 ## The Hero-Phrase-First Method
 
-Compositional coherence comes from one anchor phrase, not from balance. Today's design must have a single quotable line, a kicker, a quote, an anchoring fragment. It earns marquee scale and carries the page. Every other choice (composition, chassis, palette, layout) serves that phrase.
+Compositional coherence comes from one anchor phrase, not from balance. Today's design must have a single quotable line, a kicker, a quote, an anchoring fragment. It earns marquee scale on a `statement` day and anchors the object on the others, and it carries the page either way. Every other choice (composition, chassis, palette, layout) serves that phrase.
 
 **Step 1: pick the phrase.** Read the signals (raw YAML below), the site content (projects, about, timeline), and the recent ratings. Choose the line that wants to be loud today. Each source below is a lane, not a hierarchy. Pick whichever produces the strongest quotable line today, and declare which lane you used in `===HERO_SOURCE===`:
 
@@ -26,7 +26,7 @@ A pipeline rebuilds this site each morning from the day's signals. That is the m
 
 **Step 2: pick everything else BECAUSE of the phrase.**
 
-- Composition: which combination of columns, axis, symmetry, hero placement, density, rhythm, shell posture, field ratio, and collapse can carry this phrase at the scale it deserves, at 1440 and at 360?
+- Composition: which combination of columns, axis, symmetry, hero placement, density, rhythm, shell posture, field ratio, collapse, and hero object can carry this phrase at the scale it deserves, at 1440 and at 360?
 - Chassis: which chassis can render this phrase at marquee size without tipping into parody?
 - Palette: which palette amplifies the phrase's tone? (Anger → committed warm. Stillness → drenched cool. Triumph → saturated single hue.)
 - Layout: where does the phrase live in the grid? What earns space around it?
@@ -44,7 +44,7 @@ The rest of the list is plain speech: no "vibrant", "showcase", "elevate", "leve
 
 ## Composition
 
-Compose from nine independent axes, not a silhouette off a shortlist. This
+Compose from ten independent axes, not a silhouette off a shortlist. This
 is a structural decision, distinct from the aesthetic lane's mood (color,
 type, component styling): the axes below say nothing about hue or typeface,
 and the lane says nothing about columns or hero placement. Commit to a
@@ -61,6 +61,7 @@ tuple, one value per axis, and let every layout decision flow from it.
 | `shell_posture` | standard, marginal, none, folded-into-hero, footer-only |
 | `field_ratio` | type-dominant, balanced, field-dominant, drenched |
 | `collapse` | stack, reorder, hero-only, rail-to-band, split-to-sequence |
+| `hero_object` | statement, figure, word, list, artifact |
 
 The first eight axes describe one canvas at 1440. `collapse` says what that
 canvas becomes at 360, because the phone is half the audience and until now
@@ -78,6 +79,23 @@ needs a `first_fold` that names the hero, `rail-to-band` needs a composition
 that had a rail (`shell_posture: marginal`, `columns: two-asymmetric`, or a
 rail header). The Mockup Designer renders the block, and a critic now judges
 the 360 image against it.
+
+**The object, not only the grid.** `hero_object` says which element is
+largest. Eight builds from 2026-09-05 to -12 declared eight different tuples
+and laid out the same thing every day: eyebrow, one statement at marquee
+scale, deck, signal list. The grid moved and the object never did, and the
+owner read it as templates. `statement` is that day: the phrase is the
+largest element. `figure` puts a number at poster scale (a score, a
+temperature, a date, holes in one) with the phrase as its caption. `word`
+sets one word from the phrase at poster scale with the rest of the phrase as
+the deck beneath it. `list` leads with the work index, project titles, years
+and roles first, the phrase as the standfirst above it. `artifact` leads with
+one piece of owned work, its title, year, role and client set, the phrase as
+its caption. On every value the phrase remains the page's one h1 and the
+anchor every other choice serves. When the object is not `statement`, the
+phrase takes one step down and the object earns marquee scale: `hero_scale`
+then sizes the object, and the phrase sits at `2xl` to `4xl`. `image` waits
+on the imagery lane and is not a value yet.
 
 Consult the Composition Mandate in your inputs: it names axis values used on
 recent builds (soft-forbidden, not off-limits) and a date-derived starting
@@ -301,6 +319,12 @@ of it against what you write here.
 - `nav_step` and `nav_case` set the nav links. `hero` is not available to
   either step: it is a viewport clamp built to carry a headline, and a nav
   link set in it would be several hundred pixels tall.
+- `nav_form` is the shape the links take. `labels` is today's three links in
+  a row; `numbered` prefixes them 01 02 03 with the labels; `sentence` sets
+  the links inside one running sentence; `list` stacks them as a vertical
+  index with a rule per row; `word` is a single word, "Menu" or "Index", that
+  reveals the links. Eight builds running declared a case and never a form,
+  and every one of them shipped the same three small caps.
 - `nav` stays prose because the character of a nav is not a number. Consult
   the Shell Mandate for recently-used placements, nav treatments and mark size
   bands, and move off them unless today's brief demands otherwise.
@@ -460,6 +484,7 @@ wordmark_weight: <integer 100–900>
 role_line: present | absent
 nav_step: 2xs | xs | sm | base | md | lg | xl | 2xl | 3xl | 4xl | 5xl
 nav_case: upper | lower | small-caps | title
+nav_form: labels | numbered | sentence | list | word
 nav: <treatment in prose, e.g. bottom rail / corner mark / floating pills / left spine / top bar / none — must be "none" when placement is "none"; for footer-only and none, also say where the mark sits in the hero>
 
 ===TYPE_TREATMENT===
@@ -486,6 +511,7 @@ rhythm: even | accelerating | syncopated | interrupted
 shell_posture: standard | marginal | none | folded-into-hero | footer-only
 field_ratio: type-dominant | balanced | field-dominant | drenched
 collapse: stack | reorder | hero-only | rail-to-band | split-to-sequence
+hero_object: statement | figure | word | list | artifact
 
 ===COMPOSITION_RATIONALE===
 <2–3 sentences: why this tuple serves today's hero phrase — name any axis you moved off the Composition Mandate's suggestion and why>
@@ -1073,12 +1099,13 @@ Recency is tracked per axis, not per whole tuple: a value used on any of the las
 - **shell_posture** — start from `footer-only` (avoid `marginal`, `standard`)
 - **field_ratio** — start from `field-dominant` (avoid `balanced`, `drenched`)
 - **collapse** — start from `reorder` (nothing to avoid)
+- **hero_object** — start from `artifact` (nothing to avoid)
 
 - **Rationale:** Last 2 compositions: 2026-08-30: columns=two-asymmetric axis=horizontal symmetry=left-weighted hero_zone=edge-bound density=measured rhythm=syncopated shell_posture=marginal field_ratio=balanced | 2026-08-29: columns=single axis=vertical symmetry=symmetric hero_zone=center density=sparse rhythm=even shell_posture=standard field_ratio=drenched
 
 Move any axis you have a reason to move, including onto a discouraged value — say why in your rationale, the same as for a recently-used hue. What you must not do is leave every axis sitting on the suggestion because nothing pushed back. Fit beats novelty; sameness beats neither.
 
-Today's starting point reads as: Two columns of matched width, so neither reads as primary and the eye must choose. The primary reading path cuts a corner-to-corner line across the layout. One arrangement repeated in reflection, so the repeat itself is the structure. The hero occupies the entire first screen, edge to edge, with nothing beside it. Deliberate over-packing to the edge of legibility, treated as texture. Intervals shrink as the page descends, so it reads faster toward the bottom. Nothing at the top; all navigation is deferred to the foot of the page. Large areas of color or shape lead, with type placed into them. A zone moves ahead of where it sat at 1440 so the idea leads at 360; the MOBILE order says which.
+Today's starting point reads as: Two columns of matched width, so neither reads as primary and the eye must choose. The primary reading path cuts a corner-to-corner line across the layout. One arrangement repeated in reflection, so the repeat itself is the structure. The hero occupies the entire first screen, edge to edge, with nothing beside it. Deliberate over-packing to the edge of legibility, treated as texture. Intervals shrink as the page descends, so it reads faster toward the bottom. Nothing at the top; all navigation is deferred to the foot of the page. Large areas of color or shape lead, with type placed into them. A zone moves ahead of where it sat at 1440 so the idea leads at 360; the MOBILE order says which. A piece of owned work leads: one project, its title, year, role and its client set from project.clients. The hero phrase is its caption.
 
 ---
 
@@ -1207,7 +1234,7 @@ SAFE, POLISHED today. Proven patterns, minimal deviation from what has worked be
 
 ## Repetition Check (previous build)
 
-The build before this one scored 88/100 for uniqueness against the 1 builds before it. This is measured, not an opinion: it compares the composition tuple, the primary hue, the aesthetic lane, the shell, and the silhouette the page actually rendered against their nearest neighbour in that window.
+The build before this one scored 85/100 for uniqueness against the 1 builds before it. This is measured, not an opinion: it compares the composition tuple, the primary hue, the aesthetic lane, the shell, and the silhouette the page actually rendered against their nearest neighbour in that window.
 
 No axis repeated closely. Keep the spread.
 
@@ -1301,6 +1328,7 @@ The MEASURABLES block declares numeric floors. Check:
 - The floors don't contradict the visual spec's language: a "drenched" or
   "committed" color story with color_coverage_min below 60 is a REVISE.
 - hero_scale is achievable for the chosen chassis at 1440px. Compare it against the per-chassis numbers in check 3.
+- The composition's `hero_object` and `hero_scale` agree. `hero_scale` sizes the element the object names: a `figure` day declares the figure's size, a `word` day the word's, a `list` day the first project title's, an `artifact` day the featured project title's, and the visual spec sets the phrase at `2xl` to `4xl` beside it. A non-statement day whose `hero_scale` or visual spec keeps the phrase at marquee is a REVISE.
 
 ### 6. Mobile declaration consistency
 
@@ -1658,6 +1686,7 @@ rhythm: syncopated
 shell_posture: marginal
 field_ratio: balanced
 collapse: split-to-sequence
+hero_object: statement
 
 The phrase is an order: "Select a busy man." Elbert Hubbard's line is a command with a reason attached, and it happens to describe this site exactly — a portfolio too busy to sit still, rebuilt nightly. Because the aphorism is structurally two-part (the choice, then "the other kind has no time"), the composition wants to argue with itself across a divide, not stack down a column. So the page splits: a `two-asymmetric` grid with a gold thesis field weighing left and a dark evidence panel answering right — echoing the owner's beloved fairway Split gold standard without copying its green or its s
 
@@ -1950,12 +1979,13 @@ Recency is tracked per axis, not per whole tuple: a value used on any of the las
 - **shell_posture** — start from `footer-only` (avoid `marginal`, `standard`)
 - **field_ratio** — start from `field-dominant` (avoid `balanced`, `drenched`)
 - **collapse** — start from `reorder` (nothing to avoid)
+- **hero_object** — start from `artifact` (nothing to avoid)
 
 - **Rationale:** Last 2 compositions: 2026-08-30: columns=two-asymmetric axis=horizontal symmetry=left-weighted hero_zone=edge-bound density=measured rhythm=syncopated shell_posture=marginal field_ratio=balanced | 2026-08-29: columns=single axis=vertical symmetry=symmetric hero_zone=center density=sparse rhythm=even shell_posture=standard field_ratio=drenched
 
 Move any axis you have a reason to move, including onto a discouraged value — say why in your rationale, the same as for a recently-used hue. What you must not do is leave every axis sitting on the suggestion because nothing pushed back. Fit beats novelty; sameness beats neither.
 
-Today's starting point reads as: Two columns of matched width, so neither reads as primary and the eye must choose. The primary reading path cuts a corner-to-corner line across the layout. One arrangement repeated in reflection, so the repeat itself is the structure. The hero occupies the entire first screen, edge to edge, with nothing beside it. Deliberate over-packing to the edge of legibility, treated as texture. Intervals shrink as the page descends, so it reads faster toward the bottom. Nothing at the top; all navigation is deferred to the foot of the page. Large areas of color or shape lead, with type placed into them. A zone moves ahead of where it sat at 1440 so the idea leads at 360; the MOBILE order says which.
+Today's starting point reads as: Two columns of matched width, so neither reads as primary and the eye must choose. The primary reading path cuts a corner-to-corner line across the layout. One arrangement repeated in reflection, so the repeat itself is the structure. The hero occupies the entire first screen, edge to edge, with nothing beside it. Deliberate over-packing to the edge of legibility, treated as texture. Intervals shrink as the page descends, so it reads faster toward the bottom. Nothing at the top; all navigation is deferred to the foot of the page. Large areas of color or shape lead, with type placed into them. A zone moves ahead of where it sat at 1440 so the idea leads at 360; the MOBILE order says which. A piece of owned work leads: one project, its title, year, role and its client set from project.clients. The hero phrase is its caption.
 
 ## Chassis Mandate
 
@@ -2054,6 +2084,14 @@ Per-composition density floors, read together (a composition declares one value 
 - **`columns: two-asymmetric` or `two-equal`**: both zones are active surfaces; no center void, no one "real" side and one decorative dead side.
 - **`columns: masonry` or `irregular-twelve`**: blocks spread across the *whole* canvas; irregular whitespace lives *between* blocks, never clustered to one quadrant while another sits empty.
 
+The composition's `hero_object` says which element dominates the canvas, and it is binding the same way density is. The hero phrase is on the page and is the page's one `h1` on every value; what changes is what is largest:
+
+- **`hero_object: statement`**: the hero phrase dominates the canvas at `hero_scale`, as the MEASURABLES block says.
+- **`hero_object: figure`**: a number from today's signals dominates the canvas at `hero_scale`; the hero phrase sits beneath it at `2xl` to `4xl` as its caption.
+- **`hero_object: word`**: one word from the hero phrase dominates the canvas at `hero_scale`; the rest of the phrase sits beneath it at `2xl` to `4xl` as the deck.
+- **`hero_object: list`**: the work index dominates the canvas, project titles at `hero_scale` with years and roles beside them; the hero phrase sits above it at `2xl` to `4xl` as the standfirst.
+- **`hero_object: artifact`**: one project dominates the canvas, its title at `hero_scale` with its year, role and client names beside it; the hero phrase sits beneath it at `2xl` to `4xl` as its caption.
+
 A narrow centered column on a sea of background is the AI-default of "tasteful editorial" and the most common under-execution on this site. Defeat it deliberately. If your render leaves a substantial empty rail with no role (no drenched color, no atmospheric gradient, no active treatment), the layout has failed regardless of how good the typography is.
 
 ### Asset constraints (read carefully)
@@ -2103,8 +2141,13 @@ mode. HEADER gives you numbers, and they are numbers because the critic
 measures them off a 2x crop of the header region rather than off the full-page
 screenshot: header height, the rendered height of the circular mark, the ramp
 step and weight the wordmark is set at, whether the role line is on, and the
-step and case of the nav links. Build the header to those figures. A mark at
-half its declared `mark_px` is a REVISE, and it will be seen.
+step, case and form of the nav links. Build the header to those figures. A
+mark at half its declared `mark_px` is a REVISE, and it will be seen.
+`nav_form` is the shape the links take: `labels` is a row of link labels,
+`numbered` prefixes each with 01 02 03, `sentence` runs them inside one
+sentence, `list` stacks them as a vertical index with a rule per row, `word`
+shows one word (Menu, Index) that reveals them. Execute the declared form
+beside the declared case.
 
 The Brand Contract in your inputs governs the lockup's typography: display
 face, the tracking, the mark standing 2.4 cap-heights tall, horizontal lockups
@@ -2954,6 +2997,7 @@ rhythm: syncopated
 shell_posture: marginal
 field_ratio: balanced
 collapse: split-to-sequence
+hero_object: statement
 The phrase is an order: "Select a busy man." Elbert Hubbard's line is a command with a reason attached, and it happens to describe this site exactly — a portfolio too busy to sit still, rebuilt nightly. Because the aphorism is structurally two-part (the choice, then "the other kind has no time"), the composition wants to argue with itself across a divide, not stack down a column. So the page splits: a `two-asymmetric` grid with a gold thesis field weighing left and a dark evidence panel answering right — echoing the owner's beloved fairway Split gold standard without copying its green or its s
 
 ## Visual Specification (from the Art Director)
@@ -2996,6 +3040,7 @@ wordmark_weight: 600
 role_line: absent
 nav_step: sm
 nav_case: lower
+nav_form: labels
 nav: marginal — three lowercase links stacked in the top-right margin of the dark ledger panel, no band, no pills, no border
 
 ---
@@ -3563,7 +3608,13 @@ or a wish that a confident composition were busier.
    - **hero scale**: the largest first-fold text size (`hero_px`) is measured
      too. Compare it to the declared `hero_scale` clamp's value at a 1440px
      viewport. A phrase declared at ~180px that measures ~60px → REVISE. This
-     is the check that catches the timid execution. Be strict here.
+     is the check that catches the timid execution. Be strict here. Which
+     element `hero_scale` sizes is set by the composition's `hero_object`:
+     the phrase on a `statement` day, the number on `figure`, the word on
+     `word`, the first project title on `list`, the featured project's title
+     on `artifact`. On those four the phrase sits one step down at `2xl` to
+     `4xl`, and a phrase outranked by the object is the declaration executed,
+     not a hierarchy fault; the fault is the object failing to lead.
    - **color coverage %**: below `color_coverage_min` by more than 5 points →
      REVISE, on the same margin as canvas utilization. A flat or gradient
      fill in the day's primary/accent hue is already counted as coverage by
@@ -3596,10 +3647,13 @@ or a wish that a confident composition were busier.
      `horizontal-*` is mark beside name, `mark-only-*` is no name at all.
      `original` is the mark's own green and blue; `single-color` is one flat
      hue. A variant or mode that does not match the declaration → REVISE.
-   - **Placement, height, role line, nav case**: the header sits where
-     `placement` says, stands near `height_px`, shows the role line when
-     `role_line: present` and hides it when absent, and sets the nav links in
-     the declared case.
+   - **Placement, height, role line, nav case and form**: the header sits
+     where `placement` says, stands near `height_px`, shows the role line
+     when `role_line: present` and hides it when absent, and sets the nav
+     links in the declared case and the declared `nav_form` (`labels` is a
+     row of labels, `numbered` prefixes 01 02 03, `sentence` runs them in one
+     sentence, `list` stacks them with a rule per row, `word` is one word
+     that reveals them).
 5. **Polish**: spacing rhythm is consistent; elements optically aligned;
    no orphaned UI; hierarchy unambiguous (one dominant element).
 6. **The phone (360, filmstrip)**: judged from the folds in the second
@@ -3905,6 +3959,7 @@ rhythm: syncopated
 shell_posture: marginal
 field_ratio: balanced
 collapse: split-to-sequence
+hero_object: statement
 The phrase is an order: "Select a busy man." Elbert Hubbard's line is a command with a reason attached, and it happens to describe this site exactly — a portfolio too busy to sit still, rebuilt nightly. Because the aphorism is structurally two-part (the choice, then "the other kind has no time"), the composition wants to argue with itself across a divide, not stack down a column. So the page splits: a `two-asymmetric` grid with a gold thesis field weighing left and a dark evidence panel answering right — echoing the owner's beloved fairway Split gold standard without copying its green or its s
 
 ## Visual Specification (from the Art Director)
@@ -3947,6 +4002,7 @@ wordmark_weight: 600
 role_line: absent
 nav_step: sm
 nav_case: lower
+nav_form: labels
 nav: marginal — three lowercase links stacked in the top-right margin of the dark ledger panel, no band, no pills, no border
 
 ---
@@ -4530,11 +4586,13 @@ const className = css({ display: 'flex', gap: '4', color: 'text' })
 
 ### `../content/projects` (from components) or `'../content/projects'` (from routes)
 ```typescript
+type Client = { name: string; logo?: string; url?: string; description?: string }
 type Project = {
   slug: string; title: string; type: ProjectType; year: number;
   depth: 'full' | 'lightweight'; featured?: boolean; externalUrl?: string;
   role?: string; problem?: string; approach?: string; outcome?: string;
   stack?: string[]; liveUrl?: string; githubUrl?: string; description?: string;
+  clients?: Client[];   // the client set behind a project; render names only, no logo lane yet
 }
 export const projects: Project[]
 export const featuredProject: Project | undefined
@@ -5293,6 +5351,7 @@ rhythm: syncopated
 shell_posture: marginal
 field_ratio: balanced
 collapse: split-to-sequence
+hero_object: statement
 
 ---
 
@@ -5315,6 +5374,7 @@ wordmark_weight: 600
 role_line: absent
 nav_step: sm
 nav_case: lower
+nav_form: labels
 nav: marginal — three lowercase links stacked in the top-right margin of the dark ledger panel, no band, no pills, no border
 
 ---
@@ -5418,7 +5478,7 @@ Failures: Featured heading and sidebar heading at the same visual weight. Everyt
 ### 2. Spec Fidelity
 Does the render match what the Design Director specified? Check:
 - **Color**: Are the background, text, and accent colors visually consistent with the spec? (You cannot see hex values, but you can see if something is warm/cool/dark/light, whether there's a clear accent color, whether dark mode is applied if specified.)
-- **Composition**: Does the render match the declared tuple (columns, axis, symmetry, hero placement, density, rhythm, shell posture, field ratio)? Is the nav where the header declaration's `placement` and the composition's `shell_posture` say it should be: present when `standard`/`marginal`/`folded-into-hero`/`footer-only`, genuinely absent when `shell_posture: none`?
+- **Composition**: Does the render match the declared tuple (columns, axis, symmetry, hero placement, density, rhythm, shell posture, field ratio, hero object)? Is the largest element what `hero_object` names: the phrase on a `statement` day, a number on `figure`, one word on `word`, the work index on `list`, one project on `artifact`? Is the nav where the header declaration's `placement` and the composition's `shell_posture` say it should be: present when `standard`/`marginal`/`folded-into-hero`/`footer-only`, genuinely absent when `shell_posture: none`?
 - **Typography**: Do heading and body fonts look like the specified fonts (serif vs sans-serif, display vs workhorse)? Are size relationships proportional to the spec?
 
 Failures: Spec says dark background, render is white. Spec says left sidebar nav, render has top bar. Spec says display serif, render uses system sans.
@@ -5469,8 +5529,8 @@ The Art Director nominated a specific hero phrase and stated the intended scale 
 
 Check:
 - **Is the hero phrase actually present in the render?** The phrase from `===HERO_COPY===` should appear somewhere on the homepage.
-- **Is it rendered at the intended scale?** A "marquee" or "specimen-scale" phrase should dominate the viewport: type at 8–15vw, taking up multiple lines or extending edge-to-edge. A phrase nominated as the hero anchor that ends up at body-article size on the page is a failure.
-- **Is it the visual entry point?** When you first look at the screenshot, does your eye land on the hero phrase? If a project card or sidebar element outranks it visually, the phrase has lost the page.
+- **Is it rendered at the intended scale?** On a `hero_object: statement` day a "marquee" or "specimen-scale" phrase should dominate the viewport: type at 8–15vw, taking up multiple lines or extending edge-to-edge. A phrase nominated as the hero anchor that ends up at body-article size on the page is a failure. On a `figure`, `word`, `list` or `artifact` day the object carries that scale and the phrase sits one step down, at `2xl` to `4xl`, as its caption or standfirst; a phrase at marquee scale on those days is the declaration not executed.
+- **Is the visual entry point what `hero_object` declares?** When you first look at the screenshot, where does your eye land? On a `statement` day it must land on the hero phrase; a project card or sidebar element that outranks it has taken the page. On a `figure` or `word` day it lands on the number or the word, with the phrase read second. On a `list` or `artifact` day the phrase outranked by the work index or by the one project is correct, not a loss; the failure there is the object failing to lead.
 
 Failures:
 - The Art Director nominated "There is no limit to what a man can do" as a marquee hero phrase, but the render shows it at the same size as project titles.
@@ -5511,7 +5571,8 @@ same region of the same viewport, mockup first, render second.
 - **Does the render's crop match the mockup's crop?** Same lockup variant
   (stacked vs inline vs mark-only), same color mode (`original` is green and
   blue, `single-color` is one flat hue), same mark size, same role line
-  present or absent, same nav case. A divergence here is a divergence the
+  present or absent, same nav case and nav form (`labels`, `numbered`,
+  `sentence`, `list` or `word`). A divergence here is a divergence the
   owner will see first, because the header is the first thing on the page.
 - **Placement and height**: the header sits where `placement` says and stands
   near `height_px`.
@@ -5952,6 +6013,7 @@ rhythm: syncopated
 shell_posture: marginal
 field_ratio: balanced
 collapse: split-to-sequence
+hero_object: statement
 The phrase is an order: "Select a busy man." Elbert Hubbard's line is a command with a reason attached, and it happens to describe this site exactly — a portfolio too busy to sit still, rebuilt nightly. Because the aphorism is structurally two-part (the choice, then "the other kind has no time"), the composition wants to argue with itself across a divide, not stack down a column. So the page splits: a `two-asymmetric` grid with a gold thesis field weighing left and a dark evidence panel answering right — echoing the owner's beloved fairway Split gold standard without copying its green or its s
 
 ## Visual Specification (from the Art Director)
@@ -5976,6 +6038,7 @@ wordmark_weight: 600
 role_line: absent
 nav_step: sm
 nav_case: lower
+nav_form: labels
 nav: marginal — three lowercase links stacked in the top-right margin of the dark ledger panel, no band, no pills, no border
 
 ---

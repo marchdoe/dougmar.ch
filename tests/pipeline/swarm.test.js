@@ -77,11 +77,12 @@ describe('runAgentSwarm on the recorded night', () => {
     expect(run.trace.dir).toMatch(/^build-\d+$/)
 
     // The phone declaration (#452) is parsed, validated and archived beside
-    // a nine-key composition tuple.
+    // a ten-key composition tuple (#501 added hero_object).
     const artifacts = run.fakes.archive[0].artifacts
     const composition = JSON.parse(artifacts['composition.json'])
-    expect(Object.keys(composition)).toHaveLength(9)
+    expect(Object.keys(composition)).toHaveLength(10)
     expect(composition.collapse).toBe('split-to-sequence')
+    expect(composition.hero_object).toBe('statement')
     const mobile = JSON.parse(artifacts['mobile.json'])
     expect(mobile).toMatchObject({ hero_step_360: 'hero' })
     expect(mobile.order.split(',')[0].trim()).toBe('gold thesis field')

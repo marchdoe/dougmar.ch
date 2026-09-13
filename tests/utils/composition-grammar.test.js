@@ -15,7 +15,7 @@ function firstValueTuple(overrides = {}) {
 }
 
 describe('COMPOSITION_AXES', () => {
-  it('has the nine axes the grammar is defined over', () => {
+  it('has the ten axes the grammar is defined over', () => {
     expect(AXIS_NAMES).toEqual([
       'columns',
       'axis',
@@ -26,17 +26,18 @@ describe('COMPOSITION_AXES', () => {
       'shell_posture',
       'field_ratio',
       'collapse',
+      'hero_object',
     ])
   })
 
-  it('has 43 values in total, none duplicated within an axis', () => {
+  it('has 48 values in total, none duplicated within an axis', () => {
     let total = 0
     for (const axis of AXIS_NAMES) {
       const values = COMPOSITION_AXES[axis]
       expect(new Set(values).size, `${axis} has a duplicate value`).toBe(values.length)
       total += values.length
     }
-    expect(total).toBe(43)
+    expect(total).toBe(48)
   })
 })
 
@@ -128,10 +129,11 @@ describe('isValidTuple', () => {
 describe('formatTuple', () => {
   it('emits one key: value line per axis, in canonical order', () => {
     const lines = formatTuple(firstValueTuple()).split('\n')
-    expect(lines).toHaveLength(9)
+    expect(lines).toHaveLength(10)
     expect(lines[0]).toBe('columns: single')
     expect(lines[7]).toBe('field_ratio: type-dominant')
     expect(lines[8]).toBe('collapse: stack')
+    expect(lines[9]).toBe('hero_object: statement')
   })
 
   it('marks missing values rather than emitting "undefined"', () => {

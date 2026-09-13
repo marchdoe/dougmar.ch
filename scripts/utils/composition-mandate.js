@@ -13,12 +13,12 @@ import {
  * Composition variance mandate — successor to layout-signature-mandate.js.
  *
  * The predecessor soft-forbade the last 3 *exact* four-key tuples. Against
- * the 230,400-tuple space of the composition grammar an exact repeat almost
+ * the 5,760,000-tuple space of the composition grammar an exact repeat almost
  * never happens, so that mandate would have been dead weight: technically
  * enforced, never binding. Recency here is **per axis** instead — a value
  * used on any of the last 3 builds is discouraged for that axis alone. That
  * is the lever that bites, because it pushes each axis independently rather
- * than waiting for all nine to collide at once.
+ * than waiting for all ten to collide at once.
  *
  * It also seeds a date-derived suggestion tuple. Without one, an
  * unopinionated day resolves to the model's priors, which is exactly the
@@ -26,9 +26,10 @@ import {
  * starts somewhere specific and reproducible.
  *
  * Builds archived before the composition axes existed carry only four of
- * the keys, and every build before #452 lacks `collapse`. Those axes read as
- * "no history" rather than erroring, so the mandate degrades instead of
- * breaking on the existing archive.
+ * the keys, every build before #452 lacks `collapse`, and every
+ * composition.json before #501 lacks `hero_object`. Those axes read as "no
+ * history" rather than erroring, so the mandate degrades instead of breaking
+ * on the existing archive.
  */
 
 /** How many recent builds' values are discouraged, per axis. */
