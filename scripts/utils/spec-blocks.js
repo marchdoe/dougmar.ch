@@ -74,7 +74,7 @@ export function parseShellBlock(text) {
  * All fields optional here — missing/unparseable fields come back null so
  * validation policy stays entirely in the caller.
  *
- * @returns {{ placement: string|null, height_px: number|null, mark_px: number|null, wordmark_step: string|null, wordmark_weight: number|null, role_line: string|null, nav_step: string|null, nav_case: string|null, nav: string|null }}
+ * @returns {{ placement: string|null, height_px: number|null, mark_px: number|null, wordmark_step: string|null, wordmark_weight: number|null, role_line: string|null, nav_step: string|null, nav_case: string|null, nav_form: string|null, nav: string|null }}
  */
 export function parseHeaderBlock(text) {
   const kv = parseKeyValues(text)
@@ -88,6 +88,8 @@ export function parseHeaderBlock(text) {
     role_line: norm(kv.role_line),
     nav_step: norm(kv.nav_step),
     nav_case: norm(kv.nav_case),
+    // The shape of the links (#501); header.json written before it reads null.
+    nav_form: norm(kv.nav_form),
     // Prose, so it keeps its capitalization.
     nav: kv.nav ?? null,
   }
@@ -116,7 +118,7 @@ export function parseTypeTreatmentBlock(text) {
 }
 
 /**
- * The Art Director's `===COMPOSITION===` block — the nine composition-axis
+ * The Art Director's `===COMPOSITION===` block — the ten composition-axis
  * key: value declarations (see utils/composition-grammar.js for the
  * vocabulary). Successor to the four-key `===LAYOUT_SIGNATURE===` block this
  * function used to parse (renamed 2026-08-23, Task 4 of the
@@ -127,9 +129,11 @@ export function parseTypeTreatmentBlock(text) {
  * written under the original four-key shape still parses: the newer keys
  * simply come back null, which the per-axis mandate treats as "no history
  * for this axis" rather than an error. `collapse` (#452) is the ninth key and
- * every composition.json written before it is in the same position.
+ * every composition.json written before it is in the same position;
+ * `hero_object` (#501) is the tenth, and every composition.json written
+ * before it reads the same way.
  *
- * @returns {Record<'columns'|'axis'|'symmetry'|'hero_zone'|'density'|'rhythm'|'shell_posture'|'field_ratio'|'collapse', string|null>}
+ * @returns {Record<'columns'|'axis'|'symmetry'|'hero_zone'|'density'|'rhythm'|'shell_posture'|'field_ratio'|'collapse'|'hero_object', string|null>}
  */
 export function parseCompositionBlock(text) {
   const kv = parseKeyValues(text)
@@ -144,6 +148,7 @@ export function parseCompositionBlock(text) {
     shell_posture: norm(kv.shell_posture),
     field_ratio: norm(kv.field_ratio),
     collapse: norm(kv.collapse),
+    hero_object: norm(kv.hero_object),
   }
 }
 

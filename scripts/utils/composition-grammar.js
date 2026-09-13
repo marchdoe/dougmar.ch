@@ -1,5 +1,5 @@
 /**
- * The composition grammar — nine independent axes the Art Director
+ * The composition grammar — ten independent axes the Art Director
  * composes from, replacing the fixed eight-name archetype shortlist.
  *
  * The archetype Set gave the pipeline exactly 8 silhouettes, so one
@@ -22,11 +22,21 @@
  * phone render the same way the others are off the desktop one, and the
  * `===MOBILE===` block (utils/mobile-grammar.js) carries the specifics.
  *
+ * `hero_object` (#501) says which element is largest. Eight builds from
+ * 2026-09-05 to -12 had eight different tuples and the same object on every
+ * page: eyebrow, one statement at marquee scale, deck, signal list. The
+ * layout varied while the thing laid out never did, and the owner read it as
+ * cycling through templates. The hero phrase stays required and stays the
+ * page's one h1; this axis moves the marquee scale onto a figure, a word, the
+ * work list or one piece of work, and the phrase steps down to caption or
+ * standfirst. `image` is reserved for the imagery lane (#505) and is not a
+ * value here yet.
+ *
  * @module
  */
 
 /**
- * The axes and their permitted values. 6·4·5·6·4·4·5·4·5 = 1,152,000 tuples.
+ * The axes and their permitted values. 6·4·5·6·4·4·5·4·5·5 = 5,760,000 tuples.
  *
  * Order matters only for display — tuples are keyed objects, never
  * positional arrays, so adding an axis later doesn't shift anything.
@@ -43,6 +53,10 @@ export const COMPOSITION_AXES = {
   shell_posture: ['standard', 'marginal', 'none', 'folded-into-hero', 'footer-only'],
   field_ratio: ['type-dominant', 'balanced', 'field-dominant', 'drenched'],
   collapse: ['stack', 'reorder', 'hero-only', 'rail-to-band', 'split-to-sequence'],
+  // `list`, not `index`: Index is a retired archetype name and the grammar
+  // test keeps every one of those out of the axis vocabulary. `image` waits
+  // on the imagery lane (#505).
+  hero_object: ['statement', 'figure', 'word', 'list', 'artifact'],
 }
 
 /** Axis names in canonical order. @type {string[]} */
@@ -51,7 +65,7 @@ export const AXIS_NAMES = Object.keys(COMPOSITION_AXES)
 /**
  * One sentence per axis value, written for the Art Director. This prose is
  * what replaces the 5–8KB of canned archetype mechanics the seed files used
- * to supply: enough to make the value actionable, short enough that nine of
+ * to supply: enough to make the value actionable, short enough that ten of
  * them together read as a brief rather than a template.
  *
  * @type {Record<string, Record<string, string>>}
@@ -132,6 +146,15 @@ const AXIS_VALUE_DESCRIPTIONS = {
       'A rail or sidebar becomes a full-width horizontal band at 360, placed where its content belongs.',
     'split-to-sequence':
       'A split field becomes a sequence of full-width fields at 360, the relationship kept by adjacency: a question above its answer still faces it.',
+  },
+  hero_object: {
+    statement: 'The hero phrase itself is the largest element on the page, set at marquee scale.',
+    figure:
+      'A number leads at poster scale: a score, a temperature, a date, holes in one. The hero phrase is its caption, one step down.',
+    word: 'One word from the hero phrase at poster scale; the rest of the phrase is the deck beneath it.',
+    list: 'The work index leads: project titles, years and roles are the first thing on the page. The hero phrase is the standfirst above it.',
+    artifact:
+      'A piece of owned work leads: one project, its title, year, role and its client set from project.clients. The hero phrase is its caption.',
   },
 }
 

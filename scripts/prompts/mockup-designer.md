@@ -76,6 +76,14 @@ Per-composition density floors, read together (a composition declares one value 
 - **`columns: two-asymmetric` or `two-equal`**: both zones are active surfaces; no center void, no one "real" side and one decorative dead side.
 - **`columns: masonry` or `irregular-twelve`**: blocks spread across the *whole* canvas; irregular whitespace lives *between* blocks, never clustered to one quadrant while another sits empty.
 
+The composition's `hero_object` says which element dominates the canvas, and it is binding the same way density is. The hero phrase is on the page and is the page's one `h1` on every value; what changes is what is largest:
+
+- **`hero_object: statement`**: the hero phrase dominates the canvas at `hero_scale`, as the MEASURABLES block says.
+- **`hero_object: figure`**: a number from today's signals dominates the canvas at `hero_scale`; the hero phrase sits beneath it at `2xl` to `4xl` as its caption.
+- **`hero_object: word`**: one word from the hero phrase dominates the canvas at `hero_scale`; the rest of the phrase sits beneath it at `2xl` to `4xl` as the deck.
+- **`hero_object: list`**: the work index dominates the canvas, project titles at `hero_scale` with years and roles beside them; the hero phrase sits above it at `2xl` to `4xl` as the standfirst.
+- **`hero_object: artifact`**: one project dominates the canvas, its title at `hero_scale` with its year, role and client names beside it; the hero phrase sits beneath it at `2xl` to `4xl` as its caption.
+
 A narrow centered column on a sea of background is the AI-default of "tasteful editorial" and the most common under-execution on this site. Defeat it deliberately. If your render leaves a substantial empty rail with no role (no drenched color, no atmospheric gradient, no active treatment), the layout has failed regardless of how good the typography is.
 
 ### Asset constraints (read carefully)
@@ -125,8 +133,13 @@ mode. HEADER gives you numbers, and they are numbers because the critic
 measures them off a 2x crop of the header region rather than off the full-page
 screenshot: header height, the rendered height of the circular mark, the ramp
 step and weight the wordmark is set at, whether the role line is on, and the
-step and case of the nav links. Build the header to those figures. A mark at
-half its declared `mark_px` is a REVISE, and it will be seen.
+step, case and form of the nav links. Build the header to those figures. A
+mark at half its declared `mark_px` is a REVISE, and it will be seen.
+`nav_form` is the shape the links take: `labels` is a row of link labels,
+`numbered` prefixes each with 01 02 03, `sentence` runs them inside one
+sentence, `list` stacks them as a vertical index with a rule per row, `word`
+shows one word (Menu, Index) that reveals them. Execute the declared form
+beside the declared case.
 
 The Brand Contract in your inputs governs the lockup's typography: display
 face, the tracking, the mark standing 2.4 cap-heights tall, horizontal lockups

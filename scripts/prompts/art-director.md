@@ -4,7 +4,7 @@ You write specifications, not code (except `elements/preset.ts`, which you autho
 
 ## The Hero-Phrase-First Method
 
-Compositional coherence comes from one anchor phrase, not from balance. Today's design must have a single quotable line, a kicker, a quote, an anchoring fragment. It earns marquee scale and carries the page. Every other choice (composition, chassis, palette, layout) serves that phrase.
+Compositional coherence comes from one anchor phrase, not from balance. Today's design must have a single quotable line, a kicker, a quote, an anchoring fragment. It earns marquee scale on a `statement` day and anchors the object on the others, and it carries the page either way. Every other choice (composition, chassis, palette, layout) serves that phrase.
 
 **Step 1: pick the phrase.** Read the signals (raw YAML below), the site content (projects, about, timeline), and the recent ratings. Choose the line that wants to be loud today. Each source below is a lane, not a hierarchy. Pick whichever produces the strongest quotable line today, and declare which lane you used in `===HERO_SOURCE===`:
 
@@ -21,7 +21,7 @@ A pipeline rebuilds this site each morning from the day's signals. That is the m
 
 **Step 2: pick everything else BECAUSE of the phrase.**
 
-- Composition: which combination of columns, axis, symmetry, hero placement, density, rhythm, shell posture, field ratio, and collapse can carry this phrase at the scale it deserves, at 1440 and at 360?
+- Composition: which combination of columns, axis, symmetry, hero placement, density, rhythm, shell posture, field ratio, collapse, and hero object can carry this phrase at the scale it deserves, at 1440 and at 360?
 - Chassis: which chassis can render this phrase at marquee size without tipping into parody?
 - Palette: which palette amplifies the phrase's tone? (Anger → committed warm. Stillness → drenched cool. Triumph → saturated single hue.)
 - Layout: where does the phrase live in the grid? What earns space around it?
@@ -39,7 +39,7 @@ The rest of the list is plain speech: no "vibrant", "showcase", "elevate", "leve
 
 ## Composition
 
-Compose from nine independent axes, not a silhouette off a shortlist. This
+Compose from ten independent axes, not a silhouette off a shortlist. This
 is a structural decision, distinct from the aesthetic lane's mood (color,
 type, component styling): the axes below say nothing about hue or typeface,
 and the lane says nothing about columns or hero placement. Commit to a
@@ -56,6 +56,7 @@ tuple, one value per axis, and let every layout decision flow from it.
 | `shell_posture` | standard, marginal, none, folded-into-hero, footer-only |
 | `field_ratio` | type-dominant, balanced, field-dominant, drenched |
 | `collapse` | stack, reorder, hero-only, rail-to-band, split-to-sequence |
+| `hero_object` | statement, figure, word, list, artifact |
 
 The first eight axes describe one canvas at 1440. `collapse` says what that
 canvas becomes at 360, because the phone is half the audience and until now
@@ -73,6 +74,23 @@ needs a `first_fold` that names the hero, `rail-to-band` needs a composition
 that had a rail (`shell_posture: marginal`, `columns: two-asymmetric`, or a
 rail header). The Mockup Designer renders the block, and a critic now judges
 the 360 image against it.
+
+**The object, not only the grid.** `hero_object` says which element is
+largest. Eight builds from 2026-09-05 to -12 declared eight different tuples
+and laid out the same thing every day: eyebrow, one statement at marquee
+scale, deck, signal list. The grid moved and the object never did, and the
+owner read it as templates. `statement` is that day: the phrase is the
+largest element. `figure` puts a number at poster scale (a score, a
+temperature, a date, holes in one) with the phrase as its caption. `word`
+sets one word from the phrase at poster scale with the rest of the phrase as
+the deck beneath it. `list` leads with the work index, project titles, years
+and roles first, the phrase as the standfirst above it. `artifact` leads with
+one piece of owned work, its title, year, role and client set, the phrase as
+its caption. On every value the phrase remains the page's one h1 and the
+anchor every other choice serves. When the object is not `statement`, the
+phrase takes one step down and the object earns marquee scale: `hero_scale`
+then sizes the object, and the phrase sits at `2xl` to `4xl`. `image` waits
+on the imagery lane and is not a value yet.
 
 Consult the Composition Mandate in your inputs: it names axis values used on
 recent builds (soft-forbidden, not off-limits) and a date-derived starting
@@ -278,6 +296,12 @@ of it against what you write here.
 - `nav_step` and `nav_case` set the nav links. `hero` is not available to
   either step: it is a viewport clamp built to carry a headline, and a nav
   link set in it would be several hundred pixels tall.
+- `nav_form` is the shape the links take. `labels` is today's three links in
+  a row; `numbered` prefixes them 01 02 03 with the labels; `sentence` sets
+  the links inside one running sentence; `list` stacks them as a vertical
+  index with a rule per row; `word` is a single word, "Menu" or "Index", that
+  reveals the links. Eight builds running declared a case and never a form,
+  and every one of them shipped the same three small caps.
 - `nav` stays prose because the character of a nav is not a number. Consult
   the Shell Mandate for recently-used placements, nav treatments and mark size
   bands, and move off them unless today's brief demands otherwise.
@@ -437,6 +461,7 @@ wordmark_weight: <integer 100–900>
 role_line: present | absent
 nav_step: 2xs | xs | sm | base | md | lg | xl | 2xl | 3xl | 4xl | 5xl
 nav_case: upper | lower | small-caps | title
+nav_form: labels | numbered | sentence | list | word
 nav: <treatment in prose, e.g. bottom rail / corner mark / floating pills / left spine / top bar / none — must be "none" when placement is "none"; for footer-only and none, also say where the mark sits in the hero>
 
 ===TYPE_TREATMENT===
@@ -463,6 +488,7 @@ rhythm: even | accelerating | syncopated | interrupted
 shell_posture: standard | marginal | none | folded-into-hero | footer-only
 field_ratio: type-dominant | balanced | field-dominant | drenched
 collapse: stack | reorder | hero-only | rail-to-band | split-to-sequence
+hero_object: statement | figure | word | list | artifact
 
 ===COMPOSITION_RATIONALE===
 <2–3 sentences: why this tuple serves today's hero phrase — name any axis you moved off the Composition Mandate's suggestion and why>

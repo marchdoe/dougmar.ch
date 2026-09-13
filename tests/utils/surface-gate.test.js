@@ -717,3 +717,39 @@ describe('the heading finding', () => {
     expect(evaluateMeasurement({ ...ok, route: '/experiments', h1Count: 0 })).toEqual([])
   })
 })
+
+describe('the hero-fold finding (#501)', () => {
+  // The hero phrase is the h1 and the anchor of the page; at 1440 it is met,
+  // not scrolled to. The h1 box must intersect the 1440x900 viewport at
+  // scroll zero.
+  const inFold = { ...ok, h1Count: 1, h1Top: 240, h1Bottom: 420 }
+
+  it('errors on an engineer-owned route whose h1 starts below the fold at 1440', () => {
+    const [f] = evaluateMeasurement({ ...inFold, h1Top: 1200, h1Bottom: 1380 })
+    expect(f).toMatchObject({ kind: 'hero-fold', severity: 'error' })
+    expect(f.detail).toContain('y=1200px')
+    expect(f.detail).toContain('900px')
+  })
+
+  it('passes an h1 that intersects the fold, even partially', () => {
+    expect(evaluateMeasurement(inFold)).toEqual([])
+    expect(evaluateMeasurement({ ...inFold, h1Top: 880, h1Bottom: 1060 })).toEqual([])
+  })
+
+  it('says nothing when the box was never measured; the heading finding covers a missing h1', () => {
+    expect(evaluateMeasurement({ ...ok, h1Count: 1 })).toEqual([])
+    const kinds = evaluateMeasurement({ ...ok, h1Count: 0, h1Top: null, h1Bottom: null }).map(
+      (f) => f.kind
+    )
+    expect(kinds).toEqual(['heading'])
+  })
+
+  it('leaves the 360 rung to the MOBILE block, and hand-owned routes to a human', () => {
+    expect(
+      evaluateMeasurement({ ...inFold, viewport: 'mobile', h1Top: 1200, h1Bottom: 1380 })
+    ).toEqual([])
+    expect(
+      evaluateMeasurement({ ...inFold, route: '/experiments', h1Top: 1200, h1Bottom: 1380 })
+    ).toEqual([])
+  })
+})

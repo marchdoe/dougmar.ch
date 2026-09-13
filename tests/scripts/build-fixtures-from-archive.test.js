@@ -77,9 +77,12 @@ describe('completeSemanticTokens', () => {
 })
 
 describe('headerBlock', () => {
-  it('uses the declared header when the build has one', () => {
+  it('uses the declared header when the build has one, back-filling nav_form (#501)', () => {
     expect(headerBlock({ placement: 'top-bar', mark_px: 40 }, {}, {})).toBe(
-      'placement: top-bar\nmark_px: 40'
+      'placement: top-bar\nmark_px: 40\nnav_form: labels'
+    )
+    expect(headerBlock({ placement: 'top-bar', nav_form: 'numbered' }, {}, {})).toBe(
+      'placement: top-bar\nnav_form: numbered'
     )
   })
 
@@ -88,6 +91,7 @@ describe('headerBlock', () => {
     expect(block).toContain('# synthesized')
     // Placement has to agree with shell_posture or isValidHeader rejects it.
     expect(block).toContain('placement: right-margin')
+    expect(block).toContain('nav_form: labels')
     expect(block).toContain('nav: three links')
   })
 
@@ -161,24 +165,25 @@ describe('artDirectorBlocks', () => {
     expect(out).toContain('===FILE:elements/preset.ts===')
   })
 
-  it('adds collapse: stack to a composition recorded before the axis existed', () => {
+  it('adds collapse: stack and hero_object: statement to a composition recorded before the axes existed', () => {
     const out = artDirectorBlocks(artifacts)
     expect(out).toContain(
-      '===COMPOSITION===\ncolumns: two-asymmetric\nshell_posture: marginal\ncollapse: stack'
+      '===COMPOSITION===\ncolumns: two-asymmetric\nshell_posture: marginal\ncollapse: stack\nhero_object: statement'
     )
     expect(out).toContain('===MOBILE===\n# synthesized')
     expect(out).toContain('===TYPE_TREATMENT===\n# synthesized')
   })
 
-  it('keeps a recorded collapse and mobile.json as they are', () => {
+  it('keeps a recorded collapse, hero_object and mobile.json as they are', () => {
     const out = artDirectorBlocks({
       ...artifacts,
-      composition: { ...artifacts.composition, collapse: 'rail-to-band' },
+      composition: { ...artifacts.composition, collapse: 'rail-to-band', hero_object: 'figure' },
       mobile: { carrier: 'the ledger band', hero_step_360: '4xl' },
     })
-    expect(out).toContain('collapse: rail-to-band')
+    expect(out).toContain('collapse: rail-to-band\nhero_object: figure')
     expect(out).toContain('===MOBILE===\ncarrier: the ledger band\nhero_step_360: 4xl')
     expect(out).not.toContain('collapse: stack')
+    expect(out).not.toContain('hero_object: statement')
   })
 
   it('carries the rationale from the brief into both rationale blocks', () => {

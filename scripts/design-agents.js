@@ -410,6 +410,22 @@ export function identifyFailingAgent(errorOutput) {
 }
 
 /**
+ * The binding sentence per non-statement `hero_object` value (#501).
+ * `statement` is today's behaviour and needs no contract. On `artifact` the
+ * client set is rendered as names only: no logo lane exists until #505.
+ *
+ * @type {Record<string, string>}
+ */
+const HERO_OBJECT_CONTRACTS = {
+  figure:
+    "The largest element on the page is a number from today's signals (a score, a temperature, a date, holes in one) at hero_scale; the hero phrase is its caption, one step down at 2xl to 4xl, and is still the h1.",
+  word: 'The largest element on the page is one word lifted from the hero phrase at hero_scale; the rest of the phrase is the deck beneath it at 2xl to 4xl, and the whole phrase is still the h1.',
+  list: 'The largest element on the page is the work index: project titles, years and roles are the first thing rendered, titles at hero_scale; the hero phrase is the standfirst above it at 2xl to 4xl, and is still the h1.',
+  artifact:
+    "The largest element on the page is one piece of owned work: the featured project's title at hero_scale with its year, role and client set from project.clients beside it, the clients rendered as names only because no logo lane exists yet; the hero phrase is its caption at 2xl to 4xl, and is still the h1.",
+}
+
+/**
  * Build a composition-driven constraint block for injection into the Mockup
  * Designer prompt: on a genuinely sparse composition, forbid rendering
  * project cards or portfolio sections on the home page — only the hero
@@ -428,17 +444,26 @@ export function identifyFailingAgent(errorOutput) {
  * type-as-canvas both violate "no cards" for the same underlying reason,
  * independent of field_ratio.)
  *
+ * `hero_object` (#501) adds a second block, one binding sentence per
+ * non-statement value: what leads, and what the phrase becomes. The phrase
+ * stays the page's one h1 on every value.
+ *
  * @param {Record<string, string>|null|undefined} tuple - the day's composition tuple
  * @returns {string}
  */
 export function buildCompositionContractBlock(tuple) {
+  const blocks = []
   if (tuple?.density === 'sparse') {
-    return `⚠ COMPOSITION CONTRACT — SPARSE:
+    blocks.push(`⚠ COMPOSITION CONTRACT — SPARSE:
 Home page = hero phrase + navigation ONLY.
 Do NOT render project cards, featured project, experiments, or any portfolio section.
-index.tsx is a single-composition canvas today, not a portfolio hub.`
+index.tsx is a single-composition canvas today, not a portfolio hub.`)
   }
-  return ''
+  const object = HERO_OBJECT_CONTRACTS[tuple?.hero_object]
+  if (object) {
+    blocks.push(`⚠ COMPOSITION CONTRACT, HERO OBJECT (${tuple.hero_object}):\n${object}`)
+  }
+  return blocks.join('\n\n')
 }
 
 // ---------------------------------------------------------------------------

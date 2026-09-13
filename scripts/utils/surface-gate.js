@@ -236,6 +236,8 @@ export function evaluateMeasurement(
   // site-health e2e on main went red on a page the nightly had already
   // pushed; the check belongs here, before the push.
   findings.push(...headingFindings(m))
+  // And that h1 inside the first fold at 1440 (#501).
+  findings.push(...heroFoldFindings(m))
 
   if (m.consoleErrors?.length) {
     findings.push({
@@ -715,9 +717,14 @@ export function findBrandMark(_viewportWidth, _thresholds) {
  * 110px that this exists for (2026-09-01's /about) slipped through as soon
  * as it carried a link (#307). Leaves still qualify: they have no children.
  *
+ * The first `<h1>`'s box (#501) is read at scroll position zero, so `h1Top`
+ * against the rung's height says whether the hero is in the first fold. Both
+ * are null when the page has no h1; the `heading` finding covers that.
+ *
  * @param {{ minChars: number }} args
  * @returns {{ scrollWidth: number, clientWidth: number, allowsXOverflow: boolean,
- *   worstCopy: null | { chars: number, fontSizePx: number, sample: string } }}
+ *   worstCopy: null | { chars: number, fontSizePx: number, sample: string },
+ *   h1Count: number, h1Top: number|null, h1Bottom: number|null }}
  */
 export function collectSurfaceMetrics({ minChars }) {
   const isInlineBox = (child) => {
@@ -739,12 +746,15 @@ export function collectSurfaceMetrics({ minChars }) {
       }
     }
   }
+  const h1Box = document.querySelector('h1')?.getBoundingClientRect() ?? null
   return {
     scrollWidth: document.documentElement.scrollWidth,
     clientWidth: document.documentElement.clientWidth,
     allowsXOverflow: document.body?.hasAttribute('data-allow-x-overflow') ?? false,
     worstCopy,
     h1Count: document.querySelectorAll('h1').length,
+    h1Top: h1Box ? Math.round(h1Box.top) : null,
+    h1Bottom: h1Box ? Math.round(h1Box.bottom) : null,
   }
 }
 
@@ -765,6 +775,36 @@ function headingFindings(m) {
       kind: 'heading',
       severity: 'error',
       detail: 'no <h1> on the page; the hero phrase is the h1 on every route',
+    },
+  ]
+}
+
+/**
+ * The `hero-fold` finding (#501): an engineer-owned route whose first `<h1>`
+ * box does not intersect the 1440x900 viewport at scroll position zero. The
+ * hero phrase is the h1 and the anchor of the page, and on a desktop it is
+ * meant to be met, not scrolled to. Desktop rung only: at 360 the MOBILE
+ * block's `first_fold` may justify a hero below the fold, and the critics
+ * read that declaration. A measurement without `h1Top` (no h1, or a
+ * collector that never ran) is not a finding here; `heading` covers the
+ * missing h1.
+ *
+ * @param {object} m - raw measurement from {@link measureRoute}
+ * @returns {Array<{ kind: 'hero-fold', severity: 'error', detail: string }>}
+ */
+function heroFoldFindings(m) {
+  if (m.viewport !== 'desktop' || ownerForSurface(m.route) !== 'react-engineer') return []
+  if (typeof m.h1Top !== 'number' || typeof m.h1Bottom !== 'number') return []
+  const fold = VIEWPORT_RUNGS.find((v) => v.name === m.viewport)?.height ?? 900
+  if (m.h1Bottom > 0 && m.h1Top < fold) return []
+  return [
+    {
+      kind: 'hero-fold',
+      severity: 'error',
+      detail:
+        `first <h1> sits outside the first fold at 1440: its top is at y=${m.h1Top}px and ` +
+        `the fold ends at ${fold}px. The hero phrase is the page's anchor; put its h1 inside ` +
+        'the first screen.',
     },
   ]
 }

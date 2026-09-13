@@ -180,7 +180,9 @@ export function completeSemanticTokens(source) {
  * numbers were nobody's design decision.
  */
 export function headerBlock(header, shell, composition) {
-  if (header) return kvBlock(header)
+  // A header.json written before #501 has no nav_form; `labels` is what
+  // every one of those builds rendered.
+  if (header) return kvBlock(header.nav_form ? header : { ...header, nav_form: 'labels' })
   return [
     '# synthesized: this build predates the HEADER declaration (#254)',
     kvBlock({
@@ -192,6 +194,7 @@ export function headerBlock(header, shell, composition) {
       role_line: 'absent',
       nav_step: 'sm',
       nav_case: 'lower',
+      nav_form: 'labels',
       nav: shell.nav ?? 'three lowercase links in the top-right margin',
     }),
   ].join('\n')
@@ -287,7 +290,10 @@ export function artDirectorBlocks(artifacts) {
     preset,
   } = artifacts
   // A build before #452 has no collapse axis; `stack` contradicts nothing.
-  const tuple = composition.collapse ? composition : { ...composition, collapse: 'stack' }
+  const collapsed = composition.collapse ? composition : { ...composition, collapse: 'stack' }
+  // A build before #501 has no hero_object axis; `statement` is what every
+  // one of them rendered.
+  const tuple = collapsed.hero_object ? collapsed : { ...collapsed, hero_object: 'statement' }
   const rationale = briefSection(brief, "Claude's Rationale")
   const fallbackRationale = 'Reconstructed from the archived brief.'
 

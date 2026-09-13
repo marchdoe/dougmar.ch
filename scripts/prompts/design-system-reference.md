@@ -37,11 +37,13 @@ const className = css({ display: 'flex', gap: '4', color: 'text' })
 
 ### `../content/projects` (from components) or `'../content/projects'` (from routes)
 ```typescript
+type Client = { name: string; logo?: string; url?: string; description?: string }
 type Project = {
   slug: string; title: string; type: ProjectType; year: number;
   depth: 'full' | 'lightweight'; featured?: boolean; externalUrl?: string;
   role?: string; problem?: string; approach?: string; outcome?: string;
   stack?: string[]; liveUrl?: string; githubUrl?: string; description?: string;
+  clients?: Client[];   // the client set behind a project; render names only, no logo lane yet
 }
 export const projects: Project[]
 export const featuredProject: Project | undefined

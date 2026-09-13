@@ -86,7 +86,7 @@ describe('parseShellBlock', () => {
 })
 
 describe('parseCompositionBlock', () => {
-  it('parses all nine composition-axis fields', () => {
+  it('parses all ten composition-axis fields', () => {
     const s = parseCompositionBlock(
       [
         'columns: two-equal',
@@ -98,6 +98,7 @@ describe('parseCompositionBlock', () => {
         'shell_posture: standard',
         'field_ratio: balanced',
         'collapse: stack',
+        'hero_object: figure',
       ].join('\n')
     )
     expect(s).toEqual({
@@ -110,6 +111,7 @@ describe('parseCompositionBlock', () => {
       shell_posture: 'standard',
       field_ratio: 'balanced',
       collapse: 'stack',
+      hero_object: 'figure',
     })
   })
 
@@ -121,8 +123,10 @@ describe('parseCompositionBlock', () => {
     expect(s.rhythm).toBeNull()
     expect(s.shell_posture).toBeNull()
     expect(s.field_ratio).toBeNull()
-    // Every composition.json written before #452 has no collapse axis.
+    // Every composition.json written before #452 has no collapse axis, and
+    // none before #501 has a hero_object.
     expect(s.collapse).toBeNull()
+    expect(s.hero_object).toBeNull()
   })
 
   it('normalizes values to lowercase and trims whitespace', () => {

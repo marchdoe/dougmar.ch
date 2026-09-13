@@ -4,7 +4,8 @@ Concrete anchor references for the mockup-designer prompt, the successor to
 `scripts/prompts/seeds/`. A lane describes an aesthetic register only: mood,
 color roles, typography, component styling, and named anti-patterns. It says
 nothing about page structure (columns, axis, symmetry, hero placement,
-density, rhythm, shell posture, field ratio, collapse); those nine axes are
+density, rhythm, shell posture, field ratio, collapse, hero object); those
+ten axes are
 owned by `scripts/utils/composition-grammar.js` and asserted independently by
 the Art Director. Decoupling the two means any lane can pair with any composition
 tuple, instead of one lane only ever reaching the prompt when a specific

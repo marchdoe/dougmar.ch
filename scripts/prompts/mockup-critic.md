@@ -58,7 +58,13 @@ or a wish that a confident composition were busier.
    - **hero scale**: the largest first-fold text size (`hero_px`) is measured
      too. Compare it to the declared `hero_scale` clamp's value at a 1440px
      viewport. A phrase declared at ~180px that measures ~60px → REVISE. This
-     is the check that catches the timid execution. Be strict here.
+     is the check that catches the timid execution. Be strict here. Which
+     element `hero_scale` sizes is set by the composition's `hero_object`:
+     the phrase on a `statement` day, the number on `figure`, the word on
+     `word`, the first project title on `list`, the featured project's title
+     on `artifact`. On those four the phrase sits one step down at `2xl` to
+     `4xl`, and a phrase outranked by the object is the declaration executed,
+     not a hierarchy fault; the fault is the object failing to lead.
    - **color coverage %**: below `color_coverage_min` by more than 5 points →
      REVISE, on the same margin as canvas utilization. A flat or gradient
      fill in the day's primary/accent hue is already counted as coverage by
@@ -91,10 +97,13 @@ or a wish that a confident composition were busier.
      `horizontal-*` is mark beside name, `mark-only-*` is no name at all.
      `original` is the mark's own green and blue; `single-color` is one flat
      hue. A variant or mode that does not match the declaration → REVISE.
-   - **Placement, height, role line, nav case**: the header sits where
-     `placement` says, stands near `height_px`, shows the role line when
-     `role_line: present` and hides it when absent, and sets the nav links in
-     the declared case.
+   - **Placement, height, role line, nav case and form**: the header sits
+     where `placement` says, stands near `height_px`, shows the role line
+     when `role_line: present` and hides it when absent, and sets the nav
+     links in the declared case and the declared `nav_form` (`labels` is a
+     row of labels, `numbered` prefixes 01 02 03, `sentence` runs them in one
+     sentence, `list` stacks them with a rule per row, `word` is one word
+     that reveals them).
 5. **Polish**: spacing rhythm is consistent; elements optically aligned;
    no orphaned UI; hierarchy unambiguous (one dominant element).
 6. **The phone (360, filmstrip)**: judged from the folds in the second

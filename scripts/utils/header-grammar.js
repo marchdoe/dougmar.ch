@@ -49,6 +49,12 @@ export const HEADER_FIELDS = {
   role_line: ['present', 'absent'],
   nav_step: RAMP_STEPS,
   nav_case: ['upper', 'lower', 'small-caps', 'title'],
+  // What shape the links take (#501). Eight builds running set "work, about,
+  // contact" as three small-caps labels; the case was declared, the form
+  // never was. `labels` is that row; `numbered` prefixes 01 02 03; `sentence`
+  // runs the links inside one sentence; `list` is a vertical index with a
+  // rule per row; `word` is a single "Menu" or "Index" that reveals them.
+  nav_form: ['labels', 'numbered', 'sentence', 'list', 'word'],
 }
 
 /** Field names in canonical order, enumerated and numeric together. */
@@ -61,6 +67,7 @@ export const HEADER_FIELD_NAMES = [
   'role_line',
   'nav_step',
   'nav_case',
+  'nav_form',
   'nav',
 ]
 

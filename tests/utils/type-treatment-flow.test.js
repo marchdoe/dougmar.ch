@@ -51,6 +51,7 @@ wordmark_weight: 500
 role_line: absent
 nav_step: sm
 nav_case: small-caps
+nav_form: labels
 nav: a vertical spine of rotated labels
 
 ===TYPE_TREATMENT===
@@ -77,6 +78,7 @@ rhythm: interrupted
 shell_posture: marginal
 field_ratio: drenched
 collapse: rail-to-band
+hero_object: statement
 
 ===COMPOSITION_RATIONALE===
 A left-weighted asymmetric split gives the spine somewhere to live without a top bar.

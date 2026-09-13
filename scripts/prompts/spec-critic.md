@@ -69,6 +69,7 @@ The MEASURABLES block declares numeric floors. Check:
 - The floors don't contradict the visual spec's language: a "drenched" or
   "committed" color story with color_coverage_min below 60 is a REVISE.
 - hero_scale is achievable for the chosen chassis at 1440px. Compare it against the per-chassis numbers in check 3.
+- The composition's `hero_object` and `hero_scale` agree. `hero_scale` sizes the element the object names: a `figure` day declares the figure's size, a `word` day the word's, a `list` day the first project title's, an `artifact` day the featured project title's, and the visual spec sets the phrase at `2xl` to `4xl` beside it. A non-statement day whose `hero_scale` or visual spec keeps the phrase at marquee is a REVISE.
 
 ### 6. Mobile declaration consistency
 

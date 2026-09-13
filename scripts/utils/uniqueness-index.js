@@ -31,9 +31,11 @@ export const SHELL_FIELDS = ['brand_lockup', 'brand_color_mode', 'ground_strateg
  * Header fields with enumerated values. `nav` moved here from shell.json with
  * #254 and stays prose; `placement` is the enumerated half and is exactly the
  * repetition the owner kept flagging — three ratings running complained about
- * a top bar.
+ * a top bar. `nav_form` (#501) is the second: a nav that changed from three
+ * labels to a numbered index counts as novelty, and a header.json written
+ * before the field contributes a null the comparable-field filter drops.
  */
-export const HEADER_FIELDS = ['placement']
+export const HEADER_FIELDS = ['placement', 'nav_form']
 
 /**
  * Composite weights. Keys absent from a build are dropped and the rest renormalized.

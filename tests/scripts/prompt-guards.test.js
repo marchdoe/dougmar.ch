@@ -78,6 +78,14 @@ describe('art-director.md output contract', () => {
     )
     expect(text).toMatch(/5\. \*\*Phone:\*\*/)
   })
+  it('requires the hero_object axis and the nav_form field (#501)', () => {
+    const text = ad()
+    expect(text).toContain('hero_object: statement | figure | word | list | artifact')
+    expect(text).toContain('| `hero_object` | statement, figure, word, list, artifact |')
+    expect(text).toContain('nav_form: labels | numbered | sentence | list | word')
+    expect(text).toMatch(/`nav_form` is the shape the links take/)
+    expect(text).toMatch(/earns marquee scale on a `statement` day and anchors the object/)
+  })
 })
 
 describe('mockup-designer.md load-bearing directives', () => {

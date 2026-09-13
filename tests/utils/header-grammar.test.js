@@ -20,6 +20,7 @@ const BLOCK = [
   'role_line: present',
   'nav_step: sm',
   'nav_case: upper',
+  'nav_form: labels',
   'nav: thin rule, flush-right links',
 ].join('\n')
 
@@ -38,6 +39,7 @@ describe('parseHeaderBlock', () => {
       role_line: 'present',
       nav_step: 'sm',
       nav_case: 'upper',
+      nav_form: 'labels',
       nav: 'thin rule, flush-right links',
     })
   })
@@ -109,6 +111,18 @@ describe('isValidHeader', () => {
 
   it('rejects a nav_case the critics cannot check', () => {
     expect(isValidHeader(valid({ nav_case: 'sentence' }), ctx).valid).toBe(false)
+  })
+
+  it('requires a nav_form and rejects one outside the five forms (#501)', () => {
+    expect(isValidHeader(valid({ nav_form: null }), ctx).errors).toContain(
+      'missing field: nav_form'
+    )
+    expect(isValidHeader(valid({ nav_form: 'pills' }), ctx).errors.join('\n')).toMatch(
+      /invalid nav_form: "pills"/
+    )
+    for (const form of HEADER_FIELDS.nav_form) {
+      expect(isValidHeader(valid({ nav_form: form }), ctx).valid).toBe(true)
+    }
   })
 
   it('accepts every ramp step for the nav', () => {
