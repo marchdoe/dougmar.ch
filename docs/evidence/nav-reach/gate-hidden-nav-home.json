@@ -1,0 +1,114 @@
+{
+  "findings": [
+    {
+      "surface": "/",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "light",
+      "kind": "clipped",
+      "severity": "error",
+      "detail": "<P> holds text wider than its own box: \"SPACEMAN...\" needs 339px and the box is 320px, so 19px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+    },
+    {
+      "surface": "/",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "light",
+      "kind": "small-copy",
+      "severity": "warning",
+      "detail": "<P> runs at 12.6px, under the 16px reading floor — \"Detroit · This weekend...\". Set it on the body step."
+    },
+    {
+      "surface": "/",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "light",
+      "kind": "nav-reach",
+      "severity": "error",
+      "detail": "no visible link to /about at 360; every route carries a reachable nav at both rungs"
+    },
+    {
+      "surface": "/",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "light",
+      "kind": "console",
+      "severity": "warning",
+      "detail": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` wh"
+    },
+    {
+      "surface": "/",
+      "viewport": "desktop",
+      "width": 1440,
+      "scheme": "dark",
+      "kind": "clipped",
+      "severity": "error",
+      "detail": "<H2> holds text wider than its own box: \"Experiments...\" needs 283px and the box is 261px, so 22px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+    },
+    {
+      "surface": "/",
+      "viewport": "desktop",
+      "width": 1440,
+      "scheme": "dark",
+      "kind": "console",
+      "severity": "warning",
+      "detail": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` wh"
+    },
+    {
+      "surface": "/",
+      "viewport": "desktop",
+      "width": 1440,
+      "scheme": "light",
+      "kind": "clipped",
+      "severity": "error",
+      "detail": "<H2> holds text wider than its own box: \"Experiments...\" needs 283px and the box is 261px, so 22px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+    },
+    {
+      "surface": "/",
+      "viewport": "desktop",
+      "width": 1440,
+      "scheme": "light",
+      "kind": "console",
+      "severity": "warning",
+      "detail": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` wh"
+    },
+    {
+      "surface": "/",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "dark",
+      "kind": "clipped",
+      "severity": "error",
+      "detail": "<P> holds text wider than its own box: \"SPACEMAN...\" needs 339px and the box is 320px, so 19px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+    },
+    {
+      "surface": "/",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "dark",
+      "kind": "small-copy",
+      "severity": "warning",
+      "detail": "<P> runs at 12.6px, under the 16px reading floor — \"Detroit · This weekend...\". Set it on the body step."
+    },
+    {
+      "surface": "/",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "dark",
+      "kind": "nav-reach",
+      "severity": "error",
+      "detail": "no visible link to /about at 360; every route carries a reachable nav at both rungs"
+    },
+    {
+      "surface": "/",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "dark",
+      "kind": "console",
+      "severity": "warning",
+      "detail": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` wh"
+    }
+  ],
+  "measured": 4,
+  "errorCount": 6
+}

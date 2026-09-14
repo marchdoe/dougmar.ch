@@ -43,6 +43,22 @@ describe('collectSurfaceMetrics', () => {
     await browser?.close()
   })
 
+  it('counts only the /about links a reader can reach (nav-reach)', async () => {
+    // 2026-09-14: a phone-only nav row (display: none at desktop) preceded
+    // the desktop list, and the first /about link in DOM order was hidden.
+    const { visibleAboutLinks } = await measure(
+      browser,
+      `<nav style="display:none"><a href="/about">About</a></nav>
+       <nav><a href="/about">About</a><a href="/about" style="visibility:hidden">About</a></nav>`
+    )
+    expect(visibleAboutLinks).toBe(1)
+    const none = await measure(
+      browser,
+      `<nav style="display:none"><a href="/about">About</a></nav>`
+    )
+    expect(none.visibleAboutLinks).toBe(0)
+  })
+
   it('measures a paragraph that carries a link', async () => {
     // 2026-09-01's /about paragraph, with the one <a> the Art Director is
     // likely to put in it. The leaf-only walk measured the <a> alone.

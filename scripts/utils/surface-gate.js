@@ -236,6 +236,11 @@ export function evaluateMeasurement(
   // site-health e2e on main went red on a page the nightly had already
   // pushed; the check belongs here, before the push.
   findings.push(...headingFindings(m))
+  // A visible route to /about at every rung. 2026-09-14 shipped a sidebar
+  // whose phone-only nav row preceded its desktop list, and the site-health
+  // e2e on main went red on the hidden one; the gate asks the question the
+  // e2e should have asked, is there a link the reader can reach.
+  findings.push(...navReachFindings(m))
   // And that h1 inside the first fold at 1440 (#501).
   findings.push(...heroFoldFindings(m))
 
@@ -724,7 +729,8 @@ export function findBrandMark(_viewportWidth, _thresholds) {
  * @param {{ minChars: number }} args
  * @returns {{ scrollWidth: number, clientWidth: number, allowsXOverflow: boolean,
  *   worstCopy: null | { chars: number, fontSizePx: number, sample: string },
- *   h1Count: number, h1Top: number|null, h1Bottom: number|null }}
+ *   h1Count: number, h1Top: number|null, h1Bottom: number|null,
+ *   visibleAboutLinks: number }}
  */
 export function collectSurfaceMetrics({ minChars }) {
   const isInlineBox = (child) => {
@@ -747,7 +753,20 @@ export function collectSurfaceMetrics({ minChars }) {
     }
   }
   const h1Box = document.querySelector('h1')?.getBoundingClientRect() ?? null
+  // A link the reader can reach: painted, laid out, and not visibility-hidden.
+  // Opacity is ignored on purpose; an entrance animation has finished by the
+  // time the gate measures, and a 0-opacity link is a design fault the critic
+  // reads, not a reachability fault.
+  const isReachable = (el) => {
+    const r = el.getBoundingClientRect()
+    const style = getComputedStyle(el)
+    return r.width > 0 && r.height > 0 && style.visibility !== 'hidden' && style.display !== 'none'
+  }
+  const visibleAboutLinks = Array.from(document.querySelectorAll('a[href="/about"]')).filter(
+    isReachable
+  ).length
   return {
+    visibleAboutLinks,
     scrollWidth: document.documentElement.scrollWidth,
     clientWidth: document.documentElement.clientWidth,
     allowsXOverflow: document.body?.hasAttribute('data-allow-x-overflow') ?? false,
@@ -756,6 +775,26 @@ export function collectSurfaceMetrics({ minChars }) {
     h1Top: h1Box ? Math.round(h1Box.top) : null,
     h1Bottom: h1Box ? Math.round(h1Box.bottom) : null,
   }
+}
+
+/**
+ * The `nav-reach` finding: an engineer-owned route with no visible link to
+ * `/about` at this rung. Undefined `visibleAboutLinks` (a measurement that
+ * never ran the collector) is not a finding.
+ *
+ * @param {object} m - raw measurement from {@link measureRoute}
+ * @returns {Array<{ kind: string, severity: 'error', detail: string }>}
+ */
+function navReachFindings(m) {
+  if (m.visibleAboutLinks !== 0 || ownerForSurface(m.route) !== 'react-engineer') return []
+  const rung = VIEWPORT_RUNGS.find((v) => v.name === m.viewport)?.width ?? m.clientWidth
+  return [
+    {
+      kind: 'nav-reach',
+      severity: 'error',
+      detail: `no visible link to /about at ${rung}; every route carries a reachable nav at both rungs`,
+    },
+  ]
 }
 
 /**
