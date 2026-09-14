@@ -1,59 +1,65 @@
-import { Box, Flex } from '../../styled-system/jsx'
 import { css } from '../../styled-system/css'
 import { BrandLockup } from './BrandLockup'
+import { SignalRail } from './generated/SignalRail'
 import { identity } from '../content/about'
-import { featuredProject, selectedWork } from '../content/projects'
 
-const workHref = featuredProject
-  ? `/work/${featuredProject.slug}`
-  : selectedWork[0]
-    ? `/work/${selectedWork[0].slug}`
-    : '/'
-
-const navLinkStyle = css({
-  fontSize: 'sm',
+const navLink = css({
   fontWeight: 'bold',
-  textTransform: 'uppercase',
-  letterSpacing: 'wide',
+  fontSize: 'sm',
   color: 'textMuted',
-  minHeight: '44px',
+  fontVariant: 'small-caps',
+  textTransform: 'lowercase',
+  letterSpacing: 'wide',
   display: 'inline-flex',
   alignItems: 'center',
-  paddingX: '2',
-  _hover: { color: 'accentAlt' },
+  justifyContent: 'center',
+  minHeight: '44px',
+  minWidth: '44px',
+  padding: '0 3',
 })
 
 export function Sidebar() {
   return (
-    <Box
-      as="header"
-      position="relative"
-      zIndex={2}
-      padding={{ base: '20px 20px 0', md: '32px 7vw 0' }}
-      maxWidth="100vw"
-      overflow="hidden"
+    <aside
+      className={css({
+        bg: 'bg',
+        borderBottom: { base: '1px solid', lg: 'none' },
+        borderLeft: { lg: '1px solid' },
+        borderColor: 'borderStrong',
+        padding: { base: '4 5', lg: '0 6' },
+      })}
     >
-      <Flex direction="column" gap="2" color="text">
-        <BrandLockup variant="horizontal-md" mode="original" />
+      <div
+        className={css({
+          display: 'flex',
+          flexDirection: { base: 'row', lg: 'column' },
+          alignItems: { base: 'center', lg: 'flex-start' },
+          justifyContent: { base: 'space-between', lg: 'center' },
+          gap: { base: '4', lg: '1' },
+          flexWrap: 'wrap',
+          minHeight: { lg: '96px' },
+          borderBottom: { lg: '1px solid' },
+          borderColor: 'borderStrong',
+          paddingBottom: { base: '0', lg: '4' },
+        })}
+      >
+        <BrandLockup variant="stacked-md" mode="original" roleLine />
         <nav
-          className={css({
-            display: { base: 'none', md: 'flex' },
-            flexWrap: 'wrap',
-            gap: '5',
-          })}
           aria-label="Primary"
+          className={css({ display: { base: 'flex', lg: 'none' }, gap: '1 5', flexWrap: 'wrap' })}
         >
-          <a href={workHref} className={navLinkStyle}>
-            work
+          <a href="/#work" className={navLink}>
+            Work
           </a>
-          <a href="/about" className={navLinkStyle}>
-            about
+          <a href="/about" className={navLink}>
+            About
           </a>
-          <a href={`mailto:${identity.email}`} className={navLinkStyle}>
-            contact
+          <a href={`mailto:${identity.email}`} className={navLink}>
+            Contact
           </a>
         </nav>
-      </Flex>
-    </Box>
+      </div>
+      <SignalRail email={identity.email} />
+    </aside>
   )
 }

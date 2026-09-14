@@ -1,0 +1,119 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "P",
+            "text": "SPACEMAN",
+            "cause": "text",
+            "right": 340,
+            "over": 19,
+            "boxWidth": 320
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 12.6,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "tablet": {
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 12.6,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": [
+          {
+            "chars": 111,
+            "lines": 1,
+            "avgPerLine": 111,
+            "excerpt": "The vehicle for the client set above, te"
+          }
+        ]
+      },
+      "score": 3
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "H2",
+            "text": "Experiments",
+            "cause": "text",
+            "right": 420,
+            "over": 125,
+            "boxWidth": 137
+          },
+          {
+            "tag": "H2",
+            "text": "Selected Work",
+            "cause": "text",
+            "right": 188,
+            "over": 36,
+            "boxWidth": 137
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 12.6,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "H2",
+            "text": "Experiments",
+            "cause": "text",
+            "right": 691,
+            "over": 22,
+            "boxWidth": 261
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 12.6,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    }
+  },
+  "overallScore": 3,
+  "worstFailure": {
+    "viewport": "mobile",
+    "check": "clippedElements",
+    "detail": "1 element(s) clipped (first: <P>)"
+  },
+  "buildId": "1789381998727",
+  "date": "2026-09-14",
+  "archetype": "an artifact-led broadsheet — the client ledger IS the argument"
+}

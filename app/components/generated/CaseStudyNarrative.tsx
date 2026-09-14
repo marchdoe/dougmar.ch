@@ -1,46 +1,59 @@
-import { Box } from '../../../styled-system/jsx'
 import { css } from '../../../styled-system/css'
 
-type NarrativeProject = { problem?: string; approach?: string; outcome?: string }
-
-const labelCss = css({
-  fontSize: 'xs',
+const label = css({
   fontWeight: 'bold',
-  textTransform: 'uppercase',
+  fontSize: 'sm',
   letterSpacing: 'wide',
+  fontVariant: 'small-caps',
+  textTransform: 'lowercase',
   color: 'accentAlt',
   marginBottom: '2',
 })
 
-const bodyCss = css({
-  fontSize: 'base',
-  lineHeight: 'normal',
+const body = css({
+  fontSize: 'md',
   color: 'text',
-  maxWidth: '68ch',
+  lineHeight: 'normal',
+  maxWidth: '66ch',
+  marginBottom: '7',
 })
 
-function NarrativeBlock({ label, body }: { label: string; body?: string }) {
-  if (!body) return null
+export function CaseStudyNarrative({
+  problem,
+  approach,
+  outcome,
+}: {
+  problem?: string
+  approach?: string
+  outcome?: string
+}) {
   return (
-    <Box>
-      <Box className={labelCss}>{label}</Box>
-      <p className={bodyCss}>{body}</p>
-    </Box>
-  )
-}
-
-export function CaseStudyNarrative({ project }: { project: NarrativeProject }) {
-  return (
-    <Box
-      as="section"
-      padding={{ base: '32px 20px', md: '48px 7vw' }}
-      display="flex"
-      flexDirection="column"
-      gap="8"
+    <section
+      className={css({
+        bg: 'surface',
+        padding: { base: '9 5 10', lg: '64px 56px' },
+        borderTop: '1px solid',
+        borderColor: 'borderStrong',
+      })}
     >
-      <NarrativeBlock label="Problem" body={project.problem} />
-      <NarrativeBlock label="Approach" body={project.approach} />
-      <NarrativeBlock label="Outcome" body={project.outcome} />
-    </Box>
+      {problem && (
+        <div>
+          <p className={label}>Problem</p>
+          <p className={body}>{problem}</p>
+        </div>
+      )}
+      {approach && (
+        <div>
+          <p className={label}>Approach</p>
+          <p className={body}>{approach}</p>
+        </div>
+      )}
+      {outcome && (
+        <div>
+          <p className={label}>Outcome</p>
+          <p className={body}>{outcome}</p>
+        </div>
+      )}
+    </section>
   )
 }

@@ -1,23 +1,37 @@
 import type { ReactNode } from 'react'
-import { Box } from '../../styled-system/jsx'
+import { css } from '../../styled-system/css'
 import { Sidebar } from './Sidebar'
-import { Footer } from './generated/Footer'
+import { DatelineFooter } from './generated/DatelineFooter'
+import { Section } from './generated/Section'
+import { identity } from '../content/about'
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
-    <Box
-      minHeight="100dvh"
-      bg="bg"
-      color="text"
-      display="flex"
-      flexDirection="column"
-      overflowX="hidden"
+    <div
+      className={css({ minHeight: '100dvh', display: 'flex', flexDirection: 'column', bg: 'bg' })}
     >
-      <Sidebar />
-      <Box as="main" flex="1" display="flex" flexDirection="column">
-        {children}
-      </Box>
-      <Footer />
-    </Box>
+      <div
+        className={css({
+          display: 'grid',
+          gridTemplateColumns: { base: '1fr', lg: '1fr 320px' },
+          gridTemplateAreas: { base: `"sidebar" "main"`, lg: `"main sidebar"` },
+          alignItems: 'start',
+        })}
+      >
+        <div
+          className={css({
+            gridArea: 'sidebar',
+            position: { lg: 'sticky' },
+            top: { lg: '0' },
+          })}
+        >
+          <Sidebar />
+        </div>
+        <div className={css({ gridArea: 'main', minWidth: 0 })}>{children}</div>
+      </div>
+      <Section>
+        <DatelineFooter email={identity.email} />
+      </Section>
+    </div>
   )
 }

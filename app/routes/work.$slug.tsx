@@ -1,13 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Box } from '../../styled-system/jsx'
+import { css } from '../../styled-system/css'
 import { projects } from '../content/projects'
-import { FieldBand } from '../components/generated/FieldBand'
+import { CaseStudyHero } from '../components/generated/CaseStudyHero'
 import { CaseStudyNarrative } from '../components/generated/CaseStudyNarrative'
-import { CaseStudyMeta } from '../components/generated/CaseStudyMeta'
+import { CaseStudyStack } from '../components/generated/CaseStudyStack'
+import { ClientLedger } from '../components/generated/ClientLedger'
 import { WhitePaperContext } from '../components/generated/WhitePaperContext'
 import { WhitePaperProcess } from '../components/generated/WhitePaperProcess'
 import { WhitePaperDecisions } from '../components/generated/WhitePaperDecisions'
 import { WhitePaperReferences } from '../components/generated/WhitePaperReferences'
+import { Section } from '../components/generated/Section'
 
 export const Route = createFileRoute('/work/$slug')({ component: WorkDetailPage })
 
@@ -21,31 +23,57 @@ type WhitePaper = {
 
 function WorkDetailPage() {
   const { slug } = Route.useParams()
-  const project = projects.find((p) => p.slug === slug) as
-    | ((typeof projects)[number] & WhitePaper)
-    | undefined
+  const project = projects.find((p) => p.slug === slug)
 
   if (!project) {
     return (
-      <Box padding="9" color="textMuted" fontSize="lg">
-        Project not found.
-      </Box>
+      <section className={css({ bg: 'bg', padding: '10 5' })}>
+        <h1
+          className={css({
+            fontFamily: 'display',
+            fontWeight: 'bold',
+            fontSize: '4xl',
+            color: 'text',
+          })}
+        >
+          Not found
+        </h1>
+      </section>
     )
   }
 
+  const wp = project as typeof project & WhitePaper
+
   return (
     <>
-      <FieldBand
-        eyebrow={`${project.type} · ${project.year}`}
-        title={project.title}
-        standfirst={project.problem}
-      />
-      <CaseStudyNarrative project={project} />
-      <CaseStudyMeta project={project} />
-      <WhitePaperContext context={project.context} constraints={project.constraints} />
-      <WhitePaperProcess process={project.process} />
-      <WhitePaperDecisions decisions={project.decisions} />
-      <WhitePaperReferences references={project.references} />
+      <CaseStudyHero project={project} />
+      <Section>
+        <CaseStudyNarrative
+          problem={project.problem}
+          approach={project.approach}
+          outcome={project.outcome}
+        />
+      </Section>
+      <Section>
+        <WhitePaperContext context={wp.context} constraints={wp.constraints} />
+      </Section>
+      <Section>
+        <WhitePaperProcess process={wp.process} />
+      </Section>
+      <Section>
+        <WhitePaperDecisions decisions={wp.decisions} />
+      </Section>
+      <Section>
+        <WhitePaperReferences references={wp.references} />
+      </Section>
+      <Section>
+        <CaseStudyStack stack={project.stack} liveUrl={project.liveUrl} />
+      </Section>
+      {project.clients && (
+        <Section>
+          <ClientLedger clients={project.clients} />
+        </Section>
+      )}
     </>
   )
 }

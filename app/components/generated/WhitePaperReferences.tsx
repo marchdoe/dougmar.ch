@@ -1,40 +1,59 @@
-import { Box } from '../../../styled-system/jsx'
 import { css } from '../../../styled-system/css'
 
 type Reference = { title: string; url: string; note?: string }
 
-const headCss = css({
-  fontSize: 'xs',
-  fontWeight: 'bold',
-  textTransform: 'uppercase',
-  letterSpacing: 'wide',
-  color: 'textFaint',
-  marginBottom: '4',
-})
-
-const rowCss = css({ borderBottom: '1px solid', borderColor: 'border', padding: '4 0' })
-const linkCss = css({
-  fontSize: 'lg',
-  fontWeight: 'bold',
-  fontFamily: 'display',
-  color: 'accent',
-  _hover: { color: 'accentAlt' },
-})
-const noteCss = css({ fontSize: 'base', color: 'textMuted', marginTop: '1', maxWidth: '64ch' })
-
 export function WhitePaperReferences({ references }: { references?: Reference[] }) {
   if (!references || references.length === 0) return null
   return (
-    <Box as="section" padding={{ base: '24px 20px', md: '0 7vw 56px' }}>
-      <Box className={headCss}>References</Box>
+    <section
+      className={css({
+        bg: 'bgAlt',
+        padding: { base: '8 5', lg: '48px 56px' },
+        borderTop: '1px solid',
+        borderColor: 'borderStrong',
+      })}
+    >
+      <p
+        className={css({
+          fontWeight: 'bold',
+          fontSize: 'xs',
+          letterSpacing: 'wider',
+          textTransform: 'uppercase',
+          color: 'accentAlt',
+          marginBottom: '4',
+        })}
+      >
+        References
+      </p>
       {references.map((r) => (
-        <Box key={r.url} className={rowCss}>
-          <a href={r.url} className={linkCss}>
+        <a
+          key={r.url}
+          href={r.url}
+          className={css({
+            display: 'block',
+            padding: '3 0',
+            borderBottom: '1px solid',
+            borderColor: 'border',
+            minHeight: '44px',
+          })}
+        >
+          <span className={css({ fontWeight: 'bold', fontSize: 'base', color: 'accentAlt' })}>
             {r.title}
-          </a>
-          {r.note && <p className={noteCss}>{r.note}</p>}
-        </Box>
+          </span>
+          {r.note && (
+            <span
+              className={css({
+                display: 'block',
+                fontSize: 'sm',
+                color: 'textMuted',
+                marginTop: '1',
+              })}
+            >
+              {r.note}
+            </span>
+          )}
+        </a>
       ))}
-    </Box>
+    </section>
   )
 }
