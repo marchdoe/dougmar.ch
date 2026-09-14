@@ -699,6 +699,34 @@ describe('the copy gate in the surface gate (#504)', () => {
   })
 })
 
+describe('the nav-reach finding', () => {
+  // 2026-09-14 shipped a sidebar whose phone-only nav row preceded its desktop
+  // list; the e2e on main went red on the hidden link. The gate asks whether
+  // any /about link is reachable, at each rung, before the push.
+  it('errors on an engineer-owned route with no visible /about link, naming the rung', () => {
+    const [f] = evaluateMeasurement({ ...ok, visibleAboutLinks: 0 })
+    expect(f).toMatchObject({ kind: 'nav-reach', severity: 'error' })
+    expect(f.detail).toContain('at 1440')
+    const [g] = evaluateMeasurement({
+      ...ok,
+      viewport: 'mobile',
+      clientWidth: 360,
+      scrollWidth: 360,
+      visibleAboutLinks: 0,
+    })
+    expect(g.detail).toContain('at 360')
+  })
+
+  it('passes with one reachable link, and says nothing when the count was never measured', () => {
+    expect(evaluateMeasurement({ ...ok, visibleAboutLinks: 1 })).toEqual([])
+    expect(evaluateMeasurement(ok)).toEqual([])
+  })
+
+  it('leaves hand-owned routes to a human', () => {
+    expect(evaluateMeasurement({ ...ok, route: '/experiments', visibleAboutLinks: 0 })).toEqual([])
+  })
+})
+
 describe('the heading finding', () => {
   // 2026-09-13 shipped a home page with no h1; the site-health e2e on main
   // caught it after the push. The gate catches it before.

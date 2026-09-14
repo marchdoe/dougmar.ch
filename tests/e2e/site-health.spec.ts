@@ -506,8 +506,13 @@ test.describe('site health — navigation', () => {
     const homeResponse = await page.goto('/')
     expect(homeResponse?.status()).toBeLessThan(500)
 
-    // Wait for hydration
-    const aboutLink = page.locator('a[href="/about"]').first()
+    // The first /about link in DOM order is not always the visible one: a
+    // sidebar may render a phone-only nav row ahead of its desktop list, and
+    // at Desktop Chrome's width that row is display: none (2026-09-14 shipped
+    // exactly that and this test went red on main). The surface gate now
+    // fails a route with no visible /about link at either rung, so the
+    // assertion here is that a visible one can be clicked, not which one.
+    const aboutLink = page.locator('a[href="/about"]:visible').first()
     await expect(aboutLink).toBeVisible({ timeout: 15000 })
 
     await aboutLink.click()
