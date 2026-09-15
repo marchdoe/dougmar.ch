@@ -1,99 +1,79 @@
 import { css } from '../../../styled-system/css'
+import { Box, styled } from '../../../styled-system/jsx'
 import { Ground } from '../Material'
+import { FieldHead } from './FieldHead'
+import { identity } from '../../content/about'
 
-export function AboutHero({
-  name,
-  role,
-  statement,
-  capabilities,
-}: {
-  name: string
-  role: string
-  statement: string
-  capabilities: string[]
-}) {
+export function AboutHero() {
   return (
-    <section
+    <Box
+      as="section"
+      position="relative"
+      overflow="hidden"
+      bg="bg"
+      minWidth="0px"
       className={css({
-        position: 'relative',
-        overflow: 'hidden',
-        bg: 'field',
-        color: 'fieldInk',
-        padding: { base: '40px 20px 44px', lg: '64px 56px 56px' },
+        display: 'flex',
+        flexDirection: 'column',
+        padding: { base: '28px 6vw', lg: '36px 4vw', xl: '44px 72px' },
+        minHeight: { base: 'auto', lg: '70vh' },
       })}
     >
-      <Ground material="rule" seed={2143888891} />
-      <div className={css({ position: 'relative', zIndex: 1 })}>
-        <p
+      <Ground material="dots" seed={13182863} />
+      <Box
+        position="relative"
+        zIndex={1}
+        display="flex"
+        flexDirection="column"
+        flex="1 1 auto"
+        minWidth="0px"
+      >
+        <FieldHead />
+        <Box
           className={css({
-            fontWeight: 'bold',
-            fontSize: 'base',
-            letterSpacing: 'widest',
-            textTransform: 'uppercase',
-            color: 'accent',
-            marginBottom: '5',
-            animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '80ms',
-          })}
-        >
-          {role}
-        </p>
-        <h1
-          className={css({
-            fontFamily: 'display',
-            fontWeight: 'bold',
-            textStyle: 'xl',
-            lineHeight: 'snug',
-            color: 'fieldInk',
-            maxWidth: '46ch',
-            animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '0ms',
-          })}
-        >
-          {statement}
-        </h1>
-        <p
-          className={css({
-            fontFamily: 'display',
-            fontWeight: 'bold',
-            fontSize: 'lg',
-            color: 'fieldInkMuted',
-            marginTop: '5',
-            animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '160ms',
-          })}
-        >
-          {name}
-        </p>
-        <div
-          className={css({
+            flex: '1 1 auto',
             display: 'flex',
-            flexWrap: 'wrap',
-            gap: '2 4',
-            marginTop: '6',
-            animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '240ms',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            textAlign: 'center',
+            padding: { base: '36px 0 44px' },
+            minWidth: '0px',
           })}
         >
-          {capabilities.map((c) => (
-            <span
-              key={c}
-              className={css({
-                fontSize: 'xs',
-                letterSpacing: 'wide',
-                fontVariant: 'small-caps',
-                textTransform: 'lowercase',
-                color: 'fieldInkMuted',
-                border: '1px solid',
-                borderColor: 'fieldBorder',
-                padding: '1 3',
-              })}
-            >
-              {c}
-            </span>
-          ))}
-        </div>
-      </div>
-    </section>
+          <styled.h1
+            className={css({
+              fontFamily: 'display',
+              fontWeight: 'bold',
+              textStyle: 'lg',
+              lineHeight: 'normal',
+              color: 'text',
+              maxWidth: '52ch',
+              margin: 0,
+              animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+              animationDelay: '0ms',
+            })}
+          >
+            {identity.statement}
+          </styled.h1>
+          <styled.p
+            className={css({
+              textStyle: 'sm',
+              color: 'textMuted',
+              mt: '4',
+              maxWidth: '40ch',
+              textTransform: 'uppercase',
+              letterSpacing: 'wide',
+              fontWeight: 'bold',
+              fontFamily: 'display',
+              animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+              animationDelay: '80ms',
+            })}
+          >
+            {identity.name}, {identity.role}
+          </styled.p>
+        </Box>
+      </Box>
+    </Box>
   )
 }

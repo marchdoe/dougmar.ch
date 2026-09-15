@@ -50,34 +50,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Buildable before the first line of code. Faithful after the last.' },
-      {
-        property: 'og:title',
-        content: 'Buildable before the first line of code. Faithful after the last.',
-      },
+      { title: 'BOTH' },
+      { property: 'og:title', content: 'BOTH' },
       {
         property: 'og:description',
         content:
-          'Harvest-gold broadsheet split: SPACEMAN in heavy slab beside a cream client ledger, the design-and-build creed reversed out of an espresso panel, one marigold pulse on two Detroit wins.',
+          'Deep-azure specimen: BOTH outlined at poster scale on a cool near-white sheet, the real mark in the corner, two one-point Detroit wins pulsing marigold along the footer band.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-14.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-15.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      {
-        name: 'twitter:title',
-        content: 'Buildable before the first line of code. Faithful after the last.',
-      },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-14.png' },
+      { name: 'twitter:title', content: 'BOTH' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-15.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Bitter:wght@500;700;900&family=Mulish:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Libre+Franklin:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -237,7 +231,7 @@ function RootDocument({ children, bare = false }: { children: ReactNode; bare?: 
         {children}
         {bare ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 135 designs
+            Archive · 136 designs
           </a>
         )}
         <ScrollRestoration />

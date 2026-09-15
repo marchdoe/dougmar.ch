@@ -1,22 +1,21 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { HeroThesis } from '../components/generated/HeroThesis'
-import { ClientLedger } from '../components/generated/ClientLedger'
-import { WorkIndex } from '../components/generated/WorkIndex'
-import { Section } from '../components/generated/Section'
-import { featuredProject, selectedWork, experiments } from '../content/projects'
+import { css } from '../../styled-system/css'
+import { Box } from '../../styled-system/jsx'
+import { HeroField } from '../components/generated/HeroField'
+import { EvidenceRail } from '../components/generated/EvidenceRail'
 
 export const Route = createFileRoute('/')({ component: HomePage })
 
 function HomePage() {
   return (
-    <>
-      <HeroThesis project={featuredProject} />
-      <Section>
-        <ClientLedger clients={featuredProject?.clients ?? []} />
-      </Section>
-      <Section>
-        <WorkIndex selectedWork={selectedWork} experiments={experiments} studio={featuredProject} />
-      </Section>
-    </>
+    <Box
+      className={css({
+        display: 'grid',
+        gridTemplateColumns: { base: '1fr', lg: 'minmax(0,1.7fr) minmax(320px,0.9fr)' },
+      })}
+    >
+      <HeroField />
+      <EvidenceRail />
+    </Box>
   )
 }

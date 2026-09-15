@@ -1,79 +1,43 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { css } from '../../styled-system/css'
+import { Box } from '../../styled-system/jsx'
 import { projects } from '../content/projects'
-import { CaseStudyHero } from '../components/generated/CaseStudyHero'
+import { WorkHero } from '../components/generated/WorkHero'
 import { CaseStudyNarrative } from '../components/generated/CaseStudyNarrative'
-import { CaseStudyStack } from '../components/generated/CaseStudyStack'
-import { ClientLedger } from '../components/generated/ClientLedger'
-import { WhitePaperContext } from '../components/generated/WhitePaperContext'
-import { WhitePaperProcess } from '../components/generated/WhitePaperProcess'
-import { WhitePaperDecisions } from '../components/generated/WhitePaperDecisions'
-import { WhitePaperReferences } from '../components/generated/WhitePaperReferences'
-import { Section } from '../components/generated/Section'
+import { WhitePaperBlock } from '../components/generated/WhitePaperBlock'
+import { PrevNextNav } from '../components/generated/PrevNextNav'
 
 export const Route = createFileRoute('/work/$slug')({ component: WorkDetailPage })
 
-type WhitePaper = {
-  context?: string
-  constraints?: string[]
-  process?: { phase: string; does: string; produces: string }[]
-  decisions?: { decision: string; why: string }[]
-  references?: { title: string; url: string; note?: string }[]
-}
-
 function WorkDetailPage() {
   const { slug } = Route.useParams()
-  const project = projects.find((p) => p.slug === slug)
-
-  if (!project) {
-    return (
-      <section className={css({ bg: 'bg', padding: '10 5' })}>
-        <h1
-          className={css({
-            fontFamily: 'display',
-            fontWeight: 'bold',
-            fontSize: '4xl',
-            color: 'text',
-          })}
-        >
-          Not found
-        </h1>
-      </section>
-    )
-  }
-
-  const wp = project as typeof project & WhitePaper
+  const index = projects.findIndex((p) => p.slug === slug)
+  const project = index >= 0 ? projects[index] : projects[0]
+  const prev = index > 0 ? projects[index - 1] : undefined
+  const next = index >= 0 && index < projects.length - 1 ? projects[index + 1] : undefined
 
   return (
-    <>
-      <CaseStudyHero project={project} />
-      <Section>
-        <CaseStudyNarrative
-          problem={project.problem}
-          approach={project.approach}
-          outcome={project.outcome}
-        />
-      </Section>
-      <Section>
-        <WhitePaperContext context={wp.context} constraints={wp.constraints} />
-      </Section>
-      <Section>
-        <WhitePaperProcess process={wp.process} />
-      </Section>
-      <Section>
-        <WhitePaperDecisions decisions={wp.decisions} />
-      </Section>
-      <Section>
-        <WhitePaperReferences references={wp.references} />
-      </Section>
-      <Section>
-        <CaseStudyStack stack={project.stack} liveUrl={project.liveUrl} />
-      </Section>
-      {project.clients && (
-        <Section>
-          <ClientLedger clients={project.clients} />
-        </Section>
-      )}
-    </>
+    <Box
+      className={css({
+        display: 'grid',
+        gridTemplateColumns: { base: '1fr', lg: 'minmax(0,1.7fr) minmax(320px,0.9fr)' },
+      })}
+    >
+      <WorkHero project={project} />
+      <Box
+        as="aside"
+        bg="field"
+        color="fieldInk"
+        minWidth="0px"
+        className={css({
+          position: 'relative',
+          padding: { base: '32px 6vw 44px', lg: '40px 3vw 56px', xl: '52px 40px 64px' },
+        })}
+      >
+        <CaseStudyNarrative project={project} />
+        <WhitePaperBlock project={project} />
+        <PrevNextNav prev={prev} next={next} />
+      </Box>
+    </Box>
   )
 }

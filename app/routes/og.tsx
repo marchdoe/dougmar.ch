@@ -1,67 +1,70 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { css } from '../../styled-system/css'
+import { Box, styled } from '../../styled-system/jsx'
 import { BrandLockup } from '../components/BrandLockup'
-import { Ground } from '../components/Material'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
 function OgCard() {
   return (
-    <div
+    <Box
       className={css({
         position: 'fixed',
         inset: 0,
         zIndex: 9999,
-        bg: 'field',
+        bg: 'bg',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
       })}
     >
-      <div
+      <Box
         className={css({
           position: 'relative',
-          overflow: 'hidden',
           width: '1200px',
           height: '630px',
-          bg: 'field',
-          color: 'fieldInk',
+          bg: 'bg',
+          overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'space-between',
-          padding: '64px',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
         })}
       >
-        <Ground material="rule" seed={2143888891} />
-        <div className={css({ position: 'relative', zIndex: 1 })}>
-          <p
-            className={css({
-              fontWeight: 'bold',
-              fontSize: 'sm',
-              letterSpacing: 'widest',
-              textTransform: 'uppercase',
-              color: 'accent',
-              marginBottom: '6',
-            })}
-          >
-            Design &amp; Engineering
-          </p>
-          <h1
-            className={css({
-              fontFamily: 'display',
-              fontWeight: 'bold',
-              textStyle: 'hero',
-              color: 'fieldInk',
-              maxWidth: '18ch',
-            })}
-          >
-            Buildable before the first line of code. Faithful after the last.
-          </h1>
-        </div>
-        <div className={css({ position: 'relative', zIndex: 1, color: 'fieldInk' })}>
-          <BrandLockup variant="stacked-md" mode="original" roleLine />
-        </div>
-      </div>
-    </div>
+        <Box position="absolute" top="48px" left="56px">
+          <BrandLockup variant="mark-only-md" mode="original" />
+        </Box>
+        <styled.h1
+          className={css({
+            fontFamily: 'display',
+            fontStyle: 'italic',
+            fontWeight: 'normal',
+            textTransform: 'uppercase',
+            fontSize: '260px',
+            lineHeight: 'tight',
+            letterSpacing: 'tight',
+            color: 'transparent',
+            WebkitTextStrokeWidth: '6px',
+            WebkitTextStrokeColor: 'var(--colors-accent)',
+            margin: 0,
+          })}
+        >
+          Both
+        </styled.h1>
+        <Box
+          className={css({
+            fontFamily: 'display',
+            fontWeight: 'bold',
+            textTransform: 'uppercase',
+            fontSize: '40px',
+            color: 'text',
+            marginTop: '4',
+          })}
+        >
+          Deep in both. Not a generalist.
+        </Box>
+      </Box>
+    </Box>
   )
 }

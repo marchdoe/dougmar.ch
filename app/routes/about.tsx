@@ -1,28 +1,21 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { css } from '../../styled-system/css'
+import { Box } from '../../styled-system/jsx'
 import { AboutHero } from '../components/generated/AboutHero'
-import { Timeline } from '../components/generated/Timeline'
-import { AboutPersonal } from '../components/generated/AboutPersonal'
-import { Section } from '../components/generated/Section'
-import { identity, personal } from '../content/about'
-import { timeline, capabilities, education } from '../content/timeline'
+import { AboutLedger } from '../components/generated/AboutLedger'
 
 export const Route = createFileRoute('/about')({ component: AboutPage })
 
 function AboutPage() {
   return (
-    <>
-      <AboutHero
-        name={identity.name}
-        role={identity.role}
-        statement={identity.statement}
-        capabilities={capabilities}
-      />
-      <Section>
-        <Timeline entries={timeline} education={education} />
-      </Section>
-      <Section>
-        <AboutPersonal personal={personal} />
-      </Section>
-    </>
+    <Box
+      className={css({
+        display: 'grid',
+        gridTemplateColumns: { base: '1fr', lg: 'minmax(0,1.7fr) minmax(320px,0.9fr)' },
+      })}
+    >
+      <AboutHero />
+      <AboutLedger />
+    </Box>
   )
 }

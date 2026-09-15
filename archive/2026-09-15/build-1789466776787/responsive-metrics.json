@@ -1,0 +1,119 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": true,
+        "clippedElements": [
+          {
+            "tag": "SPAN",
+            "text": "Experiment2008",
+            "cause": "viewport",
+            "right": 399,
+            "over": 39,
+            "boxWidth": 127
+          },
+          {
+            "tag": "SPAN",
+            "text": "Experiment2008",
+            "cause": "viewport",
+            "right": 381,
+            "over": 21,
+            "boxWidth": 127
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "tablet": {
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 5
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": true,
+        "clippedElements": [
+          {
+            "tag": "SPAN",
+            "text": "Experiment2008",
+            "cause": "viewport",
+            "right": 1078,
+            "over": 54,
+            "boxWidth": 127
+          },
+          {
+            "tag": "A",
+            "text": "Spaceman",
+            "cause": "text",
+            "right": 993,
+            "over": 45,
+            "boxWidth": 293
+          },
+          {
+            "tag": "SPAN",
+            "text": "Experiment2008",
+            "cause": "viewport",
+            "right": 1060,
+            "over": 36,
+            "boxWidth": 127
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 5
+    }
+  },
+  "overallScore": 3,
+  "worstFailure": {
+    "viewport": "mobile",
+    "check": "horizontalScroll",
+    "detail": "document.scrollWidth exceeded clientWidth by more than 1px at the 360px viewport"
+  },
+  "buildId": "1789466776787",
+  "date": "2026-09-15",
+  "archetype": "a type specimen for one word"
+}

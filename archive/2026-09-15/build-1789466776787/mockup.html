@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — Both</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Libre+Franklin:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f7f9; --bgAlt:#e7edf1; --surface:#ffffff;
+    --text:#141a1d; --textMuted:#4c5a62; --textFaint:#66757f;
+    --accent:#0f6598; --accentAlt:#3d97c6; --accentText:#ffffff;
+    --border:#d3dde3; --borderStrong:#b3c2cb;
+    --field:#103f5f; --fieldInk:#eaf4fa; --fieldInkMuted:#a6d2ea; --fieldBorder:#0f6598;
+    --marigold:#e8961f;
+    --sp1:8px; --sp2:12px; --sp3:16px; --sp4:24px; --sp5:32px; --sp6:48px; --sp7:64px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:"Libre Franklin",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-size:16px; line-height:1.5;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none; transition:color 120ms ease;}
+  ::selection{background:var(--accent); color:var(--accentText);}
+
+  .micro{font-size:13px; text-transform:uppercase; letter-spacing:0.09em; font-weight:500;}
+
+  /* ---------- shell / grid ---------- */
+  .stage{width:100%;}
+  .grid{display:block;}
+
+  /* ---------- left light zone ---------- */
+  .field{
+    position:relative; overflow:hidden;
+    background:var(--bg);
+    display:flex; flex-direction:column;
+    padding:28px 6vw;
+    min-height:auto;
+  }
+  .field-dots{
+    position:absolute; inset:0; pointer-events:none; z-index:0;
+    background-image:radial-gradient(circle, var(--accent) 1.5px, transparent 1.8px);
+    background-size:20px 20px; opacity:0.55;
+  }
+  .fieldhead{position:relative; z-index:2; height:96px; display:flex; flex-direction:column; justify-content:center; gap:10px;}
+  .lockup{display:flex; align-items:center;}
+  .lockup svg{height:52px; width:auto; display:block;}
+  .nav{display:flex; flex-wrap:wrap; gap:18px;}
+  .nav a{
+    font-size:13px; text-transform:uppercase; letter-spacing:0.09em; font-weight:600;
+    display:inline-flex; align-items:center; min-height:44px;
+    color:var(--text);
+  }
+  .nav a .n{color:var(--accent); font-variant-numeric:tabular-nums; margin-right:7px;}
+  .nav a:hover{color:var(--accent); box-shadow:inset 0 -1px 0 var(--accent);}
+
+  .heroblock{
+    position:relative; z-index:2;
+    flex:1 1 auto;
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    text-align:center;
+    padding:36px 0 44px;
+  }
+  .hero-word{
+    font-family:"Anybody",sans-serif;
+    font-style:italic; font-weight:400; text-transform:uppercase;
+    font-size:clamp(64px, 19vw, 100px);
+    line-height:0.86; letter-spacing:-0.01em;
+    color:transparent;
+    -webkit-text-stroke-width:clamp(2px,0.55vw,5px);
+    -webkit-text-stroke-color:var(--accent);
+    text-stroke:clamp(2px,0.55vw,5px) var(--accent);
+    max-width:100%;
+    margin:0;
+  }
+  .deck{
+    font-family:"Anybody",sans-serif;
+    font-weight:700; text-transform:uppercase;
+    font-size:clamp(1.6rem, 4.6vw, 3rem);
+    line-height:1.02; letter-spacing:0.005em;
+    color:var(--text);
+    margin:22px 0 0; max-width:16ch;
+  }
+  .standfirst{
+    font-size:clamp(1.15rem, 2.6vw, 1.55rem);
+    line-height:1.35; color:var(--textMuted);
+    margin:20px 0 0; max-width:34ch;
+  }
+
+  /* ---------- right bold azure zone ---------- */
+  .rail{
+    position:relative;
+    background:var(--field); color:var(--fieldInk);
+    padding:32px 6vw 44px;
+  }
+  .rail-sec{padding:22px 0; border-top:1px solid var(--fieldBorder);}
+  .rail-sec:first-of-type{border-top:none; padding-top:4px;}
+  .rail-label{
+    color:var(--fieldInkMuted); margin-bottom:16px;
+    display:flex; justify-content:space-between; align-items:baseline;
+  }
+  .rail-label .cnt{color:var(--accentAlt); font-variant-numeric:tabular-nums;}
+
+  .featured .ft-title{
+    font-family:"Anybody",sans-serif; font-weight:700;
+    font-size:clamp(1.6rem,5vw,2.1rem); line-height:1; text-transform:uppercase;
+    letter-spacing:0.005em; color:#fff;
+  }
+  .featured p{font-size:16px; line-height:1.5; color:var(--fieldInkMuted); margin:12px 0 14px; max-width:44ch;}
+  .featured .ft-link{
+    font-size:13px; text-transform:uppercase; letter-spacing:0.09em; font-weight:600;
+    color:var(--accentAlt); display:inline-flex; min-height:44px; align-items:center;
+  }
+  .featured .ft-link:hover{color:#fff; box-shadow:inset 0 -1px 0 #fff;}
+
+  .idx{list-style:none; margin:0; padding:0;}
+  .idx li{border-top:1px solid var(--fieldBorder);}
+  .idx li:first-child{border-top:none;}
+  .idx a{
+    display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+    padding:11px 0; min-height:44px;
+  }
+  .idx a:hover{color:var(--accentAlt);}
+  .idx .t{
+    font-family:"Anybody",sans-serif; font-weight:700; text-transform:uppercase;
+    font-size:1.2rem; line-height:1; letter-spacing:0.005em;
+  }
+  .idx .meta{
+    display:flex; gap:12px; align-items:baseline; flex-shrink:0;
+    font-size:12px; text-transform:uppercase; letter-spacing:0.07em; color:var(--fieldInkMuted);
+    font-variant-numeric:tabular-nums;
+  }
+
+  .sig{list-style:none; margin:0; padding:0;}
+  .sig li{
+    display:flex; justify-content:space-between; align-items:baseline; gap:12px;
+    padding:8px 0; border-top:1px dotted var(--fieldBorder);
+    font-size:15px;
+  }
+  .sig li:first-child{border-top:none;}
+  .sig .k{color:var(--fieldInkMuted); text-transform:uppercase; letter-spacing:0.07em; font-size:12px;}
+  .sig .v{font-variant-numeric:tabular-nums; color:var(--fieldInk); text-align:right;}
+  .rotation{margin-top:14px; font-size:15px; color:var(--fieldInk);}
+  .rotation .lab{color:var(--fieldInkMuted); text-transform:uppercase; letter-spacing:0.07em; font-size:12px; display:block; margin-bottom:3px;}
+
+  /* ---------- footer figure band ---------- */
+  .band{
+    background:var(--field); color:var(--fieldInk);
+    border-top:2px solid var(--fieldBorder);
+    padding:40px 6vw 44px;
+  }
+  .band-head{
+    color:var(--fieldInkMuted); margin-bottom:22px;
+    display:flex; flex-wrap:wrap; gap:6px 18px; align-items:baseline;
+  }
+  .scores{display:grid; grid-template-columns:1fr; gap:22px;}
+  .score{border-top:1px solid var(--fieldBorder); padding-top:14px;}
+  .score .team{font-size:12px; text-transform:uppercase; letter-spacing:0.09em; color:var(--fieldInkMuted); margin-bottom:8px;}
+  .score .line{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;}
+  .score .num{
+    font-family:"Anybody",sans-serif; font-weight:900;
+    font-size:clamp(3rem,13vw,5.5rem); line-height:0.85;
+    font-variant-numeric:tabular-nums;
+  }
+  .score .win{color:var(--marigold);}
+  .score .sep{font-family:"Anybody",sans-serif; font-weight:400; font-size:clamp(2rem,8vw,3.4rem); color:var(--fieldInkMuted);}
+  .score .margin{
+    align-self:flex-end; margin-left:auto;
+    font-size:13px; text-transform:uppercase; letter-spacing:0.08em; color:var(--marigold);
+    font-weight:600;
+  }
+  .footnote{
+    margin-top:34px; padding-top:18px; border-top:1px solid var(--fieldBorder);
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .footnote .q{font-style:italic; font-size:14px; color:var(--fieldInkMuted); max-width:60ch;}
+  .footnote .colo{font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:var(--fieldInkMuted); font-variant-numeric:tabular-nums;}
+
+  /* ---------- desktop two-asymmetric ---------- */
+  @media (min-width:900px){
+    .grid{
+      display:grid;
+      grid-template-columns:minmax(0,1.7fr) minmax(320px,0.9fr);
+      gap:0;
+    }
+    .field{padding:36px 4vw; min-height:88vh;}
+    .field-dots{opacity:0.5;}
+    .fieldhead{height:96px;}
+    .hero-word{font-size:clamp(96px,22vw,300px);}
+    .deck{font-size:clamp(2rem,4.6vw,3rem);}
+    .standfirst{font-size:clamp(1.2rem,1.9vw,1.55rem);}
+    .rail{padding:40px 3vw 56px;}
+    .scores{grid-template-columns:1fr 1fr; gap:36px;}
+    .band{padding:52px 4vw 56px;}
+  }
+  @media (min-width:1200px){
+    .field{padding:44px 72px;}
+    .rail{padding:52px 40px 64px;}
+    .band{padding:60px 72px 64px;}
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <main class="grid">
+
+      <!-- LEFT: quiet light zone — the claim -->
+      <section class="field">
+        <div class="field-dots" aria-hidden="true"></div>
+
+        <header class="fieldhead">
+          <a href="#" class="lockup" aria-label="Doug March — home">
+            <svg viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Doug March logo">
+              <title>Doug March logo</title>
+              <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+              <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+              <circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+              <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+              <circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+              <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+              <circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+              <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+            </svg>
+          </a>
+          <nav class="nav" aria-label="Primary">
+            <a href="#work"><span class="n">01</span>Work</a>
+            <a href="#about"><span class="n">02</span>About</a>
+            <a href="#contact"><span class="n">03</span>Contact</a>
+          </nav>
+        </header>
+
+        <div class="heroblock">
+          <h1 style="margin:0;">
+            <span class="hero-word">Both</span>
+            <span class="deck">Deep in both. Not a generalist.</span>
+            <span class="standfirst">Design and engineering as one job, not two teams passing files.</span>
+          </h1>
+        </div>
+      </section>
+
+      <!-- RIGHT: bold azure zone — the evidence ledger -->
+      <aside class="rail" id="work">
+
+        <div class="rail-sec featured">
+          <div class="rail-label micro"><span>Featured</span><span class="cnt">2026</span></div>
+          <a href="https://dougmar.ch" class="ft-title">dougmar.ch</a>
+          <p>A portfolio that redesigns itself every night — one system, briefed, composed and rendered fresh each morning, then held to a measured bar before it ships.</p>
+          <a href="https://dougmar.ch" class="ft-link">Visit live →</a>
+        </div>
+
+        <div class="rail-sec">
+          <div class="rail-label micro"><span>Selected Work</span><span class="cnt">04</span></div>
+          <ul class="idx">
+            <li><a href="#spaceman"><span class="t">Spaceman</span><span class="meta"><span>Founder</span><span>2018</span></span></a></li>
+            <li><a href="#fishsticks"><span class="t">FishSticks</span><span class="meta"><span>SaaS</span><span>2025</span></span></a></li>
+            <li><a href="#fifteenth-club"><span class="t">15th Club</span><span class="meta"><span>AI</span><span>2025</span></span></a></li>
+            <li><a href="#dougmar-ch"><span class="t">dougmar.ch</span><span class="meta"><span>AI</span><span>2026</span></span></a></li>
+          </ul>
+        </div>
+
+        <div class="rail-sec">
+          <div class="rail-label micro"><span>Experiments</span><span class="cnt">03</span></div>
+          <ul class="idx">
+            <li><a href="#teeturn"><span class="t">TeeTurn</span><span class="meta"><span>Experiment</span><span>2020</span></span></a></li>
+            <li><a href="#politweets"><span class="t">Politweets</span><span class="meta"><span>Experiment</span><span>2008</span></span></a></li>
+            <li><a href="#twittertale"><span class="t">Twittertale</span><span class="meta"><span>Experiment</span><span>2008</span></span></a></li>
+          </ul>
+        </div>
+
+        <div class="rail-sec">
+          <div class="rail-label micro"><span>Signals · Sep 15</span><span class="cnt">Detroit</span></div>
+          <ul class="sig">
+            <li><span class="k">Market · SPY</span><span class="v">−0.45%</span></li>
+            <li><span class="k">Weather</span><span class="v">Overcast · 54°F</span></li>
+            <li><span class="k">Moon</span><span class="v">Waxing crescent · 19.5%</span></li>
+            <li><span class="k">Air Quality</span><span class="v">Good</span></li>
+            <li><span class="k">Daylight</span><span class="v">12.2 h</span></li>
+            <li><span class="k">Golf</span><span class="v">Biltmore Championship · scheduled</span></li>
+          </ul>
+          <div class="rotation">
+            <span class="lab">On rotation</span>
+            Tobin Sprout · My Morning Jacket
+          </div>
+        </div>
+
+      </aside>
+    </main>
+
+    <!-- FOOTER: figure ledger band -->
+    <footer class="band" id="contact">
+      <div class="band-head micro"><span>The weekend · both wins</span><span>Combined margin: two</span></div>
+      <div class="scores">
+        <div class="score">
+          <div class="team">Detroit Lions</div>
+          <div class="line">
+            <span class="num win">31</span>
+            <span class="sep">–</span>
+            <span class="num">30</span>
+            <span class="margin">Won by 1</span>
+          </div>
+        </div>
+        <div class="score">
+          <div class="team">Detroit Tigers</div>
+          <div class="line">
+            <span class="num win">6</span>
+            <span class="sep">–</span>
+            <span class="num">5</span>
+            <span class="margin">Won by 1</span>
+          </div>
+        </div>
+      </div>
+      <div class="footnote">
+        <span class="q">“The biggest adventure you can take is to live the life of your dreams.” — Oprah Winfrey</span>
+        <span class="colo">Doug March · Design &amp; engineering · dougmar.ch · 2026-09-15</span>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
