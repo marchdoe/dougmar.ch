@@ -1,78 +1,90 @@
+import { Box } from '../../../styled-system/jsx'
 import { css } from '../../../styled-system/css'
-import { Box, styled } from '../../../styled-system/jsx'
 import { Ground } from '../Material'
-import { FieldHead } from './FieldHead'
-import { identity } from '../../content/about'
+import { BrandLockup } from '../BrandLockup'
 
-export function AboutHero() {
+export function AboutHero({ statement, role }: { statement: string; role: string }) {
   return (
     <Box
-      as="section"
+      as="header"
       position="relative"
       overflow="hidden"
       bg="bg"
-      minWidth="0px"
-      className={css({
-        display: 'flex',
-        flexDirection: 'column',
-        padding: { base: '28px 6vw', lg: '36px 4vw', xl: '44px 72px' },
-        minHeight: { base: 'auto', lg: '70vh' },
-      })}
+      minH={{ base: 'auto', md: '58vh' }}
+      px={{ base: '4', md: '6', lg: '96px' }}
+      pt={{ base: '5', md: '6' }}
+      pb={{ base: '7', md: '8' }}
+      display="flex"
+      flexDirection="column"
     >
-      <Ground material="dots" seed={13182863} />
+      <Ground material="halftone" seed={2110333653} />
+      <Box
+        position="absolute"
+        inset="-4%"
+        bg="bg"
+        zIndex={-1}
+        animation="drift 40s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate"
+      />
+      <span
+        aria-hidden
+        className={css({
+          position: 'absolute',
+          right: { base: '-10%', md: '0%' },
+          top: { base: '30%', md: '18%' },
+          fontFamily: 'display',
+          fontSize: 'hero',
+          color: 'accent',
+          opacity: 0.05,
+          lineHeight: 'tight',
+          zIndex: 0,
+          pointerEvents: 'none',
+          whiteSpace: 'nowrap',
+        })}
+      >
+        {statement.split(' ')[0]}
+      </span>
+
+      <Box position="relative" zIndex={1} color="text">
+        <BrandLockup variant="stacked-lg" mode="single-color" />
+      </Box>
+
       <Box
         position="relative"
         zIndex={1}
-        display="flex"
-        flexDirection="column"
-        flex="1 1 auto"
-        minWidth="0px"
+        ml={{ base: '0', md: 'auto' }}
+        mt={{ base: '8', md: '14' }}
+        maxW={{ base: '100%', md: '760px' }}
       >
-        <FieldHead />
-        <Box
+        <span
           className={css({
-            flex: '1 1 auto',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textAlign: 'center',
-            padding: { base: '36px 0 44px' },
-            minWidth: '0px',
+            fontSize: 'sm',
+            color: 'textFaint',
+            textTransform: 'lowercase',
+            letterSpacing: 'wide',
+            display: 'block',
+            mb: '3',
+            textAlign: { base: 'left', md: 'right' },
+            animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+            animationDelay: '80ms',
           })}
         >
-          <styled.h1
-            className={css({
-              fontFamily: 'display',
-              fontWeight: 'bold',
-              textStyle: 'lg',
-              lineHeight: 'normal',
-              color: 'text',
-              maxWidth: '52ch',
-              margin: 0,
-              animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-              animationDelay: '0ms',
-            })}
-          >
-            {identity.statement}
-          </styled.h1>
-          <styled.p
-            className={css({
-              textStyle: 'sm',
-              color: 'textMuted',
-              mt: '4',
-              maxWidth: '40ch',
-              textTransform: 'uppercase',
-              letterSpacing: 'wide',
-              fontWeight: 'bold',
-              fontFamily: 'display',
-              animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-              animationDelay: '80ms',
-            })}
-          >
-            {identity.name}, {identity.role}
-          </styled.p>
-        </Box>
+          {role}
+        </span>
+        <h1
+          className={css({
+            fontFamily: 'body',
+            textStyle: 'lg',
+            color: 'text',
+            fontWeight: 'normal',
+            textAlign: { base: 'left', md: 'right' },
+            overflowWrap: 'break-word',
+            wordBreak: 'break-word',
+            animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+            animationDelay: '0ms',
+          })}
+        >
+          {statement}
+        </h1>
       </Box>
     </Box>
   )

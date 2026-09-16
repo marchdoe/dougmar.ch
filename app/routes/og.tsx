@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { Box } from '../../styled-system/jsx'
 import { css } from '../../styled-system/css'
-import { Box, styled } from '../../styled-system/jsx'
 import { BrandLockup } from '../components/BrandLockup'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
@@ -8,61 +8,60 @@ export const Route = createFileRoute('/og')({ component: OgCard })
 function OgCard() {
   return (
     <Box
-      className={css({
-        position: 'fixed',
-        inset: 0,
-        zIndex: 9999,
-        bg: 'bg',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      })}
+      position="fixed"
+      inset="0"
+      zIndex={9999}
+      bg="bg"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
     >
       <Box
-        className={css({
-          position: 'relative',
-          width: '1200px',
-          height: '630px',
-          bg: 'bg',
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          textAlign: 'center',
-        })}
+        position="relative"
+        width="1200px"
+        height="630px"
+        bg="bg"
+        overflow="hidden"
+        display="flex"
+        flexDirection="column"
+        justifyContent="space-between"
+        px="72px"
+        py="64px"
       >
-        <Box position="absolute" top="48px" left="56px">
-          <BrandLockup variant="mark-only-md" mode="original" />
-        </Box>
-        <styled.h1
+        <span
+          aria-hidden
           className={css({
+            position: 'absolute',
+            right: '-6%',
+            top: '-8%',
             fontFamily: 'display',
-            fontStyle: 'italic',
-            fontWeight: 'normal',
-            textTransform: 'uppercase',
-            fontSize: '260px',
+            fontSize: 'hero',
+            color: 'accent',
+            opacity: 0.08,
             lineHeight: 'tight',
-            letterSpacing: 'tight',
-            color: 'transparent',
-            WebkitTextStrokeWidth: '6px',
-            WebkitTextStrokeColor: 'var(--colors-accent)',
-            margin: 0,
           })}
         >
-          Both
-        </styled.h1>
-        <Box
-          className={css({
-            fontFamily: 'display',
-            fontWeight: 'bold',
-            textTransform: 'uppercase',
-            fontSize: '40px',
-            color: 'text',
-            marginTop: '4',
-          })}
-        >
-          Deep in both. Not a generalist.
+          10&ndash;1
+        </span>
+        <Box position="relative" zIndex={1} color="text">
+          <BrandLockup variant="stacked-lg" mode="single-color" />
+        </Box>
+        <Box position="relative" zIndex={1} textAlign="right">
+          <h1
+            className={css({
+              fontFamily: 'display',
+              textStyle: 'hero',
+              color: 'accentAlt',
+              lineHeight: 'tight',
+              letterSpacing: 'tight',
+              textTransform: 'lowercase',
+            })}
+          >
+            ten to one, no questions asked.
+          </h1>
+          <p className={css({ textStyle: 'lg', color: 'textMuted', mt: '4' })}>
+            Detroit put up ten and gave back one.
+          </p>
         </Box>
       </Box>
     </Box>

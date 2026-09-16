@@ -1,43 +1,67 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { css } from '../../styled-system/css'
+import { featuredProject, selectedWork, experiments } from '../content/projects'
+import { WorkDetailHero } from '../components/generated/WorkDetailHero'
+import { CaseStudyBlocks } from '../components/generated/CaseStudyBlocks'
+import { StackAndLink } from '../components/generated/StackAndLink'
+import { ContextBlock } from '../components/generated/ContextBlock'
+import { ProcessSteps } from '../components/generated/ProcessSteps'
+import { DecisionsList } from '../components/generated/DecisionsList'
+import { ReferencesList } from '../components/generated/ReferencesList'
 import { Box } from '../../styled-system/jsx'
-import { projects } from '../content/projects'
-import { WorkHero } from '../components/generated/WorkHero'
-import { CaseStudyNarrative } from '../components/generated/CaseStudyNarrative'
-import { WhitePaperBlock } from '../components/generated/WhitePaperBlock'
-import { PrevNextNav } from '../components/generated/PrevNextNav'
+import { css } from '../../styled-system/css'
 
 export const Route = createFileRoute('/work/$slug')({ component: WorkDetailPage })
 
+const allProjects = [featuredProject, ...selectedWork, ...experiments].filter(
+  Boolean
+) as typeof selectedWork
+
 function WorkDetailPage() {
   const { slug } = Route.useParams()
-  const index = projects.findIndex((p) => p.slug === slug)
-  const project = index >= 0 ? projects[index] : projects[0]
-  const prev = index > 0 ? projects[index - 1] : undefined
-  const next = index >= 0 && index < projects.length - 1 ? projects[index + 1] : undefined
+  const project = allProjects.find((item) => item.slug === slug)
+
+  if (!project) {
+    return (
+      <Box px={{ base: '4', md: '6', lg: '96px' }} py="14">
+        <h1
+          className={css({
+            textStyle: '3xl',
+            fontFamily: 'display',
+            color: 'text',
+            textTransform: 'lowercase',
+          })}
+        >
+          project not found
+        </h1>
+      </Box>
+    )
+  }
 
   return (
-    <Box
-      className={css({
-        display: 'grid',
-        gridTemplateColumns: { base: '1fr', lg: 'minmax(0,1.7fr) minmax(320px,0.9fr)' },
-      })}
-    >
-      <WorkHero project={project} />
-      <Box
-        as="aside"
-        bg="field"
-        color="fieldInk"
-        minWidth="0px"
-        className={css({
-          position: 'relative',
-          padding: { base: '32px 6vw 44px', lg: '40px 3vw 56px', xl: '52px 40px 64px' },
-        })}
-      >
-        <CaseStudyNarrative project={project} />
-        <WhitePaperBlock project={project} />
-        <PrevNextNav prev={prev} next={next} />
+    <>
+      <WorkDetailHero
+        title={project.title}
+        type={project.type}
+        year={project.year}
+        role={project.role}
+        liveUrl={project.liveUrl ?? project.externalUrl}
+      />
+      <Box as="main" pt={{ base: '9', md: '12' }} pb={{ base: '10', md: '14' }}>
+        <CaseStudyBlocks
+          blocks={[
+            { label: 'problem', body: project.problem },
+            { label: 'approach', body: project.approach },
+            { label: 'outcome', body: project.outcome },
+          ]}
+        />
+        <StackAndLink stack={project.stack} liveUrl={project.liveUrl} />
+        {(project.context || project.constraints) && (
+          <ContextBlock context={project.context} constraints={project.constraints} />
+        )}
+        {project.process && <ProcessSteps steps={project.process} />}
+        {project.decisions && <DecisionsList decisions={project.decisions} />}
+        {project.references && <ReferencesList references={project.references} />}
       </Box>
-    </Box>
+    </>
   )
 }
