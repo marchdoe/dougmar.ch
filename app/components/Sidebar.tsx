@@ -1,108 +1,115 @@
-import { Box, Flex } from '../../styled-system/jsx'
 import { css } from '../../styled-system/css'
+import { Flex, Box } from '../../styled-system/jsx'
+import { BrandLockup } from './BrandLockup'
 import { identity } from '../content/about'
+import { projects, featuredProject } from '../content/projects'
 
-const navItems = [
-  { label: 'work', href: '/' },
-  { label: 'about', href: '/about' },
-  { label: 'contact', href: `mailto:${identity.email}` },
-]
+const navLinkStyle = css({
+  fontFamily: 'body',
+  fontWeight: '500',
+  fontSize: 'sm',
+  fontVariant: 'small-caps',
+  letterSpacing: 'wide',
+  textTransform: 'lowercase',
+  color: 'text',
+  padding: '2',
+  minHeight: '36px',
+  display: 'flex',
+  alignItems: 'center',
+})
 
 export function Sidebar() {
+  const workHref = featuredProject
+    ? `/work/${featuredProject.slug}`
+    : projects[0]
+      ? `/work/${projects[0].slug}`
+      : '/about'
+
   return (
-    <Box
-      as="footer"
-      bg="bgAlt"
-      borderTop="3px solid"
-      borderColor="borderStrong"
-      px={{ base: '4', md: '6', lg: '96px' }}
-      py={{ base: '8', md: '10' }}
+    <Flex
+      as="header"
+      align={{ base: 'flex-start', md: 'center' }}
+      direction={{ base: 'column', md: 'row' }}
+      gap={{ base: '3', md: '4' }}
+      bg="bg"
+      position="relative"
+      zIndex="5"
       className={css({
-        '@supports (animation-timeline: view())': {
-          animationName: 'rise',
-          animationTimeline: 'view()',
-          animationRange: 'entry 0% entry 40%',
-          animationFillMode: 'both',
-        },
+        paddingInline: { base: '5vw', md: '7vw' },
+        paddingBlock: { base: '3', md: '0' },
+        height: { base: 'auto', md: '76px' },
       })}
     >
-      <Flex direction="column" gap="6">
-        <nav aria-label="Primary" className={css({ display: 'flex', flexDirection: 'column' })}>
-          <span
-            className={css({
-              fontSize: 'sm',
-              color: 'textFaint',
-              fontVariant: 'small-caps',
-              letterSpacing: 'wide',
-              textTransform: 'lowercase',
-              mb: '2',
-            })}
-          >
-            index
-          </span>
-          {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className={css({
-                display: 'flex',
-                alignItems: 'center',
-                minHeight: '48px',
-                fontSize: 'sm',
-                color: 'text',
-                borderTop: '1px solid',
-                borderColor: 'border',
-                textTransform: 'lowercase',
-                letterSpacing: 'wide',
-                _hover: { color: 'accentAlt' },
-              })}
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
-
-        <p
+      <BrandLockup variant="horizontal-md" mode="single-color" roleLine color="text" />
+      <nav
+        aria-label="Primary"
+        className={css({
+          marginLeft: { base: '0', md: 'auto' },
+          position: 'relative',
+          '&:hover .navDropdown, &:focus-within .navDropdown': {
+            opacity: '1',
+            pointerEvents: 'auto',
+            transform: 'translateY(0)',
+          },
+        })}
+      >
+        <button
+          type="button"
           className={css({
-            fontStyle: 'italic',
-            textStyle: 'md',
-            color: 'textMuted',
-            maxW: '60ch',
-            lineHeight: 'loose',
+            fontFamily: 'body',
+            fontWeight: '600',
+            fontSize: 'sm',
+            fontVariant: 'small-caps',
+            letterSpacing: 'wide',
+            textTransform: 'lowercase',
+            color: 'text',
+            bg: 'transparent',
+            border: 'none',
+            padding: '2',
+            cursor: 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '2',
+            minHeight: '44px',
           })}
         >
-          &ldquo;Try to be a rainbow in someone&rsquo;s cloud.&rdquo;{' '}
-          <cite className={css({ fontStyle: 'normal', color: 'textFaint', fontSize: 'sm' })}>
-            Maya Angelou
-          </cite>
-        </p>
-
-        <Flex
-          justify="space-between"
-          align="flex-end"
-          gap="5"
-          wrap="wrap"
-          borderTop="1px solid"
-          borderColor="border"
-          pt="5"
+          Index ›
+        </button>
+        <Box
+          className={
+            'navDropdown ' +
+            css({
+              position: 'absolute',
+              top: '100%',
+              right: '0',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-end',
+              gap: '1',
+              padding: '2',
+              bg: 'bgAlt',
+              border: '1px solid',
+              borderColor: 'border',
+              borderRadius: 'sm',
+              opacity: '0',
+              pointerEvents: 'none',
+              transform: 'translateY(-4px)',
+              transition: 'opacity 0.18s ease-out, transform 0.18s ease-out',
+              zIndex: '20',
+            })
+          }
         >
-          <span
-            className={css({
-              fontFamily: 'display',
-              textStyle: '2xl',
-              letterSpacing: 'tight',
-              color: 'text',
-              textTransform: 'lowercase',
-            })}
-          >
-            dougmar.ch
-          </span>
-          {/* sand500 has no exact semantic token; nearest is textFaint */}
-          <span className={css({ fontSize: 'xs', color: 'textFaint' })}>
-            Doug March. Design and engineering.
-          </span>
-        </Flex>
-      </Flex>
-    </Box>
+          <a href={workHref} className={navLinkStyle}>
+            work
+          </a>
+          <a href="/about" className={navLinkStyle}>
+            about
+          </a>
+          <a href={`mailto:${identity.email}`} className={navLinkStyle}>
+            contact
+          </a>
+        </Box>
+      </nav>
+    </Flex>
   )
 }

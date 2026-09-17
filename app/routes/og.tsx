@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Box } from '../../styled-system/jsx'
 import { css } from '../../styled-system/css'
+import { Box } from '../../styled-system/jsx'
+import { Ground } from '../components/Material'
 import { BrandLockup } from '../components/BrandLockup'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
@@ -10,58 +11,53 @@ function OgCard() {
     <Box
       position="fixed"
       inset="0"
-      zIndex={9999}
+      zIndex="9999"
       bg="bg"
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
+      className={css({ display: 'flex', alignItems: 'center', justifyContent: 'center' })}
     >
       <Box
         position="relative"
-        width="1200px"
-        height="630px"
-        bg="bg"
         overflow="hidden"
-        display="flex"
-        flexDirection="column"
-        justifyContent="space-between"
-        px="72px"
-        py="64px"
+        bg="bg"
+        className={css({ width: '1200px', height: '630px' })}
       >
-        <span
-          aria-hidden
+        <Ground material="grain" seed={2127111272} />
+        <Box
+          position="relative"
+          zIndex="1"
           className={css({
-            position: 'absolute',
-            right: '-6%',
-            top: '-8%',
-            fontFamily: 'display',
-            fontSize: 'hero',
-            color: 'accent',
-            opacity: 0.08,
-            lineHeight: 'tight',
+            padding: '64px',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
           })}
         >
-          10&ndash;1
-        </span>
-        <Box position="relative" zIndex={1} color="text">
-          <BrandLockup variant="stacked-lg" mode="single-color" />
-        </Box>
-        <Box position="relative" zIndex={1} textAlign="right">
-          <h1
+          <Box color="text">
+            <BrandLockup variant="horizontal-md" mode="single-color" roleLine color="text" />
+          </Box>
+          <Box
+            as="h1"
+            fontFamily="display"
+            fontWeight="light"
+            fontVariant="small-caps"
+            textTransform="lowercase"
+            color="text"
+            textAlign="left"
             className={css({
-              fontFamily: 'display',
-              textStyle: 'hero',
-              color: 'accentAlt',
+              textStyle: '5xl',
+              letterSpacing: 'wide',
               lineHeight: 'tight',
-              letterSpacing: 'tight',
-              textTransform: 'lowercase',
+              maxWidth: '18ch',
             })}
           >
-            ten to one, no questions asked.
-          </h1>
-          <p className={css({ textStyle: 'lg', color: 'textMuted', mt: '4' })}>
-            Detroit put up ten and gave back one.
-          </p>
+            <span className={css({ display: 'block' })}>what ships</span>
+            <span className={css({ display: 'block' })}>should look like</span>
+            <span className={css({ display: 'block' })}>
+              what was designed
+              <span className={css({ color: 'accent' })}>.</span>
+            </span>
+          </Box>
         </Box>
       </Box>
     </Box>

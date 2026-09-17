@@ -50,28 +50,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Ten to one, no questions asked.' },
-      { property: 'og:title', content: 'Ten to one, no questions asked.' },
+      { title: 'What ships should look like what was designed.' },
+      { property: 'og:title', content: 'What ships should look like what was designed.' },
       {
         property: 'og:description',
         content:
-          'Tigers-duotone scoreboard slab: 10–1 in fat orange fatface knocked into a navy field, halftone screen over the flood, the called rout as its one-line caption.',
+          "Antique-gold drench specimen, a builder's thesis reversed out in ivory small-caps, one marigold spark, a Tigers loss stated flat in the colophon below.",
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-16.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-17.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Ten to one, no questions asked.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-16.png' },
+      { name: 'twitter:title', content: 'What ships should look like what was designed.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-17.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Alfa+Slab+One:wght@400&family=Rubik:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Work+Sans:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -231,7 +231,7 @@ function RootDocument({ children, bare = false }: { children: ReactNode; bare?: 
         {children}
         {bare ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 137 designs
+            Archive · 138 designs
           </a>
         )}
         <ScrollRestoration />

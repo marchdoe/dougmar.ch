@@ -1,79 +1,140 @@
-import { Box, Flex } from '../../../styled-system/jsx'
 import { css } from '../../../styled-system/css'
+import { Box, Grid } from '../../../styled-system/jsx'
 
-type Signal = { label: string; value: string; live?: boolean }
-type Quote = { text: string; who: string }
+const signals = [
+  { label: 'Detroit Tigers', value: '1–5' },
+  { label: 'Market, SPY', value: '−0.44%' },
+  { label: 'Moon', value: 'First quarter, 38% lit' },
+  { label: 'Aldie, VA', value: 'Clear, 64°F' },
+  { label: 'Golf', value: 'Biltmore Championship' },
+  { label: 'Rotation', value: 'Tobin Sprout, Radiohead' },
+]
 
-type Props = { quote?: Quote; signals: Signal[]; rotation?: string }
-
-export function Colophon({ quote, signals, rotation }: Props) {
+export function Colophon() {
   return (
     <Box
       as="footer"
-      borderTop="1px solid"
-      borderColor="borderStrong"
-      paddingBlock={{ base: '6', md: '7' }}
-      paddingInline={{ base: '20px', md: '6', lg: '8' }}
-      display="flex"
-      flexDirection="column"
-      gap="3"
+      aria-label="Colophon"
+      bg="bgAlt"
+      className={css({
+        paddingInline: '7vw',
+        paddingBlock: { base: '40px 56px', md: '56px 72px' },
+        '@supports (animation-timeline: view())': {
+          animationName: 'rise',
+          animationTimeline: 'view()',
+          animationRange: 'entry 0% entry 40%',
+          animationFillMode: 'both',
+        },
+      })}
     >
-      {quote && (
-        <p
+      <Box borderTop="1px solid" borderColor="borderStrong" marginBottom="7" />
+      <Box
+        className={css({
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'flex-end',
+          justifyContent: 'space-between',
+          gap: '6',
+          marginBottom: '7',
+        })}
+      >
+        <span
           className={css({
-            textStyle: 'sm',
+            fontSize: 'xs',
+            fontWeight: '600',
+            letterSpacing: 'wider',
+            textTransform: 'uppercase',
             color: 'textFaint',
-            fontStyle: 'italic',
-            maxWidth: '52ch',
-            margin: 0,
           })}
         >
-          {quote.text}
+          Colophon, Wednesday, September 17, 2026, Aldie, Virginia
+        </span>
+        <Box className={css({ display: 'flex', alignItems: 'baseline', gap: '3' })}>
           <span
             className={css({
-              fontStyle: 'normal',
-              fontVariantCaps: 'all-small-caps',
-              letterSpacing: 'wide',
-              color: 'textMuted',
-              marginLeft: '2',
+              fontFamily: 'display',
+              fontWeight: 'normal',
+              fontSize: { base: '4xl', md: '5xl' },
+              lineHeight: 'tight',
+              color: 'accent',
+              letterSpacing: 'tight',
             })}
           >
-            {quote.who}
+            96 pt
           </span>
-        </p>
-      )}
-      <Flex
-        wrap="wrap"
-        gap={{ base: '3', md: '4' }}
+          <span
+            className={css({
+              fontSize: 'xs',
+              fontWeight: '600',
+              letterSpacing: 'wider',
+              textTransform: 'uppercase',
+              color: 'textMuted',
+              maxWidth: '12ch',
+            })}
+          >
+            Statement set size at 1440
+          </span>
+        </Box>
+      </Box>
+      <Grid
         className={css({
-          textStyle: '2xs',
-          fontVariantCaps: 'all-small-caps',
-          letterSpacing: 'wide',
-          color: 'textFaint',
+          gridTemplateColumns: { base: '1fr', md: '1fr 1fr', xl: '1fr 1fr 1fr' },
+          columnGap: { md: '8' },
         })}
       >
         {signals.map((s) => (
-          <span key={s.label}>
-            {s.label}{' '}
-            <b className={css({ fontWeight: '400', color: s.live ? 'accent' : 'textMuted' })}>
+          <Box
+            key={s.label}
+            className={css({
+              display: 'flex',
+              alignItems: 'baseline',
+              justifyContent: 'space-between',
+              gap: '4',
+              paddingBlock: '3',
+              borderTop: '1px solid',
+              borderColor: 'border',
+            })}
+          >
+            <span
+              className={css({
+                fontSize: 'sm',
+                fontWeight: '600',
+                letterSpacing: 'wide',
+                textTransform: 'uppercase',
+                color: 'textMuted',
+              })}
+            >
+              {s.label}
+            </span>
+            <span
+              className={css({
+                fontFamily: 'display',
+                fontWeight: 'normal',
+                fontSize: 'md',
+                color: 'text',
+                textAlign: 'right',
+              })}
+            >
               {s.value}
-            </b>
-          </span>
+            </span>
+          </Box>
         ))}
-      </Flex>
-      {rotation && (
-        <p
-          className={css({
-            textStyle: '2xs',
-            fontVariantCaps: 'all-small-caps',
-            letterSpacing: 'wide',
-            color: 'textFaint',
-            margin: 0,
-          })}
-        >
-          On rotation — <b className={css({ fontWeight: '400', color: 'textMuted' })}>{rotation}</b>
-        </p>
-      )}
+      </Grid>
+      <Box
+        as="p"
+        fontFamily="display"
+        fontStyle="italic"
+        className={css({
+          marginTop: '7',
+          fontSize: 'base',
+          lineHeight: 'loose',
+          color: 'textFaint',
+          maxWidth: '60ch',
+        })}
+      >
+        “Design is the part you can still see once it works.”{' '}
+        <span className={css({ fontStyle: 'normal', color: 'textMuted' })}>Morrison</span>
+      </Box>
     </Box>
   )
 }
