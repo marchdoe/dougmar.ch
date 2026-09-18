@@ -1,57 +1,71 @@
 import { css } from '../../../styled-system/css'
-import { Box } from '../../../styled-system/jsx'
 
-type Project = { problem?: string; approach?: string; outcome?: string }
-
-export function WorkNarrative({ project }: { project: Project }) {
-  return (
-    <Box
-      as="section"
-      bg="bg"
-      className={css({
-        paddingInline: '7vw',
-        paddingBlock: { base: '32px', md: '48px' },
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '6',
-        '@supports (animation-timeline: view())': {
-          animationName: 'rise',
-          animationTimeline: 'view()',
-          animationRange: 'entry 0% entry 40%',
-          animationFillMode: 'both',
-        },
-      })}
-    >
-      {project.problem && <Narrative label="Problem" text={project.problem} />}
-      {project.approach && <Narrative label="Approach" text={project.approach} />}
-      {project.outcome && <Narrative label="Outcome" text={project.outcome} />}
-    </Box>
-  )
+type Project = {
+  problem?: string
+  approach?: string
+  outcome?: string
+  stack?: string[]
 }
 
-function Narrative({ label, text }: { label: string; text: string }) {
+function NarrativeBlock({ label, text }: { label: string; text?: string }) {
+  if (!text) return null
   return (
-    <Box>
-      <span
+    <div className={css({ display: 'flex', flexDirection: 'column', gap: '2', minWidth: 0 })}>
+      <p
         className={css({
-          fontSize: 'xs',
-          fontWeight: '600',
-          letterSpacing: 'wider',
+          fontFamily: 'body',
+          fontWeight: 'bold',
           textTransform: 'uppercase',
-          color: 'textFaint',
-          display: 'block',
-          marginBottom: '2',
+          letterSpacing: 'wide',
+          fontSize: 'xs',
+          color: 'accent',
         })}
       >
         {label}
-      </span>
-      <Box
-        as="p"
-        color="textMuted"
-        className={css({ fontSize: 'lg', maxWidth: '66ch', lineHeight: 'normal' })}
+      </p>
+      <p
+        className={css({ maxWidth: '62ch', color: 'text', fontSize: 'base', lineHeight: 'loose' })}
       >
         {text}
-      </Box>
-    </Box>
+      </p>
+    </div>
+  )
+}
+
+export function WorkNarrative({ project }: { project: Project }) {
+  return (
+    <section
+      className={css({
+        bg: 'bg',
+        color: 'text',
+        minWidth: 0,
+        padding: { base: '5', md: '7' },
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '5',
+      })}
+    >
+      <NarrativeBlock label="Problem" text={project.problem} />
+      <NarrativeBlock label="Approach" text={project.approach} />
+      <NarrativeBlock label="Outcome" text={project.outcome} />
+      {project.stack ? (
+        <div className={css({ display: 'flex', flexWrap: 'wrap', gap: '2' })}>
+          {project.stack.map((tech) => (
+            <span
+              key={tech}
+              className={css({
+                bg: 'surface',
+                color: 'textMuted',
+                fontSize: 'xs',
+                padding: '2',
+                borderRadius: 'sm',
+              })}
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+      ) : null}
+    </section>
   )
 }

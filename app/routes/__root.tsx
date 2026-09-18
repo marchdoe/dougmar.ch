@@ -50,28 +50,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'What ships should look like what was designed.' },
-      { property: 'og:title', content: 'What ships should look like what was designed.' },
+      { title: 'Most golf apps are digital scorecards. This one is not.' },
+      { property: 'og:title', content: 'Most golf apps are digital scorecards. This one is not.' },
       {
         property: 'og:description',
         content:
-          "Antique-gold drench specimen, a builder's thesis reversed out in ivory small-caps, one marigold spark, a Tigers loss stated flat in the colophon below.",
+          "Violet split argument: 15th Club as thesis against today's live leaderboard, the fairway green kept only for the under-par figures, two Detroit losses stated flat in a scorecard footer.",
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-17.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-18.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'What ships should look like what was designed.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-17.png' },
+      { name: 'twitter:title', content: 'Most golf apps are digital scorecards. This one is not.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-18.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Work+Sans:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=Manrope:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -231,7 +231,7 @@ function RootDocument({ children, bare = false }: { children: ReactNode; bare?: 
         {children}
         {bare ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 138 designs
+            Archive · 139 designs
           </a>
         )}
         <ScrollRestoration />

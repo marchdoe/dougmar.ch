@@ -1,115 +1,116 @@
 import { css } from '../../styled-system/css'
-import { Flex, Box } from '../../styled-system/jsx'
+import { Box } from '../../styled-system/jsx'
 import { BrandLockup } from './BrandLockup'
+import { Ground } from './Material'
 import { identity } from '../content/about'
-import { projects, featuredProject } from '../content/projects'
 
-const navLinkStyle = css({
-  fontFamily: 'body',
-  fontWeight: '500',
-  fontSize: 'sm',
-  fontVariant: 'small-caps',
-  letterSpacing: 'wide',
-  textTransform: 'lowercase',
-  color: 'text',
-  padding: '2',
-  minHeight: '36px',
-  display: 'flex',
-  alignItems: 'center',
-})
+const navItems = [
+  { label: 'Work', href: '/' },
+  { label: 'About', href: '/about' },
+]
 
 export function Sidebar() {
-  const workHref = featuredProject
-    ? `/work/${featuredProject.slug}`
-    : projects[0]
-      ? `/work/${projects[0].slug}`
-      : '/about'
-
   return (
-    <Flex
+    <Box
       as="header"
-      align={{ base: 'flex-start', md: 'center' }}
-      direction={{ base: 'column', md: 'row' }}
-      gap={{ base: '3', md: '4' }}
-      bg="bg"
-      position="relative"
-      zIndex="5"
       className={css({
-        paddingInline: { base: '5vw', md: '7vw' },
-        paddingBlock: { base: '3', md: '0' },
-        height: { base: 'auto', md: '76px' },
+        position: { base: 'relative', lg: 'sticky' },
+        overflow: 'hidden',
+        bg: 'field',
+        color: 'fieldInk',
+        borderBottom: { base: '1px solid', lg: 'none' },
+        borderRight: { base: 'none', lg: '1px solid' },
+        borderColor: 'fieldBorder',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: { base: 'flex-start', lg: 'center' },
+        gap: { base: '4', lg: '6' },
+        padding: { base: '4', md: '5', lg: '5' },
+        width: { base: 'full', lg: '84px' },
+        flex: { base: '0 0 auto', lg: '0 0 84px' },
+        top: { lg: 0 },
+        height: { lg: '100vh' },
+        zIndex: 10,
       })}
     >
-      <BrandLockup variant="horizontal-md" mode="single-color" roleLine color="text" />
-      <nav
-        aria-label="Primary"
+      <Ground material="rule" seed={1942557463} />
+      <Box
         className={css({
-          marginLeft: { base: '0', md: 'auto' },
           position: 'relative',
-          '&:hover .navDropdown, &:focus-within .navDropdown': {
-            opacity: '1',
-            pointerEvents: 'auto',
-            transform: 'translateY(0)',
-          },
+          zIndex: 1,
+          display: 'flex',
+          flexDirection: { base: 'row', lg: 'column' },
+          alignItems: 'center',
+          gap: '3',
+          textAlign: { lg: 'center' },
         })}
       >
-        <button
-          type="button"
+        <BrandLockup
+          variant="stacked-md"
+          mode="original"
+          roleLine
+          className={css({ color: 'fieldInk' })}
+        />
+      </Box>
+      <Box
+        as="nav"
+        aria-label="Primary"
+        className={css({
+          position: 'relative',
+          zIndex: 1,
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '3',
+          marginTop: { lg: 'auto' },
+          width: { lg: 'full' },
+        })}
+      >
+        {navItems.map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            className={css({
+              fontSize: 'sm',
+              fontWeight: 'bold',
+              color: 'fieldInk',
+              padding: { base: '2', lg: '0' },
+              minHeight: { base: '44px', lg: '92px' },
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              writingMode: { lg: 'vertical-rl' },
+              letterSpacing: { lg: 'wide' },
+              borderBottom: { lg: '1px solid' },
+              borderTop: { lg: '1px solid' },
+              borderColor: 'fieldBorder',
+              marginTop: { lg: '-1px' },
+              width: { lg: 'full' },
+            })}
+          >
+            {item.label}
+          </a>
+        ))}
+        <a
+          href={`mailto:${identity.email}`}
           className={css({
-            fontFamily: 'body',
-            fontWeight: '600',
             fontSize: 'sm',
-            fontVariant: 'small-caps',
-            letterSpacing: 'wide',
-            textTransform: 'lowercase',
-            color: 'text',
-            bg: 'transparent',
-            border: 'none',
-            padding: '2',
-            cursor: 'pointer',
-            display: 'inline-flex',
+            fontWeight: 'bold',
+            color: 'fieldInk',
+            padding: { base: '2', lg: '0' },
+            minHeight: { base: '44px', lg: '92px' },
+            display: 'flex',
             alignItems: 'center',
-            gap: '2',
-            minHeight: '44px',
+            justifyContent: 'center',
+            writingMode: { lg: 'vertical-rl' },
+            letterSpacing: { lg: 'wide' },
+            borderBottom: { lg: '1px solid' },
+            borderColor: 'fieldBorder',
+            width: { lg: 'full' },
           })}
         >
-          Index ›
-        </button>
-        <Box
-          className={
-            'navDropdown ' +
-            css({
-              position: 'absolute',
-              top: '100%',
-              right: '0',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-end',
-              gap: '1',
-              padding: '2',
-              bg: 'bgAlt',
-              border: '1px solid',
-              borderColor: 'border',
-              borderRadius: 'sm',
-              opacity: '0',
-              pointerEvents: 'none',
-              transform: 'translateY(-4px)',
-              transition: 'opacity 0.18s ease-out, transform 0.18s ease-out',
-              zIndex: '20',
-            })
-          }
-        >
-          <a href={workHref} className={navLinkStyle}>
-            work
-          </a>
-          <a href="/about" className={navLinkStyle}>
-            about
-          </a>
-          <a href={`mailto:${identity.email}`} className={navLinkStyle}>
-            contact
-          </a>
-        </Box>
-      </nav>
-    </Flex>
+          Contact
+        </a>
+      </Box>
+    </Box>
   )
 }

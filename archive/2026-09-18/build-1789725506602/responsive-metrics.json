@@ -1,0 +1,206 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": true,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "text": "Weather71FPatchy rain, 95% humidity",
+            "cause": "viewport",
+            "right": 426,
+            "over": 66,
+            "boxWidth": 204
+          },
+          {
+            "tag": "DIV",
+            "text": "Detroit31-41Lions loss, Tigers 1-3 loss",
+            "cause": "viewport",
+            "right": 426,
+            "over": 66,
+            "boxWidth": 204
+          },
+          {
+            "tag": "DIV",
+            "text": "Design WireProduct-firstWe are all product enginee",
+            "cause": "viewport",
+            "right": 426,
+            "over": 66,
+            "boxWidth": 204
+          },
+          {
+            "tag": "H2",
+            "text": "Biltmore Championship",
+            "cause": "text",
+            "right": 328,
+            "over": 49,
+            "boxWidth": 296
+          }
+        ],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_0px z_0 pointer-events_none ov_hidden",
+            "b": "DIV.pos_relative z_1 d_flex flex-d_row lg:flex-d_column ai_center gap_3 lg:ta_center"
+          },
+          {
+            "a": "DIV.pos_absolute inset_0px z_0 pointer-events_none ov_hidden",
+            "b": "NAV.pos_relative z_1 d_flex flex-d_row gap_3 lg:mt_auto lg:w_full"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 12.6,
+          "passing": false
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "hello@dougmar.ch",
+            "w": 119,
+            "h": 21
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 1
+    },
+    "tablet": {
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_0px z_0 pointer-events_none ov_hidden",
+            "b": "DIV.pos_relative z_1 d_flex flex-d_row lg:flex-d_column ai_center gap_3 lg:ta_center"
+          },
+          {
+            "a": "DIV.pos_absolute inset_0px z_0 pointer-events_none ov_hidden",
+            "b": "NAV.pos_relative z_1 d_flex flex-d_row gap_3 lg:mt_auto lg:w_full"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 12.6,
+          "passing": false
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "hello@dougmar.ch",
+            "w": 119,
+            "h": 21
+          }
+        ],
+        "lineLengthFailures": [
+          {
+            "chars": 154,
+            "lines": 2,
+            "avgPerLine": 77,
+            "excerpt": "Golf is full of data, ritual, and decisi"
+          },
+          {
+            "chars": 177,
+            "lines": 2,
+            "avgPerLine": 89,
+            "excerpt": "Why it matters: both leaders reach the c"
+          }
+        ]
+      },
+      "score": 1
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": true,
+        "clippedElements": [
+          {
+            "tag": "H2",
+            "text": "Biltmore Championship",
+            "cause": "text",
+            "right": 960,
+            "over": 149,
+            "boxWidth": 342
+          },
+          {
+            "tag": "DIV",
+            "text": "Design WireProduct-firstWe are all product enginee",
+            "cause": "viewport",
+            "right": 1086,
+            "over": 62,
+            "boxWidth": 204
+          }
+        ],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_0px z_0 pointer-events_none ov_hidden",
+            "b": "DIV.pos_relative z_1 d_flex flex-d_row lg:flex-d_column ai_center gap_3 lg:ta_center"
+          },
+          {
+            "a": "DIV.pos_absolute inset_0px z_0 pointer-events_none ov_hidden",
+            "b": "NAV.pos_relative z_1 d_flex flex-d_row gap_3 lg:mt_auto lg:w_full"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 12.6,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 1
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "H2",
+            "text": "Biltmore Championship",
+            "cause": "text",
+            "right": 1376,
+            "over": 31,
+            "boxWidth": 550
+          }
+        ],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_0px z_0 pointer-events_none ov_hidden",
+            "b": "DIV.pos_relative z_1 d_flex flex-d_row lg:flex-d_column ai_center gap_3 lg:ta_center"
+          },
+          {
+            "a": "DIV.pos_absolute inset_0px z_0 pointer-events_none ov_hidden",
+            "b": "NAV.pos_relative z_1 d_flex flex-d_row gap_3 lg:mt_auto lg:w_full"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 12.6,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": [
+          {
+            "chars": 154,
+            "lines": 2,
+            "avgPerLine": 77,
+            "excerpt": "Golf is full of data, ritual, and decisi"
+          }
+        ]
+      },
+      "score": 1
+    }
+  },
+  "overallScore": 1,
+  "worstFailure": {
+    "viewport": "mobile",
+    "check": "horizontalScroll",
+    "detail": "document.scrollWidth exceeded clientWidth by more than 1px at the 360px viewport"
+  },
+  "buildId": "1789725506602",
+  "date": "2026-09-18",
+  "archetype": "The work leads, the live tournament is the demo — a split argument."
+}
