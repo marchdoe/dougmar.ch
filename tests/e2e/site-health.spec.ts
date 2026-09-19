@@ -130,6 +130,63 @@ test.describe('site health — nothing renders invisible', () => {
   }
 })
 
+/**
+ * The reveal must not be load-bearing.
+ *
+ * Sections arrive with `rise`/`wipe` under `animation-fill-mode: both`, so
+ * their resting state before the animation runs is invisible. That makes the
+ * whole page below the hero depend on a scroll-driven timeline advancing. The
+ * `@supports (animation-timeline: view())` guard covers an engine that cannot
+ * do it at all; it does not cover one that claims support and then does not
+ * drive it, and the failure there is a blank page, not a still one.
+ *
+ * Under reduced motion no animation runs at all, which is the cheapest way to
+ * ask the question the guard cannot: with the reveal taken away, is the page
+ * still there? The chassis preset drops `animation-name` outright so that it is.
+ *
+ * The invisible-text scan above skips `opacity: 0` on purpose, since a reveal
+ * caught mid-flight is legitimate. Nothing here is mid-flight.
+ */
+test.describe('site health — the reveal is not load-bearing', () => {
+  for (const path of ['/', '/about']) {
+    test(`${path} renders without the reveal running`, async ({ page }) => {
+      // emulateMedia rather than `test.use({ reducedMotion })`: the fixture
+      // did not reach the page under this project's `use` block, and the test
+      // passed against a page that had never been asked for reduced motion.
+      // Asserting the emulation took is cheaper than trusting it.
+      await page.emulateMedia({ reducedMotion: 'reduce' })
+      await page.goto(path)
+      await page.waitForLoadState('networkidle')
+
+      expect(
+        await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches),
+        'reduced motion was not emulated, so the rest of this test proves nothing'
+      ).toBe(true)
+
+      const stranded = await page.evaluate(() =>
+        Array.from(document.querySelectorAll('body *'))
+          .filter((el) => (el.textContent ?? '').trim().length > 0)
+          .filter((el) => {
+            const cs = getComputedStyle(el)
+            if (cs.visibility === 'hidden' || cs.display === 'none') return false
+            return Number.parseFloat(cs.opacity) === 0
+          })
+          .map(
+            (el) => `<${el.tagName.toLowerCase()}> "${(el.textContent ?? '').trim().slice(0, 30)}"`
+          )
+      )
+
+      expect(
+        stranded,
+        `left at opacity 0 with no animation to finish:\n${stranded.join('\n')}`
+      ).toEqual([])
+
+      // And the page is genuinely populated, not merely free of zeroes.
+      expect((await page.locator('body').innerText()).trim().length).toBeGreaterThan(200)
+    })
+  }
+})
+
 test.describe('site health — archive', () => {
   test('the calendar loads and shows days', async ({ page }) => {
     await page.goto('/archive')

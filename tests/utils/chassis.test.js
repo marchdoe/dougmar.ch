@@ -493,8 +493,11 @@ describe('renderChassisPresetFile', () => {
     expect(extendBlock).toMatch(/drift: \{ from: \{ transform: "translate3d\(0, 0, 0\)/)
     const globalCss = source.slice(source.indexOf('globalCss'), source.indexOf('theme:'))
     expect(globalCss).toContain(`'@media (prefers-reduced-motion: reduce)': {`)
+    // `animationName` leads: it is the only one of the five that reaches a
+    // scroll-driven reveal, whose progress comes from scroll position rather
+    // than the clock. See REDUCED_MOTION_RULE in scripts/utils/chassis.js.
     expect(globalCss).toContain(
-      `'*, *::before, *::after': { animationDuration: "0.01ms !important", animationDelay: "0s !important", animationIterationCount: "1 !important", transitionDuration: "0.01ms !important" },`
+      `'*, *::before, *::after': { animationName: "none !important", animationDuration: "0.01ms !important", animationDelay: "0s !important", animationIterationCount: "1 !important", transitionDuration: "0.01ms !important" },`
     )
     expect(globalCss.indexOf('extend:')).toBeLessThan(globalCss.indexOf('prefers-reduced-motion'))
   })

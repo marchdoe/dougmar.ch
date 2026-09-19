@@ -339,11 +339,23 @@ export const MOTION_KEYFRAMES = {
  * about that. The first reduced-motion strip showed the hero's rows arriving
  * 80 to 240ms late on a page that was supposed to arrive fully formed.
  *
+ * `animation-name: none` is what makes the claim above true of `reveal:
+ * on-scroll`. A `view()` timeline takes its progress from scroll position, not
+ * from the clock, so duration and delay mean nothing to it — the three lines
+ * below leave a scroll-driven reveal exactly as it was, holding its section at
+ * the 0% state of `rise`, which is `opacity: 0`. Removing the animation
+ * outright is the only one of these that reaches it, and it is also the
+ * safest shape: with no animation there is nothing for `fill-mode` to apply,
+ * so the element falls back to its own styles, which are its end state. The
+ * other four stay because they also govern transitions, and because a rule
+ * that collapses time-based motion should keep saying so on its own.
+ *
  * @type {Record<string, Record<string, Record<string, string>>>}
  */
 export const REDUCED_MOTION_RULE = {
   '@media (prefers-reduced-motion: reduce)': {
     '*, *::before, *::after': {
+      animationName: 'none !important',
       animationDuration: '0.01ms !important',
       animationDelay: '0s !important',
       animationIterationCount: '1 !important',

@@ -219,6 +219,27 @@ jobs:
         # on. The steps below read it rather than deriving their own.
         run: node scripts/daily-redesign.js
 
+      # The pipeline's own gates are static: biome, tsc, fallow and `pnpm
+      # build` (scripts/utils/build-validator.js). All four passed on
+      # 2026-09-19, and the site shipped with an invisible hero — the bug
+      # compiled, linted, type-checked and built, it just rendered nothing.
+      # ci.yml runs the suites that would have caught it, but only after the
+      # push, alongside the Vercel deploy, so a red result reported a broken
+      # site rather than preventing one.
+      #
+      # Running them here, before `publish` applies the patch, is what makes
+      # them a gate: this job failing means `publish` never runs and the night
+      # never reaches main. The design is allowed to be strange. It is not
+      # allowed to be blank.
+      #
+      # dist/ is already built by the pipeline, so `test:e2e:site` serves it
+      # with `vite preview` rather than building a second time.
+      - name: Verify the night's output renders
+        if: ${{ !inputs.dry_run }}
+        run: |
+          pnpm test
+          pnpm test:e2e:site
+
       - name: Stage the night's output
         if: ${{ !inputs.dry_run }}
         env:

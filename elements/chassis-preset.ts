@@ -21,7 +21,7 @@ export const chassisPreset = definePreset({
       // Every animation and transition collapses to its end state when the
       // visitor asks for reduced motion (#506). See scripts/utils/chassis.js.
       '@media (prefers-reduced-motion: reduce)': {
-        '*, *::before, *::after': { animationDuration: "0.01ms !important", animationDelay: "0s !important", animationIterationCount: "1 !important", transitionDuration: "0.01ms !important" },
+        '*, *::before, *::after': { animationName: "none !important", animationDuration: "0.01ms !important", animationDelay: "0s !important", animationIterationCount: "1 !important", transitionDuration: "0.01ms !important" },
       },
     },
   },

@@ -105,6 +105,54 @@ describe('the rise keyframe in a browser', () => {
     }
   }, 30_000)
 
+  /**
+   * `reveal: on-scroll` is the case the duration and delay lines never
+   * reached. A `view()` timeline reads scroll position, not the clock, so
+   * collapsing the duration to 0.01ms leaves a section below the fold sitting
+   * at the 0% state of `rise` — invisible — for a visitor who asked for less
+   * motion and got a blank page instead. `animation-name: none` is what
+   * reaches it.
+   */
+  const SCROLL_PAGE = `<!doctype html><html><head><style>
+${motionCss()}
+.spacer { height: 400vh; }
+@supports (animation-timeline: view()) {
+  .section {
+    animation-name: rise;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+    animation-fill-mode: both;
+  }
+}
+</style></head><body><div class="spacer"></div><section class="section">Below the fold.</section></body></html>`
+
+  it('leaves a scroll-driven reveal below the fold invisible when motion is allowed', async () => {
+    const page = await browser.newPage({ viewport: { width: 1440, height: 900 } })
+    try {
+      await page.setContent(SCROLL_PAGE)
+      await nextFrame(page)
+      // Guard the guard: if this Chromium ignored the timeline the section
+      // would already be at 1 and the next test would prove nothing.
+      expect(await opacityOf(page, '.section')).toBe(0)
+    } finally {
+      await page.close()
+    }
+  }, 30_000)
+
+  it('shows that same reveal immediately when reduced motion is requested', async () => {
+    const page = await browser.newPage({ viewport: { width: 1440, height: 900 } })
+    try {
+      await page.emulateMedia({ reducedMotion: 'reduce' })
+      await page.setContent(SCROLL_PAGE)
+      await nextFrame(page)
+      // Never scrolled. With no animation there is nothing for fill-mode to
+      // apply, so the section shows its own styles, which are its end state.
+      expect(await opacityOf(page, '.section')).toBe(1)
+    } finally {
+      await page.close()
+    }
+  }, 30_000)
+
   it('emits the four keyframes and the reduced-motion rule the engineer prompt names', () => {
     expect(Object.keys(MOTION_KEYFRAMES)).toEqual(['settle', 'rise', 'wipe', 'drift'])
     const [[atRule, inner]] = Object.entries(REDUCED_MOTION_RULE)
