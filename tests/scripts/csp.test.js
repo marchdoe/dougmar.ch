@@ -46,7 +46,7 @@ function directives(policy) {
 }
 
 const SITE = '/(.*)'
-const ARCHIVE = '/archive/(.*)'
+const ARCHIVE = '/archive/(.+)'
 
 describe('both policies exist', () => {
   it('one for the site, one for the preserved designs', () => {
@@ -125,6 +125,34 @@ describe('the archive policy is the strict one', () => {
 
   it('forbids the page phoning anywhere', () => {
     expect(d['connect-src']).toEqual(["'none'"])
+  })
+})
+
+/**
+ * The strict policy is for the snapshots, not for the page that indexes them.
+ *
+ * `/archive/(.*)` matched `/archive/` too — the capture group is happy with
+ * nothing — so the React archive index, which is a real app route that boots
+ * and fetches /archive-data/index.json, was served `script-src 'none';
+ * connect-src 'none'`. It rendered its prerendered masthead and then a void.
+ * `/archive` (no trailing slash) never matched, so the same page was whole or
+ * empty depending on which of the two URLs a visitor arrived at.
+ *
+ * The anchored regex below is not Vercel's router — it is the one property
+ * that went wrong: whether the pattern can match with an empty tail.
+ */
+describe('the strict policy covers the snapshots and not the index', () => {
+  const matches = (path) => new RegExp(`^${ARCHIVE}$`).test(path)
+
+  it.each([['/archive/2026-09-19/'], ['/archive/2026-09-19/index.html'], ['/archive/2026-06-28/']])(
+    'still covers %s',
+    (path) => {
+      expect(matches(path)).toBe(true)
+    }
+  )
+
+  it.each([['/archive/'], ['/archive']])('leaves the index route alone: %s', (path) => {
+    expect(matches(path)).toBe(false)
   })
 })
 

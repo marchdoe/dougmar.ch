@@ -1,14 +1,18 @@
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { css } from '../../../styled-system/css'
 import { BrandLockup } from '../BrandLockup'
 import { Ground } from '../Material'
 import { OutlinedWord } from './OutlinedWord'
 
-const wipe = (delay: string) =>
-  css({
-    animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-    animationDelay: delay,
-  })
+// The delay is an argument, so Panda cannot see it at build time and emitted
+// no rule for it — every element wiped in at once instead of in sequence.
+// It travels as a custom property that the static class reads.
+const wipeClass = css({
+  animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+  animationDelay: 'var(--wipe-delay, 0ms)',
+})
+
+const wipeDelay = (delay: string) => ({ '--wipe-delay': delay }) as CSSProperties
 
 type HeroProps = {
   word: string
@@ -52,19 +56,28 @@ export function Hero({ word, eyebrow, eyebrowHref, deck }: HeroProps) {
             mb: { base: '6', lg: '9' },
           })}
         >
-          <div className={`${css({ color: 'accent' })} ${wipe('80ms')}`}>
+          <div className={`${css({ color: 'accent' })} ${wipeClass}`} style={wipeDelay('80ms')}>
             <BrandLockup variant="mark-only-md" mode="original" />
           </div>
           {eyebrowHref ? (
-            <a href={eyebrowHref} className={`${eyebrowClass} ${wipe('160ms')}`}>
+            <a
+              href={eyebrowHref}
+              className={`${eyebrowClass} ${wipeClass}`}
+              style={wipeDelay('160ms')}
+            >
               {eyebrow}
             </a>
           ) : (
-            <p className={`${eyebrowClass} ${wipe('160ms')}`}>{eyebrow}</p>
+            <p className={`${eyebrowClass} ${wipeClass}`} style={wipeDelay('160ms')}>
+              {eyebrow}
+            </p>
           )}
         </div>
 
-        <h1 className={`${css({ px: { base: '2', lg: '3' } })} ${wipe('0ms')}`}>
+        <h1
+          className={`${css({ px: { base: '2', lg: '3' } })} ${wipeClass}`}
+          style={wipeDelay('0ms')}
+        >
           <OutlinedWord word={word} />
         </h1>
 
@@ -81,7 +94,8 @@ export function Hero({ word, eyebrow, eyebrowHref, deck }: HeroProps) {
             maxWidth: { base: '100%', lg: '60ch' },
             whiteSpace: 'normal',
             overflowWrap: 'anywhere',
-          })} ${wipe('240ms')}`}
+          })} ${wipeClass}`}
+          style={wipeDelay('240ms')}
         >
           {deck}
         </div>

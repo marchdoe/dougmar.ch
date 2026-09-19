@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { css } from '../../../styled-system/css'
 import { token } from '../../../styled-system/tokens'
 
@@ -17,7 +18,19 @@ export function OutlinedWord({ word }: { word: string }) {
   const clean = word.replace(/\s/g, '')
   const spread = clean.length <= 4
   const { fontSize, stroke } = sizeForLength(clean.length || 1)
-  const strokeColor = token('colors.accent')
+
+  // Size and stroke width are chosen from the word's length, so they are only
+  // known at render time. Panda extracts styles at build time, so a value
+  // interpolated into css() produces a class name with no rule behind it:
+  // the word shipped transparent, unstroked, at the inherited 32px — an empty
+  // band where the hero belongs. The two runtime values ride in as custom
+  // properties that a static class reads, which is how the archive calendar
+  // already passes a day's color.
+  const vars = {
+    '--outlined-size': fontSize,
+    '--outlined-stroke': stroke,
+    '--outlined-stroke-color': token('colors.accent'),
+  } as CSSProperties
 
   const sharedCss = {
     fontFamily: 'display',
@@ -26,25 +39,24 @@ export function OutlinedWord({ word }: { word: string }) {
     lineHeight: 'tight',
     letterSpacing: 'tight',
     color: 'transparent',
+    fontSize: 'var(--outlined-size)',
+    WebkitTextStroke: 'var(--outlined-stroke) var(--outlined-stroke-color)',
   } as const
 
   const letterCss = css({
     ...sharedCss,
     display: 'inline-block',
-    fontSize,
-    WebkitTextStroke: `${stroke} ${strokeColor}`,
   })
 
   const blockCss = css({
     ...sharedCss,
     display: 'block',
-    fontSize,
     whiteSpace: 'nowrap',
-    WebkitTextStroke: `${stroke} ${strokeColor}`,
   })
 
   return (
     <div
+      style={vars}
       className={css({
         display: 'flex',
         justifyContent: spread ? 'space-between' : 'flex-start',
