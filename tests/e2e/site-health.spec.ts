@@ -88,29 +88,37 @@ test.describe('site health — nothing renders invisible', () => {
       await page.waitForLoadState('networkidle')
 
       const invisible = await page.evaluate(() => {
-        const bad: string[] = []
-        for (const el of Array.from(document.querySelectorAll('body *'))) {
-          // Only elements holding text of their own, not wrappers.
-          const own = Array.from(el.childNodes)
+        // Text the element holds itself, not what its children hold.
+        const ownText = (el: Element) =>
+          Array.from(el.childNodes)
             .filter((n) => n.nodeType === Node.TEXT_NODE)
             .map((n) => n.textContent ?? '')
             .join('')
             .trim()
+
+        // sr-only, collapsed, and a reveal caught mid-flight are all fine.
+        const onScreen = (el: Element, cs: CSSStyleDeclaration) => {
+          const r = el.getBoundingClientRect()
+          if (r.width < 2 || r.height < 2) return false
+          if (cs.visibility === 'hidden' || cs.display === 'none') return false
+          return Number.parseFloat(cs.opacity) !== 0
+        }
+
+        // Transparent glyphs still count as painted if a stroke or a clipped
+        // background draws them.
+        const painted = (cs: CSSStyleDeclaration) => {
+          if (!/^rgba\(.*,\s*0\)$/.test(cs.color)) return true
+          if (Number.parseFloat(cs.webkitTextStrokeWidth || '0') > 0) return true
+          return (cs.webkitBackgroundClip || cs.backgroundClip) === 'text'
+        }
+
+        const bad: string[] = []
+        for (const el of Array.from(document.querySelectorAll('body *'))) {
+          const own = ownText(el)
           if (!own) continue
 
-          const r = el.getBoundingClientRect()
-          if (r.width < 2 || r.height < 2) continue // sr-only and the like
-
           const cs = getComputedStyle(el)
-          if (cs.visibility === 'hidden' || cs.display === 'none') continue
-          if (Number.parseFloat(cs.opacity) === 0) continue // a reveal mid-flight
-
-          const transparent = /^rgba\(.*,\s*0\)$/.test(cs.color)
-          if (!transparent) continue
-
-          const stroked = Number.parseFloat(cs.webkitTextStrokeWidth || '0') > 0
-          const clipped = (cs.webkitBackgroundClip || cs.backgroundClip) === 'text'
-          if (stroked || clipped) continue
+          if (!onScreen(el, cs) || painted(cs)) continue
 
           bad.push(`<${el.tagName.toLowerCase()}> "${own.slice(0, 30)}" color=${cs.color}`)
         }
