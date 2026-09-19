@@ -1,58 +1,91 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { css } from '../../styled-system/css'
+import { Hero } from '../components/generated/Hero'
+import { BodyGrid } from '../components/generated/BodyGrid'
+import { DesignedPanel, BuiltPanel } from '../components/generated/Panel'
+import { CaseNarrative } from '../components/generated/CaseNarrative'
+import { WhitePaper } from '../components/generated/WhitePaper'
+import { SpecLedger } from '../components/generated/SpecLedger'
+import { PrevNext } from '../components/generated/PrevNext'
+import { ClosingLine } from '../components/generated/ClosingLine'
 import { projects } from '../content/projects'
-import { WorkThesis } from '../components/generated/WorkThesis'
-import { WorkNarrative } from '../components/generated/WorkNarrative'
-import { ContextBlock } from '../components/generated/ContextBlock'
-import { ConstraintsBlock } from '../components/generated/ConstraintsBlock'
-import { ProcessBlock } from '../components/generated/ProcessBlock'
-import { DecisionsBlock } from '../components/generated/DecisionsBlock'
-import { ReferencesBlock } from '../components/generated/ReferencesBlock'
-import { ScorecardFooter } from '../components/generated/ScorecardFooter'
+import { identity } from '../content/about'
 
-export const Route = createFileRoute('/work/$slug')({ component: WorkPage })
+export const Route = createFileRoute('/work/$slug')({ component: WorkDetailPage })
 
-function WorkPage() {
+type WhitePaperFields = {
+  context?: string
+  constraints?: string[]
+  process?: { phase: string; does: string; produces: string }[]
+  decisions?: { decision: string; why: string }[]
+  references?: { title: string; url: string; note?: string }[]
+}
+
+function WorkDetailPage() {
   const { slug } = Route.useParams()
-  const project = projects.find((p) => p.slug === slug)
+  const index = projects.findIndex((p) => p.slug === slug)
+  const project = projects[index]
 
   if (!project) {
     return (
-      <div className={css({ padding: '7' })}>
-        <h1 className={css({ textStyle: '3xl', fontFamily: 'display', fontWeight: 'bold' })}>
-          Project not found
-        </h1>
-        <p className={css({ color: 'textMuted', marginTop: '3' })}>
-          That case study is not on the board. Head back to{' '}
-          <a href="/" className={css({ color: 'accent' })}>
-            the work index
-          </a>
-          .
-        </p>
+      <div className={css({ px: '4', py: '9' })}>
+        <h1 className={css({ textStyle: 'hero' })}>Not found</h1>
       </div>
     )
   }
 
+  const prev = index > 0 ? projects[index - 1] : undefined
+  const next = index < projects.length - 1 ? projects[index + 1] : undefined
+  const wp = project as typeof project & WhitePaperFields
+
   return (
     <>
-      <div
-        className={css({ display: 'grid', gridTemplateColumns: { base: '1fr', lg: '1fr 1fr' } })}
-      >
-        <WorkThesis project={project} />
-        <WorkNarrative project={project} />
-      </div>
-      {project.context ? <ContextBlock text={project.context} /> : null}
-      {project.constraints ? <ConstraintsBlock items={project.constraints} /> : null}
-      {project.process ? <ProcessBlock steps={project.process} /> : null}
-      {project.decisions ? <DecisionsBlock items={project.decisions} /> : null}
-      {project.references ? <ReferencesBlock items={project.references} /> : null}
-      <ScorecardFooter
-        title="The Scorecard"
-        dateLabel={`${project.type}, ${project.year}`}
-        cells={[
-          { label: 'Role', value: project.role ?? 'Independent', sub: project.type },
-          { label: 'Year', value: String(project.year), sub: project.depth },
-        ]}
+      <Hero
+        word={project.title}
+        eyebrow={`${project.type}. ${project.year}.`}
+        deck={project.problem ?? project.description ?? ''}
+      />
+      <BodyGrid
+        left={
+          <DesignedPanel note="the case">
+            <CaseNarrative
+              problem={project.problem}
+              approach={project.approach}
+              outcome={project.outcome}
+            />
+            <WhitePaper
+              context={wp.context}
+              constraints={wp.constraints}
+              process={wp.process}
+              decisions={wp.decisions}
+              references={wp.references}
+            />
+          </DesignedPanel>
+        }
+        right={
+          <BuiltPanel note="the spec">
+            <SpecLedger
+              role={project.role}
+              year={project.year}
+              type={project.type}
+              stack={project.stack}
+              liveUrl={project.liveUrl}
+            />
+            <PrevNext
+              prevHref={prev ? `/work/${prev.slug}` : undefined}
+              prevLabel={prev?.title}
+              nextHref={next ? `/work/${next.slug}` : undefined}
+              nextLabel={next?.title}
+            />
+            <ClosingLine
+              firstHref="/"
+              firstLabel="all the work"
+              secondHref="/about"
+              secondLabel="about"
+              email={identity.email}
+            />
+          </BuiltPanel>
+        }
       />
     </>
   )

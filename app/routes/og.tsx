@@ -21,50 +21,36 @@ function OgCard() {
       <div
         className={css({
           position: 'relative',
-          overflow: 'hidden',
           width: '1200px',
           height: '630px',
+          overflow: 'hidden',
           bg: 'field',
-          color: 'fieldInk',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          padding: '8',
+          px: '9',
+          py: '9',
         })}
       >
-        <Ground material="rule" seed={1942557463} />
+        <Ground material="dots" seed={1959335082} />
         <div className={css({ position: 'relative', zIndex: 1 })}>
-          <BrandLockup
-            variant="stacked-md"
-            mode="original"
-            roleLine
-            className={css({ color: 'fieldInk' })}
-          />
+          <BrandLockup variant="mark-only-md" mode="original" />
         </div>
-        <h1
-          className={css({
-            position: 'relative',
-            zIndex: 1,
-            textStyle: 'hero',
-            fontFamily: 'display',
-            fontWeight: 'bold',
-            color: 'fieldInk',
-            maxWidth: '18ch',
-          })}
-        >
-          Most golf apps are digital scorecards. This one is not.
-        </h1>
-        <p
-          className={css({
-            position: 'relative',
-            zIndex: 1,
-            fontSize: 'lg',
-            color: 'fieldInkMuted',
-            maxWidth: '50ch',
-          })}
-        >
-          15th Club reads the round, not the total.
-        </p>
+        <div className={css({ position: 'relative', zIndex: 1 })}>
+          <h1
+            className={css({
+              fontFamily: 'display',
+              fontWeight: 'bold',
+              textTransform: 'uppercase',
+              textStyle: 'hero',
+              lineHeight: 'tight',
+              color: 'fieldInk',
+              maxWidth: '11ch',
+            })}
+          >
+            Closing the gap between what gets designed and what gets built.
+          </h1>
+        </div>
       </div>
     </div>
   )

@@ -1,41 +1,69 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { css } from '../../styled-system/css'
-import { projects, selectedWork, experiments } from '../content/projects'
-import { ThesisPanel } from '../components/generated/ThesisPanel'
-import { LeaderboardPanel } from '../components/generated/LeaderboardPanel'
-import { WorkIndexSection } from '../components/generated/WorkIndexSection'
-import { ScorecardFooter } from '../components/generated/ScorecardFooter'
+import { Hero } from '../components/generated/Hero'
+import { BodyGrid } from '../components/generated/BodyGrid'
+import { DesignedPanel, BuiltPanel } from '../components/generated/Panel'
+import { FeaturedProject } from '../components/generated/FeaturedProject'
+import { WorkList } from '../components/generated/WorkList'
+import { ExperimentsList } from '../components/generated/ExperimentsList'
+import { Leaderboard } from '../components/generated/Leaderboard'
+import { ClosingLine } from '../components/generated/ClosingLine'
+import { featuredProject, selectedWork, experiments } from '../content/projects'
+import { identity } from '../content/about'
 
 export const Route = createFileRoute('/')({ component: HomePage })
 
-const homeSignals = [
-  { label: 'Market', value: '762.60', sub: 'SPY up 1.13%' },
-  { label: 'Weather', value: '71F', sub: 'Patchy rain, 95% humidity' },
-  { label: 'Moon', value: '49%', sub: 'First quarter' },
-  { label: 'Detroit', value: '31-41', sub: 'Lions loss, Tigers 1-3 loss' },
-  { label: 'On Rotation', value: 'Tobin Sprout', sub: 'The War on Drugs, Guided by Voices' },
-  { label: 'Design Wire', value: 'Product-first', sub: 'We are all product engineers now.' },
-]
-
 function HomePage() {
-  // The thesis panel argues 15th Club's claim specifically, standing beside
-  // the live leaderboard as its proof, so it binds that project by slug
-  // rather than whichever project the content file happens to feature.
-  const heroProject = projects.find((p) => p.slug === '15th-club')
+  const workHref = selectedWork[0]
+    ? `/work/${selectedWork[0].slug}`
+    : featuredProject
+      ? `/work/${featuredProject.slug}`
+      : '/'
 
   return (
     <>
-      <div
-        className={css({ display: 'grid', gridTemplateColumns: { base: '1fr', lg: '1fr 1fr' } })}
-      >
-        {heroProject ? <ThesisPanel project={heroProject} /> : null}
-        <LeaderboardPanel />
-      </div>
-      <WorkIndexSection selectedWork={selectedWork} experiments={experiments} />
-      <ScorecardFooter
-        title="The Scorecard"
-        dateLabel="Thursday, September 18, 2026, Aldie VA"
-        cells={homeSignals}
+      <Hero
+        word="GAP"
+        eyebrow="Doug March. Type specimen."
+        deck={
+          <>
+            Closing the gap between what gets{' '}
+            <b className={css({ color: 'accentAlt', fontWeight: 'bold' })}>designed</b> and what
+            gets <b className={css({ color: 'accentAlt', fontWeight: 'bold' })}>built</b>.
+          </>
+        }
+      />
+      <BodyGrid
+        left={
+          <DesignedPanel note="what the work looks like">
+            {featuredProject && (
+              <FeaturedProject
+                slug={featuredProject.slug}
+                title={featuredProject.title}
+                role={featuredProject.role}
+                year={featuredProject.year}
+                problem={featuredProject.problem}
+                description={featuredProject.description}
+                externalUrl={featuredProject.externalUrl}
+                liveUrl={featuredProject.liveUrl}
+              />
+            )}
+            <WorkList items={selectedWork} />
+          </DesignedPanel>
+        }
+        right={
+          <BuiltPanel note="what actually ships">
+            <Leaderboard />
+            <ExperimentsList items={experiments} />
+            <ClosingLine
+              firstHref={workHref}
+              firstLabel="the work"
+              secondHref="/about"
+              secondLabel="about"
+              email={identity.email}
+            />
+          </BuiltPanel>
+        }
       />
     </>
   )
