@@ -67,13 +67,21 @@ describe('validateBuildOutput reads the injected root (#312)', () => {
   })
 
   it('reports a bare-number miss from the temp tree, not the real repo', () => {
+    // Whether this checkout has been built is not this test's business, but
+    // whether validating changed that is. Asserting `false` here made the
+    // suite unrunnable after `pnpm build` — which is exactly when the nightly
+    // now runs it, so the assertion became a lie about the environment rather
+    // than a fact about the code.
+    const distBefore = existsSync(path.join(ROOT, 'dist', 'client'))
+
     const result = validateBuildOutput({ root })
     expect(result.success).toBe(false)
+
+    // `width: '11'` is seeded only in the temp tree, so matching it is itself
+    // the proof that the injected root was read rather than this checkout.
     expect(result.errors.join('\n')).toContain("width: '11'")
 
-    // The real checkout has no dist/client at all (no build has run here);
-    // proves the check above read the temp tree, not this one, and that
-    // seeding the fixture never touched the real repo.
-    expect(existsSync(path.join(ROOT, 'dist', 'client'))).toBe(false)
+    // And the other half: seeding and validating left the real repo alone.
+    expect(existsSync(path.join(ROOT, 'dist', 'client'))).toBe(distBefore)
   })
 })

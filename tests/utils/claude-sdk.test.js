@@ -288,6 +288,17 @@ describe('callClaudeSDK', () => {
 
   // #295: clampToBudget was applied in callClaudeCLI only.
   describe('run deadline', () => {
+    // The deadline is module-level state in run-budget.js, shared by every
+    // caller in the process. Clearing it only on the way out means each test
+    // here inherits whatever ran before it, and "no run registered a
+    // deadline" below is a claim about the whole process rather than about
+    // this test. It failed on main that way once — 599999 against an expected
+    // 600000, a deadline someone else had set, one millisecond old. Each test
+    // now states the precondition it depends on instead of hoping for it.
+    beforeEach(() => {
+      clearRunDeadline()
+    })
+
     afterEach(() => {
       clearRunDeadline()
       vi.useRealTimers()

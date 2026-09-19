@@ -202,7 +202,30 @@ Those paths are from `app/routes/` and `app/components/`. A component under
 - Semantic token syntax: bare token name as string, e.g. `color: 'accent'`, `bg: 'field'`.
 - Responsive values use the conditional (object) syntax: `fontSize: { base: 'sm', md: 'lg' }`.
 - Translate the mockup's px media queries to Panda conditions. See "Responsive" immediately below.
-- No inline `style` props. No Tailwind classes. PandaCSS only.
+- No Tailwind classes. PandaCSS only. No `style` prop except for the one case
+  spelled out below, which is the only legal way to express a render-time value.
+- **Every value in a `css()` call must be a literal written in that file.**
+  Panda reads your source at build time; it never runs it. A value that arrives
+  from a variable, a parameter, a function's return or a template string is
+  invisible to the extractor, so `css()` hands back a class name with no rule
+  behind it. Nothing throws. The markup is right, the class is on the element,
+  and the property simply never arrives. On 2026-09-19 a hero word sized from
+  `word.length` shipped transparent, unstroked and at the inherited 32px. The
+  page opened on an empty band where its largest element belonged.
+- A literal ternary is fine: `justifyContent: spread ? 'space-between' : 'flex-start'`
+  extracts, because both branches are literals the extractor can read.
+  `fontSize: size` does not, whatever `size` holds.
+- **When a value genuinely depends on render-time data, pass it as a CSS custom
+  property and let a static class read it.** Set the property in `style`, name
+  it in `css()`:
+
+  ```tsx
+  <div style={{ '--ring': hue } as CSSProperties} className={css({ borderColor: 'var(--ring)' })} />
+  ```
+
+  Both halves are then literals. This is the only permitted `style` prop, and
+  it carries custom properties only, never ordinary CSS properties.
+  `app/routes/archive.tsx` passes each day's colour this way.
 
 ### Responsive: the mockup's breakpoints are the design
 
@@ -519,3 +542,9 @@ case, loop) or a cognitive score past 15, it fails. A 321-line
    1440, it belongs in a condition, not in `base`.
 7. No em dash in any string or JSX text you wrote, and nothing in the copy
    about the site rebuilding itself? The copy gate reads both.
+8. Read every `css()` call you wrote and check each value is a literal sitting
+   in that file. Any value reached through a variable, a parameter or a
+   template string extracts to nothing and renders as nothing. Move it to a
+   CSS custom property set in `style` and read by the static class. `tsc` and
+   the build both pass either way, so this check is the only thing between a
+   runtime value and a blank page.
