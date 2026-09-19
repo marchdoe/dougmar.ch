@@ -67,12 +67,80 @@ test.describe('site health — project pages', () => {
   }
 })
 
+/**
+ * Panda extracts styles at build time, so a value that only exists at run time
+ * — a size picked from a word's length, a delay passed as an argument — yields
+ * a class name with no rule behind it. Nothing errors. The markup is right,
+ * the class is on the element, and the property simply never arrives.
+ *
+ * The day that shipped, the hero word carried `color: transparent` (static, so
+ * emitted) and its `-webkit-text-stroke` (runtime, so not) and the home page
+ * opened on a blank band where the largest thing on it should have been.
+ *
+ * Transparent text is legitimate when something else paints the glyphs — a
+ * stroke, or a clipped background. With neither, it is invisible, and that is
+ * the assertion. The design changes nightly, so this names no word and no size.
+ */
+test.describe('site health — nothing renders invisible', () => {
+  for (const path of ['/', '/about']) {
+    test(`${path} paints every piece of text it renders`, async ({ page }) => {
+      await page.goto(path)
+      await page.waitForLoadState('networkidle')
+
+      const invisible = await page.evaluate(() => {
+        const bad: string[] = []
+        for (const el of Array.from(document.querySelectorAll('body *'))) {
+          // Only elements holding text of their own, not wrappers.
+          const own = Array.from(el.childNodes)
+            .filter((n) => n.nodeType === Node.TEXT_NODE)
+            .map((n) => n.textContent ?? '')
+            .join('')
+            .trim()
+          if (!own) continue
+
+          const r = el.getBoundingClientRect()
+          if (r.width < 2 || r.height < 2) continue // sr-only and the like
+
+          const cs = getComputedStyle(el)
+          if (cs.visibility === 'hidden' || cs.display === 'none') continue
+          if (Number.parseFloat(cs.opacity) === 0) continue // a reveal mid-flight
+
+          const transparent = /^rgba\(.*,\s*0\)$/.test(cs.color)
+          if (!transparent) continue
+
+          const stroked = Number.parseFloat(cs.webkitTextStrokeWidth || '0') > 0
+          const clipped = (cs.webkitBackgroundClip || cs.backgroundClip) === 'text'
+          if (stroked || clipped) continue
+
+          bad.push(`<${el.tagName.toLowerCase()}> "${own.slice(0, 30)}" color=${cs.color}`)
+        }
+        return bad
+      })
+
+      expect(invisible, `text painted in nothing at all:\n${invisible.join('\n')}`).toEqual([])
+    })
+  }
+})
+
 test.describe('site health — archive', () => {
   test('the calendar loads and shows days', async ({ page }) => {
     await page.goto('/archive')
 
     // A built day opens the design it shipped; a record-only day opens the
     // explainer, because there is no design to open. Both are cells.
+    const days = page.locator('a[href^="/archive/20"], a[href^="/how/20"]')
+    await expect(days.first()).toBeVisible({ timeout: 15000 })
+    expect(await days.count()).toBeGreaterThan(0)
+  })
+
+  // Both spellings reach the same route, and for a while only one of them
+  // worked: the strict archive CSP matched `/archive/` but not `/archive`, so
+  // the trailing-slash form was served with script and fetch forbidden and
+  // rendered its masthead over an empty page. Whichever URL a visitor has
+  // bookmarked, the calendar has to come up.
+  test('the calendar loads at the trailing-slash spelling too', async ({ page }) => {
+    await page.goto('/archive/')
+
     const days = page.locator('a[href^="/archive/20"], a[href^="/how/20"]')
     await expect(days.first()).toBeVisible({ timeout: 15000 })
     expect(await days.count()).toBeGreaterThan(0)
