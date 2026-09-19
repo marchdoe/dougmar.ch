@@ -3,6 +3,10 @@
 // resume voice (achievement-first, dense) rather than the site's story
 // voice. Consumers: a future /resume route, an on-demand PDF export, and a
 // future copy-paste export for LinkedIn.
+//
+// Nothing imports this file yet. The copy is being settled before any
+// consumer is built. Drop the ignore below when the first one lands.
+// fallow-ignore-file unused-file
 
 export type ResumeContact = {
   name: string
