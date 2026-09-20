@@ -45,6 +45,23 @@ export function isTrustedIssueAuthor(issue) {
   return TRUSTED_ISSUE_AUTHORS.has(issue.author?.login ?? '')
 }
 
+/**
+ * @typedef {{ date: string, grade: string, worked: string, didnt: string, try: string }} ParsedRating
+ * @typedef {{
+ *   number?: number,
+ *   title?: string,
+ *   body?: string,
+ *   comments?: Array<{ body: string, authorAssociation?: string }>,
+ *   author?: { login?: string } | null,
+ * }} RatingIssue
+ */
+
+/**
+ * The newest trusted rating on a daily-rating issue, or null when the issue
+ * is not one this pipeline should read.
+ * @param {RatingIssue} issue
+ * @returns {ParsedRating | null}
+ */
 export function parseRatingFromIssue(issue) {
   if (!isTrustedIssueAuthor(issue)) return null
   const dateMatch = /Rate:\s*(\d{4}-\d{2}-\d{2})/.exec(issue.title || '')

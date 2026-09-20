@@ -7,8 +7,14 @@
  */
 
 import { contrastRatio } from '../../scripts/utils/contrast.js'
-import type { Rgb } from '../../scripts/utils/contrast.js'
 import type { ArchiveIndexEntry } from '../types/archive-record'
+
+/** Channels on a 0 to 255 scale, the shape `contrastRatio` takes. */
+interface Rgb {
+  r: number
+  g: number
+  b: number
+}
 
 export type CellState = 'built' | 'record' | 'empty'
 

@@ -1,3 +1,4 @@
+import { isRecord } from '../lib/guards'
 import type { ArchiveEntry } from '../server/archive-impl'
 
 // The panel's side of the dev API, typed and checked at the boundary.
@@ -36,15 +37,12 @@ export interface DevData {
   meta: Meta | null
 }
 
-const isObject = (v: unknown): v is Record<string, unknown> =>
-  typeof v === 'object' && v !== null && !Array.isArray(v)
-
 function asDevData(raw: unknown): DevData {
-  if (!isObject(raw)) throw new Error('dev-data: response is not an object')
+  if (!isRecord(raw)) throw new Error('dev-data: response is not an object')
   const { signals, archive, meta } = raw
-  if (signals !== null && !isObject(signals)) throw new Error('dev-data: signals is not an object')
+  if (signals !== null && !isRecord(signals)) throw new Error('dev-data: signals is not an object')
   if (!Array.isArray(archive)) throw new Error('dev-data: archive is not an array')
-  if (meta !== null && meta !== undefined && !isObject(meta)) {
+  if (meta !== null && meta !== undefined && !isRecord(meta)) {
     throw new Error('dev-data: meta is not an object')
   }
   return {

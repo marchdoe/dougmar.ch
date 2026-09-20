@@ -1,4 +1,4 @@
-export type Grade = 'A' | 'B' | 'C' | 'D'
+import type { Grade } from '../../app/types/panel.js'
 
 export interface RatingInput {
   grade: Grade

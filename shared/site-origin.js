@@ -43,6 +43,9 @@ export const RECOGNIZED_HOSTS = RECOGNIZED_ORIGINS.map((o) => new URL(o).host)
  * origin. Either would be collapsed into the snapshot as though it were our
  * own page. An origin ends where a path, query, or fragment begins, so require
  * one of those or an exact match.
+ *
+ * @param {string} value
+ * @returns {string | null}
  */
 export function matchOrigin(value) {
   return (

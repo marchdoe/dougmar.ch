@@ -1,7 +1,7 @@
 import { isArchiveDate } from '../server/archive-paths'
 import { isArchiveDetail } from '../types/archive-record'
 import type { ArchiveDetail, ArchiveIndexEntry } from '../types/archive-record'
-import { isRecord } from './archive-explainer'
+import { isRecord } from './guards'
 
 /**
  * Reads the build's projection of the archive, `public/archive-data/*.json`.

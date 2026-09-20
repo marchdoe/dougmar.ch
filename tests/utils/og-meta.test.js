@@ -3,7 +3,7 @@ import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { buildOgMetaEntries } from '../../scripts/utils/og-meta.js'
-import { CANONICAL_ORIGIN, RECOGNIZED_ORIGINS } from '../../scripts/utils/site-origin.js'
+import { CANONICAL_ORIGIN, RECOGNIZED_ORIGINS } from '../../shared/site-origin.js'
 
 describe('buildOgMetaEntries', () => {
   it('emits og + twitter entries with escaped content', () => {

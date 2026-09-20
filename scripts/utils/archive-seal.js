@@ -20,7 +20,7 @@
  *    and CSS or it is nothing.
  */
 
-import { CANONICAL_ORIGIN, matchOrigin } from './site-origin.js'
+import { CANONICAL_ORIGIN, matchOrigin } from '../../shared/site-origin.js'
 
 /** Marks an injected frame so a second run replaces it instead of stacking one on top. */
 export const FRAME_MARKER = 'data-archive-frame'

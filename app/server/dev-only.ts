@@ -12,11 +12,8 @@
 // these becomes reachable at a generated URL with no other gate in front of
 // it. Refusing server-side means that day is not also a disclosure.
 //
-// (The comment this replaces described a `saveOverrides` server function that
-// does not exist — the override write lives in vite.config.ts behind its own
-// localhost guard — and a `beforeLoad` redirect that dev.responsive.tsx did
-// not do; it threw notFound(). That route is gone now (#328): /dev/responsive
-// is served by app/dev-server/index.ts, not the router.)
+// /dev/responsive is served by app/dev-server/index.ts, not the router, so the
+// production bundle carries no route for it (#328).
 
 import { getRequestHeader, getRequestIP } from '@tanstack/react-start/server'
 import { isAllowedOrigin, isLocalHost, isLoopbackAddress } from '../dev-server/guards'
