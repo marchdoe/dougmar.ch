@@ -8,6 +8,7 @@ import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { budgetFor } from '../utils/budgets.js'
 import { imageBlock, textBlock } from '../utils/claude-sdk.js'
 import { parseBarLine, parseCriticVerdict } from '../utils/critic-verdict.js'
+import { newBoundaryId, wrapAsData } from '../utils/data-boundary.js'
 import { describeHeaderCropAnchor } from '../utils/snapshot.js'
 import { callVisionAgent } from '../utils/vision-router.js'
 import { VisionTruncatedError } from '../utils/vision-truncated-error.js'
@@ -133,7 +134,10 @@ function routeShotBlocks(existing, routeShots) {
  * @param {string|null} [ctx.collapse] - the composition's collapse axis value
  * @param {string} [ctx.measuredFaults] - rendered output of
  *   `surface-gate.formatFindingsForCritic`; empty string when nothing is wrong
- * @param {string} [ctx.references] - design reference block, if any
+ * @param {string} [ctx.references] - design reference block, if any; it carries
+ *   awwwards and sidebar titles a stranger wrote, so it goes inside a boundary tag
+ * @param {string} [ctx.boundaryId] - the run's boundary suffix (data-boundary.js);
+ *   a random one is drawn when the caller has none
  * @param {{ jpeg: Buffer, headerJpeg?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null } | null} [ctx.mockupScreenshot] - approved mockup, if any
  * @param {{ jpeg: Buffer, darkJpeg?: Buffer|null, headerJpeg?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null, mobileJpeg?: Buffer|null, motionStripJpeg?: Buffer|null }} ctx.screenshotBuffer -
  *   rendered homepage: both schemes at 1440 (the dark one only when it
@@ -150,6 +154,7 @@ function routeShotBlocks(existing, routeShots) {
  * @returns {Array<{type: string, text?: string, source?: object}>}
  */
 export function buildScreenshotCriticBlocks(ctx) {
+  const boundaryId = ctx.boundaryId ?? newBoundaryId()
   // Null when the dark capture matched the light one byte for byte, which is
   // every design that defines no `_light` tokens (see captureScreenshot).
   const hasDark = Boolean(ctx.screenshotBuffer.darkJpeg)
@@ -167,7 +172,10 @@ export function buildScreenshotCriticBlocks(ctx) {
       ctx.motion && `## Motion Declaration (section 12 is judged against this)\n\n${ctx.motion}`
     ),
     ...prose(ctx.measuredFaults),
-    ...prose(ctx.references && `## Design References\n\n${ctx.references}`),
+    ...prose(
+      ctx.references &&
+        `## Design References\n\n${wrapAsData('references', ctx.references, boundaryId)}`
+    ),
     ...shot(
       'The APPROVED MOCKUP screenshot at 1440×900 (fidelity target):',
       ctx.mockupScreenshot?.jpeg

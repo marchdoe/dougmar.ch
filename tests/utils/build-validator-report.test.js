@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
-import { mkdirSync, writeFileSync, rmSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs'
 import path from 'node:path'
 import { tempDir } from '../helpers/tmp.js'
 import { validateBuild } from '../../scripts/utils/build-validator.js'
@@ -192,5 +192,99 @@ describe('validateBuild reports every failing gate together (#432)', () => {
     expect(preIndex).toBeGreaterThan(-1)
     expect(buildIndex).toBeGreaterThan(preIndex)
     expect(skipIndex).toBeGreaterThan(buildIndex)
+  })
+})
+
+// The 2026-09-20 shape: `pnpm build` exits 0 and prints one line per archived
+// page from pin-inline-scripts, then the token gate rejects a value. The tail
+// of that log is 35 lines of noise about pages nobody touched.
+const PIN_NOISE = Array.from(
+  { length: 35 },
+  (_, i) => `how/2026-07-${String(i + 1).padStart(2, '0')}/index.html: 3 hashes`
+).join('\n')
+const PIN_BUILD = {
+  status: 0,
+  stdout: `vite build\n[pin-inline-scripts] pinning\n${PIN_NOISE}\n[pin-inline-scripts] pinned 143 file(s)\n`,
+  stderr: '',
+}
+const TAIL_MARKER = 'last 1500 chars of build output'
+
+/** A healthy tree whose one component uses a bare number the spacing scale lacks. */
+function seedTokenFailure(root) {
+  seedRoot(root, { violate: false })
+  writeFileSync(
+    path.join(root, 'app', 'components', 'Sidebar.tsx'),
+    "export function Sidebar() { return <div className={css({ width: '11' })} /> }\n"
+  )
+}
+
+describe('the smoke-check failure carries the build log only when it helps', () => {
+  it('leaves the tail off a token failure: the report names the value and nothing else', async () => {
+    const root = await tempDir('dm-validate-build-')
+    seedTokenFailure(root)
+
+    const result = validateBuild({ root, date: TEST_DATE, spawn: fakeSpawn({ build: PIN_BUILD }) })
+
+    expect(result.success).toBe(false)
+    expect(result.error).toContain('Build output smoke check failed:')
+    expect(result.error).toContain("width: '11'")
+    expect(result.error).not.toContain(TAIL_MARKER)
+    expect(result.error).not.toContain('3 hashes')
+  })
+
+  it('keeps the tail when the build output has no shell', async () => {
+    const root = await tempDir('dm-validate-build-')
+    seedTokenFailure(root)
+    rmSync(path.join(root, 'dist', 'client', '_shell.html'))
+
+    const result = validateBuild({ root, date: TEST_DATE, spawn: fakeSpawn({ build: PIN_BUILD }) })
+
+    expect(result.error).toContain('dist/client/_shell.html and index.html are both missing')
+    expect(result.error).toContain(TAIL_MARKER)
+    expect(result.error).toContain('3 hashes')
+  })
+
+  it('keeps the tail when dist/client is empty', async () => {
+    const root = await tempDir('dm-validate-build-')
+    seedTokenFailure(root)
+    rmSync(path.join(root, 'dist', 'client'), { recursive: true })
+    mkdirSync(path.join(root, 'dist', 'client'), { recursive: true })
+
+    const result = validateBuild({ root, date: TEST_DATE, spawn: fakeSpawn({ build: PIN_BUILD }) })
+
+    expect(result.error).toContain('dist/client/ is empty')
+    expect(result.error).toContain(TAIL_MARKER)
+  })
+
+  it('keeps the tail, and the runtime lines, when the log shows a crashed prerender', async () => {
+    const root = await tempDir('dm-validate-build-')
+    seedTokenFailure(root)
+    const build = {
+      ...PIN_BUILD,
+      stdout: `Unhandled rejection: Failed to fetch /: Internal Server Error\n${PIN_BUILD.stdout}`,
+    }
+
+    const result = validateBuild({ root, date: TEST_DATE, spawn: fakeSpawn({ build }) })
+
+    expect(result.error).toContain('the app crashed during prerender')
+    expect(result.error).toContain('Unhandled rejection: Failed to fetch /')
+    expect(result.error).toContain(TAIL_MARKER)
+  })
+})
+
+describe('validateBuild uses the root it is given for the build (#579)', () => {
+  it('runs pnpm build in that root, and writes a failing build log under it', async () => {
+    const root = await tempDir('dm-validate-build-')
+    seedRoot(root, { violate: false })
+    const spawn = fakeSpawn({ build: { status: 1, stdout: 'Error: build broke\n', stderr: '' } })
+
+    validateBuild({ root, date: TEST_DATE, spawn })
+
+    const buildCall = spawn.mock.calls.find(([, args]) => args[0] === 'build')
+    expect(buildCall[2].cwd).toBe(root)
+    expect(
+      readFileSync(path.join(root, 'archive', TEST_DATE, 'last-build-output.txt'), 'utf8')
+    ).toBe('Error: build broke\n')
+    expect(existsSync(path.join(ROOT, 'archive', TEST_DATE))).toBe(false)
   })
 })

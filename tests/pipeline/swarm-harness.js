@@ -47,6 +47,9 @@ import { VisionTruncatedError } from '../../scripts/utils/vision-truncated-error
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const FIXTURES = path.join(REPO, 'tests', 'fixtures')
 
+/** The data-boundary suffix every swarm run gets, so a prompt snapshot stays byte for byte. */
+export const TEST_BOUNDARY_ID = 'a1b2c3d4'
+
 export const AGENTS = [
   'art-director',
   'spec-critic',
@@ -633,6 +636,8 @@ export function readTrace(root, date) {
  * @param {Array<Array<object>|Error|Function>} [opts.routes] `listGeneratedRoutes` results
  * @param {Array<Error|Function>} [opts.archive] `archive` outcomes; an `Error` is thrown
  *   after the call is recorded and before any file is written
+ * @param {(seeded: object) => object} [opts.signals] replaces the seeded
+ *   signals the swarm is handed (`signals.date` must survive)
  * @param {string} [opts.brief] the optional `context.brief`; the nightly never sets it
  * @param {Function} [opts.onTraceStep]
  * @param {(root: string) => void|Promise<void>} [opts.beforeRun] runs after
@@ -659,7 +664,11 @@ export async function runSwarm(opts = {}) {
   }
   await opts.beforeRun?.(root)
 
-  const context = { signals, contentSummary: CONTENT_SUMMARY }
+  const context = {
+    signals: opts.signals ? opts.signals(signals) : signals,
+    contentSummary: CONTENT_SUMMARY,
+    boundaryId: TEST_BOUNDARY_ID,
+  }
   if (opts.brief) context.brief = opts.brief
 
   let result = null

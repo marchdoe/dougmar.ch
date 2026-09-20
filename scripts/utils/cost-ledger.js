@@ -9,9 +9,10 @@
  *
  * Records are appended to a module-level ledger rather than threaded back
  * through return values. `callClaudeCLI` resolves a plain string that ~20
- * call sites destructure; widening it would touch all of them, and the
- * agent swarm runs calls concurrently, so append-on-completion is both the
- * smaller diff and the safer one under concurrency.
+ * call sites destructure, and widening it would touch all of them. The swarm
+ * awaits its model calls one after another, so nothing overlaps and the
+ * ledger needs no locking; `resetLedger` at the top of a run is what keeps
+ * two runs in one process (the dev panel's Run button) apart.
  *
  * Cost comes from the CLI's own `total_cost_usd` where the CLI reports it.
  * The SDK returns token counts and no price, so those records are priced

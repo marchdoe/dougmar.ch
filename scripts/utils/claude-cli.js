@@ -22,6 +22,8 @@ import {
 } from './agent-fixtures.js'
 import { ModelTransportError } from './model-transport-error.js'
 
+let promptFileSeq = 0
+
 /**
  * Pull cost and token counts out of a stream-json `result` event.
  *
@@ -166,8 +168,14 @@ export async function callClaudeCLI(agentName, systemPrompt, promptText, options
     '../claude-cli-settings.json'
   )
 
-  // Write prompt to temp file (too long for command line args)
-  const promptPath = path.join(ROOT, `.agent-prompt-${agentName}.tmp`)
+  // Write prompt to temp file (too long for command line args). One file per
+  // call: no two calls in this process overlap today, but two runs in one
+  // checkout (a terminal run and the dev panel's Run button) share ROOT, and a
+  // name that was only the agent's would hand one run the other's prompt.
+  const promptPath = path.join(
+    ROOT,
+    `.agent-prompt-${agentName}-${process.pid}-${++promptFileSeq}.tmp`
+  )
   await writeFile(promptPath, promptText, 'utf8')
 
   console.log(`  [${agentName}] calling claude CLI...`)

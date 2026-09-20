@@ -107,6 +107,7 @@ import {
 import { sweepGenerated } from './utils/generated-sweep.js'
 import { countArchivedDesigns } from './utils/archive-count.js'
 import { settleMockupRound } from './utils/mockup-rounds.js'
+import { newBoundaryId } from './utils/data-boundary.js'
 export { parseDelimiterResponse }
 
 /**
@@ -365,10 +366,9 @@ export function archiveArtifacts(run) {
  *  Token-designer ownership was removed in the Art Director pipeline —
  *  preset.ts is now written by the Art Director. The Art Director's
  *  files are not retried via this map; retries go through the
- *  React Engineer (which is the only agent whose files can fail
- *  build validation in the new pipeline — preset.ts is validated by
- *  codegen at write time, and the Mockup Designer's HTML never enters
- *  the build).
+ *  React Engineer, so a build error that names only the Art Director's
+ *  files ends the run without one (`planRepairs`). The Mockup Designer's
+ *  HTML never enters the build.
  */
 export const FILE_OWNERSHIP = Object.fromEntries([
   ['elements/preset.ts', 'art-director'],
@@ -464,6 +464,39 @@ export function identifyFailingAgent(errorOutput) {
   if (agents.size === 0) return 'both'
   if (agents.size === 2) return 'both'
   return [...agents][0]
+}
+
+/**
+ * How a failed build is repaired: how many attempts, and the error the first
+ * one is given.
+ *
+ * Every repair goes to the React Engineer, and it has no way to fix a failure
+ * that names only `elements/preset.ts`. Its repair brief lists just the files
+ * it owns (`engineerOwnedPaths` leaves the preset out), so it never sees the
+ * file, and its prompt says never to emit it. A reply block for the preset
+ * would still be written, but it would be a blind rewrite of the Art
+ * Director's palette. The failures that name only the preset are about the
+ * preset itself, a semantic colour the frozen set is missing or has extra or
+ * a token that references itself, and no edit to the engineer's files
+ * touches them. Three attempts on such an error can only repeat it, so none
+ * are made and the run fails with the reason.
+ *
+ * `identifyFailingAgent` answers 'both' whenever the error also names an
+ * engineer file or names none, so those still get every attempt.
+ *
+ * @param {'art-director'|'react-engineer'|'both'} failingAgent
+ * @param {string} error the build error
+ * @param {number} maxAttempts the bound when a repair can help
+ * @returns {{ attempts: number, error: string }}
+ */
+export function planRepairs(failingAgent, error, maxAttempts) {
+  if (failingAgent !== 'art-director') return { attempts: maxAttempts, error }
+  return {
+    attempts: 0,
+    error:
+      "The failure is in elements/preset.ts, which the Art Director wrote. The React Engineer's repair brief does not include that file and its instructions forbid writing it, so no repair was attempted.\n\n" +
+      error,
+  }
 }
 
 /**
@@ -647,14 +680,17 @@ function validateCodegen({ root = ROOT } = {}) {
  * Phase 4: Build validation
  * Phase 5: Retry on failure
  *
- * @param {{ signals: object, brief: string, contentSummary: string }} context
+ * @param {{ signals: object, brief: string, contentSummary: string, boundaryId?: string }} context
+ *   `boundaryId` is the run's data-boundary suffix (utils/data-boundary.js): a
+ *   fresh random one by default, fixed by a test so a prompt snapshot stays
+ *   byte for byte
  * @param {{ onTraceStep?: Function, root?: string }} [options] `root` is the
  *   checkout the swarm reads prompts from and writes generated files, signals
  *   and the archive under; defaults to the repo
  * @returns {Promise<{ rationale: string, design_brief: string, files: Array<{path: string, content: string}> }>}
  */
 export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) {
-  const { signals, brief, contentSummary } = context
+  const { signals, brief, contentSummary, boundaryId = newBoundaryId() } = context
 
   // Start this run's cost accounting from zero. The ledger is module-level,
   // so a second swarm in the same process (the dev panel's Run button) would
@@ -1083,6 +1119,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     const t0Director = Date.now()
     try {
       artDirectorResult = await runArtDirector({
+        boundaryId,
         signals,
         contentSummary,
         chassisCatalog: CHASSIS_CATALOG,
@@ -1119,6 +1156,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       noteRetry()
       try {
         artDirectorResult = await runArtDirector({
+          boundaryId,
           signals,
           contentSummary,
           chassisCatalog: CHASSIS_CATALOG,
@@ -1315,6 +1353,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         // The full Director re-run is expensive but rare — codegen failures
         // are uncommon now that the Art Director sees PandaCSS rules.
         artDirectorResult = await runArtDirector({
+          boundaryId,
           signals,
           contentSummary,
           chassisCatalog: CHASSIS_CATALOG,
@@ -2519,6 +2558,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           collapse: chosenComposition.collapse,
           motion: formatMotion(motionDecl),
           references,
+          boundaryId,
           mockupScreenshot,
           screenshotBuffer,
           bestReference,
@@ -2850,11 +2890,12 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // deadline cannot finish and archive.
     const MAX_REPAIR_ATTEMPTS = 3
     const engineerConfig = agentConfig['react-engineer']
+    const repairPlan = planRepairs(failingAgent, buildResult.error, MAX_REPAIR_ATTEMPTS)
 
-    let repairError = buildResult.error
+    let repairError = repairPlan.error
     let attempt = 0
 
-    while (attempt < MAX_REPAIR_ATTEMPTS) {
+    while (attempt < repairPlan.attempts) {
       if (pastDeadline()) {
         console.warn(
           `  [deadline] run budget exhausted after ${attempt} repair attempt(s) — stopping`
