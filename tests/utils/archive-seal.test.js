@@ -186,6 +186,48 @@ describe('buildFrame', () => {
     const frame = buildFrame({ date: '2026-06-28', prev: null, next: null })
     expect(frame).toContain('padding-top:44px!important')
   })
+
+  it('carries a short date and a short link label for phones next to the long ones (#562)', () => {
+    const frame = buildFrame({ date: '2026-09-19', prev: null, next: null })
+    expect(frame).toContain('<span class="af-long">September 19, 2026</span>')
+    expect(frame).toContain('<span class="af-short">Sep 19</span>')
+    expect(frame).toContain('<span class="af-long">How it was made</span>')
+    expect(frame).toContain('<span class="af-short">How</span>')
+  })
+
+  it('keeps the full name on the explainer link whichever label is showing', () => {
+    const frame = buildFrame({ date: '2026-09-19', prev: null, next: null })
+    expect(frame).toContain('href="/how/2026-09-19" rel="nofollow" aria-label="How it was made"')
+  })
+
+  it('abbreviates every month to three letters', () => {
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ]
+    months.forEach((abbr, i) => {
+      const date = `2026-${String(i + 1).padStart(2, '0')}-05`
+      expect(buildFrame({ date, prev: null, next: null })).toContain(
+        `<span class="af-short">${abbr} 5</span>`
+      )
+    })
+  })
+
+  it('has no nested div, because stripFrame ends the frame at the first closing one', () => {
+    const frame = buildFrame({ date: '2026-09-19', prev: '2026-09-18', next: '2026-09-20' })
+    expect(frame.match(/<div\b/g)).toHaveLength(1)
+    expect(frame.match(/<\/div>/g)).toHaveLength(1)
+  })
 })
 
 describe('sealPage', () => {
