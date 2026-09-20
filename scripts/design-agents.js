@@ -93,6 +93,7 @@ import { formatHeader } from './utils/header-grammar.js'
 import { formatTypeTreatment } from './utils/type-grammar.js'
 import { formatMobile } from './utils/mobile-grammar.js'
 import { formatMotion, wantsMotionReference } from './utils/motion-grammar.js'
+import { NARROW_VIEWPORT } from '../elements/chassis/viewports.js'
 import { formatTuple } from './utils/composition-grammar.js'
 import { findEngineerOutputProblem } from './utils/engineer-output-check.js'
 import {
@@ -232,7 +233,7 @@ async function capturePhoneFilmstripsForCritic(slugRoute) {
       if (jpeg) {
         phoneFilmstrips.push({
           label:
-            `A phone filmstrip of ${r.label}, light scheme: the whole page at 360 wide, ` +
+            `A phone filmstrip of ${r.label}, light scheme: the whole page at ${NARROW_VIEWPORT.width} wide, ` +
             "cut into 640px folds and laid side by side (the fold labels are ours, not the site's):",
           jpeg,
         })
@@ -1442,7 +1443,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         `## Measurables (declared floors)\n\n${artDirectorResult.measurables}`,
         `## Shell Declaration\n\n${artDirectorResult.shell}`,
         `## Type Treatment (execute exactly)\n\n${formatTypeTreatment(typeDecl)}`,
-        `## Mobile Declaration (what the composition becomes at 360)\n\n${formatMobile(mobileDecl)}`,
+        `## Mobile Declaration (what the composition becomes at ${NARROW_VIEWPORT.width})\n\n${formatMobile(mobileDecl)}`,
         `## elements/preset.ts\n\n\`\`\`typescript\n${artDirectorResult.presetTs}\n\`\`\``,
         mandatesBlock
           ? `## Mandates (the Art Director was constrained by these)\n\n${mandatesBlock}`

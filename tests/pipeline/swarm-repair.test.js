@@ -18,6 +18,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it, vi } from 'vitest'
+import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
 import {
   CLEAN_GATE,
   CLEAN_COPY_GATE,
@@ -148,6 +149,9 @@ const TAP_TARGET_AT_360 = {
   severity: 'warning',
   detail: "'work' is a 34x22px target; a thumb needs 44x44. Give it padding or a taller line box.",
 }
+
+/** The repair brief's advisory heading, which names the phone width. */
+const ADVISORY_HEADING = `## Advisory at ${NARROW_VIEWPORT.width}`
 
 const OLD_FRAMING = 'The previous attempt failed with this build error'
 
@@ -904,10 +908,10 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     expect(run.retries).toBe(1)
 
     const [first, revision] = run.callsFor('react-engineer')
-    expect(first.userPrompt).not.toContain('## Advisory at 360')
+    expect(first.userPrompt).not.toContain(ADVISORY_HEADING)
 
     const errors = formatFindingsForCritic([OVERFLOW_AT_390])
-    const advisoryIdx = revision.userPrompt.indexOf('## Advisory at 360')
+    const advisoryIdx = revision.userPrompt.indexOf(ADVISORY_HEADING)
     expect(advisoryIdx).toBeGreaterThan(-1)
     // After the errors, as the issue asks.
     expect(revision.userPrompt.indexOf(errors)).toBeLessThan(advisoryIdx)

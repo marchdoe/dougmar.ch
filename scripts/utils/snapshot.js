@@ -10,6 +10,7 @@
 import { spawn } from 'node:child_process'
 import { mkdir, writeFile, readFile } from 'node:fs/promises'
 import path from 'node:path'
+import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { ROOT } from './file-manager.js'
 import { STEP_BUDGETS } from './budgets.js'
 import { FINGERPRINT_VIEWPORT, collectGeometry } from './geometry-fingerprint.js'
@@ -343,17 +344,16 @@ async function captureHeaderCrop(browser, url, opts) {
 }
 
 /**
- * The phone the critics are shown, matching `VIEWPORT_RUNGS`' mobile rung in
- * `surface-gate.js`. Declared here rather than imported because surface-gate
- * imports this module; `tests/scripts/agents/critic-viewports.test.js` asserts
- * the two numbers stay equal.
+ * The phone the critics are shown. It and `VIEWPORT_RUNGS`' mobile rung in
+ * `surface-gate.js` both read `NARROW_VIEWPORT`, so they cannot drift;
+ * `tests/scripts/agents/critic-viewports.test.js` still asserts it.
  *
  * Until now every image any critic received was 1440 wide. On 2026-09-04 a
  * design whose whole idea is a question facing its answer lost the split
  * entirely at 360 — the answer panel faced nothing, the concept was absent —
  * and every automatic check passed. Mobile reached a critic only as text.
  */
-export const CRITIC_MOBILE_VIEWPORT = { width: 360, height: 640 }
+export const CRITIC_MOBILE_VIEWPORT = NARROW_VIEWPORT
 
 /** Height of one filmstrip fold, in CSS px. Matches the phone viewport's own
  * height, so a fold is what the phone actually shows in one screen. */

@@ -24,6 +24,7 @@
 
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
+import { NARROW_VIEWPORT, WIDE_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { contrastRatio, rgbToHex } from './contrast.js'
 import { collectVisibleCopy, readCopyExemptions, renderedCopyFindings } from './copy-gate.js'
 import { ROOT } from './file-manager.js'
@@ -56,8 +57,8 @@ export const RUNNING_COPY_MIN_CHARS = 180
 export const RUNNING_COPY_MAX_PX = 48
 
 export const VIEWPORT_RUNGS = [
-  { name: 'mobile', width: 360, height: 640 },
-  { name: 'desktop', width: 1440, height: 900 },
+  { name: 'mobile', ...NARROW_VIEWPORT },
+  { name: 'desktop', ...WIDE_VIEWPORT },
 ]
 
 /** Both schemes. The theme init script reads `prefers-color-scheme`, so a
@@ -896,7 +897,9 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
     )
     let tapTargets = []
     let smallCopy = null
-    if (viewport.width === 360) {
+    // By name, not by width: a width compare goes quiet the day the phone
+    // width moves, and nothing fails to say so.
+    if (viewport.name === 'mobile') {
       tapTargets = await page.evaluate(
         ([src, thresholds]) => new Function(`return ${src}`)()(window.innerWidth, thresholds),
         [findTapTargetFailures.toString(), { tapTargetMinPx: TAP_TARGET_MIN_PX }]
@@ -1137,7 +1140,7 @@ export function formatAdvisoryForRepairBrief(findings) {
   const lines = [...byKey.values()].map((f) => `- ${f.surface} at ${f.width}px: ${f.detail}`)
 
   return [
-    '## Advisory at 360',
+    `## Advisory at ${NARROW_VIEWPORT.width}`,
     '',
     'These do not block the build. Fix them while this file is open; do not open a file only for these.',
     '',

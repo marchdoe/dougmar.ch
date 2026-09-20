@@ -198,7 +198,7 @@ export function validateArtDirectorResult(parsed) {
     throw new Error('HEADER block missing nav')
   }
   // MOBILE is validated the way HEADER is (#452): the composition's
-  // `collapse` axis names what the canvas becomes at 360, and this block says
+  // `collapse` axis names what the canvas becomes on the phone, and this block says
   // what that means for today's page. A block that contradicts the axis is
   // rejected, not reconciled, the same as a placement that contradicts the
   // shell posture.

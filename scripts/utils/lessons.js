@@ -1,5 +1,6 @@
 import { readFileSync, existsSync } from 'node:fs'
 import path from 'node:path'
+import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { readRecentBuilds } from './recent-builds.js'
 import { readRecentRatings } from './ratings.js'
 
@@ -137,7 +138,15 @@ export function buildLessonsBlock(archiveDir, { limit = 7, lookbackDays = 14 } =
   return lines.join('\n')
 }
 
-const MOBILE_KEYWORDS = ['360', 'phone', 'mobile']
+/**
+ * Every width the phone has been measured at. The archive is history: nights
+ * gated at 360 wrote `@360` into their verdicts and always will, so 360 stays
+ * in the list whatever `NARROW_VIEWPORT` becomes. De-duplicated, because today
+ * the two are the same number.
+ */
+export const PHONE_WIDTHS = [...new Set([360, NARROW_VIEWPORT.width])]
+
+const MOBILE_WORDS = ['phone', 'mobile']
 const MOBILE_TEXT_MAX = 220
 
 /** `columns/hero_zone/density` — the three composition axes a phone visitor
@@ -157,28 +166,31 @@ function splitSentences(text) {
 }
 
 /**
- * The surface-gate's @360 lines from one verdict's feedback. Surface-gate
+ * The surface-gate's phone lines from one verdict's feedback. Surface-gate
  * feedback is newline-joined "<surface> @<width>: <detail>" lines (see
- * design-agents.js) — @360 is the phone width; @1440 is not.
+ * design-agents.js). A width in `phoneWidths` is the phone; @1440 is not.
  * @param {string} feedback
+ * @param {number[]} phoneWidths
  * @returns {string[]}
  */
-function surfaceGatePhoneLines(feedback) {
+function surfaceGatePhoneLines(feedback, phoneWidths) {
   return String(feedback)
     .split('\n')
-    .filter((line) => line.includes('@360'))
+    .filter((line) => phoneWidths.some((w) => line.includes(`@${w}`)))
     .map((line) => line.trim())
 }
 
 /**
  * The mockup-critic/screenshot-critic sentences that mention the phone.
  * @param {string} feedback
+ * @param {number[]} phoneWidths
  * @returns {string[]}
  */
-function criticPhoneSentences(feedback) {
+function criticPhoneSentences(feedback, phoneWidths) {
+  const keywords = [...phoneWidths.map(String), ...MOBILE_WORDS]
   return splitSentences(feedback).filter((sentence) => {
     const lower = sentence.toLowerCase()
-    return MOBILE_KEYWORDS.some((k) => lower.includes(k))
+    return keywords.some((k) => lower.includes(k))
   })
 }
 
@@ -199,16 +211,23 @@ function phoneTextExtractorFor(critic) {
  * @param {Array<object>} verdicts parsed verdicts.json, or [] when missing
  * @param {{columns?: string, hero_zone?: string, density?: string}|null} composition
  *   parsed composition.json, or null when missing
+ * @param {{phoneWidths?: number[]}} [options] the widths that count as the
+ *   phone; defaults to `PHONE_WIDTHS`
  * @returns {Array<{date: string, tuple: string, text: string}>}
  */
-export function extractMobileSignals(date, verdicts, composition) {
+export function extractMobileSignals(
+  date,
+  verdicts,
+  composition,
+  { phoneWidths = PHONE_WIDTHS } = {}
+) {
   const tuple = compositionSummary(composition)
   const out = []
   for (const v of verdicts || []) {
     if (!v?.feedback) continue
     const extractor = phoneTextExtractorFor(v.critic)
     if (!extractor) continue
-    for (const text of extractor(v.feedback)) out.push({ date, tuple, text })
+    for (const text of extractor(v.feedback, phoneWidths)) out.push({ date, tuple, text })
   }
   return out
 }
@@ -234,7 +253,7 @@ export function formatMobileLessonBlock(entries, { limit = 6 } = {}) {
     if (lines.length >= limit) break
   }
   if (!lines.length) return ''
-  return ['## Mobile reality at 360px', '', ...lines].join('\n')
+  return [`## Mobile reality at ${NARROW_VIEWPORT.width}px`, '', ...lines].join('\n')
 }
 
 /**

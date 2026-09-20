@@ -2,7 +2,9 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { mkdtempSync, rmSync, mkdirSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
+import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
 import {
+  PHONE_WIDTHS,
   buildLessonsBlock,
   buildMobileLessonBlock,
   extractMobileSignals,
@@ -225,6 +227,39 @@ describe('extractMobileSignals', () => {
     expect(out[0].tuple).toBe('?/?/?')
   })
 
+  it('reads the archive at 360 and at the current width, each listed once', () => {
+    expect(PHONE_WIDTHS).toContain(360)
+    expect(PHONE_WIDTHS).toContain(NARROW_VIEWPORT.width)
+    expect(new Set(PHONE_WIDTHS).size).toBe(PHONE_WIDTHS.length)
+  })
+
+  it('keeps @360 history readable beside a second phone width', () => {
+    // What the archive looks like after the width moves: old nights gated at
+    // 360, new ones at the other width. Both are the phone; 1440 never is.
+    const verdicts = [
+      {
+        critic: 'surface-gate',
+        verdict: 'REVISE',
+        feedback: '/ @360: old night\n/about @320: new night\n/ @1440: desktop',
+      },
+      {
+        critic: 'mockup-critic',
+        verdict: 'REVISE',
+        feedback: 'At 320 wide the split is gone. At 360 it was gone too. At 1440 it holds.',
+      },
+    ]
+    const out = extractMobileSignals('2026-06-10', verdicts, tuple, { phoneWidths: [360, 320] })
+    expect(out.map((e) => e.text)).toEqual([
+      '/ @360: old night',
+      '/about @320: new night',
+      'At 320 wide the split is gone.',
+      'At 360 it was gone too.',
+    ])
+    // With only 360 listed, the other width is not the phone.
+    const only360 = extractMobileSignals('2026-06-10', verdicts, tuple, { phoneWidths: [360] })
+    expect(only360.map((e) => e.text)).toEqual(['/ @360: old night', 'At 360 it was gone too.'])
+  })
+
   it('returns nothing for an empty or missing verdicts list', () => {
     expect(extractMobileSignals('2026-06-10', [], tuple)).toEqual([])
     expect(extractMobileSignals('2026-06-10', undefined, tuple)).toEqual([])
@@ -242,7 +277,7 @@ describe('formatMobileLessonBlock', () => {
     ])
     const lines = block.split('\n')
     expect(lines[0]).toContain('##')
-    expect(lines[0].toLowerCase()).toContain('360')
+    expect(lines[0]).toContain(`${NARROW_VIEWPORT.width}px`)
     expect(block).toContain('2026-06-10 · single/center/sparse · / @360: too wide')
   })
 

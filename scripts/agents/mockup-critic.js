@@ -2,6 +2,7 @@
  * Mockup Critic — blocking vision gate over the mockup screenshot.
  * Fail-closed: malformed responses count as REVISE.
  */
+import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { budgetFor } from '../utils/budgets.js'
 import { imageBlock, textBlock } from '../utils/claude-sdk.js'
 import { parseCriticVerdict } from '../utils/critic-verdict.js'
@@ -132,7 +133,7 @@ export function buildMockupCriticBlocks(ctx) {
     // never the run.
     ctx.mobileScreenshot
       ? textBlock(
-          'A phone filmstrip of that SAME mockup follows: the whole page at 360 wide, cut into ' +
+          `A phone filmstrip of that SAME mockup follows: the whole page at ${NARROW_VIEWPORT.width} wide, cut into ` +
             "640px folds and laid side by side (the fold labels are ours, not the site's). Check " +
             '6 is judged here. It is one column of the same design, not a different design — ' +
             'judge whether the idea survived the width across every fold shown, not only whether ' +

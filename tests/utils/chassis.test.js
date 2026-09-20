@@ -10,6 +10,7 @@
 import { describe, it, expect } from 'vitest'
 import { CHASSIS_CATALOG } from '../../elements/chassis/index.js'
 import { scaleSteps, fluid, RAMP_STEPS } from '../../elements/chassis/scale.js'
+import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
 import {
   buildGoogleFontsUrl,
   buildFontSizes,
@@ -382,7 +383,7 @@ describe('the catalog', () => {
   it('renders the catalog table with a Class column beside the name (#502)', () => {
     const table = formatChassisCatalogForPrompt(CHASSIS_CATALOG)
     expect(table.split('\n')[0]).toBe(
-      '| ID | Name | Class | Feel | Moods | Best for archetypes | Hero px 360→1440 | 5xl px 360→1440 |'
+      `| ID | Name | Class | Feel | Moods | Best for archetypes | Hero px ${NARROW_VIEWPORT.width}→1440 | 5xl px ${NARROW_VIEWPORT.width}→1440 |`
     )
     expect(table).toContain('| `bebas-plex` | Bebas Neue + IBM Plex Sans | condensed |')
     expect(table).toContain('| `spectral-albert` | Spectral + Albert Sans | serif |')
