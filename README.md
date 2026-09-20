@@ -13,19 +13,23 @@ pnpm only. Node 22, pinned in `.node-version`.
 ```bash
 pnpm install          # runs panda codegen on the way (prepare)
 pnpm dev              # vite dev with the dev panel at /dev
-pnpm build            # panda codegen, project the archive JSON, vite build
+pnpm build            # panda codegen, project the archive JSON, vite build, pin inline scripts
 pnpm preview          # serve dist/ the way Vercel does
 ```
 
-Checks, which CI runs on every pull request:
+Checks. CI runs these on every pull request and on every push to `main` (`.github/workflows/ci.yml`, five jobs):
 
 ```bash
 pnpm lint             # biome ci
 pnpm typecheck        # tsc --noEmit
 pnpm test             # vitest; some suites launch real Chromium
+pnpm build            # the test job builds before the site e2e run
 pnpm test:e2e:site    # playwright against a preview server it starts itself
-pnpm test:e2e:dev     # the dev panel, against vite dev
+pnpm test:e2e:dev     # the dev panel, against vite dev (CI sets E2E_DEV=1 for it)
+pnpm fallow audit --base origin/main   # the architecture job; fails only on what the PR changed
 ```
+
+Before opening a PR, run `pnpm fallow --summary`. It covers the whole repo and exits 0 on a clean checkout of `main`, so any finding it prints is new. The CI audit above fails only on what the PR changed, so a regression elsewhere reaches `main` without turning CI red.
 
 The pipeline, locally:
 
@@ -39,28 +43,40 @@ Without `ANTHROPIC_API_KEY` the agents run through the Claude CLI on a Max plan,
 
 `pnpm pipeline:canary` worktrees HEAD, installs, and runs the full pipeline there with `MOCK_MODE=false DRY_RUN=true`, so it reproduces exactly what a paid run would do without spending anything, and files the log, trace, cost and any build errors under `docs/evidence/canary/<date>-<time>/`. Run it before merging a change to `scripts/prompts/**`, `scripts/design-agents.js` or `scripts/utils/build-validator.js`, and weekly otherwise — it's the only check that catches what only shows up against the real Claude CLI.
 
-`pnpm pipeline:canary --mock` replays the recorded fixtures through the real loop and gates in about three minutes, with no model call, and is the quick check after a gate or loop change.
+`pnpm pipeline:canary --mock` replays the recorded fixtures through the real loop and gates in under a minute on a warm pnpm store, with no model call, and is the quick check after a gate or loop change.
 
 ## What is where
 
 ```
 app/                 TanStack Start app
-  routes/            index, about, work.$slug, og   <- rewritten nightly
+  routes/            index, about, work.$slug, og   <- the engineer rewrites these nightly
+                     __root                         <- the orchestrator writes this one
                      archive, how.$date, elements, panel, experiments, work.index
-  components/        Layout, Sidebar, and the pieces the engineer composes  <- rewritten nightly
-  lib/               archive calendar, eras, signal readers (authored)
+  components/        Layout, Sidebar                <- the engineer rewrites these nightly
+    generated/       components the engineer adds   <- rewritten and swept nightly
+                     BrandLockup, Material, SiteCallout, WhitePaper
+                                                    <- written by the orchestrator, never by an agent
+    panel/           the tabs of /panel
+                     the rest of the files here are hand-written
+  content/           about, projects, timeline, callout, resume: the site's copy (authored; agents cannot write here)
+  lib/               archive calendar, eras, run records, signal readers (authored)
   server/            server functions for the archive and signals
+  types/             types shared by the archive and the panel
   dev-server/        the /dev panel's HTTP endpoints (vite dev only)
+  dev/               the /dev panel's client for those endpoints
   dev-panel.tsx      the /dev panel itself
+api/                 the /panel API as Vercel functions (panel/), with auth and CSRF guards in _lib/
+middleware.ts        basic auth and the same-origin check in front of /panel and /api/panel
 elements/
   preset.ts          today's PandaCSS tokens  <- written by the Art Director nightly
+  chassis-preset.ts  the chosen chassis as a preset  <- written by the orchestrator nightly
   chassis/           15 typography systems the Art Director chooses between
 scripts/
   run-pipeline.js    entry: collect -> design -> archive
   daily-redesign.js  the nightly, as CI runs it
   design-agents.js   the orchestrator: Art Director -> Mockup Designer -> critics -> React Engineer -> gates
   collect-signals.js runs scripts/signals/*.js in parallel
-  agents/            one file per agent: prompt assembly and response parsing
+  agents/            Art Director, Mockup Designer, Mockup Critic, Screenshot Critic; the React Engineer and Spec Critic run from design-agents.js
   prompts/           the agents' system prompts, lanes, and the brand contract
   pipeline/          shared phases (the variance mandates)
   utils/             validators, mandates, the surface gate, the archive record, models and budgets
@@ -69,11 +85,16 @@ public/archive/      the preserved sites, one directory per date, served as stat
 public/archive-data/ the archive projected to JSON for the calendar, plus each day's screenshot and viewport captures copied from archive/ (generated at build)
 signals/             profile.yml (yours), today.* (the last collection)
 references/          design references the Art Director is shown
-docs/                evidence screenshots per issue, specs, and plans
+fixtures/agents/     recorded agent replies that MOCK_MODE and `pipeline:canary --mock` replay
+docs/
+  adr/               decisions that are hard to reverse
+  research/          dated analyses
+  specs/             numbered specs; some are marked superseded
+  evidence/          screenshots and canary runs, kept per issue
 tests/               vitest, and tests/e2e for playwright
 ```
 
-The two arrows mark the split that everything else is organised around. Files the pipeline rewrites are listed in `scripts/utils/site-context.js` as `MUTABLE_FILES`; anything not on that list is authored and survives the night. Authored routes still sit inside the nightly `Layout.tsx`, so they inherit whatever column width it chose. Size type against the container, not the viewport, or it will overflow on a night the layout narrows (#215).
+The arrows mark the split that everything else is organised around. Files the pipeline rewrites are listed in `scripts/utils/site-context.js` as `MUTABLE_FILES`, plus everything under `app/components/generated/`; anything else is authored and survives the night. Authored routes still sit inside the nightly `Layout.tsx`, so they inherit whatever column width it chose. Size type against the container, not the viewport, or it will overflow on a night the layout narrows (#215).
 
 ## The nightly, in order
 
@@ -83,8 +104,8 @@ The two arrows mark the split that everything else is organised around. Files th
 2. `collect-signals.js` runs the providers. Ones without a key are skipped, not failed.
 3. `collect-references.js` picks design references for the brief.
 4. `daily-redesign.js` runs the agents. The Art Director decides the hero line, the composition, the chassis and the palette, and writes `preset.ts`. The Mockup Designer renders one HTML mockup; the Mockup Critic judges it from a screenshot. The React Engineer translates the approved mockup into the routes and components.
-5. Gates. The build must pass `pnpm build`, the token gate (no unresolved Panda tokens), the static checks (biome, tsc), and the surface gate, which measures every route at 360 and 1440 in both colour schemes and fails on horizontal overflow. Then the Screenshot Critic sees the home page, a project page and the share card.
-6. The result is archived, projected, sealed (the preserved pages get a frame with prev/next), and pushed to `main` over a deploy key. Vercel builds from there. A rating issue is opened for the owner.
+5. Gates. The build must pass `pnpm build`, the token gate (no unresolved Panda tokens), the static checks (biome, tsc, and `fallow audit --base HEAD`, the same audit CI's architecture job runs), and the surface gate, which measures every route at 360 and 1440 in both colour schemes and fails on horizontal overflow. Then the Screenshot Critic sees the home page at 1440 in both schemes, phone renders of the home page, `/about` and a project page, and a project page at 1440.
+6. The result is archived, projected and sealed (the preserved pages get a frame with prev/next). Then `pnpm test` and `pnpm test:e2e:site` run against it, and a failure there means nothing reaches `main`. The `publish` job applies the night as a patch and pushes it over a deploy key. Vercel builds from there. A rating issue is opened for the owner.
 
 Each of those gates exists because of a night it would have caught. The comments say which.
 
@@ -92,7 +113,7 @@ Each of those gates exists because of a night it would have caught. The comments
 
 `/dev`, under `vite dev` only, guarded to localhost and same-origin: today's signals, the archive, a prompt inspector, and a button that runs the pipeline and streams its log.
 
-`/panel`, on the live site behind HTTP basic auth (`middleware.ts`): rate the latest design, set the creative weights for tonight, trigger a run.
+`/panel`, on the live site behind HTTP basic auth (`middleware.ts`): rate the latest design, browse the archive, set the creative weights for tonight, trigger a run.
 
 ## Conventions
 

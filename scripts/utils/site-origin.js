@@ -18,8 +18,8 @@
  * into the same page moves, because after the cutover that genuinely is where
  * the page lives. Correcting a pointer is not rewriting the record.
  *
- * Phase 1 of `docs/superpowers/plans/2026-08-26-domain-move.md` is changing
- * CANONICAL_ORIGIN here. Nothing else about the host should need editing.
+ * The move from `doug-march.com` to `dougmar.ch` changed CANONICAL_ORIGIN
+ * here. Nothing else about the host should need editing.
  */
 
 /** Origins a URL in our own bytes may carry. Longest first: no origin may shadow another as a prefix. */
