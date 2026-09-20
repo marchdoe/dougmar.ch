@@ -42,6 +42,7 @@ import { tempRepoRoot, writeUnder } from '../helpers/tmp.js'
 import { clearRunDeadline } from '../../scripts/utils/run-budget.js'
 import { summarizeLedger } from '../../scripts/utils/cost-ledger.js'
 import { modelFor } from '../../scripts/utils/models.js'
+import { VisionTruncatedError } from '../../scripts/utils/vision-truncated-error.js'
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const FIXTURES = path.join(REPO, 'tests', 'fixtures')
@@ -203,9 +204,11 @@ function renderBlocks(blocks) {
 /**
  * Wrap a queued response so `fakeCallVisionAgent` reports it through a
  * specific `onChannel` value instead of the default `sdk-vision` — for a
- * scenario where the vision router fell back to a text channel or gave up on
- * a truncated reply (#486), and the real response text still matters (a
- * critic's REVISE text, or the router's truncation reason).
+ * scenario where the vision router fell back to a text channel (the response
+ * text still matters: a critic's REVISE text) or gave up on a truncated reply
+ * (#486). On `sdk-vision-truncated` the fake behaves like the router: it
+ * reports the channel and throws VisionTruncatedError with `text` as the
+ * reason, and returns nothing (#570).
  * @param {unknown} text - the response `takeResponse` would otherwise return
  * @param {string} channel
  */
@@ -229,6 +232,9 @@ async function fakeCallVisionAgent(args) {
   const response = takeResponse(agentName, call)
   if (response && typeof response === 'object' && '__visionChannel' in response) {
     args.onChannel?.(response.__visionChannel)
+    if (response.__visionChannel === 'sdk-vision-truncated') {
+      throw new VisionTruncatedError({ agent: agentName, reason: response.text })
+    }
     return response.text
   }
   args.onChannel?.('sdk-vision')

@@ -37,12 +37,14 @@ describe('AGENT_BUDGETS', () => {
     expect(budgetFor('spec-critic')).toEqual({ timeoutMs: 600_000, stallTimeoutMs: 300_000 })
   })
 
-  // #486: the two vision critics carry a lower output cap than the SDK
-  // default (16000), so a runaway reply fails fast instead of eating the
-  // whole cap on prose the capped prompt format no longer asks for.
-  // react-engineer, the only other agent that reaches callVisionAgent's
-  // sibling paths, is deliberately left without this key.
-  it('caps the vision critics output below the SDK default, and leaves the engineer alone', () => {
+  // #486 capped both vision critics at 6000. The mockup critic is Haiku with
+  // no thinking and replies in 230 to 2,092 tokens, so 6000 stays. The
+  // screenshot critic is Sonnet 5 with adaptive thinking, which counts against
+  // max_tokens: 28 of 50 recorded calls stopped at exactly 6000 with no
+  // verdict (#570), so it goes back to 16000. react-engineer, the only other
+  // agent that reaches callVisionAgent's sibling paths, is deliberately left
+  // without this key.
+  it('gives the thinking critic room to think, and leaves the engineer alone', () => {
     expect(budgetFor('mockup-critic')).toEqual({
       timeoutMs: 600_000,
       stallTimeoutMs: 300_000,
@@ -51,7 +53,7 @@ describe('AGENT_BUDGETS', () => {
     expect(budgetFor('screenshot-critic')).toEqual({
       timeoutMs: 600_000,
       stallTimeoutMs: 300_000,
-      maxTokens: 6000,
+      maxTokens: 16_000,
     })
     expect(budgetFor('react-engineer')).not.toHaveProperty('maxTokens')
   })

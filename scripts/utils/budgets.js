@@ -21,10 +21,16 @@
  * The two vision critics also carry `maxTokens`, spread by callVisionAgent
  * into the SDK call. Their prompts were rewritten to a capped issues list
  * (#486) after a first pass wrote 11k output tokens and a re-judge truncated
- * at the 16k SDK default — 6000 is enough for the capped format and fails a
- * runaway reply fast instead of burning the rest of the cap on prose. Left
- * off every other agent, react-engineer included: this key only ever reaches
- * callVisionAgent, which only the two vision critics call.
+ * at the 16k SDK default, and both were capped at 6000. That is enough for the
+ * mockup critic (Haiku, no thinking, replies of 230 to 2,092 tokens) and not
+ * for the screenshot critic: Sonnet 5 runs adaptive thinking, thinking counts
+ * against `max_tokens` and bills as output, and 28 of 50 recorded screenshot
+ * critic calls stopped at exactly 6000 with no verdict (#570). The screenshot
+ * critic goes back to 16000, the SDK default. `output_config.effort` is the
+ * lever for bounding thinking on this model (`budget_tokens` is rejected on
+ * Sonnet 5), and it is an owner call on judgment quality, so it is not set
+ * here. Left off every other agent, react-engineer included: this key only
+ * ever reaches callVisionAgent, which only the two vision critics call.
  */
 export const AGENT_BUDGETS = {
   // 25 min hard cap — the AD has run 8-17 min of extended thinking.
@@ -34,7 +40,7 @@ export const AGENT_BUDGETS = {
   'react-engineer': { timeoutMs: 1_800_000, stallTimeoutMs: 480_000 },
   'spec-critic': { timeoutMs: 600_000, stallTimeoutMs: 300_000 },
   'mockup-critic': { timeoutMs: 600_000, stallTimeoutMs: 300_000, maxTokens: 6000 },
-  'screenshot-critic': { timeoutMs: 600_000, stallTimeoutMs: 300_000, maxTokens: 6000 },
+  'screenshot-critic': { timeoutMs: 600_000, stallTimeoutMs: 300_000, maxTokens: 16_000 },
 }
 
 /** The call defaults when an agent is not in the table above. */
