@@ -48,9 +48,9 @@ const NEAR_ENOUGH = 6
 /**
  * How far over the ramp's biggest step `hero_scale` may resolve before it
  * counts as unrenderable. On 2026-09-10 and 09-14 the Art Director declared
- * 172.8px against a table that showed a 177px hero; the 10rem cap (#530) has
- * since moved that ceiling to 160px, 8% under the declaration, and a figure
- * copied from the table it was shown is not what this catches. The
+ * 172.8px against ramps that topped out at 177px and 181px; the 10rem cap
+ * (#530) has since moved both ceilings to 160px, 8% under the declaration,
+ * and a figure copied from the table it was shown is not what this catches. The
  * declarations that shipped a smaller hero than the mockup drew (300px on
  * 09-15, shipped at 120px; 340px on 09-16, shipped at 177px) were nearly
  * double the ceiling as it stands now.
