@@ -48,7 +48,7 @@ File: `tests/pipeline/swarm.test.js`. One `it` per row. Each asserts the calls m
 | Scenario | Drives | Asserts |
 |---|---|---|
 | Happy path | fixtures as recorded | returns `{ rationale, design_brief, files }` with preset plus six engineer files; `archive` called once; `trace.json` under `build-*`; `elements/preset.ts`, `__root.tsx`, `BrandLockup.tsx`, six engineer files and `signals/today.mockup.html` exist under the root; `verdicts` carry spec-critic, mockup-critic round 0, surface-gate round 1, screenshot-critic |
-| Prompt snapshot | happy path | `calls` matches `tests/pipeline/__snapshots__/swarm-calls.snap` via `toMatchFileSnapshot`, with agent, model, timeouts and both prompts |
+| Prompt snapshot | happy path | each of `calls` matches its own file in `tests/pipeline/__snapshots__/swarm-calls/` via `toMatchFileSnapshot`, with agent, model, timeouts and both prompts |
 | Mockup REVISE twice then APPROVE | critic queue `REVISE`, `REVISE`, `APPROVE` | 3 designer calls; rounds 1 and 2 carry the previous feedback in the user prompt; 3 mockup-critic verdicts with rounds 0 to 2; `noteRetry` twice |
 | Mockup critic malformed | critic reply with no verdict block | loop breaks after round 0 with the round-0 mockup |
 | Build fails, repair succeeds | `validateBuild` false then true | `restore` at 2166 receives only non-art-director paths; one repair call carrying the build error; `archive` once with rationale suffix `(repair 1)` |

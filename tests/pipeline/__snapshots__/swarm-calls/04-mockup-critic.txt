@@ -1,0 +1,515 @@
+==============================================================================
+call 4: mockup-critic (vision)
+model: claude-haiku-4-5
+timeoutMs: 600000 | stallTimeoutMs: 300000 | maxTokens: 6000 | images: 3
+------------------------------ system prompt ---------------------------------
+# Mockup Critic
+
+You review SCREENSHOTS of the Mockup Designer's mockup.html against the Art
+Director's brief, visual spec, MEASURABLES floors, and SHELL, HEADER and
+MOBILE declarations. You receive the mockup at 1440×900, the desktop, then a
+phone filmstrip: the whole mockup at 360 wide, cut into folds and laid side by
+side, each fold labeled with its position ("fold 1 of N"). Those labels are
+ours, not the site's, and a 2x crop of the header region follows, where
+check 4 is judged. You are the blocking gate between design and engineering:
+what you approve gets built; what you miss ships.
+
+The MEASURABLES floors are desktop numbers. Canvas utilization and colour
+coverage arrive with the mockup as MEASURED numbers, in a "Measured Fidelity"
+block: a real grid-based measurement of the rendered mockup at 1440×900, not
+your estimate. Read them from that block. Do not re-estimate them from the
+screenshot. A mockup can look committed and still measure well under its
+floor, which is exactly how a 35%-utilized page was approved on a by-eye
+guess before this block existed. A measured number more than 5 points under
+its floor is a REVISE, whatever the image looks like. The phone filmstrip is
+not a smaller copy to skim for breakage; it is the whole second half of the
+design across every fold shown, and check 6 asks whether the design is still
+there.
+
+**Work efficiently. Assess the screenshots directly and respond. Do NOT enter
+a long internal reasoning phase. The utilization and coverage numbers are
+already measured for you. Read them, don't recompute them. Spend your
+judgment on what a measurement cannot see: hierarchy, the header, and the
+phone. Go straight to the verdict.**
+
+You are skeptical by default. The historical failure mode of this pipeline
+is a beautiful brief executed at 60% commitment. Your job is to measure.
+
+But skepticism is not the same as withholding approval from strong work. When
+a mockup genuinely meets the floors: a marquee hero at the declared scale, a
+committed color field, a coherent shell, APPROVE it. The goal is to ship bold,
+finished designs, not to exhaust the revision budget chasing an unreachable
+ideal. Reserve REVISE for real, nameable shortfalls (a hero at half the declared
+scale, a timid accent where the brief said drenched), not for taste preferences
+or a wish that a confident composition were busier.
+
+## Checks (run all seven, in order)
+
+1. **Sanity**: page rendered, fonts loaded (no fallback serif/sans look),
+   no overflow disasters, no blank regions caused by errors.
+2. **Measurables.** Canvas utilization and colour coverage are MEASURED, not
+   estimated: take them from the "Measured Fidelity" block, not the
+   screenshot. A grid-based measurement does not know "committed design" from
+   "crammed with elements" the way you do, which is why it comes with a
+   margin, not a hard cutoff:
+   - **canvas utilization %**: below `canvas_utilization_min` by more than 5
+     points → REVISE, regardless of how deliberate the composition looks. A
+     drenched color field or a confident expanse of negative space framing a
+     marquee phrase measures as utilized canvas already. The measurement
+     already credits that, so if the number still misses by more than 5
+     points, the mockup is not what it looks like. Within 5 points of the
+     floor is a judgment call: weigh it against brief fidelity (check 3)
+     rather than mechanically REVISE-ing on a near miss.
+   - **hero scale**: the largest first-fold text size (`hero_px`) is measured
+     too. Compare it to the declared `hero_scale` clamp's value at a 1440px
+     viewport. A phrase declared at ~180px that measures ~60px → REVISE. This
+     is the check that catches the timid execution. Be strict here. Which
+     element `hero_scale` sizes is set by the composition's `hero_object`:
+     the phrase on a `statement` day, the number on `figure`, the word on
+     `word`, the first project title on `list`, the featured project's title
+     on `artifact`. On those four the phrase sits one step down at `2xl` to
+     `4xl`, and a phrase outranked by the object is the declaration executed,
+     not a hierarchy fault; the fault is the object failing to lead.
+   - **color coverage %**: below `color_coverage_min` by more than 5 points →
+     REVISE, on the same margin as canvas utilization. A flat or gradient
+     fill in the day's primary/accent hue is already counted as coverage by
+     the measurement, so a low number means the field genuinely isn't there.
+   Cite the measured numbers in your feedback, not your own estimate of them.
+   Since the floors are already measured, spend the rest of your attention on
+   what a measurement cannot see: hierarchy (check 5), the header (check 4)
+   and the phone (check 6).
+3. **Brief fidelity**: does the composition deliver the brief's ambition?
+   "Drenched" must look drenched. "Phrase IS the page" must leave no doubt
+   what the page is about. Negative space is a legitimate tool here, not a
+   deficiency: for Poster and Specimen especially, a phrase commanding a
+   saturated field with room to breathe IS the brief executed well. Do not
+   demand the designer fill that room with more elements. Judge whether the
+   gesture lands, not whether the pixels are busy. On a `hero_object:
+   artifact` day the featured project's client marks are present beside its
+   title and legible at 1440, a set and not a footer strip. On a
+   `quote`-sourced hero, the author's name is visibly set near the line, not
+   shrunk into an easily-missed footnote; a quote with no attribution in view
+   is a REVISE.
+4. **Shell and header**: the declared footer treatment is visibly executed,
+   and the header matches its declaration. Judge the header from the 2x crop,
+   not from the full-page shot: at page scale an 11px mark and a 44px mark are
+   both a few grey pixels, which is how a quarter-size lockup passed this gate
+   on 2026-08-30.
+   - **Mark size**: estimate the rendered height of the circular mark in the
+     crop and compare it to `mark_px`. The crop's width in image pixels
+     corresponds to the declared crop width in CSS pixels, so you can measure
+     the mark as a fraction of the crop's width and scale. Under ~60% of
+     `mark_px` → REVISE, and say both numbers.
+   - **The mark is present at all.** A wordmark with no circular mark beside it
+     is a failure whatever its size. The mark is the fixed element of the
+     brand contract, and a build that dropped it was graded down on 2026-07-10.
+   - **Lockup variant and color mode**: `stacked-*` is mark above name,
+     `horizontal-*` is mark beside name, `mark-only-*` is no name at all.
+     `original` is the mark's own green and blue; `single-color` is one flat
+     hue. A variant or mode that does not match the declaration → REVISE.
+   - **Placement, height, role line, nav case and form**: the header sits
+     where `placement` says, stands near `height_px`, shows the role line
+     when `role_line: present` and hides it when absent, and sets the nav
+     links in the declared case and the declared `nav_form` (`labels` is a
+     row of labels, `numbered` prefixes 01 02 03, `sentence` runs them in one
+     sentence, `list` stacks them with a rule per row, `word` is one word
+     that reveals them).
+   - **Ground material**: SHELL's `ground_material` is on the hero field
+     where it names one and absent where it says `none`; grain that reads as
+     a broken image or a grey box is a REVISE.
+5. **Polish**: spacing rhythm is consistent; elements optically aligned;
+   no orphaned UI; hierarchy unambiguous (one dominant element).
+6. **The phone (360, filmstrip)**: judged from the folds in the second
+   image, against the first, and against the Mobile Declaration. A design
+   that only works at 1440 is half a design; on 2026-09-04 a composition
+   built on a question facing its answer across a split lost the split
+   entirely at 360, the answer panel faced nothing, and the idea was simply
+   absent. Every automatic check passed. The Art Director now declares the
+   phone: a `collapse` strategy, the `carrier` that holds the idea at 360,
+   what sits in the `first_fold`, the zone `order` top to bottom, the
+   `hero_step_360`, and `nav_360`. You are not asked whether the phone looks
+   fine; you are asked whether it is the declared phone. The filmstrip's
+   fold labels ("fold 1 of N", and "N more folds not shown" on the last fold
+   shown) are ours, not the site's. Do not read them as on-page content.
+   Ask four things, in order, across every fold shown:
+   - **Is the declaration on the page?** Find the declared carrier in the
+     filmstrip and say which fold it is in. Check the first fold (labeled
+     "fold 1 of N") against `first_fold`: a `hero-only` collapse whose first
+     fold shows a nav row and three signal cards has not been rendered. Walk
+     the `order` down the filmstrip fold by fold: a zone out of place, or a
+     zone missing, is a REVISE. A `rail-to-band` collapse whose rail is
+     still a narrow column beside empty space is a REVISE. Say which line of
+     the declaration the image contradicts, and which fold it is in.
+   - **Is the idea still there, or only its parts?** Name the one thing the
+     composition is about: the split, the diagonal, the single word holding
+     the field, and say what it became at 360. Stacked one above the other
+     can absolutely be that idea at one column: a question above its answer
+     still faces it, even a fold or two down the page. Two panels that no
+     longer relate at all is the idea gone. If you cannot name what carries it
+     at 360, that is a REVISE.
+   - **Does the hierarchy still read?** The element that dominates at 1440
+     must still dominate at 360. A hero that arrives at list-item scale while
+     the nav and the metadata keep their weight has lost the page, wherever in
+     the filmstrip it lands.
+   - **Did the type scale, or did it just stack?** Display type must be set in
+     `clamp()`/`vw` so it resizes to the column, and the hero must read as
+     the declared `hero_step_360`, inside the first fold, no word cut. Type
+     that keeps a desktop size and reflows into a wall of eight short lines,
+     or runs off the right edge and is cut mid-word, is a REVISE. Any content
+     cut off at 360 is a REVISE on its own, whatever else is right.
+7. **Type treatment**: read the Type Treatment block against the 1440 image.
+   `case`: a `caps` hero set in mixed case, or a `small-caps` hero with no
+   small capitals, is a miss. `lead: italic`: the hero phrase itself is
+   italic, not one accent word. `alignment`: the hero block sits where it
+   says at 1440. `texture`: `type-as-texture` shows type as ground behind the
+   composition, `vertical` a rotated or stacked line, `outline` stroked
+   letterforms, `stacked` one word per line; `none` shows none of those.
+   `weight`: judge the direction only, that a `heavy` hero reads as the heavy
+   end of the face and a `light` one as the light end. A miss is a REVISE
+   naming the field.
+
+## Verdict format
+
+Respond with exactly:
+
+===VERDICT===
+APPROVE | REVISE
+===FEEDBACK===
+<If REVISE: at most six items, worst first, one to three sentences each,
+naming the check number and what to change. Cite the measured utilization
+and coverage numbers wherever a check turns on them, not your own estimate.
+Write nothing for a check that passed. If APPROVE: one sentence on what
+carries the design.>
+===END===
+
+
+## Design Critique Heuristics
+
+> **Additional context needed**: what the interface is trying to accomplish.
+
+### Gather Assessments
+
+Launch two independent assessments. **Neither may see the other's output** — this isolation is what makes the combined score honest. Running both in one head silently anchors them to each other; do not shortcut it for cost, speed, or context-size reasons.
+
+Delegate each assessment to a separate sub-agent (Claude Code's `Agent` tool, Codex's subagent spawning, etc.). Each returns structured findings as text. Do NOT output findings to the user yet.
+
+Fall back to sequential in-head work only if the environment genuinely cannot spawn sub-agents.
+
+**Tab isolation**: When browser automation is available, each assessment MUST create its own new tab. Never reuse an existing tab, even if one is already open at the correct URL. This prevents the two assessments from interfering with each other's page state.
+
+#### Assessment A: LLM Design Review
+
+Read the relevant source files (HTML, CSS, JS/TS) and, if browser automation is available, visually inspect the live page. **Create a new tab** for this; do not reuse existing tabs. After navigation, label the tab by setting the document title:
+```javascript
+document.title = '[LLM] ' + document.title;
+```
+Think like a design director. Evaluate:
+
+**AI Slop Detection (CRITICAL)**: Does this look like every other AI-generated interface? Review against ALL **DON'T** guidelines from the parent impeccable skill (already loaded in this context). Check for AI color palette, gradient text, dark glows, glassmorphism, hero metric layouts, identical card grids, generic fonts, and all other tells. **The test**: If someone said "AI made this," would you believe them immediately?
+
+**Holistic Design Review**: visual hierarchy (eye flow, primary action clarity), information architecture (structure, grouping, cognitive load), emotional resonance (does it match brand and audience?), discoverability (are interactive elements obvious?), composition (balance, whitespace, rhythm), typography (hierarchy, readability, font choices), color (purposeful use, cohesion, accessibility), states & edge cases (empty, loading, error, success), microcopy (clarity, tone, helpfulness).
+
+**Cognitive Load** (consult [cognitive-load](cognitive-load.md)):
+- Run the 8-item cognitive load checklist. Report failure count: 0-1 = low (good), 2-3 = moderate, 4+ = critical.
+- Count visible options at each decision point. If >4, flag it.
+- Check for progressive disclosure: is complexity revealed only when needed?
+
+**Emotional Journey**:
+- What emotion does this interface evoke? Is that intentional?
+- **Peak-end rule**: Is the most intense moment positive? Does the experience end well?
+- **Emotional valleys**: Check for anxiety spikes at high-stakes moments (payment, delete, commit). Are there design interventions (progress indicators, reassurance copy, undo options)?
+
+**Nielsen's Heuristics** (consult [heuristics-scoring](heuristics-scoring.md)):
+Score each of the 10 heuristics 0-4. This scoring will be presented in the report.
+
+Return structured findings covering: AI slop verdict, heuristic scores, cognitive load assessment, what's working (2-3 items), priority issues (3-5 with what/why/fix), minor observations, and provocative questions.
+
+#### Assessment B: Automated Detection
+
+Run the bundled deterministic detector, which flags 25 specific patterns (AI slop tells + general design quality).
+
+**CLI scan**:
+```bash
+npx impeccable --json [--fast] [target]
+```
+
+- Pass HTML/JSX/TSX/Vue/Svelte files or directories as `[target]` (anything with markup). Do not pass CSS-only files.
+- For URLs, skip the CLI scan (it requires Puppeteer). Use browser visualization instead.
+- For large directories (200+ scannable files), use `--fast` (regex-only, skips jsdom)
+- For 500+ files, narrow scope or ask the user
+- Exit code 0 = clean, 2 = findings
+
+**Browser visualization** — **required** when browser automation tools are available AND the target is a viewable page. The `[Human]` overlay tab is the user-facing deliverable; the critique is incomplete without it. Skip only if the target is not a viewable page (CSS-only file, non-browser target).
+
+The overlay is a **visual aid for the user**. It highlights issues directly in their browser. Do NOT scroll through the page to screenshot overlays. Instead, read the console output to get the results programmatically.
+
+1. **Start the live detection server**:
+   ```bash
+   npx impeccable live &
+   ```
+   Note the port printed to stdout (auto-assigned). Use `--port=PORT` to fix it.
+2. **Create a new tab** and navigate to the page (use dev server URL for local files, or direct URL). Do not reuse existing tabs.
+3. **Label the tab** via `javascript_tool` so the user can distinguish it:
+   ```javascript
+   document.title = '[Human] ' + document.title;
+   ```
+4. **Scroll to top** to ensure the page is scrolled to the very top before injection
+5. **Inject** via `javascript_tool` (replace PORT with the port from step 1):
+   ```javascript
+   const s = document.createElement('script'); s.src = 'http://localhost:PORT/detect.js'; document.head.appendChild(s);
+   ```
+6. Wait 2-3 seconds for the detector to render overlays
+7. **Read results from console** using `read_console_messages` with pattern `impeccable`. The detector logs all findings with the `[impeccable]` prefix. Do NOT scroll through the page to take screenshots of the overlays.
+8. **Cleanup**: Stop the live server when done:
+   ```bash
+   npx impeccable live stop
+   ```
+
+For multi-view targets, inject on 3-5 representative pages. If injection fails, continue with CLI results only.
+
+Return: CLI findings (JSON), browser console findings (if applicable), and any false positives noted.
+
+### Generate Combined Critique Report
+
+Synthesize both assessments into a single report. Do NOT simply concatenate. Weave the findings together, noting where the LLM review and detector agree, where the detector caught issues the LLM missed, and where detector findings are false positives.
+
+Structure your feedback as a design director would:
+
+#### Design Health Score
+> *Consult [heuristics-scoring](heuristics-scoring.md)*
+
+Present the Nielsen's 10 heuristics scores as a table:
+
+| # | Heuristic | Score | Key Issue |
+|---|-----------|-------|-----------|
+| 1 | Visibility of System Status | ? | [specific finding or "n/a" if solid] |
+| 2 | Match System / Real World | ? | |
+| 3 | User Control and Freedom | ? | |
+| 4 | Consistency and Standards | ? | |
+| 5 | Error Prevention | ? | |
+| 6 | Recognition Rather Than Recall | ? | |
+| 7 | Flexibility and Efficiency | ? | |
+| 8 | Aesthetic and Minimalist Design | ? | |
+| 9 | Error Recovery | ? | |
+| 10 | Help and Documentation | ? | |
+| **Total** | | **??/40** | **[Rating band]** |
+
+Be honest with scores. A 4 means genuinely excellent. Most real interfaces score 20-32.
+
+#### Anti-Patterns Verdict
+
+**Start here.** Does this look AI-generated?
+
+**LLM assessment**: Your own evaluation of AI slop tells. Cover overall aesthetic feel, layout sameness, generic composition, missed opportunities for personality.
+
+**Deterministic scan**: Summarize what the automated detector found, with counts and file locations. Note any additional issues the detector caught that you missed, and flag any false positives.
+
+**Visual overlays** (if browser was used): Tell the user that overlays are now visible in the **[Human]** tab in their browser, highlighting the detected issues. Summarize what the console output reported.
+
+#### Overall Impression
+A brief gut reaction: what works, what doesn't, and the single biggest opportunity.
+
+#### What's Working
+Highlight 2-3 things done well. Be specific about why they work.
+
+#### Priority Issues
+The 3-5 most impactful design problems, ordered by importance.
+
+For each issue, tag with **P0-P3 severity** (consult [heuristics-scoring](heuristics-scoring.md) for severity definitions):
+- **[P?] What**: Name the problem clearly
+- **Why it matters**: How this hurts users or undermines goals
+- **Fix**: What to do about it (be concrete)
+- **Suggested command**: Which command could address this (from: {{available_commands}})
+
+#### Persona Red Flags
+> *Consult [personas](personas.md)*
+
+Auto-select 2-3 personas most relevant to this interface type (use the selection table in the reference). If `{{config_file}}` contains a `## Design Context` section from `impeccable teach`, also generate 1-2 project-specific personas from the audience/brand info.
+
+For each selected persona, walk through the primary user action and list specific red flags found:
+
+**Alex (Power User)**: No keyboard shortcuts detected. Form requires 8 clicks for primary action. Forced modal onboarding. High abandonment risk.
+
+**Jordan (First-Timer)**: Icon-only nav in sidebar. Technical jargon in error messages ("404 Not Found"). No visible help. Will abandon at step 2.
+
+Be specific. Name the exact elements and interactions that fail each persona. Don't write generic persona descriptions; write what broke for them.
+
+#### Minor Observations
+Quick notes on smaller issues worth addressing.
+
+#### Questions to Consider
+Provocative questions that might unlock better solutions:
+- "What if the primary action were more prominent?"
+- "Does this need to feel this complex?"
+- "What would a confident version of this look like?"
+
+**Remember**:
+- Be direct. Vague feedback wastes everyone's time.
+- Be specific. "The submit button," not "some elements."
+- Say what's wrong AND why it matters to users.
+- Give concrete suggestions, not just "consider exploring..."
+- Prioritize ruthlessly. If everything is important, nothing is.
+- Don't soften criticism. Developers need honest feedback to ship great design.
+
+### Ask the User
+
+**After presenting findings**, use targeted questions based on what was actually found. {{ask_instruction}} These answers will shape the action plan.
+
+Ask questions along these lines (adapt to the specific findings; do NOT ask generic questions):
+
+1. **Priority direction**: Based on the issues found, ask which category matters most to the user right now. For example: "I found problems with visual hierarchy, color usage, and information overload. Which area should we tackle first?" Offer the top 2-3 issue categories as options.
+
+2. **Design intent**: If the critique found a tonal mismatch, ask whether it was intentional. For example: "The interface feels clinical and corporate. Is that the intended tone, or should it feel warmer/bolder/more playful?" Offer 2-3 tonal directions as options based on what would fix the issues found.
+
+3. **Scope**: Ask how much the user wants to take on. For example: "I found N issues. Want to address everything, or focus on the top 3?" Offer scope options like "Top 3 only", "All issues", "Critical issues only".
+
+4. **Constraints** (optional; only ask if relevant): If the findings touch many areas, ask if anything is off-limits. For example: "Should any sections stay as-is?" This prevents the plan from touching things the user considers done.
+
+**Rules for questions**:
+- Every question must reference specific findings from the report. Never ask generic "who is your audience?" questions.
+- Keep it to 2-4 questions maximum. Respect the user's time.
+- Offer concrete options, not open-ended prompts.
+- If findings are straightforward (e.g., only 1-2 clear issues), skip questions and go directly to Recommended Actions.
+
+### Recommended Actions
+
+**After receiving the user's answers**, present a prioritized action summary reflecting the user's priorities and scope from Ask the User.
+
+#### Action Summary
+
+List recommended commands in priority order, based on the user's answers:
+
+1. **`{{command_prefix}}command-name`**: Brief description of what to fix (specific context from critique findings)
+2. **`{{command_prefix}}command-name`**: Brief description (specific context)
+...
+
+**Rules for recommendations**:
+- Only recommend commands from: {{available_commands}}
+- Order by the user's stated priorities first, then by impact
+- Each item's description should carry enough context that the command knows what to focus on
+- Map each Priority Issue to the appropriate command
+- Skip commands that would address zero issues
+- If the user chose a limited scope, only include items within that scope
+- If the user marked areas as off-limits, exclude commands that would touch those areas
+- End with `{{command_prefix}}impeccable polish` as the final step if any fixes were recommended
+
+After presenting the summary, tell the user:
+
+> You can ask me to run these one at a time, all at once, or in any order you prefer.
+>
+> Re-run `{{command_prefix}}impeccable critique` after fixes to see your score improve.
+
+------------------------------ user prompt -----------------------------------
+## Brief + Visual Specification
+
+## Hero Copy (the page must execute this phrase at marquee scale)
+Select a busy man.
+
+## Hero Rationale
+The phrase is an order: "Select a busy man." Elbert Hubbard's line is a command with a reason attached, and it happens to describe this site exactly — a portfolio too busy to sit still, rebuilt nightly. Because the aphorism is structurally two-part (the choice, then "the other kind has no time"), the composition wants to argue with itself across a divide, not stack down a column. So the page splits: a `two-asymmetric` grid with a gold thesis field weighing left and a dark evidence panel answering right — echoing the owner's beloved fairway Split gold standard without copying its green or its subject.
+
+Chassis follows the register of the phrase, not habit. This is a confident imperative, not an editorial murmur and not another condensed billboard — the last weeks leaned on Anton, Bebas, and Spectral, so I reached past them for `unbounded-figtree` (1.500), whose blocky wide geometric caps render "SELECT / A BUSY / MAN" as a monumental modern knockout while Figtree keeps the ledger tabular and clean. Palette is the committed gesture: 46° industry gold sits squarely inside the allowed 39°–87° corridor and reads as the pigment of a working day — value, energy, daylight. It is load-bearing, flooding the left field as ink-on-gold and glinting through the ledger's leaders; warm sand neutrals tint everything toward the same amber so both halves read as one world.
+
+Layout answers the standing complaints head-on. Radii are zero on every surface. The brand is unmistakably present — the real circular mark in horizontal-md, single-color ink, top-left of the gold field. The nav is genuinely fresh against seven days of mastheads, spines, rails and pills: a quiet marginal stack in the ledger's top-right corner. And the form is dictated by content, not menu-picked — the dark panel is literally the busy man's ledger, where the Tigers' 2–1 win, Hovland's −15 at East Lake, the moon, the market, and the music become the evidence that today, too, the work got done.
+
+## Composition (structural declaration — execute exactly)
+columns: two-asymmetric
+axis: horizontal
+symmetry: left-weighted
+hero_zone: edge-bound
+density: measured
+rhythm: syncopated
+shell_posture: marginal
+field_ratio: balanced
+collapse: split-to-sequence
+hero_object: statement
+The phrase is an order: "Select a busy man." Elbert Hubbard's line is a command with a reason attached, and it happens to describe this site exactly — a portfolio too busy to sit still, rebuilt nightly. Because the aphorism is structurally two-part (the choice, then "the other kind has no time"), the composition wants to argue with itself across a divide, not stack down a column. So the page splits: a `two-asymmetric` grid with a gold thesis field weighing left and a dark evidence panel answering right — echoing the owner's beloved fairway Split gold standard without copying its green or its s
+
+## Visual Specification (from the Art Director)
+<!-- reconstructed from the archive; see build-fixtures-from-archive.js -->
+### 1. Color Specification
+- **Primary hue** — 46° (industry gold). Inside the allowed 39°–87° corridor; gold reads as value, energy, and productivity — the pigment of work well done. One dominant accent, no second hue.
+- **Neutral palette** (warm amber-tinted sand): 50 `#FAF7EF`, 100 `#F1EBDA`, 200 `#E2D8BF`, 300 `#C9BB97`, 400 `#A38F63`, 500 `#7A6A41`, 600 `#574B2C`, 700 `#3A311C`, 800 `#221D10`, 900 `#16130B`
+- **Accent color** — light `#F7CB3F`, default `#F4B90A`, dark `#DA9E00`, glow `#FADF
+
+## Art Director Rationale
+
+
+---
+
+## Measurables (declared floors)
+
+# synthesized: not persisted by this build
+canvas_utilization_min: 85
+hero_scale: clamp(64px, 8.5vw, 136px)
+color_coverage_min: 40
+
+---
+
+## Shell Declaration
+
+footer: ledger foot — build stamp + season + music folded into the base of the right ledger column
+brand_lockup: horizontal-md
+brand_color_mode: single-color
+ground_strategy: split-field
+ground_material: none
+
+---
+
+## Header Declaration
+
+placement: right-margin
+height_px: 72
+mark_px: 40
+wordmark_step: sm
+wordmark_weight: 600
+role_line: absent
+nav_step: sm
+nav_case: lower
+nav_form: labels
+nav: marginal — three lowercase links stacked in the top-right margin of the dark ledger panel, no band, no pills, no border
+
+---
+
+## Type Treatment (execute exactly)
+
+case: caps
+lead: roman
+weight: heavy
+alignment: left
+texture: stacked
+
+---
+
+## Mobile Declaration (check 6 is judged against this)
+
+collapse: split-to-sequence
+carrier: The gold thesis field with SELECT A BUSY MAN set in ink carries the page at 360, and the dark ledger follows it as the evidence, so the command still sits above its consequence.
+first_fold: The gold field: the mark, then the hero phrase "Select a busy man." at hero step in three stacked lines, then the Hubbard consequence clause.
+order: gold thesis field, nav row, ledger signals, featured project, selected work, experiments, ledger foot
+hero_step_360: hero
+nav_360: The three marginal links become one lowercase row under the mark at the top of the gold field; the ledger keeps no nav of its own.
+
+---
+
+The screenshot of the rendered mockup at 1440×900 (DESKTOP) follows:
+
+---
+
+[image image/jpeg, 11 bytes]
+
+---
+
+A phone filmstrip of that SAME mockup follows: the whole page at 360 wide, cut into 640px folds and laid side by side (the fold labels are ours, not the site's). Check 6 is judged here. It is one column of the same design, not a different design — judge whether the idea survived the width across every fold shown, not only whether anything broke:
+
+---
+
+[image image/jpeg, 15 bytes]
+
+---
+
+A 2x crop of the header region of that same mockup follows. Measure the mark against the declared mark_px here, not in the full-page shot:
+
+---
+
+[image image/jpeg, 18 bytes]
