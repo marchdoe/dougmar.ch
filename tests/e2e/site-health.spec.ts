@@ -1057,6 +1057,107 @@ test.describe('site health — /elements reads the preset', () => {
 })
 
 /**
+ * The work index is hand-written and takes only the day's colours and type
+ * (#561). Until then it was styled like a different site and clipped at 320:
+ * a 208px column under a 54px title, so "Spaceman" read "Spacemar". The Layout
+ * wrapper hides horizontal overflow, so `scrollWidth` says nothing is wrong
+ * while text runs off the screen. Text is measured against the viewport too.
+ */
+test.describe('site health — the work index fits every width (#561)', () => {
+  for (const width of [320, 768, 1440]) {
+    test(`/work at ${width} clips nothing, breaks no word and links every project`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto('/work')
+      await page.waitForLoadState('networkidle')
+      await page.evaluate(() => document.fonts.ready)
+
+      await expect(page.locator('h1')).toHaveCount(1)
+      for (const slug of PROJECT_SLUGS) {
+        await expect(page.locator(`main a[href="/work/${slug}"]`)).toBeVisible()
+      }
+
+      // The page callbacks only gather numbers; the comparing happens here.
+      const text = await page.evaluate(() => {
+        const range = document.createRange()
+        const linesOf = (node: Text, start: number, end: number, size: number) => {
+          range.setStart(node, start)
+          range.setEnd(node, end)
+          const rects = Array.from(range.getClientRects()).filter((r) => r.width > 0)
+          return new Set(rects.map((r) => Math.round(r.top / (size / 2)))).size
+        }
+        const wordsOf = (node: Text, size: number) =>
+          Array.from(node.data.matchAll(/[\p{L}\p{N}'’]+/gu), (w) => ({
+            word: w[0],
+            size: Math.round(size),
+            lines: linesOf(node, w.index, w.index + w[0].length, size),
+          }))
+        const edgesOf = (node: Text) => {
+          range.selectNodeContents(node)
+          return Array.from(range.getClientRects())
+            .filter((r) => r.width > 0)
+            .map((r) => ({ left: Math.round(r.left), right: Math.round(r.right) }))
+        }
+        const shown = (el: Element) => {
+          const cs = getComputedStyle(el)
+          return cs.visibility !== 'hidden' && cs.writingMode.startsWith('horizontal')
+        }
+
+        const out: {
+          text: string
+          edges: ReturnType<typeof edgesOf>
+          words: ReturnType<typeof wordsOf>
+        }[] = []
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+        for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+          const el = n.parentElement
+          if (!el || el.closest('[aria-hidden="true"]') || !shown(el)) continue
+          const size = Number.parseFloat(getComputedStyle(el).fontSize)
+          const node = n as Text
+          out.push({
+            text: node.data.trim().slice(0, 24),
+            edges: edgesOf(node),
+            words: wordsOf(node, size),
+          })
+        }
+        return out
+      })
+
+      const links = await page.evaluate(() =>
+        Array.from(document.querySelectorAll('a[href]'), (a) => {
+          const r = a.getBoundingClientRect()
+          return { text: (a.textContent ?? '').trim().slice(0, 24), w: r.width, h: r.height }
+        })
+      )
+      const overflow = await page.evaluate(
+        () => document.documentElement.scrollWidth - document.documentElement.clientWidth
+      )
+
+      const clipped = text.flatMap((t) =>
+        t.edges
+          .filter((e) => e.left < 0 || e.right > width + 0.5)
+          .map((e) => `"${t.text}" ${e.left}..${e.right}`)
+      )
+      // A word whose glyphs sit on more than one line was cut in half.
+      const broken = text.flatMap((t) =>
+        t.words
+          .filter((w) => w.lines > 1)
+          .map((w) => `"${w.word}" at ${w.size}px on ${w.lines} lines`)
+      )
+      const small = links
+        .filter((l) => l.w > 0 && l.h > 0 && (l.w < 44 || l.h < 44))
+        .map((l) => `"${l.text}" ${Math.round(l.w)}x${Math.round(l.h)}`)
+
+      expect(overflow, 'the page scrolls sideways').toBeLessThanOrEqual(0)
+      expect(clipped, 'text runs past the viewport').toEqual([])
+      expect(broken, 'a word is broken across lines').toEqual([])
+      expect(small, 'link targets under 44px').toEqual([])
+    })
+  }
+})
+
+/**
  * /experiments wrote `padding: '3 4'`. Panda resolves a token only when it is
  * the whole value, so the row shipped 3px of vertical padding and 4px of
  * horizontal, and stood 25px tall against a 44px tap target (#553). The page

@@ -1,0 +1,114 @@
+{
+  "findings": [
+    {
+      "surface": "/work",
+      "viewport": "desktop",
+      "width": 1440,
+      "scheme": "dark",
+      "kind": "clipped",
+      "severity": "error",
+      "detail": "<H2> holds text wider than its own box: \"Spaceman...\" needs 600px and the box is 531px, so 69px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+    },
+    {
+      "surface": "/work",
+      "viewport": "desktop",
+      "width": 1440,
+      "scheme": "dark",
+      "kind": "console",
+      "severity": "warning",
+      "detail": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` wh"
+    },
+    {
+      "surface": "/work",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "dark",
+      "kind": "clipped",
+      "severity": "error",
+      "detail": "<H2> holds text wider than its own box: \"Spaceman...\" needs 269px and the box is 248px, so 21px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+    },
+    {
+      "surface": "/work",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "dark",
+      "kind": "tap-target",
+      "severity": "warning",
+      "detail": "'Work' is a 42x76px target; a thumb needs 44x44. Give it padding or a taller line box."
+    },
+    {
+      "surface": "/work",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "dark",
+      "kind": "small-copy",
+      "severity": "warning",
+      "detail": "<P> runs at 12.6px, under the 16px reading floor — \"Featured...\". Set it on the body step."
+    },
+    {
+      "surface": "/work",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "dark",
+      "kind": "console",
+      "severity": "warning",
+      "detail": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` wh"
+    },
+    {
+      "surface": "/work",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "light",
+      "kind": "clipped",
+      "severity": "error",
+      "detail": "<H2> holds text wider than its own box: \"Spaceman...\" needs 269px and the box is 248px, so 21px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+    },
+    {
+      "surface": "/work",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "light",
+      "kind": "tap-target",
+      "severity": "warning",
+      "detail": "'Work' is a 42x76px target; a thumb needs 44x44. Give it padding or a taller line box."
+    },
+    {
+      "surface": "/work",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "light",
+      "kind": "small-copy",
+      "severity": "warning",
+      "detail": "<P> runs at 12.6px, under the 16px reading floor — \"Featured...\". Set it on the body step."
+    },
+    {
+      "surface": "/work",
+      "viewport": "mobile",
+      "width": 360,
+      "scheme": "light",
+      "kind": "console",
+      "severity": "warning",
+      "detail": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` wh"
+    },
+    {
+      "surface": "/work",
+      "viewport": "desktop",
+      "width": 1440,
+      "scheme": "light",
+      "kind": "clipped",
+      "severity": "error",
+      "detail": "<H2> holds text wider than its own box: \"Spaceman...\" needs 600px and the box is 531px, so 69px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+    },
+    {
+      "surface": "/work",
+      "viewport": "desktop",
+      "width": 1440,
+      "scheme": "light",
+      "kind": "console",
+      "severity": "warning",
+      "detail": "A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` wh"
+    }
+  ],
+  "measured": 4,
+  "errorCount": 4
+}
