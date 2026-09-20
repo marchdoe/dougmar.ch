@@ -69,6 +69,7 @@ import {
 import { formatPatternPropsForPrompt, readPatternProps } from './utils/pattern-props.js'
 import { collectGateRules, formatGateRulesForPrompt } from './utils/gate-rules.js'
 import { unslopPatternsSection } from './utils/copy-tells.js'
+import { loadPrompt } from './utils/prompt-loader.js'
 import { parseDelimiterResponse } from './utils/delimiter-parser.js'
 import { parseCriticVerdict } from './utils/critic-verdict.js'
 import { modelFor, isDevModelTier } from './utils/models.js'
@@ -824,8 +825,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // scripts/prompts/impeccable/README.md. They replace the previous library-*.md
     // files which authored generic guidance; impeccable provides anti-pattern-aware,
     // OKLCH-native, register-aware design knowledge tuned to fight AI design slop.
-    const promptDir = path.join(root, 'scripts', 'prompts')
-    const refDir = path.join(promptDir, 'impeccable', 'reference')
+    // Every prompt file comes through loadPrompt, which fills the phone
+    // width; a bare readFile here would send `{{NARROW_PX}}` to a model.
     const [
       specCriticPromptRaw,
       screenshotCriticPromptRaw,
@@ -838,16 +839,16 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       brandContract,
       unslopVendored,
     ] = await Promise.all([
-      readFile(path.join(promptDir, 'spec-critic.md'), 'utf8'),
-      readFile(path.join(promptDir, 'screenshot-critic.md'), 'utf8'),
-      readFile(path.join(promptDir, 'design-system-reference.md'), 'utf8'),
-      readFile(path.join(refDir, 'brand.md'), 'utf8'),
-      readFile(path.join(refDir, 'typography.md'), 'utf8'),
-      readFile(path.join(refDir, 'color-and-contrast.md'), 'utf8'),
-      readFile(path.join(refDir, 'spatial-design.md'), 'utf8'),
-      readFile(path.join(refDir, 'critique.md'), 'utf8'),
-      readFile(path.join(promptDir, 'brand-contract.md'), 'utf8'),
-      readFile(path.join(promptDir, 'unslop.md'), 'utf8'),
+      loadPrompt('spec-critic.md', { root }),
+      loadPrompt('screenshot-critic.md', { root }),
+      loadPrompt('design-system-reference.md', { root }),
+      loadPrompt('impeccable/reference/brand.md', { root }),
+      loadPrompt('impeccable/reference/typography.md', { root }),
+      loadPrompt('impeccable/reference/color-and-contrast.md', { root }),
+      loadPrompt('impeccable/reference/spatial-design.md', { root }),
+      loadPrompt('impeccable/reference/critique.md', { root }),
+      loadPrompt('brand-contract.md', { root }),
+      loadPrompt('unslop.md', { root }),
     ])
 
     // Brand-register declaration. dougmar.ch is BRAND register — a personal
@@ -1035,7 +1036,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // Art Director system prompt: art-director.md + brand register +
     // typography + color. Trim to brand+color+typography per spec to keep
     // assembled prompt <= ~50KB (iter-2 failed at 60KB).
-    const artDirectorPromptRaw = await readFile(path.join(promptDir, 'art-director.md'), 'utf8')
+    const artDirectorPromptRaw = await loadPrompt('art-director.md', { root })
     // The chassis-selection numbers are generated from the catalog at
     // assembly time, same as the spec critic's render facts.
     if (!artDirectorPromptRaw.includes('{{CHASSIS_SELECTION_FACTS}}')) {
@@ -1558,11 +1559,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     const { captureHtmlFileScreenshot } = await import('./utils/snapshot.js')
     const { buildLessonsBlock } = await import('./utils/lessons.js')
 
-    const mockupDesignerPromptRaw = await readFile(
-      path.join(promptDir, 'mockup-designer.md'),
-      'utf8'
-    )
-    const mockupCriticPromptRaw = await readFile(path.join(promptDir, 'mockup-critic.md'), 'utf8')
+    const mockupDesignerPromptRaw = await loadPrompt('mockup-designer.md', { root })
+    const mockupCriticPromptRaw = await loadPrompt('mockup-critic.md', { root })
     const mockupCriticSystemPrompt = `${mockupCriticPromptRaw}\n\n## Design Critique Heuristics\n\n${refCritique}`
 
     // polish.md is ALWAYS loaded for the designer — but in the USER prompt
@@ -1571,13 +1569,13 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // overdrive.md is NOT loaded (size cap); refResponsive is NOT appended —
     // its rules are already salvaged into mockup-designer.md's Responsive
     // section.
-    const refPolish = await readFile(path.join(refDir, 'polish.md'), 'utf8')
+    const refPolish = await loadPrompt('impeccable/reference/polish.md', { root })
     const colorStory =
       JSON.stringify(artDirectorResult.colorScheme || {}).toLowerCase() + visualSpec.toLowerCase()
     const isCommitted = /drench|committed|saturat|maximal/.test(colorStory)
     const conditionalRefs = []
     if (isCommitted) {
-      conditionalRefs.push(await readFile(path.join(refDir, 'bolder.md'), 'utf8'))
+      conditionalRefs.push(await loadPrompt('impeccable/reference/bolder.md', { root }))
     }
     const {
       lane: chosenLane,
@@ -1852,7 +1850,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // Phase 2c: React Engineer — translate the approved mockup to TSX
     // -----------------------------------------------------------------------
     console.log('\n[phase-2c] React Engineer')
-    const reactEngineerPromptRaw = await readFile(path.join(promptDir, 'react-engineer.md'), 'utf8')
+    const reactEngineerPromptRaw = await loadPrompt('react-engineer.md', { root })
     if (!reactEngineerPromptRaw.includes('{{SEMANTIC_COLOR_CONTRACT}}')) {
       throw new Error('react-engineer.md is missing its {{SEMANTIC_COLOR_CONTRACT}} placeholder')
     }
@@ -1875,7 +1873,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // prompt has no size cap (only the mockup designer's is budgeted, see
     // utils/mockup-designer-prompt.js), so the whole reference goes in.
     const refMotion = wantsMotionReference(motionDecl)
-      ? await readFile(path.join(refDir, 'motion-design.md'), 'utf8')
+      ? await loadPrompt('impeccable/reference/motion-design.md', { root })
       : ''
     const buildEngineerUserPrompt = () =>
       [

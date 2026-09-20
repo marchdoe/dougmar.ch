@@ -16,9 +16,11 @@ import { readFile, unlink } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
 import { ROOT, validateWritePath } from './file-manager.js'
+import { loadPrompt } from './prompt-loader.js'
 import { ORCHESTRATOR_FILES } from './site-context.js'
 
-const TEMPLATE_REL = 'scripts/prompts/react-engineer-repair.md'
+const TEMPLATE_NAME = 'react-engineer-repair.md'
+const TEMPLATE_REL = `scripts/prompts/${TEMPLATE_NAME}`
 
 /**
  * The paths the engineer owns this run: everything written so far that is
@@ -56,7 +58,7 @@ export async function readOwnedFiles(writtenPaths, fileOwnership, { root = ROOT 
  * @returns {Promise<string>} the brief template with its two placeholders
  */
 export async function loadRepairBriefTemplate({ root = ROOT } = {}) {
-  const template = await readFile(path.join(root, TEMPLATE_REL), 'utf8')
+  const template = await loadPrompt(TEMPLATE_NAME, { root })
   for (const placeholder of ['{{FILES}}', '{{ERRORS}}']) {
     if (!template.includes(placeholder)) {
       throw new Error(`${TEMPLATE_REL} is missing its ${placeholder} placeholder`)

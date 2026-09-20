@@ -4,6 +4,7 @@ import { readFileSync, readdirSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { hashToRange } from './deterministic-hash.js'
 import { AXIS_NAMES, COMPOSITION_AXES } from './composition-grammar.js'
+import { loadPromptSync } from './prompt-loader.js'
 
 /**
  * Lane selection — successor to select-seed.js (deleted, Task 4) now that
@@ -82,7 +83,7 @@ export function loadLanes() {
     .filter((f) => f.endsWith('.md') && f !== 'README.md')
     .map((f) => {
       const filePath = path.join(LANES_DIR, f)
-      const parsed = parseLaneFrontmatter(readFileSync(filePath, 'utf8'))
+      const parsed = parseLaneFrontmatter(loadPromptSync(path.join('lanes', f)))
       // Fall back to the filename so a lane missing its `id:` field is still
       // selectable and identifiable, rather than silently colliding as null.
       return { ...parsed, id: parsed.id ?? path.basename(f, '.md'), path: filePath }

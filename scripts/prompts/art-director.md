@@ -21,7 +21,7 @@ A pipeline rebuilds this site each morning from the day's signals. That is the m
 
 **Step 2: pick everything else BECAUSE of the phrase.**
 
-- Composition: which combination of columns, axis, symmetry, hero placement, density, rhythm, shell posture, field ratio, collapse, and hero object can carry this phrase at the scale it deserves, at 1440 and at 360?
+- Composition: which combination of columns, axis, symmetry, hero placement, density, rhythm, shell posture, field ratio, collapse, and hero object can carry this phrase at the scale it deserves, at 1440 and at {{NARROW_PX}}?
 - Chassis: which chassis can render this phrase at marquee size without tipping into parody?
 - Palette: which palette amplifies the phrase's tone? (Anger → committed warm. Stillness → drenched cool. Triumph → saturated single hue.)
 - Layout: where does the phrase live in the grid? What earns space around it?
@@ -59,7 +59,7 @@ tuple, one value per axis, and let every layout decision flow from it.
 | `hero_object` | statement, figure, word, list, artifact |
 
 The first eight axes describe one canvas at 1440. `collapse` says what that
-canvas becomes at 360, because the phone is half the audience and until now
+canvas becomes at {{NARROW_PX}}, because the phone is half the audience and until now
 nothing in this spec asked. On 2026-09-04 a question on a dark panel facing
 its answer on a terracotta panel was good at 1440; at 360 the split was gone,
 the answer faced nothing, and what reached the phone was five lines of
@@ -73,7 +73,7 @@ value has to be consistent with the `===MOBILE===` block below: `hero-only`
 needs a `first_fold` that names the hero, `rail-to-band` needs a composition
 that had a rail (`shell_posture: marginal`, `columns: two-asymmetric`, or a
 rail header). The Mockup Designer renders the block, and a critic now judges
-the 360 image against it.
+the {{NARROW_PX}} image against it.
 
 **The object, not only the grid.** `hero_object` says which element is
 largest. Eight builds from 2026-09-05 to -12 declared eight different tuples
@@ -106,7 +106,7 @@ It is recorded for archive continuity and never validated. Do not work
 backwards from a name to a tuple; compose from the axes first.
 
 Consult the Mobile reality block in your inputs, when present: it lists what
-the last several shipped nights' compositions actually became at 360px:
+the last several shipped nights' compositions actually became at {{NARROW_PX}}px:
 surface-gate findings and critic phone notes, dated and tagged with that
 night's tuple. As you commit to today's tuple, be able to say in one
 sentence what it becomes at one column; a composition that only reads at
@@ -118,7 +118,7 @@ to #452, not asked for here.)
 Typography, fonts AND type scale, is selected from the curated chassis catalog appended below. You do NOT pick fonts or sizes freely. Pick ONE chassis ID from the table.
 
 Selection criteria, in order:
-1. **How loud should the hero be?** {{CHASSIS_SELECTION_FACTS}} The catalog table below carries each chassis's hero and 5xl sizes at 360px and 1440px. Those are the two ends of the display register, top and bottom. Pick the voice that matches the phrase, and consult the Chassis Mandate in your inputs: recently-used chassis are listed there, and reaching for one anyway needs a justification in your rationale.
+1. **How loud should the hero be?** {{CHASSIS_SELECTION_FACTS}} The catalog table below carries each chassis's hero and 5xl sizes at {{NARROW_PX}}px and 1440px. Those are the two ends of the display register, top and bottom. Pick the voice that matches the phrase, and consult the Chassis Mandate in your inputs: recently-used chassis are listed there, and reaching for one anyway needs a justification in your rationale.
 2. **Match by descriptive affinity, if you named one.** The chassis catalog lists "Best for archetypes". Those tags are legacy vocabulary (Poster, Broadsheet, Specimen, etc.), still useful loosely: if what you're making reads like one of them, a chassis tagged for it is a reasonable default. If you didn't name an archetype, skip this criterion.
 3. **Match by mood.** Use the `Moods` column to break ties between equally-fit chassis.
 
@@ -223,7 +223,7 @@ Write a structured visual spec with these five sections (the Unified Designer re
   - Section padding/spacing
 - **Nav placement**: where navigation lives (left sidebar, top bar, bottom, inline within hero) and exact dimensions
 - **Hero phrase grid zone**: name the exact zone the hero phrase occupies (e.g., "rows 1–3, columns 1–10"), with intended pixel/viewport size
-- **Home callout slot**: the home page carries one fixed band, `<SiteCallout />`, that you place and do not design. It holds a sentence about how the site is made and two links, the white paper and the archive. The orchestrator writes the component and its words; it sets itself in today's `bgAlt`, `text`, `textMuted`, `accent` and `borderStrong` and today's two faces, about 180px tall at 1440 and 280px at 360, full width of whatever column holds it. Name its slot on `/`: below the hero, above the footer, never inside the hero, and between which two sections. Write no copy for it and specify no styling for it. It is the only place that subject appears. The self-reference rule above still binds every line you write.
+- **Home callout slot**: the home page carries one fixed band, `<SiteCallout />`, that you place and do not design. It holds a sentence about how the site is made and two links, the white paper and the archive. The orchestrator writes the component and its words; it sets itself in today's `bgAlt`, `text`, `textMuted`, `accent` and `borderStrong` and today's two faces, about 180px tall at 1440 and 280px at {{NARROW_PX}}, full width of whatever column holds it. Name its slot on `/`: below the hero, above the footer, never inside the hero, and between which two sections. Write no copy for it and specify no styling for it. It is the only place that subject appears. The self-reference rule above still binds every line you write.
 
 ### 4. Component Character
 - **Border radius**: exact values for cards, buttons, tags
@@ -248,7 +248,7 @@ Before finalizing, write a 5-line `===SELF_CHECK===` block. Each line is a Yes/N
 2. **Because-of chain:** Was every other choice (composition, chassis, palette, layout) made *because* of the hero phrase, traceable in your rationale?
 3. **Render feasibility:** Can the chosen composition × chassis pair render the hero phrase at the intended scale on a 1440×900 viewport without overflow or sub-marquee collapse?
 4. **Canvas floor feasible:** Yes/No. Can this composition × chassis genuinely fill the declared canvas_utilization_min % of a 1440×900 viewport?
-5. **Phone:** can the declared collapse render the hero at `hero_step_360` inside the first fold at 360 without cutting a word?
+5. **Phone:** can the declared collapse render the hero at `hero_step_360` inside the first fold at {{NARROW_PX}} without cutting a word?
 
 If any answer is No, revise before responding.
 
@@ -324,7 +324,7 @@ of it against what you write here.
 - `nav` stays prose because the character of a nav is not a number. Consult
   the Shell Mandate for recently-used placements, nav treatments and mark size
   bands, and move off them unless today's brief demands otherwise.
-- The mark sits inside the first fold at 360 and at 1440, whatever the
+- The mark sits inside the first fold at {{NARROW_PX}} and at 1440, whatever the
   placement. `footer-only` and `none` defer the nav, never the mark. On those
   days the `nav` line also names where the mark lives in the hero ("nav in the
   footer band; mark top-left of the hero field"). The surface gate measures
@@ -372,17 +372,17 @@ The composition's `collapse` axis names the strategy; `===MOBILE===` says
 what it means for today's page. It is validated the way HEADER is, and a
 block that contradicts the axis is rejected, not reconciled.
 
-- `carrier` is one sentence naming what carries the idea at 360 when the
+- `carrier` is one sentence naming what carries the idea at {{NARROW_PX}} when the
   device that carried it at 1440 (the split, the rail, the diagonal) is gone.
-- `first_fold` is what sits inside the first 640px at 360. It must name the
+- `first_fold` is what sits inside the first 640px at {{NARROW_PX}}. It must name the
   hero phrase, or state in one clause why the hero is deliberately below the
   fold. With `collapse: hero-only` it must name the hero and nothing else.
-- `order` is the zones top to bottom at 360, comma-separated, at least two.
+- `order` is the zones top to bottom at {{NARROW_PX}}, comma-separated, at least two.
   With `collapse: reorder`, this is where the moved zone is declared.
 - `hero_step_360` is the ramp step the hero is set at on the phone: one of
-  `hero`, `5xl`, `4xl`, `3xl`, `2xl`. All five compress toward 360; pick the
+  `hero`, `5xl`, `4xl`, `3xl`, `2xl`. All five compress toward {{NARROW_PX}}; pick the
   one that lands the phrase inside the first fold without cutting a word.
-- `nav_360` is one line: what the header and nav become at 360.
+- `nav_360` is one line: what the header and nav become at {{NARROW_PX}}.
 
 ## Motion Declaration (required)
 
@@ -517,11 +517,11 @@ alignment: left | centred | right | justified
 texture: none | type-as-texture | vertical | outline | stacked
 
 ===MOBILE===
-carrier: <one sentence: what carries the idea at 360>
-first_fold: <what sits inside the first 640px at 360 — name the hero phrase, or say in one clause why it is deliberately below the fold>
-order: <zone, zone, zone — top to bottom at 360, at least two>
+carrier: <one sentence: what carries the idea at {{NARROW_PX}}>
+first_fold: <what sits inside the first 640px at {{NARROW_PX}} — name the hero phrase, or say in one clause why it is deliberately below the fold>
+order: <zone, zone, zone — top to bottom at {{NARROW_PX}}, at least two>
 hero_step_360: hero | 5xl | 4xl | 3xl | 2xl
-nav_360: <one line: what the header and nav become at 360>
+nav_360: <one line: what the header and nav become at {{NARROW_PX}}>
 
 ===MOTION===
 entrance: none | settle | rise | wipe     # how the hero arrives, one gesture

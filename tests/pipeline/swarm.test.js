@@ -196,6 +196,24 @@ describe('runAgentSwarm on the recorded night', () => {
     await expect(serialized).toMatchFileSnapshot('./__snapshots__/swarm-calls.snap')
   })
 
+  it('sends no unfilled {{PLACEHOLDER}} to any agent, the repair brief included', async () => {
+    // A prompt file may carry a placeholder until its own replace runs, so
+    // this reads what each model was handed, not the files. `build: [false,
+    // true]` adds the repair call, whose brief is a template of its own.
+    // Upper case only: the vendored impeccable references carry lower-case
+    // `{{command_prefix}}`-style tokens from their upstream, and JSX in a
+    // printed file has `{{` of its own.
+    const run = await runSwarm({ build: [false, true] })
+    expect(run.error).toBeNull()
+    expect(run.callsFor('react-engineer').length).toBeGreaterThan(1)
+    const unfilled = run.calls.flatMap((c) =>
+      [
+        ...`${c.systemPrompt ?? ''}\n${c.userPrompt ?? ''}`.matchAll(/\{\{[A-Z][A-Z0-9_]*\}\}/g),
+      ].map((m) => `${c.agent}: ${m[0]}`)
+    )
+    expect(unfilled).toEqual([])
+  })
+
   it('records the phases in the trace, in order', async () => {
     const run = await runSwarm()
     expect(run.error).toBeNull()

@@ -230,7 +230,7 @@ Those paths are from `app/routes/` and `app/components/`. A component under
 ### Responsive: the mockup's breakpoints are the design
 
 The mockup is authored mobile-first and Panda reads the same way. The mockup's
-unqueried CSS **is** the 360px design and becomes `base`; each
+unqueried CSS **is** the {{NARROW_PX}}px design and becomes `base`; each
 `@media (min-width: N)` block is what a wider viewport adds, and becomes the
 Panda condition for that width.
 
@@ -446,7 +446,7 @@ Three things fail the build: importing `app/assets/logo.svg` or
 into a component, and a SHELL declaration naming a lockup that no file renders.
 
 `<BrandLockup />` renders inside the first fold on every route: `/`, `/about`
-and every `/work/<slug>`, at 360 and at 1440. `footer-only` means the nav goes
+and every `/work/<slug>`, at {{NARROW_PX}} and at 1440. `footer-only` means the nav goes
 in the footer; the lockup still sits up top, where the HEADER `nav` line says.
 The surface gate measures the rendered mark's box against the viewport at
 scroll position zero, and a mark outside the fold, or under 32px tall at 1440,
@@ -572,7 +572,7 @@ case, loop) or a cognitive score past 15, it fails. A 321-line
    with the unqueried value as `base`? A mockup with breakpoints and an output
    with none means the phone was dropped.
 6. Every fixed px size you wrote as `base`, width, min-width, gap, font-size:
-   does it fit inside 360 with whatever sits beside it? If it only fits at
+   does it fit inside {{NARROW_PX}} with whatever sits beside it? If it only fits at
    1440, it belongs in a condition, not in `base`.
 7. No em dash in any string or JSX text you wrote, and nothing in the copy
    about the site rebuilding itself? The copy gate reads both.
