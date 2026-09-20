@@ -12,6 +12,7 @@
  * shell-posture-check.js.
  */
 
+import { ALLOWED_EXACT, ALLOWED_WRITE_PREFIXES, isWritablePath } from './file-manager.js'
 import { findShellPostureViolation } from './shell-posture-check.js'
 
 /**
@@ -38,8 +39,26 @@ export function findMissingRequiredFiles(files) {
 }
 
 /**
+ * Paths in the response the engineer is not allowed to write.
+ *
+ * @param {Array<{ path: string }>} files
+ * @returns {string[]}
+ */
+export function findUnwritablePaths(files) {
+  return (files || []).map((f) => f.path).filter((p) => !isWritablePath(p))
+}
+
+/** The allowlist as prose, for the retry reminder. */
+function allowlistSummary() {
+  return [
+    ...ALLOWED_WRITE_PREFIXES.map((p) => `- anything under ${p}`),
+    ...[...ALLOWED_EXACT].map((p) => `- ${p}`),
+  ].join('\n')
+}
+
+/**
  * @typedef {object} OutputProblem
- * @property {'missing-files'|'shell-posture'} kind
+ * @property {'missing-files'|'unwritable-path'|'shell-posture'} kind
  * @property {string} message one line for the log
  * @property {string} reminder the section appended to the engineer's prompt on retry
  */
@@ -66,6 +85,25 @@ export function findEngineerOutputProblem(files, shellPosture) {
         `This silently preserves yesterday's chrome and breaks the day's archetype. ` +
         `Re-emit your COMPLETE response. Every required file must appear, including these you missed:\n` +
         missing.map((m) => `- ${m}`).join('\n'),
+    }
+  }
+
+  // Before posture, because a file that cannot be written is not a file this
+  // response has yet. Reported here so the engineer moves it and fixes the
+  // import in one go; the write boundary also drops it, but a drop alone
+  // leaves an import pointing at nothing.
+  const unwritable = findUnwritablePaths(files)
+  if (unwritable.length > 0) {
+    return {
+      kind: 'unwritable-path',
+      message: `React Engineer wrote outside its allowlist: ${unwritable.join(', ')}`,
+      reminder:
+        `## FILE PATH NOT YOURS — RETRY\n\n` +
+        `These paths are not yours to write: ${unwritable.join(', ')}\n\n` +
+        `You may write:\n${allowlistSummary()}\n\n` +
+        `A new component belongs under \`app/components/generated/\`, not beside the ` +
+        `hand-written ones in \`app/components/\`. Re-emit your COMPLETE response with ` +
+        `every such file moved there and every import that names it updated to match.`,
     }
   }
 

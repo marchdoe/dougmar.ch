@@ -97,17 +97,36 @@ describe('a hand-written component beside the directory', () => {
   const ORIGINAL = 'export function FeaturedProject() {\n  return null\n}\n'
   const REWRITE = `===FILE:${HAND}===\nexport const FeaturedProject = () => null\n`
 
-  it('cannot be written by the engineer; the run fails and the file is untouched', async () => {
+  /**
+   * The file being untouched is the guarantee. The run ending was only ever
+   * the mechanism, and it was the wrong one: on 2026-09-20 the engineer's
+   * repair named a component one directory too high and `validateWritePath`
+   * threw out through `applyEngineerPatch` and `runAgentSwarm`, ending a run
+   * 31 minutes in over one misplaced file.
+   *
+   * Now the engineer is asked to move it, and when it declines — which this
+   * harness guarantees, since an exhausted queue replays the same response —
+   * the block is discarded and the night goes on without it.
+   */
+  it('cannot be written by the engineer, and the file is untouched', async () => {
     const run = await runSwarm({
       agents: { 'react-engineer': [REWRITE + fixtureFor('react-engineer')] },
       beforeRun: (root) => writeUnder(root, HAND, ORIGINAL),
     })
 
-    expect(run.result).toBeNull()
-    expect(run.error.message).toMatch(
-      /Path not in write allowlist: app\/components\/FeaturedProject\.tsx/
-    )
+    // The hand-written component is what this protects, and it is intact.
     expect(onDisk(run.root, HAND)).toBe(ORIGINAL)
-    expect(run.fakes.archive).toHaveLength(0)
+
+    // And the run finished rather than dying on the way past it.
+    expect(run.error).toBeFalsy()
+    expect(run.result).not.toBeNull()
+    expect(run.fakes.archive).toHaveLength(1)
+
+    // The engineer was told which path was not its own before the block was
+    // dropped, so a willing agent fixes the import rather than losing it.
+    const prompts = run.callsFor('react-engineer').map((c) => c.userPrompt ?? '')
+    expect(prompts.length).toBeGreaterThan(1)
+    expect(prompts.some((t) => t.includes('FILE PATH NOT YOURS'))).toBe(true)
+    expect(prompts.some((t) => t.includes(HAND))).toBe(true)
   })
 })
