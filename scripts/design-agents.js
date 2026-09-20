@@ -2644,10 +2644,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           )
           // The measured faults ride along whether or not the critic mentioned
           // them: they are exact, and they are the reason a SHIP is being
-          // revised when the gate forced it. The tap-target and small-copy
-          // warnings ride along too, after the errors (#488): a revision is
-          // already opening this file, which is the cheapest point there
-          // ever is to also widen a link or bump a font-size.
+          // revised when the gate forced it. The tap-target warnings ride
+          // along too, after the errors (#488): a revision is already
+          // opening this file, which is the cheapest point there ever is to
+          // also widen a link.
           const advisoryFaults = advisoryFaultsForOwner(surfaceFindings, 'react-engineer')
           const feedback = [
             criticFeedback,
