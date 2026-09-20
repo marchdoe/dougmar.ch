@@ -145,6 +145,13 @@ describe('archiveArtifacts', () => {
     expect(JSON.parse(out['motion.json'])).toEqual(base.motionDecl)
   })
 
+  it('writes no screenshot-dark.png when the dark capture matched the light one (#549)', () => {
+    const png = Buffer.from([1])
+    const out = archiveArtifacts({ ...base, finalScreenshot: { png, darkPng: null } })
+    expect(out['screenshot.png']).toBe(png)
+    expect(out['screenshot-dark.png']).toBeNull()
+  })
+
   // #456: the declared MEASURABLES floors were parsed every night and thrown
   // away. This is the first time they land on disk.
   it('writes nothing for measurables.json when no MEASURABLES block was parsed', () => {

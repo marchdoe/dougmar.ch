@@ -19,6 +19,18 @@ describe('buildScreenshotCriticBlocks', () => {
     expect(images).toHaveLength(2)
   })
 
+  it('sends one desktop render, not two, when the dark capture matched the light one (#549)', () => {
+    const blocks = buildScreenshotCriticBlocks({
+      ...baseCtx,
+      screenshotBuffer: { jpeg: baseCtx.screenshotBuffer.jpeg, darkJpeg: null },
+    })
+    expect(blocks.filter((b) => b.type === 'image')).toHaveLength(1)
+    const texts = blocks.filter((b) => b.type === 'text').map((b) => b.text)
+    expect(texts.some((t) => t.includes('DARK scheme'))).toBe(false)
+    expect(texts.some((t) => t.includes('BOTH color schemes'))).toBe(false)
+    expect(texts.some((t) => t.includes('defines one color scheme'))).toBe(true)
+  })
+
   it('carries the SHELL declaration as text ahead of the header, and omits it when absent (#505)', () => {
     const blocks = buildScreenshotCriticBlocks({
       ...baseCtx,

@@ -411,6 +411,37 @@ test.describe('site health — archive', () => {
     expect(index.status()).toBe(200)
     expect((await index.json()).length).toBeGreaterThan(0)
   })
+
+  // The screenshot and viewport captures are copied out of archive/ at build
+  // time, not committed a second time (#549). A build that stops copying them
+  // would still answer 200 for these URLs, with the SPA shell, so the type is
+  // what proves an image came back.
+  test("the newest day's screenshot and phone capture are served as images", async ({
+    request,
+  }) => {
+    const index = (await (await request.get('/archive-data/index.json')).json()) as {
+      date: string
+      hasScreenshot: boolean
+    }[]
+    const newest = index
+      .filter((e) => e.hasScreenshot)
+      .map((e) => e.date)
+      .sort()
+      .at(-1)
+    expect(newest).toBeTruthy()
+
+    const shot = await request.get(`/archive-data/${newest}.png`)
+    expect(shot.status()).toBe(200)
+    expect(shot.headers()['content-type']).toContain('image/png')
+
+    // PNG before #549, WebP after; one of the two has to answer.
+    const phone = await Promise.all(
+      ['webp', 'png'].map((ext) => request.get(`/archive-data/${newest}/viewports/mobile.${ext}`))
+    )
+    expect(
+      phone.some((r) => r.status() === 200 && r.headers()['content-type']?.startsWith('image/'))
+    ).toBe(true)
+  })
 })
 
 test.describe('site health — archived site serving', () => {

@@ -954,7 +954,10 @@ export async function captureSnapshot(date, buildId, { root = ROOT } = {}) {
  *   the day's HEADER declaration, which decides where the header crop is
  *   taken, and its MOTION declaration (#506), which decides whether the
  *   frame strip is taken at all
- * @returns {Promise<{png: Buffer, jpeg: Buffer, darkPng: Buffer, darkJpeg: Buffer, headerJpeg: Buffer|null, headerCropAnchor: 'mark'|'placement'|null, mobileJpeg: Buffer|null, motionStripJpeg: Buffer|null, fingerprint: object|null}>}
+ * @returns {Promise<{png: Buffer, jpeg: Buffer, darkPng: Buffer|null, darkJpeg: Buffer|null, headerJpeg: Buffer|null, headerCropAnchor: 'mark'|'placement'|null, mobileJpeg: Buffer|null, motionStripJpeg: Buffer|null, fingerprint: object|null}>}
+ *   `darkPng` and `darkJpeg` are null when the dark scheme renders
+ *   byte-identical to the light one, which is every design that defines no
+ *   `_light` tokens
  */
 export async function captureScreenshot(port, { headerCrop, motion } = {}) {
   const { chromium } = await import('playwright')
@@ -984,8 +987,17 @@ export async function captureScreenshot(port, { headerCrop, motion } = {}) {
         })
         await darkPage.goto(`${baseUrl}/`, { waitUntil: 'networkidle' })
         await darkPage.waitForTimeout(1000)
-        const darkPng = await darkPage.screenshot({ type: 'png', fullPage: false })
-        const darkJpeg = await downscaleForCritic(darkPage, darkPng)
+        const darkShot = await darkPage.screenshot({ type: 'png', fullPage: false })
+        // A design whose semantic tokens carry no `_light` variant renders the
+        // same in both schemes: 17 of the 18 archived builds that took this
+        // capture wrote a screenshot-dark.png byte-identical to screenshot.png.
+        // The scheme does switch (the one build that defined `_light` differs),
+        // so a match means the design is single-mode, not that the capture
+        // failed. Return nothing for the dark side then: the critic is not
+        // sent the same picture twice and the archive does not store it twice.
+        const darkDiffers = !darkShot.equals(png)
+        const darkPng = darkDiffers ? darkShot : null
+        const darkJpeg = darkDiffers ? await downscaleForCritic(darkPage, darkShot) : null
 
         // Header crop, rendered separately at 2x and 1440 wide so it lines up
         // with the mockup's crop. Never blocking — a missing crop costs the
