@@ -24,9 +24,10 @@ import {
   recordFixture,
 } from './agent-fixtures.js'
 import { callClaudeCLI } from './claude-cli.js'
-import { callClaudeSDK, hasApiKey, textBlock } from './claude-sdk.js'
+import { callClaudeSDK, hasApiKey } from './claude-sdk.js'
 import { modelFor } from './models.js'
 import { ModelTransportError } from './model-transport-error.js'
+import { VisionTruncatedError } from './vision-truncated-error.js'
 
 /** Prepended to the CLI fallback prompt so the critic never invents pixels. */
 export const NO_IMAGE_NOTICE =
@@ -34,16 +35,6 @@ export const NO_IMAGE_NOTICE =
   'so image input is unavailable. Judge only what the text below states. Do NOT ' +
   'describe, guess at, or invent anything about the rendered pixels; base your ' +
   'verdict on the declared brief, measurables, and shell alone.'
-
-/**
- * Appended to the retry attempt after a max_tokens truncation, so the second
- * try spends its cap on the verdict rather than repeating the essay that got
- * cut off the first time.
- */
-export const BOUNDED_FORMAT_RETRY_NOTICE =
-  'Your previous reply was cut off at the output cap before it finished. ' +
-  'Reply again with ONLY the bounded verdict block described in Response Format — ' +
-  'the verdict plus the capped issues list, nothing else.'
 
 /**
  * Flatten content blocks to the plain-text prompt the CLI path takes,
@@ -60,13 +51,15 @@ export function blocksToText(contentBlocks) {
 }
 
 /**
- * One SDK vision attempt, and — only after a max_tokens truncation — one
- * retry with a bounded-format nudge appended to the same images. A
- * truncation is not a transport failure: the critic saw the pixels and was
- * mid-answer. Falling straight to the text-only CLI here is how #486 shipped
- * a build the critic never actually re-saw as SHIPPED-WITH-FAULTS — the CLI,
- * told plainly it has no screenshot, correctly said REVISE for the wrong
- * reason.
+ * One SDK vision attempt. A max_tokens truncation is not a transport
+ * failure: the critic saw the pixels and was mid-answer. Falling straight to
+ * the text-only CLI here is how #486 shipped a build the critic never
+ * actually re-saw as SHIPPED-WITH-FAULTS — the CLI, told plainly it has no
+ * screenshot, correctly said REVISE for the wrong reason.
+ *
+ * A truncation is not retried. The retry used to append a "keep it short"
+ * notice, but that limits the visible answer and the cap is spent on
+ * adaptive thinking, so the second call truncated like the first (#570).
  *
  * @param {object} opts
  * @param {string} opts.agentName
@@ -74,52 +67,40 @@ export function blocksToText(contentBlocks) {
  * @param {Array<object>} opts.contentBlocks
  * @param {number} [opts.maxTokens]
  * @param {number} [opts.timeoutMs]
- * @returns {Promise<{ channel: 'sdk-vision'|'sdk-vision-truncated', text: string } |
+ * @returns {Promise<{ channel: 'sdk-vision', text: string } |
+ *   { channel: 'sdk-vision-truncated', error: VisionTruncatedError } |
  *   { channel: 'cli-text-fallback', fallback: true }>}
  */
 async function attemptSdkVision({ agentName, systemPrompt, contentBlocks, maxTokens, timeoutMs }) {
-  // One call. Throws ModelTransportError on an empty reply, or the
-  // `truncated: true` error from claude-sdk.js's assertNotTruncated on a
-  // max_tokens stop — the caller tells those apart.
-  async function callSdkVision(blocks) {
-    const text = await callClaudeSDK(agentName, systemPrompt, blocks, { maxTokens, timeoutMs })
+  try {
+    // Throws ModelTransportError on an empty reply, or the `truncated: true`
+    // error from claude-sdk.js's assertNotTruncated on a max_tokens stop —
+    // the catch below tells those apart.
+    const text = await callClaudeSDK(agentName, systemPrompt, contentBlocks, {
+      maxTokens,
+      timeoutMs,
+    })
     if (!text?.trim()) {
       throw new ModelTransportError({ agent: agentName, channel: 'sdk-vision', emptyReply: true })
     }
     // The CLI path records inside callClaudeCLI; the SDK path has to do it
     // here or a recorded run would have no fixture for either critic.
     if (isRecording()) recordFixture(agentName, text)
-    return text
-  }
-
-  try {
-    return { channel: 'sdk-vision', text: await callSdkVision(contentBlocks) }
+    return { channel: 'sdk-vision', text }
   } catch (err) {
-    if (!err.truncated) {
+    if (err.truncated) {
       console.warn(
-        `  [${agentName}] SDK vision call failed (${err.message}) — falling back to text-only CLI`
+        `  [${agentName}] SDK vision call truncated at max_tokens — no verdict, not falling back to text-only CLI`
       )
-      return { channel: 'cli-text-fallback', fallback: true }
-    }
-
-    console.warn(
-      `  [${agentName}] SDK vision call truncated at max_tokens — retrying once with a bounded-format instruction`
-    )
-    try {
-      const retryBlocks = [...contentBlocks, textBlock(BOUNDED_FORMAT_RETRY_NOTICE)]
-      return { channel: 'sdk-vision', text: await callSdkVision(retryBlocks) }
-    } catch (retryErr) {
-      if (!retryErr.truncated) {
-        console.warn(
-          `  [${agentName}] SDK vision retry failed (${retryErr.message}) — falling back to text-only CLI`
-        )
-        return { channel: 'cli-text-fallback', fallback: true }
+      return {
+        channel: 'sdk-vision-truncated',
+        error: new VisionTruncatedError({ agent: agentName, reason: err.message }),
       }
-      console.warn(
-        `  [${agentName}] SDK vision retry also truncated at max_tokens — recording UNVERIFIED instead of falling back to text-only CLI`
-      )
-      return { channel: 'sdk-vision-truncated', text: retryErr.message }
     }
+    console.warn(
+      `  [${agentName}] SDK vision call failed (${err.message}) — falling back to text-only CLI`
+    )
+    return { channel: 'cli-text-fallback', fallback: true }
   }
 }
 
@@ -136,13 +117,15 @@ async function attemptSdkVision({ agentName, systemPrompt, contentBlocks, maxTok
  * @param {number} [args.stallTimeoutMs] - CLI path only
  * @param {(channel: string) => void} [args.onChannel] - told which channel
  *   actually answered: 'sdk-vision', 'sdk-vision-truncated' (the SDK saw the
- *   images but truncated at max_tokens twice in a row), 'cli-text-fallback'
+ *   images but stopped at max_tokens; the call then throws), 'cli-text-fallback'
  *   (the SDK failed for another reason), 'cli-text-no-key', or
  *   'fixture-replay' (MOCK_MODE, nothing was called).
  *   Without this the degradation is invisible: a 400 from a bad thinking param
  *   or a wrong model id silently turns both vision gates into text-only, and a
  *   critic can APPROVE a design it never saw.
  * @returns {Promise<string>} raw assistant text (callers parse their own verdicts)
+ * @throws {VisionTruncatedError} when the SDK reply stopped at max_tokens. It
+ *   is thrown, never returned as text, so no caller can parse it as a verdict.
  */
 export async function callVisionAgent(args) {
   const { agentName, systemPrompt, contentBlocks, maxTokens, timeoutMs, stallTimeoutMs } = args
@@ -176,6 +159,7 @@ export async function callVisionAgent(args) {
       timeoutMs,
     })
     onChannel(result.channel)
+    if (result.error) throw result.error
     if (!result.fallback) return result.text
     cliChannel = result.channel
   } else if (imageCount > 0) {

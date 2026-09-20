@@ -2413,6 +2413,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
        * change to either (the phone filmstrip, say) reaches both for free.
        * @param {Array<object>} measuredFindings - surface-gate findings for this build
        * @returns {Promise<{verdict: string, criticResponse: string, visionChannel: string, bar: object|null}>}
+       *   `verdict` is 'UNVERIFIED' unless the critic saw the build (#570).
        */
       async function judgeScreenshot(measuredFindings) {
         console.log('\n[screenshot-critic] Capturing screenshot...')
@@ -2431,10 +2432,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         // these JPEGs as base64 data-URIs in a CLI text prompt billed ~300k
         // tokens per image and the model never saw the pixels (a solid-red
         // probe read back as "light gray"). Three image blocks are ~5k tokens.
-        const { callVisionAgent } = await import('./utils/vision-router.js')
-        const { buildScreenshotCriticBlocks } = await import('./agents/screenshot-critic.js')
+        const { buildScreenshotCriticBlocks, runScreenshotCritic } = await import(
+          './agents/screenshot-critic.js'
+        )
         const { findBestRatedReference } = await import('./utils/ratings.js')
-        const { parseBarLine } = await import('./utils/critic-verdict.js')
 
         // Self-eval calibration: attach the owner's highest-rated past own
         // build alongside today's render, when one has been auto-promoted
@@ -2514,36 +2515,21 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           measuredFaults: formatFindingsForCritic(measuredFindings),
         })
 
-        // Which channel answered. A SHIP reached without pixels is a
-        // different claim from one reached with them, so verdicts.json says
-        // which it was.
-        let visionChannel = 'unknown'
-        const criticResponse = await callVisionAgent({
-          agentName: 'screenshot-critic',
+        return await runScreenshotCritic({
           systemPrompt: screenshotCriticPrompt,
           contentBlocks: criticBlocks,
-          // The SDK path uses timeoutMs only; the CLI fallback uses both.
-          ...budgetFor('screenshot-critic'),
-          onChannel: (c) => {
-            visionChannel = c
-          },
+          wantsBar: Boolean(bestReference),
         })
-        if (visionChannel !== 'sdk-vision') {
-          console.warn(
-            `  [screenshot-critic] verdict reached WITHOUT images (${visionChannel}) — it did not see the design`
-          )
-        }
-        const { verdict } = parseCriticVerdict(criticResponse, 'SHIP')
-        // BAR is only expected when a reference image was actually attached;
-        // parseBarLine is tolerant regardless — absent is fine either way.
-        const bar = bestReference ? parseBarLine(criticResponse) : null
-        if (bar) console.log(`  [screenshot-critic] BAR: ${bar.position} — ${bar.reason}`)
-
-        return { verdict, criticResponse, visionChannel, bar }
       }
 
       try {
         const t0ScreenshotCritic = Date.now()
+        // Only a critic that saw the build gets a vote: judgeScreenshot says
+        // UNVERIFIED for a truncated reply or a text-only fallback, and a
+        // REVISE from either is not a finding (09-09 paid the engineer to
+        // revise against a sentence about token counts, #570). No verdict
+        // skips the critic-driven revision and keeps the gate-driven one,
+        // as the mockup-critic loop does for a malformed reply.
         const {
           verdict: screenshotVerdict,
           criticResponse,
@@ -2610,10 +2596,12 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
             .filter(Boolean)
             .join('\n\n')
 
+          const criticSaid =
+            screenshotVerdict === 'UNVERIFIED' ? 'critic gave no verdict' : 'critic said SHIP'
           console.log(
             screenshotVerdict === 'REVISE'
               ? `  [screenshot-critic] REVISE — responsible: ${responsibleAgent}`
-              : `  [surface-gate] critic said SHIP; revising anyway for ${engineerFaults.length} measured fault(s)`
+              : `  [surface-gate] ${criticSaid}; revising anyway for ${engineerFaults.length} measured fault(s)`
           )
           console.log(`  feedback: ${feedback.slice(0, 200)}...`)
 
@@ -2775,6 +2763,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
               engineerResult = passingEngineerResult
             }
           }
+        } else if (screenshotVerdict === 'UNVERIFIED') {
+          console.warn(
+            `  [screenshot-critic] no verdict (${visionChannel}) — no critic-driven revision, shipping the build as-is`
+          )
         } else {
           console.log('  [screenshot-critic] SHIP')
         }

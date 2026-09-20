@@ -21,6 +21,7 @@ import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import * as yaml from 'js-yaml'
 import { describe, expect, it } from 'vitest'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
@@ -38,7 +39,6 @@ const OUTPUTS = [
   ['app/components/', "the React Engineer's components"],
   ['app/routes/', 'the routes, including __root.tsx regenerated from template'],
   ['public/archive/', 'the sealed, framed snapshot of the day (#156, #158)'],
-  ['public/archive-data/', 'the screenshot and viewport captures (#154)'],
   ['public/og/', 'the share card'],
   ['references/', "the owner's promoted A/B-graded screenshots (#340)"],
   ['signals/today.references.md', 'the references the run consumed'],
@@ -69,6 +69,15 @@ describe('the daily workflow stages', () => {
     expect(staged).toContain(outputPath)
   })
 
+  it("commits the day's screenshot and viewport captures once, in the build dir (#549)", () => {
+    // They used to be staged twice: in archive/<date>/build-*, and again as a
+    // copy under public/archive-data/. The build now makes that copy, and the
+    // path is gitignored, so staging it would add nothing but a second commit
+    // of the same bytes if the ignore rule were ever lost.
+    expect(staged).not.toContain('public/archive-data/')
+    expect(src).toMatch(/for d in archive\/\$TODAY\/build-\[0-9\]\*; do/)
+  })
+
   it("carries the day's record, not only its prose", () => {
     // record.json is the canonical record (#153). Its absence is not fatal —
     // the projection rebuilds from brief.md and the build dir — but the cache
@@ -91,7 +100,7 @@ describe('the push', () => {
     // github-actions[bot] cannot be added to a personal-account repository
     // ruleset's bypass list; deploy keys can. See the comment on the step.
     expect(src).toMatch(/ssh-key:\s*\$\{\{\s*secrets\.DEPLOY_KEY\s*\}\}/)
-    expect(src).not.toMatch(/- uses: actions\/checkout@v\d+\s*\n\s*with:\s*\n\s*token:/)
+    expect(src).not.toMatch(/- uses: actions\/checkout@\S+ # v\d+\s*\n\s*with:\s*\n\s*token:/)
   })
 
   it('still fails loudly when the commit does not leave the runner', () => {
@@ -170,7 +179,7 @@ describe('the deploy key never shares a job with generated code', () => {
   it('runs the pipeline in a job that checks out with no credential', () => {
     expect(agents).toContain('Run daily redesign')
     expect(agents).toMatch(
-      /- uses: actions\/checkout@v\d+\s*\n\s*with:\s*\n\s*persist-credentials: false/
+      /- uses: actions\/checkout@[0-9a-f]{40} # v\d+\s*\n\s*with:\s*\n\s*persist-credentials: false/
     )
     expect(agents).not.toContain('DEPLOY_KEY')
     expect(agents).toMatch(/permissions:\s*\n\s*contents: read/)
@@ -203,13 +212,13 @@ describe('the deploy key never shares a job with generated code', () => {
     // budgeted at 80 minutes with a 60-minute internal RUN_BUDGET_MINUTES.
     // Sharing ci.yml's cache key means a nightly run can hit the same cache
     // a CI run just warmed, and vice versa.
-    expect(agents).toMatch(/uses: actions\/cache@v4/)
+    expect(agents).toMatch(/uses: actions\/cache@[0-9a-f]{40} # v4/)
     expect(agents).toMatch(/path:\s*~\/\.cache\/ms-playwright/)
     expect(agents).toMatch(
       /key:\s*playwright-\$\{\{\s*runner\.os\s*\}\}-\$\{\{\s*steps\.pw\.outputs\.version\s*\}\}/
     )
 
-    const cacheIndex = agents.indexOf('actions/cache@v4')
+    const cacheIndex = agents.indexOf('actions/cache@')
     const installIndex = agents.indexOf('Install Playwright browser')
     expect(cacheIndex).toBeGreaterThan(-1)
     expect(installIndex).toBeGreaterThan(-1)
@@ -218,16 +227,26 @@ describe('the deploy key never shares a job with generated code', () => {
 })
 
 describe('what the nightly links to', () => {
-  it('points the rating issue at where the screenshot is actually written', async () => {
-    // #154 moved the day's screenshot from public/archive/<date>.png to
-    // public/archive-data/<date>.png. The staging loop was eventually
-    // updated; this URL was not, so every rating issue rendered a broken
-    // image — and the rating loop is the only taste signal the Art Director
-    // gets back. Pinned to the archiver's own constant rather than a literal.
-    const { PUBLIC_SCREENSHOT_DIR } = await import('../../scripts/utils/archiver.js')
-    expect(src).toContain(`main/${PUBLIC_SCREENSHOT_DIR}/\${today}.png`)
+  it('points the rating issue at where the screenshot is actually committed', () => {
+    // #154 moved the day's screenshot without moving this URL, so every rating
+    // issue rendered a broken image, and the rating loop is the only taste
+    // signal the Art Director gets back. #549 moved it again: public/archive-data
+    // is made at build time now, so the issue reads the build dir on main,
+    // which is where the nightly commits the capture.
+    const rating = src.slice(src.indexOf('Open today'), src.indexOf('  notify:'))
+    // biome-ignore lint/suspicious/noTemplateCurlyInString: asserting on the literal text the workflow YAML contains, not interpolating
+    expect(rating).toContain('const img = `${rawBase}/screenshot.png`')
+    // biome-ignore lint/suspicious/noTemplateCurlyInString: asserting on the literal text the workflow YAML contains, not interpolating
+    expect(rating).toContain('/main/${buildDir}`')
+    expect(rating).not.toContain('main/public/archive-data')
     // biome-ignore lint/suspicious/noTemplateCurlyInString: asserting on the literal text the workflow YAML contains, not interpolating
     expect(src).not.toContain('main/public/archive/${today}.png')
+  })
+
+  it('names the phone capture in whichever format the build wrote (#549)', () => {
+    const rating = src.slice(src.indexOf('Open today'), src.indexOf('  notify:'))
+    expect(rating).toContain('viewports/mobile.webp')
+    expect(rating).toContain("'mobile.png'")
   })
 
   it('resolves dates in the failure issue in JS, not in a dead shell substitution', () => {
@@ -305,39 +324,103 @@ describe('the DST guard', () => {
 })
 
 describe('the rollback workflow', () => {
-  it('restores the same files the pipeline is allowed to write', async () => {
-    // The hardcoded list had drifted to 16 of 18 — og.tsx and
-    // chassis-preset.ts were left standing against a restored preset.ts.
-    // Reading MUTABLE_FILES at runtime is what stops it drifting again.
-    const { MUTABLE_FILES } = await import('../../scripts/utils/site-context.js')
-    expect(rollbackSrc).toContain('m.MUTABLE_FILES')
-    for (const file of MUTABLE_FILES) {
-      expect(rollbackSrc).not.toMatch(
-        new RegExp(`git checkout[^\\n]*${file.replace(/[.$]/g, '\\$&')}`)
-      )
-    }
+  // #545: the first version restored MUTABLE_FILES from HEAD~N. HEAD~1 is one
+  // commit back, not one night back, and the list had no
+  // app/components/generated/, so yesterday's routes were restored against
+  // components the night had deleted. A night is one commit; reverting it
+  // carries every file it touched.
+  const revertJob = rollbackSrc.slice(
+    rollbackSrc.indexOf('  revert:'),
+    rollbackSrc.indexOf('  push:')
+  )
+  const pushJob = rollbackSrc.slice(rollbackSrc.indexOf('  push:'))
+
+  it('reverts the nightly commit it finds by subject, not a file list at HEAD~N', () => {
+    expect(revertJob).toMatch(/--grep='\^chore: daily redesign'/)
+    expect(revertJob).toMatch(/git revert --no-edit "\$sha"/)
+    // The header comment names the old approach; only the code counts.
+    const code = rollbackSrc
+      .split('\n')
+      .filter((line) => !line.trim().startsWith('#'))
+      .join('\n')
+    expect(code).not.toMatch(/HEAD~/)
+    expect(code).not.toContain('MUTABLE_FILES')
+    expect(code).not.toMatch(/git checkout/)
   })
 
-  it('refuses to roll back a guessed file list', () => {
-    expect(rollbackSrc).toMatch(/could not read MUTABLE_FILES/)
+  it('checks the subject again, because --grep matches any line of a message', () => {
+    expect(revertJob).toMatch(/\[\[ "\$subject" =~ \^chore:/)
+    expect(revertJob).toContain('--no-merges')
+  })
+
+  it('does not revert a night it already reverted', () => {
+    expect(revertJob).toMatch(/This reverts commit \$sha/)
+  })
+
+  it('stops on a conflict and pushes nothing', () => {
+    expect(revertJob).toMatch(/git revert --abort/)
+    expect(revertJob).toMatch(/::error::reverting \$sha conflicts/)
+  })
+
+  it('builds in a job with no credential and a read-only token', () => {
+    expect(revertJob).toMatch(
+      /- uses: actions\/checkout@[0-9a-f]{40} # v\d+\s*\n\s*with:\s*\n\s*persist-credentials: false/
+    )
+    expect(revertJob).toMatch(/permissions:\s*\n\s*contents: read/)
+    expect(revertJob).toContain('pnpm build')
+    expect(revertJob).not.toContain('DEPLOY_KEY')
+    expect(revertJob).not.toMatch(/GITHUB_TOKEN/)
+    expect(revertJob).not.toMatch(/git push/)
+  })
+
+  it('pushes from a job that runs no generated code, with the deploy key', () => {
+    // The ruleset lets the deploy key and repository admins bypass it;
+    // github-actions[bot] is neither.
+    expect(pushJob).toMatch(/ssh-key:\s*\$\{\{\s*secrets\.DEPLOY_KEY\s*\}\}/)
+    expect(pushJob).not.toContain('pnpm')
+    expect(pushJob).not.toContain('node ')
+    expect(pushJob).toMatch(/needs: revert/)
+    expect(pushJob).toMatch(/git am "\$RUNNER_TEMP\/rollback\.patch"/)
+  })
+
+  it('hands the revert over as one artifact, by the same name on both sides', () => {
+    expect(revertJob).toMatch(
+      /git format-patch --binary --stdout "\$BASE"\.\.HEAD > "\$RUNNER_TEMP\/rollback\.patch"/
+    )
+    expect(revertJob).toMatch(/upload-artifact[\s\S]*name: rollback-\$\{\{ github\.run_id \}\}/)
+    expect(pushJob).toMatch(/download-artifact[\s\S]*name: rollback-\$\{\{ github\.run_id \}\}/)
+  })
+
+  it('is a dry run unless told otherwise, and a dry run never pushes', () => {
+    const doc = yaml.load(rollbackSrc)
+    expect(doc.on.workflow_dispatch.inputs.dry_run).toMatchObject({
+      type: 'boolean',
+      default: true,
+    })
+    // biome-ignore lint/suspicious/noTemplateCurlyInString: asserting on the literal expression text in the workflow YAML, not interpolating
+    expect(doc.jobs.push.if).toBe('${{ !inputs.dry_run }}')
+    expect(revertJob).toContain('$GITHUB_STEP_SUMMARY')
+    expect(revertJob).toContain('git diff --stat')
+  })
+
+  it('refuses a real rollback that was not dispatched on main', () => {
+    expect(revertJob).toMatch(/!inputs\.dry_run && github\.ref != 'refs\/heads\/main'/)
   })
 
   it('fails loudly when the rollback does not leave the runner', () => {
-    expect(rollbackSrc).toMatch(/pushed" != "true"/)
-    expect(rollbackSrc).toMatch(/::error::push failed/)
+    expect(pushJob).toMatch(/pushed" != "true"/)
+    expect(pushJob).toMatch(/::error::push failed/)
   })
 
   it('clears a stale rebase before retrying the push (#342)', () => {
-    expect(rollbackSrc).toMatch(
-      /rebase --abort 2>\/dev\/null \|\| true\s*\n\s*if git pull --rebase/
-    )
+    expect(pushJob).toMatch(/rebase --abort 2>\/dev\/null \|\| true\s*\n\s*if git pull --rebase/)
   })
 
   it('passes commits_back through env, not straight into the run body (#345)', () => {
     // type: number on the input is a UI hint, not server-side validation —
     // interpolating ${{ inputs.commits_back }} directly into the run: body
     // is the template-injection pattern the rest of the workflow avoids.
-    const start = rollbackSrc.indexOf('Roll back mutable files')
+    const start = rollbackSrc.indexOf('Revert the nightly')
     const nextStep = rollbackSrc.indexOf('- name:', start + 1)
     const step = rollbackSrc.slice(start, nextStep === -1 ? undefined : nextStep)
     expect(step).toMatch(/COMMITS_BACK:\s*\$\{\{\s*inputs\.commits_back\s*\}\}/)
@@ -347,5 +430,6 @@ describe('the rollback workflow', () => {
     const runBody = step.slice(step.indexOf('run: |'))
     expect(runBody).not.toMatch(/\$\{\{\s*inputs\./)
     expect(runBody).toMatch(/N="\$COMMITS_BACK"/)
+    expect(runBody).toMatch(/case "\$N" in ''\|\*\[!0-9\]\*\)/)
   })
 })

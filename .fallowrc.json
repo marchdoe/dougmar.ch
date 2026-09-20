@@ -35,6 +35,10 @@
   // router so the page's chunk never reaches a production build. Without
   // these, live files read as dead, which is most of what an "unused files"
   // count would be reporting.
+  //
+  // api/panel/*.ts are Vercel functions. The platform calls their exported
+  // GET, POST and PUT by path, so nothing imports them and `POST` in rate.ts
+  // and run.ts is the convention, not a duplicate export.
   "entry": [
     "scripts/*.js",
     "scripts/signals/*.js",
@@ -47,7 +51,29 @@
     "app/ssr.tsx",
     "app/dev-entry.tsx",
     "app/dev-responsive-entry.tsx",
-    "app/stubs/*.ts"
+    "app/stubs/*.ts",
+    "api/panel/*.ts"
+  ],
+
+  // Vercel reads `config.matcher` from middleware.ts by name.
+  "ignoreExports": [{ "file": "middleware.ts", "exports": ["config"] }],
+
+  // Imported by scripts/, app/dev-server/ and app/server/signals-impl.ts, which
+  // only the dev server loads. The deployed site and api/ never import them,
+  // so they stay devDependencies. Fallow reads scripts/*.js as entry points and
+  // reports the three as dev dependencies used in production.
+  "ignoreDependencies": ["@anthropic-ai/sdk", "dotenv", "js-yaml"],
+
+  // Each of these overrides a transitive package, so no workspace package
+  // declares it and fallow calls it unused. pnpm-workspace.yaml gives the
+  // advisory and when to drop it. Only overrides that still exist are listed;
+  // delete a line here when its override goes. fast-uri is not listed because
+  // #555 drops that override.
+  "ignoreDependencyOverrides": [
+    { "package": "postcss" },
+    { "package": "browserslist" },
+    { "package": "postcss-selector-parser" },
+    { "package": "js-yaml" }
   ],
 
   "health": {
@@ -75,7 +101,8 @@
         "maxUnitSize": 250,
         "maxCyclomatic": 30,
         "maxCognitive": 30,
-        "reason": "a describe block is a file, not a function"
+        "maxCrap": 38,
+        "reason": "a describe block is a file, not a function; 38 clears one test helper at CRAP 37"
       },
       {
         // The React Engineer's route pages and components have no unit
@@ -94,6 +121,149 @@
         "maxCognitive": 15,
         "maxCrap": 450,
         "reason": "generated UI has no unit tests by design; judge on cyclomatic/cognitive, not zero-coverage CRAP"
+      },
+
+      // Everything below is the standing debt on main at 63b3e21e: 71
+      // functions above the default 20 / 15 / 30 ceilings, so `pnpm fallow
+      // --summary` failed on a clean checkout. Each entry sits at what the code
+      // scores today, not above it. The defaults still apply to every other
+      // function, and to every function these files gain: a new or worsened
+      // one fails. Entries only come down. Delete one when its function is
+      // split, and re-measure rather than raising a ceiling.
+      // CRAP here is fallow's static estimate (no coverage file), which puts
+      // an untested function at cyclomatic squared plus cyclomatic.
+      //
+      // Order matters. When several entries match a function, the last one
+      // wins, so the broad entry comes first and the named functions after it.
+      {
+        // The moderate remainder: 26 functions in 17 files. Worst cyclomatic
+        // 27 and worst cognitive 26 (both validateArtDirectorResult), worst
+        // CRAP 88 (shell-mandate.js).
+        "files": [
+          "api/_lib/github.ts",
+          "scripts/agents/art-director.js",
+          "scripts/collect-ratings.js",
+          "scripts/collect-references.js",
+          "scripts/seal-archive.js",
+          "scripts/signals/sports.js",
+          "scripts/utils/archive-record.js",
+          "scripts/utils/archiver.js",
+          "scripts/utils/composition-mandate.js",
+          "scripts/utils/geometry-fingerprint.js",
+          "scripts/utils/lessons.js",
+          "scripts/utils/preset-parser.js",
+          "scripts/utils/responsive-scorer.js",
+          "scripts/utils/semantic-contract.js",
+          "scripts/utils/shell-mandate.js",
+          "scripts/utils/snapshot.js",
+          "scripts/utils/token-existence.js"
+        ],
+        "maxCyclomatic": 27,
+        "maxCognitive": 26,
+        "maxCrap": 89,
+        "reason": "standing debt in 17 named files; anything worse fails"
+      },
+      {
+        "files": ["app/routes/archive.tsx"],
+        "functions": ["ArchivePage"],
+        "maxCyclomatic": 20,
+        "maxCognitive": 32,
+        "maxCrap": 450,
+        "reason": "cognitive 32; the route ceilings above still apply to everything else in the file"
+      },
+      {
+        // #227 decomposes app/dev-panel.tsx and moves the dev server out of
+        // vite.config.ts. 31 functions, most of them CRAP-only.
+        "files": ["app/dev-panel.tsx", "app/dev/**", "app/dev-server/**"],
+        "maxCyclomatic": 29,
+        "maxCognitive": 60,
+        "maxCrap": 871,
+        "reason": "dev panel debt, split under #227; ceilings are the current worst (AtmosphereStrip, DevPanel)"
+      },
+      {
+        "files": ["scripts/design-agents.js"],
+        "functions": ["runAgentSwarm", "runScreenshotCriticGate"],
+        "maxCyclomatic": 109,
+        "maxCognitive": 153,
+        "maxCrap": 269,
+        "reason": "the two functions #221 splits into phase modules"
+      },
+      {
+        "files": ["scripts/design-agents.js"],
+        "functions": ["callAgent"],
+        "maxCrap": 32,
+        "reason": "CRAP-only, folds into #221"
+      },
+      {
+        "files": ["app/routes/how.$date.tsx"],
+        "functions": ["HowPage"],
+        "maxCyclomatic": 45,
+        "maxCognitive": 45,
+        "maxCrap": 483,
+        "reason": "310-line component, split under #551"
+      },
+      {
+        "files": ["app/lib/archive-signals.ts"],
+        "functions": ["summarize"],
+        "maxCyclomatic": 99,
+        "maxCognitive": 163,
+        "maxCrap": 2217,
+        "reason": "the most complex function in the repo; no split scheduled"
+      },
+      {
+        "files": ["app/lib/archive-signals.ts"],
+        "functions": ["genericSummary"],
+        "maxCognitive": 17,
+        "maxCrap": 44,
+        "reason": "cognitive 17, CRAP 43; no split scheduled"
+      },
+      {
+        "files": ["scripts/utils/build-validator.js"],
+        "functions": ["validateGenerated"],
+        "maxCyclomatic": 75,
+        "maxCognitive": 123,
+        "maxCrap": 95,
+        "reason": "537 lines in one function; no split scheduled"
+      },
+      {
+        "files": ["scripts/utils/archiver.js"],
+        "functions": ["archive"],
+        "maxCyclomatic": 52,
+        "maxCognitive": 50,
+        "maxCrap": 62,
+        "reason": "325 lines in one function; no split scheduled"
+      },
+      {
+        "files": ["scripts/utils/header-grammar.js"],
+        "functions": ["isValidHeader"],
+        "maxCyclomatic": 34,
+        "maxCognitive": 33,
+        "maxCrap": 38,
+        "reason": "cyclomatic 34 in 71 lines; no split scheduled"
+      },
+      {
+        "files": ["scripts/collect-references.js"],
+        "functions": ["formatTrendingSection"],
+        "maxCyclomatic": 27,
+        "maxCognitive": 45,
+        "maxCrap": 185,
+        "reason": "cyclomatic 27 in 36 lines; no split scheduled"
+      },
+      {
+        "files": ["scripts/utils/geometry-fingerprint.js"],
+        "functions": ["collectGeometry"],
+        "maxCyclomatic": 29,
+        "maxCognitive": 41,
+        "maxCrap": 32,
+        "reason": "cyclomatic 29 in 100 lines; no split scheduled"
+      },
+      {
+        "files": ["scripts/utils/uniqueness-index.js"],
+        "functions": ["formatUniquenessForPrompt"],
+        "maxCyclomatic": 28,
+        "maxCognitive": 17,
+        "maxCrap": 31,
+        "reason": "cyclomatic 28 in 50 lines; no split scheduled"
       }
     ]
   },

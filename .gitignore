@@ -49,10 +49,13 @@ references/*.png
 references/*.jpg
 references/*.jpeg
 
-# Generated archive JSON (projected from archive/*/record.json at build time).
-# The screenshots and viewport captures beside it are pipeline output and ARE
-# committed — nothing at build time can recreate them.
+# Generated archive data, made at build time by scripts/generate-archive-json.js:
+# the JSON projected from archive/*/record.json, and the day's screenshot and
+# viewport captures copied out of archive/<date>/build-*/ (#549). The copies
+# committed before #549 stay tracked; ignoring a path does not untrack a file.
 public/archive-data/*.json
+public/archive-data/*.png
+public/archive-data/*/viewports/
 
 # Build/pipeline artifacts
 test-results/

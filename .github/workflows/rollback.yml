@@ -3,36 +3,70 @@ name: Rollback Daily Redesign
 # Manual workflow to revert the most recent daily redesign commit.
 # Use when today's design ships broken and you need to restore yesterday's
 # working state without waiting for tomorrow's run.
+#
+# A night is one commit ("chore: daily redesign YYYY-MM-DD"), so a rollback is
+# a `git revert` of that commit. The revert carries everything the night
+# changed, including files added and deleted under app/components/generated/.
+# The first version of this workflow restored a file list from HEAD~N instead;
+# HEAD~1 is one commit back, not one night back, and the list left yesterday's
+# routes pointing at generated components the night had deleted (#545).
+#
+# Same two-job split as the nightly (#337). `revert` builds model-written code
+# and holds no credential. `push` holds the deploy key and runs no generated
+# code, only `git am` and `git push`.
+#
+# Run it once with dry_run on (the default) before you need it. A dry run does
+# every step except the push and prints the diff stat in the run summary.
 
 on:
   workflow_dispatch:
     inputs:
       commits_back:
-        description: 'How many commits back to roll mutable files to (default 1 = last redesign)'
+        description: 'How many nightlies to revert, newest first (default 1 = the last redesign). Nightlies already reverted are skipped.'
         type: number
         default: 1
+      dry_run:
+        description: 'Dry run: revert and build, show the diff stat, push nothing'
+        type: boolean
+        default: true
 
 # Don't race with the daily redesign workflow — both modify main.
 concurrency:
   group: daily-redesign
   cancel-in-progress: false
 
+# No job inherits a token. Each one below asks for what it uses (#544).
+permissions: {}
+
 jobs:
-  rollback:
+  revert:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     permissions:
-      contents: write
-
+      contents: read
+    outputs:
+      base: ${{ steps.revert.outputs.base }}
     steps:
-      - uses: actions/checkout@v7
+      # A dry run can be dispatched from any branch to try a change to this
+      # file. A real rollback pushes to main, so it must start from main.
+      - name: Require main for a real rollback
+        if: ${{ !inputs.dry_run && github.ref != 'refs/heads/main' }}
+        run: |
+          echo "::error::a real rollback has to be dispatched on main, this ref is $GITHUB_REF"
+          exit 1
+
+      # No credential in git config: this job runs `pnpm build`, which loads
+      # panda.config.ts, elements/preset.ts and the route modules in Node. The
+      # full history is here because finding the Nth nightly means walking
+      # back past every PR merge since.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 50  # enough history to go back a few commits
+          persist-credentials: false
+          fetch-depth: 0
 
-      - uses: pnpm/action-setup@v6
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: '.node-version'
           cache: 'pnpm'
@@ -40,42 +74,137 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Roll back mutable files
+      - name: Revert the nightly
+        id: revert
         env:
           COMMITS_BACK: ${{ inputs.commits_back }}
         run: |
           N="$COMMITS_BACK"
-          # type: number is a UI hint, not validation — reject anything but a plain positive integer before it reaches HEAD~$N (#345).
+          # type: number is a UI hint, not validation — reject anything but a plain positive integer before it reaches git (#345).
           case "$N" in ''|*[!0-9]*) echo "::error::commits_back must be a positive integer, got '$N'"; exit 1;; esac
-          echo "Rolling back mutable files to HEAD~$N"
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          # Restore only the AI-mutable files — leave everything else alone.
-          #
-          # Read the list from MUTABLE_FILES rather than repeating it here. The
-          # hardcoded copy had drifted to 16 of the 18 entries: app/routes/og.tsx
-          # and elements/chassis-preset.ts were never restored, so a rollback
-          # left today's chassis preset and OG route standing against
-          # yesterday's preset.ts — a combination no run ever produced or
-          # validated. Anything added to MUTABLE_FILES is now covered here the
-          # day it lands.
-          mapfile -t FILES < <(node -e "import('./scripts/utils/site-context.js').then(m => console.log(m.MUTABLE_FILES.join('\n')))")
-          if [ "${#FILES[@]}" -eq 0 ]; then
-            echo "::error::could not read MUTABLE_FILES — refusing to roll back a guessed file list"
+          if [ "${#N}" -gt 3 ]; then
+            echo "::error::commits_back must be a positive integer of at most three digits, got '$N'"
             exit 1
           fi
-          printf 'restoring %s\n' "${FILES[@]}"
-          git checkout "HEAD~$N" -- "${FILES[@]}"
+          COUNT=$((10#$N))
+          if [ "$COUNT" -lt 1 ]; then
+            echo "::error::commits_back must be a positive integer, got '$N'"
+            exit 1
+          fi
+
+          # The nightlies, newest first. --grep matches any line of a commit
+          # message, so the subject is checked again: a PR whose description
+          # quotes "chore: daily redesign" is not a night.
+          git log --no-merges --grep='^chore: daily redesign' --format='%H%x09%s' > "$RUNNER_TEMP/nightlies.tsv"
+          TARGETS=()
+          while IFS=$'\t' read -r sha subject; do
+            [[ "$subject" =~ ^chore:\ daily\ redesign\ [0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || continue
+            # A night this workflow already reverted would only conflict.
+            if [ -n "$(git log --format=%h -n 1 --grep="This reverts commit $sha" HEAD)" ]; then
+              echo "skipping $sha ($subject): already reverted"
+              continue
+            fi
+            TARGETS+=("$sha")
+            [ "${#TARGETS[@]}" -eq "$COUNT" ] && break
+          done < "$RUNNER_TEMP/nightlies.tsv"
+          if [ "${#TARGETS[@]}" -lt "$COUNT" ]; then
+            echo "::error::asked to roll back $COUNT nightlies, found ${#TARGETS[@]} that are not already reverted"
+            exit 1
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          BASE=$(git rev-parse HEAD)
+          echo "base=$BASE" >> "$GITHUB_OUTPUT"
+
+          {
+            echo "## Rollback"
+            echo
+            echo "From \`${BASE:0:7}\`. Reverting, newest first:"
+            echo
+          } >> "$GITHUB_STEP_SUMMARY"
+          for sha in "${TARGETS[@]}"; do
+            echo "- \`${sha:0:7}\` $(git log -n 1 --format=%s "$sha")" >> "$GITHUB_STEP_SUMMARY"
+            if ! git revert --no-edit "$sha"; then
+              # Later commits changed files the night also changed. Nothing is
+              # pushed; the conflicting paths say what has to be sorted out.
+              {
+                echo
+                echo "Revert of \`${sha:0:7}\` conflicts with later commits on:"
+                echo
+                echo '```'
+                git diff --name-only --diff-filter=U
+                echo '```'
+              } | tee -a "$GITHUB_STEP_SUMMARY"
+              git revert --abort
+              echo "::error::reverting $sha conflicts with commits made after it; nothing was pushed"
+              exit 1
+            fi
+          done
+
+          {
+            echo
+            echo "Changes against \`${BASE:0:7}\`:"
+            echo
+            echo '```'
+            git diff --stat "$BASE" HEAD
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          # One mbox patch carrying the revert commits, binary-safe. The push
+          # job applies it to a clean checkout that has the key.
+          git format-patch --binary --stdout "$BASE"..HEAD > "$RUNNER_TEMP/rollback.patch"
+          echo "$(git rev-list --count "$BASE"..HEAD) revert commit(s), $(wc -c < "$RUNNER_TEMP/rollback.patch" | tr -d ' ') bytes"
 
       # `pnpm build` is `panda codegen && ... && vite build`, so styled-system
       # is regenerated here rather than in a step of its own.
       - name: Verify build
         run: pnpm build
 
-      - name: Commit and push
+      - name: Upload the rollback
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: rollback-${{ github.run_id }}
+          path: ${{ runner.temp }}/rollback.patch
+          retention-days: 7
+          if-no-files-found: error
+
+  push:
+    needs: revert
+    if: ${{ !inputs.dry_run }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read  # the push goes over SSH with the deploy key, not the token
+    steps:
+      # Deploy key, same as the nightly's `publish` job. The `biome-gate`
+      # ruleset requires Lint and Typecheck on main and lets only the deploy
+      # key and repository admins bypass it; github-actions[bot] is neither,
+      # so a push with GITHUB_TOKEN is rejected. No generated code runs in
+      # this job: it applies a patch and pushes.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
+
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: rollback-${{ github.run_id }}
+          path: ${{ runner.temp }}
+
+      - name: Push the rollback
+        env:
+          BASE: ${{ needs.revert.outputs.base }}
         run: |
-          git add elements/ app/components/ app/routes/ styled-system/ 2>/dev/null || true
-          git diff --cached --quiet || git commit -m "revert: roll back daily redesign (rollback workflow)"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ "$(git rev-parse HEAD)" != "$BASE" ]; then
+            echo "::notice::main moved from ${BASE:0:7} to $(git rev-parse --short HEAD) after the build was verified; applying the rollback on top"
+          fi
+          if ! git am "$RUNNER_TEMP/rollback.patch"; then
+            git am --abort
+            echo "::error::the rollback no longer applies to main; nothing was pushed"
+            exit 1
+          fi
           # Same guard as the nightly's push step: a for-loop's exit status is
           # its last command (sleep), so three failed pushes would report
           # success and leave the rollback sitting on the runner.

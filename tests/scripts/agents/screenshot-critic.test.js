@@ -1,8 +1,12 @@
-import { describe, expect, it } from 'vitest'
-import {
-  buildScreenshotCriticBlocks,
-  MAX_SCREENSHOT_CRITIC_IMAGES,
-} from '../../../scripts/agents/screenshot-critic.js'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
+const callVisionAgentMock = vi.fn()
+vi.mock('../../../scripts/utils/vision-router.js', () => ({ callVisionAgent: callVisionAgentMock }))
+
+const { buildScreenshotCriticBlocks, MAX_SCREENSHOT_CRITIC_IMAGES, runScreenshotCritic } =
+  await import('../../../scripts/agents/screenshot-critic.js')
+const { VisionTruncatedError } = await import('../../../scripts/utils/vision-truncated-error.js')
+const { ModelTransportError } = await import('../../../scripts/utils/model-transport-error.js')
 
 const baseCtx = {
   enrichedBrief: 'the brief',
@@ -17,6 +21,18 @@ describe('buildScreenshotCriticBlocks', () => {
     const blocks = buildScreenshotCriticBlocks(baseCtx)
     const images = blocks.filter((b) => b.type === 'image')
     expect(images).toHaveLength(2)
+  })
+
+  it('sends one desktop render, not two, when the dark capture matched the light one (#549)', () => {
+    const blocks = buildScreenshotCriticBlocks({
+      ...baseCtx,
+      screenshotBuffer: { jpeg: baseCtx.screenshotBuffer.jpeg, darkJpeg: null },
+    })
+    expect(blocks.filter((b) => b.type === 'image')).toHaveLength(1)
+    const texts = blocks.filter((b) => b.type === 'text').map((b) => b.text)
+    expect(texts.some((t) => t.includes('DARK scheme'))).toBe(false)
+    expect(texts.some((t) => t.includes('BOTH color schemes'))).toBe(false)
+    expect(texts.some((t) => t.includes('defines one color scheme'))).toBe(true)
   })
 
   it('carries the SHELL declaration as text ahead of the header, and omits it when absent (#505)', () => {
@@ -264,5 +280,82 @@ describe('buildScreenshotCriticBlocks', () => {
       .map((b) => b.text)
       .join('\n')
     expect(text).not.toContain('base64')
+  })
+})
+
+describe('runScreenshotCritic', () => {
+  const ask = (wantsBar = false) =>
+    runScreenshotCritic({ systemPrompt: 'sys', contentBlocks: [], wantsBar })
+
+  /** The router reports its channel through onChannel before it answers. */
+  function answerOn(channel, text) {
+    callVisionAgentMock.mockImplementation(async (args) => {
+      args.onChannel(channel)
+      return text
+    })
+  }
+
+  beforeEach(() => {
+    callVisionAgentMock.mockReset()
+  })
+
+  it('reads the verdict and the BAR line from a critic that saw the build', async () => {
+    answerOn(
+      'sdk-vision',
+      '===VERDICT===\nSHIP\n===END===\nBAR: below — flatter than the reference'
+    )
+
+    expect(await ask(true)).toMatchObject({
+      verdict: 'SHIP',
+      visionChannel: 'sdk-vision',
+      bar: { position: 'below', reason: 'flatter than the reference' },
+    })
+    expect((await ask(false)).bar).toBeNull()
+  })
+
+  it('keeps a REVISE from a critic that saw the build', async () => {
+    answerOn('sdk-vision', '===VERDICT===\nREVISE\n===END===')
+
+    expect(await ask()).toMatchObject({ verdict: 'REVISE', visionChannel: 'sdk-vision' })
+  })
+
+  it('says UNVERIFIED for a truncated reply, with the reason and no BAR (#570)', async () => {
+    const reason =
+      '[screenshot-critic] response truncated at max_tokens (6000 output tokens, cap 6000)'
+    callVisionAgentMock.mockRejectedValue(
+      new VisionTruncatedError({ agent: 'screenshot-critic', reason })
+    )
+
+    expect(await ask(true)).toEqual({
+      verdict: 'UNVERIFIED',
+      criticResponse: reason,
+      visionChannel: 'sdk-vision-truncated',
+      bar: null,
+    })
+  })
+
+  it.each(['cli-text-fallback', 'cli-text-no-key', 'cli-text-no-images', 'fixture-replay'])(
+    'says UNVERIFIED for a REVISE that reached us on %s (#570)',
+    async (channel) => {
+      answerOn(channel, '===VERDICT===\nREVISE\n===END===\nBAR: above — fine')
+
+      expect(await ask(true)).toMatchObject({
+        verdict: 'UNVERIFIED',
+        visionChannel: channel,
+        bar: null,
+      })
+    }
+  )
+
+  it('lets any other failure through', async () => {
+    callVisionAgentMock.mockRejectedValue(
+      new ModelTransportError({
+        agent: 'screenshot-critic',
+        channel: 'cli-text-fallback',
+        emptyReply: true,
+      })
+    )
+
+    await expect(ask()).rejects.toBeInstanceOf(ModelTransportError)
   })
 })

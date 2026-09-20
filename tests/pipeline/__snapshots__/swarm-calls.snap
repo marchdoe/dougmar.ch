@@ -3392,8 +3392,6 @@ Render both on the About page. There is no standing component for either — com
 - [2026-08-30, mockup-critic] The ledger rows run past the right edge at 1440 and the nav links sit inside the gutter. Pull the ledger column in and give the nav its own margin.
 - [2026-08-29, screenshot-critic] The masthead lockup renders at half the declared mark_px and the footer line wraps at 1024. Set the mark to 32px and let the footer truncate.
 
-**Responsible agent:** react-engineer
-
 ---
 
 ## Calibration
@@ -4314,6 +4312,7 @@ A route rendering a fixed 1200×630 card (no scrolling, no responsiveness):
 
 - NEVER emit `app/routes/__root.tsx`, `elements/preset.ts`, or `elements/chassis-preset.ts`. The orchestrator owns those. Do not define `theme.tokens.fonts` or `fontSizes` anywhere.
 - **Every file you write is server-rendered.** The build prerenders the site, and the server bundle loads EVERY route and component module. One SSR-unsafe line in ANY file crashes the build for the whole site. Never touch `window`, `document`, `localStorage`, `sessionStorage`, `matchMedia`, or `navigator` at module scope or unconditionally during render. If you need them, guard with `typeof window !== 'undefined'` or move the access into `useEffect`. Prefer CSS (media queries, `prefers-reduced-motion`, `prefers-color-scheme`) over JS environment probes. CSS is always SSR-safe.
+- Biome lints everything you write, and `any` and non-null `!` are errors that fail the build. Type with `unknown` and narrow it; guard or default instead of `!`. Do not wrap a single child in a fragment: `heroContent={<>{title}</>}` is `heroContent={title}`.
 
 ### Route file conventions
 
@@ -5693,8 +5692,6 @@ reveal: none
 - [2026-08-30, mockup-critic] The ledger rows run past the right edge at 1440 and the nav links sit inside the gutter. Pull the ledger column in and give the nav its own margin.
 - [2026-08-29, screenshot-critic] The masthead lockup renders at half the declared mark_px and the footer line wraps at 1024. Set the mark to 32px and let the footer truncate.
 
-**Responsible agent:** react-engineer
-
 ---
 
 IMPORTANT: Use the ===FILE:path=== delimiter format described in your instructions. Write complete file contents after each delimiter. No JSON, no markdown code fences, no explanation — just the delimiters and raw file content.
@@ -5702,7 +5699,7 @@ IMPORTANT: Use the ===FILE:path=== delimiter format described in your instructio
 ==============================================================================
 call 6: screenshot-critic (vision)
 model: claude-sonnet-5
-timeoutMs: 600000 | stallTimeoutMs: 300000 | maxTokens: 6000 | images: 8
+timeoutMs: 600000 | stallTimeoutMs: 300000 | maxTokens: 16000 | images: 8
 ------------------------------ system prompt ---------------------------------
 You are a Visual QA Critic working in an automated pipeline. You receive screenshots of a rendered portfolio homepage at 1440×900, plus phone filmstrips at 360 wide, each labeled with what it shows, alongside the Design Director's visual specification. Your job is to evaluate whether the build matches the spec and is ready to ship, on the desktop and on the phone.
 
@@ -5727,7 +5724,7 @@ Only after this sanity gate passes, proceed to the design evaluation below.
 ## What You Receive
 
 - A screenshot of the rendered homepage at 1440×900, in both light and dark
-  scheme
+  scheme (one screenshot when the two would be identical)
 - A phone filmstrip of the same homepage, light scheme, immediately after its
   1440 counterpart, the pair section 10 is judged on
 - A 2x crop of the approved mockup's header region, and the same crop of the
@@ -5988,7 +5985,9 @@ commitment (a dark drench adapts to a light drench, not to a washed-out
 near-white page), same typographic treatment. REVISE if NEITHER scheme
 matches the mockup, or if the adaptation abandons the design (2026-07-10:
 a near-black teal mockup shipped with a pale washed-out light mode that
-every first-time visitor saw).
+every first-time visitor saw). A design with no second scheme renders the
+same in both, so you get one screenshot, and it is the one to judge against
+the mockup.
 
 ## Calibration Against the Best-Rated Build
 

@@ -39,13 +39,13 @@
     "rules": {
       "preset": "recommended",
       "suspicious": {
-        "noExplicitAny": "warn",
+        "noExplicitAny": "error",
         "noCommentText": "warn",
         "noArrayIndexKey": "warn",
         "noAssignInExpressions": "warn"
       },
       "style": {
-        "noNonNullAssertion": "warn"
+        "noNonNullAssertion": "error"
       },
       "correctness": {
         "noUnusedImports": "warn",

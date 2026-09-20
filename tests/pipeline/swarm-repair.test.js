@@ -664,6 +664,130 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     expect(run.fakes.archive).toHaveLength(1)
   })
 
+  // #570: the message the router reported on 2026-09-09, when the critic
+  // stopped at its cap. It used to come back as the critic's reply, fail
+  // closed to REVISE, and become the engineer's feedback.
+  const TRUNCATION_REASON =
+    '[screenshot-critic] response truncated at max_tokens (6000 output tokens, cap 6000)'
+
+  it('gives a truncated round-1 critic no verdict and does not revise on it (#570)', async () => {
+    const run = await runSwarm({
+      agents: {
+        'screenshot-critic': [withChannel(TRUNCATION_REASON, 'sdk-vision-truncated')],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    // One engineer call, no revision, no final re-judge: nothing was
+    // revised, so there is no post-revision build to judge.
+    expect(run.calls.map((c) => c.agent)).toEqual([
+      'art-director',
+      'spec-critic',
+      'mockup-designer',
+      'mockup-critic',
+      'react-engineer',
+      'screenshot-critic',
+    ])
+    expect(run.retries).toBe(0)
+    expect(run.fakes.validateBuild).toHaveLength(1)
+    expect(run.fakes.archive).toHaveLength(1)
+    expect(
+      run.verdicts
+        .filter((v) => v.critic === 'screenshot-critic')
+        .map(({ round, verdict, channel, feedback }) => ({ round, verdict, channel, feedback }))
+    ).toEqual([
+      {
+        round: undefined,
+        verdict: 'UNVERIFIED',
+        channel: 'sdk-vision-truncated',
+        feedback: TRUNCATION_REASON,
+      },
+    ])
+  })
+
+  it('gives a text-only round-1 critic no verdict either, so its REVISE revises nothing (#570)', async () => {
+    const run = await runSwarm({
+      agents: { 'screenshot-critic': [withChannel(REVISE_REPLY, 'cli-text-fallback')] },
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.callsFor('react-engineer')).toHaveLength(1)
+    expect(run.retries).toBe(0)
+    const [verdict] = run.verdicts.filter((v) => v.critic === 'screenshot-critic')
+    expect(verdict).toMatchObject({ verdict: 'UNVERIFIED', channel: 'cli-text-fallback' })
+  })
+
+  it('still runs the gate-driven revision when the round-1 critic truncated, on the gate faults alone (#570)', async () => {
+    const run = await runSwarm({
+      gate: [{ findings: [OVERFLOW_AT_390], measured: 8, errorCount: 1 }, CLEAN_GATE],
+      agents: {
+        'screenshot-critic': [
+          withChannel(TRUNCATION_REASON, 'sdk-vision-truncated'),
+          fixtureFor('screenshot-critic'),
+        ],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.calls.map((c) => c.agent)).toEqual([
+      'art-director',
+      'spec-critic',
+      'mockup-designer',
+      'mockup-critic',
+      'react-engineer',
+      'screenshot-critic',
+      'react-engineer',
+      'screenshot-critic',
+    ])
+    const faults = formatFindingsForCritic([OVERFLOW_AT_390])
+    const revision = run.callsFor('react-engineer')[1]
+    expect(revision.userPrompt).toContain(faults)
+    expect(revision.userPrompt).not.toContain('truncated at max_tokens')
+    expect(run.retries).toBe(1)
+    expect(
+      run.verdicts
+        .filter((v) => v.critic === 'screenshot-critic')
+        .map(({ round, verdict, channel }) => ({ round, verdict, channel }))
+    ).toEqual([
+      { round: undefined, verdict: 'UNVERIFIED', channel: 'sdk-vision-truncated' },
+      { round: 'final', verdict: 'SHIP', channel: 'sdk-vision' },
+    ])
+  })
+
+  it('records a truncated final re-judge as UNVERIFIED with the reason, as before (#570)', async () => {
+    const run = await runSwarm({
+      agents: {
+        'react-engineer': [
+          ENGINEER_FIXTURE,
+          patchReply([markedFile('app/components/Sidebar.tsx', 'post-critic revision')]),
+        ],
+        'screenshot-critic': [REVISE_REPLY, withChannel(TRUNCATION_REASON, 'sdk-vision-truncated')],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.callsFor('react-engineer')).toHaveLength(2)
+    expect(
+      run.verdicts
+        .filter((v) => v.critic === 'screenshot-critic')
+        .map(({ round, verdict, channel, feedback }) => ({
+          round,
+          verdict,
+          channel,
+          feedback: round === 'final' ? feedback : undefined,
+        }))
+    ).toEqual([
+      { round: undefined, verdict: 'REVISE', channel: 'sdk-vision', feedback: undefined },
+      {
+        round: 'final',
+        verdict: 'UNVERIFIED',
+        channel: 'sdk-vision-truncated',
+        feedback: TRUNCATION_REASON,
+      },
+    ])
+    expect(run.verdicts.some((v) => v.critic === 'ship-gate')).toBe(false)
+  })
+
   it('rolls a revision that fails to build back to the passing state and ships that', async () => {
     const marker = 'post-critic revision'
     const run = await runSwarm({
