@@ -163,6 +163,49 @@ export const TELLS = [
   },
 ]
 
+/** What to do about an orphan separator; the sentence a finding ends with. */
+export const ORPHAN_SEPARATOR_FIX =
+  'A field can be empty; render the separator only when both sides exist.'
+
+/**
+ * A run made only of dividers: a lone "—" standing in for an empty value, or
+ * a "/" or "·" set between two spans. Nothing is missing next to it. A comma
+ * is not on the list; nobody sets one as a divider on its own.
+ */
+const DIVIDER_ONLY = /^[·\-–—|/\s]+$/
+
+/**
+ * A comma, a middle dot, a bar or an em dash opens the run. A hyphen, an en
+ * dash or a slash counts only when a space follows it: "-12%", "–3°", "--flag"
+ * and "/about" are values and paths, while "- item" and "/ 08" are separators
+ * with nothing on their left.
+ */
+const LEADING_SEPARATOR = /^(?:[,·|—]|[-–/]\s)/
+
+/** A comma, a middle dot or a dash closes the run. "2008 –" is caught on purpose. */
+const TRAILING_SEPARATOR = /[,·–—]$/
+
+/**
+ * The orphan-separator rule (#568). `text` is one run: the words one block
+ * sets on its own lines, from `collectTextRuns`. A template that prints
+ * `{role}, {company}` with an empty role leaves ", iCapital", and one that
+ * prints `{start} — {end}` for a current job leaves "2025 —". Neither is
+ * a tell in the vocabulary sense, so it is matched per run rather than in the
+ * page's flattened text, where the comma would sit between two unrelated words.
+ *
+ * @param {string} text
+ * @returns {{ position: 'start'|'end', separator: string }|null}
+ */
+export function findOrphanSeparator(text) {
+  const t = (text ?? '').trim()
+  if (!t || DIVIDER_ONLY.test(t)) return null
+  const lead = LEADING_SEPARATOR.exec(t)
+  if (lead) return { position: 'start', separator: lead[0].trim() }
+  const trail = TRAILING_SEPARATOR.exec(t)
+  if (trail) return { position: 'end', separator: trail[0] }
+  return null
+}
+
 /**
  * Every tell in a piece of text, first to last, no two overlapping.
  *

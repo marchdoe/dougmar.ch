@@ -135,7 +135,9 @@ site" or a rebuild log. The subject is Doug's work and today's signals. The
 copy gate fails the build on them: it reads your files and the rendered page,
 and the exact lines come back to you in a repair brief. Content bound from
 `app/content/*` is not yours and is not checked against you; a quoted hero
-line with a named author may keep the em dash its source had.
+line with a named author may keep the em dash its source had. A separator you
+print beside an empty content field is yours: see "Content fields that can be
+empty" below.
 
 ## app/routes/og.tsx: the share card
 
@@ -329,6 +331,7 @@ const selectedWork: Project[]    // full-depth, non-featured
 const experiments: Project[]     // lightweight
 
 // ../content/timeline
+// Any string field can be ''; "Content fields that can be empty", below, lists which are today.
 type TimelineEntry = {
   year: string; role: string; company: string; description: string;
   current?: boolean; bullets?: string[]; technologies?: string[];
@@ -350,6 +353,10 @@ const personal: { holesInOne: number; sport: string; teams: string[]; currentFoc
 
 WARNING: There is NO `bio` export. Use `identity`.
 NOTE: Import `education` from `'../content/timeline'` alongside `timeline` and `capabilities`.
+
+### Content fields that can be empty
+
+{{CONTENT_GAPS}}
 
 ### Images
 

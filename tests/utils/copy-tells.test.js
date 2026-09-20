@@ -6,7 +6,9 @@ import {
   AI_VOCABULARY,
   AI_VOCABULARY_ADDITIONS,
   AI_VOCABULARY_FROM_SKILL,
+  ORPHAN_SEPARATOR_FIX,
   compileWordList,
+  findOrphanSeparator,
   findTells,
   unslopPatternsSection,
 } from '../../scripts/utils/copy-tells.js'
@@ -114,5 +116,76 @@ describe('unslopPatternsSection', () => {
 
   it('throws when the marker is missing', () => {
     expect(() => unslopPatternsSection('# nothing here')).toThrow(/Patterns to detect and fix/)
+  })
+})
+
+describe('findOrphanSeparator (#568)', () => {
+  it.each([
+    [', iCapital', 'start', ','],
+    ['· Mandiant', 'start', '·'],
+    ['| Parallel Markets', 'start', '|'],
+    ['— Yoko Ono', 'start', '—'],
+    ['—Yoko Ono', 'start', '—'],
+    ['- Mandiant', 'start', '-'],
+    ['– Mandiant', 'start', '–'],
+    ['/ 08', 'start', '/'],
+    ['  , padded  ', 'start', ','],
+  ])('flags %j at the start', (text, position, separator) => {
+    expect(findOrphanSeparator(text)).toEqual({ position, separator })
+  })
+
+  it.each([
+    ['2025,', ','],
+    ['2025, ', ','],
+    ['Bachelor of Fine Arts ·', '·'],
+    ['2008 –', '–'],
+    ['2008–', '–'],
+    ['2025 —', '—'],
+  ])('flags %j at the end', (text, separator) => {
+    expect(findOrphanSeparator(text)).toEqual({ position: 'end', separator })
+  })
+
+  it('names the start when a run has a separator at both ends', () => {
+    expect(findOrphanSeparator(', iCapital,')).toEqual({ position: 'start', separator: ',' })
+  })
+
+  it.each([
+    'Founder & Consultant, Spaceman',
+    '2022, 2025',
+    '2018 — 2020',
+    'Product Design · Front-End Engineering',
+    // A number, a flag and a path start with a mark that is part of the value.
+    '-12%',
+    '–3°',
+    '--flag',
+    '/about',
+    // A hyphen or a slash at the end is a word or a path, not a separator.
+    'Well-',
+    '/work/',
+    '',
+    '   ',
+  ])('leaves %j alone', (text) => {
+    expect(findOrphanSeparator(text)).toBeNull()
+  })
+
+  it.each(['—', '–', '-', '·', '|', '/', '— —', ' · '])(
+    'leaves a lone divider or empty-value placeholder %j alone',
+    (text) => {
+      expect(findOrphanSeparator(text)).toBeNull()
+    }
+  )
+
+  it('flags a lone comma, which nobody sets as a divider', () => {
+    expect(findOrphanSeparator(',')).toEqual({ position: 'start', separator: ',' })
+  })
+
+  it('tolerates a missing run', () => {
+    expect(findOrphanSeparator(undefined)).toBeNull()
+  })
+
+  it('has a fix that says what to do', () => {
+    expect(ORPHAN_SEPARATOR_FIX).toBe(
+      'A field can be empty; render the separator only when both sides exist.'
+    )
   })
 })

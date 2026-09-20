@@ -14,6 +14,7 @@ import {
   readCopyExemptions,
   renderedCopyFindings,
   runCopyGate,
+  scanRuns,
   scanSource,
   scanText,
 } from '../../scripts/utils/copy-gate.js'
@@ -117,6 +118,73 @@ describe('renderedCopyFindings', () => {
     expect(findings[0]).toMatchObject({ kind: 'copy-tell', tell: 'em-dash', severity: 'error' })
     expect(findings[0].detail).toMatch(/^em dash in rendered copy: ".*line 0 — dash/)
     expect(findings[0].detail).toContain('Use a period or a comma.')
+  })
+})
+
+describe('scanRuns and the orphan finding (#568)', () => {
+  const run = (text, extra = {}) => ({ tag: 'div', text, before: false, after: false, ...extra })
+
+  it('reports each distinct block once, with a count for a repeat', () => {
+    const hits = scanRuns([run(', a'), run(', a'), run(', b', { tag: 'h2' }), run('fine')])
+    expect(hits).toEqual([
+      { tag: 'div', text: ', a', position: 'start', separator: ',', count: 2 },
+      { tag: 'h2', text: ', b', position: 'start', separator: ',', count: 1 },
+    ])
+  })
+
+  it('leaves an edge alone when the sentence carries on across it', () => {
+    expect(scanRuns([run('DET · off season ·', { after: true })])).toEqual([])
+    expect(scanRuns([run('· no game', { before: true })])).toEqual([])
+    // The far side counts, not the near one: a trailing dot with only a block before it is an orphan.
+    expect(scanRuns([run('DET ·', { before: true })])).toHaveLength(1)
+  })
+
+  it('masks content sentences and the attributed quote before it looks', () => {
+    const content = 'closing the gap between design and code, '
+    const exemptions = { quoteText: 'Hope — is the thing.', contentTexts: [content.trim()] }
+    expect(scanRuns([run(content), run('Hope — is the thing.')], { exemptions })).toEqual([])
+    expect(scanRuns([run(`${content}, x`)], { exemptions })).toHaveLength(1)
+  })
+
+  it('tolerates a page read without runs, and a run without text', () => {
+    expect(scanRuns(undefined)).toEqual([])
+    expect(scanRuns([{ tag: 'p' }])).toEqual([])
+  })
+
+  it('shapes a finding for the surface gate and the repair brief', () => {
+    const findings = renderedCopyFindings(
+      { text: 'Select a busy man.', allowed: [], runs: [run(', iCapital', { tag: 'h2' })] },
+      { severity: 'error' }
+    )
+    expect(findings).toEqual([
+      {
+        kind: 'copy-tell',
+        tell: 'orphan-separator',
+        severity: 'error',
+        detail:
+          'orphan separator in rendered copy: <h2> ", iCapital" opens on ",". ' +
+          'A field can be empty; render the separator only when both sides exist.',
+      },
+    ])
+  })
+
+  it('says closes for a trailing separator and shows the end of a long run', () => {
+    const long = `${'word '.repeat(40)}2025 —`
+    const [f] = renderedCopyFindings({ text: '', runs: [run(long)] }, { severity: 'warning' })
+    expect(f.severity).toBe('warning')
+    expect(f.detail).toMatch(
+      /^orphan separator in rendered copy: <div> "\.\.\.[^"]*2025 —" closes on "—"\. /
+    )
+    expect(f.detail.length).toBeLessThan(220)
+  })
+
+  it('keeps the vocabulary tells first and caps each kind at ten', () => {
+    const text = Array.from({ length: 12 }, (_, i) => `line ${i} — dash.`).join(' ')
+    const runs = Array.from({ length: 12 }, (_, i) => run(`, item ${i}`))
+    const findings = renderedCopyFindings({ text, runs }, { severity: 'error' })
+    expect(findings).toHaveLength(2 * MAX_COPY_TELLS_PER_SURFACE)
+    expect(findings.slice(0, 10).every((f) => f.tell === 'em-dash')).toBe(true)
+    expect(findings.slice(10).every((f) => f.tell === 'orphan-separator')).toBe(true)
   })
 })
 
