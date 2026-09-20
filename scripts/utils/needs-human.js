@@ -132,7 +132,7 @@ export function buildShippedWithFaultsSection(entries) {
  * through `onChannel`.
  */
 const UNVERIFIED_CHANNEL_REASONS = {
-  'sdk-vision-truncated': 'its reply was cut off at the output cap twice in a row',
+  'sdk-vision-truncated': 'its reply was cut off at the output cap',
   'cli-text-fallback': 'the vision call failed and the text-only fallback never saw it',
   'cli-text-no-key': 'no API key was available for image input',
   'cli-text-no-images': 'no screenshot reached the critic',

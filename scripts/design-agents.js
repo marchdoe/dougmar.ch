@@ -72,6 +72,7 @@ import { unslopPatternsSection } from './utils/copy-tells.js'
 import { loadPrompt } from './utils/prompt-loader.js'
 import { parseDelimiterResponse } from './utils/delimiter-parser.js'
 import { parseCriticVerdict } from './utils/critic-verdict.js'
+import { VisionTruncatedError } from './utils/vision-truncated-error.js'
 import { modelFor, isDevModelTier } from './utils/models.js'
 import { STEP_BUDGETS, budgetFor } from './utils/budgets.js'
 import { runDate } from './utils/run-date.js'
@@ -2365,6 +2366,9 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
        * change to either (the phone filmstrip, say) reaches both for free.
        * @param {Array<object>} measuredFindings - surface-gate findings for this build
        * @returns {Promise<{verdict: string, criticResponse: string, visionChannel: string, bar: object|null}>}
+       *   `verdict` is 'UNVERIFIED' when the reply was truncated (#570), and
+       *   `criticResponse` then holds the reason, not critique. Callers still
+       *   decide from `visionChannel` whether the critic saw the build.
        */
       async function judgeScreenshot(measuredFindings) {
         console.log('\n[screenshot-critic] Capturing screenshot...')
@@ -2470,16 +2474,31 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         // different claim from one reached with them, so verdicts.json says
         // which it was.
         let visionChannel = 'unknown'
-        const criticResponse = await callVisionAgent({
-          agentName: 'screenshot-critic',
-          systemPrompt: screenshotCriticPrompt,
-          contentBlocks: criticBlocks,
-          // The SDK path uses timeoutMs only; the CLI fallback uses both.
-          ...budgetFor('screenshot-critic'),
-          onChannel: (c) => {
-            visionChannel = c
-          },
-        })
+        let criticResponse
+        try {
+          criticResponse = await callVisionAgent({
+            agentName: 'screenshot-critic',
+            systemPrompt: screenshotCriticPrompt,
+            contentBlocks: criticBlocks,
+            // The SDK path uses timeoutMs only; the CLI fallback uses both.
+            ...budgetFor('screenshot-critic'),
+            onChannel: (c) => {
+              visionChannel = c
+            },
+          })
+        } catch (err) {
+          // The router throws when the reply stopped at max_tokens (#570).
+          // There is nothing to parse: no verdict, no BAR line. The error
+          // text rides along as the reason, so the record says why.
+          if (!(err instanceof VisionTruncatedError)) throw err
+          console.warn(`  [screenshot-critic] ${err.message} — no verdict`)
+          return {
+            verdict: 'UNVERIFIED',
+            criticResponse: err.message,
+            visionChannel: err.channel,
+            bar: null,
+          }
+        }
         if (visionChannel !== 'sdk-vision') {
           console.warn(
             `  [screenshot-critic] verdict reached WITHOUT images (${visionChannel}) — it did not see the design`
@@ -2497,11 +2516,18 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       try {
         const t0ScreenshotCritic = Date.now()
         const {
-          verdict: screenshotVerdict,
+          verdict: judgedVerdict,
           criticResponse,
           visionChannel,
           bar,
         } = await judgeScreenshot(surfaceFindings)
+        // Only a critic that saw the build gets a vote. A truncated reply and
+        // a text-only fallback both come back on another channel, and a
+        // REVISE from either is not a finding: 09-09 paid the engineer to
+        // revise against a sentence about token counts (#570). No verdict
+        // skips the critic-driven revision and keeps the gate-driven one,
+        // as the mockup-critic loop does for a malformed reply.
+        const screenshotVerdict = visionChannel === 'sdk-vision' ? judgedVerdict : 'UNVERIFIED'
 
         verdicts.push({
           critic: 'screenshot-critic',
@@ -2562,10 +2588,12 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
             .filter(Boolean)
             .join('\n\n')
 
+          const criticSaid =
+            screenshotVerdict === 'UNVERIFIED' ? 'critic gave no verdict' : 'critic said SHIP'
           console.log(
             screenshotVerdict === 'REVISE'
               ? `  [screenshot-critic] REVISE — responsible: ${responsibleAgent}`
-              : `  [surface-gate] critic said SHIP; revising anyway for ${engineerFaults.length} measured fault(s)`
+              : `  [surface-gate] ${criticSaid}; revising anyway for ${engineerFaults.length} measured fault(s)`
           )
           console.log(`  feedback: ${feedback.slice(0, 200)}...`)
 
@@ -2727,6 +2755,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
               engineerResult = passingEngineerResult
             }
           }
+        } else if (screenshotVerdict === 'UNVERIFIED') {
+          console.warn(
+            `  [screenshot-critic] no verdict (${visionChannel}) — no critic-driven revision, shipping the build as-is`
+          )
         } else {
           console.log('  [screenshot-critic] SHIP')
         }

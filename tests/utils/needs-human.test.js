@@ -230,7 +230,7 @@ describe('buildFinalCheckSection', () => {
     })
 
     expect(section).toBe(
-      '## Final check\n\nFinal check could not see the build (its reply was cut off at the output cap twice in a row).'
+      '## Final check\n\nFinal check could not see the build (its reply was cut off at the output cap).'
     )
   })
 
