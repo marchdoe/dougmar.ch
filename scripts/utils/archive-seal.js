@@ -137,23 +137,30 @@ function escapeHtml(s) {
     .replace(/"/g, '&quot;')
 }
 
+const MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+]
+
 function longDate(date) {
   const [y, m, d] = date.split('-').map(Number)
-  const month = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ][m - 1]
-  return `${month} ${d}, ${y}`
+  return `${MONTHS[m - 1]} ${d}, ${y}`
+}
+
+/** "Sep 19": the phone rail has no room for the month spelled out or the year. */
+function shortDate(date) {
+  const [, m, d] = date.split('-').map(Number)
+  return `${MONTHS[m - 1].slice(0, 3)} ${d}`
 }
 
 /**
@@ -165,6 +172,16 @@ function longDate(date) {
  *
  * Every property is stated outright. The page's own CSS styles bare `a` and
  * `nav` and cannot be allowed to reach in.
+ *
+ * Phones (#562). Up to 640px every control is at least 44px square and fills
+ * the rail's height; the hairline moves from a border to an inset shadow so
+ * the rail's content box is the full 44px. Under 480px the date and the
+ * explainer link each carry a short form ("Sep 19", "How") next to the long
+ * one, and CSS picks. With the short forms the rail needs about 300px. The
+ * long forms needed 413px before the targets grew, so "How it was made" ran off
+ * the right edge of a 320 to 390px screen. The link keeps its full accessible
+ * name through `aria-label`. The rail has no script, so both forms are always
+ * in the markup.
  */
 export function buildFrame({ date, prev, next }) {
   const arrow = (target, label, glyph) =>
@@ -185,15 +202,17 @@ export function buildFrame({ date, prev, next }) {
 [${FRAME_MARKER}] .af-date{font-variant-numeric:tabular-nums;white-space:nowrap}
 [${FRAME_MARKER}] .af-note{color:rgba(244,244,245,.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 [${FRAME_MARKER}] .af-how{margin-left:auto;padding:5px 10px;white-space:nowrap;border:1px solid rgba(255,255,255,.24)}
-@media (max-width:640px){[${FRAME_MARKER}]{gap:10px;font-size:12px}[${FRAME_MARKER}] .af-note{display:none}}
+[${FRAME_MARKER}] .af-short{display:none}
+@media (max-width:640px){[${FRAME_MARKER}]{gap:10px;padding:0 8px;font-size:12px;border-bottom:0;box-shadow:inset 0 -1px 0 rgba(255,255,255,.14)}[${FRAME_MARKER}] .af-note{display:none}[${FRAME_MARKER}] .af-home{display:flex;align-items:center;align-self:stretch;min-width:44px;margin-left:0;padding:0 10px}[${FRAME_MARKER}] .af-x{width:44px;height:44px}[${FRAME_MARKER}] .af-how{position:relative;display:flex;align-items:center;justify-content:center;align-self:stretch;min-width:44px;padding:0 10px;border:0}[${FRAME_MARKER}] .af-how::before{content:"";position:absolute;top:8px;right:0;bottom:8px;left:0;border:1px solid rgba(255,255,255,.24);border-radius:5px}}
+@media (max-width:479px){[${FRAME_MARKER}] .af-long{display:none}[${FRAME_MARKER}] .af-short{display:inline}}
 html{scroll-padding-top:52px}
 body{padding-top:44px!important}
 </style>
 <a class="af-home" href="/archive" rel="nofollow">&larr; Archive</a>
 <span class="af-nav">${arrow(prev, 'Previous build', '&lsaquo;')}${arrow(next, 'Next build', '&rsaquo;')}</span>
-<span class="af-date">${escapeHtml(longDate(date))}</span>
+<span class="af-date"><span class="af-long">${escapeHtml(longDate(date))}</span><span class="af-short">${escapeHtml(shortDate(date))}</span></span>
 <span class="af-note">Archived design &mdash; not the current site</span>
-<a class="af-how" href="/how/${escapeHtml(date)}" rel="nofollow">How it was made</a>
+<a class="af-how" href="/how/${escapeHtml(date)}" rel="nofollow" aria-label="How it was made"><span class="af-long">How it was made</span><span class="af-short">How</span></a>
 </div>`
 }
 
