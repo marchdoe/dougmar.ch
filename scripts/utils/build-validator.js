@@ -1031,9 +1031,10 @@ export function checkInternalLinks({ root = ROOT, files = MUTABLE_FILES } = {}) 
  *
  * @param {string} combined
  * @param {string} date
+ * @param {string} root the checkout whose archive/ receives the log
  */
-function writeBuildOutputLog(combined, date) {
-  const outputDir = resolve(ROOT, 'archive', date)
+function writeBuildOutputLog(combined, date, root) {
+  const outputDir = resolve(root, 'archive', date)
   const outputPath = resolve(outputDir, 'last-build-output.txt')
   try {
     mkdirSync(outputDir, { recursive: true })
@@ -1047,7 +1048,7 @@ function writeBuildOutputLog(combined, date) {
 }
 
 /**
- * Run `pnpm build` in the repo root — the `pnpm build` gate of `validateBuild`.
+ * Run `pnpm build` in `root` — the `pnpm build` gate of `validateBuild`.
  *
  * Returns `{ success: true, combined }` on success, `{ success: false, error,
  * combined }` on failure — `combined` (the raw stdout+stderr) is returned
@@ -1064,14 +1065,14 @@ function writeBuildOutputLog(combined, date) {
  *      is hoisted to the top of the returned `error` string so callers see
  *      it first.
  *
- * @param {{ spawn: typeof spawnSync, date: string }} deps
+ * @param {{ spawn: typeof spawnSync, date: string, root: string }} deps
  * @returns {{ success: boolean, error?: string, combined: string }}
  */
-function runBuildGate({ spawn, date }) {
+function runBuildGate({ spawn, date, root }) {
   console.log('  running pnpm build...')
 
   const result = spawn('pnpm', ['build'], {
-    cwd: ROOT,
+    cwd: root,
     encoding: 'utf8',
     timeout: STEP_BUDGETS.buildMs,
   })
@@ -1081,7 +1082,7 @@ function runBuildGate({ spawn, date }) {
     return { success: true, combined }
   }
 
-  writeBuildOutputLog(combined, date)
+  writeBuildOutputLog(combined, date, root)
 
   // Surface `@tanstack/router-plugin` / Vite `Error: …` lines that would
   // otherwise be buried above the stack trace tail.
@@ -1123,14 +1124,18 @@ function runSmokeCheckGate({ root, combined, date }) {
 
   console.log('  build output smoke check failed')
   for (const e of smokeCheck.errors) console.log(`  ✗ ${e}`)
-  writeBuildOutputLog(combined, date)
+  writeBuildOutputLog(combined, date, root)
 
   // A status-0 build with missing shell output almost always means the
   // prerender step crashed — i.e. the app COMPILED but threw when
   // server-rendered (2026-07-10: "Unhandled rejection: Failed to fetch /:
   // Internal Server Error"). The retry agent can only fix what it can see,
-  // so surface the runtime error lines and the log tail, not just the
-  // missing-file symptom.
+  // so surface the runtime error lines, and the log tail when the shell is
+  // missing or unusable, not just the missing-file symptom. A check that
+  // names its own cause (a token that does not resolve, an unpinned script)
+  // gets neither: on 2026-09-20 the tail was 35 lines of
+  // `how/2026-07-xx/index.html: 3 hashes` from pin-inline-scripts, sent to
+  // the engineer as if it were part of the fault.
   const runtimeErrorLines = combined
     .split('\n')
     .filter((l) =>
@@ -1148,7 +1153,9 @@ function runSmokeCheckGate({ root, combined, date }) {
       '\nThis usually means SSR-unsafe code (window/document/localStorage accessed at module scope or unconditionally during render) in a route or component file — the server bundle loads EVERY route module, so one unsafe file breaks every page.'
     )
   }
-  errorParts.push(`\n--- last 1500 chars of build output ---\n${combined.slice(-1500)}`)
+  if (smokeCheck.shellProblem || runtimeErrorLines.length) {
+    errorParts.push(`\n--- last 1500 chars of build output ---\n${combined.slice(-1500)}`)
+  }
   return { success: false, error: errorParts.join('\n') }
 }
 
@@ -1179,7 +1186,7 @@ export function validateBuild({
   console.log('  running pre-build validation...')
   const preCheck = validateGenerated({ root, shell })
 
-  const buildGate = runBuildGate({ spawn, date })
+  const buildGate = runBuildGate({ spawn, date, root })
 
   const smokeGate = buildGate.success
     ? runSmokeCheckGate({ root, combined: buildGate.combined, date })
@@ -1711,20 +1718,24 @@ function checkInlineScriptsPinned(distClient) {
  *
  * @param {{ root?: string }} [options] where the build was written; tests pass
  *   a temp tree so this reads that instead of the real repo's `dist/client`.
- * @returns {{ success: boolean, errors: string[] }}
+ * @returns {{ success: boolean, errors: string[], shellProblem: boolean }}
+ *   `shellProblem` is true when the output directory is empty or missing, or
+ *   the SPA shell is missing or unusable: the failures a crashed prerender
+ *   leaves behind, where the build log is the only clue to the cause.
  */
 export function validateBuildOutput({ root = ROOT } = {}) {
   const distClient = resolve(root, 'dist/client')
 
   const distErrors = checkDistClientExists(distClient)
-  if (distErrors.length > 0) return { success: false, errors: distErrors }
+  if (distErrors.length > 0) return { success: false, errors: distErrors, shellProblem: true }
 
+  const shellErrors = checkSpaShell(distClient)
   const errors = [
-    ...checkSpaShell(distClient),
+    ...shellErrors,
     ...checkAssetBundles(distClient),
     ...checkEmittedTokensResolve(root),
     ...checkInlineScriptsPinned(distClient),
   ]
 
-  return { success: errors.length === 0, errors }
+  return { success: errors.length === 0, errors, shellProblem: shellErrors.length > 0 }
 }
