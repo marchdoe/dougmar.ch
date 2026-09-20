@@ -6,6 +6,7 @@ import {
   daysInMonth,
   firstWeekday,
   hrefFor,
+  inkContrast,
   inkFor,
   monthLabel,
   monthsSpanned,
@@ -15,6 +16,7 @@ import {
   swatchFor,
 } from '../../app/lib/archive-calendar'
 import type { ArchiveIndexEntry } from '../../app/types/archive-record'
+import { contrastRatio } from '../../scripts/utils/contrast.js'
 
 function entry(date: string, over: Partial<ArchiveIndexEntry> = {}): ArchiveIndexEntry {
   return {
@@ -146,6 +148,74 @@ describe('inkFor', () => {
   it('defaults to light ink when no color was recorded', () => {
     expect(inkFor(entry('x', { primaryHue: null }))).toBe('#f2f2f4')
     expect(inkFor(null)).toBe('#f2f2f4')
+  })
+
+  it('puts dark ink on orange and sky blue, where a 0.35 luminance line chose white at 2.1 to 2.4:1', () => {
+    // 2026-07-06, 2026-09-16 and 2026-06-18 in the index.
+    expect(ink(28, 92, 52)).toBe('#0e0e10')
+    expect(ink(28, 88, 52)).toBe('#0e0e10')
+    expect(ink(203, 91, 56)).toBe('#0e0e10')
+  })
+
+  it('falls back to pure white or black where neither of the archive inks reaches 4.5:1', () => {
+    // Luminance 0.163 to 0.19: the two archive inks top out at 4.2 to 4.4:1 here.
+    expect(ink(278, 62, 55)).toBe('#ffffff')
+    expect(ink(205, 78, 42)).toBe('#ffffff')
+    expect(ink(285, 78, 56)).toBe('#000000')
+  })
+})
+
+/** hsl to sRGB the long way round, so the test does not share the code's formula. */
+function paint(h: number, s: number, l: number) {
+  const sat = s / 100
+  const light = l / 100
+  const chroma = (1 - Math.abs(2 * light - 1)) * sat
+  const x = chroma * (1 - Math.abs(((h / 60) % 2) - 1))
+  const m = light - chroma / 2
+  const [r, g, b] =
+    h < 60
+      ? [chroma, x, 0]
+      : h < 120
+        ? [x, chroma, 0]
+        : h < 180
+          ? [0, chroma, x]
+          : h < 240
+            ? [0, x, chroma]
+            : h < 300
+              ? [x, 0, chroma]
+              : [chroma, 0, x]
+  return {
+    r: Math.round((r + m) * 255),
+    g: Math.round((g + m) * 255),
+    b: Math.round((b + m) * 255),
+  }
+}
+
+describe('inkFor reaches 4.5:1 on any recorded color', () => {
+  const hex = (value: string) => ({
+    r: Number.parseInt(value.slice(1, 3), 16),
+    g: Number.parseInt(value.slice(3, 5), 16),
+    b: Number.parseInt(value.slice(5, 7), 16),
+  })
+
+  it('holds across the whole hue, saturation and lightness range', () => {
+    const misses: string[] = []
+    for (let h = 0; h < 360; h += 5) {
+      for (let s = 0; s <= 100; s += 10) {
+        for (let l = 0; l <= 100; l += 2) {
+          const e = entry('x', { primaryHue: { h, s, l } })
+          const ratio = contrastRatio(hex(inkFor(e)), paint(h, s, l))
+          if (ratio < 4.5) misses.push(`hsl(${h} ${s}% ${l}%) ${ratio.toFixed(2)}`)
+        }
+      }
+    }
+    expect(misses).toEqual([])
+  })
+
+  it('reports the ratio it reached', () => {
+    const e = entry('x', { primaryHue: { h: 28, s: 92, l: 52 } })
+    expect(inkContrast(e)).toBeCloseTo(contrastRatio(hex(inkFor(e)), paint(28, 92, 52)), 2)
+    expect(inkContrast(entry('x', { primaryHue: null }))).toBeGreaterThan(4.5)
   })
 })
 

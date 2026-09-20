@@ -1,0 +1,53 @@
+/archive calendar, measured with Playwright (Chromium, hidden scrollbars) on the built site.
+Before = origin/main 7a6c8b66 (after #605). After = this branch. Month view opens on September 2026.
+
+width  view   overflow  text<12px  text<4.5:1  controls (WxH)                          day cell (WxH)
+-- before --
+  320  month         0         60          14  72x30x2 64x30 49x30                      34.3x34.3
+  320  all           0         80           0  64x30 49x30 264x14                       sheet cell 35.1x35.1
+  360  month         0         60          14  72x30x2 64x30 49x30                      40x40
+  360  all           0         80           0  64x30 49x30 304x14                       sheet cell 40.9x40.9
+  390  month         0         60          14  72x30x2 64x30 49x30                      44.3x44.3
+  390  all           0         80           0  64x30 49x30 334x14                       sheet cell 45.1x45.1
+  820  month         0         60          14  72x30x2 64x30 49x30                      94.3x94.3
+  820  all           0         80           0  64x30 49x30 334x14                       sheet cell 45.1x45.1
+ 1440  month         0         60          14  72x30x2 64x30 49x30                      141.7x141.7
+ 1440  all           0         80           0  64x30 49x30 320x14                       sheet cell 43.1x43.1
+
+-- after --
+  320  month         0          0           0  80x44x2 72x44 55x44                      34.3x34.3
+  320  all           0          0           0  72x44 55x44 264x44                       sheet cell 35.1x35.1
+  360  month         0          0           0  80x44x2 72x44 55x44                      40x40
+  360  all           0          0           0  72x44 55x44 304x44                       sheet cell 40.9x40.9
+  390  month         0          0           0  80x44x2 72x44 55x44                      44.3x44.3
+  390  all           0          0           0  72x44 55x44 334x44                       sheet cell 45.1x45.1
+  820  month         0          0           0  80x44x2 72x44 55x44                      94.3x94.3
+  820  all           0          0           0  72x44 55x44 334x44                       sheet cell 45.1x45.1
+ 1440  month         0          0           0  80x44x2 72x44 55x44                      141.7x141.7
+ 1440  all           0          0           0  72x44 55x44 320x44                       sheet cell 43.1x43.1
+
+Truncated mood labels in the month view (label clipped by its cell):
+  before: 320: 12, 360: 12, 390: 12, 820: 1, 1440: 0
+  after: 320: 0, 360: 0, 390: 0, 820: 0, 1440: 0
+
+Visible text sizes in the month view (px: count of text nodes):
+  before 320: {'11': 60, '13': 8, '17': 1, '24': 1}
+  before 820: {'11': 60, '13': 8, '17': 1, '36': 1}
+  after 320: {'12': 42, '13': 8, '17': 1, '24': 1}
+  after 820: {'12': 60, '13': 8, '17': 1, '36': 1}
+
+Every built day cell in the index (138), text over the cell colour, mood label included (opacity blended):
+  before: 55 of 138 cells under 4.5:1. Worst five:
+    /archive/2026-06-18/ rgb(41, 167, 245) ink rgb(242, 242, 244) 2.08
+    /archive/2026-07-06/ rgb(245, 125, 20) ink rgb(242, 242, 244) 2.10
+    /archive/2026-09-16/ rgb(240, 125, 25) ink rgb(242, 242, 244) 2.15
+    /archive/2026-09-04/ rgb(229, 126, 67) ink rgb(242, 242, 244) 2.22
+    /archive/2026-06-09/ rgb(240, 77, 255) ink rgb(242, 242, 244) 2.22
+  after: 0 of 138 cells under 4.5:1. Worst five:
+    /archive/2026-07-09/ rgb(212, 17, 115) ink rgb(242, 242, 244) 4.55
+    /archive/2026-04-29/ rgb(130, 120, 135) ink rgb(14, 14, 16) 4.58
+    /archive/2026-09-19/ rgb(12, 125, 91) ink rgb(242, 242, 244) 4.58
+    /archive/2026-06-01/ rgb(205, 35, 191) ink rgb(0, 0, 0) 4.59
+    /archive/2026-06-17/ rgb(206, 32, 233) ink rgb(14, 14, 16) 4.60
+
+Disabled "next" at the newest month: before 1.48:1 (opacity .28), after 4.56:1 (archive.faint, no border).
