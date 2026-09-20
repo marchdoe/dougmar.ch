@@ -9,7 +9,7 @@ const rail = css({
   display: 'flex',
   flexDirection: 'column',
   gap: '18px',
-  fontSize: 'archive.micro',
+  fontSize: 'archive.label',
 })
 
 const railRow = css({ display: 'flex', flexDirection: 'column', gap: '4px' })
@@ -23,14 +23,18 @@ const railKey = css({
 const railValue = css({ color: 'archive.text', fontSize: 'archive.small', wordBreak: 'break-word' })
 
 const openDesign = css({
-  display: 'block',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  boxSizing: 'border-box',
+  minHeight: '44px',
   textAlign: 'center',
   border: '1px solid',
   borderColor: 'archive.line',
   color: 'archive.text',
   textDecoration: 'none',
   padding: '11px 12px',
-  fontSize: 'archive.micro',
+  fontSize: 'archive.label',
   letterSpacing: '0.12em',
   textTransform: 'uppercase',
   transition: 'background 0.15s ease, color 0.15s ease',

@@ -62,7 +62,9 @@ export default defineConfig({
             lineSoft: { value: '#1d1d21' },
             text: { value: '#e8e8ea' },
             dim: { value: '#8a8a93' },
-            faint: { value: '#4a4a52' },
+            // 4.56:1 on archive.bg. The old #4a4a52 was 2.2:1, under the 4.5:1
+            // floor for small text. Faint text sits on archive.bg only.
+            faint: { value: '#7a7a87' },
           },
         },
         fonts: {
@@ -82,8 +84,11 @@ export default defineConfig({
         fontSizes: {
           archive: {
             micro: { value: '0.6875rem' },
+            // The explainer's floor: labels, keys and swatch captions. micro is
+            // 11px and the calendar still uses it; nothing on /how goes below 12.
+            label: { value: '0.75rem' },
             small: { value: '0.8125rem' },
-            body: { value: '0.9375rem' },
+            body: { value: '1rem' },
             lead: { value: '1.0625rem' },
             title: { value: '1.5rem' },
             display: { value: '2.25rem' },

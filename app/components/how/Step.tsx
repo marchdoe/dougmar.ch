@@ -6,7 +6,7 @@ import { absent } from './styles'
 const section = css({ minWidth: 0 })
 
 const stepLabel = css({
-  fontSize: 'archive.micro',
+  fontSize: 'archive.label',
   letterSpacing: '0.18em',
   textTransform: 'uppercase',
   color: 'archive.faint',

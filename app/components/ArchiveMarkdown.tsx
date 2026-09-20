@@ -28,7 +28,7 @@ import { css } from '../../styled-system/css'
  */
 
 const heading = css({
-  fontSize: 'archive.micro',
+  fontSize: 'archive.label',
   letterSpacing: '0.14em',
   textTransform: 'uppercase',
   color: 'archive.dim',
@@ -42,8 +42,9 @@ const para = css({
   fontSize: 'archive.body',
   lineHeight: '1.75',
   color: 'archive.text',
-  maxWidth: '68ch',
+  maxWidth: '52ch',
   marginBottom: '12px',
+  overflowWrap: 'anywhere',
 })
 
 const list = css({
@@ -51,17 +52,20 @@ const list = css({
   fontSize: 'archive.body',
   lineHeight: '1.75',
   color: 'archive.text',
-  maxWidth: '68ch',
+  maxWidth: '52ch',
   paddingLeft: '18px',
   marginBottom: '12px',
+  overflowWrap: 'anywhere',
   '& ul, & ol': { marginTop: '6px', marginBottom: 0 },
 })
 
 const item = css({ marginBottom: '4px' })
 
+// Inside a 12px table head or a 13px cell, 0.92em came to 11.4 to 11.96px, under
+// the 12px floor.
 const code = css({
   fontFamily: 'archive.mono',
-  fontSize: '0.92em',
+  fontSize: 'max(0.95em, 12px)',
   color: 'archive.text',
   background: 'archive.lineSoft',
   padding: '1px 5px',
@@ -79,7 +83,7 @@ const pre = css({
   overflowX: 'auto',
   maxWidth: '68ch',
   marginBottom: '12px',
-  '& code': { background: 'none', padding: 0 },
+  '& code': { background: 'none', padding: 0, fontSize: 'inherit' },
 })
 
 const strong = css({ color: 'archive.text', fontWeight: '600' })
@@ -97,7 +101,7 @@ const table = css({
 
 const th = css({
   textAlign: 'left',
-  fontSize: 'archive.micro',
+  fontSize: 'archive.label',
   letterSpacing: '0.12em',
   textTransform: 'uppercase',
   color: 'archive.dim',

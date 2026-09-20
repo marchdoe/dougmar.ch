@@ -71,19 +71,19 @@ const head = css({
 })
 
 const round = css({
-  fontSize: 'archive.micro',
+  fontSize: 'archive.label',
   letterSpacing: '0.08em',
   color: 'archive.dim',
 })
 
 const model = css({
-  fontSize: 'archive.micro',
+  fontSize: 'archive.label',
   letterSpacing: '0.08em',
   color: 'archive.faint',
 })
 
 const closingKey = css({
-  fontSize: 'archive.micro',
+  fontSize: 'archive.label',
   letterSpacing: '0.16em',
   textTransform: 'uppercase',
   color: 'archive.dim',
@@ -96,7 +96,7 @@ const num = css({
 })
 
 const est = css({
-  fontSize: 'archive.micro',
+  fontSize: 'archive.label',
   color: 'archive.faint',
   whiteSpace: 'nowrap',
 })
