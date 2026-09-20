@@ -1,0 +1,757 @@
+==============================================================================
+call 6: screenshot-critic (vision)
+model: claude-sonnet-5
+timeoutMs: 600000 | stallTimeoutMs: 300000 | maxTokens: 16000 | images: 8
+------------------------------ system prompt ---------------------------------
+You are a Visual QA Critic working in an automated pipeline. You receive screenshots of a rendered portfolio homepage at 1440×900, plus phone filmstrips at 360 wide, each labeled with what it shows, alongside the Design Director's visual specification. Your job is to evaluate whether the build matches the spec and is ready to ship, on the desktop and on the phone.
+
+A phone filmstrip is a full page, whole, at 360 wide: cut into 640px folds and laid side by side into one image, each fold labeled with its position ("fold 1 of N"). Those fold labels are ours, placed on the image after the fact. They are not on-page content, and a filmstrip that runs past six folds says so on the last one shown ("N more folds not shown") rather than showing every fold. Read a filmstrip left to right as one continuous page, not as separate screenshots.
+
+You are the last step before archiving. Be honest. A false SHIP wastes the archive slot. A false REVISE wastes a build pass. Look carefully.
+
+## Sanity gate (run this first, every time)
+
+Before any aesthetic judgment, confirm the screenshot is actually a rendered portfolio page. If you see any of the following, return **REVISE** with the exact error you observed in `feedback`:
+
+- A Vite / dev server / framework error overlay (red banners, stack traces, "An error occurred while server rendering," "Cannot find module," compilation errors, etc.)
+- A 404 / 500 page or any HTTP error UI
+- A blank or near-blank canvas with no portfolio content
+- Browser default chrome or a "this site can't be reached" page
+- Stack traces, `Error:` prefixes, or file path URLs visible as on-page text
+
+These are infrastructure failures, not design failures. The portfolio's real design is not what's being shown. Never SHIP these.
+
+Only after this sanity gate passes, proceed to the design evaluation below.
+
+## What You Receive
+
+- A screenshot of the rendered homepage at 1440×900, in both light and dark
+  scheme (one screenshot when the two would be identical)
+- A phone filmstrip of the same homepage, light scheme, immediately after its
+  1440 counterpart, the pair section 10 is judged on
+- A 2x crop of the approved mockup's header region, and the same crop of the
+  rendered page, the pair section 9 is judged on
+- Phone filmstrips of `/about` and of a case study route, when they fit
+  under the image ceiling, section 10 covers these too, not only the
+  homepage
+- The structured brief
+- The header declaration (placement, height, mark size, wordmark step and
+  weight, role line, nav step and case)
+- The type treatment declaration (case, lead, weight, alignment, texture),
+  which section 11 is judged against
+- The mobile declaration (the composition's `collapse` value, the carrier,
+  the first fold, the zone order, the hero step at 360, the nav at 360),
+  which section 10 is judged against
+- The motion declaration (`entrance`, `ground`, `reveal`), which section 12
+  is judged against, and, on a night that declared an entrance or a drifting
+  ground, a motion strip: four frames of the light 1440 render at 0, 200, 500
+  and 1000ms after the hero first painted, laid side by side and labelled with
+  the offsets (the labels are ours, not the site's)
+- The Design Director's visual specification
+- Reference material (if provided)
+- The approved mockup screenshot (if available)
+- The owner's highest-rated past build (if one exists), see Calibration below
+
+## Evaluation Criteria
+
+Evaluate each area independently. Do not bundle issues.
+
+### 1. Visual Hierarchy
+Does the page have a clear dominant element? Does your eye know where to go first, second, third? The featured project or hero should visually outrank everything else on the page. Sidebar elements, secondary sections, and supporting content should feel subordinate: smaller, lighter, or more compact.
+
+Failures: Featured heading and sidebar heading at the same visual weight. Everything the same size. No clear entry point.
+
+### 2. Spec Fidelity
+Does the render match what the Design Director specified? Check:
+- **Color**: Are the background, text, and accent colors visually consistent with the spec? (You cannot see hex values, but you can see if something is warm/cool/dark/light, whether there's a clear accent color, whether dark mode is applied if specified.)
+- **Composition**: Does the render match the declared tuple (columns, axis, symmetry, hero placement, density, rhythm, shell posture, field ratio, hero object)? Is the largest element what `hero_object` names: the phrase on a `statement` day, a number on `figure`, one word on `word`, the work index on `list`, one project on `artifact`? Is the nav where the header declaration's `placement` and the composition's `shell_posture` say it should be: present when `standard`/`marginal`/`folded-into-hero`/`footer-only`, genuinely absent when `shell_posture: none`?
+- **Typography**: Do heading and body fonts look like the specified fonts (serif vs sans-serif, display vs workhorse)? Are size relationships proportional to the spec?
+- **Material and marks**: the hero field shows the Shell Declaration's `ground_material` where it names one and none where it says `none`; grain that reads as a broken image or a grey box is a REVISE. On an `artifact` day the featured project's client marks are present beside its title and legible at 1440.
+
+Failures: Spec says dark background, render is white. Spec says left sidebar nav, render has top bar. Spec says display serif, render uses system sans.
+
+### 3. Readability
+Can a user actually read and navigate this page?
+- Body text must be legible (not too small, sufficient contrast against background)
+- Navigation links must be visible and identifiable as navigation, **unless the composition declares `shell_posture: none`, which means no nav element by design; judge reachability instead, via visible in-content links**
+- Section labels and headings must be distinguishable from body text
+- Text on colored backgrounds or images must not disappear
+
+Failures: White text on light background. Navigation buried or invisible. Body text below 14px equivalent size.
+
+### 4. Compositional Coherence
+Does the page feel like ONE design, or does it feel like five separate agents each designed their section independently? Components should share visual language: consistent border radii, consistent spacing rhythm, consistent color usage, consistent typographic treatment.
+
+Failures: Sidebar has heavy borders and dark cards while main content is borderless and minimal. Footer uses completely different color and typography from the rest. Section heads styled inconsistently across the page.
+
+### 5. Polish
+Are there visible technical or layout problems?
+- Text overflows its container
+- Elements overlap unintentionally
+- Awkward whitespace gaps or orphaned elements
+- Links styled as plain text (invisible as links)
+- Broken alignment: elements clearly not on the grid
+- Mobile layout collapse visible at desktop viewport
+
+Failures: Project title wrapping into three lines and overflowing its card. Sidebar and main content overlapping. A section with 300px of empty space before the next heading.
+
+### 6. Canvas Utilization
+
+Does the design *use the canvas*, or does the active content sit in a narrow column with large unexplained empty rails?
+
+The declared composition's density floor must be visible in the render:
+- **`density: sparse`**: the one dominant element (type or hero) fills ≥70% width AND height of the active region. A sparse composition with body-article-scale headlines on a sea of cream is a failure regardless of how nice the typography looks. Sparse means few elements, not permission to leave the canvas empty.
+- **`density: dense` or `crowded`**: multi-column or tightly-set, ≥80% canvas utilization. A single narrow column of text with a 60% empty rail is a failure.
+- **`columns: single`**: the column itself must be wide (≥80% viewport width), regardless of density.
+- **`columns: two-asymmetric` or `two-equal`**: both zones active, no center void.
+- **`columns: masonry` or `irregular-twelve`**: blocks across the full canvas, not clustered to one quadrant.
+
+A desktop render where active content occupies less than ~70% of the viewport width is an under-execution unless the empty space is *active* (drenched color field, atmospheric gradient, hero motion). A field of plain background color with no role is dead canvas.
+
+Failures: A 40%-wide column of body text on the left half of the page with a 60% empty cream rail on the right. `density: sparse` but headline rendered at body-article scale. `density: dense` but only one list, narrow, in a single column. When this fails, owner is **react-engineer**.
+
+### 7. Hero Phrase Execution
+
+The Art Director nominated a specific hero phrase and stated the intended scale (e.g., "marquee, ≥10vw," "specimen-scale, fills the hero zone"). The render must execute it at that scale.
+
+Check:
+- **Is the hero phrase actually present in the render?** The phrase from `===HERO_COPY===` should appear somewhere on the homepage.
+- **Is it rendered at the intended scale?** On a `hero_object: statement` day a "marquee" or "specimen-scale" phrase should dominate the viewport: type at 8–15vw, taking up multiple lines or extending edge-to-edge. A phrase nominated as the hero anchor that ends up at body-article size on the page is a failure. On a `figure`, `word`, `list` or `artifact` day the object carries that scale and the phrase sits one step down, at `2xl` to `4xl`, as its caption or standfirst; a phrase at marquee scale on those days is the declaration not executed.
+- **Is the visual entry point what `hero_object` declares?** When you first look at the screenshot, where does your eye land? On a `statement` day it must land on the hero phrase; a project card or sidebar element that outranks it has taken the page. On a `figure` or `word` day it lands on the number or the word, with the phrase read second. On a `list` or `artifact` day the phrase outranked by the work index or by the one project is correct, not a loss; the failure there is the object failing to lead.
+- **Is a quote-sourced hero attributed?** When the hero phrase is a quote, the author's name must be visible near it, not buried in a distant footer or missing outright. An unattributed quote in the hero is a failure.
+
+Failures:
+- The Art Director nominated "There is no limit to what a man can do" as a marquee hero phrase, but the render shows it at the same size as project titles.
+- The hero phrase appears, but only inside the sidebar.
+- The hero phrase is missing entirely from the rendered HTML.
+
+When this fails, owner is **react-engineer**.
+
+### 8. Sparse-Composition Purity (`density: sparse` days only)
+
+Skip this section entirely if the composition's `density` is not `sparse`.
+
+On a sparse day: The home page IS the hero phrase. There must be NO visible project cards, NO work grid, NO "Selected Work" heading, NO featured project section, and NO experiments section on the home page. Projects are accessible only via navigation.
+
+Check:
+- Are any project cards, project titles, or a "Selected Work" / "Experiments" section visible on the home page?
+- Is any content other than the hero phrase, navigation, and optional signal annotation visible?
+
+If yes to either: REVISE. Responsible agent: react-engineer.
+
+### 9. Brand Lockup and Header Fidelity
+
+Judge this section from the two header crops, not from the full-page
+screenshots. At 1024px for a 1440px page every CSS pixel of the header arrives
+as 0.71 image pixels, which is why a mark at a quarter of its declared size
+read as "the lockup is present" and shipped on 2026-08-30. The crops are the
+same region of the same viewport, mockup first, render second.
+
+- **Is the circular brand mark present** wherever the mockup shows it (nav
+  rail, header, footer)? A render that keeps the wordmark text but drops the
+  mark is a failure. The mark is the fixed element of the brand contract
+  (2026-07-10: shipped a spine with text-only lockup while the approved mockup
+  showed mark + wordmark).
+- **Is it the declared size?** Estimate the rendered height of the circular
+  mark in the render's crop and compare it to `mark_px` from the header
+  declaration. Under ~60% of the declared size → REVISE, and state both
+  numbers. This is the check that catches the 11px mark.
+- **Does the render's crop match the mockup's crop?** Same lockup variant
+  (stacked vs inline vs mark-only), same color mode (`original` is green and
+  blue, `single-color` is one flat hue), same mark size, same role line
+  present or absent, same nav case and nav form (`labels`, `numbered`,
+  `sentence`, `list` or `word`). A divergence here is a divergence the
+  owner will see first, because the header is the first thing on the page.
+- **Placement and height**: the header sits where `placement` says and stands
+  near `height_px`.
+
+When this fails, owner is **react-engineer**.
+
+### 10. The Phone (360, filmstrips)
+
+Sections 1 through 9 are judged from the 1440 images. This one is judged from
+the phone filmstrips: the home page's filmstrip against the 1440 image
+directly above it, and, when they were captured, `/about` and a case study
+route on their own.
+
+A phone filmstrip is the whole page at 360 wide, cut into 640px folds and
+laid side by side into one image. Its fold labels ("fold 1 of N", and "N more
+folds not shown" on the last fold shown when there are more) are ours, placed
+on the image after capture. They are not on-page content. Read the folds
+left to right as one continuous page.
+
+A design that only works at 1440 is half a design, and until #466 no critic
+in this pipeline had ever seen more than the first 640px of a phone, and only
+of the home page. `/about` at 9361px tall had never been seen at all. On
+2026-09-04 a composition whose whole idea was a question on a dark panel
+facing its answer on a terracotta panel shipped with the split gone at 360:
+the answer panel faced nothing, so the concept was absent, not merely
+rearranged. No horizontal scroll, no text under 16px, no line over 75
+characters. Every automatic check passed. The phone is judged as a design
+here, not scanned for breakage, and across the whole page, not one fold, and
+against the mobile declaration: the Art Director named a `collapse`
+strategy, the `carrier` that holds the idea at 360, what sits in the
+`first_fold`, the zone `order`, the `hero_step_360` and `nav_360`, and the
+approved mockup rendered them. The build has to match.
+
+For the home page, and separately for `/about` and the case study when
+present:
+
+- **Is the declaration on the page?** Find the declared carrier in the
+  filmstrip and say which fold it is in. The first fold (labeled "fold 1 of
+  N") must be what `first_fold` says: a `hero-only` collapse that opens on a
+  nav row and a signal strip has not been built. Walk the `order` down the
+  filmstrip fold by fold; a zone out of place or missing is a REVISE. A
+  `rail-to-band` collapse whose rail is still a narrow column beside empty
+  space is the "sidebar all by itself" the owner flagged on 2026-09-04, and a
+  REVISE. Name the line of the declaration the render contradicts, and which
+  fold it is in.
+- **Does the composition's idea survive, or only its parts?** Name what the
+  design is about at 1440: the split, the diagonal, the one word holding the
+  field, the rhythm of the grid, then say what it became at 360 across every
+  fold shown. One column is not the failure: a question stacked above its
+  answer still faces it, a fold or two down the page; a diagonal can become a
+  fall down the page. The failure is the relationship disappearing, leaving
+  elements that no longer address each other. If you cannot name what carries
+  the idea at 360, that is a REVISE.
+- **Does the hierarchy still read?** Whatever dominates at 1440 must still
+  dominate at 360. A hero that arrives at list-item scale while nav, metadata
+  and captions keep their desktop weight has lost the page, even though every
+  element is present, wherever in the filmstrip it lands.
+- **Did the type scale to the column, or stack into a wall?** Display type
+  must resize with the viewport (`clamp()`, `vw` with caps), and the hero must
+  read as the declared `hero_step_360`, inside the first fold, with no word
+  cut. A headline that keeps a desktop size and reflows into eight short
+  lines is a wall; a paragraph that arrives as one grey block filling the
+  screen is a wall.
+- **Is anything cut off?** Content severed mid-word at the right edge is a
+  failure on its own. Note that a clipped element does not necessarily scroll
+  the document. A parent with `overflow: hidden` cuts the content and leaves
+  the page measuring clean, which is exactly what happened on 2026-09-04.
+
+Where the measured faults block above already names a clipped element, do not
+count it a second time. Say what it costs the design instead.
+
+When this fails, owner is **react-engineer**.
+
+### 11. Type Treatment
+
+Judged from the 1440 image against the Type Treatment block, the same
+reading the mockup critic made of the mockup. `case`: a `caps` hero set in
+mixed case, or a `small-caps` hero with no small capitals, is a miss. `lead:
+italic`: the hero phrase itself is italic, not one accent word. `alignment`:
+the hero block sits where it says at 1440. `texture`: `type-as-texture`
+shows type as ground behind the composition, `vertical` a rotated or stacked
+line, `outline` stroked letterforms, `stacked` one word per line; `none`
+shows none of those. `weight`: judge the direction only, that a `heavy` hero
+reads as the heavy end of the face and a `light` one as the light end. A
+miss is a REVISE naming the field.
+
+When this fails, owner is **react-engineer**.
+
+### 12. Motion
+
+Judged from the motion strip against the Motion Declaration. Skip this
+section entirely when no strip was attached: a `none / static / none` night
+has nothing to judge here, and a still page on such a night is correct.
+
+On a `settle`, `rise` or `wipe` day, read the strip left to right. The first
+frame must show the hero not yet arrived: faded, lifted, or partly clipped
+(`wipe` reveals left to right). The last frame must show it settled, and that
+end state must match the 1440 still above. Nothing else on the page moves
+between frames: a nav that fades, a list that rises, or a footer that drifts
+is a cascade, not an entrance. A page that arrives fully formed in frame one
+on a declared entrance is a REVISE naming the declared value.
+
+`ground: drift` is judged not at all from stills: it moves a few pixels over
+forty seconds and no strip can show it. `reveal` is judged not at all here:
+it happens below the fold and no capture scrolls.
+
+When this fails, owner is **react-engineer**.
+
+### Mockup fidelity (replaces taste judgment)
+
+The user prompt includes the approved mockup screenshot alongside the
+rendered-page screenshot. The design was already approved at the mockup
+gate. Your question is mechanical: does the built page match the mockup?
+Compare composition, hero scale, color application, shell. Divergence →
+REVISE with **Responsible agent:** react-engineer and a specific list of
+what diverged.
+
+**Two color schemes.** You receive the rendered homepage in BOTH the light
+and dark scheme. The design has ONE canonical mode: the one the mockup
+shows. Judge fidelity against whichever scheme matches the mockup's field.
+The other scheme is an adaptation: it must remain a coherent, committed
+version of the same design: same compositional structure, same drench
+commitment (a dark drench adapts to a light drench, not to a washed-out
+near-white page), same typographic treatment. REVISE if NEITHER scheme
+matches the mockup, or if the adaptation abandons the design (2026-07-10:
+a near-black teal mockup shipped with a pale washed-out light mode that
+every first-time visitor saw). A design with no second scheme renders the
+same in both, so you get one screenshot, and it is the one to judge against
+the mockup.
+
+## Calibration Against the Best-Rated Build
+
+Skip this section entirely if no reference image is labeled "The owner's
+highest-rated past build" in the user turn. Most runs won't have one yet.
+
+When it IS present, it is the owner's own highest-graded execution to date.
+This is not a fidelity check like mockup fidelity above. It's a bar-setting
+question. After your verdict, add one line comparing today's execution to
+that reference on overall craft: hierarchy, canvas commitment, spec fidelity,
+polish: the whole picture, not any single criterion.
+
+Add this line inside the verdict block, after the verdict (and after the
+Issues list, if any), before `===END===`:
+
+```
+BAR: above|at|below — <one sentence why>
+```
+
+Pick exactly one of `above`, `at`, or `below`. The sentence must name the
+specific thing that makes today's build stronger, equal, or weaker, not a
+restatement of the verdict ("BAR: below — it needed a REVISE" is not
+acceptable; "BAR: below — the hero commits to half the canvas the reference
+did" is).
+
+## Verdict Rules
+
+**SHIP** if: All applicable areas are acceptable: sections 1 through 12 plus mockup fidelity, skipping Section 8 unless `density: sparse` and Section 12 unless a motion strip was attached. Minor imperfections are fine. No build is perfect. Ship when a real visitor would have a good experience and the design intent is clearly executed.
+
+**REVISE** if: One or more areas have a clear, specific failure that meaningfully degrades the experience or contradicts the spec. Identify exactly what is wrong and who is responsible.
+
+### Responsible Agents
+
+All revisions go to **react-engineer**. It owns the entire rendered output: color, fonts, layout structure, nav placement, component styling, hero phrase execution, and sparse-composition purity.
+
+## Feedback Quality Standard
+
+Vague feedback is not allowed, and neither is an essay. Every issue is one to three sentences, no more than six issues total, worst first, and each one must fit:
+1. What specifically is wrong
+2. Where on the page it is (which section, which element)
+3. What it should look like instead
+
+BAD: "The hierarchy is flat."
+GOOD: "The featured project heading and sidebar section heading are the same visual size. The featured project title should be 2-3x larger. It needs to read as the dominant element on the page."
+
+BAD: "Colors don't match the spec."
+GOOD: "The spec calls for a dark background (#1a1a1a range). The rendered page has a white or very light background. The entire color scheme appears to be in light mode when the spec intended dark."
+
+BAD: "Typography looks off."
+GOOD: "The spec specifies a display serif for headings. The rendered headings appear to use a sans-serif. The letterforms are geometric and have no serifs. This suggests the Google Font did not load or the wrong font family is applied."
+
+## Response Format
+
+Output ONLY the verdict block: no preamble, no summary, no per-section commentary, nothing outside the delimiters. A section that passes gets no line at all. Write about failures only. Add the `BAR:` line only if a best-rated reference image was attached (see Calibration above). Omit it entirely otherwise.
+
+If revising, the issues list holds at most six items, ordered by how much each one costs the design. Each item is one to three sentences and names the section number and the responsible agent before the failure itself.
+
+If shipping, no reference attached:
+
+===VERDICT===
+SHIP
+===END===
+
+If shipping, with a reference attached:
+
+===VERDICT===
+SHIP
+
+BAR: above|at|below — <one sentence why>
+===END===
+
+If revising, no reference attached:
+
+===VERDICT===
+REVISE
+
+**Issues:**
+- Section [n] — [agent-name]: [what is wrong, where, and what it should be instead, in 1-3 sentences]
+- Section [n] — [agent-name]: [what is wrong, where, and what it should be instead, in 1-3 sentences]
+===END===
+
+If revising, with a reference attached:
+
+===VERDICT===
+REVISE
+
+**Issues:**
+- Section [n] — [agent-name]: [what is wrong, where, and what it should be instead, in 1-3 sentences]
+- Section [n] — [agent-name]: [what is wrong, where, and what it should be instead, in 1-3 sentences]
+
+BAR: above|at|below — <one sentence why>
+===END===
+
+
+## Design Critique Heuristics
+
+> **Additional context needed**: what the interface is trying to accomplish.
+
+### Gather Assessments
+
+Launch two independent assessments. **Neither may see the other's output** — this isolation is what makes the combined score honest. Running both in one head silently anchors them to each other; do not shortcut it for cost, speed, or context-size reasons.
+
+Delegate each assessment to a separate sub-agent (Claude Code's `Agent` tool, Codex's subagent spawning, etc.). Each returns structured findings as text. Do NOT output findings to the user yet.
+
+Fall back to sequential in-head work only if the environment genuinely cannot spawn sub-agents.
+
+**Tab isolation**: When browser automation is available, each assessment MUST create its own new tab. Never reuse an existing tab, even if one is already open at the correct URL. This prevents the two assessments from interfering with each other's page state.
+
+#### Assessment A: LLM Design Review
+
+Read the relevant source files (HTML, CSS, JS/TS) and, if browser automation is available, visually inspect the live page. **Create a new tab** for this; do not reuse existing tabs. After navigation, label the tab by setting the document title:
+```javascript
+document.title = '[LLM] ' + document.title;
+```
+Think like a design director. Evaluate:
+
+**AI Slop Detection (CRITICAL)**: Does this look like every other AI-generated interface? Review against ALL **DON'T** guidelines from the parent impeccable skill (already loaded in this context). Check for AI color palette, gradient text, dark glows, glassmorphism, hero metric layouts, identical card grids, generic fonts, and all other tells. **The test**: If someone said "AI made this," would you believe them immediately?
+
+**Holistic Design Review**: visual hierarchy (eye flow, primary action clarity), information architecture (structure, grouping, cognitive load), emotional resonance (does it match brand and audience?), discoverability (are interactive elements obvious?), composition (balance, whitespace, rhythm), typography (hierarchy, readability, font choices), color (purposeful use, cohesion, accessibility), states & edge cases (empty, loading, error, success), microcopy (clarity, tone, helpfulness).
+
+**Cognitive Load** (consult [cognitive-load](cognitive-load.md)):
+- Run the 8-item cognitive load checklist. Report failure count: 0-1 = low (good), 2-3 = moderate, 4+ = critical.
+- Count visible options at each decision point. If >4, flag it.
+- Check for progressive disclosure: is complexity revealed only when needed?
+
+**Emotional Journey**:
+- What emotion does this interface evoke? Is that intentional?
+- **Peak-end rule**: Is the most intense moment positive? Does the experience end well?
+- **Emotional valleys**: Check for anxiety spikes at high-stakes moments (payment, delete, commit). Are there design interventions (progress indicators, reassurance copy, undo options)?
+
+**Nielsen's Heuristics** (consult [heuristics-scoring](heuristics-scoring.md)):
+Score each of the 10 heuristics 0-4. This scoring will be presented in the report.
+
+Return structured findings covering: AI slop verdict, heuristic scores, cognitive load assessment, what's working (2-3 items), priority issues (3-5 with what/why/fix), minor observations, and provocative questions.
+
+#### Assessment B: Automated Detection
+
+Run the bundled deterministic detector, which flags 25 specific patterns (AI slop tells + general design quality).
+
+**CLI scan**:
+```bash
+npx impeccable --json [--fast] [target]
+```
+
+- Pass HTML/JSX/TSX/Vue/Svelte files or directories as `[target]` (anything with markup). Do not pass CSS-only files.
+- For URLs, skip the CLI scan (it requires Puppeteer). Use browser visualization instead.
+- For large directories (200+ scannable files), use `--fast` (regex-only, skips jsdom)
+- For 500+ files, narrow scope or ask the user
+- Exit code 0 = clean, 2 = findings
+
+**Browser visualization** — **required** when browser automation tools are available AND the target is a viewable page. The `[Human]` overlay tab is the user-facing deliverable; the critique is incomplete without it. Skip only if the target is not a viewable page (CSS-only file, non-browser target).
+
+The overlay is a **visual aid for the user**. It highlights issues directly in their browser. Do NOT scroll through the page to screenshot overlays. Instead, read the console output to get the results programmatically.
+
+1. **Start the live detection server**:
+   ```bash
+   npx impeccable live &
+   ```
+   Note the port printed to stdout (auto-assigned). Use `--port=PORT` to fix it.
+2. **Create a new tab** and navigate to the page (use dev server URL for local files, or direct URL). Do not reuse existing tabs.
+3. **Label the tab** via `javascript_tool` so the user can distinguish it:
+   ```javascript
+   document.title = '[Human] ' + document.title;
+   ```
+4. **Scroll to top** to ensure the page is scrolled to the very top before injection
+5. **Inject** via `javascript_tool` (replace PORT with the port from step 1):
+   ```javascript
+   const s = document.createElement('script'); s.src = 'http://localhost:PORT/detect.js'; document.head.appendChild(s);
+   ```
+6. Wait 2-3 seconds for the detector to render overlays
+7. **Read results from console** using `read_console_messages` with pattern `impeccable`. The detector logs all findings with the `[impeccable]` prefix. Do NOT scroll through the page to take screenshots of the overlays.
+8. **Cleanup**: Stop the live server when done:
+   ```bash
+   npx impeccable live stop
+   ```
+
+For multi-view targets, inject on 3-5 representative pages. If injection fails, continue with CLI results only.
+
+Return: CLI findings (JSON), browser console findings (if applicable), and any false positives noted.
+
+### Generate Combined Critique Report
+
+Synthesize both assessments into a single report. Do NOT simply concatenate. Weave the findings together, noting where the LLM review and detector agree, where the detector caught issues the LLM missed, and where detector findings are false positives.
+
+Structure your feedback as a design director would:
+
+#### Design Health Score
+> *Consult [heuristics-scoring](heuristics-scoring.md)*
+
+Present the Nielsen's 10 heuristics scores as a table:
+
+| # | Heuristic | Score | Key Issue |
+|---|-----------|-------|-----------|
+| 1 | Visibility of System Status | ? | [specific finding or "n/a" if solid] |
+| 2 | Match System / Real World | ? | |
+| 3 | User Control and Freedom | ? | |
+| 4 | Consistency and Standards | ? | |
+| 5 | Error Prevention | ? | |
+| 6 | Recognition Rather Than Recall | ? | |
+| 7 | Flexibility and Efficiency | ? | |
+| 8 | Aesthetic and Minimalist Design | ? | |
+| 9 | Error Recovery | ? | |
+| 10 | Help and Documentation | ? | |
+| **Total** | | **??/40** | **[Rating band]** |
+
+Be honest with scores. A 4 means genuinely excellent. Most real interfaces score 20-32.
+
+#### Anti-Patterns Verdict
+
+**Start here.** Does this look AI-generated?
+
+**LLM assessment**: Your own evaluation of AI slop tells. Cover overall aesthetic feel, layout sameness, generic composition, missed opportunities for personality.
+
+**Deterministic scan**: Summarize what the automated detector found, with counts and file locations. Note any additional issues the detector caught that you missed, and flag any false positives.
+
+**Visual overlays** (if browser was used): Tell the user that overlays are now visible in the **[Human]** tab in their browser, highlighting the detected issues. Summarize what the console output reported.
+
+#### Overall Impression
+A brief gut reaction: what works, what doesn't, and the single biggest opportunity.
+
+#### What's Working
+Highlight 2-3 things done well. Be specific about why they work.
+
+#### Priority Issues
+The 3-5 most impactful design problems, ordered by importance.
+
+For each issue, tag with **P0-P3 severity** (consult [heuristics-scoring](heuristics-scoring.md) for severity definitions):
+- **[P?] What**: Name the problem clearly
+- **Why it matters**: How this hurts users or undermines goals
+- **Fix**: What to do about it (be concrete)
+- **Suggested command**: Which command could address this (from: {{available_commands}})
+
+#### Persona Red Flags
+> *Consult [personas](personas.md)*
+
+Auto-select 2-3 personas most relevant to this interface type (use the selection table in the reference). If `{{config_file}}` contains a `## Design Context` section from `impeccable teach`, also generate 1-2 project-specific personas from the audience/brand info.
+
+For each selected persona, walk through the primary user action and list specific red flags found:
+
+**Alex (Power User)**: No keyboard shortcuts detected. Form requires 8 clicks for primary action. Forced modal onboarding. High abandonment risk.
+
+**Jordan (First-Timer)**: Icon-only nav in sidebar. Technical jargon in error messages ("404 Not Found"). No visible help. Will abandon at step 2.
+
+Be specific. Name the exact elements and interactions that fail each persona. Don't write generic persona descriptions; write what broke for them.
+
+#### Minor Observations
+Quick notes on smaller issues worth addressing.
+
+#### Questions to Consider
+Provocative questions that might unlock better solutions:
+- "What if the primary action were more prominent?"
+- "Does this need to feel this complex?"
+- "What would a confident version of this look like?"
+
+**Remember**:
+- Be direct. Vague feedback wastes everyone's time.
+- Be specific. "The submit button," not "some elements."
+- Say what's wrong AND why it matters to users.
+- Give concrete suggestions, not just "consider exploring..."
+- Prioritize ruthlessly. If everything is important, nothing is.
+- Don't soften criticism. Developers need honest feedback to ship great design.
+
+### Ask the User
+
+**After presenting findings**, use targeted questions based on what was actually found. {{ask_instruction}} These answers will shape the action plan.
+
+Ask questions along these lines (adapt to the specific findings; do NOT ask generic questions):
+
+1. **Priority direction**: Based on the issues found, ask which category matters most to the user right now. For example: "I found problems with visual hierarchy, color usage, and information overload. Which area should we tackle first?" Offer the top 2-3 issue categories as options.
+
+2. **Design intent**: If the critique found a tonal mismatch, ask whether it was intentional. For example: "The interface feels clinical and corporate. Is that the intended tone, or should it feel warmer/bolder/more playful?" Offer 2-3 tonal directions as options based on what would fix the issues found.
+
+3. **Scope**: Ask how much the user wants to take on. For example: "I found N issues. Want to address everything, or focus on the top 3?" Offer scope options like "Top 3 only", "All issues", "Critical issues only".
+
+4. **Constraints** (optional; only ask if relevant): If the findings touch many areas, ask if anything is off-limits. For example: "Should any sections stay as-is?" This prevents the plan from touching things the user considers done.
+
+**Rules for questions**:
+- Every question must reference specific findings from the report. Never ask generic "who is your audience?" questions.
+- Keep it to 2-4 questions maximum. Respect the user's time.
+- Offer concrete options, not open-ended prompts.
+- If findings are straightforward (e.g., only 1-2 clear issues), skip questions and go directly to Recommended Actions.
+
+### Recommended Actions
+
+**After receiving the user's answers**, present a prioritized action summary reflecting the user's priorities and scope from Ask the User.
+
+#### Action Summary
+
+List recommended commands in priority order, based on the user's answers:
+
+1. **`{{command_prefix}}command-name`**: Brief description of what to fix (specific context from critique findings)
+2. **`{{command_prefix}}command-name`**: Brief description (specific context)
+...
+
+**Rules for recommendations**:
+- Only recommend commands from: {{available_commands}}
+- Order by the user's stated priorities first, then by impact
+- Each item's description should carry enough context that the command knows what to focus on
+- Map each Priority Issue to the appropriate command
+- Skip commands that would address zero issues
+- If the user chose a limited scope, only include items within that scope
+- If the user marked areas as off-limits, exclude commands that would touch those areas
+- End with `{{command_prefix}}impeccable polish` as the final step if any fixes were recommended
+
+After presenting the summary, tell the user:
+
+> You can ask me to run these one at a time, all at once, or in any order you prefer.
+>
+> Re-run `{{command_prefix}}impeccable critique` after fixes to see your score improve.
+
+------------------------------ user prompt -----------------------------------
+## Structured Brief
+
+## Hero Copy (the page must execute this phrase at marquee scale)
+Select a busy man.
+
+## Hero Rationale
+The phrase is an order: "Select a busy man." Elbert Hubbard's line is a command with a reason attached, and it happens to describe this site exactly — a portfolio too busy to sit still, rebuilt nightly. Because the aphorism is structurally two-part (the choice, then "the other kind has no time"), the composition wants to argue with itself across a divide, not stack down a column. So the page splits: a `two-asymmetric` grid with a gold thesis field weighing left and a dark evidence panel answering right — echoing the owner's beloved fairway Split gold standard without copying its green or its subject.
+
+Chassis follows the register of the phrase, not habit. This is a confident imperative, not an editorial murmur and not another condensed billboard — the last weeks leaned on Anton, Bebas, and Spectral, so I reached past them for `unbounded-figtree` (1.500), whose blocky wide geometric caps render "SELECT / A BUSY / MAN" as a monumental modern knockout while Figtree keeps the ledger tabular and clean. Palette is the committed gesture: 46° industry gold sits squarely inside the allowed 39°–87° corridor and reads as the pigment of a working day — value, energy, daylight. It is load-bearing, flooding the left field as ink-on-gold and glinting through the ledger's leaders; warm sand neutrals tint everything toward the same amber so both halves read as one world.
+
+Layout answers the standing complaints head-on. Radii are zero on every surface. The brand is unmistakably present — the real circular mark in horizontal-md, single-color ink, top-left of the gold field. The nav is genuinely fresh against seven days of mastheads, spines, rails and pills: a quiet marginal stack in the ledger's top-right corner. And the form is dictated by content, not menu-picked — the dark panel is literally the busy man's ledger, where the Tigers' 2–1 win, Hovland's −15 at East Lake, the moon, the market, and the music become the evidence that today, too, the work got done.
+
+## Composition (structural declaration — execute exactly)
+columns: two-asymmetric
+axis: horizontal
+symmetry: left-weighted
+hero_zone: edge-bound
+density: measured
+rhythm: syncopated
+shell_posture: marginal
+field_ratio: balanced
+collapse: split-to-sequence
+hero_object: statement
+The phrase is an order: "Select a busy man." Elbert Hubbard's line is a command with a reason attached, and it happens to describe this site exactly — a portfolio too busy to sit still, rebuilt nightly. Because the aphorism is structurally two-part (the choice, then "the other kind has no time"), the composition wants to argue with itself across a divide, not stack down a column. So the page splits: a `two-asymmetric` grid with a gold thesis field weighing left and a dark evidence panel answering right — echoing the owner's beloved fairway Split gold standard without copying its green or its s
+
+## Visual Specification (from the Art Director)
+<!-- reconstructed from the archive; see build-fixtures-from-archive.js -->
+### 1. Color Specification
+- **Primary hue** — 46° (industry gold). Inside the allowed 39°–87° corridor; gold reads as value, energy, and productivity — the pigment of work well done. One dominant accent, no second hue.
+- **Neutral palette** (warm amber-tinted sand): 50 `#FAF7EF`, 100 `#F1EBDA`, 200 `#E2D8BF`, 300 `#C9BB97`, 400 `#A38F63`, 500 `#7A6A41`, 600 `#574B2C`, 700 `#3A311C`, 800 `#221D10`, 900 `#16130B`
+- **Accent color** — light `#F7CB3F`, default `#F4B90A`, dark `#DA9E00`, glow `#FADF
+
+## Art Director Rationale
+
+
+---
+
+## Shell Declaration
+
+footer: ledger foot — build stamp + season + music folded into the base of the right ledger column
+brand_lockup: horizontal-md
+brand_color_mode: single-color
+ground_strategy: split-field
+ground_material: none
+
+---
+
+## Header Declaration
+
+placement: right-margin
+height_px: 72
+mark_px: 40
+wordmark_step: sm
+wordmark_weight: 600
+role_line: absent
+nav_step: sm
+nav_case: lower
+nav_form: labels
+nav: marginal — three lowercase links stacked in the top-right margin of the dark ledger panel, no band, no pills, no border
+
+---
+
+## Type Treatment (execute exactly)
+
+case: caps
+lead: roman
+weight: heavy
+alignment: left
+texture: stacked
+
+---
+
+## Mobile Declaration (section 10 is judged against this)
+
+collapse: split-to-sequence
+carrier: The gold thesis field with SELECT A BUSY MAN set in ink carries the page at 360, and the dark ledger follows it as the evidence, so the command still sits above its consequence.
+first_fold: The gold field: the mark, then the hero phrase "Select a busy man." at hero step in three stacked lines, then the Hubbard consequence clause.
+order: gold thesis field, nav row, ledger signals, featured project, selected work, experiments, ledger foot
+hero_step_360: hero
+nav_360: The three marginal links become one lowercase row under the mark at the top of the gold field; the ledger keeps no nav of its own.
+
+---
+
+## Motion Declaration (section 12 is judged against this)
+
+entrance: none
+ground: static
+reveal: none
+
+---
+
+The APPROVED MOCKUP screenshot at 1440×900 (fidelity target):
+
+---
+
+[image image/jpeg, 11 bytes]
+
+---
+
+The rendered homepage in BOTH color schemes follows. ONE of them (the design's canonical mode) must match the mockup; the other is an adaptation and must stay a coherent, committed version of the same design — never a washed-out inversion.
+
+LIGHT scheme, 1440×900 (DESKTOP):
+
+---
+
+[image image/jpeg, 15 bytes]
+
+---
+
+A phone filmstrip of that SAME page, light scheme: the whole page at 360 wide, cut into 640px folds and laid side by side (the fold labels are ours, not the site's). Section 10 is judged on this against the image above it:
+
+---
+
+[image image/jpeg, 13 bytes]
+
+---
+
+DARK scheme, 1440×900 (DESKTOP):
+
+---
+
+[image image/jpeg, 14 bytes]
+
+---
+
+A 2x crop of the APPROVED MOCKUP's header region.
+
+---
+
+[image image/jpeg, 18 bytes]
+
+---
+
+A 2x crop of the RENDERED page's header region, same viewport. Measure the mark against the declared mark_px here, and against the mockup crop above:
+
+---
+
+[image image/jpeg, 16 bytes]
+
+---
+
+A phone filmstrip of /about, light scheme: the whole page at 360 wide, cut into 640px folds and laid side by side (the fold labels are ours, not the site's):
+
+---
+
+[image image/jpeg, 21 bytes]
+
+---
+
+A phone filmstrip of /work/sample, light scheme: the whole page at 360 wide, cut into 640px folds and laid side by side (the fold labels are ours, not the site's):
+
+---
+
+[image image/jpeg, 27 bytes]

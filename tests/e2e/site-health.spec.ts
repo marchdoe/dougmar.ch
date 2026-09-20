@@ -691,14 +691,13 @@ test.describe('site health — content verification', () => {
 })
 
 test.describe('site health — share-sheet meta', () => {
-  test('shell HTML og meta is well-formed when present', async ({ page }) => {
+  test('shell HTML og meta is well-formed', async ({ page }) => {
     await page.goto('/')
-    // A committed checkout (before the first pipeline run on this branch) has
-    // no og meta in __root.tsx — skip rather than hard-fail in that case.
+    // __root.tsx has carried og meta since 2026-07-13 and the pipeline's
+    // template always writes it, so a missing tag is a regression, not a
+    // checkout that has not had its first run.
     const ogMeta = page.locator('meta[property="og:image"]')
-    // Fast skip (no ~30s auto-wait) when the tag is absent on a pre-pipeline checkout.
-    if ((await ogMeta.count()) === 0)
-      test.skip(true, 'og meta not yet generated (pre-first-pipeline-run checkout)')
+    await expect(ogMeta).toHaveCount(1)
     const ogImage = await ogMeta.getAttribute('content')
     // Two shapes are valid. A dated capture is what the pipeline writes on a
     // green run; `default.png` is the committed fallback that ships a real card

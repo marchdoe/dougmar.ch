@@ -14,7 +14,7 @@ import {
   REQUIRED_ENGINEER_FILES,
   mockFactories as m,
   runSwarm,
-  serializeCalls,
+  serializeCall,
 } from './swarm-harness.js'
 
 vi.mock('../../scripts/utils/claude-cli.js', (o) => m['scripts/utils/claude-cli.js'](o))
@@ -191,9 +191,15 @@ describe('runAgentSwarm on the recorded night', () => {
   it('asks every agent the same thing, in the same order, with the same budgets', async () => {
     const run = await runSwarm()
     expect(run.error).toBeNull()
-    const serialized = serializeCalls(run.calls, run.root)
-    expect(serialized).not.toContain(run.root)
-    await expect(serialized).toMatchFileSnapshot('./__snapshots__/swarm-calls.snap')
+    // One file per call, so a prompt change shows up as a diff in that
+    // agent's file. The recorded night makes each agent exactly one call.
+    for (const [i, call] of run.calls.entries()) {
+      const serialized = serializeCall(call, i, run.root)
+      expect(serialized).not.toContain(run.root)
+      await expect(serialized).toMatchFileSnapshot(
+        `./__snapshots__/swarm-calls/${String(i + 1).padStart(2, '0')}-${call.agent}.txt`
+      )
+    }
   })
 
   it('sends no unfilled {{PLACEHOLDER}} to any agent, the repair brief included', async () => {

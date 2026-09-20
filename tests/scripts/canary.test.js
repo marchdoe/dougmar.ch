@@ -19,7 +19,7 @@ import {
 } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { defaultExec, refusalReason, runCanary } from '../../scripts/canary.js'
 
 let root
@@ -122,16 +122,25 @@ describe('defaultExec streaming', () => {
       chunks.push(text)
       writeFileSync(logPath, chunks.join(''))
     }
-    const script = "console.log('line-one'); setTimeout(() => console.log('line-two'), 200)"
+    // The child prints its second line only once the test creates the gate
+    // file, so the ordering below does not depend on how fast either side runs.
+    const gate = path.join(worktree, 'gate')
+    const script =
+      `console.log('line-one'); const t = setInterval(() => { ` +
+      `if (require('node:fs').existsSync('${gate}')) { clearInterval(t); console.log('line-two') } }, 20); ` +
+      // A failed poll below must not leave this child spinning.
+      `setTimeout(() => process.exit(1), 30000).unref()`
     const pending = defaultExec(`node -e ${JSON.stringify(script)}`, { onChunk })
 
-    // The child is still running (asleep in its setTimeout) but has already
-    // printed its first line — the log should already have it on disk.
-    await new Promise((resolve) => setTimeout(resolve, 60))
-    const partial = readFileSync(logPath, 'utf8')
-    expect(partial).toContain('line-one')
-    expect(partial).not.toContain('line-two')
+    // Wait for the first line to reach the log. The child is still running
+    // (its gate is closed), so the log should have line-one and no more.
+    await vi.waitFor(() => expect(readFileSync(logPath, 'utf8')).toContain('line-one'), {
+      timeout: 10_000,
+      interval: 20,
+    })
+    expect(readFileSync(logPath, 'utf8')).not.toContain('line-two')
 
+    writeFileSync(gate, '')
     const result = await pending
     const final = readFileSync(logPath, 'utf8')
     expect(final).toBe(result.stdout)
