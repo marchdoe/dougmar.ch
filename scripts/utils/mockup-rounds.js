@@ -11,6 +11,7 @@
  * against the floors the Art Director declared, so it is only as good as the
  * measurement (#572).
  */
+import { writeFile } from 'node:fs/promises'
 
 /** The width the mockup is measured at, and so the width `hero_scale` resolves at. */
 export const HERO_RESOLVE_WIDTH = 1440
@@ -113,4 +114,61 @@ export function pickShippedRound(rounds, declared) {
       ? `the critic never approved; the latest round has the smallest shortfall (${table})`
       : `the critic never approved; round ${best.round} misses its floors by ${best.total} points against ${latest.total} for round ${latest.round} (${table})`
   return { round: best.round, latest: latest.round, shortfalls, reason }
+}
+
+/**
+ * Applies the choice at the end of the loop. Ships the round
+ * `pickShippedRound` names when the critic's last verdict was a real REVISE
+ * and the last round produced was also measured, and records the choice as a
+ * `mockup-round-shipped` trace step. Anything else leaves the last round in
+ * place: an APPROVE, a malformed critic reply (which carries no verdict on the
+ * page), a round whose screenshot failed, or a night with no measurements.
+ *
+ * @param {object} run
+ * @param {Array<{critic: string, verdict: string, feedback: string}>} run.verdicts
+ * @param {Array<{round: number, measured: object}>} run.rounds `mockupMeasurableRounds`
+ * @param {object|null|undefined} run.declared the run's `measurablesDecl`
+ * @param {number} run.producedRound the last round the designer produced
+ * @param {Map<number, {mockup: object, mockupScreenshot: object}>} run.kept every round's mockup and screenshot
+ * @param {{mockup: object, mockupScreenshot: object|null}} run.current what the loop ended holding
+ * @param {string} run.mockupPath where `signals/today.mockup.html` lives
+ * @param {{addStep: (step: object) => void}} run.trace
+ * @returns {Promise<{mockup: object, mockupScreenshot: object|null}>} what ships
+ */
+export async function settleMockupRound({
+  verdicts,
+  rounds,
+  declared,
+  producedRound,
+  kept,
+  current,
+  mockupPath,
+  trace,
+}) {
+  const last = verdicts.filter((v) => v.critic === 'mockup-critic').at(-1)
+  const stoppedOnRevise =
+    last?.verdict === 'REVISE' && !last.feedback.startsWith('malformed critic response')
+  const shipped = stoppedOnRevise ? pickShippedRound(rounds, declared) : null
+  if (!shipped || shipped.latest !== producedRound) return current
+
+  const chosen = shipped.round === shipped.latest ? current : kept.get(shipped.round)
+  if (chosen !== current) {
+    console.warn(
+      `  [mockup-critic] shipping round ${shipped.round}, not round ${shipped.latest}: ${shipped.reason}`
+    )
+    await writeFile(mockupPath, chosen.mockup.mockupHtml, 'utf8')
+  }
+  trace.addStep({
+    name: 'mockup-round-shipped',
+    phase: 2,
+    input: { rounds: shipped.shortfalls.map((s) => s.round) },
+    output: {
+      round: shipped.round,
+      latest: shipped.latest,
+      shortfalls: shipped.shortfalls,
+      reason: shipped.reason,
+    },
+    durationMs: 0,
+  })
+  return chosen
 }

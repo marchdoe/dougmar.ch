@@ -106,7 +106,7 @@ import {
 } from './utils/engineer-patch.js'
 import { sweepGenerated } from './utils/generated-sweep.js'
 import { countArchivedDesigns } from './utils/archive-count.js'
-import { pickShippedRound } from './utils/mockup-rounds.js'
+import { settleMockupRound } from './utils/mockup-rounds.js'
 export { parseDelimiterResponse }
 
 /**
@@ -1860,39 +1860,19 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     }
 
     // When the critic never approved, the last round is not necessarily the
-    // best one: pick by the measured shortfall against the declared floors.
-    // Only when the last round produced was also measured, so a round whose
-    // screenshot failed still ships as it did before.
-    const lastMockupVerdict = verdicts.filter((v) => v.critic === 'mockup-critic').at(-1)
-    const stoppedOnRevise =
-      lastMockupVerdict?.verdict === 'REVISE' &&
-      !lastMockupVerdict.feedback.startsWith('malformed critic response')
-    const shipped = stoppedOnRevise
-      ? pickShippedRound(mockupMeasurableRounds, measurablesDecl)
-      : null
-    if (shipped && shipped.latest === producedMockupRound) {
-      if (shipped.round !== shipped.latest) {
-        const kept = keptMockupRounds.get(shipped.round)
-        console.warn(
-          `  [mockup-critic] shipping round ${shipped.round}, not round ${shipped.latest}: ${shipped.reason}`
-        )
-        mockup = kept.mockup
-        mockupScreenshot = kept.mockupScreenshot
-        await writeFile(mockupPath, mockup.mockupHtml, 'utf8')
-      }
-      trace.addStep({
-        name: 'mockup-round-shipped',
-        phase: 2,
-        input: { rounds: shipped.shortfalls.map((s) => s.round) },
-        output: {
-          round: shipped.round,
-          latest: shipped.latest,
-          shortfalls: shipped.shortfalls,
-          reason: shipped.reason,
-        },
-        durationMs: 0,
-      })
-    }
+    // best one; this ships the round with the smallest measured shortfall.
+    const settled = await settleMockupRound({
+      verdicts,
+      rounds: mockupMeasurableRounds,
+      declared: measurablesDecl,
+      producedRound: producedMockupRound,
+      kept: keptMockupRounds,
+      current: { mockup, mockupScreenshot },
+      mockupPath,
+      trace,
+    })
+    mockup = settled.mockup
+    mockupScreenshot = settled.mockupScreenshot
 
     // -----------------------------------------------------------------------
     // Phase 2c: React Engineer — translate the approved mockup to TSX
