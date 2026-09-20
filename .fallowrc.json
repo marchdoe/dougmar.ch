@@ -67,7 +67,8 @@
   // Each of these overrides a transitive package, so no workspace package
   // declares it and fallow calls it unused. pnpm-workspace.yaml gives the
   // advisory and when to drop it. Only overrides that still exist are listed;
-  // delete a line here when its override goes. js-yaml is the override #547 adds.
+  // delete a line here when its override goes. fast-uri is not listed because
+  // #555 drops that override.
   "ignoreDependencyOverrides": [
     { "package": "postcss" },
     { "package": "browserslist" },
@@ -122,7 +123,7 @@
         "reason": "generated UI has no unit tests by design; judge on cyclomatic/cognitive, not zero-coverage CRAP"
       },
 
-      // Everything below is the standing debt on main at 6059ce87: 71
+      // Everything below is the standing debt on main at 63b3e21e: 71
       // functions above the default 20 / 15 / 30 ceilings, so `pnpm fallow
       // --summary` failed on a clean checkout. Each entry sits at what the code
       // scores today, not above it. The defaults still apply to every other
