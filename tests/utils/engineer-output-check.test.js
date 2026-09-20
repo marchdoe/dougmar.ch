@@ -3,6 +3,7 @@ import {
   REQUIRED_FILES,
   findEngineerOutputProblem,
   findMissingRequiredFiles,
+  findUnwritablePaths,
 } from '../../scripts/utils/engineer-output-check.js'
 
 const file = (path, content = 'export {}') => ({ path, content })
@@ -71,5 +72,68 @@ describe('findEngineerOutputProblem', () => {
       f.path === 'app/components/Sidebar.tsx' ? file(f.path, '<nav>links</nav>') : f
     )
     expect(findEngineerOutputProblem(files, 'marginal')).toBeNull()
+  })
+})
+
+/**
+ * The night of 2026-09-20 ended here: the engineer's repair named
+ * `app/components/MobileFooter.tsx`, one directory above the part of
+ * `app/components/` it owns. `validateWritePath` threw, and the throw left
+ * `applyEngineerPatch`, left `runAgentSwarm`, and ended the run 31 minutes in.
+ * A misplaced component should cost a retry.
+ */
+describe('findUnwritablePaths', () => {
+  it('passes a complete, correctly placed response', () => {
+    expect(findUnwritablePaths(complete())).toEqual([])
+  })
+
+  it('passes a new component under the generated directory', () => {
+    expect(findUnwritablePaths([file('app/components/generated/ManifestBand.tsx')])).toEqual([])
+  })
+
+  it('catches a new component beside the hand-written ones', () => {
+    expect(findUnwritablePaths([file('app/components/MobileFooter.tsx')])).toEqual([
+      'app/components/MobileFooter.tsx',
+    ])
+  })
+
+  it.each([
+    ['../outside.tsx'],
+    ['/etc/passwd'],
+    ['.github/workflows/daily-redesign.yml'],
+    ['app/routeTree.gen.ts'],
+    ['package.json'],
+  ])('catches %s', (path) => {
+    expect(findUnwritablePaths([file(path)])).toEqual([path])
+  })
+
+  it('tolerates an absent list', () => {
+    expect(findUnwritablePaths(undefined)).toEqual([])
+  })
+})
+
+describe('findEngineerOutputProblem on an unwritable path', () => {
+  const strayed = () => [...complete(), file('app/components/MobileFooter.tsx')]
+
+  it('reports it, and names the path and where it belongs', () => {
+    const problem = findEngineerOutputProblem(strayed(), 'standard')
+    expect(problem.kind).toBe('unwritable-path')
+    expect(problem.message).toMatch(/MobileFooter\.tsx/)
+    expect(problem.reminder).toMatch(/FILE PATH NOT YOURS/)
+    expect(problem.reminder).toMatch(/app\/components\/generated\//)
+  })
+
+  it('reports missing files first, since the response is incomplete either way', () => {
+    const files = strayed().filter((f) => f.path !== 'app/routes/og.tsx')
+    expect(findEngineerOutputProblem(files, 'standard').kind).toBe('missing-files')
+  })
+
+  it('reports the path before posture: a file that cannot be written has no nav to judge', () => {
+    const files = [
+      ...complete().filter((f) => f.path !== 'app/components/Sidebar.tsx'),
+      file('app/components/Sidebar.tsx', '<nav>links</nav>'),
+      file('app/components/MobileFooter.tsx'),
+    ]
+    expect(findEngineerOutputProblem(files, 'none').kind).toBe('unwritable-path')
   })
 })

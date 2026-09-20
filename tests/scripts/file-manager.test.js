@@ -7,6 +7,7 @@ import {
   restore,
   writeFiles,
   validateWritePath,
+  isWritablePath,
 } from '../../scripts/utils/file-manager.js'
 import { ENGINEER_FILES } from '../../scripts/utils/site-context.js'
 import { existsSync, readFileSync } from 'node:fs'
@@ -292,5 +293,46 @@ describe('backup, restore and cleanupOrphans take a root', () => {
     expect(existsSync(path.join(root, orphan))).toBe(false)
     expect(readFileSync(path.join(root, existing), 'utf8')).toBe('before')
     expect(existsSync(path.join(ROOT, orphan))).toBe(false)
+  })
+})
+
+/**
+ * `isWritablePath` must agree with `validateWritePath` on every path, because
+ * the whole point of it is that a caller can ask before writing. The two are
+ * the same function underneath; this is the test that keeps them that way if
+ * anyone is ever tempted to restate the rules for speed.
+ */
+describe('isWritablePath', () => {
+  const paths = [
+    'app/components/generated/Hero.tsx',
+    'app/routes/index.tsx',
+    'app/stubs/thing.ts',
+    'app/components/Layout.tsx',
+    'app/components/Sidebar.tsx',
+    'elements/preset.ts',
+    'elements/chassis-preset.ts',
+    'app/components/MobileFooter.tsx',
+    'app/routeTree.gen.ts',
+    'package.json',
+    '.github/workflows/ci.yml',
+    '../escape.tsx',
+    '/absolute.tsx',
+    'app/components/../../etc/passwd',
+  ]
+
+  it.each(paths)('answers for %s exactly as validateWritePath decides', (p) => {
+    let accepted = true
+    try {
+      validateWritePath(p)
+    } catch {
+      accepted = false
+    }
+    expect(isWritablePath(p)).toBe(accepted)
+  })
+
+  it('returns false rather than throwing on junk input', () => {
+    for (const bad of [undefined, null, '', 0, {}]) {
+      expect(isWritablePath(bad)).toBe(false)
+    }
   })
 })
