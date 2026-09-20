@@ -292,3 +292,121 @@ export async function runScreenshotCritic({ systemPrompt, contentBlocks, wantsBa
 
   return { verdict, criticResponse, visionChannel, bar }
 }
+
+/**
+ * Who the critic's finding goes to, and what it says to them. Only a REVISE
+ * carries a finding: a gate-forced revision under a SHIP or an UNVERIFIED goes
+ * to the engineer with no critique, since the measured faults are what it is
+ * there to fix and `faultsForOwner` already attributed them to the engineer.
+ *
+ * The FEEDBACK block is taken if the critic emitted one, as
+ * parseMockupCriticResponse already does. The old form stripped the first
+ * literal "REVISE" anywhere in the prose, so a critic writing "REVISE the hero
+ * scale" sent the engineer "the hero scale".
+ *
+ * @param {string} verdict
+ * @param {string} criticResponse
+ * @returns {{ responsibleAgent: string, criticFeedback: string }}
+ */
+export function readRevisionRequest(verdict, criticResponse) {
+  const isRevise = verdict === 'REVISE'
+  const agentMatch = criticResponse.match(/\*\*Responsible agent:\*\*\s*([\w-]+)/)
+  const responsibleAgent = isRevise ? agentMatch?.[1] || 'react-engineer' : 'react-engineer'
+  const feedbackBlock = criticResponse.match(/===FEEDBACK===\s*\n([\s\S]*?)(?:===END===|$)/)?.[1]
+  const criticFeedback = isRevise
+    ? (
+        feedbackBlock ??
+        criticResponse
+          .replace(/===VERDICT===/, '')
+          .replace(/===END===/, '')
+          .replace(/^\s*REVISE\b/m, '')
+      ).trim()
+    : ''
+  return { responsibleAgent, criticFeedback }
+}
+
+/**
+ * The line logged when a revision is about to run: the critic's own REVISE, or
+ * the gate forcing one on a critic that said SHIP or gave no verdict (#570).
+ *
+ * @param {string} verdict
+ * @param {string} responsibleAgent
+ * @param {number} faultCount - engineer-owned faults the gate measured
+ * @returns {string}
+ */
+export function describeRevision(verdict, responsibleAgent, faultCount) {
+  if (verdict === 'REVISE') {
+    return `  [screenshot-critic] REVISE — responsible: ${responsibleAgent}`
+  }
+  const criticSaid = verdict === 'UNVERIFIED' ? 'critic gave no verdict' : 'critic said SHIP'
+  return `  [surface-gate] ${criticSaid}; revising anyway for ${faultCount} measured fault(s)`
+}
+
+/**
+ * Log why no revision runs: the critic said SHIP, or it gave no verdict and
+ * the build ships as-is (#570).
+ *
+ * @param {string} verdict
+ * @param {string} visionChannel
+ */
+export function logNoRevision(verdict, visionChannel) {
+  if (verdict === 'UNVERIFIED') {
+    console.warn(
+      `  [screenshot-critic] no verdict (${visionChannel}) — no critic-driven revision, shipping the build as-is`
+    )
+  } else {
+    console.log('  [screenshot-critic] SHIP')
+  }
+}
+
+/**
+ * Record the re-judge of the build a repair round produced (#467), pushing onto
+ * `verdicts` and logging as it goes.
+ *
+ * The build that ships after a repair round only means something if the critic
+ * that judged it actually saw it. A REVISE reached through a text-only fallback
+ * (or a truncated SDK reply, #486) is not a verified fault: it is no verdict at
+ * all, and must never become SHIPPED-WITH-FAULTS, a section that says "the
+ * final critique still found a fault," which was never true when nothing was
+ * re-seen.
+ *
+ * A final REVISE does not buy another repair (the owner's call, #467). The
+ * build ships, and the fault is logged where the archive, the lessons block and
+ * the rating issue can all find it.
+ *
+ * @param {Array<object>} verdicts - the run's verdict list
+ * @param {{ verdict: string, criticResponse: string, visionChannel: string }} final
+ * @param {string} remainingFaultsText - the engineer-owned faults the second
+ *   measurement still found, already formatted; '' when none
+ * @returns {string} the verdict that was recorded
+ */
+export function recordFinalJudgment(verdicts, final, remainingFaultsText) {
+  const sawTheBuild = final.visionChannel === 'sdk-vision'
+  const finalVerdict = sawTheBuild ? final.verdict : 'UNVERIFIED'
+  verdicts.push({
+    critic: 'screenshot-critic',
+    round: 'final',
+    verdict: finalVerdict,
+    feedback: final.criticResponse.slice(0, 2000),
+    channel: final.visionChannel,
+    ts: Date.now(),
+  })
+  console.log(`  [screenshot-critic] final verdict: ${finalVerdict}`)
+
+  if (!sawTheBuild) {
+    console.warn(
+      `  [screenshot-critic] final re-judge did not reach the SDK vision channel (${final.visionChannel}) — recording UNVERIFIED instead of a faults verdict`
+    )
+  } else if (finalVerdict === 'REVISE') {
+    verdicts.push({
+      critic: 'ship-gate',
+      verdict: 'SHIPPED-WITH-FAULTS',
+      feedback: [final.criticResponse.slice(0, 2000), remainingFaultsText]
+        .filter(Boolean)
+        .join('\n\n'),
+      ts: Date.now(),
+    })
+    console.warn('  [ship-gate] final critic still says REVISE — shipping with the faults logged')
+  }
+  return finalVerdict
+}
