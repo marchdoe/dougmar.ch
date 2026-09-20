@@ -1,4 +1,4 @@
-import { RECOGNIZED_HOSTS } from './site-origin.js'
+import { RECOGNIZED_HOSTS } from '../../shared/site-origin.js'
 import { localDateString } from './local-time.js'
 import { spawnSync } from 'node:child_process'
 import { readFileSync, readdirSync, existsSync, statSync, writeFileSync, mkdirSync } from 'node:fs'

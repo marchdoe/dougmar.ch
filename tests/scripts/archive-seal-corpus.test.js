@@ -10,7 +10,7 @@
  * Roman, and would do it silently — every other test here would still pass.
  */
 
-import { CANONICAL_ORIGIN } from '../../scripts/utils/site-origin.js'
+import { CANONICAL_ORIGIN } from '../../shared/site-origin.js'
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'

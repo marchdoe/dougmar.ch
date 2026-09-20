@@ -1,10 +1,10 @@
-import type { PanelStatus, RatingIssue, RunInfo, Weights } from '../../types/panel'
+import type { Grade, PanelStatus, RatingIssue, RunInfo, Weights } from '../../types/panel'
 
-export type { PanelStatus, RatingIssue, RunInfo, Weights }
+export type { Grade, PanelStatus, RatingIssue, RunInfo, Weights }
 
 export interface RatingSubmission {
   date: string
-  grade: 'A' | 'B' | 'C' | 'D'
+  grade: Grade
   worked: string
   didnt: string
   try: string

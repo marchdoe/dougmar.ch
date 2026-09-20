@@ -1,17 +1,9 @@
 // app/server/archive-paths.ts
-// The shapes an archive path segment is allowed to have, and the only reader
-// that turns a file into a typed record.
-//
-// Both halves exist because of the same near-miss. `_readArchiveRecord` built
-// its path with `join(archivePath, date, 'record.json')` and validated nothing;
-// the only guard was an `inputValidator` regex one layer up in archive.ts,
-// which had no test. The traversal test that was supposed to cover this passed
-// because `<fixture>/../../etc/record.json` happens not to exist — not because
-// traversal was refused. A stray `record.json` above the fixture root would
-// have made it read that file and still go green.
-//
-// The `YYYY-MM-DD` regex was also written out ten times across these files, so
-// tightening one copy would have left nine.
+// The shapes an archive path segment is allowed to have. A date, build id or
+// build directory name reaches the filesystem only after it matches one of
+// these, checked in the impls as well as at the server-function boundary so a
+// direct caller cannot traverse out of the archive (#218). Import the patterns
+// from here instead of writing them out again (#331); api/panel/rate.ts does.
 
 /** A date directory: exactly `YYYY-MM-DD`, nothing that can traverse. */
 export const DATE_RE = /^\d{4}-\d{2}-\d{2}$/

@@ -5,7 +5,8 @@ import { resolve, join } from 'node:path'
 import type { ArchiveRecord } from '../types/archive-record'
 import type { Weights } from '../types/panel'
 import { BUILD_DIR_RE, DATE_RE, isArchiveDate, isBuildId } from './archive-paths'
-import { isRecord, readJson } from './read-json'
+import { isRecord } from '../lib/guards'
+import { readJson } from './read-json'
 
 export const ARCHIVE_PATH = resolve(process.cwd(), 'archive')
 

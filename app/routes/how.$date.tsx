@@ -4,7 +4,7 @@ import { HowLoading, HowMissing } from '../components/how/HowNotice'
 import { HowRecord } from '../components/how/HowRecord'
 import { loadArchiveDetail } from '../lib/archive-data'
 import { readArchiveFile } from '../lib/archive-source'
-import { CANONICAL_ORIGIN } from '../../scripts/utils/site-origin.js'
+import { CANONICAL_ORIGIN } from '../../shared/site-origin.js'
 
 // Which dates have a real captured OG card under public/og/, baked in by
 // vite.config.ts at build time (#399) — head() ships in the client bundle,

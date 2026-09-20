@@ -21,8 +21,3 @@ export function readJson<T>(path: string, guard: (value: unknown) => value is T)
   }
   return guard(parsed) ? parsed : null
 }
-
-/** Narrow to a non-null object before reaching for properties. */
-export function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
-}
