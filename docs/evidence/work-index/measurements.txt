@@ -1,0 +1,45 @@
+/work measurements, dev server, Chromium, 900px tall, day = 2026-09-20 (space-mono-archivo)
+Layout hides horizontal overflow, so "clipped" is text whose rect leaves 0..viewport.
+
+width | phase  | h1 | title rect (Spaceman) | text clipped | links <44px | word breaks | nav rows | content padding-x
+320   | before | 0  | x=56..325 (54.6px) | 1 | 1 | 0 | 2 | n/a (page is a padded flex column, 48px at base)
+320   | after  | 1  | x=28..180 (32px) | 0 | 0 | 0 | 1 | 20px/20px
+360   | before | 0  | x=56..325 (54.6px) | 0 | 1 | 0 | 1 | n/a (page is a padded flex column, 48px at base)
+360   | after  | 1  | x=28..180 (32px) | 0 | 0 | 0 | 1 | 20px/20px
+390   | before | 0  | x=56..335 (56.4px) | 0 | 1 | 0 | 1 | n/a (page is a padded flex column, 48px at base)
+390   | after  | 1  | x=28..180 (32px) | 0 | 0 | 0 | 1 | 20px/20px
+768   | before | 0  | x=136..530 (79.8px) | 0 | 1 | 0 | 1 | n/a (page is a padded flex column, 48px at base)
+768   | after  | 1  | x=240..486 (52px) | 0 | 0 | 0 | 1 | 40px/40px
+820   | before | 0  | x=136..546 (83.1px) | 0 | 1 | 0 | 1 | n/a (page is a padded flex column, 48px at base)
+820   | after  | 1  | x=240..486 (52px) | 0 | 0 | 0 | 1 | 40px/40px
+1024  | before | 0  | x=136..609 (95.7px) | 0 | 1 | 0 | 1 | n/a (page is a padded flex column, 48px at base)
+1024  | after  | 1  | x=312..653 (72px) | 0 | 0 | 0 | 1 | 64px/64px
+1440  | before | 0  | x=136..736 (121.5px) | 0 | 1 | 0 | 1 | n/a (page is a padded flex column, 48px at base)
+1440  | after  | 1  | x=320..661 (72px) | 0 | 0 | 0 | 1 | 64px/64px
+
+Before, at 320: clipped text = [{"t":"Spaceman","l":56,"r":325,"size":54.6}]
+Before, at 320: links under 44px = [{"text":"Work","w":42,"h":76,"href":"/work"}]
+Before nav separators: {"text":"·","color":"rgb(30, 51, 47)"} on bg rgb(8, 20, 18): about 1.4:1. After: none (gap only).
+
+After, minimum link height at each width: 320:44px  360:44px  390:44px  768:44px  820:44px  1024:44px  1440:44px
+
+Swap proof: each archived day preset.ts plus its chassis written into elements/, Panda regenerated,
+the chassis fonts loaded, /work measured at 320 360 768 1024 1440. Nothing committed from the swap.
+Problems = word break, clipped text, title overlapping its metadata, link under 44px, sideways scroll.
+
+2026-09-05-source-serif-text         problems=0  display="Source Serif 4"         page=rgb(241, 185, 72)  masthead=rgb(126, 71, 10)  Spaceman@320=157px in a 264px column
+2026-09-09-hanken-solo               problems=0  display="Hanken Grotesk"         page=rgb(238, 244, 242)  masthead=rgb(13, 58, 44)  Spaceman@320=146px in a 264px column
+2026-09-10-dm-serif-public           problems=0  display="DM Serif Display"       page=rgb(221, 162, 51)  masthead=rgb(23, 17, 10)  Spaceman@320=141px in a 264px column
+2026-09-11-space-mono-archivo        problems=0  display="Space Mono"             page=rgb(243, 248, 242)  masthead=rgb(14, 51, 22)  Spaceman@320=152px in a 264px column
+2026-09-12-spectral-albert           problems=0  display=Spectral                 page=rgb(10, 70, 47)  masthead=rgb(6, 45, 31)  Spaceman@320=145px in a 264px column
+2026-09-13-big-shoulders-atkinson    problems=0  display="Big Shoulders Display"  page=rgb(22, 10, 9)  masthead=rgb(174, 26, 18)  Spaceman@320=126px in a 264px column
+2026-09-14-bitter-mulish             problems=0  display=Bitter                   page=rgb(250, 245, 236)  masthead=rgb(44, 37, 21)  Spaceman@320=156px in a 264px column
+2026-09-15-anybody-franklin          problems=0  display=Anybody                  page=rgb(244, 247, 249)  masthead=rgb(16, 63, 95)  Spaceman@320=190px in a 264px column
+2026-09-16-alfa-rubik                problems=0  display="Alfa Slab One"          page=rgb(13, 26, 48)  masthead=rgb(232, 111, 30)  Spaceman@320=169px in a 264px column
+2026-09-17-zilla-worksans            problems=0  display="Zilla Slab"             page=rgb(140, 101, 16)  masthead=rgb(240, 172, 28)  Spaceman@320=141px in a 264px column
+2026-09-18-bricolage-manrope         problems=0  display="Bricolage Grotesque"    page=rgb(244, 238, 227)  masthead=rgb(46, 26, 84)  Spaceman@320=163px in a 264px column
+2026-09-19-unbounded-figtree         problems=0  display=Unbounded                page=rgb(244, 247, 245)  masthead=rgb(11, 76, 55)  Spaceman@320=219px in a 264px column
+2026-09-20-anton-inter-tight         problems=0  display=Anton                    page=rgb(8, 20, 18)  masthead=rgb(11, 61, 56)  Spaceman@320=128px in a 264px column
+2026-09-20-bebas-plex                problems=0  display="Bebas Neue"             page=rgb(8, 20, 18)  masthead=rgb(11, 61, 56)  Spaceman@320=98px in a 264px column
+2026-09-20-fraunces-karla            problems=0  display=Fraunces                 page=rgb(8, 20, 18)  masthead=rgb(11, 61, 56)  Spaceman@320=165px in a 264px column
+2026-09-20-space-mono-archivo        problems=0  display="Space Mono"             page=rgb(8, 20, 18)  masthead=rgb(11, 61, 56)  Spaceman@320=152px in a 264px column
