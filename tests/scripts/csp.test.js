@@ -206,4 +206,11 @@ describe('the older headers survive', () => {
       expect(keys).toContain(key)
     }
   )
+
+  it('sets HSTS explicitly at two years, without includeSubDomains', () => {
+    // Vercel's own default, written down so it is a choice and not an accident.
+    // includeSubDomains stays off until every subdomain is known to serve HTTPS.
+    const hsts = rule.headers.find((h) => h.key === 'Strict-Transport-Security')
+    expect(hsts?.value).toBe('max-age=63072000')
+  })
 })
