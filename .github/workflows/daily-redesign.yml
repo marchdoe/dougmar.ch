@@ -35,6 +35,9 @@ concurrency:
   group: daily-redesign
   cancel-in-progress: false
 
+# No job inherits a token. Each one below asks for what it uses (#544).
+permissions: {}
+
 jobs:
   # Which of the two cron entries is correct depends on whether New York is
   # currently on EDT or EST, and GitHub expressions have no timezone functions
@@ -42,6 +45,7 @@ jobs:
   # A manual run is never dropped.
   guard:
     runs-on: ubuntu-latest
+    permissions: {}  # reads the event and the clock, calls no API
     outputs:
       run: ${{ steps.check.outputs.run }}
     steps:
@@ -135,13 +139,13 @@ jobs:
       # No credential of any kind in this job's git config: the deploy key
       # lives in `publish`, and GITHUB_TOKEN is not persisted either. The
       # harvest step below is handed the token explicitly for the issues API.
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
 
-      - uses: pnpm/action-setup@v6
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: '.node-version'
           cache: 'pnpm'
@@ -163,7 +167,7 @@ jobs:
 
       - name: Cache Playwright browsers
         id: pw-cache
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ steps.pw.outputs.version }}
@@ -185,6 +189,10 @@ jobs:
         # claude-opus-4-8 rejects with a 400 — this broke every scheduled run
         # after the explicit-model-ID change (066e703) merged. Current CLIs
         # send adaptive thinking. Verify bumps with a workflow_dispatch dry run.
+        #
+        # No --ignore-scripts: 2.1.207 installs, then `claude --version` exits 1
+        # with "native binary not installed". The package's postinstall is what
+        # links the platform binary (#544).
         run: npm install -g @anthropic-ai/claude-code@2.1.207
 
       - name: Harvest ratings from GitHub issues
@@ -289,7 +297,7 @@ jobs:
 
       - name: Upload the night's output
         if: ${{ !inputs.dry_run }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: nightly-${{ github.run_id }}
           path: ${{ runner.temp }}/nightly.patch
@@ -304,7 +312,7 @@ jobs:
       # enough that failed builds do not accumulate.
       - name: Upload failure diagnostics
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: build-failed-${{ github.run_id }}
           path: |
@@ -342,11 +350,11 @@ jobs:
       # `ssh-key` makes actions/checkout set the remote to SSH, so the push
       # step below needs no change. No generated code runs in this job: it
       # applies a patch and pushes.
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: nightly-${{ github.run_id }}
           path: ${{ runner.temp }}
@@ -415,7 +423,7 @@ jobs:
           echo "wrote $(wc -c < "$RUNNER_TEMP/shipped-with-faults.md" | tr -d ' ') byte(s)"
 
       - name: Open today's rating issue
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         env:
           RUN_DATE: ${{ needs.redesign.outputs.date }}
         with:
@@ -491,7 +499,7 @@ jobs:
       issues: write
     steps:
       - name: Notify on failure
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         with:
           script: |
             // The run may have died before it published its date; the
