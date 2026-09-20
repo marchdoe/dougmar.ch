@@ -7,6 +7,10 @@
  *   node scripts/collect-signals.js                    # collect all
  *   node scripts/collect-signals.js --only weather,season  # collect specific providers
  *
+ * `--only` (or `--only=weather,season`) still writes signals/today.yml, with
+ * just those providers' signals and the date. A name that is not a provider
+ * is an error that lists the ones that are.
+ *
  * Exports runCollector() for testing.
  */
 
@@ -111,6 +115,42 @@ async function runProvider(provider, profile, now = new Date()) {
   }
 }
 
+/**
+ * The provider names after `--only`, or null when the flag is absent.
+ * @param {string[]} argv the arguments after the script name
+ * @returns {string[]|null}
+ */
+export function parseOnly(argv) {
+  const i = argv.findIndex((a) => a === '--only' || a.startsWith('--only='))
+  if (i === -1) return null
+  const raw = argv[i].startsWith('--only=') ? argv[i].slice('--only='.length) : argv[i + 1]
+  const names = (raw ?? '')
+    .split(',')
+    .map((n) => n.trim())
+    .filter(Boolean)
+  if (names.length === 0) {
+    throw new Error('--only needs a comma-separated list of providers, e.g. --only weather,season')
+  }
+  return names
+}
+
+/**
+ * The providers named in `names`, in their own order.
+ * @param {Array<{ name: string }>} providers
+ * @param {string[]} names
+ * @returns {Array<{ name: string }>}
+ */
+export function selectProviders(providers, names) {
+  const known = providers.map((p) => p.name)
+  const unknown = names.filter((n) => !known.includes(n))
+  if (unknown.length > 0) {
+    throw new Error(
+      `--only names ${unknown.join(', ')}, which ${unknown.length === 1 ? 'is' : 'are'} not a provider. Providers: ${[...known].sort().join(', ')}`
+    )
+  }
+  return providers.filter((p) => names.includes(p.name))
+}
+
 export async function runCollector(providerOverrides, profileOverride, { now = new Date() } = {}) {
   const profile = profileOverride ?? (await loadProfile())
   const providers = providerOverrides ?? (await discoverProviders())
@@ -196,7 +236,15 @@ if (isMain(import.meta.url)) {
     console.warn('[unhandledRejection]', msg)
   })
 
-  const { signals, meta } = await runCollector()
+  let providers
+  try {
+    const only = parseOnly(process.argv.slice(2))
+    providers = only ? selectProviders(await discoverProviders(), only) : undefined
+  } catch (err) {
+    console.error(err.message)
+    process.exit(1)
+  }
+  const { signals, meta } = await runCollector(providers)
   await writeOutputs(signals, meta)
   console.log(`\nDone in ${meta.duration_ms}ms.`)
 }

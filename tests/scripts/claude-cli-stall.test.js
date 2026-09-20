@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { EventEmitter } from 'node:events'
+import path from 'node:path'
 import { Readable, Writable } from 'node:stream'
 
 // We need to mock child_process.spawn before importing claude-cli.js
@@ -399,5 +400,45 @@ describe('callClaudeCLI refuses an implicit model', () => {
     await expect(callClaudeCLI('some-agent', 'sys', 'prompt', { model: 'sonnet' })).rejects.toThrow(
       /requires an explicit model ID/
     )
+  })
+})
+
+describe('callClaudeCLI temp prompt file', () => {
+  beforeEach(async () => {
+    mockChildren.length = 0
+    vi.useFakeTimers()
+    const { resetLedger } = await import('../../scripts/utils/cost-ledger.js')
+    resetLedger()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+    vi.clearAllMocks()
+  })
+
+  it('gives each call its own file, even two for one agent, and removes both', async () => {
+    const { callClaudeCLI } = await import('../../scripts/utils/claude-cli.js')
+    const { writeFile, unlink } = await import('node:fs/promises')
+    const opts = { model: 'claude-sonnet-5', timeoutMs: 60 * 60 * 1000, stallTimeoutMs: 1000 }
+
+    const first = callClaudeCLI('test-agent', 'system', 'first prompt', opts).catch((e) => e)
+    const second = callClaudeCLI('test-agent', 'system', 'second prompt', opts).catch((e) => e)
+    await vi.advanceTimersByTimeAsync(10)
+
+    const written = writeFile.mock.calls
+      .filter(([, content]) => content === 'first prompt' || content === 'second prompt')
+      .map(([file, content]) => ({ file, content }))
+    expect(written.map((w) => w.content).sort()).toEqual(['first prompt', 'second prompt'])
+    expect(new Set(written.map((w) => w.file)).size).toBe(2)
+    for (const { file } of written) {
+      expect(path.basename(file)).toMatch(/^\.agent-prompt-test-agent-\d+-\d+\.tmp$/)
+    }
+
+    // Let both stall out; each removes the file it wrote.
+    await vi.advanceTimersByTimeAsync(35000)
+    await vi.advanceTimersByTimeAsync(6000)
+    await Promise.all([first, second])
+    const removed = unlink.mock.calls.map(([file]) => file)
+    for (const { file } of written) expect(removed).toContain(file)
   })
 })

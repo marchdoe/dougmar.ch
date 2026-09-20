@@ -30,9 +30,8 @@ pnpm test:e2e:dev     # the dev panel, against vite dev
 The pipeline, locally:
 
 ```bash
-pnpm pipeline:collect # write signals/today.yml from the 19 providers
-pnpm pipeline:dry     # full run, no commit
-pnpm pipeline         # full run
+pnpm pipeline:collect # write signals/today.yml from the 19 providers (-- --only season,sun for a subset)
+pnpm pipeline         # full run; leaves the night on disk, commits nothing
 pnpm pipeline:canary  # a $0 dry run in a disposable worktree, evidence kept
 ```
 

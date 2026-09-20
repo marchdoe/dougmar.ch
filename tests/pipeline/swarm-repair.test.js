@@ -487,6 +487,52 @@ describe('Phase 5: the build fails', () => {
   })
 })
 
+describe('Phase 5: a failure only the Art Director can fix', () => {
+  // What validateBuild reports when the preset breaks the frozen semantic set.
+  const PRESET_ERROR = [
+    '1 of 4 gates failed:',
+    '',
+    'Pre-build validation:',
+    'elements/preset.ts: semanticTokens.colors is missing fieldInk — the semantic set is frozen and every one must be defined. Map the missing role onto the palette this design already has.',
+  ].join('\n')
+
+  it('fails with the reason and makes no repair call, and still rolls back', async () => {
+    const run = await runSwarm({ build: [{ success: false, error: PRESET_ERROR }] })
+
+    expect(run.result).toBeNull()
+    expect(run.error.message.startsWith('Build failed after 0 repair attempt(s)')).toBe(true)
+    expect(run.error.message).toContain('The failure is in elements/preset.ts')
+    expect(run.error.message).toContain('no repair was attempted')
+    expect(run.error.message).toContain(PRESET_ERROR)
+    // The engineer's first generation is the only engineer call.
+    expect(run.callsFor('react-engineer')).toHaveLength(1)
+    expect(run.retries).toBe(0)
+    expect(run.fakes.validateBuild).toHaveLength(1)
+    expect(run.trace.steps.filter((s) => s.name === 'repair')).toEqual([])
+
+    expect(run.fakes.archive).toHaveLength(0)
+    expect(run.fakes.restore).toHaveLength(1)
+    expect(onDisk(run.root, 'elements/preset.ts')).toBe(
+      readFileSync(path.join(REPO, 'elements', 'preset.ts'), 'utf8')
+    )
+    const errorTxt = readFileSync(
+      path.join(run.root, 'archive', run.date, run.trace.dir, 'error.txt'),
+      'utf8'
+    )
+    expect(errorTxt).toContain('no repair was attempted')
+  })
+
+  it('still repairs when the same report also names an engineer file', async () => {
+    const both = `${PRESET_ERROR}\napp/components/Layout.tsx(12,7): error TS2322: Type 'string' is not assignable to type 'number'.`
+    const run = await runSwarm({ build: [{ success: false, error: both }, true] })
+
+    expect(run.error).toBeNull()
+    expect(run.callsFor('react-engineer')).toHaveLength(2)
+    expect(run.callsFor('react-engineer')[1].userPrompt).toContain(both)
+    expect(run.retries).toBe(1)
+  })
+})
+
 describe('after the build passes: the screenshot critic and the surface gate', () => {
   it('revises on REVISE with a one-file patch and ships the merged set', async () => {
     const marker = 'post-critic revision'

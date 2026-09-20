@@ -936,6 +936,127 @@ test.describe('site health — navigation', () => {
 })
 
 /**
+ * /elements reads the presets, so the browser is where it gets held to them
+ * (#552). Every colour it prints must be the colour its swatch paints from the
+ * built stylesheet, no text may sit under the type ramp's floor, nothing
+ * scrolls sideways, and the nightly Sidebar, which runs down the left edge of
+ * the Layout wrapper, must not sit on the content. None of it names a token or
+ * a size: the preset changes every night.
+ *
+ * The page callbacks only gather numbers and strings; the comparing happens
+ * here, so each stays a few lines long.
+ */
+const rgbToHex = (rgb: string) => {
+  const m = /rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(rgb)
+  if (!m) return rgb
+  return `#${[m[1], m[2], m[3]].map((n) => Number(n).toString(16).padStart(2, '0')).join('')}`
+}
+
+test.describe('site health — /elements reads the preset', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/elements')
+    await page.waitForLoadState('networkidle')
+    await expect(page.locator('[data-token-path]').first()).toBeVisible()
+  })
+
+  test('every printed colour is the colour the built CSS paints', async ({ page }) => {
+    const swatches = await page.locator('[data-token-path]').evaluateAll((items) =>
+      items.map((item) => ({
+        path: item.getAttribute('data-token-path'),
+        printed: item.querySelector('[data-token-value]')?.textContent?.trim() ?? '',
+        paints: item.firstElementChild
+          ? getComputedStyle(item.firstElementChild).backgroundColor
+          : '',
+      }))
+    )
+    const hexes = swatches.filter((s) => /^#[0-9a-f]{6}$/i.test(s.printed))
+    expect(hexes.length, 'no swatch had a hex to compare').toBeGreaterThan(0)
+    const wrong = hexes.filter((s) => rgbToHex(s.paints).toLowerCase() !== s.printed.toLowerCase())
+    expect(wrong.map((s) => `${s.path}: prints ${s.printed}, paints ${s.paints}`)).toEqual([])
+  })
+
+  test('a semantic colour with no value tonight says so instead of painting nothing', async ({
+    page,
+  }) => {
+    const swatches = await page.locator('[data-token-path^="semantic."]').evaluateAll((items) =>
+      items.map((item) => ({
+        path: item.getAttribute('data-token-path'),
+        said: /not defined tonight/.test(item.textContent ?? ''),
+        paints: item.firstElementChild
+          ? getComputedStyle(item.firstElementChild).backgroundColor
+          : '',
+      }))
+    )
+    const blank = swatches.filter(
+      (s) => !s.said && (s.paints === '' || s.paints === 'rgba(0, 0, 0, 0)')
+    )
+    expect(blank.map((s) => s.path)).toEqual([])
+  })
+
+  for (const width of [360, 820, 1440]) {
+    test(`type floor, overflow and sidebar at ${width}`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 })
+      await page.reload()
+      await page.waitForLoadState('networkidle')
+
+      // The ramp floor is whatever `2xs` is tonight.
+      const floor = await page.evaluate(() => {
+        const probe = document.createElement('span')
+        probe.style.fontSize = 'var(--font-sizes-2xs)'
+        document.body.append(probe)
+        const size = Number.parseFloat(getComputedStyle(probe).fontSize)
+        probe.remove()
+        return size
+      })
+
+      const lines = await page.evaluate(() => {
+        const out: { size: number; text: string; left: number; right: number }[] = []
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+        for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+          const el = n.parentElement
+          const text = n.textContent?.trim() ?? ''
+          if (!el || !text || el.closest('[aria-hidden="true"]')) continue
+          const size = Number.parseFloat(getComputedStyle(el).fontSize)
+          const range = document.createRange()
+          range.selectNodeContents(n)
+          for (const r of range.getClientRects()) {
+            if (r.width > 0)
+              out.push({ size, text: text.slice(0, 24), left: r.left, right: r.right })
+          }
+        }
+        return out
+      })
+      const small = lines.filter((l) => l.size < floor - 0.01)
+      expect(
+        small.map((l) => `${l.size}px "${l.text}"`),
+        `text under the ${floor}px floor`
+      ).toEqual([])
+
+      const page_ = await page.evaluate(() => {
+        const root = document.documentElement
+        const sidebar = document.querySelector('[aria-hidden="true"]')
+        const shown = sidebar && getComputedStyle(sidebar).display !== 'none'
+        const box = shown ? sidebar.getBoundingClientRect() : null
+        return {
+          overflow: root.scrollWidth - root.clientWidth,
+          side: box && { left: box.left, right: box.right },
+        }
+      })
+      expect(page_.overflow).toBeLessThanOrEqual(0)
+
+      // The Sidebar shows from the md breakpoint up, and keeps clear of every line.
+      if (width >= 768) expect(page_.side, 'the sidebar did not render').not.toBeNull()
+      const { side } = page_
+      const under = side ? lines.filter((l) => l.left < side.right && l.right > side.left) : []
+      expect(
+        under.map((l) => l.text),
+        'text under the sidebar'
+      ).toEqual([])
+    })
+  }
+})
+
+/**
  * /experiments wrote `padding: '3 4'`. Panda resolves a token only when it is
  * the whole value, so the row shipped 3px of vertical padding and 4px of
  * horizontal, and stood 25px tall against a 44px tap target (#553). The page
