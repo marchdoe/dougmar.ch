@@ -1134,3 +1134,103 @@ test.describe('site health — /experiments spacing', () => {
     })
   }
 })
+
+/**
+ * /how/<date> set its reading text at 15px in a column that held 95 characters
+ * of it, printed labels at 9 to 11px, and let the Files changed list push the
+ * document to 371px on a 320 or 360 phone (#559). The date is a fixture: its
+ * file paths are the ones that overflowed, and its brief is long enough to
+ * wrap. The floors are the pipeline's own (12px, a 44px target); the line cap
+ * has headroom over the 68 to 72 characters the column now holds.
+ */
+test.describe('site health — the explainer reads on a phone (#559)', () => {
+  const DAY = '2026-09-19'
+
+  for (const width of [320, 360, 1440]) {
+    test(`fits, holds a 12px floor and keeps lines under 80 characters at ${width}`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto(`/how/${DAY}`)
+      await expect(page.getByRole('heading', { name: 'A brief was written' })).toBeVisible({
+        timeout: 15000,
+      })
+      // The specification is folded away; open it so its prose is measured too.
+      await page.locator('summary').click()
+      await page.waitForLoadState('networkidle')
+
+      const overflow = await page.evaluate(() => {
+        const root = document.documentElement
+        return root.scrollWidth - root.clientWidth
+      })
+      expect(overflow).toBeLessThanOrEqual(0)
+
+      const small = await page.evaluate(() => {
+        const out: string[] = []
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+        for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+          const el = n.parentElement
+          const text = n.textContent?.trim() ?? ''
+          if (!el || !text || ['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(el.tagName)) continue
+          const size = Number.parseFloat(getComputedStyle(el).fontSize)
+          if (size < 12) out.push(`${size}px "${text.slice(0, 24)}"`)
+        }
+        return out
+      })
+      expect(small, 'text under 12px').toEqual([])
+
+      // Characters per rendered line, counted one glyph at a time: `ch` is the
+      // width of a zero, which says little about how many letters fit.
+      const longest = await page.evaluate(() => {
+        let max = { chars: 0, text: '' }
+        const blocks = [...document.querySelectorAll('p, li')].filter(
+          (e) => Number.parseFloat(getComputedStyle(e).fontSize) >= 15
+        )
+        for (const block of blocks) {
+          const rows = new Map<number, string>()
+          const walker = document.createTreeWalker(block, NodeFilter.SHOW_TEXT)
+          for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+            const text = n.textContent ?? ''
+            for (let i = 0; i < text.length; i++) {
+              const range = document.createRange()
+              range.setStart(n, i)
+              range.setEnd(n, i + 1)
+              const rect = range.getClientRects()[0]
+              if (!rect || rect.width === 0) continue
+              const row = Math.round(rect.top / 4)
+              rows.set(row, (rows.get(row) ?? '') + text[i])
+            }
+          }
+          for (const line of rows.values()) {
+            const chars = line.trim().length
+            if (chars > max.chars) max = { chars, text: line.trim().slice(0, 24) }
+          }
+        }
+        return max
+      })
+      expect(longest.chars, 'no prose was measured').toBeGreaterThan(0)
+      expect(longest.chars, `prose line "${longest.text}"`).toBeLessThanOrEqual(80)
+    })
+  }
+
+  test('links and the specification toggle are 44px targets at 390', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 900 })
+    await page.goto(`/how/${DAY}`)
+    await expect(page.getByRole('heading', { name: 'A brief was written' })).toBeVisible({
+      timeout: 15000,
+    })
+
+    const targets = await page.locator('a[href], summary, button').evaluateAll((els) =>
+      els.map((el) => {
+        const box = el.getBoundingClientRect()
+        return { text: (el.textContent ?? '').trim().slice(0, 24), w: box.width, h: box.height }
+      })
+    )
+    // The back link, the design link and the specification toggle.
+    expect(targets.length).toBeGreaterThanOrEqual(3)
+    for (const t of targets) {
+      expect(t.h, `"${t.text}" is ${t.w}x${t.h}`).toBeGreaterThanOrEqual(44)
+      expect(t.w, `"${t.text}" is ${t.w}x${t.h}`).toBeGreaterThanOrEqual(44)
+    }
+  })
+})

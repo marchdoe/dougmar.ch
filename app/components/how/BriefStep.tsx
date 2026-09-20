@@ -18,17 +18,18 @@ const specDetails = css({
   borderTop: '1px solid',
   borderColor: 'archive.line',
   paddingTop: '14px',
-  maxWidth: '68ch',
+  maxWidth: '52ch',
 })
 
 const specSummary = css({
-  fontSize: 'archive.micro',
+  fontSize: 'archive.label',
   letterSpacing: '0.14em',
   textTransform: 'uppercase',
   color: 'archive.dim',
   cursor: 'pointer',
   userSelect: 'none',
-  paddingY: '4px',
+  paddingY: '14px',
+  lineHeight: '16px',
   _hover: { color: 'archive.text' },
 })
 

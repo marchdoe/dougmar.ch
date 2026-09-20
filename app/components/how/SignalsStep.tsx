@@ -21,13 +21,18 @@ const signalRow = css({
 })
 
 const signalName = css({
-  fontSize: 'archive.micro',
+  fontSize: 'archive.label',
   letterSpacing: '0.12em',
   textTransform: 'uppercase',
   color: 'archive.dim',
 })
 
-const signalText = css({ fontSize: 'archive.small', color: 'archive.text', minWidth: 0 })
+const signalText = css({
+  fontSize: 'archive.small',
+  color: 'archive.text',
+  minWidth: 0,
+  overflowWrap: 'anywhere',
+})
 const signalNone = css({ fontSize: 'archive.small', color: 'archive.faint', fontStyle: 'italic' })
 
 export function SignalsStep({ detail }: { detail: ArchiveDetail }) {

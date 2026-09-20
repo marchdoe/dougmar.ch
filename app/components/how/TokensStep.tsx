@@ -8,7 +8,7 @@ import { defKey, defList, defRow, defValue, subhead } from './styles'
 const rampRow = css({ marginBottom: '18px' })
 
 const rampName = css({
-  fontSize: 'archive.micro',
+  fontSize: 'archive.label',
   letterSpacing: '0.12em',
   color: 'archive.dim',
   marginBottom: '6px',
@@ -17,7 +17,7 @@ const rampName = css({
 const rampStops = css({ display: 'flex', flexWrap: 'wrap', gap: '2px' })
 
 const stop = css({
-  width: '64px',
+  width: '72px',
   minHeight: '56px',
   background: 'var(--stop)',
   border: '1px solid',
@@ -27,7 +27,7 @@ const stop = css({
   justifyContent: 'flex-end',
   gap: '2px',
   padding: '4px',
-  fontSize: '9px',
+  fontSize: 'archive.label',
   lineHeight: '1.3',
   color: 'archive.text',
 })

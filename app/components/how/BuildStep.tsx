@@ -2,20 +2,25 @@ import { css } from '../../../styled-system/css'
 import type { ArchiveDetail } from '../../types/archive-record'
 import { RunStages } from '../RunStages'
 import { Absent, Step } from './Step'
-import { defEmpty, defKey, defList, defRow, defValue } from './styles'
+import { defEmpty, defKey, defList, defRow, defValueStyle, defValue } from './styles'
 
-const fileList = css({
+// Paths have no break points, so a long one would stretch the grid column past
+// a phone's width. `anywhere` also lowers the column's min-content size.
+const fileListStyle = css.raw({
   display: 'flex',
   flexDirection: 'column',
   gap: '4px',
+  overflowWrap: 'anywhere',
 })
+
+const fileList = css(defValueStyle, fileListStyle)
 
 const runAbsent = css({ marginBottom: '26px' })
 
 function FilesChanged({ files }: { files: string[] | undefined }) {
   if (!files?.length) return <span className={defEmpty}>not logged</span>
   return (
-    <span className={`${defValue} ${fileList}`}>
+    <span className={fileList}>
       {files.map((f) => (
         <span key={f}>{f}</span>
       ))}

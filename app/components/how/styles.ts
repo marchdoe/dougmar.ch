@@ -9,13 +9,15 @@ import { css } from '../../../styled-system/css'
  */
 
 export const back = css({
-  fontSize: 'archive.micro',
+  fontSize: 'archive.label',
   letterSpacing: '0.14em',
   textTransform: 'uppercase',
   color: 'archive.dim',
   textDecoration: 'none',
-  display: 'inline-block',
-  marginBottom: '20px',
+  display: 'inline-flex',
+  alignItems: 'center',
+  minHeight: '44px',
+  marginBottom: '6px',
   _hover: { color: 'archive.text' },
 })
 
@@ -32,12 +34,13 @@ export const prose = css({
   fontSize: 'archive.body',
   lineHeight: '1.75',
   color: 'archive.text',
-  maxWidth: '68ch',
+  maxWidth: '52ch',
   whiteSpace: 'pre-wrap',
+  overflowWrap: 'anywhere',
 })
 
 export const subhead = css({
-  fontSize: 'archive.micro',
+  fontSize: 'archive.label',
   letterSpacing: '0.14em',
   textTransform: 'uppercase',
   color: 'archive.dim',
@@ -63,13 +66,22 @@ export const defRow = css({
 })
 
 export const defKey = css({
-  fontSize: 'archive.micro',
+  fontSize: 'archive.label',
   letterSpacing: '0.12em',
   textTransform: 'uppercase',
   color: 'archive.dim',
 })
 
-export const defValue = css({ fontSize: 'archive.small', color: 'archive.text', minWidth: 0 })
+// Raw so a caller that adds to it can merge with `css(defValueStyle, extra)`.
+// Two `css()` results that set the same property do not merge: each is a list
+// of atomic classes and the stylesheet order picks the winner.
+export const defValueStyle = css.raw({
+  fontSize: 'archive.small',
+  color: 'archive.text',
+  minWidth: 0,
+})
+
+export const defValue = css(defValueStyle)
 
 export const defEmpty = css({
   fontSize: 'archive.small',
