@@ -9,11 +9,17 @@
  * a false one kills a nightly run that would have been fine. Most of what
  * follows is therefore about what must NOT be flagged.
  */
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
 import { describe, it, expect } from 'vitest'
 import {
   authoringSpellings,
+  checkTokenResolution,
   CHECKED_PROPERTIES,
+  correctedSpacingForm,
   findNumericScaleMisses,
+  findSpacedSpacing,
   findUnresolvedCssValues,
   formatFindings,
   isBareIdentifier,
@@ -22,6 +28,7 @@ import {
   parseDeclarations,
   parseGeneratedTokenKeys,
   readGeneratedTokenScales,
+  readReachableSources,
   stripComments,
 } from '../../scripts/utils/token-gate.js'
 
@@ -611,5 +618,231 @@ describe('stripComments', () => {
     // widen the heuristic to any identifier, not just the keyword set.
     const src = "returning 'https://dougmar.ch/a'"
     expect(stripComments(src)).not.toContain("'https://dougmar.ch/a'")
+  })
+})
+
+describe('several tokens in one spacing string (#553)', () => {
+  // The two shapes app/routes/experiments.tsx carried on main. Panda resolves a
+  // token only when it is the whole value, so both shipped as px:
+  // `.p_3_4{padding:3px 4px}` and `.md\:p_8_6vw{padding:8px 6vw}`. The row had 3px
+  // of vertical padding where the preset's `3` is 16px. Valid CSS, so part one
+  // cannot see it.
+  const EXPERIMENTS_ROW = `const rowClass = css({
+  display: 'flex',
+  gap: '4',
+  padding: '3 4',
+  borderBottom: '1px solid',
+})`
+  const EXPERIMENTS_PAGE = `<Box
+  containerType="inline-size"
+  padding={{ base: '6 4', md: '8 6vw' }}
+  display="flex"
+>`
+
+  it("flags padding: '3 4' and gives the one-token-per-property form", () => {
+    expect(findSpacedSpacing(EXPERIMENTS_ROW)).toEqual([
+      {
+        prop: 'padding',
+        value: '3 4',
+        line: 4,
+        text: "padding: '3 4',",
+        fix: "paddingBlock: '3', paddingInline: '4'",
+      },
+    ])
+  })
+
+  it('flags every string in a responsive JSX prop, on the line it sits on', () => {
+    expect(findSpacedSpacing(EXPERIMENTS_PAGE)).toEqual([
+      {
+        prop: 'padding',
+        value: '6 4',
+        line: 3,
+        text: "padding={{ base: '6 4', md: '8 6vw' }}",
+        fix: "paddingBlock: '6', paddingInline: '4'",
+      },
+      {
+        prop: 'padding',
+        value: '8 6vw',
+        line: 3,
+        text: "padding={{ base: '6 4', md: '8 6vw' }}",
+        fix: "paddingBlock: '8', paddingInline: '6vw'",
+      },
+    ])
+  })
+
+  it('reads the JSX string forms and the css() object forms alike', () => {
+    for (const src of [
+      `<Box padding="3 4" />`,
+      `<Box padding={'3 4'} />`,
+      `<Box padding={["3 4", "6 8"]} />`,
+      `css({ padding: { base: '3 4' } })`,
+      `css({ padding: \`3 4\` })`,
+    ]) {
+      expect(findSpacedSpacing(src).length, src).toBeGreaterThan(0)
+    }
+  })
+
+  it('flags a value that mixes a unit with a bare token', () => {
+    const [hit] = findSpacedSpacing(`css({ padding: '3px 4' })`)
+    expect(hit.fix).toBe("paddingBlock: '3px', paddingInline: '4'")
+  })
+
+  it('spells out three and four values', () => {
+    expect(correctedSpacingForm('padding', ['1', '2', '3'])).toBe(
+      "paddingTop: '1', paddingInline: '2', paddingBottom: '3'"
+    )
+    expect(correctedSpacingForm('margin', ['1', '2', '3', '4'])).toBe(
+      "marginTop: '1', marginRight: '2', marginBottom: '3', marginLeft: '4'"
+    )
+    expect(correctedSpacingForm('inset', ['1', '2'])).toBe("insetBlock: '1', insetInline: '2'")
+    expect(correctedSpacingForm('inset', ['1', '2', '3', '4'])).toBe(
+      "top: '1', right: '2', bottom: '3', left: '4'"
+    )
+  })
+
+  it('splits the axis and gap properties along their own names', () => {
+    expect(correctedSpacingForm('paddingInline', ['3', '4'])).toBe(
+      "paddingInlineStart: '3', paddingInlineEnd: '4'"
+    )
+    expect(correctedSpacingForm('marginBlock', ['3', '4'])).toBe(
+      "marginBlockStart: '3', marginBlockEnd: '4'"
+    )
+    expect(correctedSpacingForm('gap', ['2', '4'])).toBe("rowGap: '2', columnGap: '4'")
+    expect(findSpacedSpacing(`css({ gap: '2 4', paddingX: '1 2' })`).map((h) => h.prop)).toEqual([
+      'gap',
+      'paddingX',
+    ])
+  })
+
+  it('falls back to a plain instruction where no split exists', () => {
+    expect(correctedSpacingForm('paddingTop', ['3', '4'])).toContain('one property per value')
+    expect(correctedSpacingForm('padding', ['1', '2', '3', '4', '5'])).toContain(
+      'one property per value'
+    )
+  })
+
+  it('accepts one token per property, the corrected form', () => {
+    const src = `css({ paddingBlock: '3', paddingInline: '4', gap: '4' })
+<Box paddingBlock={{ base: '6', md: '8' }} paddingInline={{ base: '4', md: '6vw' }} />`
+    expect(findSpacedSpacing(src)).toEqual([])
+  })
+
+  it('accepts multi-value spacing that is plain CSS, where every part says what it is', () => {
+    // Lengths with units, zero, keywords, percentages, functions. None of them
+    // is a token Panda skipped, and the tooling surfaces write these on purpose.
+    for (const value of [
+      '1px 5px',
+      '0 auto',
+      'auto 0',
+      '0 0 16px 0',
+      '2rem 28px 2rem 32px',
+      '5% 10%',
+      'calc(1rem + 2px) 4px',
+      'var(--row) var(--col)',
+      'env(safe-area-inset-top) 0',
+    ]) {
+      expect(findSpacedSpacing(`css({ padding: '${value}' })`), value).toEqual([])
+    }
+  })
+
+  it('accepts a single value, which parts one and two already judge', () => {
+    expect(findSpacedSpacing(`css({ padding: '4', margin: '0', gap: 'auto' })`)).toEqual([])
+  })
+
+  it('leaves component props named left and right alone', () => {
+    // generated/RunningFoot.tsx passes `left="lions" right="31 to 41"` as data.
+    // Those are not the inset sides, and a false finding kills a nightly run.
+    expect(findSpacedSpacing(`<FootRow left="lions" right="31 to 41" tag="loss" />`)).toEqual([])
+  })
+
+  it('ignores the strings in a call inside the braces', () => {
+    expect(findSpacedSpacing(`<Box padding={pick({ a: 'x y' }, 'p q')} />`)).toEqual([])
+  })
+
+  it('does not read a comment, a custom property or a member access', () => {
+    const src = `// was padding: '3 4' until #553
+/* padding: '3 4' */
+const a = { '--card-padding': '3 4' }
+el.style.padding = '3 4'`
+    expect(findSpacedSpacing(src)).toEqual([])
+  })
+
+  it('reports a distinct value once, at its first line', () => {
+    const hits = findSpacedSpacing(`css({ padding: '3 4' })\ncss({ padding: '3 4' })`)
+    expect(hits).toHaveLength(1)
+    expect(hits[0].line).toBe(1)
+  })
+
+  describe('in the message handed to the retry', () => {
+    const finding = {
+      kind: 'spaced',
+      property: 'padding',
+      value: '3 4',
+      line: 17,
+      text: "padding: '3 4',",
+      fix: "paddingBlock: '3', paddingInline: '4'",
+      files: ['app/routes/experiments.tsx'],
+    }
+
+    it('names the file and line, quotes the line, and gives the corrected form', () => {
+      const message = formatFindings([finding])
+      expect(message).toContain('app/routes/experiments.tsx:17')
+      expect(message).toContain("padding: '3 4'")
+      expect(message).toContain("Write paddingBlock: '3', paddingInline: '4'.")
+      expect(message).toContain('Panda resolves a token only when it is the whole value')
+    })
+  })
+
+  describe('as a build gate', () => {
+    // checkTokenResolution over a scratch site: one route, an empty stylesheet.
+    const site = (files) => {
+      const root = mkdtempSync(path.join(tmpdir(), 'token-gate-spaced-'))
+      mkdirSync(path.join(root, 'app', 'routes'), { recursive: true })
+      mkdirSync(path.join(root, 'dist', 'client', 'assets'), { recursive: true })
+      writeFileSync(path.join(root, 'dist', 'client', 'assets', 'app.css'), '')
+      for (const [rel, src] of Object.entries(files)) {
+        mkdirSync(path.dirname(path.join(root, rel)), { recursive: true })
+        writeFileSync(path.join(root, rel), src)
+      }
+      return root
+    }
+
+    it('blocks the build when a file the engineer owns does it, and the brief carries the fix', () => {
+      const root = site({ 'app/routes/index.tsx': EXPERIMENTS_ROW })
+      try {
+        const gate = checkTokenResolution({ root, ownedFiles: ['app/routes/index.tsx'] })
+        expect(gate.ok).toBe(false)
+        expect(gate.blocking).toHaveLength(1)
+        expect(gate.blocking[0]).toMatchObject({ kind: 'spaced', property: 'padding', line: 4 })
+        expect(gate.error).toContain('app/routes/index.tsx:4')
+        expect(gate.error).toContain("paddingBlock: '3', paddingInline: '4'")
+      } finally {
+        rmSync(root, { recursive: true, force: true })
+      }
+    })
+
+    it('only warns for a file the nightly agents do not own', () => {
+      const root = site({ 'app/routes/experiments.tsx': EXPERIMENTS_ROW })
+      try {
+        const gate = checkTokenResolution({ root, ownedFiles: ['app/routes/index.tsx'] })
+        expect(gate.ok).toBe(true)
+        expect(gate.warnings).toHaveLength(1)
+        expect(gate.warnings[0].kind).toBe('spaced')
+      } finally {
+        rmSync(root, { recursive: true, force: true })
+      }
+    })
+
+    it('finds nothing in the routes and components this repo renders', () => {
+      // The check must not trip on what the nightly has already written and
+      // shipped: every source file reachable from app/routes on this checkout.
+      const sources = readReachableSources(process.cwd())
+      expect(sources.size).toBeGreaterThan(10)
+      const hits = []
+      for (const [file, source] of sources) {
+        for (const hit of findSpacedSpacing(source)) hits.push(`${file}:${hit.line} ${hit.text}`)
+      }
+      expect(hits).toEqual([])
+    })
   })
 })

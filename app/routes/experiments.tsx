@@ -14,7 +14,14 @@ const rowClass = css({
   justifyContent: 'space-between',
   alignItems: 'baseline',
   gap: '4',
-  padding: '3 4',
+  // One token per property. `padding: '3 4'` is not two tokens: Panda resolves a
+  // token only when it is the whole value, so that string shipped as 3px 4px and
+  // the row stood 25px tall (#553).
+  paddingBlock: '3',
+  paddingInline: '4',
+  // border-box, or the 44px is the content and the padding stacks on top of it.
+  boxSizing: 'border-box',
+  minHeight: '44px',
   borderBottom: '1px solid',
   borderColor: 'border',
   fontSize: 'base',
@@ -40,9 +47,15 @@ const metaClass = css({
  */
 function ExperimentsPage() {
   return (
+    // minHeight gives the nightly Sidebar, which is absolute from top to bottom
+    // of the Layout wrapper, a full-height column. Without it the wrapper is as
+    // tall as this content and the sidebar's line wraps onto the rows.
     <Box
       containerType="inline-size"
-      padding={{ base: '6 4', md: '8 6vw' }}
+      boxSizing="border-box"
+      minHeight="100vh"
+      paddingBlock={{ base: '6', md: '8' }}
+      paddingInline={{ base: '4', md: '6vw' }}
       display="flex"
       flexDirection="column"
       gap="6"

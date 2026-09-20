@@ -1657,9 +1657,12 @@ function checkEmittedTokensResolve(root) {
       const what =
         w.kind === 'numeric'
           ? `is not a ${w.category} token, so Panda shipped ${w.value}px`
-          : 'does not resolve to any token'
+          : w.kind === 'spaced'
+            ? `puts several tokens in one string, so Panda shipped it as written. Write ${w.fix}`
+            : 'does not resolve to any token'
+      const where = w.line ? `${w.files.join(', ')}:${w.line}` : w.files.join(', ')
       console.warn(
-        `  ⚠ ${w.files.join(', ')}: ${w.property}: '${w.authoredValue ?? w.value}' ${what}` +
+        `  ⚠ ${where}: ${w.property}: '${w.authoredValue ?? w.value}' ${what}` +
           ' (not a file the nightly agents own, so not blocking)'
       )
     }
