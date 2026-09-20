@@ -1,0 +1,26 @@
+#551: how.$date.tsx refactor. Measured 2026-09-20.
+
+Prerender, /how/2026-09-19 (dist/client/how/2026-09-19/index.html)
+  before (main c5c1325c):  4,495 bytes; body is <p>Loading Saturday, September 19, 2026…</p>
+  after:                 182,125 bytes; body is the page (the brief, six steps, rail).
+  /how/2026-09-20:         4,493 -> 126,982 bytes.
+  All 141 /how pages:    632,283 -> 9,896,727 bytes in total.
+  The after HTML includes the record twice: rendered, and serialized as the
+  router's loader data (about 115 KB for 2026-09-19).
+
+Visual diff, /how/2026-09-19, Chromium, hydrated, JS on
+  360 px full page:   before and after PNGs are byte-identical (436,602 bytes each).
+  1440 px full page:  before and after PNGs are byte-identical (539,710 bytes each).
+  No console errors or warnings in any of the four runs (CSP pin and hydration clean).
+
+DOM diff, all 141 prerendered dates, hydrated body.innerHTML, before vs after
+  Raw: 141 differ. The differences are React's SSR comment markers (<!--$-->, <!-- -->),
+  the spelling of the style attribute ("--hero: x;" vs "--hero:x") and attribute order.
+  After removing comment nodes and normalizing those two: 0 of 141 differ.
+  (2026-07-13 differed once because the "before" run read the page before the lazy
+  markdown chunk loaded; a rerun with a longer wait matched.)
+
+CSS bundle: same 763 rules, byte-for-byte the same size (39,332 bytes) before and after.
+
+No-JS view (what a crawler that runs no scripts sees), 1440 px:
+  before-1440-nojs.png shows only the loading line; after-1440-nojs.png shows the page.
