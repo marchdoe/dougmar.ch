@@ -1,11 +1,16 @@
 /**
- * Screenshot Critic — block assembly for the final pre-archive vision gate.
- * Pulled out of design-agents.js so the image-count guard and best-rated
- * reference wiring are unit-testable without the full orchestrator.
+ * Screenshot Critic — block assembly and the verdict read for the final
+ * pre-archive vision gate. Pulled out of design-agents.js so the image-count
+ * guard, the best-rated reference wiring and the no-verdict rule are
+ * unit-testable without the full orchestrator.
  */
 import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
+import { budgetFor } from '../utils/budgets.js'
 import { imageBlock, textBlock } from '../utils/claude-sdk.js'
+import { parseBarLine, parseCriticVerdict } from '../utils/critic-verdict.js'
 import { describeHeaderCropAnchor } from '../utils/snapshot.js'
+import { callVisionAgent } from '../utils/vision-router.js'
+import { VisionTruncatedError } from '../utils/vision-truncated-error.js'
 
 /**
  * Hard ceiling on image blocks per call: mockup + light at 1440 + a phone
@@ -220,4 +225,65 @@ export function buildScreenshotCriticBlocks(ctx) {
   }
 
   return blocks
+}
+
+/**
+ * Ask the screenshot critic and read its verdict.
+ *
+ * The verdict is only a verdict when the critic saw the build. A reply that
+ * reached us on any channel other than `sdk-vision` — a text-only fallback,
+ * a replayed fixture, or a max_tokens truncation, which the router throws as
+ * VisionTruncatedError (#570) — comes back as `UNVERIFIED`. Before that, a
+ * truncated call returned the error message as the reply, it parsed as a
+ * fail-closed REVISE, and round 1 paid the engineer to revise against it.
+ *
+ * @param {object} args
+ * @param {string} args.systemPrompt
+ * @param {Array<{type: string, text?: string, source?: object}>} args.contentBlocks
+ * @param {boolean} args.wantsBar - a calibration reference was attached, so a
+ *   BAR line is expected in the reply
+ * @returns {Promise<{ verdict: string, criticResponse: string, visionChannel: string,
+ *   bar: { position: string, reason: string } | null }>} `criticResponse` is
+ *   the reason, not critique, when the reply was truncated
+ */
+export async function runScreenshotCritic({ systemPrompt, contentBlocks, wantsBar }) {
+  // Which channel answered. A SHIP reached without pixels is a different
+  // claim from one reached with them, so verdicts.json says which it was.
+  let visionChannel = 'unknown'
+  let criticResponse
+  try {
+    criticResponse = await callVisionAgent({
+      agentName: 'screenshot-critic',
+      systemPrompt,
+      contentBlocks,
+      // The SDK path uses timeoutMs only; the CLI fallback uses both.
+      ...budgetFor('screenshot-critic'),
+      onChannel: (c) => {
+        visionChannel = c
+      },
+    })
+  } catch (err) {
+    if (!(err instanceof VisionTruncatedError)) throw err
+    console.warn(`  [screenshot-critic] ${err.message} — no verdict`)
+    return {
+      verdict: 'UNVERIFIED',
+      criticResponse: err.message,
+      visionChannel: err.channel,
+      bar: null,
+    }
+  }
+
+  if (visionChannel !== 'sdk-vision') {
+    console.warn(
+      `  [screenshot-critic] verdict reached WITHOUT images (${visionChannel}) — it did not see the design`
+    )
+    return { verdict: 'UNVERIFIED', criticResponse, visionChannel, bar: null }
+  }
+  const { verdict } = parseCriticVerdict(criticResponse, 'SHIP')
+  // BAR is only expected when a reference image was actually attached;
+  // parseBarLine is tolerant regardless — absent is fine either way.
+  const bar = wantsBar ? parseBarLine(criticResponse) : null
+  if (bar) console.log(`  [screenshot-critic] BAR: ${bar.position} — ${bar.reason}`)
+
+  return { verdict, criticResponse, visionChannel, bar }
 }
