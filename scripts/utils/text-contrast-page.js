@@ -18,6 +18,10 @@
  * off the top or left edge, clipped to a pixel (the visually-hidden pattern),
  * fully transparent, inside inline svg. Large text is counted, not measured.
  *
+ * The same walk also hands back the elements under the type-size floors
+ * (`small-text-page.js`, #567), because it is the one place the page is read
+ * after the scroll-reveal resize.
+ *
  * `unresolved` is the first thing that makes the ratio a guess, looked for
  * only on layers the text can actually see: once a layer at full opacity has
  * an opaque background, nothing above it shows, unless a group above has
@@ -29,6 +33,7 @@
  * @module
  */
 
+import { SMALL_TEXT_PAGE_FUNCTIONS } from './small-text-page.js'
 import { TEXT_CONTRAST_OPTIONS } from './text-contrast.js'
 
 /**
@@ -346,7 +351,7 @@ function pageCollect(kit) {
     if (held) held.count++
     else if (found.size < kit.options.maxCandidates) found.set(key, c)
   }
-  return { candidates: [...found.values()], texts, large }
+  return { candidates: [...found.values()], texts, large, smallText: kit.collectSmallText() }
 }
 
 const PAGE_FUNCTIONS = {
@@ -376,6 +381,7 @@ const PAGE_FUNCTIONS = {
   isLarge: pageIsLarge,
   buildCandidate: pageBuildCandidate,
   collect: pageCollect,
+  ...SMALL_TEXT_PAGE_FUNCTIONS,
 }
 
 /**
@@ -383,7 +389,8 @@ const PAGE_FUNCTIONS = {
  *
  * @param {import('playwright').Page} page
  * @param {typeof TEXT_CONTRAST_OPTIONS} [options]
- * @returns {Promise<{ candidates: Array<object>, texts: number, large: number }>}
+ * @returns {Promise<{ candidates: Array<object>, texts: number, large: number,
+ *   smallText: { entries: Array<object> } }>}
  */
 export function collectTextContrast(page, options = TEXT_CONTRAST_OPTIONS) {
   const sources = Object.fromEntries(
@@ -419,7 +426,8 @@ export function collectTextContrast(page, options = TEXT_CONTRAST_OPTIONS) {
  * Run it last: it changes the height that `vh` units resolve against.
  *
  * @param {import('playwright').Page} page
- * @returns {Promise<{ candidates: Array<object>, texts: number, large: number }>}
+ * @returns {Promise<{ candidates: Array<object>, texts: number, large: number,
+ *   smallText: { entries: Array<object> } }>}
  */
 export async function measureTextContrast(page) {
   const original = page.viewportSize()

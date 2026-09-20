@@ -74,7 +74,7 @@ Can a user actually read and navigate this page?
 - Section labels and headings must be distinguishable from body text
 - Text on colored backgrounds or images must not disappear
 
-Failures: White text on light background. Navigation buried or invisible. Body text below 14px equivalent size.
+Failures: White text on light background. Navigation buried or invisible. Body text below {{SMALL_COPY_FLOOR_PX}}px equivalent size.
 
 ### 4. Compositional Coherence
 Does the page feel like ONE design, or does it feel like five separate agents each designed their section independently? Components should share visual language: consistent border radii, consistent spacing rhythm, consistent color usage, consistent typographic treatment.
@@ -183,7 +183,7 @@ of the home page. `/about` at 9361px tall had never been seen at all. On
 2026-09-04 a composition whose whole idea was a question on a dark panel
 facing its answer on a terracotta panel shipped with the split gone at 360:
 the answer panel faced nothing, so the concept was absent, not merely
-rearranged. No horizontal scroll, no text under 16px, no line over 75
+rearranged. No horizontal scroll, no running copy under {{SMALL_COPY_FLOOR_PX}}px, no text under {{SMALL_TEXT_FLOOR_PX}}px, no line over 75
 characters. Every automatic check passed. The phone is judged as a design
 here, not scanned for breakage, and across the whole page, not one fold, and
 against the mobile declaration: the Art Director named a `collapse`

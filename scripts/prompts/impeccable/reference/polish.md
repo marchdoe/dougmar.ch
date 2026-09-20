@@ -148,7 +148,7 @@ Every interactive element needs all states:
 
 - **All breakpoints**: Test mobile, tablet, desktop
 - **Touch targets**: 44x44px minimum on touch devices
-- **Readable text**: No text smaller than 14px on mobile
+- **Readable text**: Running copy at least {{SMALL_COPY_FLOOR_PX}}px on mobile, and no text under {{SMALL_TEXT_FLOOR_PX}}px anywhere
 - **No horizontal scroll**: Content fits viewport
 - **Appropriate reflow**: Content adapts logically
 

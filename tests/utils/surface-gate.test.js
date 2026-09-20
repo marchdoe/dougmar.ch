@@ -341,10 +341,11 @@ describe('running copy set at display size', () => {
   })
 })
 
-describe('tap-target and small-copy findings (#488)', () => {
-  // From the 2026-09-07 nightly: 12 tap-target failures on the small-caps nav
-  // and running copy at 12.6px, both measured by responsive-scorer.js and
-  // read by nothing until this gate carried them.
+describe('tap-target findings (#488)', () => {
+  // From the 2026-09-07 nightly: 12 tap-target failures on the small-caps nav,
+  // measured by responsive-scorer.js and read by nothing until this gate
+  // carried them. Running copy under the floor was the second advisory; it is
+  // an error now, with its own tests in small-text.test.js (#567).
   const mobile = { ...ok, viewport: 'mobile', width: 360, clientWidth: 360, scrollWidth: 360 }
 
   it('reports a tap target under 44x44, once per distinct text, with a count', () => {
@@ -381,39 +382,18 @@ describe('tap-target and small-copy findings (#488)', () => {
     expect(findings.filter((f) => f.kind === 'tap-target')).toHaveLength(MAX_TAP_TARGET_REPORTED)
   })
 
-  it('reports the worst running-copy block under the reading floor', () => {
-    const findings = evaluateMeasurement({
-      ...mobile,
-      smallCopy: { tag: 'P', fontSizePx: 12.6, sample: 'Design systems, mostly' },
-    })
-    expect(findings).toHaveLength(1)
-    expect(findings[0].kind).toBe('small-copy')
-    expect(findings[0].severity).toBe('warning')
-    expect(findings[0].detail).toContain('<P>')
-    expect(findings[0].detail).toContain('12.6px')
-    expect(findings[0].detail).toContain('Design systems, mostly')
-  })
-
-  it('says nothing when there is no small-copy block', () => {
-    expect(evaluateMeasurement({ ...mobile, smallCopy: null }).map((f) => f.kind)).not.toContain(
-      'small-copy'
-    )
-  })
-
   it('only fires at the 360 (mobile) rung, never at desktop', () => {
     const desktop = {
       ...ok,
       viewport: 'desktop',
       tapTargets: [{ text: 'work', count: 1, w: 34, h: 22 }],
-      smallCopy: { tag: 'P', fontSizePx: 12, sample: 'x' },
     }
     expect(evaluateMeasurement(desktop)).toEqual([])
   })
 
-  it('never forces a revision: faultsForOwner ignores both kinds', () => {
+  it('never forces a revision: faultsForOwner ignores it', () => {
     const findings = [
       { ...mobile, surface: '/', kind: 'tap-target', severity: 'warning', detail: 'x' },
-      { ...mobile, surface: '/', kind: 'small-copy', severity: 'warning', detail: 'x' },
     ]
     expect(faultsForOwner(findings, 'react-engineer')).toEqual([])
   })
@@ -430,16 +410,16 @@ describe('advisoryFaultsForOwner', () => {
     detail: 'x',
   })
 
-  it('keeps only tap-target/small-copy findings on the owner’s surfaces', () => {
+  it('keeps only tap-target findings on the owner’s surfaces', () => {
+    // small-copy is an error now and rides in the error list, not here (#567).
     const findings = [
       finding('/', 'tap-target'),
-      finding('/', 'small-copy'),
+      finding('/', 'small-copy', 'error'),
       finding('/', 'overflow', 'error'),
       finding('/experiments', 'tap-target'),
     ]
     expect(advisoryFaultsForOwner(findings, 'react-engineer').map((f) => f.kind)).toEqual([
       'tap-target',
-      'small-copy',
     ])
     expect(advisoryFaultsForOwner(findings, 'human').map((f) => f.kind)).toEqual(['tap-target'])
   })
@@ -450,14 +430,13 @@ describe('advisoryFaultsForOwner', () => {
   })
 })
 
-describe('measureRoute runs the advisory checks on the mobile rung', () => {
+describe('measureRoute runs the tap-target check on the mobile rung', () => {
   // The guard used to read `viewport.width === 360`. Moving the phone width
-  // would have switched both advisories off with every test still green, so
+  // would have switched the advisory off with every test still green, so
   // this drives measureRoute with a mobile rung at a width that is not 360.
   // The page is a stand-in that records which in-page functions it was handed.
   const RESULTS = {
     findTapTargetFailures: [{ label: 'work', width: 34, height: 22 }],
-    findSmallCopy: { fontSizePx: 12.6, chars: 240, sample: 'Small' },
     findClippedElements: [],
   }
   // Which in-page function an evaluate call was handed. Most ship one source
@@ -500,13 +479,9 @@ describe('measureRoute runs the advisory checks on the mobile rung', () => {
       'light'
     )
     expect(ran).toContain('findTapTargetFailures')
-    expect(ran).toContain('findSmallCopy')
     expect(ran).toContain('collectTextContrast')
     expect(m.tapTargets).toHaveLength(1)
-    expect(m.smallCopy).not.toBeNull()
-    expect(evaluateMeasurement(m).map((f) => f.kind)).toEqual(
-      expect.arrayContaining(['tap-target', 'small-copy'])
-    )
+    expect(evaluateMeasurement(m).map((f) => f.kind)).toContain('tap-target')
   })
 
   it('and not on the desktop rung', async () => {
@@ -519,11 +494,10 @@ describe('measureRoute runs the advisory checks on the mobile rung', () => {
       'dark'
     )
     expect(ran).not.toContain('findTapTargetFailures')
-    expect(ran).not.toContain('findSmallCopy')
-    // Text contrast is measured at both rungs.
+    // Text contrast, and the type-size floors that ride on its walk, are
+    // measured at both rungs.
     expect(ran).toContain('collectTextContrast')
     expect(m.tapTargets).toEqual([])
-    expect(m.smallCopy).toBeNull()
   })
 })
 

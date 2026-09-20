@@ -191,7 +191,7 @@ You do NOT define `spacing`, `lineHeights`, `letterSpacings`, `fontWeights`, `fo
 ### Accessibility: non-negotiable
 - Body text vs. background: ≥ 4.5:1 (WCAG AA)
 - Large text (24px+, or 18.66px+ bold): ≥ 3:1
-- No body text smaller than 14px (0.875rem)
+- Running copy (`p`, `li`, `blockquote`) at least 14px, and no visible text of any kind under 11px, at every width. The surface gate measures both at 360px and 1440, and text under either floor forces a revision.
 - The surface gate measures all text under 24px (18.66px bold) against what it renders over, in both schemes: under 3:1 forces a revision, under 4.5:1 is a warning. This includes `textMuted`, `textFaint` and the accent on every ground you define, not only `text` on `bg`.
 
 ### CRITICAL: PandaCSS token reference syntax
@@ -847,7 +847,7 @@ Beyond contrast ratios (which are well-documented), consider:
 
 - **Never disable zoom**: `user-scalable=no` breaks accessibility. If your layout breaks at 200% zoom, fix the layout.
 - **Use rem/em for font sizes**: This respects user browser settings. Never `px` for body text.
-- **Minimum 16px body text**: Smaller than this strains eyes and fails WCAG on mobile.
+- **Minimum 14px body text**: Smaller than this strains eyes and fails WCAG on mobile.
 - **Adequate touch targets**: Text links need padding or line-height that creates 44px+ tap targets.
 
 ---

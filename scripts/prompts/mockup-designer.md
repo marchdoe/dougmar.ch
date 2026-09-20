@@ -244,7 +244,7 @@ You are designing for three characters: phone ({{NARROW_PX}}px), tablet (768px),
 - Fixed sidebars, multi-column grids, and persistent nav rails collapse below the tablet breakpoint the way the Mobile Declaration's `collapse` says.
 - Header chrome (logo + nav + signals) must not overlap at {{NARROW_PX}}px. If everything can't fit, stack or hide behind a toggle.
 - Touch targets ≥ 44×44px on any viewport ≤ 768px.
-- Body text ≥ 16px at all viewports.
+- Running copy (`p`, `li`, `blockquote`) ≥ {{SMALL_COPY_FLOOR_PX}}px and no visible text under {{SMALL_TEXT_FLOOR_PX}}px, at all viewports.
 - Line length ≤ 75 characters at all viewports.
 
 **What gets checked automatically:**
