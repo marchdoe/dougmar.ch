@@ -781,7 +781,7 @@ async function captureFingerprint(browser, url) {
  * screenshot critic, no OG card and no responsive metrics, and the run
  * reported success because all three failures are non-blocking.
  *
- * Two other things this fixes by consolidating:
+ * Three other things this does:
  *
  * - It spawned `npx`, and `child.kill()` kills the npx wrapper, not the vite
  *   process underneath. A run that captures snapshot + screenshot + OG could
@@ -789,74 +789,129 @@ async function captureFingerprint(browser, url) {
  *   process group and killing the group takes the whole tree down.
  * - The port was `14000 + random(1000)` in three places, so two captures in
  *   the same run could collide. One helper, one place to fix that.
+ * - `--strictPort` makes a taken port fail. Without it vite hops to the next
+ *   free port and the readiness poll waits its full timeout on a port nothing
+ *   listens on, which surfaced as "[surface-gate] failed (non-blocking)" and a
+ *   night that shipped ungated. With it vite exits, and this tries a new port,
+ *   up to {@link PREVIEW_START_ATTEMPTS} times.
  *
  * @param {(baseUrl: string, port: number) => Promise<T>} fn
- * @param {{ port?: number, timeoutMs?: number }} [options] `port` reuses a
- *   server the caller already started, in which case nothing is spawned here.
+ * @param {{ port?: number, timeoutMs?: number, spawnFn?: typeof spawn, pickPort?: () => number }} [options]
+ *   `port` reuses a server the caller already started, in which case nothing
+ *   is spawned here. `spawnFn` and `pickPort` are the two seams a test replaces.
  * @returns {Promise<T>}
  * @template T
  */
 export async function withPreviewServer(
   fn,
-  { port, timeoutMs = STEP_BUDGETS.previewReadyMs } = {}
+  {
+    port,
+    timeoutMs = STEP_BUDGETS.previewReadyMs,
+    spawnFn = spawnPreview,
+    pickPort = randomPreviewPort,
+  } = {}
 ) {
   if (port) return await fn(`http://localhost:${port}`, port)
 
-  const serverPort = 14000 + Math.floor(Math.random() * 1000)
-  const baseUrl = `http://localhost:${serverPort}`
+  for (let attempt = 1; ; attempt++) {
+    const serverPort = pickPort()
+    const baseUrl = `http://localhost:${serverPort}`
+    const preview = startPreview(serverPort, spawnFn)
+    try {
+      await waitUntilServing(preview, baseUrl, timeoutMs)
+    } catch (err) {
+      stopPreview(preview)
+      // Only an exit is worth another port: a server that never answered
+      // would not answer on a different one either.
+      if (preview.exited === null || attempt >= PREVIEW_START_ATTEMPTS) throw err
+      console.warn(`  ${err.message}; trying another port (attempt ${attempt + 1})`)
+      continue
+    }
+    try {
+      return await fn(baseUrl, serverPort)
+    } finally {
+      stopPreview(preview)
+    }
+  }
+}
+
+/** How many ports {@link withPreviewServer} tries when the server exits before serving. */
+const PREVIEW_START_ATTEMPTS = 3
+
+const randomPreviewPort = () => 14000 + Math.floor(Math.random() * 1000)
+
+const spawnPreview = (bin, args, options) => spawn(bin, args, options)
+
+/**
+ * Spawn `vite preview` on exactly `serverPort`.
+ * @param {number} serverPort
+ * @param {typeof spawn} spawnFn
+ * @returns {{ server: import('node:child_process').ChildProcess, stderr: string, exited: number|null }}
+ */
+function startPreview(serverPort, spawnFn) {
   // The vite binary directly, not through npx: killing npx leaves vite running.
   const bin = path.join(ROOT, 'node_modules', '.bin', 'vite')
-  const server = spawn(bin, ['preview', '--port', String(serverPort)], {
+  const server = spawnFn(bin, ['preview', '--port', String(serverPort), '--strictPort'], {
     cwd: ROOT,
     stdio: ['ignore', 'pipe', 'pipe'],
     detached: true,
   })
 
-  let stderr = ''
+  const preview = { server, stderr: '', exited: null }
   server.stderr?.on('data', (chunk) => {
-    stderr += chunk.toString()
+    preview.stderr += chunk.toString()
   })
   // A server that dies immediately (port in use, missing dist/) should say so
   // rather than waiting out the readiness timeout.
-  let exited = null
   server.on('exit', (code) => {
-    exited = code
+    preview.exited = code
   })
+  return preview
+}
 
-  try {
-    // Ask the server whether it is up, rather than reading its mind from stdout.
-    const deadline = Date.now() + timeoutMs
-    for (;;) {
-      if (exited !== null) {
-        throw new Error(
-          `vite preview exited with code ${exited} before serving${stderr ? `: ${stderr.trim().slice(0, 300)}` : ''}`
-        )
-      }
-      try {
-        const resp = await fetch(`${baseUrl}/`)
-        if (resp.ok) break
-      } catch {
-        // not listening yet
-      }
-      if (Date.now() >= deadline) {
-        throw new Error(
-          `vite preview did not answer on ${baseUrl} within ${timeoutMs}ms${stderr ? `: ${stderr.trim().slice(0, 300)}` : ''}`
-        )
-      }
-      await new Promise((r) => setTimeout(r, 250))
+/**
+ * Ask the server whether it is up, rather than reading its mind from stdout.
+ * Throws when it exits first or does not answer within `timeoutMs`.
+ * @param {{ stderr: string, exited: number|null }} preview from {@link startPreview}
+ * @param {string} baseUrl
+ * @param {number} timeoutMs
+ * @returns {Promise<void>}
+ */
+async function waitUntilServing(preview, baseUrl, timeoutMs) {
+  const detail = () => (preview.stderr ? `: ${preview.stderr.trim().slice(0, 300)}` : '')
+  const deadline = Date.now() + timeoutMs
+  for (;;) {
+    if (preview.exited !== null) {
+      throw new Error(`vite preview exited with code ${preview.exited} before serving${detail()}`)
     }
-
-    return await fn(baseUrl, serverPort)
-  } finally {
-    // Kill the process group, not just the direct child.
     try {
-      if (server.pid && exited === null) process.kill(-server.pid, 'SIGTERM')
+      const resp = await fetch(`${baseUrl}/`)
+      if (resp.ok) return
     } catch {
-      try {
-        server.kill('SIGTERM')
-      } catch {
-        /* already gone */
-      }
+      // not listening yet
+    }
+    if (Date.now() >= deadline) {
+      throw new Error(
+        `vite preview did not answer on ${baseUrl} within ${timeoutMs}ms${detail()}`
+      )
+    }
+    await new Promise((r) => setTimeout(r, 250))
+  }
+}
+
+/**
+ * Kill the process group, not just the direct child.
+ * @param {{ server: import('node:child_process').ChildProcess, exited: number|null }} preview
+ */
+function stopPreview(preview) {
+  const { server } = preview
+  try {
+    if (server.pid && preview.exited === null) process.kill(-server.pid, 'SIGTERM')
+  } catch {
+    try {
+      server.kill('SIGTERM')
+    } catch {
+      /* already gone */
     }
   }
 }
