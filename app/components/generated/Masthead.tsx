@@ -81,7 +81,7 @@ const phraseHeadingClass = css({
   letterSpacing: 'tight',
   lineHeight: 'tight',
   color: 'fieldInk',
-  fontSize: { base: '2xl', md: '3xl' },
+  fontSize: { base: 'lg', md: '3xl' },
   whiteSpace: 'normal',
   overflowWrap: 'anywhere',
   wordBreak: 'break-word',
