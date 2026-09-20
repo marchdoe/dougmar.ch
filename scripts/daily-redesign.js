@@ -9,7 +9,11 @@
  *
  * Environment variables:
  *   ANTHROPIC_API_KEY - required in production
- *   DRY_RUN=true      - optional, generates but does not commit
+ *   DRY_RUN=true      - optional; the workflow's dry_run input and the canary set
+ *                       it. It only changes the closing log line. It does not
+ *                       skip a model call or the archive, and nothing in this
+ *                       process commits: the workflow's push steps check
+ *                       dry_run themselves.
  *
  * Exit codes:
  *   0 - success (build passed, committed)
