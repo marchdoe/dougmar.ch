@@ -96,7 +96,7 @@ const Note = styled('p', {
 // swatch, the type sample and the spacing bar are painted by token name, which
 // Panda cannot see at build time, so panda.config.ts pre-generates the classes
 // for the five properties used here (`staticCss`).
-// tests/utils/elements-tokens.test.tsx fails if a table row is not in the preset.
+// tests/app/elements-tokens.test.tsx fails if a table row is not in the preset.
 
 const SwatchGrid = styled('div', {
   base: {
