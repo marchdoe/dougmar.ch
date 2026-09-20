@@ -106,6 +106,7 @@ import {
 } from './utils/engineer-patch.js'
 import { sweepGenerated } from './utils/generated-sweep.js'
 import { countArchivedDesigns } from './utils/archive-count.js'
+import { settleMockupRound } from './utils/mockup-rounds.js'
 export { parseDelimiterResponse }
 
 /**
@@ -1666,10 +1667,18 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     let mockup
     let mockupScreenshot = null
     let revisionFeedback = ''
+    // The mockup the critic just reviewed. The designer revises this page
+    // instead of regenerating one from the brief (#573).
+    let previousMockupHtml = ''
+    let producedMockupRound = -1
     // The measured design-fidelity numbers (#487) per mockup revision round,
     // so the mockup-versus-build gap is visible for every round the critic
     // saw, not only the last — archived as mockup-measurables.json.
     const mockupMeasurableRounds = []
+    // Every round's mockup and screenshot, so the loop can ship an earlier
+    // round when the critic never approves one and a later round measured
+    // worse (#573).
+    const keptMockupRounds = new Map()
     const MAX_MOCKUP_REVISIONS = 2
     for (let round = 0; round <= MAX_MOCKUP_REVISIONS; round++) {
       // The optional steps check the deadline before starting; the two
@@ -1683,7 +1692,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       }
       const t0Mockup = Date.now()
       try {
-        mockup = await runMockupDesigner({ ...mockupCtxBase, revisionFeedback })
+        mockup = await runMockupDesigner({ ...mockupCtxBase, revisionFeedback, previousMockupHtml })
       } catch (firstErr) {
         if (firstErr.transport) {
           // A dead model answers the retry the same way it answered the
@@ -1713,6 +1722,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           mockup = await runMockupDesigner({
             ...mockupCtxBase,
             revisionFeedback,
+            previousMockupHtml,
             retryContext: `## Previous attempt was rejected\n\nYour previous mockup failed validation: ${firstErr.message}\nReturn a JS-free mockup.html and every required block this time.`,
           })
         } catch (err) {
@@ -1738,6 +1748,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         }
       }
       await writeFile(mockupPath, mockup.mockupHtml, 'utf8')
+      producedMockupRound = round
 
       console.log(`\n[phase-2b] Mockup Critic (round ${round})`)
       try {
@@ -1753,6 +1764,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         mockupScreenshot = null
         break
       }
+      keptMockupRounds.set(round, { mockup, mockupScreenshot })
       if (mockupScreenshot.measured) {
         mockupMeasurableRounds.push({
           round,
@@ -1837,7 +1849,23 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       // whether the critic loop earned its keep (#303).
       noteRetry()
       revisionFeedback = critique.feedback
+      previousMockupHtml = mockup.mockupHtml
     }
+
+    // When the critic never approved, the last round is not necessarily the
+    // best one; this ships the round with the smallest measured shortfall.
+    const settled = await settleMockupRound({
+      verdicts,
+      rounds: mockupMeasurableRounds,
+      declared: measurablesDecl,
+      producedRound: producedMockupRound,
+      kept: keptMockupRounds,
+      current: { mockup, mockupScreenshot },
+      mockupPath,
+      trace,
+    })
+    mockup = settled.mockup
+    mockupScreenshot = settled.mockupScreenshot
 
     // -----------------------------------------------------------------------
     // Phase 2c: React Engineer — translate the approved mockup to TSX

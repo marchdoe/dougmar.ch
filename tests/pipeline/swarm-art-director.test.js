@@ -32,6 +32,7 @@ vi.mock('node:child_process', (o) => m['node:child_process'](o))
 
 // site-context.js imports file-manager.js, so it loads after the mock block.
 const { MUTABLE_FILES } = await import('../../scripts/utils/site-context.js')
+const { parseDelimiterResponse } = await import('../../scripts/utils/delimiter-parser.js')
 
 /** The `restore` calls as `{ paths, root }`, the two fields these scenarios pin. */
 const restored = (run) => run.fakes.restore.map(({ paths, root }) => ({ paths, root }))
@@ -67,6 +68,10 @@ function mockupCriticReply(verdict, feedback) {
 function mockupRound(n) {
   return fixtureFor('mockup-designer').replace('<body>', `<body data-round="${n}">`)
 }
+
+/** The `mockup.html` a round's designer reply carries, which is what the next round is shown. */
+const mockupHtmlOf = (n) =>
+  parseDelimiterResponse(mockupRound(n)).files.find((f) => f.path === 'mockup.html').content
 
 const under = (root, rel) => path.join(root, ...rel.split('/'))
 const read = (root, rel) => readFileSync(under(root, rel), 'utf8')
@@ -166,6 +171,190 @@ describe('the mockup critic loop', () => {
     expect(run.callsFor('react-engineer')[0].userPrompt).toContain('<body data-round="0">')
     expect(run.fakes.archive).toHaveLength(1)
     expect(run.trace.dir).toMatch(/^build-\d+$/)
+  })
+})
+
+/**
+ * A `captureHtmlFileScreenshot` result carrying the numbers the critic reads
+ * and the round picker scores. The image bytes name their round, so an
+ * archived screenshot shows which round's page it came from.
+ */
+function capture(round, canvas, colour, hero) {
+  return {
+    png: Buffer.from(`png:round-${round}`),
+    jpeg: Buffer.from(`jpeg:round-${round}`),
+    headerJpeg: Buffer.from(`jpeg:round-${round}-header`),
+    mobileJpeg: Buffer.from(`jpeg:round-${round}-360`),
+    measured: { canvas_utilization: canvas, color_coverage: colour, hero_px: hero },
+  }
+}
+
+/** Three REVISE verdicts, so the loop runs out of rounds without an approval. */
+const REVISE_THREE_TIMES = [
+  mockupCriticReply('REVISE', 'Round 0 is not there yet.'),
+  mockupCriticReply('REVISE', 'Round 1 is not there yet.'),
+  mockupCriticReply('REVISE', 'Round 2 is not there yet.'),
+]
+
+const shippedStep = (run) => run.trace.steps.find((s) => s.name === 'mockup-round-shipped')
+
+describe('the mockup revision loop (#573)', () => {
+  // The recorded Art Director declares canvas >= 85, colour >= 40 and a hero
+  // of clamp(64px, 8.5vw, 136px), which is 122.4px at 1440.
+  it('hands each revision the page the critic just reviewed', async () => {
+    const run = await runSwarm({
+      agents: {
+        'mockup-designer': [mockupRound(0), mockupRound(1), mockupRound(2)],
+        'mockup-critic': REVISE_THREE_TIMES,
+      },
+    })
+
+    expect(run.error).toBeNull()
+    const [first, second, third] = run.callsFor('mockup-designer').map((c) => c.userPrompt)
+    const section = (n) =>
+      `## PREVIOUS MOCKUP — the page the critic reviewed; revise this file, do not start over\n\n\`\`\`html\n${mockupHtmlOf(n)}\n\`\`\``
+    expect(first).not.toContain('## PREVIOUS MOCKUP')
+    expect(second).toContain(section(0))
+    expect(second).not.toContain('data-round="1"')
+    expect(third).toContain(section(1))
+    expect(third).not.toContain('data-round="0"')
+  })
+
+  it('keeps the previous mockup in the prompt when the designer is retried inside a revision round', async () => {
+    const scriptTagError = 'mockup.html contains a <script> tag — the mockup must be JS-free'
+    const rejected = fixtureFor('mockup-designer').replace('<body>', '<body><script>x</script>')
+    const run = await runSwarm({
+      agents: {
+        'mockup-designer': [mockupRound(0), rejected, mockupRound(1)],
+        'mockup-critic': [
+          mockupCriticReply('REVISE', 'Round 0 is not there yet.'),
+          mockupCriticReply('APPROVE', 'Lands it.'),
+        ],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    const designer = run.callsFor('mockup-designer')
+    expect(designer).toHaveLength(3)
+    expect(designer[2].userPrompt).toContain(
+      `Your previous mockup failed validation: ${scriptTagError}`
+    )
+    expect(designer[2].userPrompt).toContain(`\`\`\`html\n${mockupHtmlOf(0)}\n\`\`\``)
+  })
+
+  it('adds only the previous mockup and the feedback to the first-round prompt', async () => {
+    const run = await runSwarm({
+      agents: {
+        'mockup-designer': [mockupRound(0), mockupRound(1)],
+        'mockup-critic': [
+          mockupCriticReply('REVISE', 'Hero phrase renders at 48px.'),
+          mockupCriticReply('APPROVE', 'Lands it.'),
+        ],
+      },
+    })
+
+    const [first, second] = run.callsFor('mockup-designer').map((c) => c.userPrompt)
+    expect(second.startsWith(first)).toBe(true)
+    const added = second.slice(first.length).replaceAll(run.root, '<root>')
+    await expect(added).toMatchFileSnapshot('./__snapshots__/swarm-mockup-revision.snap')
+  })
+
+  it('ships the round with the smallest shortfall when the critic never approves', async () => {
+    const run = await runSwarm({
+      agents: {
+        'mockup-designer': [mockupRound(0), mockupRound(1), mockupRound(2)],
+        'mockup-critic': REVISE_THREE_TIMES,
+      },
+      mockupCapture: [capture(0, 90, 50, 122), capture(1, 60, 50, 122), capture(2, 40, 50, 122)],
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.callsFor('mockup-designer')).toHaveLength(3)
+
+    // Round 0 is what the engineer builds from, what sits on disk and what is archived.
+    expect(read(run.root, 'signals/today.mockup.html')).toContain('<body data-round="0">')
+    expect(run.callsFor('react-engineer')[0].userPrompt).toContain('<body data-round="0">')
+    expect(run.callsFor('react-engineer')[0].userPrompt).not.toContain('data-round="2"')
+    const artifacts = run.fakes.archive[0].artifacts
+    expect(artifacts['mockup.html']).toContain('<body data-round="0">')
+    expect(artifacts['mockup-screenshot.png'].toString()).toBe('png:round-0')
+    expect(artifacts['mockup-screenshot-mobile.jpg'].toString()).toBe('jpeg:round-0-360')
+    // Every round is still on the record.
+    expect(JSON.parse(artifacts['mockup-measurables.json']).rounds.map((r) => r.round)).toEqual([
+      0, 1, 2,
+    ])
+
+    const step = shippedStep(run)
+    expect(step).toMatchObject({ phase: 2, input: { rounds: [0, 1, 2] } })
+    expect(step.output).toMatchObject({ round: 0, latest: 2 })
+    expect(step.output.shortfalls.map((s) => [s.round, s.total])).toEqual([
+      [0, 0.3],
+      [1, 25.3],
+      [2, 45.3],
+    ])
+    expect(step.output.reason).toContain('round 0 misses its floors by 0.3 points against 45.3')
+  })
+
+  it('ships the last round when it measured best, and says so', async () => {
+    const run = await runSwarm({
+      agents: {
+        'mockup-designer': [mockupRound(0), mockupRound(1), mockupRound(2)],
+        'mockup-critic': REVISE_THREE_TIMES,
+      },
+      mockupCapture: [capture(0, 40, 50, 122), capture(1, 60, 50, 122), capture(2, 80, 50, 122)],
+    })
+
+    expect(run.error).toBeNull()
+    expect(read(run.root, 'signals/today.mockup.html')).toContain('<body data-round="2">')
+    expect(run.callsFor('react-engineer')[0].userPrompt).toContain('<body data-round="2">')
+    expect(run.fakes.archive[0].artifacts['mockup-screenshot.png'].toString()).toBe('png:round-2')
+    expect(shippedStep(run).output).toMatchObject({ round: 2, latest: 2 })
+  })
+
+  it('ships the approved round even when an earlier one measured better', async () => {
+    const run = await runSwarm({
+      agents: {
+        'mockup-designer': [mockupRound(0), mockupRound(1), mockupRound(2)],
+        'mockup-critic': [
+          mockupCriticReply('REVISE', 'Round 0 is not there yet.'),
+          mockupCriticReply('REVISE', 'Round 1 is not there yet.'),
+          mockupCriticReply('APPROVE', 'Lands it.'),
+        ],
+      },
+      mockupCapture: [capture(0, 95, 50, 122), capture(1, 60, 50, 122), capture(2, 70, 50, 122)],
+    })
+
+    expect(run.error).toBeNull()
+    expect(read(run.root, 'signals/today.mockup.html')).toContain('<body data-round="2">')
+    expect(run.fakes.archive[0].artifacts['mockup-screenshot.png'].toString()).toBe('png:round-2')
+    expect(shippedStep(run)).toBeUndefined()
+  })
+
+  it('ships the last round, unchanged, when no round was measured', async () => {
+    const run = await runSwarm({
+      agents: {
+        'mockup-designer': [mockupRound(0), mockupRound(1), mockupRound(2)],
+        'mockup-critic': REVISE_THREE_TIMES,
+      },
+    })
+
+    expect(run.error).toBeNull()
+    expect(read(run.root, 'signals/today.mockup.html')).toContain('<body data-round="2">')
+    expect(shippedStep(run)).toBeUndefined()
+  })
+
+  it('does not pick a round on a malformed critic reply', async () => {
+    const run = await runSwarm({
+      agents: {
+        'mockup-designer': [mockupRound(0)],
+        'mockup-critic': ['Looks fine to me, ship it.'],
+      },
+      mockupCapture: [capture(0, 10, 10, 10)],
+    })
+
+    expect(run.error).toBeNull()
+    expect(shippedStep(run)).toBeUndefined()
+    expect(read(run.root, 'signals/today.mockup.html')).toContain('<body data-round="0">')
   })
 })
 
