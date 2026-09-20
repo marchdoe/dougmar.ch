@@ -17,6 +17,7 @@ import { shouldPin } from '../pin-inline-scripts.js'
 import { MUTABLE_FILES, ORCHESTRATOR_FILES } from './site-context.js'
 import { MARK_PATH_FINGERPRINTS, lockupIsDeclared } from './brand-lockup.js'
 import { MATERIAL_OWNER } from './material.js'
+import { HOME_ROUTE, checkCalloutPlacement } from './site-callout.js'
 import { parseObjectLiteral } from './preset-parser.js'
 import {
   SEMANTIC_COLOR_NAMES,
@@ -717,6 +718,21 @@ export function validateGenerated({ root = ROOT, shell = null } = {}) {
   } catch (err) {
     console.warn(`  brand lockup check skipped: ${err.message}`)
   }
+
+  // Check 7c: the home page places the callout (#532).
+  //
+  // <SiteCallout /> is the only element allowed to say what the site does, and
+  // on `/` it also carries the archive link that __root.tsx renders everywhere
+  // else. The engineer places it, so the engineer can drop it, and a home page
+  // without it has no route into the archive at all. That is #155 again, and
+  // this is what stands where the root-level link used to: the miss fails the
+  // build and goes back to the engineer with the line to add.
+  //
+  // A tree with no index.tsx at all is the required-files gate's finding
+  // (engineer-output-check.js), not a second one here.
+  try {
+    errors.push(...checkCalloutPlacement(readFileSync(resolve(root, HOME_ROUTE), 'utf8')))
+  } catch {}
 
   // Check 8: the frozen semantic colour contract (#255).
   //

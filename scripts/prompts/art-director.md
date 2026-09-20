@@ -223,6 +223,7 @@ Write a structured visual spec with these five sections (the Unified Designer re
   - Section padding/spacing
 - **Nav placement**: where navigation lives (left sidebar, top bar, bottom, inline within hero) and exact dimensions
 - **Hero phrase grid zone**: name the exact zone the hero phrase occupies (e.g., "rows 1–3, columns 1–10"), with intended pixel/viewport size
+- **Home callout slot**: the home page carries one fixed band, `<SiteCallout />`, that you place and do not design. It holds a sentence about how the site is made and two links, the white paper and the archive. The orchestrator writes the component and its words; it sets itself in today's `bgAlt`, `text`, `textMuted`, `accent` and `borderStrong` and today's two faces, about 180px tall at 1440 and 280px at 360, full width of whatever column holds it. Name its slot on `/`: below the hero, above the footer, never inside the hero, and between which two sections. Write no copy for it and specify no styling for it. It is the only place that subject appears. The self-reference rule above still binds every line you write.
 
 ### 4. Component Character
 - **Border radius**: exact values for cards, buttons, tags

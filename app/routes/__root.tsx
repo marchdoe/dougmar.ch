@@ -19,6 +19,12 @@ import type { ReactNode } from 'react'
  * became a declared Art Director choice, and was absent for 16 consecutive
  * builds before anyone noticed. See issue #155.
  *
+ * Home is the exception (#532). <SiteCallout /> carries the archive link there,
+ * beside the white paper link, so `/` says the idea once and this one is
+ * skipped. The engineer places the callout, so the build validator fails a
+ * home page that does not render it (checkCalloutPlacement in
+ * scripts/utils/site-callout.js). Every other page keeps this link.
+ *
  * Only `text`, `bg`, and `accent` are used. Semantic tokens are not guaranteed
  * across nightly presets — `textMuted` is missing from roughly one preset in
  * five — so the quiet tone comes from opacity, not from a dimmer token. Font
@@ -180,7 +186,7 @@ function RootComponent() {
   }
 
   return (
-    <RootDocument>
+    <RootDocument archiveLink={pathname !== '/'}>
       <Layout>
         <Outlet />
       </Layout>
@@ -190,7 +196,8 @@ function RootComponent() {
 
 /**
  * `bare` is the archive: no nightly shell, no nightly footer link, and the
- * archive's own webfont instead of the day's.
+ * archive's own webfont instead of the day's. `archiveLink` is off on `/`
+ * alone, where the callout carries it.
  *
  * The font is declared here rather than in the route's `head` because the
  * nightly `head` block above is regenerated every morning with that day's
@@ -221,7 +228,15 @@ const ARCHIVE_FONT =
  */
 const ARCHIVE_GROUND = 'body{background:#0e0e10;color:#e8e8ea}'
 
-function RootDocument({ children, bare = false }: { children: ReactNode; bare?: boolean }) {
+function RootDocument({
+  children,
+  bare = false,
+  archiveLink: showArchiveLink = true,
+}: {
+  children: ReactNode
+  bare?: boolean
+  archiveLink?: boolean
+}) {
   return (
     <html lang="en">
       <head>
@@ -235,7 +250,7 @@ function RootDocument({ children, bare = false }: { children: ReactNode; bare?: 
       </head>
       <body>
         {children}
-        {bare ? null : (
+        {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
             Archive · 141 designs
           </a>

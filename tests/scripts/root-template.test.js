@@ -80,6 +80,8 @@ describe('the template and the generated file agree', () => {
       '<RootDocument bare>',
       'ARCHIVE_GROUND',
       'ARCHIVE_FONT',
+      "archiveLink={pathname !== '/'}",
+      '{bare || !showArchiveLink ? null : (',
     ]) {
       expect(template, `template missing ${marker}`).toContain(marker)
       expect(generated, `generated missing ${marker}`).toContain(marker)
@@ -189,6 +191,20 @@ describe('renderRootTemplate — the archive link', () => {
     const link = src.indexOf('data-archive-link')
     expect(layoutClose).toBeGreaterThan(-1)
     expect(link).toBeGreaterThan(layoutClose)
+  })
+
+  it('skips the link on home alone, where the callout carries it (#532)', () => {
+    const src = renderRootTemplate('https://fonts.example/x', '', 7)
+    // Only `/` turns it off, and the flag defaults on so no other caller can
+    // lose the link by forgetting to pass it.
+    expect(src).toContain("<RootDocument archiveLink={pathname !== '/'}>")
+    expect(src.match(/archiveLink=\{/g)).toHaveLength(1)
+    expect(src).toContain('archiveLink: showArchiveLink = true')
+    expect(src).toContain('{bare || !showArchiveLink ? null : (')
+    // The link itself is still rendered by this file for every other page.
+    expect(src.indexOf('{bare || !showArchiveLink ? null : (')).toBeLessThan(
+      src.indexOf('data-archive-link')
+    )
   })
 
   it('points at /archive', () => {

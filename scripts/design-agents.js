@@ -85,6 +85,7 @@ import {
   parseMotionBlock,
 } from './utils/spec-blocks.js'
 import { renderBrandLockupFile } from './utils/brand-lockup.js'
+import { renderSiteCalloutFile, SITE_CALLOUT_OWNER } from './utils/site-callout.js'
 import { formatMaterialContractBlock, materialSeed, renderMaterialFile } from './utils/material.js'
 import { formatClientMarksForPrompt, readClientMarkSources } from './utils/client-marks.js'
 import { formatHeader } from './utils/header-grammar.js'
@@ -1226,6 +1227,21 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       formatGeneratedFile('app/components/Material.tsx', { root })
       writtenPaths.add('app/components/Material.tsx')
       console.log(`  [chassis] wrote Material.tsx from template`)
+
+      // The home page callout (#532), same ownership again. The run's date
+      // picks its line and the count feeds its archive link, so neither
+      // moves on a codegen retry and this is the only place it is written.
+      await writeFile(
+        path.join(root, SITE_CALLOUT_OWNER),
+        renderSiteCalloutFile({
+          date: runDate(signals),
+          archiveCount: countArchivedDesigns(path.join(root, 'archive')),
+        }),
+        'utf8'
+      )
+      formatGeneratedFile(SITE_CALLOUT_OWNER, { root })
+      writtenPaths.add(SITE_CALLOUT_OWNER)
+      console.log(`  [chassis] wrote SiteCallout.tsx from template`)
     } catch (err) {
       await cleanupOrphans(writtenPaths, originalBackup, { root })
       await restore(originalBackup, { root })

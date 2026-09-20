@@ -3,6 +3,7 @@ import { featuredProject, selectedWork, experiments } from '../content/projects'
 import { Masthead } from '../components/generated/Masthead'
 import { WorkIndex } from '../components/generated/WorkIndex'
 import { RunningFoot } from '../components/generated/RunningFoot'
+import { SiteCallout } from '../components/SiteCallout'
 import { css } from '../../styled-system/css'
 
 export const Route = createFileRoute('/')({ component: HomePage })
@@ -20,6 +21,7 @@ function HomePage() {
         }
       />
       <WorkIndex featured={featuredProject} rest={rest} />
+      <SiteCallout />
       <RunningFoot />
     </>
   )

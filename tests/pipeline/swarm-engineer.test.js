@@ -210,6 +210,7 @@ describe('the React Engineer omits a required file', () => {
         'app/routes/__root.tsx',
         'app/components/BrandLockup.tsx',
         'app/components/Material.tsx',
+        'app/components/SiteCallout.tsx',
         ...ENGINEER_OUTPUT.filter((f) => f !== 'app/components/Layout.tsx'),
       ].sort()
     )
