@@ -1,4 +1,4 @@
-> **SUPERSEDED** by docs/superpowers/specs/2026-06-11-design-quality-pipeline-design.md (implemented 2026-06).
+> **SUPERSEDED** by the design-quality pipeline spec of 2026-06-11 (implemented 2026-06). That spec lived under `docs/superpowers/`, which #550 removed; it stays in git history.
 
 # Spec 02 — Designer / React Engineer split
 
