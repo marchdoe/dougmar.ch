@@ -99,6 +99,7 @@ const state = {
     routeCapture: [],
     phoneFilmstrip: [],
     routes: [],
+    archive: [],
   },
   /** per-seam call recorders */
   fakes: {
@@ -401,6 +402,9 @@ async function fakeArchive(
     options,
     buildDir,
   })
+  const scripted = nextScript('archive', null)
+  const r = typeof scripted === 'function' ? scripted() : scripted
+  if (r instanceof Error) throw r
   if (!buildDir) return
   await mkdir(buildDir, { recursive: true })
   for (const [name, value] of Object.entries(artifacts)) {
@@ -630,6 +634,8 @@ export function readTrace(root, date) {
  * @param {Array<Buffer|Error|Function>} [opts.routeCapture] `captureRouteScreenshot` results
  * @param {Array<Buffer|null|Error|Function>} [opts.phoneFilmstrip] `captureRoutePhoneFilmstrip` results
  * @param {Array<Array<object>|Error|Function>} [opts.routes] `listGeneratedRoutes` results
+ * @param {Array<Error|Function>} [opts.archive] `archive` outcomes; an `Error` is thrown
+ *   after the call is recorded and before any file is written
  * @param {(seeded: object) => object} [opts.signals] replaces the seeded
  *   signals the swarm is handed (`signals.date` must survive)
  * @param {string} [opts.brief] the optional `context.brief`; the nightly never sets it

@@ -120,6 +120,20 @@ describe('sweepGenerated', () => {
     expect(existsSync(path.join(root, gen('Yesterday.tsx')))).toBe(false)
   })
 
+  it('records into every map it is given, each keeping the entries it already has', async () => {
+    writeUnder(root, gen('Yesterday.tsx'), COMPONENT('Yesterday'))
+    writeUnder(root, gen('Written.tsx'), COMPONENT('Written'))
+    const original = new Map()
+    const passing = new Map([[gen('Written.tsx'), 'the passing content']])
+
+    await sweepGenerated({ root, backup: [original, passing] })
+
+    expect(original.get(gen('Yesterday.tsx'))).toBe(COMPONENT('Yesterday'))
+    expect(passing.get(gen('Yesterday.tsx'))).toBe(COMPONENT('Yesterday'))
+    expect(original.get(gen('Written.tsx'))).toBe(COMPONENT('Written'))
+    expect(passing.get(gen('Written.tsx'))).toBe('the passing content')
+  })
+
   it('never touches a file outside the directory', async () => {
     writeUnder(root, 'app/components/MobileFooter.tsx', COMPONENT('MobileFooter'))
     writeUnder(root, 'app/components/panel/api.ts', 'export const api = 1\n')
