@@ -80,6 +80,74 @@ describe('buildMockupDesignerUserPrompt', () => {
   })
 })
 
+describe('buildMockupDesignerUserPrompt on a revision round (#573)', () => {
+  const base = {
+    enrichedBrief: 'B',
+    tokenContext: 'T',
+    contentSummary: 'C',
+    measurables: 'M',
+    shell: 'S',
+    brandSvg: 'V',
+    brandMonoSvg: 'W',
+    googleFontsUrl: 'G',
+    polishRef: 'POLISH',
+  }
+  const previousMockupHtml = '<!doctype html><html><body data-round="0">page</body></html>'
+
+  it('puts the previous mockup between the polish reference and the critic feedback', () => {
+    const p = buildMockupDesignerUserPrompt({
+      ...base,
+      previousMockupHtml,
+      revisionFeedback: 'Measured 61.9% against floor 76%',
+    })
+    const header = '## PREVIOUS MOCKUP'
+    expect(p).toContain(
+      `${header} — the page the critic reviewed; revise this file, do not start over`
+    )
+    expect(p).toContain(`\`\`\`html\n${previousMockupHtml}\n\`\`\``)
+    expect(p.indexOf(header)).toBeGreaterThan(p.indexOf('POLISH'))
+    expect(p.indexOf(header)).toBeLessThan(p.indexOf('## CRITIC REVISION FEEDBACK'))
+    expect(p.trimEnd().endsWith('Measured 61.9% against floor 76%')).toBe(true)
+  })
+
+  it('adds nothing but the previous-mockup section to the first-round prompt', () => {
+    const first = buildMockupDesignerUserPrompt(base)
+    const revised = buildMockupDesignerUserPrompt({
+      ...base,
+      previousMockupHtml,
+      revisionFeedback: 'FEEDBACK',
+    })
+    expect(revised.startsWith(first)).toBe(true)
+    expect(revised.slice(first.length).split('\n\n---\n\n')).toEqual([
+      '',
+      `## PREVIOUS MOCKUP — the page the critic reviewed; revise this file, do not start over\n\n\`\`\`html\n${previousMockupHtml}\n\`\`\``,
+      '## CRITIC REVISION FEEDBACK — fix these before anything else\n\nFEEDBACK',
+    ])
+  })
+
+  it('omits the section on the first round and when there is no feedback to act on', () => {
+    expect(buildMockupDesignerUserPrompt(base)).not.toContain('PREVIOUS MOCKUP')
+    expect(buildMockupDesignerUserPrompt({ ...base, previousMockupHtml })).not.toContain(
+      'PREVIOUS MOCKUP'
+    )
+    expect(buildMockupDesignerUserPrompt({ ...base, revisionFeedback: 'FEEDBACK' })).not.toContain(
+      'PREVIOUS MOCKUP'
+    )
+  })
+
+  it('keeps the retry context last, after the previous mockup and the feedback', () => {
+    const p = buildMockupDesignerUserPrompt({
+      ...base,
+      previousMockupHtml,
+      revisionFeedback: 'FEEDBACK',
+      retryContext: '## Previous attempt was rejected',
+    })
+    expect(p.indexOf('## Previous attempt was rejected')).toBeGreaterThan(
+      p.indexOf('## CRITIC REVISION FEEDBACK')
+    )
+  })
+})
+
 describe('validateMockupResult', () => {
   it('accepts a complete response', () => {
     expect(() =>
