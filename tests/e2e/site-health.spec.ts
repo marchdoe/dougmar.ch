@@ -2,6 +2,7 @@ import { extname, join } from 'node:path'
 import { readFile, stat } from 'node:fs/promises'
 import { createServer, type Server } from 'node:http'
 import { siteCallout } from '../../app/content/callout'
+import { NARROW_VIEWPORT, WIDE_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { CANONICAL_ORIGIN, RECOGNIZED_ORIGINS } from '../../scripts/utils/site-origin.js'
 import { test, expect, type Page } from '@playwright/test'
 
@@ -107,8 +108,8 @@ test.describe('site health — the white paper holds its layout', () => {
   })
 
   for (const [width, measure] of [
-    [1440, 640],
-    [360, 0],
+    [WIDE_VIEWPORT.width, 640],
+    [NARROW_VIEWPORT.width, 0],
   ] as const) {
     test(`the text column holds at ${width}`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 })
@@ -217,10 +218,7 @@ test.describe('site health — nothing renders invisible', () => {
  * them, and vertical `writing-mode` is skipped outright. So is `hyphens:
  * auto`, where the break arrives with a hyphen and is ordinary typesetting.
  */
-const SHRED_VIEWPORTS = [
-  { width: 360, height: 640 },
-  { width: 1440, height: 900 },
-]
+const SHRED_VIEWPORTS = [NARROW_VIEWPORT, WIDE_VIEWPORT]
 
 // Designs the owner chose to leave up with this defect, keyed by the date in
 // the page's og:image, with the routes it shows on. `test.fail` rather than a

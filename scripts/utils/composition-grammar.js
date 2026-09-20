@@ -35,6 +35,11 @@
  * @module
  */
 
+import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
+
+/** The phone width, as the `collapse` descriptions quote it. */
+const NARROW_PX = NARROW_VIEWPORT.width
+
 /**
  * The axes and their permitted values. 6·4·5·6·4·4·5·4·5·5 = 5,760,000 tuples.
  *
@@ -138,14 +143,11 @@ const AXIS_VALUE_DESCRIPTIONS = {
     drenched: 'Color or texture floods the full surface; type sits on top of it as an overlay.',
   },
   collapse: {
-    stack: 'Every zone keeps its 1440 order and stacks full-width, top to bottom, at 360.',
-    reorder:
-      'A zone moves ahead of where it sat at 1440 so the idea leads at 360; the MOBILE order says which.',
-    'hero-only': 'The first fold at 360 is the hero alone; everything else follows below it.',
-    'rail-to-band':
-      'A rail or sidebar becomes a full-width horizontal band at 360, placed where its content belongs.',
-    'split-to-sequence':
-      'A split field becomes a sequence of full-width fields at 360, the relationship kept by adjacency: a question above its answer still faces it.',
+    stack: `Every zone keeps its 1440 order and stacks full-width, top to bottom, at ${NARROW_PX}.`,
+    reorder: `A zone moves ahead of where it sat at 1440 so the idea leads at ${NARROW_PX}; the MOBILE order says which.`,
+    'hero-only': `The first fold at ${NARROW_PX} is the hero alone; everything else follows below it.`,
+    'rail-to-band': `A rail or sidebar becomes a full-width horizontal band at ${NARROW_PX}, placed where its content belongs.`,
+    'split-to-sequence': `A split field becomes a sequence of full-width fields at ${NARROW_PX}, the relationship kept by adjacency: a question above its answer still faces it.`,
   },
   hero_object: {
     statement: 'The hero phrase itself is the largest element on the page, set at marquee scale.',

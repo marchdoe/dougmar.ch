@@ -2,11 +2,13 @@ import { describe, it, expect } from 'vitest'
 import { mkdtemp, mkdir, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
+import { NARROW_VIEWPORT, WIDE_VIEWPORT } from '../../elements/chassis/viewports.js'
 import {
   evaluateMeasurement,
   formatFindingsForCritic,
   formatAdvisoryForRepairBrief,
   listGeneratedRoutes,
+  measureRoute,
   ownerForSurface,
   faultsForOwner,
   advisoryFaultsForOwner,
@@ -278,7 +280,8 @@ describe('faultsForOwner', () => {
 
 describe('VIEWPORT_RUNGS', () => {
   it('stays on the archiver ladder, and off the 1280 the critic used to capture at', () => {
-    expect(VIEWPORT_RUNGS.map((v) => v.width)).toEqual([360, 1440])
+    expect(VIEWPORT_RUNGS.map((v) => v.width)).toEqual([NARROW_VIEWPORT.width, WIDE_VIEWPORT.width])
+    expect(VIEWPORT_RUNGS.map((v) => v.width)).not.toContain(1280)
   })
 })
 
@@ -447,6 +450,69 @@ describe('advisoryFaultsForOwner', () => {
   })
 })
 
+describe('measureRoute runs the advisory checks on the mobile rung', () => {
+  // The guard used to read `viewport.width === 360`. Moving the phone width
+  // would have switched both advisories off with every test still green, so
+  // this drives measureRoute with a mobile rung at a width that is not 360.
+  // The page is a stand-in that records which in-page functions it was handed.
+  function fakeBrowser() {
+    const ran = []
+    const page = {
+      on() {},
+      async goto() {
+        return { status: () => 200 }
+      },
+      async waitForTimeout() {},
+      async evaluate(fn, arg) {
+        const src = Array.isArray(arg) ? arg[0] : null
+        const name = typeof src === 'string' ? src.match(/^function (\w+)/)?.[1] : null
+        if (name) ran.push(name)
+        if (name === 'findTapTargetFailures') return [{ label: 'work', width: 34, height: 22 }]
+        if (name === 'findSmallCopy') return { fontSizePx: 12.6, chars: 240, sample: 'Small' }
+        if (name === 'findClippedElements') return []
+        if (name) return null
+        return { scrollWidth: 0, clientWidth: 0 }
+      },
+      async close() {},
+    }
+    return { ran, browser: { newPage: async () => page } }
+  }
+  const surface = { id: 'home', route: '/' }
+
+  it('whatever width that rung has', async () => {
+    const { ran, browser } = fakeBrowser()
+    const m = await measureRoute(
+      browser,
+      'http://x',
+      surface,
+      { name: 'mobile', width: 320, height: 640 },
+      'light'
+    )
+    expect(ran).toContain('findTapTargetFailures')
+    expect(ran).toContain('findSmallCopy')
+    expect(m.tapTargets).toHaveLength(1)
+    expect(m.smallCopy).not.toBeNull()
+    expect(evaluateMeasurement(m).map((f) => f.kind)).toEqual(
+      expect.arrayContaining(['tap-target', 'small-copy'])
+    )
+  })
+
+  it('and not on the desktop rung', async () => {
+    const { ran, browser } = fakeBrowser()
+    const m = await measureRoute(
+      browser,
+      'http://x',
+      surface,
+      { name: 'desktop', ...WIDE_VIEWPORT },
+      'dark'
+    )
+    expect(ran).not.toContain('findTapTargetFailures')
+    expect(ran).not.toContain('findSmallCopy')
+    expect(m.tapTargets).toEqual([])
+    expect(m.smallCopy).toBeNull()
+  })
+})
+
 describe('formatAdvisoryForRepairBrief', () => {
   const tapTarget = {
     surface: '/',
@@ -463,7 +529,7 @@ describe('formatAdvisoryForRepairBrief', () => {
 
   it('headers the section and lists the finding', () => {
     const out = formatAdvisoryForRepairBrief([tapTarget])
-    expect(out).toContain('## Advisory at 360')
+    expect(out).toContain(`## Advisory at ${NARROW_VIEWPORT.width}`)
     expect(out).toContain(`/ at 360px: ${tapTarget.detail}`)
   })
 
@@ -504,7 +570,7 @@ describe('brand-fold and brand-contrast findings (#503)', () => {
     expect(findings[0].detail).toContain('viewport 900 tall')
   })
 
-  it('names the 360 rung on the mobile measurement', () => {
+  it('names the mobile rung by its width on the mobile measurement', () => {
     const [f] = evaluateMeasurement({
       ...ok,
       viewport: 'mobile',
@@ -514,7 +580,7 @@ describe('brand-fold and brand-contrast findings (#503)', () => {
       brand: { count: 2, viewportHeight: 640, nearestY: 1810, inFold: null },
     })
     expect(f.kind).toBe('brand-fold')
-    expect(f.detail).toContain('at 360 (dark)')
+    expect(f.detail).toContain(`at ${NARROW_VIEWPORT.width} (dark)`)
     expect(f.detail).toContain('viewport 640 tall')
   })
 
@@ -714,7 +780,7 @@ describe('the nav-reach finding', () => {
       scrollWidth: 360,
       visibleAboutLinks: 0,
     })
-    expect(g.detail).toContain('at 360')
+    expect(g.detail).toContain(`at ${NARROW_VIEWPORT.width}`)
   })
 
   it('passes with one reachable link, and says nothing when the count was never measured', () => {

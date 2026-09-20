@@ -3,6 +3,7 @@
  * Pulled out of design-agents.js so the image-count guard and best-rated
  * reference wiring are unit-testable without the full orchestrator.
  */
+import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { imageBlock, textBlock } from '../utils/claude-sdk.js'
 import { describeHeaderCropAnchor } from '../utils/snapshot.js'
 
@@ -171,7 +172,7 @@ export function buildScreenshotCriticBlocks(ctx) {
     // pair. It is the whole home page at 360, cut into folds and laid side by
     // side — not the single 640px crop every critic used to receive.
     ...shot(
-      'A phone filmstrip of that SAME page, light scheme: the whole page at 360 wide, cut into ' +
+      `A phone filmstrip of that SAME page, light scheme: the whole page at ${NARROW_VIEWPORT.width} wide, cut into ` +
         "640px folds and laid side by side (the fold labels are ours, not the site's). Section " +
         '10 is judged on this against the image above it:',
       ctx.screenshotBuffer.mobileJpeg

@@ -4,6 +4,7 @@
  * Critic gates it, and only then does the React Engineer translate it.
  */
 import { writeFile } from 'node:fs/promises'
+import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { callClaudeCLI } from '../utils/claude-cli.js'
 import { parseDelimiterResponse } from '../utils/delimiter-parser.js'
 import { modelFor } from '../utils/models.js'
@@ -47,12 +48,12 @@ export function buildMockupDesignerUserPrompt({
   if (mobile) {
     sections.push(
       [
-        '## Mobile Declaration (render exactly; the 360 image is judged against this)',
+        `## Mobile Declaration (render exactly; the ${NARROW_VIEWPORT.width} image is judged against this)`,
         '',
         `collapse: ${collapse ?? '?'}`,
         mobile,
         '',
-        'The carrier is what holds the idea at 360; first_fold is what sits inside the first 640px; order is the zones top to bottom; hero_step_360 is the ramp step the hero is set at on the phone; nav_360 is what the header and nav become. The critic reads the 360 image against each line: a `hero-only` first fold that shows a nav row and signal cards, a hero set above `hero_step_360` and cut mid-word, an `order` the page does not follow: each is a REVISE.',
+        `The carrier is what holds the idea at ${NARROW_VIEWPORT.width}; first_fold is what sits inside the first 640px; order is the zones top to bottom; hero_step_360 is the ramp step the hero is set at on the phone; nav_360 is what the header and nav become. The critic reads the ${NARROW_VIEWPORT.width} image against each line: a \`hero-only\` first fold that shows a nav row and signal cards, a hero set above \`hero_step_360\` and cut mid-word, an \`order\` the page does not follow: each is a REVISE.`,
       ].join('\n')
     )
   }

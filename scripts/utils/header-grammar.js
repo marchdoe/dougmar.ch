@@ -21,8 +21,8 @@ import { LOCKUP_VARIANTS } from './brand-lockup.js'
  * Ramp steps a header field may name.
  *
  * These are the steps buildFontSizes emits (scripts/utils/chassis.js), minus
- * `hero`. `hero` is a viewport clamp built to carry a headline across a
- * 360px-1440px window; a nav link or a wordmark set in it would be several
+ * `hero`. `hero` is a viewport clamp built to carry a headline across the
+ * phone-to-desktop window (elements/chassis/viewports.js); a nav link or a wordmark set in it would be several
  * hundred pixels tall, so it is not something a header may declare. Read
  * from elements/chassis/scale.js's own `RAMP_STEPS` so the two lists cannot
  * drift the way they did before #318.

@@ -1,6 +1,7 @@
 import { mkdir, writeFile, readFile, copyFile, readdir } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
+import { NARROW_VIEWPORT, WIDE_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { ROOT } from './file-manager.js'
 import { captureSnapshot } from './snapshot.js'
 import { summarizeLedger } from './cost-ledger.js'
@@ -19,6 +20,18 @@ import { DESIGN_FIDELITY_METHOD } from './design-fidelity.js'
  * a test asserts the two agree — see tests/scripts/nightly-commits-its-output.
  */
 export const PUBLIC_SCREENSHOT_DIR = 'public/archive-data'
+
+/**
+ * The ladder the responsive measurement walks. Its two ends are the pipeline's
+ * own viewports; tablet and laptop are measured here and nowhere else.
+ * Exported so a test can hold the narrow end to `NARROW_VIEWPORT`.
+ */
+export const RESPONSIVE_VIEWPORTS = [
+  { name: 'mobile', ...NARROW_VIEWPORT },
+  { name: 'tablet', width: 768, height: 1024 },
+  { name: 'laptop', width: 1024, height: 768 },
+  { name: 'desktop', ...WIDE_VIEWPORT },
+]
 
 /**
  * Copy key archive artifacts to public/ for static serving.
@@ -322,12 +335,7 @@ export async function archive(
     const { screenshotViewports } = await import('./viewport-screenshotter.js')
     const { scoreResponsive } = await import('./responsive-scorer.js')
 
-    const viewports = [
-      { name: 'mobile', width: 360, height: 640 },
-      { name: 'tablet', width: 768, height: 1024 },
-      { name: 'laptop', width: 1024, height: 768 },
-      { name: 'desktop', width: 1440, height: 900 },
-    ]
+    const viewports = RESPONSIVE_VIEWPORTS
 
     const metrics = await withPreviewServer(async (previewUrl) => {
       const browser = await chromium.launch({ headless: true })

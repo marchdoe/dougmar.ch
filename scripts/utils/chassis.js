@@ -28,8 +28,12 @@ import { readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { RAMP_STEPS } from '../../elements/chassis/scale.js'
+import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
+
+/** The narrow end of the viewport window, as the prompts quote it. */
+const NARROW_PX = NARROW_VIEWPORT.width
 const TEMPLATE_PATH = resolve(__dirname, '../templates/__root.tsx.template')
 
 /**
@@ -522,14 +526,14 @@ function quoteKey(key) {
  */
 export function formatChassisCatalogForPrompt(catalog) {
   const lines = [
-    '| ID | Name | Class | Feel | Moods | Best for archetypes | Hero px 360→1440 | 5xl px 360→1440 |',
+    `| ID | Name | Class | Feel | Moods | Best for archetypes | Hero px ${NARROW_PX}→1440 | 5xl px ${NARROW_PX}→1440 |`,
     '|----|------|-------|------|-------|---------------------|------------------|-----------------|',
   ]
   for (const c of catalog) {
     const hero = c.type.steps.hero
     const top = c.type.steps['5xl']
     lines.push(
-      `| \`${c.id}\` | ${c.name} | ${c.class} | ${c.description} | ${c.moods.join(', ')} | ${c.archetypes.join(', ')} | ${Math.round(stepPxAt(hero, 360))}→${Math.round(stepPxAt(hero, 1440))} | ${Math.round(stepPxAt(top, 360))}→${Math.round(stepPxAt(top, 1440))} |`
+      `| \`${c.id}\` | ${c.name} | ${c.class} | ${c.description} | ${c.moods.join(', ')} | ${c.archetypes.join(', ')} | ${Math.round(stepPxAt(hero, NARROW_PX))}→${Math.round(stepPxAt(hero, 1440))} | ${Math.round(stepPxAt(top, NARROW_PX))}→${Math.round(stepPxAt(top, 1440))} |`
     )
   }
   return lines.join('\n')
@@ -550,7 +554,7 @@ export function formatChassisRenderFactsForPrompt(catalog) {
   for (const c of catalog) {
     const s = c.type.steps
     lines.push(
-      `- \`${c.id}\`: hero ${Math.round(stepPxAt(s.hero, 360))}px at 360 → ${Math.round(stepPxAt(s.hero, 1440))}px at 1440; 2xl ${Math.round(stepPxAt(s['2xl'], 360))}→${Math.round(stepPxAt(s['2xl'], 1440))}px; 5xl ${Math.round(stepPxAt(s['5xl'], 360))}→${Math.round(stepPxAt(s['5xl'], 1440))}px; base ${Math.round(stepPxAt(s.base, 1440))}px`
+      `- \`${c.id}\`: hero ${Math.round(stepPxAt(s.hero, NARROW_PX))}px at ${NARROW_PX} → ${Math.round(stepPxAt(s.hero, 1440))}px at 1440; 2xl ${Math.round(stepPxAt(s['2xl'], NARROW_PX))}→${Math.round(stepPxAt(s['2xl'], 1440))}px; 5xl ${Math.round(stepPxAt(s['5xl'], NARROW_PX))}→${Math.round(stepPxAt(s['5xl'], 1440))}px; base ${Math.round(stepPxAt(s.base, 1440))}px`
     )
   }
   return lines.join('\n')
@@ -589,8 +593,8 @@ export function formatChassisSelectionForPrompt(catalog) {
     .map((c) => c.id)
     .join(', ')
   return [
-    `Every chassis renders the hero at 64px or more on a 360px viewport, so marquee is never infeasible; the choice is how loud the desktop marquee gets. Hero at 1440px, loudest first: ${voices}.`,
-    `\`hero\` and every step from \`xl\` up are fluid clamps that shrink to fit a 360px column; \`lg\` and below are fixed and render the same size at every width. Spec a display step by the register you want, not by a pixel size — the numbers in the catalog table are the two ends of a range.`,
+    `Every chassis renders the hero at 64px or more on a ${NARROW_PX}px viewport, so marquee is never infeasible; the choice is how loud the desktop marquee gets. Hero at 1440px, loudest first: ${voices}.`,
+    `\`hero\` and every step from \`xl\` up are fluid clamps that shrink to fit a ${NARROW_PX}px column; \`lg\` and below are fixed and render the same size at every width. Spec a display step by the register you want, not by a pixel size — the numbers in the catalog table are the two ends of a range.`,
     `Reserve the quietest heroes for editorial or literary phrases that don't want shouting. The condensed-caps chassis (${condensed}) share one register — don't default to them every time a phrase wants scale.`,
     `Display italics load on ${italics} only, so \`lead: italic\` is available on those. A single display weight loads on ${singleWeight}, so those take \`weight: regular\` only.`,
   ].join(' ')

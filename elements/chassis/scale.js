@@ -38,6 +38,8 @@
  *   of a steep ramp goes flat instead of running to 464px.
  */
 
+import { NARROW_VIEWPORT, WIDE_VIEWPORT } from './viewports.js'
+
 /** The ramp, small to large. Order matters: it is the emission order. */
 export const RAMP_STEPS = [
   '2xs',
@@ -61,9 +63,13 @@ const UP_STEPS = ['md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl']
 const DOWN_STEPS = ['sm', 'xs', '2xs']
 const SMALL_RATIO = 1.125
 
-/** The viewport window `fluid()` interpolates across, in rem. */
-const FLUID_MIN_VW_REM = 22.5 // 360px
-const FLUID_MAX_VW_REM = 90 // 1440px
+/** The viewport window `fluid()` interpolates across, in rem at 16px each. */
+const FLUID_MIN_VW_REM = NARROW_VIEWPORT.width / 16
+const FLUID_MAX_VW_REM = WIDE_VIEWPORT.width / 16
+
+// HERO_MIN_REM and NARROW_MAX_REM below do not read NARROW_VIEWPORT. They are
+// measurements taken at 360px, tied to the width by the argument in their
+// comments, and have to be taken again if the width moves.
 
 /** The hero floor: 4rem is the mockup critic's 64px mobile minimum. */
 const HERO_MIN_REM = 4
