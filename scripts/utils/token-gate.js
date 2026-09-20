@@ -758,6 +758,223 @@ export function findNumericScaleMisses(source, scales) {
 }
 
 /* ------------------------------------------------------------------ *
+ * Part two-b: several tokens in one spacing string
+ * ------------------------------------------------------------------ */
+
+/**
+ * Spacing properties, in the spelling they carry in TSX, and how each one
+ * splits when it is given more than one value.
+ *
+ * Panda resolves a token only when it is the whole value. `padding: '3 4'` is
+ * not `spacing.3` and `spacing.4`: the string goes to the stylesheet as `3 4`,
+ * and Panda appends `px` to each bare number, so the row on /experiments got
+ * 3px of vertical padding instead of 16px (#553). The result is valid CSS, which
+ * is why scanning the emitted stylesheet, as part one does, cannot see it.
+ *
+ * `box` marks the shorthands that split by count in the corrected form: two
+ * values are block then inline, three are top, inline, bottom, four are top,
+ * right, bottom, left. `pair` names the two longhands of a property that
+ * already carries an axis. `null` means the property takes a single value.
+ *
+ * `top`, `right`, `bottom` and `left` are left out although `inset` splits into
+ * them. They are also the names of ordinary component props, and the generated
+ * RunningFoot passes `right="31 to 41"` as data. `inset` covers the case that
+ * matters, and a false finding kills a nightly run.
+ */
+export const SPACED_SPACING_PROPS = new Map([
+  ['padding', { box: 'padding' }],
+  ['margin', { box: 'margin' }],
+  ['inset', { box: 'inset' }],
+  ['paddingInline', { pair: ['paddingInlineStart', 'paddingInlineEnd'] }],
+  ['paddingBlock', { pair: ['paddingBlockStart', 'paddingBlockEnd'] }],
+  ['marginInline', { pair: ['marginInlineStart', 'marginInlineEnd'] }],
+  ['marginBlock', { pair: ['marginBlockStart', 'marginBlockEnd'] }],
+  ['insetInline', { pair: ['insetInlineStart', 'insetInlineEnd'] }],
+  ['insetBlock', { pair: ['insetBlockStart', 'insetBlockEnd'] }],
+  ['paddingX', { pair: ['paddingInlineStart', 'paddingInlineEnd'] }],
+  ['paddingY', { pair: ['paddingBlockStart', 'paddingBlockEnd'] }],
+  ['marginX', { pair: ['marginInlineStart', 'marginInlineEnd'] }],
+  ['marginY', { pair: ['marginBlockStart', 'marginBlockEnd'] }],
+  ['gap', { pair: ['rowGap', 'columnGap'] }],
+  ['paddingTop', null],
+  ['paddingRight', null],
+  ['paddingBottom', null],
+  ['paddingLeft', null],
+  ['paddingInlineStart', null],
+  ['paddingInlineEnd', null],
+  ['paddingBlockStart', null],
+  ['paddingBlockEnd', null],
+  ['marginTop', null],
+  ['marginRight', null],
+  ['marginBottom', null],
+  ['marginLeft', null],
+  ['marginInlineStart', null],
+  ['marginInlineEnd', null],
+  ['marginBlockStart', null],
+  ['marginBlockEnd', null],
+  ['rowGap', null],
+  ['columnGap', null],
+])
+
+/**
+ * Words that are valid CSS in a spacing value and are not token names. A part
+ * that is one of these, a length with a unit, `0`, a percentage or a function
+ * is written the way CSS reads it and ships as written. Only a bare number or
+ * a bare name is a token reference Panda did not get to resolve.
+ */
+const SPACING_KEYWORDS = new Set([
+  ...GLOBAL_KEYWORDS,
+  'auto',
+  'normal',
+  'revert',
+  'revert-layer',
+  'fit-content',
+  'min-content',
+  'max-content',
+])
+
+/** Split a value on whitespace that sits outside parentheses: `calc(1rem + 2px) 4` is two parts. */
+function splitTopLevel(value) {
+  const parts = []
+  let depth = 0
+  let current = ''
+  for (const c of value.trim()) {
+    if (c === '(') depth++
+    else if (c === ')') depth = Math.max(0, depth - 1)
+    if (/\s/.test(c) && depth === 0) {
+      if (current) parts.push(current)
+      current = ''
+    } else {
+      current += c
+    }
+  }
+  if (current) parts.push(current)
+  return parts
+}
+
+/** A bare non-zero number or a bare name, the two shapes of a token reference. */
+function isTokenReference(part) {
+  if (part === '0') return false
+  if (/^-?\d*\.?\d+$/.test(part)) return true
+  return /^-?[A-Za-z][\w.-]*$/.test(part) && !SPACING_KEYWORDS.has(part)
+}
+
+const quoted = (s) => `'${s}'`
+
+/**
+ * The one-property-per-value spelling of a space-separated value, or a plain
+ * instruction when the property has no such split.
+ *
+ * @param {string} prop
+ * @param {string[]} parts
+ * @returns {string}
+ */
+export function correctedSpacingForm(prop, parts) {
+  const spec = SPACED_SPACING_PROPS.get(prop)
+  const write = (names) => names.map((name, i) => `${name}: ${quoted(parts[i])}`).join(', ')
+  if (spec?.box && parts.length === 2) {
+    return write([`${spec.box}Block`, `${spec.box}Inline`])
+  }
+  if (spec?.box && parts.length === 3) {
+    const side = (s) => (spec.box === 'inset' ? s.toLowerCase() : `${spec.box}${s}`)
+    return write([side('Top'), `${spec.box}Inline`, side('Bottom')])
+  }
+  if (spec?.box && parts.length === 4) {
+    const side = (s) => (spec.box === 'inset' ? s.toLowerCase() : `${spec.box}${s}`)
+    return write([side('Top'), side('Right'), side('Bottom'), side('Left')])
+  }
+  if (spec?.pair && parts.length === 2) return write(spec.pair)
+  return `one property per value, each a single token (${parts.map(quoted).join(', ')})`
+}
+
+/**
+ * The string values written after a property name: the string itself, every
+ * string in a `{ base: '…', md: '…' }` condition map, or every string in an
+ * array. Reads `padding: '3 4'`, `padding="3 4"`, `padding={'3 4'}` and
+ * `padding={{ base: '6 4', md: '8 6vw' }}`, and nothing it cannot tell is a
+ * value: a string handed to a function call inside the braces is not one.
+ *
+ * @param {string} code source with comments stripped
+ * @param {number} from index just past the `:` or `=`
+ * @param {boolean} jsx true after `=`, where one wrapping `{` is JSX syntax
+ * @returns {Array<{value: string, index: number}>}
+ */
+function valuesAfter(code, from, jsx) {
+  let i = from
+  while (/\s/.test(code[i] ?? '')) i++
+  if (jsx && code[i] === '{') {
+    i++
+    while (/\s/.test(code[i] ?? '')) i++
+  }
+  const open = code[i]
+  if (open === "'" || open === '"' || open === '`') {
+    const end = code.indexOf(open, i + 1)
+    return end < 0 ? [] : [{ value: code.slice(i + 1, end), index: i + 1 }]
+  }
+  if (open !== '{' && open !== '[') return []
+
+  const close = open === '{' ? '}' : ']'
+  let depth = 0
+  let end = i
+  for (; end < code.length; end++) {
+    if (code[end] === open) depth++
+    else if (code[end] === close && --depth === 0) break
+  }
+  const region = code.slice(i, end)
+  // In an object a value follows `:`, in an array it follows `[` or `,`.
+  const lead = open === '{' ? /:\s*$/ : /[[,]\s*$/
+  const out = []
+  for (const m of region.matchAll(/(['"`])((?:\\.|(?!\1).)*)\1/g)) {
+    if (lead.test(region.slice(0, m.index))) out.push({ value: m[2], index: i + m.index + 1 })
+  }
+  return out
+}
+
+/**
+ * Find spacing values that put several tokens in one string.
+ *
+ * A value is flagged when it has two or more parts and at least one is a bare
+ * number or a bare name. `'1px 5px'` and `'0 auto'` are ordinary CSS and pass;
+ * `'3 4'`, `'8 6vw'` and `'3px 4'` do not, because Panda would have resolved
+ * the bare part as a token had it stood alone. Reported once per property and
+ * value, with the line it first appears on.
+ *
+ * @param {string} source TSX contents
+ * @returns {Array<{prop: string, value: string, line: number, text: string, fix: string}>}
+ */
+export function findSpacedSpacing(source) {
+  const code = stripComments(source)
+  const lines = source.split('\n')
+  const out = []
+  const seen = new Set()
+  for (const prop of SPACED_SPACING_PROPS.keys()) {
+    const re = new RegExp(`(?<![\\w$.-])${prop}\\s*([:=])`, 'g')
+    for (const match of code.matchAll(re)) {
+      const from = match.index + match[0].length
+      if (match[1] === '=' && code[from] === '=') continue // `padding == x`
+      for (const { value, index } of valuesAfter(code, from, match[1] === '=')) {
+        const parts = splitTopLevel(value)
+        if (parts.length < 2 || !parts.some(isTokenReference)) continue
+        const key = `${prop}:${value}`
+        if (seen.has(key)) continue
+        seen.add(key)
+        const line = code.slice(0, index).split('\n').length
+        out.push({
+          at: index,
+          prop,
+          value,
+          line,
+          text: (lines[line - 1] ?? '').trim(),
+          fix: correctedSpacingForm(prop, parts),
+        })
+      }
+    }
+  }
+  // Source order, not the order the properties are listed in.
+  return out.sort((a, b) => a.at - b.at).map(({ at: _at, ...hit }) => hit)
+}
+
+/* ------------------------------------------------------------------ *
  * Part three: which files actually render
  * ------------------------------------------------------------------ */
 
@@ -1011,6 +1228,21 @@ export function checkTokenResolution({
     }
   }
 
+  // Source only, so it does not wait on codegen the way the scale check does.
+  for (const [file, source] of reachable) {
+    for (const hit of findSpacedSpacing(source)) {
+      findings.push({
+        kind: 'spaced',
+        property: hit.prop,
+        value: hit.value,
+        line: hit.line,
+        text: hit.text,
+        fix: hit.fix,
+        files: [path.relative(root, file)],
+      })
+    }
+  }
+
   const owned = ownedFiles ? new Set(ownedFiles) : null
   const isBlocking = (finding) => !owned || finding.files.some((f) => owned.has(f))
   const blocking = findings.filter(isBlocking)
@@ -1063,6 +1295,19 @@ export function formatFindings(findings) {
       lines.push(
         `  - ${f.files.join(', ')}: ${f.property}: '${f.value}' is not a ${f.category} token, so ` +
           `Panda appended px and shipped ${f.value}px. ${advice}`
+      )
+    }
+  }
+
+  const spaced = findings.filter((f) => f.kind === 'spaced')
+  if (spaced.length > 0) {
+    lines.push('', 'Several values in one spacing string:')
+    for (const f of spaced) {
+      lines.push(
+        `  - ${f.files.join(', ')}:${f.line}: ${f.property}: '${f.value}' ships as written, ` +
+          'with px appended to each bare number. Panda resolves a token only when it is the ' +
+          `whole value. Write ${f.fix}.`,
+        `      ${f.text}`
       )
     }
   }

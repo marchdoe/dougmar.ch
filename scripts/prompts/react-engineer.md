@@ -135,7 +135,9 @@ site" or a rebuild log. The subject is Doug's work and today's signals. The
 copy gate fails the build on them: it reads your files and the rendered page,
 and the exact lines come back to you in a repair brief. Content bound from
 `app/content/*` is not yours and is not checked against you; a quoted hero
-line with a named author may keep the em dash its source had.
+line with a named author may keep the em dash its source had. A separator you
+print beside an empty content field is yours: see "Content fields that can be
+empty" below.
 
 ## app/routes/og.tsx: the share card
 
@@ -329,6 +331,7 @@ const selectedWork: Project[]    // full-depth, non-featured
 const experiments: Project[]     // lightweight
 
 // ../content/timeline
+// Any string field can be ''; "Content fields that can be empty", below, lists which are today.
 type TimelineEntry = {
   year: string; role: string; company: string; description: string;
   current?: boolean; bullets?: string[]; technologies?: string[];
@@ -350,6 +353,10 @@ const personal: { holesInOne: number; sport: string; teams: string[]; currentFoc
 
 WARNING: There is NO `bio` export. Use `identity`.
 NOTE: Import `education` from `'../content/timeline'` alongside `timeline` and `capabilities`.
+
+### Content fields that can be empty
+
+{{CONTENT_GAPS}}
 
 ### Images
 
@@ -452,6 +459,8 @@ in the footer; the lockup still sits up top, where the HEADER `nav` line says.
 The surface gate measures the rendered mark's box against the viewport at
 scroll position zero, and a mark outside the fold, or under 32px tall at 1440,
 or a `single-color` mark under 3:1 against its ground, forces a revision.
+
+The surface gate also measures text contrast, at both widths and in both colour schemes: every piece of visible text under 24px (under 18.66px when bold) against the colours it renders over, with alpha and opacity composited. Under 3:1 forces a revision; under 4.5:1 is a warning. `text` clears 4.5:1 on `bg`, `bgAlt` and `surface`; other inks and the accent are not guaranteed to, so check the pair before setting small type in one. Text over a `background-image`, a gradient, ruled lines or an absolutely positioned layer that paints is reported as `contrast-unresolved` and not measured: put small text on a flat ground.
 
 **All pages:** Today's hero phrase is the page's one `<h1>`, on `/` and on every other route (a case study's title, the about page's statement). The surface gate fails a route that renders no `h1`. The contact address renders on every page as a real `mailto:` link built from `identity.email`, never hardcoded, never a `/#contact` page anchor. Where it sits is yours (footer, nav, hero); that it is reachable and clickable is not. Name and role render on every page, in whatever form today's SHELL declaration and `shell_posture` call for. Nav links render alongside them. **Except when `shell_posture: none`: render zero `<nav>` elements anywhere in the output.** Projects and other routes stay reachable through in-content `<a>` links instead. `folded-into-hero` and `footer-only` move the nav out of its usual Sidebar slot (into the hero composition, or to the page foot). The mockup shows where; match it.
 

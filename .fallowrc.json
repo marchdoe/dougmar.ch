@@ -141,7 +141,7 @@
       // Order matters. When several entries match a function, the last one
       // wins, so the broad entry comes first and the named functions after it.
       {
-        // The moderate remainder: 26 functions in 17 files. Worst cyclomatic
+        // The moderate remainder: 24 functions in 16 files. Worst cyclomatic
         // 27 and worst cognitive 26 (both validateArtDirectorResult), worst
         // CRAP 88 (shell-mandate.js).
         "files": [
@@ -155,7 +155,6 @@
           "scripts/utils/archiver.js",
           "scripts/utils/composition-mandate.js",
           "scripts/utils/geometry-fingerprint.js",
-          "scripts/utils/lessons.js",
           "scripts/utils/preset-parser.js",
           "scripts/utils/responsive-scorer.js",
           "scripts/utils/semantic-contract.js",
@@ -166,7 +165,7 @@
         "maxCyclomatic": 27,
         "maxCognitive": 26,
         "maxCrap": 89,
-        "reason": "standing debt in 17 named files; anything worse fails"
+        "reason": "standing debt in 16 named files; anything worse fails"
       },
       {
         "files": ["app/routes/archive.tsx"],
@@ -187,11 +186,19 @@
       },
       {
         "files": ["scripts/design-agents.js"],
-        "functions": ["runAgentSwarm", "runScreenshotCriticGate"],
+        "functions": ["runAgentSwarm"],
         "maxCyclomatic": 109,
         "maxCognitive": 153,
-        "maxCrap": 269,
-        "reason": "the two functions #221 splits into phase modules"
+        "maxCrap": 150,
+        "reason": "the function #221 splits into phase modules"
+      },
+      {
+        "files": ["scripts/design-agents.js"],
+        "functions": ["runScreenshotCriticGate"],
+        "maxCyclomatic": 23,
+        "maxCognitive": 45,
+        "maxCrap": 138,
+        "reason": "414 lines in one function; #221 splits it into phase modules"
       },
       {
         "files": ["scripts/design-agents.js"],

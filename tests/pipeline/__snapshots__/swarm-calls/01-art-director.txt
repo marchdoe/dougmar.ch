@@ -190,8 +190,9 @@ You do NOT define `spacing`, `lineHeights`, `letterSpacings`, `fontWeights`, `fo
 
 ### Accessibility: non-negotiable
 - Body text vs. background: ≥ 4.5:1 (WCAG AA)
-- Large text (18px+ or 14px+ bold): ≥ 3:1
+- Large text (24px+, or 18.66px+ bold): ≥ 3:1
 - No body text smaller than 14px (0.875rem)
+- The surface gate measures all text under 24px (18.66px bold) against what it renders over, in both schemes: under 3:1 forces a revision, under 4.5:1 is a warning. This includes `textMuted`, `textFaint` and the accent on every ground you define, not only `text` on `bg`.
 
 ### CRITICAL: PandaCSS token reference syntax
 

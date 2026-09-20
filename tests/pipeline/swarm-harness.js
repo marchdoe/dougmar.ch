@@ -543,11 +543,26 @@ export async function seedRoot() {
   copy(path.join('styled-system', 'jsx', 'index.d.ts'))
 
   cpSync(path.join(FIXTURES, 'swarm-archive'), path.join(root, 'archive'), { recursive: true })
+  writeUnder(root, 'app/content/timeline.ts', CONTENT_FIXTURE)
   const signalsYaml = readFileSync(path.join(FIXTURES, 'signals', 'today.yml'), 'utf8')
   writeUnder(root, 'signals/today.yml', signalsYaml)
   const signals = yaml.load(signalsYaml)
   return { root, signals }
 }
+
+/**
+ * The one content file the seeded root carries, so the engineer's prompt has
+ * a stable "Content fields that can be empty" list to snapshot: `role` is
+ * empty in one of two entries, `description` in one, and `company` never.
+ */
+export const CONTENT_FIXTURE = [
+  'export type TimelineEntry = { year: string; role: string; company: string; description: string }',
+  'export const timeline: TimelineEntry[] = [',
+  "  { year: '2025 —', role: '', company: 'Acme', description: '' },",
+  "  { year: '2020 — 2025', role: 'Designer', company: 'Globex', description: 'Shipped it.' },",
+  ']',
+  '',
+].join('\n')
 
 /** What `readContext()` would compute from projects.ts, held still. */
 export const CONTENT_SUMMARY = [

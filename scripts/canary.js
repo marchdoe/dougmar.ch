@@ -38,7 +38,7 @@
  * model called, evidence under `docs/evidence/canary/<date>-<HHMM>-mock/`.
  * It skips the `ANTHROPIC_API_KEY` refusal — no model is called, so a key
  * being set doesn't matter — but still refuses under `GITHUB_ACTIONS`. It's
- * the three-minute smoke test after a change to a gate or the loop itself,
+ * the one-minute smoke test after a change to a gate or the loop itself,
  * not a substitute for the real dry run above.
  *
  * Usage:

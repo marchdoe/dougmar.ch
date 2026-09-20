@@ -212,7 +212,7 @@ describe('the deploy key never shares a job with generated code', () => {
     // budgeted at 80 minutes with a 60-minute internal RUN_BUDGET_MINUTES.
     // Sharing ci.yml's cache key means a nightly run can hit the same cache
     // a CI run just warmed, and vice versa.
-    expect(agents).toMatch(/uses: actions\/cache@[0-9a-f]{40} # v4/)
+    expect(agents).toMatch(/uses: actions\/cache@[0-9a-f]{40} # v\d+/)
     expect(agents).toMatch(/path:\s*~\/\.cache\/ms-playwright/)
     expect(agents).toMatch(
       /key:\s*playwright-\$\{\{\s*runner\.os\s*\}\}-\$\{\{\s*steps\.pw\.outputs\.version\s*\}\}/

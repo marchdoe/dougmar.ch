@@ -4,6 +4,7 @@ import path from 'node:path'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { calloutLineFor, siteCallout } from '../../app/content/callout'
 import { dropOrchestratorFiles, identifyFailingAgent } from '../../scripts/design-agents.js'
+import { ARCHIVE_LINK_INKS } from '../../scripts/utils/archive-link-ink.js'
 import { listScannedFiles, runCopyGate } from '../../scripts/utils/copy-gate.js'
 import { findTells } from '../../scripts/utils/copy-tells.js'
 import { findUnwritablePaths } from '../../scripts/utils/engineer-output-check.js'
@@ -100,11 +101,30 @@ describe('renderSiteCalloutFile', () => {
     expect(renderSiteCalloutFile({ date: '2026-09-20' })).toContain('const ARCHIVE_COUNT = 0')
   })
 
-  it('the committed component is the template with two values filled in', () => {
+  it('writes the archive link ink, and only one of the three it may choose between', () => {
+    for (const ink of ARCHIVE_LINK_INKS) {
+      const src = renderSiteCalloutFile({ date: '2026-09-20', archiveLinkInk: ink })
+      expect(src).toMatch(new RegExp(`const secondary = css\\(\\{\\n  color: '${ink}'`))
+      expect(src).not.toContain('{{ARCHIVE_LINK_INK}}')
+    }
+    expect(() => renderSiteCalloutFile({ date: '2026-09-20', archiveLinkInk: 'accent' })).toThrow(
+      /archive link ink/
+    )
+  })
+
+  it('keeps textMuted for the link when nobody says otherwise', () => {
+    expect(renderSiteCalloutFile({ date: '2026-09-20' })).toMatch(
+      /const secondary = css\(\{\n {2}color: 'textMuted'/
+    )
+  })
+
+  it('the committed component is the template with three values filled in', () => {
     const date = generated.match(/const DESIGN_DATE = '(\d{4}-\d{2}-\d{2})'/)?.[1]
     const archiveCount = Number(generated.match(/const ARCHIVE_COUNT = (\d+)/)?.[1])
+    const archiveLinkInk = generated.match(/const secondary = css\(\{\n {2}color: '(\w+)'/)?.[1]
     expect(date).toBeTruthy()
-    expect(generated).toBe(renderSiteCalloutFile({ date, archiveCount }))
+    expect(ARCHIVE_LINK_INKS).toContain(archiveLinkInk)
+    expect(generated).toBe(renderSiteCalloutFile({ date, archiveCount, archiveLinkInk }))
   })
 
   it("names only colours every night's preset defines", () => {

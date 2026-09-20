@@ -167,7 +167,7 @@ const weekday = css({
   letterSpacing: '0.1em',
 })
 
-const cell = css({
+const cell = css.raw({
   aspectRatio: '1',
   border: '1px solid',
   borderColor: 'archive.lineSoft',
@@ -183,7 +183,7 @@ const cell = css({
   overflow: 'hidden',
 })
 
-const built = css({
+const built = css.raw({
   background: 'var(--day)',
   borderColor: 'transparent',
   color: 'var(--ink)',
@@ -197,7 +197,7 @@ const built = css({
   '&[aria-current="date"]': { outlineColor: 'archive.text' },
 })
 
-const recordOnly = css({
+const recordOnly = css.raw({
   borderStyle: 'dashed',
   borderColor: 'archive.faint',
   color: 'archive.dim',
@@ -451,14 +451,14 @@ function MonthGrid({
           // biome-ignore lint/suspicious/noArrayIndexKey: leading blanks have no date; the slot index is their only identity and the row is never reordered.
           <div key={`pad-${ym}-slot${i}`} />
         ) : c.state === 'empty' || !c.entry ? (
-          <div key={c.date} className={cell}>
+          <div key={c.date} className={css(cell)}>
             <span>{c.day}</span>
           </div>
         ) : c.state === 'record' ? (
           <a
             key={c.date}
             href={hrefFor(c.entry)}
-            className={`${cell} ${recordOnly}`}
+            className={css(cell, recordOnly)}
             aria-current={current(c.date)}
             title={`${c.date} — record only, no design preserved`}
           >
@@ -469,7 +469,7 @@ function MonthGrid({
           <a
             key={c.date}
             href={hrefFor(c.entry)}
-            className={`${cell} ${built}`}
+            className={css(cell, built)}
             aria-current={current(c.date)}
             style={hueVars(c.entry)}
             title={`${c.date}${c.entry.primaryHue?.name ? ` — ${c.entry.primaryHue.name}` : ''}`}

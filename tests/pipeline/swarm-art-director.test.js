@@ -561,10 +561,11 @@ describe('the codegen retry', () => {
     expect(run.fakes.cleanupOrphans).toEqual([])
     expect(run.retries).toBe(1)
 
-    // The three files a retry can move were formatted twice before the
+    // The four files a retry can move were formatted twice before the
     // archive's final __root.tsx refresh, and the root on disk carries the
-    // retry's hero copy. The callout takes only the date and the archive
-    // count, and WhitePaper.tsx takes nothing at all, so each is written once.
+    // retry's hero copy. The callout's link ink follows the preset, so the
+    // retry moves it too. WhitePaper.tsx takes nothing at all, so it is
+    // written once.
     expect(run.fakes.formatGeneratedFile.map((f) => f.relPath)).toEqual([
       'app/routes/__root.tsx',
       'app/components/BrandLockup.tsx',
@@ -574,6 +575,7 @@ describe('the codegen retry', () => {
       'app/routes/__root.tsx',
       'app/components/BrandLockup.tsx',
       'app/components/Material.tsx',
+      'app/components/SiteCallout.tsx',
       'app/routes/__root.tsx',
     ])
     const rootTsx = read(run.root, 'app/routes/__root.tsx')

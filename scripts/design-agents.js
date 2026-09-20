@@ -68,6 +68,7 @@ import {
 } from './utils/semantic-contract.js'
 import { formatPatternPropsForPrompt, readPatternProps } from './utils/pattern-props.js'
 import { collectGateRules, formatGateRulesForPrompt } from './utils/gate-rules.js'
+import { fillContentGaps } from './utils/content-gaps.js'
 import { unslopPatternsSection } from './utils/copy-tells.js'
 import { loadPrompt } from './utils/prompt-loader.js'
 import { parseDelimiterResponse } from './utils/delimiter-parser.js'
@@ -106,6 +107,7 @@ import {
 } from './utils/engineer-patch.js'
 import { sweepGenerated } from './utils/generated-sweep.js'
 import { countArchivedDesigns } from './utils/archive-count.js'
+import { archiveLinkInks } from './utils/archive-link-ink.js'
 import { settleMockupRound } from './utils/mockup-rounds.js'
 import { newBoundaryId } from './utils/data-boundary.js'
 export { parseDelimiterResponse }
@@ -1264,10 +1266,14 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         heroCopy: artDirectorResult.heroCopy,
         designBrief: artDirectorResult.designBrief,
       })
+      // The archive link's ink, chosen against tonight's bg and bgAlt now
+      // that the preset exists (#566).
+      const archiveInks = archiveLinkInks(artDirectorResult.presetTs)
       const rootSrc = renderRootTemplate(
         buildGoogleFontsUrl(chosenChassis),
         ogMeta,
-        countArchivedDesigns(path.join(root, 'archive'))
+        countArchivedDesigns(path.join(root, 'archive')),
+        archiveInks.root.token
       )
       const rootPath = path.join(root, 'app/routes/__root.tsx')
       await writeFile(rootPath, rootSrc, 'utf8')
@@ -1296,12 +1302,14 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
 
       // The home page callout (#532), same ownership again. The run's date
       // picks its line and the count feeds its archive link, so neither
-      // moves on a codegen retry and this is the only place it is written.
+      // moves on a codegen retry. The link's ink follows the preset, so the
+      // retry below writes this file again (#566).
       await writeFile(
         path.join(root, SITE_CALLOUT_OWNER),
         renderSiteCalloutFile({
           date: runDate(signals),
           archiveCount: countArchivedDesigns(path.join(root, 'archive')),
+          archiveLinkInk: archiveInks.callout.token,
         }),
         'utf8'
       )
@@ -1395,7 +1403,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           const retryRootSrc = renderRootTemplate(
             buildGoogleFontsUrl(chosenChassis),
             retryOgMeta,
-            countArchivedDesigns(path.join(root, 'archive'))
+            countArchivedDesigns(path.join(root, 'archive')),
+            archiveLinkInks(artDirectorResult.presetTs).root.token
           )
           await writeFile(path.join(root, 'app/routes/__root.tsx'), retryRootSrc, 'utf8')
           formatGeneratedFile('app/routes/__root.tsx', { root })
@@ -1417,6 +1426,19 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           )
           formatGeneratedFile('app/components/Material.tsx', { root })
           console.log('  [chassis] regenerated Material.tsx after codegen retry')
+          // The callout's archive link is set in a token chosen against the
+          // preset's bgAlt, and the retry brought a new preset (#566).
+          await writeFile(
+            path.join(root, SITE_CALLOUT_OWNER),
+            renderSiteCalloutFile({
+              date: runDate(signals),
+              archiveCount: countArchivedDesigns(path.join(root, 'archive')),
+              archiveLinkInk: archiveLinkInks(artDirectorResult.presetTs).callout.token,
+            }),
+            'utf8'
+          )
+          formatGeneratedFile(SITE_CALLOUT_OWNER, { root })
+          console.log('  [chassis] regenerated SiteCallout.tsx after codegen retry')
         } catch (rootErr) {
           console.warn(
             `  __root.tsx og-meta refresh after retry failed (non-blocking): ${rootErr.message}`
@@ -1943,12 +1965,15 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     if (!reactEngineerPromptRaw.includes('{{GATES}}')) {
       throw new Error('react-engineer.md is missing its {{GATES}} placeholder')
     }
-    const reactEngineerSystemPrompt = `${reactEngineerPromptRaw
-      .replace('{{SEMANTIC_COLOR_CONTRACT}}', formatSemanticContractForPrompt())
-      .replace(
-        '{{GATES}}',
-        formatGateRulesForPrompt(collectGateRules({ root }))
-      )}\n\n${designSystemReference}${brandRegisterDeclaration}`
+    // Which content fields are empty today, read from app/content (#568), so
+    // the engineer does not print a separator beside a field that has no text.
+    const reactEngineerPrompt = await fillContentGaps(
+      reactEngineerPromptRaw
+        .replace('{{SEMANTIC_COLOR_CONTRACT}}', formatSemanticContractForPrompt())
+        .replace('{{GATES}}', formatGateRulesForPrompt(collectGateRules({ root }))),
+      { root }
+    )
+    const reactEngineerSystemPrompt = `${reactEngineerPrompt}\n\n${designSystemReference}${brandRegisterDeclaration}`
 
     // The motion-design reference (#506) rides in the engineer's user prompt
     // on a night with an entrance or a scroll reveal to time. The engineer
@@ -2200,7 +2225,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         const finalRootSrc = renderRootTemplate(
           buildGoogleFontsUrl(chosenChassis),
           finalOgMeta,
-          countArchivedDesigns(path.join(root, 'archive'))
+          countArchivedDesigns(path.join(root, 'archive')),
+          archiveLinkInks(artDirectorResult.presetTs).root.token
         )
         await writeFile(path.join(root, 'app/routes/__root.tsx'), finalRootSrc, 'utf8')
         formatGeneratedFile('app/routes/__root.tsx', { root })
@@ -2359,6 +2385,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         findingLocation,
       } = await import('./utils/surface-gate.js')
       const { runCopyGate } = await import('./utils/copy-gate.js')
+      const { readRevisionRequest, describeRevision, logNoRevision, recordFinalJudgment } =
+        await import('./agents/screenshot-critic.js')
 
       /**
        * Measure every route and record what was found. Round 1 runs before
@@ -2610,29 +2638,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         })
 
         if (screenshotVerdict === 'REVISE' || gateDemandsRevision) {
-          const agentMatch = criticResponse.match(/\*\*Responsible agent:\*\*\s*([\w-]+)/)
-          // A gate-forced revision goes to the engineer: the faults are on
-          // surfaces faultsForOwner already attributed to it.
-          const responsibleAgent =
-            screenshotVerdict === 'REVISE' ? agentMatch?.[1] || 'react-engineer' : 'react-engineer'
-
-          // Take the FEEDBACK block if the critic emitted one, as
-          // parseMockupCriticResponse already does. The old form stripped the
-          // first literal "REVISE" anywhere in the prose, so a critic writing
-          // "REVISE the hero scale" sent the engineer "the hero scale".
-          const feedbackBlock = criticResponse.match(
-            /===FEEDBACK===\s*\n([\s\S]*?)(?:===END===|$)/
-          )?.[1]
-          const criticFeedback =
-            screenshotVerdict === 'REVISE'
-              ? (
-                  feedbackBlock ??
-                  criticResponse
-                    .replace(/===VERDICT===/, '')
-                    .replace(/===END===/, '')
-                    .replace(/^\s*REVISE\b/m, '')
-                ).trim()
-              : ''
+          const { responsibleAgent, criticFeedback } = readRevisionRequest(
+            screenshotVerdict,
+            criticResponse
+          )
           // The measured faults ride along whether or not the critic mentioned
           // them: they are exact, and they are the reason a SHIP is being
           // revised when the gate forced it. The tap-target and small-copy
@@ -2648,13 +2657,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
             .filter(Boolean)
             .join('\n\n')
 
-          const criticSaid =
-            screenshotVerdict === 'UNVERIFIED' ? 'critic gave no verdict' : 'critic said SHIP'
-          console.log(
-            screenshotVerdict === 'REVISE'
-              ? `  [screenshot-critic] REVISE — responsible: ${responsibleAgent}`
-              : `  [surface-gate] ${criticSaid}; revising anyway for ${engineerFaults.length} measured fault(s)`
-          )
+          console.log(describeRevision(screenshotVerdict, responsibleAgent, engineerFaults.length))
           console.log(`  feedback: ${feedback.slice(0, 200)}...`)
 
           // Shared reactEngineerAgentConfig keeps this retry path in sync
@@ -2746,51 +2749,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
                 // needed here.
                 try {
                   const final = await judgeScreenshot(regate?.findings ?? [])
-                  // The build that ships after a repair round only means
-                  // something if the critic that judged it actually saw it.
-                  // A REVISE reached through a text-only fallback (or a
-                  // truncated SDK reply, #486) is not a verified fault: it is
-                  // no verdict at all, and must never become
-                  // SHIPPED-WITH-FAULTS — that section says "the final
-                  // critique still found a fault," which was never true when
-                  // nothing was re-seen.
-                  const sawTheBuild = final.visionChannel === 'sdk-vision'
-                  const finalVerdict = sawTheBuild ? final.verdict : 'UNVERIFIED'
-                  verdicts.push({
-                    critic: 'screenshot-critic',
-                    round: 'final',
-                    verdict: finalVerdict,
-                    feedback: final.criticResponse.slice(0, 2000),
-                    channel: final.visionChannel,
-                    ts: Date.now(),
-                  })
-                  console.log(`  [screenshot-critic] final verdict: ${finalVerdict}`)
-
-                  if (!sawTheBuild) {
-                    console.warn(
-                      `  [screenshot-critic] final re-judge did not reach the SDK vision channel (${final.visionChannel}) — recording UNVERIFIED instead of a faults verdict`
-                    )
-                  } else if (finalVerdict === 'REVISE') {
-                    // The owner's call (#467): a final REVISE does not buy
-                    // another repair. Ship it, but log the fault where the
-                    // archive, the lessons block and the rating issue can
-                    // all find it.
-                    const shipFeedback = [
-                      final.criticResponse.slice(0, 2000),
-                      formatFindingsForCritic(remainingFaults),
-                    ]
-                      .filter(Boolean)
-                      .join('\n\n')
-                    verdicts.push({
-                      critic: 'ship-gate',
-                      verdict: 'SHIPPED-WITH-FAULTS',
-                      feedback: shipFeedback,
-                      ts: Date.now(),
-                    })
-                    console.warn(
-                      '  [ship-gate] final critic still says REVISE — shipping with the faults logged'
-                    )
-                  }
+                  recordFinalJudgment(verdicts, final, formatFindingsForCritic(remainingFaults))
                 } catch (finalErr) {
                   // Best-effort, exactly like round 1: a critic call that
                   // cannot run must not stop a build that otherwise passed.
@@ -2813,12 +2772,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
               engineerResult = passingEngineerResult
             }
           }
-        } else if (screenshotVerdict === 'UNVERIFIED') {
-          console.warn(
-            `  [screenshot-critic] no verdict (${visionChannel}) — no critic-driven revision, shipping the build as-is`
-          )
         } else {
-          console.log('  [screenshot-critic] SHIP')
+          logNoRevision(screenshotVerdict, visionChannel)
         }
       } catch (err) {
         if (err.fatal) throw err

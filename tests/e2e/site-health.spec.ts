@@ -1156,3 +1156,82 @@ test.describe('site health — the work index fits every width (#561)', () => {
     })
   }
 })
+
+/**
+ * /experiments wrote `padding: '3 4'`. Panda resolves a token only when it is
+ * the whole value, so the row shipped 3px of vertical padding and 4px of
+ * horizontal, and stood 25px tall against a 44px tap target (#553). The page
+ * sits in the nightly Layout wrapper, whose Sidebar is absolute from top to
+ * bottom, so a wrapper as tall as three rows put the Sidebar's line on the rows.
+ *
+ * The spacing values are read back from the stylesheet's own `--spacing-*`
+ * variables, so this names no pixel value: the chassis moves them nightly.
+ */
+test.describe('site health — /experiments spacing', () => {
+  for (const width of [360, 820, 1440]) {
+    test(`rows carry the spacing tokens, reach 44px and clear the sidebar at ${width}`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto('/experiments')
+      await page.waitForLoadState('networkidle')
+
+      const token = (name: string) =>
+        page.evaluate((n) => {
+          const probe = document.createElement('div')
+          probe.style.paddingLeft = `var(--spacing-${n})`
+          document.body.append(probe)
+          const px = getComputedStyle(probe).paddingLeft
+          probe.remove()
+          return px
+        }, name)
+
+      const rows = await page.locator('a[href]:not([data-archive-link])').evaluateAll((links) =>
+        links.map((a) => {
+          const cs = getComputedStyle(a)
+          return {
+            block: [cs.paddingTop, cs.paddingBottom],
+            inline: [cs.paddingLeft, cs.paddingRight],
+            height: a.getBoundingClientRect().height,
+          }
+        })
+      )
+      expect(rows.length).toBeGreaterThan(0)
+      const block = await token('3')
+      const inline = await token('4')
+      for (const row of rows) {
+        expect(row.block).toEqual([block, block])
+        expect(row.inline).toEqual([inline, inline])
+        expect(row.height).toBeGreaterThanOrEqual(44)
+      }
+
+      const lines = await page.evaluate(() => {
+        const out: { text: string; left: number; right: number; side: boolean }[] = []
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+        for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+          const el = n.parentElement
+          if (!el || !n.textContent?.trim()) continue
+          const range = document.createRange()
+          range.selectNodeContents(n)
+          const side = Boolean(el.closest('[aria-hidden="true"]'))
+          for (const r of range.getClientRects()) {
+            out.push({
+              text: n.textContent.trim().slice(0, 24),
+              left: r.left,
+              right: r.right,
+              side,
+            })
+          }
+        }
+        return out
+      })
+      const side = lines.filter((l) => l.side)
+      const under = lines.filter(
+        (l) => !l.side && side.some((s) => l.left < s.right && l.right > s.left)
+      )
+      // The Sidebar is a md-and-up element: it has text to clear only there.
+      if (width >= 768) expect(side.length, 'the sidebar did not render').toBeGreaterThan(0)
+      expect(under.map((l) => l.text)).toEqual([])
+    })
+  }
+})

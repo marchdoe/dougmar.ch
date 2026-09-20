@@ -85,3 +85,27 @@ describe('validateBuildOutput reads the injected root (#312)', () => {
     expect(existsSync(path.join(ROOT, 'dist', 'client'))).toBe(distBefore)
   })
 })
+
+describe('validateBuildOutput carries the spacing-string finding to the engineer (#553)', () => {
+  let root
+  beforeEach(() => {
+    root = seedBuild()
+    // Replace the bare-number miss with the shape that shipped in experiments.tsx.
+    writeFileSync(
+      path.join(root, 'app', 'components', 'Sidebar.tsx'),
+      "export function Sidebar() {\n  return <div className={css({ padding: '3 4' })} />\n}\n"
+    )
+  })
+  afterEach(() => {
+    rmSync(root, { recursive: true, force: true })
+  })
+
+  it('fails the build and puts the line and the corrected form in the error', () => {
+    const result = validateBuildOutput({ root })
+    expect(result.success).toBe(false)
+    const errors = result.errors.join('\n')
+    expect(errors).toContain('app/components/Sidebar.tsx:2')
+    expect(errors).toContain("padding: '3 4'")
+    expect(errors).toContain("paddingBlock: '3', paddingInline: '4'")
+  })
+})
