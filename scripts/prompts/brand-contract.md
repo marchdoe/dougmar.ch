@@ -38,7 +38,7 @@ Orientation (horizontal vs stacked) may follow the day's header placement: a
 
 ### Position
 
-The mark sits inside the first fold at 360 and at 1440, whatever the
+The mark sits inside the first fold at {{NARROW_PX}} and at 1440, whatever the
 placement. `footer-only` and `none` move the nav, never the mark; the `nav`
 line says where in the hero it lives. A `single-color` mark needs 3:1
 against its ground. Both are measured on the built page.

@@ -41,7 +41,7 @@ Failure example: visual spec says "primary hue 18° terracotta," preset has only
 
 The hero phrase must render at the intended scale on a 1440×900 viewport. Check:
 
-- Every chassis's hero reaches at least 64px on a 360px viewport, so marquee is never impossible; the question is whether the declared hero_scale and composition match the chassis's actual voice. `hero` and every step from `xl` up are fluid clamps, so each figure below is a 360→1440 range; `base` is fixed. The per-chassis numbers, generated from the catalog:
+- Every chassis's hero reaches at least 64px on a {{NARROW_PX}}px viewport, so marquee is never impossible; the question is whether the declared hero_scale and composition match the chassis's actual voice. `hero` and every step from `xl` up are fluid clamps, so each figure below is a {{NARROW_PX}}→1440 range; `base` is fixed. The per-chassis numbers, generated from the catalog:
 
 {{CHASSIS_RENDER_FACTS}}
 
@@ -58,7 +58,7 @@ The Art Director's `===SELF_CHECK===` block answers Yes/No to five questions. Do
 
 - If the self-check says "Hero quotability: Yes" but the hero phrase is "Selected Work," that is dishonest.
 - If the self-check says "Render feasibility: Yes" but composition × chassis is unrenderable, that is dishonest.
-- If the self-check says "Phone: Yes" but the mobile declaration puts the hero below the fold under a `hero-only` collapse, or sets a five-word hero at `hero` on a chassis whose 360 hero size cannot hold it in one fold, that is dishonest.
+- If the self-check says "Phone: Yes" but the mobile declaration puts the hero below the fold under a `hero-only` collapse, or sets a five-word hero at `hero` on a chassis whose {{NARROW_PX}} hero size cannot hold it in one fold, that is dishonest.
 
 ### 5. Measurable-spec consistency
 
@@ -78,7 +78,7 @@ The composition's `collapse` axis and the `===MOBILE===` block (the Mobile Decla
 - `collapse: hero-only` requires `first_fold` to name the hero phrase and nothing that would share the fold with it. A `first_fold` that lists a nav row, a signal strip and then the hero is not hero-only.
 - `first_fold` either names the hero phrase or says in one clause why the hero is deliberately below the fold. Silence on the hero is a REVISE.
 - `collapse: rail-to-band` needs a rail to turn: `shell_posture: marginal`, `columns: two-asymmetric`, or a `left-rail` / `right-margin` header. `collapse: split-to-sequence` needs a split: `columns: single` has none.
-- `collapse: reorder` should be visible in `order`: the zone that leads at 360 is named first and is not the zone that led at 1440 in the visual spec.
+- `collapse: reorder` should be visible in `order`: the zone that leads at {{NARROW_PX}} is named first and is not the zone that led at 1440 in the visual spec.
 - `order` names at least two zones, top to bottom, and the `carrier` is one of them or made of them.
 
 Failure example: `collapse: hero-only` with `first_fold: mark, nav row, signal strip, then the hero`. The declaration contradicts its own axis; either the collapse becomes `stack` or the first fold becomes the hero.

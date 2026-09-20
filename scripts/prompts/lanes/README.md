@@ -37,7 +37,7 @@ instructions to stack, collapse or re-center at a given width. Between them they
 were quietly asserting `columns`, `symmetry`, `density` and `hero_zone`, four of
 the axes the Art Director is supposed to be free to set. The `collapse` axis
 (#452) is the same kind of decision: a lane says nothing about what stacks
-at 360 or in what order.
+at {{NARROW_PX}} or in what order.
 
 The rule those rewrites follow: say what a thing looks like, never where it goes.
 A mobile strategy may say the dominant element stays dominant, that a rule keeps

@@ -5,10 +5,17 @@ import { fileURLToPath } from 'node:url'
 
 import { formatPatternPropsForPrompt, readPatternProps } from '../../scripts/utils/pattern-props.js'
 import { collectGateRules, formatGateRulesForPrompt } from '../../scripts/utils/gate-rules.js'
+import { loadPromptSync } from '../../scripts/utils/prompt-loader.js'
+import { NARROW_VIEWPORT, WIDE_VIEWPORT } from '../../elements/chassis/viewports.js'
 
 const repoRoot = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 const promptDir = path.join(repoRoot, 'scripts', 'prompts')
-const read = (f) => readFileSync(path.join(promptDir, f), 'utf8')
+// Prompts are read the way the pipeline reads them, phone width filled, so a
+// guard that quotes a width is checking the sentence a model receives.
+const read = (f) => loadPromptSync(f)
+const NARROW = NARROW_VIEWPORT.width
+const WIDE = WIDE_VIEWPORT.width
+const MARK_IN_FOLD = new RegExp(`mark sits inside the first fold at ${NARROW} and at ${WIDE}`)
 
 describe('brand-contract.md load-bearing directives', () => {
   const contract = () => read('brand-contract.md')
@@ -38,7 +45,7 @@ describe('brand-contract.md load-bearing directives', () => {
   it('states the fold rule and the 3:1 contrast floor under a Position subsection (#503)', () => {
     const c = contract()
     expect(c).toContain('### Position')
-    expect(c).toMatch(/first fold[^.]*360[^.]*1440/)
+    expect(c).toMatch(new RegExp(`first fold[^.]*${NARROW}[^.]*${WIDE}`))
     expect(c).toMatch(/3:1/)
   })
 })
@@ -55,7 +62,7 @@ describe('art-director.md output contract', () => {
   })
   it('puts the mark inside the first fold whatever the placement (#503)', () => {
     const text = ad()
-    expect(text).toMatch(/mark sits inside the first fold at 360 and at 1440/)
+    expect(text).toMatch(MARK_IN_FOLD)
     expect(text).toMatch(/`footer-only` and `none` defer the nav, never the mark/)
     expect(text).not.toContain('two mark-only lockups')
   })
@@ -115,7 +122,7 @@ describe('mockup-designer.md load-bearing directives', () => {
     expect(md()).toMatch(/logo top-left.*nav top-right/i)
   })
   it('keeps the mark in the first fold on footer-only and none days (#503)', () => {
-    expect(md()).toMatch(/mark sits inside the first fold at 360 and at 1440/)
+    expect(md()).toMatch(MARK_IN_FOLD)
   })
   it('executes the type treatment block and names the REVISE (#502)', () => {
     expect(md()).toContain('## Type treatment')

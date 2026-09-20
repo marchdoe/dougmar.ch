@@ -21,11 +21,14 @@
  * - The prompt strings built in JS: `scripts/agents/mockup-critic.js`,
  *   `screenshot-critic.js`, `mockup-designer.js`, `scripts/design-agents.js`
  *   and `scripts/utils/composition-grammar.js`.
+ * - `scripts/utils/prompt-loader.js`: the markdown prompts in
+ *   `scripts/prompts/` write the width as `{{NARROW_PX}}`, filled on load.
  * - `tests/e2e/site-health.spec.ts`: the word-break gate.
  *
- * Who does not, yet: the markdown prompts in `scripts/prompts/` and the field
- * names `hero_step_360`, `nav_360` and `HERO_STEPS_360` still spell the
- * number out.
+ * Who does not, yet: the field names `hero_step_360`, `nav_360` and
+ * `HERO_STEPS_360` still spell the number out, and the prompts quote sizes
+ * measured at it (a 64px hero floor, a 280px callout, the 640px fold) as
+ * literals.
  *
  * It sits under `elements/chassis/` because the ramp is the first thing that
  * depends on it, and `scripts/utils/chassis.js` already imports from here.

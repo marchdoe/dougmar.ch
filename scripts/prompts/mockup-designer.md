@@ -44,8 +44,8 @@ No code fences anywhere. Not around the response, not around the HTML inside the
 - Content: real content from the Site Content summary, real project names,
   real timeline entries. Placeholder text ("Lorem", "Project One") is a
   failure.
-- Viewport target: the composition has to hold at 360 and at 1440. Write the
-  base CSS for 360 and add to at larger widths with `@media (min-width: ...)`, under the
+- Viewport target: the composition has to hold at {{NARROW_PX}} and at 1440. Write the
+  base CSS for {{NARROW_PX}} and add to at larger widths with `@media (min-width: ...)`, under the
   same rules as production (see Responsive section). Both widths are
   screenshotted and both are reviewed.
 - The document must render correctly from a `file://` URL (no absolute
@@ -153,7 +153,7 @@ The brand mark is an inline SVG in the mockup. Copy the provided SVG source;
 never redraw it. Use the original-color source for `brand_color_mode: original`
 and the `currentColor` source for `single-color`.
 
-The mark sits inside the first fold at 360 and at 1440 whatever the placement;
+The mark sits inside the first fold at {{NARROW_PX}} and at 1440 whatever the placement;
 `footer-only` and `none` move the nav, never the mark.
 
 ## Ground material
@@ -236,32 +236,32 @@ Layout, typography, color, spacing, and interaction of every element are entirel
 
 ## Responsive
 
-You are designing for three characters: phone (360px), tablet (768px), laptop/desktop (1024px / 1440px). Start your composition at 360px and add to at larger widths. A design that looks great on desktop but overflows or clips on mobile is a failed build regardless of how striking the desktop view is.
+You are designing for three characters: phone ({{NARROW_PX}}px), tablet (768px), laptop/desktop (1024px / 1440px). Start your composition at {{NARROW_PX}}px and add to at larger widths. A design that looks great on desktop but overflows or clips on mobile is a failed build regardless of how striking the desktop view is.
 
 **Mobile-first means:**
-- Default CSS targets 360px. Use `@media (min-width: ...)` to add complexity at larger widths, never subtract at smaller.
+- Default CSS targets {{NARROW_PX}}px. Use `@media (min-width: ...)` to add complexity at larger widths, never subtract at smaller.
 - Large type uses `clamp()` or `vw` with caps, not fixed px. A specimen-scale hero at 120px on desktop should collapse to ~48px on mobile.
 - Fixed sidebars, multi-column grids, and persistent nav rails collapse below the tablet breakpoint the way the Mobile Declaration's `collapse` says.
-- Header chrome (logo + nav + signals) must not overlap at 360px. If everything can't fit, stack or hide behind a toggle.
+- Header chrome (logo + nav + signals) must not overlap at {{NARROW_PX}}px. If everything can't fit, stack or hide behind a toggle.
 - Touch targets ≥ 44×44px on any viewport ≤ 768px.
 - Body text ≥ 16px at all viewports.
 - Line length ≤ 75 characters at all viewports.
 
 **What gets checked automatically:**
-Every build runs at 360 / 768 / 1024 / 1440 and is scored on: horizontal scroll, content clipping, header overlap, body text size, tap-target size, line length. Horizontal scroll and clipped text are errors that force a revision on the spot. Note that they are different faults, and that a parent with `overflow: hidden` cuts content off while leaving the page measuring clean.
+Every build runs at {{NARROW_PX}} / 768 / 1024 / 1440 and is scored on: horizontal scroll, content clipping, header overlap, body text size, tap-target size, line length. Horizontal scroll and clipped text are errors that force a revision on the spot. Note that they are different faults, and that a parent with `overflow: hidden` cuts content off while leaving the page measuring clean.
 
 **What gets looked at:**
-The measurements cannot tell whether the design is still a design at 360, so both critics now see the phone render beside the 1440 render and judge it: whether the composition's idea survives at one column or only its parts do, whether the hierarchy still reads, whether the type scaled to the column or stacked into a wall. A mockup that only works at 1440 is a REVISE at the mockup gate, before an engineer ever builds it.
+The measurements cannot tell whether the design is still a design at {{NARROW_PX}}, so both critics now see the phone render beside the 1440 render and judge it: whether the composition's idea survives at one column or only its parts do, whether the hierarchy still reads, whether the type scaled to the column or stacked into a wall. A mockup that only works at 1440 is a REVISE at the mockup gate, before an engineer ever builds it.
 
 **The phone is declared.** The Mobile Declaration in your inputs (the
 composition's `collapse` value and the `===MOBILE===` block) is what your
-unqueried CSS renders, and the critic reads the 360 image against it line by
+unqueried CSS renders, and the critic reads the {{NARROW_PX}} image against it line by
 line.
 
 ## Self-check before responding
 
-1. Screenshot test: the critic renders this at 1440×900 and at 360×640 right
-   now. At 1440, does it meet every number in MEASURABLES? At 360, name the
+1. Screenshot test: the critic renders this at 1440×900 and at {{NARROW_PX}}×640 right
+   now. At 1440, does it meet every number in MEASURABLES? At {{NARROW_PX}}, name the
    one thing the composition is about and say what carries it there: the
    Mobile Declaration's `carrier`, shown, with its `first_fold` in the first
    640px, the hero at `hero_step_360`, the zones in its `order`. If the
