@@ -71,12 +71,17 @@ type BrandLockupProps = {
  * instead keeps the pair in proportion at every ratio in the catalog. The
  * bounds are the band divided by 1.68; the table lives in
  * scripts/utils/brand-lockup.js.
+ *
+ * `stacked-lg` also takes the smaller of its step and 12.5vw. The `2xl` step
+ * never drops under 47.5px, which sets "Doug March" about 284px wide and
+ * clipped it at a 320px viewport (#560). At 320 the vw term is 40px, and from
+ * about 390px up the step is the smaller one again, so wider screens are unchanged.
  */
 const variantStyles: Record<BrandLockupVariant, string> = {
   'mark-only-md': css({ fontSize: 'clamp(23.81px, token(fontSizes.lg), 33.333px)' }),
   'horizontal-md': css({ fontSize: 'clamp(19.048px, token(fontSizes.lg), 28.571px)' }),
   'stacked-md': css({ fontSize: 'clamp(23.81px, token(fontSizes.lg), 33.333px)' }),
-  'stacked-lg': css({ fontSize: 'clamp(38.095px, token(fontSizes.2xl), 57.143px)' }),
+  'stacked-lg': css({ fontSize: 'clamp(38.095px, min(token(fontSizes.2xl), 12.5vw), 57.143px)' }),
 }
 
 const colorStyles: Record<BrandLockupColor, string> = {

@@ -52,6 +52,19 @@ const opacityOf = (page, selector = '.hero') =>
 const nextFrame = (page) =>
   page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))))
 
+/**
+ * Waits for the element's animation to finish, then returns when it ended in
+ * ms from the start, delay included. The wait is on the browser's own
+ * `finished` promise, so a slow machine takes longer instead of sampling early;
+ * the returned time is the CSS's own claim about how long the animation takes.
+ */
+const settledAt = (page, selector = '.hero') =>
+  page.evaluate(async (sel) => {
+    const [animation] = document.querySelector(sel).getAnimations()
+    await animation.finished
+    return animation.effect.getComputedTiming().endTime
+  }, selector)
+
 describe('the rise keyframe in a browser', () => {
   let browser
   beforeAll(async () => {
@@ -59,7 +72,7 @@ describe('the rise keyframe in a browser', () => {
   }, 30_000)
   afterAll(async () => {
     await browser?.close()
-  })
+  }, 30_000)
 
   it('starts the element invisible and settles it by 600ms', async () => {
     const page = await browser.newPage({ viewport: { width: 1440, height: 900 } })
@@ -68,7 +81,7 @@ describe('the rise keyframe in a browser', () => {
       expect(await opacityOf(page)).toBeLessThan(1)
       await nextFrame(page)
       expect(await opacityOf(page)).toBeLessThan(1)
-      await page.waitForTimeout(600)
+      expect(await settledAt(page)).toBeLessThanOrEqual(600)
       expect(await opacityOf(page)).toBe(1)
     } finally {
       await page.close()
@@ -98,7 +111,7 @@ describe('the rise keyframe in a browser', () => {
       await page.setContent(PAGE)
       await nextFrame(page)
       expect(await opacityOf(page, '.deck')).toBe(0)
-      await page.waitForTimeout(900)
+      expect(await settledAt(page, '.deck')).toBeLessThanOrEqual(900)
       expect(await opacityOf(page, '.deck')).toBe(1)
     } finally {
       await page.close()

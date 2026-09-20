@@ -66,12 +66,19 @@ export const MARK_EM = Math.round(CAP_RATIO * MARK_TO_CAP * 1000) / 1000
  * clamping the mark alone would leave the wordmark at full ramp size beside a
  * mark cut down to fit, which on a 1.5-ratio chassis put an 81px "Doug March"
  * next to a 96px mark. See stepClamp below.
+ *
+ * `fitVw` caps the step at that many vw, for a variant whose wordmark is wide
+ * enough to outrun a phone. `2xl` never drops under 47.5px, and "Doug March"
+ * is about 6em wide, so `stacked-lg` ran 284px wide and clipped at 320 (#560).
+ * 12.5vw is 40px at 320, which puts the wordmark inside the header's padding
+ * there, and it only bites below about 390px: every wider viewport still gets the
+ * ramp step. The other three variants top out at 33px and fit at 320 as is.
  */
 export const LOCKUP_VARIANTS = {
   'mark-only-md': { orientation: 'mark', step: 'lg', markMinPx: 40, markMaxPx: 56 },
   'horizontal-md': { orientation: 'row', step: 'lg', markMinPx: 32, markMaxPx: 48 },
   'stacked-md': { orientation: 'column', step: 'lg', markMinPx: 40, markMaxPx: 56 },
-  'stacked-lg': { orientation: 'column', step: '2xl', markMinPx: 64, markMaxPx: 96 },
+  'stacked-lg': { orientation: 'column', step: '2xl', markMinPx: 64, markMaxPx: 96, fitVw: 12.5 },
 }
 
 /** The four ids, in contract order. @type {string[]} */
@@ -83,7 +90,9 @@ export const LOCKUP_IDS = Object.keys(LOCKUP_VARIANTS)
  *
  * The Panda `token()` call resolves at extract time to the chassis ramp's CSS
  * variable, so the middle term follows the day's type and the two ends hold
- * the contract. Bounds are the band divided by MARK_EM.
+ * the contract. Bounds are the band divided by MARK_EM. A variant with a
+ * `fitVw` takes the smaller of its step and that many vw as the middle term,
+ * so a narrow viewport can pull the wordmark down to the lower bound.
  *
  * @param {string} id one of LOCKUP_IDS
  * @returns {string} a CSS clamp()
@@ -92,7 +101,9 @@ export function stepClamp(id) {
   const v = LOCKUP_VARIANTS[id]
   if (!v) throw new Error(`unknown lockup variant: ${id}`)
   const px = (n) => `${Number((n / MARK_EM).toFixed(3))}px`
-  return `clamp(${px(v.markMinPx)}, token(fontSizes.${v.step}), ${px(v.markMaxPx)})`
+  const step = `token(fontSizes.${v.step})`
+  const middle = v.fitVw ? `min(${step}, ${v.fitVw}vw)` : step
+  return `clamp(${px(v.markMinPx)}, ${middle}, ${px(v.markMaxPx)})`
 }
 
 /**

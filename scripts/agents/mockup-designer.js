@@ -29,6 +29,7 @@ export function buildMockupDesignerUserPrompt({
   calibrationNote,
   compositionContractBlock,
   polishRef,
+  previousMockupHtml,
   revisionFeedback,
   tasteMemoryBlock,
   retryContext,
@@ -84,6 +85,14 @@ export function buildMockupDesignerUserPrompt({
   // polish.md rides in the user prompt — the system prompt is at its
   // size budget (MOCKUP_DESIGNER_PROMPT_MAX in utils/mockup-designer-prompt.js; the old CLI crash near 56KB is gone with the 2.1.207 pin).
   if (polishRef) sections.push(`## Execution Polish Reference (apply throughout)\n\n${polishRef}`)
+  // The page the critic's numbers and feedback describe. Without it the
+  // designer reads "measured 61.9% against floor 76%" about a page it no
+  // longer has and starts over (#573).
+  if (revisionFeedback && previousMockupHtml) {
+    sections.push(
+      `## PREVIOUS MOCKUP — the page the critic reviewed; revise this file, do not start over\n\n\`\`\`html\n${previousMockupHtml}\n\`\`\``
+    )
+  }
   if (revisionFeedback)
     sections.push(
       `## CRITIC REVISION FEEDBACK — fix these before anything else\n\n${revisionFeedback}`

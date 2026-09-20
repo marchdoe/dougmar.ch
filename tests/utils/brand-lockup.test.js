@@ -135,6 +135,16 @@ describe('renderBrandLockupFile', () => {
     expect(src).not.toMatch(/\sstyle=\{/)
   })
 
+  it('matches the tracked app/components/BrandLockup.tsx for the weight it carries', () => {
+    // The orchestrator rewrites the tracked file from the template every run,
+    // so a fix made to one alone is undone or ignored (#560).
+    const tracked = readFileSync(resolve(process.cwd(), 'app/components/BrandLockup.tsx'), 'utf8')
+    const weight = /fontWeight: (\d+),/.exec(tracked)
+    expect(weight).not.toBeNull()
+    const rendered = renderBrandLockupFile(chassis([Number(weight[1])]))
+    expect(tracked).toBe(rendered)
+  })
+
   it('throws when the template loses its placeholder', () => {
     const raw = readFileSync(TEMPLATE, 'utf8')
     expect(raw).toContain('{{WORDMARK_WEIGHT}}')
@@ -156,12 +166,32 @@ describe('stepClamp', () => {
   it('divides the band by MARK_EM, so MARK_EM of the bound is the band', () => {
     for (const id of LOCKUP_IDS) {
       const { markMinPx, markMaxPx, step } = LOCKUP_VARIANTS[id]
-      const [, lo, hi] = /^clamp\(([\d.]+)px, token\(fontSizes\.[^)]+\), ([\d.]+)px\)$/.exec(
-        stepClamp(id)
-      )
+      const [, lo, hi] =
+        /^clamp\(([\d.]+)px, (?:min\()?token\(fontSizes\.[^)]+\)(?:, [\d.]+vw\))?, ([\d.]+)px\)$/.exec(
+          stepClamp(id)
+        )
       expect(Number(lo) * MARK_EM).toBeCloseTo(markMinPx, 2)
       expect(Number(hi) * MARK_EM).toBeCloseTo(markMaxPx, 2)
       expect(stepClamp(id)).toContain(`token(fontSizes.${step})`)
+    }
+  })
+
+  it('caps stacked-lg at a share of the viewport, so the wordmark fits a 320px phone (#560)', () => {
+    // The 2xl step bottoms out at 47.5px, which sets "Doug March" 284px wide.
+    // Without a viewport term the clamp never reached its floor and the
+    // wordmark was cut off in a 320px header.
+    expect(stepClamp('stacked-lg')).toBe(
+      'clamp(38.095px, min(token(fontSizes.2xl), 12.5vw), 57.143px)'
+    )
+    const { fitVw, markMinPx } = LOCKUP_VARIANTS['stacked-lg']
+    // The vw term must not undercut the floor before 320, or the mark would
+    // leave its band on a phone the site is meant to hold.
+    expect((fitVw * 320) / 100).toBeGreaterThanOrEqual(markMinPx / MARK_EM)
+  })
+
+  it('leaves the other variants on the ramp step alone', () => {
+    for (const id of LOCKUP_IDS.filter((v) => v !== 'stacked-lg')) {
+      expect(stepClamp(id)).not.toContain('vw')
     }
   })
 
