@@ -171,6 +171,151 @@ describe('buildLessonsBlock', () => {
     })
     expect(buildLessonsBlock(archiveDir, { limit: 7 })).toBe('')
   })
+
+  // #571: the block is what the designer is told NOT to repeat. The pipeline's
+  // own errors are not flaws in the design.
+  describe('what is not a lesson', () => {
+    const TRUNCATION =
+      '[screenshot-critic] response truncated at max_tokens (6000 output tokens, cap 6000)'
+
+    it('drops a truncated critic verdict, the fixture from the 2026-09-09 archive', () => {
+      seed(archiveDir, '2026-06-10', {
+        verdicts: [
+          {
+            critic: 'screenshot-critic',
+            verdict: 'REVISE',
+            feedback: TRUNCATION,
+            channel: 'sdk-vision-truncated',
+          },
+        ],
+      })
+      expect(buildLessonsBlock(archiveDir, { limit: 7 })).toBe('')
+    })
+
+    it('keeps the real findings beside it and never shows the truncation line', () => {
+      seed(archiveDir, '2026-06-10', {
+        verdicts: [
+          {
+            critic: 'mockup-critic',
+            verdict: 'REVISE',
+            feedback: 'canvas at 45%',
+            channel: 'sdk-vision',
+          },
+          {
+            critic: 'screenshot-critic',
+            verdict: 'REVISE',
+            feedback: TRUNCATION,
+            channel: 'sdk-vision-truncated',
+          },
+        ],
+      })
+      const block = buildLessonsBlock(archiveDir, { limit: 7 })
+      expect(block).toContain('canvas at 45%')
+      expect(block).not.toContain('truncated at max_tokens')
+    })
+
+    it.each(['cli-text-fallback', 'cli-text-no-key', 'cli-text-no-images', 'fixture-replay'])(
+      'drops a REVISE that reached us on %s, and its BAR line',
+      (channel) => {
+        seed(archiveDir, '2026-06-10', {
+          verdicts: [
+            {
+              critic: 'screenshot-critic',
+              verdict: 'REVISE',
+              feedback: 'no screenshot, so the hero is probably too small',
+              channel,
+              bar: { position: 'below', reason: 'guessing' },
+            },
+          ],
+        })
+        expect(buildLessonsBlock(archiveDir, { limit: 7 })).toBe('')
+      }
+    )
+
+    it('keeps verdicts with no channel (the gates and the text agents) and sdk-vision ones', () => {
+      seed(archiveDir, '2026-06-10', {
+        verdicts: [
+          { critic: 'surface-gate', verdict: 'REVISE', feedback: '/ @360: overflow of 40px' },
+          { critic: 'spec-critic', verdict: 'REVISE', feedback: 'hero scale contradicts floor' },
+          {
+            critic: 'mockup-critic',
+            verdict: 'REVISE',
+            feedback: 'canvas at 45%',
+            channel: 'sdk-vision',
+          },
+        ],
+      })
+      const block = buildLessonsBlock(archiveDir, { limit: 7 })
+      expect(block).toContain('overflow of 40px')
+      expect(block).toContain('hero scale contradicts floor')
+      expect(block).toContain('canvas at 45%')
+    })
+
+    it('drops a critic that failed closed on a malformed reply', () => {
+      seed(archiveDir, '2026-06-10', {
+        verdicts: [
+          {
+            critic: 'mockup-critic',
+            verdict: 'REVISE',
+            feedback: 'malformed critic response: I could not see the image',
+            channel: 'sdk-vision',
+          },
+          { critic: 'mockup-critic', verdict: 'REVISE', feedback: 'malformed', malformed: true },
+        ],
+      })
+      expect(buildLessonsBlock(archiveDir, { limit: 7 })).toBe('')
+    })
+
+    it('strips the verdict frame before the 400-character cap, not after', () => {
+      const finding = `${'The hero band is one fold too low. '.repeat(20)}END`
+      seed(archiveDir, '2026-06-10', {
+        verdicts: [
+          {
+            critic: 'screenshot-critic',
+            verdict: 'REVISE',
+            feedback: `===VERDICT===\nREVISE\n\n**Responsible agent:** react-engineer\n\n**Issues:**\n- ${finding}\n===END===`,
+            channel: 'sdk-vision',
+          },
+        ],
+      })
+      const block = buildLessonsBlock(archiveDir, { limit: 7 })
+      const line = block.split('\n').find((l) => l.startsWith('- ['))
+      expect(line).toBe(`- [2026-06-10, screenshot-critic] ${finding.slice(0, 400)}`)
+      expect(block).not.toMatch(/===|\*\*Issues|Responsible agent/)
+    })
+
+    it('takes the ===FEEDBACK=== block a critic wrote, without its markers', () => {
+      seed(archiveDir, '2026-06-10', {
+        verdicts: [
+          {
+            critic: 'screenshot-critic',
+            verdict: 'REVISE',
+            feedback:
+              '===VERDICT===\nREVISE\n===END===\n\n===FEEDBACK===\nthe nav wraps at 360\n===END===',
+            channel: 'sdk-vision',
+          },
+        ],
+      })
+      expect(buildLessonsBlock(archiveDir, { limit: 7 })).toContain(
+        '- [2026-06-10, screenshot-critic] the nav wraps at 360'
+      )
+    })
+
+    it('strips a bare leading REVISE from a text agent', () => {
+      seed(archiveDir, '2026-06-10', {
+        verdicts: [
+          {
+            critic: 'spec-critic',
+            verdict: 'REVISE',
+            feedback: 'REVISE\n\n- **Accent tokens** are missing.',
+          },
+        ],
+      })
+      expect(buildLessonsBlock(archiveDir, { limit: 7 })).toContain(
+        '- [2026-06-10, spec-critic] **Accent tokens** are missing.'
+      )
+    })
+  })
 })
 
 describe('extractMobileSignals', () => {
