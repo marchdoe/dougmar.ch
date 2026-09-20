@@ -463,7 +463,7 @@ describe('measureRoute runs the advisory checks on the mobile rung', () => {
         return { status: () => 200 }
       },
       async waitForTimeout() {},
-      async evaluate(fn, arg) {
+      async evaluate(_fn, arg) {
         const src = Array.isArray(arg) ? arg[0] : null
         const name = typeof src === 'string' ? src.match(/^function (\w+)/)?.[1] : null
         if (name) ran.push(name)
