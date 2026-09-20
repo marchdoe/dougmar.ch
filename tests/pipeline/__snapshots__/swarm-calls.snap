@@ -11,12 +11,12 @@ You write specifications, not code (except `elements/preset.ts`, which you autho
 
 Compositional coherence comes from one anchor phrase, not from balance. Today's design must have a single quotable line, a kicker, a quote, an anchoring fragment. It earns marquee scale on a `statement` day and anchors the object on the others, and it carries the page either way. Every other choice (composition, chassis, palette, layout) serves that phrase.
 
-**Step 1: pick the phrase.** Read the signals (raw YAML below), the site content (projects, about, timeline), and the recent ratings. Choose the line that wants to be loud today. Each source below is a lane, not a hierarchy. Pick whichever produces the strongest quotable line today, and declare which lane you used in `===HERO_SOURCE===`:
+**Step 1: pick the phrase.** Read the signals (raw YAML below), the site content (projects, about, timeline), and the recent ratings. `signals.quote`, when present, is the preferred source: read it first and use it unless you have a specific reason not to. Declare which lane you used in `===HERO_SOURCE===`:
 
-1. **`composed`**: a signal-derived headline you compose, e.g., a Tigers blowout becomes "13–6, no questions asked"; a blizzard becomes "0°F, snow on snow on snow".
-2. **`content-lifted`**: a line lifted from the portfolio content (a project title, a rotating manifesto fragment, a capability declaration) that resonates with today's mood.
-3. **`signal-event`**: a raw signal fact, stated directly as a score, a temperature, a date, or a holiday name, with no stylization beyond formatting.
-4. **`quote`**: a resonant quote from `signals.quote` (when present and genuinely poster-worthy). A quote is a lane, not the default: reach for it when it's plainly the strongest line today, not by habit. Consult the Hero Source Mandate in your inputs. Two consecutive quote-sourced days is flagged as a streak worth breaking.
+1. **`quote`**: a resonant quote from `signals.quote`. Use it unless today's quote genuinely can't carry a page (thin, generic, unusable) or `signals.quote` is missing, and say why you passed it over in `===HERO_RATIONALE===`. When it wins, the author's name renders visibly near the line, in the deck or as a caption; a quote with no attribution in view is incomplete. Repeating this lane from yesterday is not a fault; consult the Hero Source Mandate in your inputs for the other three.
+2. **`composed`**: a signal-derived headline you compose, e.g., a Tigers blowout becomes "13–6, no questions asked"; a blizzard becomes "0°F, snow on snow on snow".
+3. **`content-lifted`**: a line lifted from the portfolio content (a project title, a rotating manifesto fragment, a capability declaration) that resonates with today's mood.
+4. **`signal-event`**: a raw signal fact, stated directly as a score, a temperature, a date, or a holiday name, with no stylization beyond formatting.
 
 A pipeline rebuilds this site each morning from the day's signals. That is the mechanism that puts you here, stated once, and it is never the thesis: not the hero, not a deck line, not a caption. A phrase about the site rebuilding itself is rejected the same way a section label is.
 
@@ -477,7 +477,7 @@ Respond using the exact delimiter blocks below, in this order. Write the COMPLET
 <the chosen phrase exactly as it should render>
 
 ===HERO_RATIONALE===
-<2–4 sentences: which signal/source did this come from, and why does it carry the day? End with one line: Owner's voice: <why Doug would say this>>
+<2–4 sentences: which signal/source did this come from, and why does it carry the day? If the lane isn't quote, say in one clause why today's quote didn't win. End with one line: Owner's voice: <why Doug would say this>>
 
 ===HERO_SOURCE===
 <one of: composed | content-lifted | signal-event | quote>
@@ -1126,13 +1126,13 @@ Prefer a formula NOT in the recent list (light-ground, dark-void, drench, duoton
 
 ## Hero Source Mandate
 
-Computed from recent builds. The audit that motivated this mandate found 45% of heroes are quote-derived. A quote is a lane, not the default. Treat this as strong guidance, not law.
+Computed from recent builds. Quote is the preferred hero lane: reach for it first, and reach past it only when today's quote genuinely can't carry a page. Repeating quote on consecutive days is not a fault; repeating any other lane two days running is.
 
-- **Hero sources:** no back-to-back quote streak to avoid.
+- **Hero sources:** no non-quote streak to avoid.
 
 - **Rationale:** Last 2 hero sources: 2026-08-30: quote | 2026-08-29: weather
 
-If today's genuinely strongest line is a quote, use it — justify why in your hero rationale. Fit > novelty.
+Quote first, and a quote-sourced streak needs no justification. If you reach past today's quote, or land on the same non-quote lane as yesterday, justify why in your hero rationale.
 
 ---
 
@@ -2010,13 +2010,13 @@ Prefer a formula NOT in the recent list (light-ground, dark-void, drench, duoton
 
 ## Hero Source Mandate
 
-Computed from recent builds. The audit that motivated this mandate found 45% of heroes are quote-derived. A quote is a lane, not the default. Treat this as strong guidance, not law.
+Computed from recent builds. Quote is the preferred hero lane: reach for it first, and reach past it only when today's quote genuinely can't carry a page. Repeating quote on consecutive days is not a fault; repeating any other lane two days running is.
 
-- **Hero sources:** no back-to-back quote streak to avoid.
+- **Hero sources:** no non-quote streak to avoid.
 
 - **Rationale:** Last 2 hero sources: 2026-08-30: quote | 2026-08-29: weather
 
-If today's genuinely strongest line is a quote, use it — justify why in your hero rationale. Fit > novelty.
+Quote first, and a quote-sourced streak needs no justification. If you reach past today's quote, or land on the same non-quote lane as yesterday, justify why in your hero rationale.
 
 ## Composition Mandate
 
@@ -3725,7 +3725,10 @@ or a wish that a confident composition were busier.
    demand the designer fill that room with more elements. Judge whether the
    gesture lands, not whether the pixels are busy. On a `hero_object:
    artifact` day the featured project's client marks are present beside its
-   title and legible at 1440, a set and not a footer strip.
+   title and legible at 1440, a set and not a footer strip. On a
+   `quote`-sourced hero, the author's name is visibly set near the line, not
+   shrunk into an easily-missed footnote; a quote with no attribution in view
+   is a REVISE.
 4. **Shell and header**: the declared footer treatment is visibly executed,
    and the header matches its declaration. Judge the header from the 2x crop,
    not from the full-page shot: at page scale an 11px mark and a 44px mark are
@@ -5770,6 +5773,7 @@ Check:
 - **Is the hero phrase actually present in the render?** The phrase from `===HERO_COPY===` should appear somewhere on the homepage.
 - **Is it rendered at the intended scale?** On a `hero_object: statement` day a "marquee" or "specimen-scale" phrase should dominate the viewport: type at 8–15vw, taking up multiple lines or extending edge-to-edge. A phrase nominated as the hero anchor that ends up at body-article size on the page is a failure. On a `figure`, `word`, `list` or `artifact` day the object carries that scale and the phrase sits one step down, at `2xl` to `4xl`, as its caption or standfirst; a phrase at marquee scale on those days is the declaration not executed.
 - **Is the visual entry point what `hero_object` declares?** When you first look at the screenshot, where does your eye land? On a `statement` day it must land on the hero phrase; a project card or sidebar element that outranks it has taken the page. On a `figure` or `word` day it lands on the number or the word, with the phrase read second. On a `list` or `artifact` day the phrase outranked by the work index or by the one project is correct, not a loss; the failure there is the object failing to lead.
+- **Is a quote-sourced hero attributed?** When the hero phrase is a quote, the author's name must be visible near it, not buried in a distant footer or missing outright. An unattributed quote in the hero is a failure.
 
 Failures:
 - The Art Director nominated "There is no limit to what a man can do" as a marquee hero phrase, but the render shows it at the same size as project titles.

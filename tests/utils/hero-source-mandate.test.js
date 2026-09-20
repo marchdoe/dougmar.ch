@@ -31,17 +31,24 @@ describe('hero-source-mandate', () => {
     expect(sources[0].source).toBe('composed')
   })
 
-  it('soft-forbids quote after two consecutive quote-sourced days', () => {
+  it('does not forbid quote after two consecutive quote-sourced days', () => {
     seedBuild(archiveDir, '2026-08-03', { source: 'quote' })
     seedBuild(archiveDir, '2026-08-04', { source: 'quote' })
     const m = computeHeroSourceMandate({ archiveDir, lookbackDays: 7 })
-    expect(m.softForbidden).toEqual(['quote'])
+    expect(m.softForbidden).toEqual([])
   })
 
-  it('does not forbid quote when the streak is broken', () => {
-    seedBuild(archiveDir, '2026-08-02', { source: 'quote' })
+  it('still forbids a repeated non-quote lane after two consecutive days', () => {
     seedBuild(archiveDir, '2026-08-03', { source: 'composed' })
-    seedBuild(archiveDir, '2026-08-04', { source: 'quote' })
+    seedBuild(archiveDir, '2026-08-04', { source: 'composed' })
+    const m = computeHeroSourceMandate({ archiveDir, lookbackDays: 7 })
+    expect(m.softForbidden).toEqual(['composed'])
+  })
+
+  it('does not forbid a non-quote lane when the streak is broken', () => {
+    seedBuild(archiveDir, '2026-08-02', { source: 'composed' })
+    seedBuild(archiveDir, '2026-08-03', { source: 'quote' })
+    seedBuild(archiveDir, '2026-08-04', { source: 'composed' })
     const m = computeHeroSourceMandate({ archiveDir, lookbackDays: 7 })
     expect(m.softForbidden).toEqual([])
   })
@@ -67,13 +74,13 @@ describe('hero-source-mandate', () => {
   })
 
   it('formats a prompt block with guidance language when history exists', () => {
-    seedBuild(archiveDir, '2026-08-03', { source: 'quote' })
-    seedBuild(archiveDir, '2026-08-04', { source: 'quote' })
+    seedBuild(archiveDir, '2026-08-03', { source: 'composed' })
+    seedBuild(archiveDir, '2026-08-04', { source: 'composed' })
     const block = formatHeroSourceMandateForPrompt(
       computeHeroSourceMandate({ archiveDir, lookbackDays: 7 })
     )
     expect(block).toContain('## Hero Source Mandate')
-    expect(block).toContain('quote')
+    expect(block).toContain('composed')
     expect(block).toContain('justify')
   })
 })
