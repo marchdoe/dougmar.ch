@@ -2359,6 +2359,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         findingLocation,
       } = await import('./utils/surface-gate.js')
       const { runCopyGate } = await import('./utils/copy-gate.js')
+      const { readRevisionRequest, describeRevision, logNoRevision, recordFinalJudgment } =
+        await import('./agents/screenshot-critic.js')
 
       /**
        * Measure every route and record what was found. Round 1 runs before
@@ -2610,29 +2612,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         })
 
         if (screenshotVerdict === 'REVISE' || gateDemandsRevision) {
-          const agentMatch = criticResponse.match(/\*\*Responsible agent:\*\*\s*([\w-]+)/)
-          // A gate-forced revision goes to the engineer: the faults are on
-          // surfaces faultsForOwner already attributed to it.
-          const responsibleAgent =
-            screenshotVerdict === 'REVISE' ? agentMatch?.[1] || 'react-engineer' : 'react-engineer'
-
-          // Take the FEEDBACK block if the critic emitted one, as
-          // parseMockupCriticResponse already does. The old form stripped the
-          // first literal "REVISE" anywhere in the prose, so a critic writing
-          // "REVISE the hero scale" sent the engineer "the hero scale".
-          const feedbackBlock = criticResponse.match(
-            /===FEEDBACK===\s*\n([\s\S]*?)(?:===END===|$)/
-          )?.[1]
-          const criticFeedback =
-            screenshotVerdict === 'REVISE'
-              ? (
-                  feedbackBlock ??
-                  criticResponse
-                    .replace(/===VERDICT===/, '')
-                    .replace(/===END===/, '')
-                    .replace(/^\s*REVISE\b/m, '')
-                ).trim()
-              : ''
+          const { responsibleAgent, criticFeedback } = readRevisionRequest(
+            screenshotVerdict,
+            criticResponse
+          )
           // The measured faults ride along whether or not the critic mentioned
           // them: they are exact, and they are the reason a SHIP is being
           // revised when the gate forced it. The tap-target and small-copy
@@ -2648,13 +2631,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
             .filter(Boolean)
             .join('\n\n')
 
-          const criticSaid =
-            screenshotVerdict === 'UNVERIFIED' ? 'critic gave no verdict' : 'critic said SHIP'
-          console.log(
-            screenshotVerdict === 'REVISE'
-              ? `  [screenshot-critic] REVISE — responsible: ${responsibleAgent}`
-              : `  [surface-gate] ${criticSaid}; revising anyway for ${engineerFaults.length} measured fault(s)`
-          )
+          console.log(describeRevision(screenshotVerdict, responsibleAgent, engineerFaults.length))
           console.log(`  feedback: ${feedback.slice(0, 200)}...`)
 
           // Shared reactEngineerAgentConfig keeps this retry path in sync
@@ -2746,51 +2723,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
                 // needed here.
                 try {
                   const final = await judgeScreenshot(regate?.findings ?? [])
-                  // The build that ships after a repair round only means
-                  // something if the critic that judged it actually saw it.
-                  // A REVISE reached through a text-only fallback (or a
-                  // truncated SDK reply, #486) is not a verified fault: it is
-                  // no verdict at all, and must never become
-                  // SHIPPED-WITH-FAULTS — that section says "the final
-                  // critique still found a fault," which was never true when
-                  // nothing was re-seen.
-                  const sawTheBuild = final.visionChannel === 'sdk-vision'
-                  const finalVerdict = sawTheBuild ? final.verdict : 'UNVERIFIED'
-                  verdicts.push({
-                    critic: 'screenshot-critic',
-                    round: 'final',
-                    verdict: finalVerdict,
-                    feedback: final.criticResponse.slice(0, 2000),
-                    channel: final.visionChannel,
-                    ts: Date.now(),
-                  })
-                  console.log(`  [screenshot-critic] final verdict: ${finalVerdict}`)
-
-                  if (!sawTheBuild) {
-                    console.warn(
-                      `  [screenshot-critic] final re-judge did not reach the SDK vision channel (${final.visionChannel}) — recording UNVERIFIED instead of a faults verdict`
-                    )
-                  } else if (finalVerdict === 'REVISE') {
-                    // The owner's call (#467): a final REVISE does not buy
-                    // another repair. Ship it, but log the fault where the
-                    // archive, the lessons block and the rating issue can
-                    // all find it.
-                    const shipFeedback = [
-                      final.criticResponse.slice(0, 2000),
-                      formatFindingsForCritic(remainingFaults),
-                    ]
-                      .filter(Boolean)
-                      .join('\n\n')
-                    verdicts.push({
-                      critic: 'ship-gate',
-                      verdict: 'SHIPPED-WITH-FAULTS',
-                      feedback: shipFeedback,
-                      ts: Date.now(),
-                    })
-                    console.warn(
-                      '  [ship-gate] final critic still says REVISE — shipping with the faults logged'
-                    )
-                  }
+                  recordFinalJudgment(verdicts, final, formatFindingsForCritic(remainingFaults))
                 } catch (finalErr) {
                   // Best-effort, exactly like round 1: a critic call that
                   // cannot run must not stop a build that otherwise passed.
@@ -2813,12 +2746,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
               engineerResult = passingEngineerResult
             }
           }
-        } else if (screenshotVerdict === 'UNVERIFIED') {
-          console.warn(
-            `  [screenshot-critic] no verdict (${visionChannel}) — no critic-driven revision, shipping the build as-is`
-          )
         } else {
-          console.log('  [screenshot-critic] SHIP')
+          logNoRevision(screenshotVerdict, visionChannel)
         }
       } catch (err) {
         if (err.fatal) throw err
