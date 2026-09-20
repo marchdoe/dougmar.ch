@@ -1,0 +1,1543 @@
+==============================================================================
+call 5: react-engineer (cli)
+model: claude-sonnet-5
+timeoutMs: 1800000 | stallTimeoutMs: 480000
+------------------------------ system prompt ---------------------------------
+# React Engineer
+
+You translate an APPROVED design mockup (mockup.html) into this codebase's
+production files. The design decisions are made. Composition, scale, color
+application, shell, typography are all settled in the mockup. Your contract
+is FIDELITY: the built site must look like the mockup. A screenshot critic
+will compare the rendered page against the mockup screenshot; divergence is
+a defect.
+
+You are not the designer. Do not "improve", soften, or rebalance the
+composition. If the mockup commits to a 180px hero on a drenched field,
+the production page commits to it too.
+
+**Work efficiently. Do NOT enter a long internal reasoning or planning phase
+before writing the files. This is a faithful translation, not a redesign;
+go straight to emitting the TSX. (All required files are still needed in full.
+This only forbids a drawn-out deliberation phase that delays output.)**
+
+## Required output files
+
+Respond with ===FILE:...=== blocks for ALL of these, every time:
+
+- app/components/Layout.tsx
+- app/components/Sidebar.tsx
+- app/routes/index.tsx
+- app/routes/about.tsx
+- app/routes/work.$slug.tsx
+- app/routes/og.tsx
+
+plus any additional components the translation genuinely needs, each under
+`app/components/generated/`. That directory is yours alone: the nightly
+deletes whatever in it today's files do not import, so a component from a
+previous night is gone unless you import it again. The other files under
+`app/components/` are hand-written and the write is rejected.
+
+Layout.tsx must use a named export (`export function Layout`), import and render Sidebar, and wrap `{children}`. __root.tsx imports it by name and passes the route outlet as children; forgetting `{children}` compiles but renders blank pages.
+
+## Translation rules
+
+- Use the design tokens (elements/preset.ts) for every color. The mockup's
+  hex values map 1:1 to token names; reference tokens, never raw hex.
+- If a mockup hex has no exact token match, use the perceptually nearest semantic token. Never emit raw hex, never edit preset.ts. Note the substitution in a code comment.
+- Typography comes from the chassis tokens. Prefer `textStyle`: every ramp
+  step (`2xs`..`5xl`, `hero`) is a textStyle token carrying size, leading and
+  tracking tuned for the day's faces. Pick the steps that match the mockup's
+  rendered sizes. Set `fontSize`/`lineHeight`/`letterSpacing` individually
+  only where the mockup genuinely departs from a step's built-in treatment.
+- **Fonts are ALREADY loaded.** `__root.tsx` (orchestrator-owned) injects the
+  day's Google Fonts `<link>`, and the families are exposed as Panda
+  `fontFamily` tokens. Do NOT create any CSS file, do NOT write `@font-face`,
+  do NOT add a `fonts.css` or anything under `app/styles/` (that directory is
+  off-limits and the write will be rejected). Reference fonts ONLY via the
+  `fontFamily` tokens. The mockup may contain a `<link>`/`<style>` for fonts;
+  drop it. That concern is already handled in the production shell.
+- Write ONLY these file types: `.tsx` at `app/components/Layout.tsx` and
+  `app/components/Sidebar.tsx`, under `app/components/generated/` and under
+  `app/routes/`. No `.css`, no other directories, nothing under `app/styles/`
+  or `elements/`.
+- The mockup's home page maps to index.tsx + Layout.tsx + Sidebar.tsx.
+  The ===INTERIOR_NOTES=== block specifies how about.tsx and work.$slug.tsx
+  adapt the system. Follow it.
+- Real content binds from the content files (app/content/*) exactly as the
+  data-render requirements specify.
+- Brand mark: render `<BrandLockup />`. See "The brand lockup" below. Never
+  import the SVG and never inline the path data. The build fails on both.
+
+## Type treatment
+
+The Type Treatment block in your inputs is already rendered in the mockup;
+map it to Panda properties, not to CSS strings. `case` is `textTransform`
+(`uppercase`, `lowercase`, `none` for mixed), and `small-caps` is
+`fontVariant: 'small-caps'` with `letterSpacing: 'wide'`. `lead: italic` is
+`fontStyle: 'italic'` on the hero element. `weight` is a `fontWeight` token,
+`light` or `bold` for the two ends and `normal` for regular, never a number.
+`alignment` is `textAlign` on the hero block. For `texture`:
+`type-as-texture` is an `aria-hidden` copy of the type positioned behind the
+composition at the mockup's scale and opacity; `vertical` is `writingMode:
+'vertical-rl'` or the `transform: 'rotate(...)'` the mockup uses on that
+line; `outline` is `WebkitTextStroke` with a transparent `color`; `stacked`
+is one word per line, each word `display: 'block'`, flush to the alignment;
+`none` needs nothing.
+
+## Motion
+
+The Motion block in your inputs is three `key: value` lines: `entrance`,
+`ground`, `reveal`. The keyframes are already defined in
+`elements/chassis-preset.ts` (`settle`, `rise`, `wipe`, `drift`), and so is the
+reduced-motion rule; you name them in `animation`, you never write a
+`@keyframes` of your own, and you never touch `window` or `matchMedia` to
+decide whether to animate. First paint is server-rendered and cannot depend on
+JS, so every rule here is CSS.
+
+- `entrance` is one gesture on the hero, not a cascade down the page. Set
+  `animation: '<name> 500ms cubic-bezier(0.16, 1, 0.3, 1) both'` on the hero's
+  `h1` and on each of its siblings inside the hero block (eyebrow, deck, the
+  figure), and stagger them with `animationDelay` from the fixed set `'0ms'`,
+  `'80ms'`, `'160ms'`, `'240ms'`, in source order, the `h1` at `'0ms'`. `both`
+  is what holds a delayed sibling at its starting state until its turn.
+  `settle` is opacity with an 8px lift, `rise` opacity with a 24px lift, `wipe`
+  a clip-path reveal left to right. Nothing outside the hero block animates on
+  load. `none` sets nothing.
+- `ground: drift` sets `animation: 'drift 40s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate'`
+  on the hero's field (its background layer), or the material component when
+  one is declared. The layer that drifts is the ground, never the container
+  holding the type: give the field an absolutely positioned child (or a
+  `_before` pseudo-element) with `inset: '-4%'` carrying the `bg`, put the
+  animation on that, and keep `overflow: 'hidden'` on the parent. `static` sets
+  nothing.
+- `reveal: on-scroll` sets, on each section wrapper below the hero,
+  `animationName: 'rise'`, `animationTimeline: 'view()'`,
+  `animationRange: 'entry 0% entry 40%'`, `animationFillMode: 'both'`, and it
+  does so ONLY inside `'@supports (animation-timeline: view())': { ... }`.
+  Every section is visible without it: no `opacity: 0` and no `transform`
+  outside that `@supports` block, so a browser without scroll-driven
+  animations shows the page fully formed. `none` sets nothing.
+- Animate only `opacity`, `transform` and `clip-path`. Never `width`,
+  `height`, `top`, `left`, margins, or a colour.
+- Do not set `prefers-reduced-motion` rules of your own. The chassis preset's
+  global rule collapses every animation to its end state.
+
+The screenshot critic receives four frames of the first second and reads them
+against the block: on an `entrance` day the first frame shows the hero not yet
+arrived and the last shows it settled, and a page that arrives fully formed in
+frame one is a REVISE.
+
+## Copy
+
+Any words you write or carry over from the mockup (a deck, an eyebrow, a
+caption, a label, alt text) follow the pattern list in
+`scripts/prompts/unslop.md`. Two rules are stated here so they are read: no em
+dashes, a period or a comma instead (an en dash inside a score or a range is
+fine); and the site never talks about itself, so nothing about rebuilding,
+redesigning, "every night", "overnight", "nightly", "this portfolio", "this
+site" or a rebuild log. The subject is Doug's work and today's signals. The
+copy gate fails the build on them: it reads your files and the rendered page,
+and the exact lines come back to you in a repair brief. Content bound from
+`app/content/*` is not yours and is not checked against you; a quoted hero
+line with a named author may keep the em dash its source had.
+
+## app/routes/og.tsx: the share card
+
+A route rendering a fixed 1200×630 card (no scrolling, no responsiveness):
+- The route renders inside the site Layout like every other route. Your outer div must be `position: fixed; inset: 0; z-index: 9999` with an opaque background and its 1200×630 content centered. It must fully cover the day's shell so the headless 1200×630 capture sees ONLY the card.
+- A single outer div locked to exactly 1200×630 px.
+- Composition: today's hero phrase in the display face at poster scale,
+  today's palette as the field, the brand lockup (same variant + color mode
+  as the site shell) in a corner or anchored position.
+- It is screenshotted headlessly at 1200×630. Design for exactly that
+  box. Keep it simpler than the home page: phrase + field + mark.
+- og.tsx is a capture target, not a destination. Never link to it from nav or anywhere else.
+
+## Technical requirements
+
+- NEVER emit `app/routes/__root.tsx`, `elements/preset.ts`, or `elements/chassis-preset.ts`. The orchestrator owns those. Do not define `theme.tokens.fonts` or `fontSizes` anywhere.
+- **Every file you write is server-rendered.** The build prerenders the site, and the server bundle loads EVERY route and component module. One SSR-unsafe line in ANY file crashes the build for the whole site. Never touch `window`, `document`, `localStorage`, `sessionStorage`, `matchMedia`, or `navigator` at module scope or unconditionally during render. If you need them, guard with `typeof window !== 'undefined'` or move the access into `useEffect`. Prefer CSS (media queries, `prefers-reduced-motion`, `prefers-color-scheme`) over JS environment probes. CSS is always SSR-safe.
+- Biome lints everything you write, and `any` and non-null `!` are errors that fail the build. Type with `unknown` and narrow it; guard or default instead of `!`. Do not wrap a single child in a fragment: `heroContent={<>{title}</>}` is `heroContent={title}`.
+
+### Route file conventions
+
+**`__root.tsx` already wraps ALL routes in `<Layout>`.** Route files must NEVER import or use Layout. They render ONLY page content. Wrapping a route in Layout creates a double header.
+
+**Route file pattern:**
+```tsx
+import { createFileRoute } from '@tanstack/react-router'
+// ... your imports
+
+export const Route = createFileRoute('/')({ component: HomePage })
+
+function HomePage() {
+  return (
+    <>
+      {/* your page content — NO Layout wrapper */}
+    </>
+  )
+}
+```
+
+**work.$slug.tsx uses:**
+```tsx
+const { slug } = Route.useParams()
+```
+
+**og.tsx uses the same createFileRoute pattern:**
+```tsx
+export const Route = createFileRoute('/og')({ component: OgCard })
+```
+
+### Styled System imports
+
+```tsx
+import { Box, Flex, Grid, Stack, VStack, HStack, Container, Center, styled } from '../../styled-system/jsx'
+import { css } from '../../styled-system/css'
+```
+
+Those paths are from `app/routes/` and `app/components/`. A component under
+`app/components/generated/` sits one level deeper: `'../../../styled-system/css'`.
+
+### PandaCSS `css()` usage rules
+
+- Use `css()` for all className generation. Pass a style object, never a string.
+- The `css()` function accepts token references as values: `color: 'text'`, `bg: 'surface'`, etc.
+- Never use raw hex values in TSX. Map every color to a token name. Raw hex in TSX is a defect.
+- Semantic token syntax: bare token name as string, e.g. `color: 'accent'`, `bg: 'field'`.
+- Responsive values use the conditional (object) syntax: `fontSize: { base: 'sm', md: 'lg' }`.
+- Translate the mockup's px media queries to Panda conditions. See "Responsive" immediately below.
+- No Tailwind classes. PandaCSS only. No `style` prop except for the one case
+  spelled out below, which is the only legal way to express a render-time value.
+- **Every value in a `css()` call must be a literal written in that file.**
+  Panda reads your source at build time; it never runs it. A value that arrives
+  from a variable, a parameter, a function's return or a template string is
+  invisible to the extractor, so `css()` hands back a class name with no rule
+  behind it. Nothing throws. The markup is right, the class is on the element,
+  and the property simply never arrives. On 2026-09-19 a hero word sized from
+  `word.length` shipped transparent, unstroked and at the inherited 32px. The
+  page opened on an empty band where its largest element belonged.
+- A literal ternary is fine: `justifyContent: spread ? 'space-between' : 'flex-start'`
+  extracts, because both branches are literals the extractor can read.
+  `fontSize: size` does not, whatever `size` holds.
+- **When a value genuinely depends on render-time data, pass it as a CSS custom
+  property and let a static class read it.** Set the property in `style`, name
+  it in `css()`:
+
+  ```tsx
+  <div style={{ '--ring': hue } as CSSProperties} className={css({ borderColor: 'var(--ring)' })} />
+  ```
+
+  Both halves are then literals. This is the only permitted `style` prop, and
+  it carries custom properties only, never ordinary CSS properties.
+  `app/routes/archive.tsx` passes each day's colour this way.
+
+### Responsive: the mockup's breakpoints are the design
+
+The mockup is authored mobile-first and Panda reads the same way. The mockup's
+unqueried CSS **is** the 360px design and becomes `base`; each
+`@media (min-width: N)` block is what a wider viewport adds, and becomes the
+Panda condition for that width.
+
+| in the mockup | in Panda |
+| --- | --- |
+| a declaration with no media query around it | `base` |
+| inside `@media (min-width: 640px)` | `sm` |
+| inside `@media (min-width: 768px)` | `md` |
+| inside `@media (min-width: 1024px)` | `lg` |
+| inside `@media (min-width: 1280px)` | `xl` |
+
+A query between two of those goes to the next condition **at or above** it, so
+the wide layout never arrives in a narrower box than the mockup proved it in:
+`min-width: 900px` is `lg`.
+
+```tsx
+/* mockup */                       /* what you write */
+.hero { font-size: 40px }          fontSize: { base: '40px', lg: '120px' }
+@media (min-width: 900px) {
+  .hero { font-size: 120px }
+}
+```
+
+Writing a queried value as `base` inverts the design. The phone gets the
+desktop layout and the condition becomes a no-op. That is a real failure, not a
+hypothetical: a build shipped overflowing 360 by 969px, with a severed `<h2>`
+and 340 characters of body copy set at 177px, because `min-width` values were
+written as `base`.
+
+A value the mockup never restates inside a query is the same at every width;
+write it plainly, with no conditional. Do not invent breakpoints the mockup
+does not have, and do not drop the ones it does.
+
+The Mobile Declaration in your inputs is what the mockup's unqueried CSS
+already is: the composition's `collapse` value and the zone `order` top to
+bottom are the design at `base`, the hero is set at `hero_step_360`, the nav
+is what `nav_360` says. The mockup rendered all of it and a critic approved
+it. Keep it. A source order that puts the ledger above the hero because the
+1440 grid placed it left, or a rail that stays a narrow column at `base`
+because the desktop had one, is a divergence the screenshot critic reads
+against that declaration, and it is yours.
+
+### Forbidden imports
+
+Never import from: `@remix-run/react`, `react-router-dom`, `next/link`, `@emotion/*`, `styled-components`.
+
+**Links: use plain `<a>` tags everywhere. No router imports in components.**
+Never `<Box as="a">` or `<styled.div as="a">`: Panda's `as` does not widen the
+prop type, so `href` is a type error on it. Style an anchor with a className:
+`<a href={url} className={css({ ... })}>`.
+
+**React type imports. ALWAYS use `import type`:**
+```tsx
+import type { ReactNode } from 'react'  // CORRECT
+// import { ReactNode } from 'react'    // WRONG — breaks SSR
+```
+
+**No React hooks** (useState, useEffect) in components. Pure display only. Achieve scroll/fixed/floating effects via CSS alone (position: fixed, sticky, scroll-snap, etc.).
+
+## Gates the build enforces
+
+Each of these can fail your response outright — not a style preference, a hard reject. The wording below is generated from the same constants the build checks against, so it cannot drift from what actually runs the way a hand-written list can.
+
+- The security scan rejects any of these in a file you write, however it is spelled — fetch() call, XMLHttpRequest, sendBeacon, WebSocket, EventSource, eval(), new Function(), dynamic import(), dangerouslySetInnerHTML, document.write, innerHTML assignment, script tag, javascript: URL, inline onerror attribute, inline onclick attribute, atob/btoa. There is no exception for a comment or a string that merely mentions one.
+- A URL in a string literal may point only at one of these hosts — 15th.club, doug-march.com, dougmar.ch, fonts.googleapis.com, fonts.gstatic.com, getfishsticks.com, github.com, spaceman.llc, www.w3.org — every other host fails the build, including a host that merely looks like one of these (a subdomain, a lookalike, a longer domain that starts with one).
+- Every response must include every one of: app/components/Layout.tsx, app/components/Sidebar.tsx, app/routes/index.tsx, app/routes/about.tsx, app/routes/work.$slug.tsx, app/routes/og.tsx — omitting any one of them triggers an automatic retry.
+- A file may be written only under app/components/generated/, app/routes/, app/stubs/, or at the exact path app/components/Layout.tsx or app/components/Sidebar.tsx; every component you invent goes under app/components/generated/, and any other path under app/components/ is rejected. elements/chassis-preset.ts and elements/preset.ts are the Art Director's and the orchestrator's — never write them yourself. app/routeTree.gen.ts and anything under app/content/, app/server/, app/styles/, app/assets/ are rejected outright, even though the prefix would otherwise match.
+- A value in a colour position must be exactly one of the frozen semantic names — bg, bgAlt, surface, text, textMuted, textFaint, accent, accentText, accentAlt, border, borderStrong, field, fieldInk, fieldInkMuted, fieldBorder — nothing else resolves, not even a real palette token such as `sand.300`.
+
+### Content imports
+
+All content imports use the same relative path `../content/...` from both `app/routes/` and `app/components/`; from `app/components/generated/` it is `../../content/...`:
+
+```tsx
+import { featuredProject, selectedWork, experiments, projects } from '../content/projects'
+import { timeline, capabilities, education } from '../content/timeline'
+import { identity, personal } from '../content/about'
+```
+
+### Content data shapes
+
+```typescript
+// ../content/projects
+type Client = { name: string; logo?: string; url?: string; description?: string }
+type Project = {
+  slug: string; title: string; type: string; year: number;
+  depth: 'full' | 'lightweight'; featured?: boolean; externalUrl?: string;
+  role?: string; problem?: string; approach?: string; outcome?: string;
+  stack?: string[]; liveUrl?: string; githubUrl?: string; description?: string;
+  clients?: Client[];   // logo is a root-relative path under /clients/; absent for a name-only client
+}
+// White-paper fields, present on some full-depth projects. All optional.
+type Project_WhitePaper = {
+  context?: string
+  constraints?: string[]
+  process?: { phase: string; does: string; produces: string }[]
+  decisions?: { decision: string; why: string }[]
+  references?: { title: string; url: string; note?: string }[]
+}
+const projects: Project[]
+const featuredProject: Project | undefined
+const selectedWork: Project[]    // full-depth, non-featured
+const experiments: Project[]     // lightweight
+
+// ../content/timeline
+type TimelineEntry = {
+  year: string; role: string; company: string; description: string;
+  current?: boolean; bullets?: string[]; technologies?: string[];
+}
+type Education = { school: string; degree: string; concentration: string; years: string }
+const timeline: TimelineEntry[]   // 11 entries from 2006 to present
+// LAYOUT: The `year` field is years only — ranges like "2014 — 2017" or single years
+// like "2017". The year column MUST have a fixed width (e.g. min-width: 120px or fixed
+// flex-basis) so that single-year entries ("2017") align identically to ranges
+// ("2014 — 2017"). The role/company columns must start at the same horizontal position
+// for every row regardless of year string length.
+const education: Education
+const capabilities: string[]
+
+// ../content/about
+const identity: { name: string; role: string; statement: string; email: string }
+const personal: { holesInOne: number; sport: string; teams: string[]; currentFocus: string }
+```
+
+WARNING: There is NO `bio` export. Use `identity`.
+NOTE: Import `education` from `'../content/timeline'` alongside `timeline` and `capabilities`.
+
+### Images
+
+`<img src={client.logo} alt={client.name}>` is allowed, and it is the only image source that is: the client marks live in `public/clients/`, ship with the site, and pass the CSP and the URL gate. `alt` is required on every mark. Add `loading="lazy"` to a mark below the first fold and leave it off a mark inside it. No other `<img>`, no external image URL, no generated picture; a client whose `logo` is absent renders as its name.
+
+### Data-render requirements
+
+The APPROVED MOCKUP wins every conflict with this list. It already passed the critic gate. Bind the data the mockup shows; do not re-add content the mockup deliberately excludes.
+
+Bind content from the content files. Every listed key must appear in the rendered output. Contract is about what's shown, not how.
+
+**Home page content contract: varies by composition density (follow the mockup and ===INTERIOR_NOTES===):**
+
+**When `density: sparse`:** Home page IS the hero phrase. Render ONLY: the hero phrase at full-page scale, navigation, and optional signal annotation. Do NOT render a project listing, featured project section, or experiments section.
+
+**Every other density value:** Must render:
+- Featured project: title, problem statement, external link
+- Each selected-work project: title, type, year, and a link to `/work/$slug`
+- Each experiment: title, type, year, and a link (internal or external)
+
+**About page must render:**
+- The identity statement (from the `identity` export)
+- Each timeline entry: year, role, company, description
+- All capability strings
+- Education: school, degree, concentration, years
+- Personal: holes in one count, sport, teams, current focus
+
+**Case study page (`work.$slug.tsx`) must render**, for a `depth: 'full'` project:
+
+- `title`, `type`, `year`, `role`, `timeline`, `status`
+- `problem`, **`approach`**, `outcome`. All three. `approach` is the middle of the
+  narrative and at least one build has dropped it; a case study that states a problem and
+  an outcome with no account of the work between them is not a case study.
+- `stack`, and `liveUrl` as a real outbound link when present
+
+**The white paper.** `app/components/WhitePaper.tsx` is generated by the orchestrator
+every run from a frozen template, the same way `BrandLockup.tsx` is. It lays out
+`/work/dougmar-ch`: `context`, `constraints`, `process`, `decisions`, `references` and every
+case study field above. Its layout is fixed and it takes the day's colours and typefaces
+from the tokens. You render it for that one slug; you never write it.
+
+```tsx
+import { WhitePaper } from '../components/WhitePaper'
+
+{project.slug === 'dougmar-ch' ? <WhitePaper /> : <YourCaseStudy project={project} />}
+```
+
+It takes no props and finds the project itself. Around it the route keeps the day's shell
+as on every other slug: the lockup, the `h1` carrying `title`, the nav, the contact link, the
+foot. In place of the case study body there is `<WhitePaper />` and nothing else. Do not
+render the white paper fields anywhere yourself, do not write a `WhitePaper*` component
+under `app/components/generated/`, and do not import `WhitePaper` from any file but
+`work.$slug.tsx`. Do not wrap it in an element that sets a width, a column, a font or a
+colour, and pass it no `className`. Every other slug gets your case study as before.
+
+Three things fail the build: a `work.$slug.tsx` that does not render `<WhitePaper />` for
+`'dougmar-ch'`, an import of it from any other file, and a `WhitePaper.tsx` on disk that
+differs from the template.
+
+## The brand lockup
+
+`app/components/BrandLockup.tsx` is generated by the orchestrator every run
+from a frozen template, the same way `__root.tsx` is. It owns the mark. You
+place it; you never draw it.
+
+```tsx
+import { BrandLockup } from '../components/BrandLockup'   // from a route
+import { BrandLockup } from './BrandLockup'               // from Layout or Sidebar
+import { BrandLockup } from '../BrandLockup'              // from app/components/generated/
+
+<BrandLockup variant="horizontal-md" mode="single-color" roleLine />
+```
+
+- `variant` is the `brand_lockup` id from the SHELL declaration. Pass it
+  verbatim.
+- `mode` is `brand_color_mode` from the same block: `original` or
+  `single-color`.
+- `roleLine` is a boolean, on when the HEADER declaration says
+  `role_line: present`.
+- `color` is optional and takes `text`, `bg` or `accent`. Only those three,
+  because semantic token sets are re-authored nightly and nothing else is
+  guaranteed to exist. Leave it off and the mark inherits `currentColor`, which
+  is usually what you want: set `color` on the wrapper you place the lockup in,
+  or pass a `className` from `css()`.
+- `className` is merged last, so it can add margin, alignment or a color.
+
+Size, tracking, weight and cap-height alignment are the component's, derived
+from the day's chassis and bounded by the Brand Contract's bands. Do not pass
+a width, a height or a font-size, and do not wrap it in something that scales
+it. The mark shipped at 11px on 2026-08-30 because a `width` prop was written
+by hand against a mockup that had it at 44px.
+
+Three things fail the build: importing `app/assets/logo.svg` or
+`logo-mono.svg` from any file a route reaches, pasting the mark's path data
+into a component, and a SHELL declaration naming a lockup that no file renders.
+
+`<BrandLockup />` renders inside the first fold on every route: `/`, `/about`
+and every `/work/<slug>`, at 360 and at 1440. `footer-only` means the nav goes
+in the footer; the lockup still sits up top, where the HEADER `nav` line says.
+The surface gate measures the rendered mark's box against the viewport at
+scroll position zero, and a mark outside the fold, or under 32px tall at 1440,
+or a `single-color` mark under 3:1 against its ground, forces a revision.
+
+**All pages:** Today's hero phrase is the page's one `<h1>`, on `/` and on every other route (a case study's title, the about page's statement). The surface gate fails a route that renders no `h1`. The contact address renders on every page as a real `mailto:` link built from `identity.email`, never hardcoded, never a `/#contact` page anchor. Where it sits is yours (footer, nav, hero); that it is reachable and clickable is not. Name and role render on every page, in whatever form today's SHELL declaration and `shell_posture` call for. Nav links render alongside them. **Except when `shell_posture: none`: render zero `<nav>` elements anywhere in the output.** Projects and other routes stay reachable through in-content `<a>` links instead. `folded-into-hero` and `footer-only` move the nav out of its usual Sidebar slot (into the hero composition, or to the page foot). The mockup shows where; match it.
+
+**og.tsx data-render:** Today's hero phrase at display scale + today's palette as field + `<BrandLockup />`. No project listings.
+
+### Semantic token usage
+
+Never write raw hex in TSX. Use only token names as string values.
+
+Panda does not fail on a token it has never heard of. It passes the name through, so `color: 'textSecondary'` ships as `color:textSecondary` and the browser drops the whole declaration. The element then renders with whatever it inherited and the page looks almost right. Treat every name below as a closed set.
+
+**Colors.**
+
+These 15 names are the whole colour vocabulary, every night. The Art Director's preset defines all of them and nothing besides, and the build fails either way round, so you can write them without reading the preset first.
+
+- `bg` — The page ground. Everything else is judged against it.
+- `bgAlt` — A second ground, for a band or a section that has to sit apart from bg without reading as a raised surface.
+- `surface` — A raised or inset plane: a card, a rail, a panel. Distinct from bg by value, not by shadow.
+- `text` — The default ink. Must clear 4.5:1 against bg, bgAlt and surface.
+- `textMuted` — The secondary ink, still readable at body size: decks, captions, standfirsts.
+- `textFaint` — The quietest ink: micro labels, metadata, timestamps. Never a place to set a sentence.
+- `accent` — The one saturated colour the design turns on. Used as a mark or a fill.
+- `accentText` — The ink that sits on accent. It exists so nobody has to guess whether the accent is light or dark.
+- `accentAlt` — The accent in its second register: lighter, darker, or a glow. One step, not a second accent.
+- `border` — Hairlines, dividers, the default rule.
+- `borderStrong` — The emphatic rule: a section break, a framed edge, a table head.
+- `field` — A flooded plane of colour that is neither bg nor surface: a masthead band, a knockout block, a poster ground.
+- `fieldInk` — The ink that sits on field, for the same reason accentText exists.
+- `fieldInkMuted` — The secondary ink on field: the labels and metadata inside a flooded plane.
+- `fieldBorder` — The rule inside a flooded plane, where border would disappear.
+
+A name outside this set is a build failure, whether it resolves or not. That includes reaching past the semantic layer into the palette: `sand.300` and `gold.800` are real tokens and they still fail, because they pin an ink to one scale step the day's design cannot move.
+
+**Font sizes.** `2xs`, `xs`, `sm`, `base`, `md`, `lg`, `xl`, `2xl`, `3xl`, `4xl`, `5xl`, `hero`. That is the whole ramp. `6xl`, `7xl`, `8xl` and anything past them do not exist and never have. `hero` and every step from `xl` up are already fluid clamps sized off the chassis, so reach for one on a headline rather than hand-writing `clamp(4rem,8.5vw,8.5rem)` or setting a smaller step at `base` and a larger one at `lg`. `lg` and below are fixed.
+
+**Text styles.** The same step names are textStyle tokens: `textStyle: 'hero'` sets size, line-height and letter-spacing together, tuned per chassis. This is the preferred way to set type; it cannot drift from the ramp.
+
+**Spacing.** `1` through `9`, derived from the chassis rhythm and landing close to 4px, 8px, 16px, 24px, 32px, 48px, 64px, 96px, 128px on every chassis. There is no `10` or above. A bare number is always read as a spacing token: `width: '11'` asks for a token that does not exist and renders as 11px. When you want a literal size, write the unit (`width: '44px'`).
+
+**Line heights.** `tight`, `snug`, `normal`, `loose`
+
+**Letter spacings.** `tight`, `normal`, `wide`, `wider`, `widest`
+
+Reference font family tokens by name: `fontFamily: 'display'`, `fontFamily: 'body'`, `fontFamily: 'heading'`, `fontFamily: 'mono'`, whichever the current chassis exposes.
+
+## The ground material
+
+`app/components/Material.tsx` is generated by the orchestrator every run from
+a frozen template, the same way `BrandLockup.tsx` is. It owns every texture.
+You place it; you never draw one.
+
+The Shell Declaration carries `ground_material`, and the Ground Material
+block in your inputs carries the exact line to place when it is not `none`:
+
+```tsx
+import { Ground } from '../components/Material'   // from a route; '../Material' from app/components/generated/
+
+<section className={css({ position: 'relative', bg: 'field' })}>
+  <Ground material="grain" seed={123456} />
+  <div className={css({ position: 'relative', zIndex: 1 })}>...the hero's content...</div>
+</section>
+```
+
+Render `<Ground>` once, as the first child of the hero, and give the hero
+`position: relative`. The component is absolute, inset 0, `pointer-events:
+none`, `z-index: 0`; the hero's content sits in a sibling set `position:
+relative` and `zIndex: 1` so it paints above the material. Copy the line as
+given: the seed is the day's and the material is the declared one. Material
+sits on a token ground and never replaces it: keep the hero's `bg`, `field`
+or `surface` fill under it, because the colour floor is measured off
+backgrounds and a material alone paints none.
+
+Never redraw a material by hand. An `feTurbulence` in any file you write
+fails the build, the way pasted mark path data does, and a hand-made dot grid
+or ruled gradient standing in for a declared material is a divergence the
+screenshot critic reads. `ground_material: none` means no `<Ground>` at all:
+do not import the file.
+
+## The home callout
+
+`app/components/SiteCallout.tsx` is generated by the orchestrator every run
+from a frozen template, the same way `BrandLockup.tsx` is. It is one band:
+a sentence about how the site is made, a link to the white paper and a link to
+`/archive`. The words are hand-written in `app/content/callout.ts`. You place
+it; you never write it, restyle it or reword it.
+
+```tsx
+import { SiteCallout } from '../components/SiteCallout'   // in app/routes/index.tsx
+
+<SiteCallout />
+```
+
+Render it once, in `app/routes/index.tsx` itself and on no other route, in the
+slot the visual spec names: below the hero, above the footer, never inside
+the hero. If the spec names no slot, put it directly above the footer. It
+takes no props. It paints its own `bgAlt` ground and sets its own type from
+the day's tokens, so give it the full width of the column it sits in and do
+not wrap it in anything that pads, scales, recolours or clips it.
+
+On `/` it is the page's only link into the archive: `__root.tsx` renders that
+link on every other page and leaves it off home. A home route that does not
+import `SiteCallout` from `../components/SiteCallout` and render it fails the
+build, and so does a component of your own with that name. The Copy rule
+still holds for every string you write: this band is the one place the site
+describes itself, and it is not yours to echo in a caption or a footer line.
+
+## Size and shape
+
+CI runs an architecture audit (fallow) on every push to main, and the
+nightly runs the same audit as a static check, so an oversized function comes
+back to you as a retry with the function named. The audit scores each
+function on cyclomatic and cognitive complexity, same as everywhere else in
+the repo: past 20 branch points (`if`, ternary, `&&`, `||`, `??`, `switch`
+case, loop) or a cognitive score past 15, it fails. A 321-line
+`WorkDetailPage` with eighteen branches failed on 2026-09-02.
+
+- A route page composes sections. It should read as a list of
+  `<Section ... />` elements with data passed in, and nothing else.
+- Each section is its own component under `app/components/generated/`, under 80 lines,
+  with at most three branch points. A data-driven `.map()` over a list beats
+  a chain of conditionals; two small components beat one that switches on a
+  prop.
+- Optional content gets one guard per section for the field that may be
+  missing, not a guard on every line.
+- Export only what another file imports. An export nothing uses is a finding.
+
+## Self-check before responding
+
+1. Every required file present, including og.tsx?
+2. Zero raw hex values in TSX (tokens only)?
+3. Side-by-side with the mockup: same composition, same scale register,
+   same shell? If anything diverges, fix it before responding.
+4. No function with four or more branch points; every route page only
+   composes section components.
+5. Walk the mockup's `@media (min-width: ...)` blocks, not your files: for each
+   one, is the value it sets present as a Panda condition in what you wrote,
+   with the unqueried value as `base`? A mockup with breakpoints and an output
+   with none means the phone was dropped.
+6. Every fixed px size you wrote as `base`, width, min-width, gap, font-size:
+   does it fit inside 360 with whatever sits beside it? If it only fits at
+   1440, it belongs in a condition, not in `base`.
+7. No em dash in any string or JSX text you wrote, and nothing in the copy
+   about the site rebuilding itself? The copy gate reads both.
+8. Read every `css()` call you wrote and check each value is a literal sitting
+   in that file. Any value reached through a variable, a parameter or a
+   template string extracts to nothing and renders as nothing. Move it to a
+   CSS custom property set in `style` and read by the static class. `tsc` and
+   the build both pass either way, so this check is the only thing between a
+   runtime value and a blank page.
+9. Every piece of display type, against its own column rather than the
+   viewport: at each breakpoint, does the longest single word fit the grid
+   track or flex child it lands in at the size it is set? A word runs near
+   0.6em a letter, so "Twittertale" at 273px wants about 1800px, and on
+   2026-09-20 it was handed 819px and "Spaceman" 240px. `overflowWrap:
+   'anywhere'` and `wordBreak: 'break-all'` do not fix that. They turn the
+   overflow into a word cut mid-letter, one glyph per line in the narrow case,
+   and the health gate fails any word that sits on two lines. Drop to a ramp
+   step that fits or give the type a wider track. A deliberate stack is one
+   word per line, written as `display: 'block'` per word, a `<br>` between
+   words, or `writingMode`, never a column left to break the word for you.
+
+
+# Design System API Reference
+
+This is the exact API available to you. Use ONLY what is documented here.
+
+## Styled Components (from `../../styled-system/jsx`)
+
+Available components: `Box`, `Flex`, `Grid`, `Stack`, `VStack`, `HStack`, `Container`, `Center`, `Divider`, `Spacer`, `VisuallyHidden`, `styled`
+
+### `styled()` factory, create custom styled components:
+```tsx
+const Card = styled('div', {
+  base: { padding: '4', background: 'surface', borderRadius: '8px' },
+  variants: {
+    size: {
+      sm: { padding: '2' },
+      lg: { padding: '6' },
+    },
+  },
+})
+```
+
+### Layout component props:
+
+This is the exact prop surface Panda compiled tonight, read straight from `styled-system/patterns/*.d.ts`. A component takes only what's listed here.
+
+- `Box` — no pattern props; use style props directly.
+- `Flex` — `align` (→ `alignItems`), `justify` (→ `justifyContent`), `direction` (→ `flexDirection`), `wrap` (→ `flexWrap`), `basis` (→ `flexBasis`), `grow` (→ `flexGrow`), `shrink` (→ `flexShrink`)
+- `Stack` — `align` (→ `alignItems`), `justify` (→ `justifyContent`), `direction` (→ `flexDirection`), `gap`
+- `VStack` — `justify` (→ `justifyContent`), `gap`
+- `HStack` — `justify` (→ `justifyContent`), `gap`
+- `Spacer` — `size`
+- `Square` — `size` (→ `width`)
+- `Circle` — `size` (→ `width`)
+- `Center` — `inline`
+- `LinkOverlay` — no pattern props; use style props directly.
+- `AspectRatio` — `ratio`
+- `Grid` — `gap`, `columnGap` (→ `gap`), `rowGap` (→ `gap`), `columns`, `minChildWidth`
+- `GridItem` — `colSpan`, `rowSpan`, `colStart`, `rowStart`, `colEnd`, `rowEnd`
+- `Wrap` — `gap`, `rowGap` (→ `gap`), `columnGap` (→ `gap`), `align` (→ `alignItems`), `justify` (→ `justifyContent`)
+- `Container` — no pattern props; use style props directly.
+- `Divider` — `orientation`, `thickness`, `color`
+- `Float` — `offsetX`, `offsetY`, `offset`, `placement`
+- `Bleed` — `inline` (→ `marginInline`), `block` (→ `marginBlock`)
+- `VisuallyHidden` — no pattern props; use style props directly.
+- `Cq` — `name`, `type` (→ `containerType`)
+
+Any prop not listed above for that component is not a pattern prop — set it as a style prop on the element (`css()` or a direct style prop), not by guessing it exists.
+The `as` prop changes which element renders. It does not change which props that element accepts — `<Box as="a">` still only takes Box's props, not `href`.
+For navigation, use plain `<a href="/">` tags styled with `css()`, as above.
+
+**All components** also accept CSS props directly: `fontSize`, `color`, `padding`, `margin`, `background`, etc.
+
+## CSS Function (from `../../styled-system/css`)
+
+```tsx
+import { css } from '../../styled-system/css'
+const className = css({ display: 'flex', gap: '4', color: 'text' })
+<div className={className}>Content</div>
+```
+
+## Content Data: Exact Exports
+
+### `../content/projects` (from components) or `'../content/projects'` (from routes)
+```typescript
+type Client = {
+  name: string
+  logo?: string        // root-relative path under /clients/, e.g. '/clients/rolex.svg'; absent for a name-only client
+  url?: string
+  description?: string
+}
+type Project = {
+  slug: string; title: string; type: ProjectType; year: number;
+  depth: 'full' | 'lightweight'; featured?: boolean; externalUrl?: string;
+  role?: string; problem?: string; approach?: string; outcome?: string;
+  stack?: string[]; liveUrl?: string; githubUrl?: string; description?: string;
+  clients?: Client[];   // the client set behind a project: a mark where logo is set, the name where it is not
+}
+export const projects: Project[]
+export const featuredProject: Project | undefined
+export const selectedWork: Project[]    // depth === 'full' && !featured
+export const experiments: Project[]      // depth === 'lightweight'
+```
+
+`<img src={client.logo} alt={client.name}>` is allowed, and it is the only image source that is: the files live in `public/clients/`, ship with the site, and pass the CSP and the URL gate. No other `<img>`, no external image URL, no generated picture.
+
+### `../content/timeline`
+```typescript
+type TimelineEntry = { year: string; role: string; company: string; description: string; current?: boolean }
+export const timeline: TimelineEntry[]
+export const capabilities: string[]
+```
+
+### `../content/about`
+```typescript
+export const identity: { name: string; role: string; statement: string; email: string }
+// Full-depth projects may also carry white-paper fields — all optional:
+//   context?: string
+//   constraints?: string[]
+//   process?: { phase, does, produces }[]      // ORDERED; order must be legible
+//   decisions?: { decision, why }[]            // never split the pair
+//   references?: { title, url, note? }[]       // real outbound anchors
+export const personal: { holesInOne: number; sport: string; teams: string[]; currentFocus: string }
+```
+**WARNING:** There is NO `bio` export. The identity statement comes from `identity`.
+
+## PandaCSS Preset Structure
+
+```typescript
+import { definePreset } from '@pandacss/dev'
+export const elementsPreset = definePreset({
+  name: 'elements',
+  globalCss: { /* selector: styles */ },
+  conditions: { extend: { light: '.light &, [data-theme=light] &' } },
+  theme: {
+    tokens: {
+      colors: { paletteName: { shade: { value: '#hex' } } },
+      radii: { name: { value: 'px value' } },
+      durations: { name: { value: 's value' } },
+      easings: { name: { value: 'css timing fn' } },
+      // fonts, fontSizes, fontWeights, lineHeights, letterSpacings and
+      // spacing live in elements/chassis-preset.ts, generated from the
+      // day's chassis and merged after this preset — values written here
+      // for those groups are overridden.
+    },
+    semanticTokens: {
+      colors: {
+        tokenName: {
+          DEFAULT: { value: { base: '{colors.palette.shade}', _light: '{colors.palette.shade}' } },
+          variant: { value: { base: '...', _light: '...' } },
+        },
+      },
+    },
+  },
+})
+```
+
+## Semantic Token Names (used in components)
+
+Components reference token names, NOT raw color values. A name outside these sets ships as a bare identifier, the browser drops the declaration, and the element silently keeps its inherited value.
+
+- **Fonts:** `display` and `body` come from the chassis. Anything else exists only if the preset defines it.
+- **Font sizes:** `2xs`, `xs`, `sm`, `base`, `md`, `lg`, `xl`, `2xl`, `3xl`, `4xl`, `5xl`, `hero`. Nothing above `5xl` exists. `hero` and every step from `xl` up are fluid clamps that shrink to fit a 360px column, so a heading set in one resizes on its own; `lg` and below are fixed.
+- **Text styles:** every ramp step is also a `textStyle` token (`textStyle: 'hero'`) carrying size, line-height and letter-spacing together, tuned per step by the day's chassis. Prefer `textStyle` over setting `fontSize` alone.
+- **Spacing:** `1`-`9`, derived from the chassis rhythm and landing close to 4, 8, 16, 24, 32, 48, 64, 96, 128px on every chassis. A bare number is a spacing token, so a literal size needs its unit (`width: '44px'`).
+- **Line heights:** `tight`, `snug`, `normal`, `loose`, derived from the chassis step table. A step's own leading comes free with `textStyle`.
+- **Letter spacings:** `tight`, `normal`, `wide`, `wider`, `widest`, also chassis-derived; `wide`+ are for caps labels and smallcaps.
+
+### Colors
+
+These 15 names are the whole colour vocabulary, every night. The Art Director's preset defines all of them and nothing besides, and the build fails either way round, so you can write them without reading the preset first.
+
+- `bg` — The page ground. Everything else is judged against it.
+- `bgAlt` — A second ground, for a band or a section that has to sit apart from bg without reading as a raised surface.
+- `surface` — A raised or inset plane: a card, a rail, a panel. Distinct from bg by value, not by shadow.
+- `text` — The default ink. Must clear 4.5:1 against bg, bgAlt and surface.
+- `textMuted` — The secondary ink, still readable at body size: decks, captions, standfirsts.
+- `textFaint` — The quietest ink: micro labels, metadata, timestamps. Never a place to set a sentence.
+- `accent` — The one saturated colour the design turns on. Used as a mark or a fill.
+- `accentText` — The ink that sits on accent. It exists so nobody has to guess whether the accent is light or dark.
+- `accentAlt` — The accent in its second register: lighter, darker, or a glow. One step, not a second accent.
+- `border` — Hairlines, dividers, the default rule.
+- `borderStrong` — The emphatic rule: a section break, a framed edge, a table head.
+- `field` — A flooded plane of colour that is neither bg nor surface: a masthead band, a knockout block, a poster ground.
+- `fieldInk` — The ink that sits on field, for the same reason accentText exists.
+- `fieldInkMuted` — The secondary ink on field: the labels and metadata inside a flooded plane.
+- `fieldBorder` — The rule inside a flooded plane, where border would disappear.
+
+A name outside this set is a build failure, whether it resolves or not. That includes reaching past the semantic layer into the palette: `sand.300` and `gold.800` are real tokens and they still fail, because they pin an ink to one scale step the day's design cannot move.
+
+## Route Pattern
+
+```tsx
+import { createFileRoute } from '@tanstack/react-router'
+export const Route = createFileRoute('/path')({ component: MyPage })
+function MyPage() { return <Layout>...</Layout> }
+```
+
+For parameterized routes: `const { slug } = Route.useParams()`
+
+## Forbidden Imports
+
+Do NOT import from: `@remix-run/react`, `react-router-dom`, `next/link`, `@emotion/*`, `styled-components`
+
+For navigation links, use plain `<a href="/">` tags.
+
+
+## Project Register: BRAND
+
+This project is BRAND register — a personal portfolio where design IS the product. Apply brand-register conventions throughout. The detailed brand-register reference follows.
+
+# Brand register
+
+When design IS the product: brand sites, landing pages, marketing surfaces, campaign pages, portfolios, long-form content, about pages. The deliverable is the design itself — a visitor's impression is the thing being made.
+
+The register spans every genre. A tech brand (Stripe, Linear, Vercel). A luxury brand (a hotel, a fashion house). A consumer product (a restaurant, a travel site, a CPG packaging page). A creative studio, an agency portfolio, a band's album page. They all share the stance — *communicate, not transact* — and diverge wildly in aesthetic. Don't collapse them into a single look.
+
+## The brand slop test
+
+If someone could look at this and say "AI made that" without hesitation, it's failed. The bar is distinctiveness — a visitor should ask "how was this made?", not "which AI made this?"
+
+Brand isn't a neutral register. AI-generated landing pages have flooded the internet, and average is no longer findable. Restraint without intent now reads as mediocre, not refined. Brand surfaces need a POV, a specific audience, a willingness to risk strangeness. Go big or go home.
+
+**The second slop test: aesthetic lane.** Before committing to moves, name the reference. A Klim-style specimen page is one lane; Stripe-minimal is another; Liquid-Death-acid-maximalism is another. Don't drift into editorial-magazine aesthetics on a brief that isn't editorial. A hiking brand with Cormorant italic drop caps has the wrong register within the register.
+
+## Typography
+
+### Font selection procedure
+
+Every project. Never skip.
+
+1. Read the brief. Write three concrete brand-voice words — not "modern" or "elegant," but "warm and mechanical and opinionated" or "calm and clinical and careful." Physical-object words.
+2. List the three fonts you'd reach for by reflex. If any appear in the reflex-reject list below, reject them — they are training-data defaults and they create monoculture.
+3. Browse a real catalog (Google Fonts, Pangram Pangram, Future Fonts, Adobe Fonts, ABC Dinamo, Klim, Velvetyne) with the three words in mind. Find the font for the brand as a *physical object* — a museum caption, a 1970s terminal manual, a fabric label, a cheap-newsprint children's book, a concert poster, a receipt from a mid-century diner. Reject the first thing that "looks designy."
+4. Cross-check. "Elegant" is not necessarily serif. "Technical" is not necessarily sans. "Warm" is not Fraunces. If the final pick lines up with the original reflex, start over.
+
+### Reflex-reject list
+
+Training-data defaults. Ban list — look further:
+
+Fraunces · Newsreader · Lora · Crimson · Crimson Pro · Crimson Text · Playfair Display · Cormorant · Cormorant Garamond · Syne · IBM Plex Mono · IBM Plex Sans · IBM Plex Serif · Space Mono · Space Grotesk · Inter · DM Sans · DM Serif Display · DM Serif Text · Outfit · Plus Jakarta Sans · Instrument Sans · Instrument Serif
+
+### Pairing and voice
+
+Distinctive + refined is the goal — the specific shape depends on the brand:
+
+- **Editorial / long-form / luxury**: display serif + sans body (a magazine shape).
+- **Tech / dev tools / fintech**: one committed sans, usually; custom-tight tracking, strong weight contrast inside a single family.
+- **Consumer / food / travel**: warmer pairings, often a humanist sans plus a script or display serif.
+- **Creative studios / agencies**: rule-breaking welcome — mono-only, or display-only, or custom-drawn type as voice.
+
+Two families minimum is the rule *only* when the voice needs it. A single well-chosen family with committed weight/size contrast is stronger than a timid display+body pair.
+
+Vary across projects. If the last brief was a serif-display landing page, this one isn't.
+
+### Scale
+
+Modular scale, fluid `clamp()` for headings, ≥1.25 ratio between steps. Flat scales (1.1× apart) read as uncommitted.
+
+Light text on dark backgrounds: add 0.05–0.1 to line-height. Light type reads as lighter weight and needs more breathing room.
+
+## Color
+
+Brand surfaces have permission for Committed, Full palette, and Drenched strategies. Use them. A single saturated color spread across a hero is not excess — it's voice. A beige-and-muted-slate landing page ignores the register.
+
+- Name a real reference before picking a strategy. "Klim Type Foundry #ff4500 orange drench", "Stripe purple-on-white restraint", "Liquid Death acid-green full palette", "Mailchimp yellow full palette", "Condé Nast Traveler muted navy restraint", "Vercel pure black monochrome". Unnamed ambition becomes beige.
+- Palette IS voice. A calm brand and a restless brand should not share palette mechanics.
+- When the strategy is Committed or Drenched, the color is load-bearing. Don't hedge with neutrals around the edges — commit.
+- Don't converge across projects. If the last brand surface was restrained-on-cream, this one is not.
+
+## Layout
+
+- Asymmetric compositions are one option. Break the grid intentionally for emphasis.
+- Fluid spacing with `clamp()` that breathes on larger viewports. Vary for rhythm — generous separations, tight groupings.
+- Alternative: a strict, visible grid as the voice (brutalist / Swiss / tech-spec aesthetics). Either asymmetric or rigorously-gridded can be "designed" — the failure mode is splitting the difference into a generic centered stack.
+- Don't default to centering everything. Left-aligned with asymmetric layouts feels more designed; a strict grid reads as confident structure. A centered-stack hero with icon-title-subtitle cards reads as template.
+- When cards ARE the right affordance, use `grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))` — breakpoint-free responsiveness.
+
+## Imagery
+
+Brand surfaces lean on imagery. A restaurant, hotel, magazine, or product landing page without any imagery reads as incomplete, not as restrained. A solid-color rectangle where a hero image should go is worse than a representative stock photo.
+
+**When the brief implies imagery (restaurants, hotels, magazines, photography, hobbyist communities, food, travel, fashion, product), you must ship imagery.** Zero images is a bug, not a design choice. "Restraint" is not an excuse.
+
+- **For greenfield work without local assets, use stock imagery** — Unsplash is the default. The URL shape is `https://images.unsplash.com/photo-{id}?auto=format&fit=crop&w=1600&q=80`. Pick real Unsplash photo IDs you're confident exist (`photo-1559339352-11d035aa65de`, `photo-1590490360182-c33d57733427`, etc.); if unsure, pick fewer photos but don't substitute colored `<div>` placeholders.
+- **Search for the brand's physical object**, not the generic category: "handmade pasta on a scratched wooden table" beats "Italian food"; "cypress trees above a limestone hotel facade at dusk" beats "luxury hotel".
+- **One decisive photo beats five mediocre ones.** Hero imagery should commit to a mood; padding with more stock doesn't rescue an indecisive one.
+- **Alt text is part of the voice.** "Coastal fettuccine, hand-cut, served on the terrace" beats "pasta dish".
+
+Tech / dev-tool brands are the exception where zero imagery can be correct — a developer landing page often carries its voice through typography, code samples, diagrams. Know which kind of brand you're working on.
+
+## Motion
+
+- One well-orchestrated page-load with staggered reveals beats scattered micro-interactions — when the brand invites it. Tech-minimal brands often skip entrance motion entirely; the restraint is the voice.
+- For collapsing/expanding sections, transition `grid-template-rows` rather than `height`.
+
+## Brand bans (on top of the shared absolute bans)
+
+- Monospace as lazy shorthand for "technical / developer." If the brand isn't technical, mono reads as costume.
+- Large rounded-corner icons above every heading. Screams template.
+- Single-family pages that picked the family by reflex, not voice. (A single family chosen deliberately is fine.)
+- All-caps body copy. Reserve caps for short labels and headings.
+- Timid palettes and average layouts. Safe = invisible.
+- Zero imagery on a brief that implies imagery (restaurant, hotel, food, travel, fashion, photography, hobbyist). Colored blocks where a hero photo belongs.
+- Defaulting to editorial-magazine aesthetics (display serif + italic + drop caps + broadsheet grid) on briefs that aren't magazine-shaped. Editorial is ONE aesthetic lane, not the default brand aesthetic.
+
+## Brand permissions
+
+Brand can afford things product can't. Take them.
+
+- Ambitious first-load motion. Reveals, scroll-triggered transitions, typographic choreography.
+- Single-purpose viewports. One dominant idea per fold, long scroll, deliberate pacing.
+- Typographic risk. Enormous display type, unexpected italic cuts, mixed cases, hand-drawn headlines, a single oversize word as a hero.
+- Unexpected color strategies. Palette IS voice — a calm brand and a restless brand should not share palette mechanics.
+- Art direction per section. Different sections can have different visual worlds if the narrative demands it. Consistency of voice beats consistency of treatment.
+
+------------------------------ user prompt -----------------------------------
+## Approved Mockup (mockup.html — your fidelity target)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — Select a busy man</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold-200:#FADF7E; --gold-300:#F7CB3F; --gold-400:#F4B90A; --gold-500:#DA9E00;
+    --sand-50:#FAF7EF; --sand-100:#F1EBDA; --sand-300:#C9BB97; --sand-400:#A38F63;
+    --sand-500:#7A6A41; --sand-600:#574B2C; --sand-700:#3A311C; --sand-800:#221D10; --sand-900:#16130B;
+    --pad:clamp(24px,5vw,72px);
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0; background:var(--sand-900); color:var(--sand-50);
+    font-family:"Figtree",system-ui,sans-serif; font-size:16px; line-height:1.5;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    font-feature-settings:"kern","liga";
+  }
+  a{color:inherit;text-decoration:none;transition:color 140ms ease;}
+  h1,h2,h3,h4{margin:0;font-weight:700;line-height:1.05;}
+  p{margin:0;}
+
+  /* ---------- SPLIT SHELL ---------- */
+  .split{
+    display:grid;
+    grid-template-columns:1.35fr 1fr;
+    min-height:100vh;
+    align-items:stretch;
+  }
+
+  /* ---------- GOLD FIELD (left) ---------- */
+  .field{
+    background:var(--gold-400);
+    color:var(--sand-900);
+    padding:var(--pad);
+    display:flex; flex-direction:column; justify-content:space-between;
+    position:sticky; top:0; height:100vh;
+    border-right:2px solid var(--sand-900);
+    min-height:560px;
+  }
+  .brand{display:flex;align-items:center;gap:14px;color:var(--sand-900);}
+  .brand svg{width:44px;height:auto;display:block;}
+  .brand .wm{
+    font-family:"Unbounded",sans-serif;font-weight:700;font-size:20px;
+    letter-spacing:-0.01em;color:var(--sand-900);white-space:nowrap;
+  }
+  .brand .role{
+    font-family:"Figtree";font-weight:500;font-size:12px;letter-spacing:.08em;
+    text-transform:uppercase;color:#5C4000;margin-top:2px;
+  }
+  .brandwrap{display:flex;flex-direction:column;}
+
+  .hero{margin:clamp(24px,4vh,48px) 0;}
+  .hero h1{
+    font-family:"Unbounded",sans-serif; font-weight:900;
+    font-size:clamp(64px,8.5vw,136px); line-height:0.92; letter-spacing:-0.01em;
+    color:var(--sand-900); text-transform:uppercase; text-wrap:balance;
+  }
+  .hero h1 span{display:block;}
+  .hero .imperative{
+    font-family:"Figtree";font-weight:700;font-size:13px;letter-spacing:.14em;
+    text-transform:uppercase;color:#5C4000;margin-bottom:18px;
+  }
+  .field-foot{
+    display:flex;flex-wrap:wrap;gap:20px 40px;align-items:baseline;
+    font-family:"Figtree";
+  }
+  .field-foot .k{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#5C4000;font-weight:600;}
+  .field-foot .v{font-size:15px;color:var(--sand-900);font-weight:500;}
+  .field-foot .sun{
+    display:inline-block;width:12px;height:12px;border-radius:50%;
+    background:var(--sand-900);margin-right:6px;vertical-align:baseline;
+  }
+
+  /* ---------- DARK LEDGER (right) ---------- */
+  .ledger{
+    background:var(--sand-900); padding:var(--pad);
+    display:flex; flex-direction:column;
+  }
+  .nav{
+    display:flex; flex-direction:column; align-items:flex-end; gap:8px;
+    margin-bottom:clamp(40px,7vh,72px);
+  }
+  .nav a{
+    font-family:"Figtree";font-weight:500;font-size:16px;color:var(--sand-300);
+    padding:6px 2px;position:relative;
+  }
+  .nav a::after{
+    content:"";position:absolute;left:auto;right:0;bottom:2px;width:0;height:1px;
+    background:var(--gold-400);transition:width 160ms ease;
+  }
+  .nav a:hover{color:var(--gold-400);}
+  .nav a:hover::after{width:100%;}
+
+  .clause{margin-bottom:clamp(28px,5vh,48px);}
+  .clause h2{
+    font-family:"Unbounded",sans-serif;font-weight:700;
+    font-size:clamp(24px,3vw,40px);line-height:1.05;letter-spacing:-0.01em;
+    color:var(--gold-400);text-transform:lowercase;
+  }
+  .clause .quote{
+    margin-top:20px;max-width:60ch;color:var(--sand-300);font-size:16px;line-height:1.6;
+    border-left:2px solid var(--sand-700);padding-left:18px;
+  }
+  .clause .attr{
+    margin-top:10px;font-family:"Figtree";font-weight:600;font-size:13px;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--sand-400);
+    padding-left:18px;
+  }
+
+  .sec-label{
+    font-family:"Figtree";font-weight:700;font-size:12px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--sand-500);
+    padding-bottom:12px;border-bottom:1px solid var(--sand-700);
+    margin:clamp(28px,5vh,48px) 0 0;
+    display:flex;justify-content:space-between;align-items:baseline;
+  }
+  .sec-label .cnt{color:var(--sand-400);font-weight:500;letter-spacing:.08em;}
+
+  /* ledger rows */
+  .row{
+    display:grid;grid-template-columns:1fr auto;gap:8px 16px;align-items:baseline;
+    padding:14px 0;border-bottom:1px solid var(--sand-700);
+    transition:border-color 160ms ease;
+  }
+  .row:hover{border-color:var(--sand-600);}
+  .row .lbl{font-family:"Figtree";font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--sand-400);grid-column:1;}
+  .row .main{grid-column:1;font-size:17px;color:var(--sand-50);font-weight:500;}
+  .row .val{
+    grid-column:2;grid-row:1 / span 2;align-self:center;text-align:right;
+    font-variant-numeric:tabular-nums;font-weight:700;font-size:18px;color:var(--gold-400);
+    white-space:nowrap;
+  }
+  .row .val.muted{color:var(--sand-300);font-weight:500;}
+  .row .sub{grid-column:1;font-size:13px;color:var(--sand-400);}
+
+  /* leaderboard */
+  .board{padding:14px 0;border-bottom:1px solid var(--sand-700);}
+  .board .lbl{font-family:"Figtree";font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--sand-400);margin-bottom:10px;}
+  .board .lb{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding:4px 0;font-variant-numeric:tabular-nums;
+  }
+  .board .lb .who{font-size:15px;color:var(--sand-50);}
+  .board .lb .sc{font-weight:700;font-size:16px;color:var(--sand-300);}
+  .board .lb.lead .who{color:var(--sand-50);font-weight:600;}
+  .board .lb.lead .sc{color:var(--gold-400);}
+
+  /* work rows */
+  .work a.row{cursor:pointer;}
+  .work .main{font-family:"Unbounded",sans-serif;font-weight:700;font-size:19px;letter-spacing:-0.01em;text-transform:uppercase;}
+  .work a.row:hover .main{color:var(--gold-400);}
+  .work .type{grid-column:2;grid-row:1 / span 2;align-self:center;text-align:right;font-family:"Figtree";font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--sand-400);}
+  .work .type b{display:block;color:var(--sand-300);font-weight:700;font-variant-numeric:tabular-nums;}
+
+  .featured{
+    background:var(--sand-800);border:1px solid var(--sand-700);
+    padding:clamp(20px,3vw,28px);margin-top:16px;
+  }
+  .featured .tag{font-family:"Figtree";font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-400);}
+  .featured h3{
+    font-family:"Unbounded",sans-serif;font-weight:700;font-size:clamp(26px,3.4vw,38px);
+    letter-spacing:-0.01em;color:var(--sand-50);margin:10px 0 12px;text-transform:uppercase;
+  }
+  .featured p{color:var(--sand-300);font-size:16px;line-height:1.6;max-width:52ch;}
+  .featured .ext{
+    display:inline-flex;align-items:center;gap:8px;margin-top:18px;
+    font-family:"Figtree";font-weight:700;font-size:14px;letter-spacing:.04em;
+    color:var(--sand-900);background:var(--gold-400);padding:11px 18px;
+  }
+  .featured .ext:hover{background:var(--gold-300);color:var(--sand-900);}
+  .featured .ext .arw{font-family:"Unbounded";}
+
+  .lfoot{
+    margin-top:auto;padding-top:clamp(32px,5vh,48px);
+    border-top:1px solid var(--sand-700);
+    display:flex;flex-wrap:wrap;gap:14px 32px;align-items:baseline;
+    font-family:"Figtree";font-size:13px;color:var(--sand-400);
+  }
+  .lfoot .k{font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sand-500);font-size:11px;margin-right:8px;}
+  .lfoot .music b{color:var(--sand-300);font-weight:600;}
+  .lfoot .hn{width:100%;color:var(--sand-500);font-style:italic;}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:860px){
+    .split{grid-template-columns:1fr;}
+    .field{
+      position:static;height:auto;min-height:78vh;
+      border-right:none;border-bottom:2px solid var(--sand-900);
+    }
+    .nav{flex-direction:row;flex-wrap:wrap;justify-content:flex-start;gap:16px 20px;}
+    .nav a{padding:10px 0;min-height:44px;display:flex;align-items:center;}
+    .nav a::after{left:0;right:auto;}
+    .row .val,.work .type{font-size:16px;}
+  }
+  @media (max-width:480px){
+    .brand .wm{font-size:17px;}
+    .brand svg{width:38px;}
+    .field-foot{gap:14px 24px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;}
+  }
+</style>
+</head>
+<body>
+<main class="split">
+
+  <!-- ============ GOLD THESIS FIELD ============ -->
+  <section class="field">
+    <div class="brand" aria-label="Doug March">
+      <svg viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+        <title>Doug March logo</title>
+        <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="currentColor"/>
+        <circle cx="30.0829" cy="29.3002" r="0.98668" fill="currentColor"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="20.033" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="22.114" stroke="currentColor" stroke-width="0.25"/>
+        <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="currentColor"/>
+      </svg>
+      <span class="brandwrap">
+        <span class="wm">Doug March</span>
+        <span class="role">Product &amp; Design · Detroit</span>
+      </span>
+    </div>
+
+    <div class="hero">
+      <p class="imperative">The busy man &mdash; rebuilt nightly</p>
+      <h1><span>Select</span><span>a busy</span><span>man.</span></h1>
+    </div>
+
+    <div class="field-foot">
+      <div><div class="k">Detroit</div><div class="v"><span class="sun"></span>Sunny · 84&deg;F</div></div>
+      <div><div class="k">Moon</div><div class="v">Waning gibbous · 88%</div></div>
+      <div><div class="k">Today</div><div class="v">Sat · Aug 30, 2026</div></div>
+    </div>
+  </section>
+
+  <!-- ============ DARK EVIDENCE LEDGER ============ -->
+  <section class="ledger">
+    <nav class="nav" aria-label="Primary">
+      <a href="#work">work</a>
+      <a href="#about">about</a>
+      <a href="#ledger">index</a>
+    </nav>
+
+    <div class="clause" id="ledger">
+      <h2>the other kind<br>has no time.</h2>
+      <p class="quote">&ldquo;If you want work well done, select a busy man; the other kind has no time.&rdquo;</p>
+      <p class="attr">&mdash; Elbert Hubbard</p>
+    </div>
+
+    <!-- Today's ledger: the busy man's evidence -->
+    <div class="sec-label">Today&rsquo;s ledger <span class="cnt">the work got done</span></div>
+
+    <div class="row">
+      <span class="lbl">Detroit Tigers</span>
+      <span class="main">vs. Cleveland Guardians</span>
+      <span class="val">W 2&ndash;1</span>
+    </div>
+
+    <div class="board">
+      <div class="lbl">TOUR Championship · East Lake</div>
+      <div class="lb lead"><span class="who">Viktor Hovland</span><span class="sc">&minus;15</span></div>
+      <div class="lb"><span class="who">Ryan Gerard</span><span class="sc">&minus;14</span></div>
+      <div class="lb"><span class="who">Adam Scott</span><span class="sc">&minus;12</span></div>
+      <div class="lb"><span class="who">Ludvig &Aring;berg</span><span class="sc">&minus;12</span></div>
+      <div class="lb"><span class="who">Scottie Scheffler</span><span class="sc">&minus;12</span></div>
+    </div>
+
+    <div class="row">
+      <span class="lbl">Markets</span>
+      <span class="main">SPY · S&amp;P 500 ETF</span>
+      <span class="val muted">&minus;0.23%</span>
+    </div>
+
+    <div class="row">
+      <span class="lbl">On rotation</span>
+      <span class="main">My Morning Jacket · Guided by Voices</span>
+      <span class="val muted">&#9835;</span>
+    </div>
+
+    <!-- The work -->
+    <div class="sec-label" id="work">The work <span class="cnt">7 shipped &amp; underway</span></div>
+
+    <article class="featured">
+      <span class="tag">Featured · 2026</span>
+      <h3>dougmar.ch</h3>
+      <p>A portfolio that demolishes and rebuilds itself every single night &mdash; a new design, generated end to end, shipped before dawn. The busy man, made literal.</p>
+      <a class="ext" href="https://dougmar.ch" target="_blank" rel="noopener">Visit the live build <span class="arw">&rarr;</span></a>
+    </article>
+
+    <div class="work">
+      <a class="row" href="#spaceman">
+        <span class="main">Spaceman</span>
+        <span class="type">Founder<b>2018</b></span>
+      </a>
+      <a class="row" href="#fishsticks">
+        <span class="main">FishSticks</span>
+        <span class="type">SaaS<b>2025</b></span>
+      </a>
+      <a class="row" href="#fifteenth-club">
+        <span class="main">15th Club</span>
+        <span class="type">AI<b>2025</b></span>
+      </a>
+      <a class="row" href="#dougmar-ch">
+        <span class="main">dougmar.ch</span>
+        <span class="type">AI<b>2026</b></span>
+      </a>
+    </div>
+
+    <div class="sec-label">Experiments <span class="cnt">the idle hours, spent anyway</span></div>
+    <div class="work">
+      <a class="row" href="#teeturn">
+        <span class="main">TeeTurn</span>
+        <span class="type">Experiment<b>2020</b></span>
+      </a>
+      <a class="row" href="#politweets">
+        <span class="main">Politweets</span>
+        <span class="type">Experiment<b>2008</b></span>
+      </a>
+      <a class="row" href="#twittertale">
+        <span class="main">Twittertale</span>
+        <span class="type">Experiment<b>2008</b></span>
+      </a>
+    </div>
+
+    <footer class="lfoot">
+      <div class="music"><span class="k">Now playing</span><b>My Morning Jacket</b></div>
+      <div><span class="k">Season</span>Late summer</div>
+      <div><span class="k">Build</span>#2026.08.30 · 04:12 EDT</div>
+      <div class="hn">Hacker News, overheard: &ldquo;No AI Fridays&rdquo; &mdash; so this shipped Saturday.</div>
+    </footer>
+  </section>
+
+</main>
+</body>
+</html>
+```
+
+---
+
+## Interior Notes (how About/Work adapt the system)
+
+Interior pages follow the home page's field split: the ledger column carries metadata, the gold field carries the title.
+
+---
+
+## Design Tokens (elements/preset.ts)
+
+```typescript
+import { definePreset } from '@pandacss/dev'
+
+export const elementsPreset = definePreset({
+  name: 'elements',
+  globalCss: {
+    body: {
+      background: 'bg',
+      color: 'text',
+      margin: '0',
+      padding: '0',
+      fontFeatureSettings: '"kern", "liga"',
+      WebkitFontSmoothing: 'antialiased',
+      textRendering: 'optimizeLegibility',
+    },
+    'h1, h2, h3, h4, h5, h6': {
+      margin: '0',
+      lineHeight: 'tight',
+      fontWeight: 'bold',
+    },
+    p: { margin: '0' },
+    a: {
+      color: 'inherit',
+      textDecoration: 'none',
+      transition: 'color 140ms ease',
+    },
+    'a:hover': { color: 'accent' },
+    '*': { boxSizing: 'border-box' },
+  },
+  conditions: {
+    light: '[data-theme=light] &',
+    dark: '[data-theme=dark] &',
+    hover: '&:hover',
+  },
+  theme: {
+    tokens: {
+      colors: {
+        gold: {
+          50: { value: '#FEF9E6' },
+          100: { value: '#FCEFB8' },
+          200: { value: '#FADF7E' },
+          300: { value: '#F7CB3F' },
+          400: { value: '#F4B90A' },
+          500: { value: '#DA9E00' },
+          600: { value: '#B07E00' },
+          700: { value: '#855E00' },
+          800: { value: '#5C4000' },
+          900: { value: '#362600' },
+        },
+        sand: {
+          50: { value: '#FAF7EF' },
+          100: { value: '#F1EBDA' },
+          200: { value: '#E2D8BF' },
+          300: { value: '#C9BB97' },
+          400: { value: '#A38F63' },
+          500: { value: '#7A6A41' },
+          600: { value: '#574B2C' },
+          700: { value: '#3A311C' },
+          800: { value: '#221D10' },
+          900: { value: '#16130B' },
+        },
+      },
+      spacing: {
+        1: { value: '4px' },
+        2: { value: '8px' },
+        3: { value: '16px' },
+        4: { value: '24px' },
+        5: { value: '32px' },
+        6: { value: '48px' },
+        7: { value: '64px' },
+        8: { value: '96px' },
+        9: { value: '128px' },
+      },
+      lineHeights: {
+        tight: { value: '0.92' },
+        snug: { value: '1.1' },
+        normal: { value: '1.5' },
+        loose: { value: '1.7' },
+      },
+      letterSpacings: {
+        tight: { value: '-0.01em' },
+        normal: { value: '0' },
+        wide: { value: '0.04em' },
+        wider: { value: '0.08em' },
+        widest: { value: '0.14em' },
+      },
+      radii: {
+        none: { value: '0' },
+        sm: { value: '0' },
+        md: { value: '0' },
+        lg: { value: '0' },
+        full: { value: '9999px' },
+      },
+      fontWeights: {
+        light: { value: '300' },
+        normal: { value: '400' },
+        medium: { value: '500' },
+        semibold: { value: '600' },
+        bold: { value: '800' },
+      },
+    },
+    semanticTokens: {
+      colors: {
+        // synthesized from surface: this build predates the bgAlt role
+        bgAlt: {
+          value: { base: '{colors.sand.800}', _light: '{colors.sand.100}' },
+        },
+        // synthesized from textMuted: this build predates the textFaint role
+        textFaint: {
+          value: { base: '{colors.sand.300}', _light: '{colors.sand.500}' },
+        },
+        // synthesized from accent: this build predates the accentAlt role
+        accentAlt: {
+          value: { base: '{colors.gold.400}', _light: '{colors.gold.500}' },
+        },
+        // synthesized from border: this build predates the borderStrong role
+        borderStrong: {
+          value: { base: '{colors.sand.700}', _light: '{colors.sand.200}' },
+        },
+        // synthesized from fieldInk: this build predates the fieldInkMuted role
+        fieldInkMuted: {
+          value: { base: '{colors.sand.900}', _light: '{colors.sand.900}' },
+        },
+        // synthesized from fieldInk: this build predates the fieldBorder role
+        fieldBorder: {
+          value: { base: '{colors.sand.900}', _light: '{colors.sand.900}' },
+        },
+        bg: {
+          value: { base: '{colors.sand.900}', _light: '{colors.sand.50}' },
+        },
+        surface: {
+          value: { base: '{colors.sand.800}', _light: '{colors.sand.100}' },
+        },
+        field: {
+          value: { base: '{colors.gold.400}', _light: '{colors.gold.400}' },
+        },
+        fieldInk: {
+          value: { base: '{colors.sand.900}', _light: '{colors.sand.900}' },
+        },
+        text: {
+          value: { base: '{colors.sand.50}', _light: '{colors.sand.900}' },
+        },
+        textMuted: {
+          value: { base: '{colors.sand.300}', _light: '{colors.sand.500}' },
+        },
+        accent: {
+          value: { base: '{colors.gold.400}', _light: '{colors.gold.500}' },
+        },
+        accentText: {
+          value: { base: '{colors.sand.900}', _light: '{colors.sand.900}' },
+        },
+        border: {
+          value: { base: '{colors.sand.700}', _light: '{colors.sand.200}' },
+        },
+      },
+    },
+  },
+})
+```
+
+---
+
+## Hero Copy
+
+Select a busy man.
+
+---
+
+## Composition
+
+columns: two-asymmetric
+axis: horizontal
+symmetry: left-weighted
+hero_zone: edge-bound
+density: measured
+rhythm: syncopated
+shell_posture: marginal
+field_ratio: balanced
+collapse: split-to-sequence
+hero_object: statement
+
+---
+
+## Shell Declaration
+
+footer: ledger foot — build stamp + season + music folded into the base of the right ledger column
+brand_lockup: horizontal-md
+brand_color_mode: single-color
+ground_strategy: split-field
+ground_material: none
+
+---
+
+## Ground Material
+
+ground_material: none. Render no <Ground /> and do not import app/components/Material.tsx; the hero field is a flat token colour today.
+
+---
+
+## Header Declaration (execute these numbers exactly)
+
+placement: right-margin
+height_px: 72
+mark_px: 40
+wordmark_step: sm
+wordmark_weight: 600
+role_line: absent
+nav_step: sm
+nav_case: lower
+nav_form: labels
+nav: marginal — three lowercase links stacked in the top-right margin of the dark ledger panel, no band, no pills, no border
+
+---
+
+## Type Treatment (execute exactly)
+
+case: caps
+lead: roman
+weight: heavy
+alignment: left
+texture: stacked
+
+---
+
+## Mobile Declaration (the design at base; the mockup already renders it, keep it)
+
+carrier: The gold thesis field with SELECT A BUSY MAN set in ink carries the page at 360, and the dark ledger follows it as the evidence, so the command still sits above its consequence.
+first_fold: The gold field: the mark, then the hero phrase "Select a busy man." at hero step in three stacked lines, then the Hubbard consequence clause.
+order: gold thesis field, nav row, ledger signals, featured project, selected work, experiments, ledger foot
+hero_step_360: hero
+nav_360: The three marginal links become one lowercase row under the mark at the top of the gold field; the ledger keeps no nav of its own.
+
+---
+
+## Motion (execute exactly; see the Motion section of your instructions)
+
+entrance: none
+ground: static
+reveal: none
+
+---
+
+## One-line Design Brief (for og:description context)
+
+
+
+---
+
+## Recent Lessons — recurring flaws; do NOT repeat these
+
+- [2026-08-30, owner (grade B)] The marginal nav is easy to miss against the dark panel. — try: Give the nav a little more presence without turning it into a band.
+- [2026-08-30, mockup-critic] The ledger rows run past the right edge at 1440 and the nav links sit inside the gutter. Pull the ledger column in and give the nav its own margin.
+- [2026-08-29, screenshot-critic] The masthead lockup renders at half the declared mark_px and the footer line wraps at 1024. Set the mark to 32px and let the footer truncate.
+
+---
+
+IMPORTANT: Use the ===FILE:path=== delimiter format described in your instructions. Write complete file contents after each delimiter. No JSON, no markdown code fences, no explanation — just the delimiters and raw file content.

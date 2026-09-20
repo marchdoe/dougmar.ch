@@ -684,30 +684,27 @@ export async function runSwarm(opts = {}) {
 }
 
 /**
- * A stable, readable rendering of the model calls for a file snapshot: agent,
- * model, timeouts, then both prompts. The temp root is replaced by `<root>`
- * so the text carries no absolute paths.
+ * A stable, readable rendering of one model call for a file snapshot: agent,
+ * model, timeouts, then both prompts. `index` is the call's position in the
+ * run, so each file keeps its `call N` header. The temp root is replaced by
+ * `<root>` so the text carries no absolute paths.
  */
-export function serializeCalls(calls, root) {
+export function serializeCall(call, index, root) {
   const scrub = (s) =>
     String(s ?? '')
       .split(root)
       .join('<root>')
-  return calls
-    .map((c, i) => {
-      const o = c.options ?? {}
-      return [
-        `${'='.repeat(78)}`,
-        `call ${i + 1}: ${c.agent} (${c.channel})`,
-        `model: ${c.model}`,
-        `timeoutMs: ${o.timeoutMs} | stallTimeoutMs: ${o.stallTimeoutMs}${
-          o.maxTokens !== undefined ? ` | maxTokens: ${o.maxTokens}` : ''
-        }${c.imageCount !== undefined ? ` | images: ${c.imageCount}` : ''}`,
-        `${'-'.repeat(30)} system prompt ${'-'.repeat(33)}`,
-        scrub(c.systemPrompt),
-        `${'-'.repeat(30)} user prompt ${'-'.repeat(35)}`,
-        scrub(c.userPrompt),
-      ].join('\n')
-    })
-    .join('\n\n')
+  const o = call.options ?? {}
+  return [
+    `${'='.repeat(78)}`,
+    `call ${index + 1}: ${call.agent} (${call.channel})`,
+    `model: ${call.model}`,
+    `timeoutMs: ${o.timeoutMs} | stallTimeoutMs: ${o.stallTimeoutMs}${
+      o.maxTokens !== undefined ? ` | maxTokens: ${o.maxTokens}` : ''
+    }${call.imageCount !== undefined ? ` | images: ${call.imageCount}` : ''}`,
+    `${'-'.repeat(30)} system prompt ${'-'.repeat(33)}`,
+    scrub(call.systemPrompt),
+    `${'-'.repeat(30)} user prompt ${'-'.repeat(35)}`,
+    scrub(call.userPrompt),
+  ].join('\n')
 }
