@@ -7,6 +7,7 @@ import { parseRatingFromIssue } from '../../scripts/collect-ratings.js'
 const issueWith = (comment: string) => ({
   title: 'Rate: 2026-07-20 — "Breadboard-amber Poster"',
   body: '',
+  author: { login: 'app/github-actions' },
   // Panel-posted comments are authored by the owner's token
   comments: [{ body: comment, authorAssociation: 'OWNER' }],
 })

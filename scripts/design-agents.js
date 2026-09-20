@@ -107,6 +107,7 @@ import {
 import { sweepGenerated } from './utils/generated-sweep.js'
 import { countArchivedDesigns } from './utils/archive-count.js'
 import { settleMockupRound } from './utils/mockup-rounds.js'
+import { newBoundaryId } from './utils/data-boundary.js'
 export { parseDelimiterResponse }
 
 /**
@@ -642,14 +643,17 @@ function validateCodegen({ root = ROOT } = {}) {
  * Phase 4: Build validation
  * Phase 5: Retry on failure
  *
- * @param {{ signals: object, brief: string, contentSummary: string }} context
+ * @param {{ signals: object, brief: string, contentSummary: string, boundaryId?: string }} context
+ *   `boundaryId` is the run's data-boundary suffix (utils/data-boundary.js): a
+ *   fresh random one by default, fixed by a test so a prompt snapshot stays
+ *   byte for byte
  * @param {{ onTraceStep?: Function, root?: string }} [options] `root` is the
  *   checkout the swarm reads prompts from and writes generated files, signals
  *   and the archive under; defaults to the repo
  * @returns {Promise<{ rationale: string, design_brief: string, files: Array<{path: string, content: string}> }>}
  */
 export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) {
-  const { signals, brief, contentSummary } = context
+  const { signals, brief, contentSummary, boundaryId = newBoundaryId() } = context
 
   // Start this run's cost accounting from zero. The ledger is module-level,
   // so a second swarm in the same process (the dev panel's Run button) would
@@ -1057,6 +1061,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     const t0Director = Date.now()
     try {
       artDirectorResult = await runArtDirector({
+        boundaryId,
         signals,
         contentSummary,
         chassisCatalog: CHASSIS_CATALOG,
@@ -1094,6 +1099,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       noteRetry()
       try {
         artDirectorResult = await runArtDirector({
+          boundaryId,
           signals,
           contentSummary,
           chassisCatalog: CHASSIS_CATALOG,
@@ -1293,6 +1299,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         // The full Director re-run is expensive but rare — codegen failures
         // are uncommon now that the Art Director sees PandaCSS rules.
         artDirectorResult = await runArtDirector({
+          boundaryId,
           signals,
           contentSummary,
           chassisCatalog: CHASSIS_CATALOG,
@@ -2487,6 +2494,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           collapse: chosenComposition.collapse,
           motion: formatMotion(motionDecl),
           references,
+          boundaryId,
           mockupScreenshot,
           screenshotBuffer,
           bestReference,

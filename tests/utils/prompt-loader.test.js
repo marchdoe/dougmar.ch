@@ -4,7 +4,9 @@ import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
 import {
+  DATA_BOUNDARY_RULE_TOKEN,
   NARROW_PX_TOKEN,
+  fillDataBoundaryRule,
   fillViewportTokens,
   loadPrompt,
   loadPromptSync,
@@ -39,10 +41,31 @@ describe('loadPrompt and loadPromptSync', () => {
     const raw = readFileSync(path.join(PROMPTS, 'screenshot-critic.md'), 'utf8')
     expect(raw).toContain(NARROW_PX_TOKEN)
     const loaded = await loadPrompt('screenshot-critic.md')
-    expect(loaded).toBe(fillViewportTokens(raw))
+    const rule = readFileSync(path.join(PROMPTS, 'data-boundary-rule.md'), 'utf8')
+    expect(loaded).toBe(fillDataBoundaryRule(fillViewportTokens(raw), rule))
     expect(loaded).not.toContain(NARROW_PX_TOKEN)
     expect(loaded).toContain(`phone filmstrips at ${NARROW_VIEWPORT.width} wide`)
     expect(loadPromptSync('screenshot-critic.md')).toBe(loaded)
+  })
+
+  it('fill the data boundary rule wherever a prompt asks for it, and only there', async () => {
+    const rule = readFileSync(path.join(PROMPTS, 'data-boundary-rule.md'), 'utf8').trim()
+    for (const file of ['art-director.md', 'screenshot-critic.md']) {
+      expect(readFileSync(path.join(PROMPTS, file), 'utf8')).toContain(DATA_BOUNDARY_RULE_TOKEN)
+      const loaded = await loadPrompt(file)
+      expect(loaded).not.toContain(DATA_BOUNDARY_RULE_TOKEN)
+      expect(loaded).toContain(rule)
+      expect(loadPromptSync(file)).toBe(loaded)
+    }
+    // A prompt without the token is read exactly as before.
+    const plain = await loadPrompt('mockup-critic.md')
+    expect(plain).not.toContain(rule)
+  })
+
+  it('fillDataBoundaryRule fills every occurrence and trims the rule', () => {
+    expect(fillDataBoundaryRule('a {{DATA_BOUNDARY_RULE}} b {{DATA_BOUNDARY_RULE}}', '\nR\n')).toBe(
+      'a R b R'
+    )
   })
 
   it('reads from the root it is given', async () => {
