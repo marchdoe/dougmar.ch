@@ -548,3 +548,14 @@ case, loop) or a cognitive score past 15, it fails. A 321-line
    CSS custom property set in `style` and read by the static class. `tsc` and
    the build both pass either way, so this check is the only thing between a
    runtime value and a blank page.
+9. Every piece of display type, against its own column rather than the
+   viewport: at each breakpoint, does the longest single word fit the grid
+   track or flex child it lands in at the size it is set? A word runs near
+   0.6em a letter, so "Twittertale" at 273px wants about 1800px, and on
+   2026-09-20 it was handed 819px and "Spaceman" 240px. `overflowWrap:
+   'anywhere'` and `wordBreak: 'break-all'` do not fix that. They turn the
+   overflow into a word cut mid-letter, one glyph per line in the narrow case,
+   and the health gate fails any word that sits on two lines. Drop to a ramp
+   step that fits or give the type a wider track. A deliberate stack is one
+   word per line, written as `display: 'block'` per word, a `<br>` between
+   words, or `writingMode`, never a column left to break the word for you.

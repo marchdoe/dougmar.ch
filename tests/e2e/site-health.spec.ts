@@ -49,18 +49,18 @@ test.describe('site health — core pages', () => {
   }
 })
 
-test.describe('site health — project pages', () => {
-  const slugs = [
-    'spaceman',
-    'fishsticks',
-    '15th-club',
-    'dougmar-ch',
-    'teeturn',
-    'politweets',
-    'twittertale',
-  ]
+const PROJECT_SLUGS = [
+  'spaceman',
+  'fishsticks',
+  '15th-club',
+  'dougmar-ch',
+  'teeturn',
+  'politweets',
+  'twittertale',
+]
 
-  for (const slug of slugs) {
+test.describe('site health — project pages', () => {
+  for (const slug of PROJECT_SLUGS) {
     test(`/work/${slug} loads and renders`, async ({ page }) => {
       await expectPageLoads(page, `/work/${slug}`)
     })
@@ -127,6 +127,114 @@ test.describe('site health — nothing renders invisible', () => {
 
       expect(invisible, `text painted in nothing at all:\n${invisible.join('\n')}`).toEqual([])
     })
+  }
+})
+
+/**
+ * Type sized without reference to the column it lands in. 2026-09-20 set
+ * project titles at 273px in columns of 240px and 819px under `overflow-wrap:
+ * anywhere`, so instead of overflowing, "Spaceman" ran one letter per line and
+ * "Twittertale" came out as twit / tert / ale. The text was painted and nothing
+ * scrolled sideways, so every other check here passed. See #530.
+ *
+ * The assertion is the break itself: one word whose glyphs sit on more than
+ * one line. A word wider than its box is the cause, but a wide word can also
+ * overflow or bleed on purpose without breaking, and telling those apart takes
+ * thresholds. A word on two lines has no honest reading, at any size. Run over
+ * the 19 archived designs from 2026-08-30 on, every hit was a word cut in half.
+ *
+ * A word is a run of letters and digits, so a URL or an email wrapping at its
+ * punctuation is not a break, and neither is a hyphenated compound. A stack
+ * of one word per line stays expressible: `<br>` between words breaks between
+ * them, and vertical `writing-mode` is skipped outright. So is `hyphens:
+ * auto`, where the break arrives with a hyphen and is ordinary typesetting.
+ */
+const SHRED_VIEWPORTS = [
+  { width: 360, height: 640 },
+  { width: 1440, height: 900 },
+]
+
+// Designs the owner chose to leave up with this defect, keyed by the date in
+// the page's og:image, with the routes it shows on. `test.fail` rather than a
+// skip: CI keeps proving the gate catches the day, and the entry stops
+// applying the night a new design replaces it. Delete entries once they are
+// history.
+const KNOWN_SHREDS: Record<string, string[]> = {
+  '2026-09-20': ['/'],
+}
+
+test.describe('site health — no word breaks across lines', () => {
+  const paths = ['/', '/about', ...PROJECT_SLUGS.map((slug) => `/work/${slug}`)]
+
+  for (const path of paths) {
+    for (const viewport of SHRED_VIEWPORTS) {
+      test(`${path} at ${viewport.width} keeps every word on one line`, async ({ page }) => {
+        await page.setViewportSize(viewport)
+        await page.goto(path)
+        await page.waitForLoadState('networkidle')
+        // A fallback face has different widths; measure the one that ships.
+        await page.evaluate(() => document.fonts.ready)
+
+        const ogImage = await page.evaluate(
+          () => document.querySelector('meta[property="og:image"]')?.getAttribute('content') ?? ''
+        )
+        const designDate = ogImage.match(/\/og\/(\d{4}-\d{2}-\d{2})\.png$/)?.[1] ?? ''
+        test.fail(
+          KNOWN_SHREDS[designDate]?.includes(path) ?? false,
+          `${designDate} shipped with shredded titles and stays up (#530)`
+        )
+
+        const shredded = await page.evaluate(() => {
+          const bad: string[] = []
+          const range = document.createRange()
+          const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+
+          for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+            const el = node.parentElement
+            if (!el) continue
+            const cs = getComputedStyle(el)
+            if (cs.visibility === 'hidden' || cs.hyphens === 'auto') continue
+            if (!cs.writingMode.startsWith('horizontal')) continue
+
+            const size = Number.parseFloat(cs.fontSize)
+            for (const word of (node.textContent ?? '').matchAll(/[\p{L}\p{N}'’]+/gu)) {
+              range.setStart(node, word.index)
+              range.setEnd(node, word.index + word[0].length)
+
+              // One rect per line the word touches; `display: none` gives none.
+              const rects = Array.from(range.getClientRects()).filter((r) => r.width > 0)
+              const lines = new Set(rects.map((r) => Math.round(r.top / (size / 2))))
+              if (lines.size < 2) continue
+
+              // The box that did the breaking is the nearest one that is not inline.
+              let block: Element = el
+              while (block.parentElement && getComputedStyle(block).display.startsWith('inline')) {
+                block = block.parentElement
+              }
+              const bcs = getComputedStyle(block)
+              const box =
+                block.clientWidth -
+                Number.parseFloat(bcs.paddingLeft) -
+                Number.parseFloat(bcs.paddingRight)
+              const needs = rects.reduce((sum, r) => sum + r.width, 0)
+
+              bad.push(
+                `<${el.tagName.toLowerCase()}> "${word[0]}" at ${Math.round(size)}px needs ` +
+                  `${Math.round(needs)}px, its box is ${Math.round(box)}px, broken over ${lines.size} lines`
+              )
+            }
+          }
+          return bad
+        })
+
+        expect(
+          shredded,
+          `${path} at ${viewport.width}x${viewport.height}: a word is broken mid-word because its ` +
+            `column is narrower than the word. Size the type to the column, or stack words ` +
+            `with <br> or writing-mode:\n${shredded.join('\n')}`
+        ).toEqual([])
+      })
+    }
   }
 })
 
