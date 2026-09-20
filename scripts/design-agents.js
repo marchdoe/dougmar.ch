@@ -195,15 +195,20 @@ async function writeEngineerFiles(result, agentLabel, { root = ROOT, backup } = 
  * serves at the og:image URL injected into __root.tsx. Best-effort: a
  * missing og.tsx or a capture failure must never block shipping.
  * @param {string} date YYYY-MM-DD
- * @param {{ root?: string }} [options] repo root to write under
+ * @param {{ root?: string, writtenPaths?: Set<string> }} [options] repo root
+ *   to write under; `writtenPaths` receives the card's path when it is new
  */
-async function captureOgCard(date, { root = ROOT } = {}) {
+async function captureOgCard(date, { root = ROOT, writtenPaths } = {}) {
   try {
     const { captureRouteScreenshot } = await import('./utils/snapshot.js')
     const ogBuffer = await captureRouteScreenshot('/og')
     const ogDir = path.join(root, 'public', 'og')
     await mkdir(ogDir, { recursive: true })
-    await writeFile(path.join(ogDir, `${date}.png`), ogBuffer)
+    const cardPath = path.join(ogDir, `${date}.png`)
+    // A card this run creates is a new file in the checkout: record it so a
+    // rollback after a later throw (archive() itself) removes it again.
+    if (!existsSync(cardPath)) writtenPaths?.add(`public/og/${date}.png`)
+    await writeFile(cardPath, ogBuffer)
     console.log(`  [og] captured public/og/${date}.png (${(ogBuffer.length / 1024).toFixed(0)}KB)`)
   } catch (err) {
     console.warn(`  [og] capture failed (non-blocking): ${err.message}`)
@@ -818,6 +823,23 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
   // prompts have loaded. Declared here so the outer catch can roll back to it
   // from any throw after the first write; null means nothing was written yet.
   let originalBackup = null
+  /**
+   * The one rollback. "A run either ships a night or fails and rolls the
+   * checkout back" (CONTEXT.md), so every throw between the first write and
+   * archive() ends here through the outer catch, whichever site raised it.
+   * Once archive() has returned the night shipped and there is nothing to
+   * undo. A rollback that itself fails must not replace the error that ended
+   * the run.
+   */
+  async function rollBackCheckout() {
+    if (!originalBackup || archiveRan) return
+    try {
+      await cleanupOrphans(writtenPaths, originalBackup, { root })
+      await restore(originalBackup, { root })
+    } catch (rollbackErr) {
+      console.error(`  rollback failed (checkout may be dirty): ${rollbackErr.message}`)
+    }
+  }
   // Critic verdicts collected across the run; persisted as verdicts.json
   const verdicts = []
   // Final-render screenshot captured by the screenshot critic; persisted
@@ -2049,7 +2071,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       // file swept out of that state has to be in it.
       const { kept, removed } = await sweepGenerated({
         root,
-        backup: passingSnapshot ? [originalBackup, passingSnapshot] : originalBackup,
+        backup: [originalBackup, passingSnapshot],
       })
       console.log(
         `  [generated-sweep] kept ${kept.length}, removed ${removed.length}${
@@ -2120,12 +2142,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // archive artifacts, persist the archetype, shape the return value.
     // Behavior is identical between callers apart from the rationale suffix.
     async function archiveAndReturn(filesResult, rationaleSuffix = '') {
-      // The card is a new file in the checkout. Track it when this run
-      // created it, so an archive() that throws below takes it out again.
-      const ogCard = `public/og/${today}.png`
-      const ogCardExisted = existsSync(path.join(root, ogCard))
-      await captureOgCard(today, { root })
-      if (!ogCardExisted && existsSync(path.join(root, ogCard))) writtenPaths.add(ogCard)
+      await captureOgCard(today, { root, writtenPaths })
 
       // __root.tsx was written (and possibly rewritten, on a codegen retry)
       // before the capture above ran, so its og:image named today's PNG on
@@ -2956,19 +2973,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     )
   } catch (err) {
     swarmError = err
-    // The one rollback. "A run either ships a night or fails and rolls the
-    // checkout back" (CONTEXT.md), so every throw between the first write and
-    // archive() ends here, whichever site raised it. Once archive() has
-    // returned the night shipped and there is nothing to undo. A rollback
-    // that itself fails must not replace the error that ended the run.
-    if (originalBackup && !archiveRan) {
-      try {
-        await cleanupOrphans(writtenPaths, originalBackup, { root })
-        await restore(originalBackup, { root })
-      } catch (rollbackErr) {
-        console.error(`  rollback failed (checkout may be dirty): ${rollbackErr.message}`)
-      }
-    }
+    await rollBackCheckout()
     throw err
   } finally {
     await saveTrace(swarmError)
