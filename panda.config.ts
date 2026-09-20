@@ -9,6 +9,23 @@ export default defineConfig({
   presets: [elementsPreset, chassisPreset],
   include: ['./app/**/*.{ts,tsx}'],
   exclude: [],
+  // /elements prints whatever tokens tonight's preset defines and paints each
+  // one by name, so the class for `background: 'teal.400'` cannot be found by
+  // reading the source. These five properties get a class per token, whatever
+  // the preset holds; nothing else here is generated ahead of use. See #552.
+  staticCss: {
+    css: [
+      {
+        properties: {
+          background: ['*'],
+          fontSize: ['*'],
+          fontWeight: ['*'],
+          letterSpacing: ['*'],
+          paddingInlineStart: ['*'],
+        },
+      },
+    ],
+  },
   outdir: 'styled-system',
   jsxFramework: 'react',
   theme: {
