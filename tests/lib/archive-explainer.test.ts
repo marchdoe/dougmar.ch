@@ -5,7 +5,6 @@ import {
   asString,
   briefSections,
   formatDate,
-  isRecord,
   pairs,
   ramps,
   readColor,
@@ -19,17 +18,7 @@ function tokens(over: Record<string, unknown> = {}): ArchiveTokens {
   } as ArchiveTokens
 }
 
-describe('isRecord / asRecord / asString', () => {
-  it('accepts a plain object and nothing else', () => {
-    expect(isRecord({ a: 1 })).toBe(true)
-    expect(isRecord({})).toBe(true)
-    expect(isRecord(null)).toBe(false)
-    expect(isRecord([])).toBe(false)
-    expect(isRecord('x')).toBe(false)
-    expect(isRecord(3)).toBe(false)
-    expect(isRecord(undefined)).toBe(false)
-  })
-
+describe('asRecord / asString', () => {
   it('asRecord returns the object or null', () => {
     const obj = { a: 1 }
     expect(asRecord(obj)).toBe(obj)

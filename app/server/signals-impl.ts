@@ -3,7 +3,7 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import * as yaml from 'js-yaml'
-import { isRecord } from './read-json'
+import { isRecord } from '../lib/guards'
 
 const SIGNALS_PATH = resolve(process.cwd(), 'signals/today.yml')
 

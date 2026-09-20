@@ -18,7 +18,7 @@ import {
 import { loadArchiveIndex } from '../lib/archive-data'
 import { css } from '../../styled-system/css'
 import type { ArchiveIndexEntry } from '../types/archive-record'
-import { CANONICAL_ORIGIN } from '../../scripts/utils/site-origin.js'
+import { CANONICAL_ORIGIN } from '../../shared/site-origin.js'
 
 const TITLE = 'Archive — every design this site has made'
 const ARCHIVE_URL = `${CANONICAL_ORIGIN}/archive`
@@ -83,7 +83,7 @@ const masthead = css({
 })
 
 const kicker = css({
-  fontSize: 'archive.micro',
+  fontSize: 'archive.label',
   letterSpacing: '0.22em',
   textTransform: 'uppercase',
   color: 'archive.dim',
@@ -123,21 +123,32 @@ const monthName = css({
 
 const btn = css({
   fontFamily: 'archive.mono',
-  fontSize: 'archive.micro',
+  fontSize: 'archive.label',
   letterSpacing: '0.1em',
   textTransform: 'uppercase',
   border: '1px solid',
   borderColor: 'archive.line',
   color: 'archive.dim',
   background: 'transparent',
-  padding: '7px 12px',
+  // A 44px target: the controls were 30px tall.
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minHeight: '44px',
+  minWidth: '44px',
+  padding: '0 14px',
   cursor: 'pointer',
   transition: 'border-color 0.15s ease, color 0.15s ease',
   _hover: { borderColor: 'archive.text', color: 'archive.text' },
+  // A disabled control has no contrast requirement, but 0.28 opacity left
+  // "next →" at 1.48:1, unreadable at the newest month. It keeps its text at
+  // 4.56:1 (archive.faint) and loses its border, so it reads as a label that
+  // does nothing rather than a button that might.
   _disabled: {
-    opacity: 0.28,
+    color: 'archive.faint',
+    borderColor: 'transparent',
     cursor: 'not-allowed',
-    _hover: { borderColor: 'archive.line', color: 'archive.dim' },
+    _hover: { borderColor: 'transparent', color: 'archive.faint' },
   },
   // The pressed state lives inside this recipe on purpose. As a second class
   // it lost the cascade: Panda emits `bg_transparent` after `bg_archive.text`,
@@ -160,7 +171,7 @@ const grid = css({
 })
 
 const weekday = css({
-  fontSize: 'archive.micro',
+  fontSize: 'archive.label',
   color: 'archive.faint',
   textAlign: 'center',
   paddingBottom: '6px',
@@ -171,11 +182,11 @@ const cell = css.raw({
   aspectRatio: '1',
   border: '1px solid',
   borderColor: 'archive.lineSoft',
-  padding: { base: '6px', md: '9px' },
+  padding: { base: '6px', md: '8px' },
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
-  fontSize: 'archive.micro',
+  fontSize: 'archive.label',
   color: 'archive.faint',
   // Grid items default to min-width:auto, so a long mood word
   // ("CONFRONTATIONAL") widens its column and breaks the row.
@@ -207,14 +218,30 @@ const recordOnly = css.raw({
   '&[aria-current="date"]': { borderColor: 'archive.text', color: 'archive.text' },
 })
 
+/**
+ * The day's mood word, under its number.
+ *
+ * Below `md` a cell is 34 to 46px square and a word at 12px does not fit, so
+ * the label is visually hidden there and stays in the link's accessible name.
+ * From `md` it wraps: "resigned-warmth" breaks at the hyphen, and a long
+ * single word ("confrontational") breaks inside the word before it would be
+ * clipped. It is drawn at full opacity because the ink is picked for 4.5:1
+ * over the day's color, and 0.85 opacity took that back below the line.
+ */
 const mood = css({
-  fontSize: 'archive.micro',
-  letterSpacing: '0.08em',
+  fontSize: 'archive.label',
+  letterSpacing: '0.02em',
+  lineHeight: '1.3',
   textTransform: 'uppercase',
-  opacity: 0.85,
-  whiteSpace: 'nowrap',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
+  hyphens: 'auto',
+  overflowWrap: 'anywhere',
+  position: { base: 'absolute', md: 'static' },
+  width: { base: '1px', md: 'auto' },
+  height: { base: '1px', md: 'auto' },
+  margin: { base: '-1px', md: '0' },
+  overflow: { base: 'hidden', md: 'visible' },
+  clipPath: { base: 'inset(50%)', md: 'none' },
+  whiteSpace: { base: 'nowrap', md: 'normal' },
 })
 
 const sheet = css({
@@ -227,8 +254,9 @@ const sheet = css({
 const sheetHead = css({
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'baseline',
-  fontSize: 'archive.micro',
+  alignItems: 'center',
+  minHeight: '44px',
+  fontSize: 'archive.label',
   letterSpacing: '0.14em',
   textTransform: 'uppercase',
   color: 'archive.dim',

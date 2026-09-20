@@ -83,9 +83,9 @@ export default defineConfig({
         },
         fontSizes: {
           archive: {
-            micro: { value: '0.6875rem' },
-            // The explainer's floor: labels, keys and swatch captions. micro is
-            // 11px and the calendar still uses it; nothing on /how goes below 12.
+            // The floor: labels, keys and swatch captions. Nothing on /archive
+            // or /how goes below 12px. The 11px `micro` this replaced was
+            // under the pipeline's own floor.
             label: { value: '0.75rem' },
             small: { value: '0.8125rem' },
             body: { value: '1rem' },

@@ -1,4 +1,4 @@
-import { RECOGNIZED_ORIGINS } from '../../scripts/utils/site-origin.js'
+import { RECOGNIZED_ORIGINS } from '../../shared/site-origin.js'
 import { describe, it, expect, beforeEach } from 'vitest'
 import { writeFileSync, mkdirSync, cpSync, existsSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'

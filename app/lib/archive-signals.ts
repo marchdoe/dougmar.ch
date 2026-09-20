@@ -9,6 +9,7 @@
  */
 
 import type { JsonValue } from '../types/archive-record'
+import { isRecord } from './guards'
 
 export interface SignalLine {
   provider: string
@@ -33,16 +34,13 @@ const LABELS: Record<string, string> = {
   sun: 'Daylight',
 }
 
-const isObj = (v: JsonValue | undefined): v is Record<string, JsonValue> =>
-  typeof v === 'object' && v !== null && !Array.isArray(v)
-
 const arr = (v: JsonValue | undefined): JsonValue[] => (Array.isArray(v) ? v : [])
 const str = (v: JsonValue | undefined): string | null => (typeof v === 'string' && v ? v : null)
 const num = (v: JsonValue | undefined): number | null => (typeof v === 'number' ? v : null)
 
 function titleOf(item: JsonValue): string | null {
   if (typeof item === 'string') return item
-  if (!isObj(item)) return null
+  if (!isRecord(item)) return null
   return str(item.title) ?? str(item.name) ?? null
 }
 
@@ -59,7 +57,7 @@ function summarize(provider: string, value: JsonValue | undefined): string | nul
 
   switch (provider) {
     case 'lunar': {
-      if (!isObj(value)) return null
+      if (!isRecord(value)) return null
       const phase = str(value.phase)
       const pct = num(value.illumination)
       if (!phase) return null
@@ -67,7 +65,7 @@ function summarize(provider: string, value: JsonValue | undefined): string | nul
     }
 
     case 'sun': {
-      if (!isObj(value)) return null
+      if (!isRecord(value)) return null
       const rise = str(value.sunrise)
       const set = str(value.sunset)
       const hours = num(value.daylight_hours)
@@ -76,7 +74,7 @@ function summarize(provider: string, value: JsonValue | undefined): string | nul
     }
 
     case 'season': {
-      if (!isObj(value)) return null
+      if (!isRecord(value)) return null
       const season = str(value.season)
       const monthName = str(value.month_name)
       const doy = num(value.day_of_year)
@@ -85,14 +83,14 @@ function summarize(provider: string, value: JsonValue | undefined): string | nul
     }
 
     case 'day_of_week': {
-      if (!isObj(value)) return null
+      if (!isRecord(value)) return null
       const day = str(value.day)
       if (!day) return null
       return value.is_weekend === true ? `${day}, a weekend` : day
     }
 
     case 'quote': {
-      if (!isObj(value)) return null
+      if (!isRecord(value)) return null
       const text = str(value.text)
       if (!text) return null
       const author = str(value.author)
@@ -102,38 +100,38 @@ function summarize(provider: string, value: JsonValue | undefined): string | nul
     case 'music': {
       // A standing rotation from profile.yml, picked by date — not something
       // that happened that day, so it must not read like the score beside it.
-      const bands = arr(isObj(value) ? value.bands : value)
+      const bands = arr(isRecord(value) ? value.bands : value)
       return bands.length ? `From the standing rotation: ${list(bands)}` : null
     }
 
     case 'books': {
-      const reading = arr(isObj(value) ? value.currently_reading : value)
+      const reading = arr(isRecord(value) ? value.currently_reading : value)
       return reading.length ? `Reading ${list(reading)}` : null
     }
 
     case 'hacker_news': {
-      const stories = arr(isObj(value) ? value.stories : value)
+      const stories = arr(isRecord(value) ? value.stories : value)
       if (!stories.length) return null
       const top = stories[0]
       const title = titleOf(top)
-      const score = isObj(top) ? num(top.score) : null
+      const score = isRecord(top) ? num(top.score) : null
       return title
         ? `Top story: “${title}”${score === null ? '' : ` at ${score} points`}, of ${stories.length}`
         : `${stories.length} stories`
     }
 
     case 'github': {
-      const repos = arr(isObj(value) ? value.repos : value)
+      const repos = arr(isRecord(value) ? value.repos : value)
       return repos.length ? `Trending: ${list(repos)}` : null
     }
 
     case 'golf': {
-      if (!isObj(value)) return null
+      if (!isRecord(value)) return null
       const tournament = str(value.tournament)
       if (!tournament) return null
       const status = str(value.status)
       const leaders = arr(value.leaders)
-      const lead = leaders.length && isObj(leaders[0]) ? leaders[0] : null
+      const lead = leaders.length && isRecord(leaders[0]) ? leaders[0] : null
       const who = lead ? str(lead.name) : null
       const score = lead ? str(lead.score) : null
       const head = status ? `${tournament}, ${status.toLowerCase()}` : tournament
@@ -141,27 +139,27 @@ function summarize(provider: string, value: JsonValue | undefined): string | nul
     }
 
     case 'sports': {
-      const teams = arr(isObj(value) ? value.teams : value)
+      const teams = arr(isRecord(value) ? value.teams : value)
       if (!teams.length) return null
       // 'error' and 'unknown league' are how the collector records a read it
       // could not make, not a result. Excluding only 'off season' meant a
       // network failure rendered to a visitor as "Detroit Lions error".
       const NON_RESULTS = new Set(['off season', 'error', 'unknown league'])
       const played = teams.filter(
-        (t) => isObj(t) && str(t.result) && !NON_RESULTS.has(str(t.result) as string)
+        (t) => isRecord(t) && str(t.result) && !NON_RESULTS.has(str(t.result) as string)
       )
       if (!played.length) return `${teams.length} teams followed, none playing`
       const first = played[0]
-      const name = isObj(first) ? str(first.name) : null
-      const result = isObj(first) ? str(first.result) : null
-      const score = isObj(first) ? str(first.score) : null
+      const name = isRecord(first) ? str(first.name) : null
+      const result = isRecord(first) ? str(first.result) : null
+      const score = isRecord(first) ? str(first.score) : null
       return name
         ? `${name} ${result}${score ? ` ${score}` : ''}${played.length > 1 ? `, and ${played.length - 1} other result${played.length > 2 ? 's' : ''}` : ''}`
         : `${played.length} results`
     }
 
     case 'weather': {
-      if (!isObj(value)) return null
+      if (!isRecord(value)) return null
       const conditions = str(value.conditions)
       const f = num(value.temp_f)
       const where = str(value.location)
@@ -171,7 +169,7 @@ function summarize(provider: string, value: JsonValue | undefined): string | nul
     }
 
     case 'air_quality': {
-      if (!isObj(value)) return null
+      if (!isRecord(value)) return null
       const label = str(value.air_quality_label)
       const uv = num(value.uv_index)
       if (!label && uv === null) return null
@@ -180,7 +178,7 @@ function summarize(provider: string, value: JsonValue | undefined): string | nul
     }
 
     case 'market': {
-      if (!isObj(value)) return null
+      if (!isRecord(value)) return null
       const symbol = str(value.symbol)
       const price = str(value.price)
       if (!symbol || !price) return null
@@ -192,11 +190,11 @@ function summarize(provider: string, value: JsonValue | undefined): string | nul
     }
 
     case 'news': {
-      const headlines = arr(isObj(value) ? value.headlines : value)
+      const headlines = arr(isRecord(value) ? value.headlines : value)
       if (!headlines.length) return null
       const top = headlines[0]
       const title = titleOf(top)
-      const source = isObj(top) ? str(top.source) : null
+      const source = isRecord(top) ? str(top.source) : null
       if (!title) return `${headlines.length} headlines`
       // Feeds append " - Source" to the title; the source is carried separately.
       const clean = source ? title.replace(new RegExp(`\\s*[-–—]\\s*${source}$`), '') : title
@@ -204,17 +202,17 @@ function summarize(provider: string, value: JsonValue | undefined): string | nul
     }
 
     case 'awwwards': {
-      const sites = arr(isObj(value) ? value.sites_of_the_day : value)
+      const sites = arr(isRecord(value) ? value.sites_of_the_day : value)
       return sites.length ? `Site of the day: ${list(sites, 1)}` : null
     }
 
     case 'holidays': {
-      if (!isObj(value)) return null
+      if (!isRecord(value)) return null
       const today = value.today
       const todayName = titleOf(today as JsonValue)
       if (todayName) return `${todayName}, today`
       const upcoming = arr(value.upcoming)
-      const next = upcoming.length && isObj(upcoming[0]) ? upcoming[0] : null
+      const next = upcoming.length && isRecord(upcoming[0]) ? upcoming[0] : null
       if (!next) return null
       const name = str(next.name)
       const days = num(next.days_away)
@@ -234,7 +232,7 @@ function isEmptyPayload(value: JsonValue | undefined): boolean {
   if (value === undefined || value === null) return true
   if (typeof value === 'string') return value.trim() === ''
   if (Array.isArray(value)) return value.length === 0
-  if (isObj(value)) {
+  if (isRecord(value)) {
     const values = Object.values(value)
     return values.length === 0 || values.every((v) => isEmptyPayload(v))
   }
@@ -253,7 +251,7 @@ function genericSummary(value: JsonValue): string {
     const named = list(value, 2)
     return named || `${value.length} recorded`
   }
-  if (isObj(value)) {
+  if (isRecord(value)) {
     const parts: string[] = []
     for (const [k, v] of Object.entries(value)) {
       if (parts.length === 2) break

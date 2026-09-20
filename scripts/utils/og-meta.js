@@ -14,7 +14,7 @@
  */
 import { existsSync } from 'node:fs'
 import path from 'node:path'
-import { CANONICAL_ORIGIN } from './site-origin.js'
+import { CANONICAL_ORIGIN } from '../../shared/site-origin.js'
 
 /**
  * @param {object} args

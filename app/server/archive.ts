@@ -8,11 +8,9 @@ import { _readArchiveDetail } from './archive-detail-impl'
 export type { ArchiveEntry } from './archive-impl'
 export type { ResponsiveMetrics } from './archive-impl'
 
-// The validators are named exports so they can be tested. Inline in the
-// createServerFn chain they were unreachable from a test, and they were the
-// only thing standing between a caller-supplied string and a filesystem path
-// — the impls themselves validated nothing. They now validate too, so this is
-// the outer of two gates rather than the only one.
+// The input validators are named exports so tests can call them. They are the
+// outer of two gates on a caller-supplied string: the impls check the date and
+// build id again before building a path (#218).
 
 export function validateDateInput(d: unknown): string {
   const s = String(d)
