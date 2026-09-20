@@ -122,3 +122,78 @@ describe('the nightly stages references/ (#340)', () => {
     expect(m[1].trim().split(/\s+/)).toContain('references/')
   })
 })
+
+describe('the workflows hold the least token they can (#544)', () => {
+  const daily = yaml.load(read('.github/workflows/daily-redesign.yml'))
+  const rollback = yaml.load(read('.github/workflows/rollback.yml'))
+
+  it.each([
+    ['daily-redesign.yml', daily],
+    ['rollback.yml', rollback],
+  ])('%s grants nothing at the top level, so every job has to ask', (_name, doc) => {
+    expect(doc.permissions).toEqual({})
+  })
+
+  it.each([
+    ['daily-redesign.yml', daily],
+    ['rollback.yml', rollback],
+  ])('%s declares permissions on every job', (_name, doc) => {
+    for (const [id, job] of Object.entries(doc.jobs)) {
+      expect(job.permissions, `job ${id}`).toBeDefined()
+    }
+  })
+
+  it('gives the guard job no token at all', () => {
+    expect(daily.jobs.guard.permissions).toEqual({})
+  })
+
+  it('lets only the jobs that open or close issues write them', () => {
+    const writers = Object.entries(daily.jobs)
+      .filter(([, job]) => job.permissions.issues === 'write')
+      .map(([id]) => id)
+      .sort()
+    expect(writers).toEqual(['notify', 'publish', 'redesign'])
+    for (const job of Object.values(rollback.jobs)) {
+      expect(job.permissions.issues).toBeUndefined()
+    }
+  })
+
+  it('never lets a job that runs generated code write contents', () => {
+    expect(daily.jobs.redesign.permissions.contents).toBe('read')
+    expect(rollback.jobs.revert.permissions.contents).toBe('read')
+  })
+})
+
+describe('every action is pinned to a commit SHA (#544)', () => {
+  const workflows = ['ci.yml', 'daily-redesign.yml', 'rollback.yml']
+  const uses = workflows.flatMap((file) =>
+    [...read(`.github/workflows/${file}`).matchAll(/^\s*(?:- )?uses:\s*(\S.*)$/gm)].map((m) => [
+      file,
+      m[1].trim(),
+    ])
+  )
+
+  it('finds the actions to check', () => {
+    expect(uses.length).toBeGreaterThan(10)
+  })
+
+  it.each(uses)('%s: %s', (_file, ref) => {
+    // owner/name@<40 hex> # <tag the sha was resolved from>
+    expect(ref).toMatch(/^[\w.-]+\/[\w./-]+@[0-9a-f]{40} # v\d+(\.\d+){0,2}$/)
+  })
+})
+
+describe('dependabot.yml keeps the pins and the lockfile current (#544)', () => {
+  const doc = yaml.load(read('.github/dependabot.yml'))
+
+  it('covers github-actions and npm', () => {
+    expect(doc.updates.map((u) => u['package-ecosystem']).sort()).toEqual(['github-actions', 'npm'])
+  })
+
+  it('checks weekly and groups, so it does not open a PR per package', () => {
+    for (const update of doc.updates) {
+      expect(update.schedule.interval).toBe('weekly')
+      expect(Object.keys(update.groups ?? {}).length).toBeGreaterThan(0)
+    }
+  })
+})
