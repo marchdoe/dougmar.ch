@@ -22,7 +22,7 @@ export const siteCallout: SiteCalloutCopy = {
   lines: [
     "A pipeline of agents rebuilt this site this morning from the day's weather, markets and headlines. It does that every morning. I wrote up how.",
     "This page did not look like this yesterday. A pipeline redesigns the site each morning from the day's signals, and the white paper explains the parts.",
-    'Nobody laid this page out by hand. Each morning a pipeline reads nineteen signals and rebuilds the site around them. The white paper covers how it works and where it fails.',
+    'Nobody laid this page out by hand. Each morning a pipeline reads the news, the weather and the scores, then rebuilds the site around them. The white paper covers how it works and where it fails.',
     "This design is a day old at most. A pipeline rebuilds the site every morning from that day's signals. I wrote down how, including the constraints it runs under.",
     "An art director and an engineer, both agents, rebuilt this site before I woke up. They do it every morning from the day's signals. The white paper has the details.",
   ],
