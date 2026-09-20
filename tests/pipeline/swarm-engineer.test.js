@@ -86,6 +86,17 @@ function restoredKeySets(run) {
   return run.fakes.restore.map((r) => [...r.paths].sort())
 }
 
+/** What the swarm has written before the Mockup Designer is called. */
+const PRE_MOCKUP_WRITES = [
+  'elements/preset.ts',
+  'elements/chassis-preset.ts',
+  'app/routes/__root.tsx',
+  'app/components/BrandLockup.tsx',
+  'app/components/Material.tsx',
+  'app/components/SiteCallout.tsx',
+  'app/components/WhitePaper.tsx',
+]
+
 // The engineer's invented Ledger.tsx joins the backup at write time (as null,
 // it did not exist), so the final restore covers it and deletes it (#432).
 const ORIGINAL_BACKUP_KEYS = [...MUTABLE_FILES, 'app/components/generated/Ledger.tsx'].sort()
@@ -285,9 +296,10 @@ describe('the React Engineer stalls', () => {
     expect(run.retries).toBe(0)
 
     expect(run.fakes.restore).toHaveLength(1)
-    // Nothing was written before the throw, so the backup is the pre-run list alone.
+    // The engineer wrote nothing, so the backup is the pre-run list alone; the
+    // preset and chassis files are on the orphan list and all in that backup.
     expect(restoredKeySets(run)).toEqual([[...MUTABLE_FILES].sort()])
-    expect(run.fakes.cleanupOrphans).toEqual([])
+    expect(run.fakes.cleanupOrphans.map((c) => c.written)).toEqual([PRE_MOCKUP_WRITES])
     for (const rel of ENGINEER_OUTPUT) {
       expect(under(run.root, rel), `${rel} absent from the root`).toBe(false)
     }
@@ -300,7 +312,7 @@ describe('the React Engineer stalls', () => {
 })
 
 describe('the run deadline between phases', () => {
-  it('before the mockup: throws without restoring the Art Director', async () => {
+  it('before the mockup: throws and rolls the Art Director back', async () => {
     const run = await runSwarm({
       agents: {
         'spec-critic': [
@@ -319,13 +331,16 @@ describe('the run deadline between phases', () => {
     expect(run.calls.map((c) => c.agent)).toEqual(['art-director', 'spec-critic'])
     expect(run.retries).toBe(0)
 
-    expect(run.fakes.restore).toEqual([])
-    expect(run.fakes.cleanupOrphans).toEqual([])
-    // The Art Director's preset is what the throw left behind.
-    expect(presetUnder(run.root)).not.toBe(SEEDED_PRESET)
-    expect(presetUnder(run.root)).toContain('fontFeatureSettings')
-    expect(under(run.root, 'app/routes/__root.tsx')).toBe(true)
-    expect(under(run.root, 'app/components/BrandLockup.tsx')).toBe(true)
+    // The Art Director's preset and the chassis files were on disk when the
+    // throw came; the outer catch puts the checkout back.
+    expect(run.fakes.cleanupOrphans).toHaveLength(1)
+    expect(run.fakes.restore).toHaveLength(1)
+    expect(run.fakes.cleanupOrphans[0].seq).toBeLessThan(run.fakes.restore[0].seq)
+    expect(restoredKeySets(run)).toEqual([[...MUTABLE_FILES].sort()])
+    expect(run.fakes.cleanupOrphans[0].written).toEqual(PRE_MOCKUP_WRITES)
+    expect(presetUnder(run.root)).toBe(SEEDED_PRESET)
+    expect(under(run.root, 'app/routes/__root.tsx')).toBe(false)
+    expect(under(run.root, 'app/components/BrandLockup.tsx')).toBe(false)
     expect(under(run.root, 'signals/today.mockup.html')).toBe(false)
     for (const rel of ENGINEER_OUTPUT) {
       expect(under(run.root, rel), `${rel} absent from the root`).toBe(false)
@@ -339,7 +354,7 @@ describe('the run deadline between phases', () => {
     expect(run.trace.steps.map((s) => s.name)).not.toContain('mockup-critic')
   })
 
-  it('before the engineer: throws after mockup approval without restoring', async () => {
+  it('before the engineer: throws after mockup approval and rolls back', async () => {
     const run = await runSwarm({
       agents: {
         'mockup-critic': [
@@ -363,9 +378,14 @@ describe('the run deadline between phases', () => {
     ])
     expect(run.retries).toBe(0)
 
-    expect(run.fakes.restore).toEqual([])
-    expect(run.fakes.cleanupOrphans).toEqual([])
-    expect(presetUnder(run.root)).not.toBe(SEEDED_PRESET)
+    expect(run.fakes.cleanupOrphans).toHaveLength(1)
+    expect(run.fakes.restore).toHaveLength(1)
+    expect(run.fakes.cleanupOrphans[0].seq).toBeLessThan(run.fakes.restore[0].seq)
+    expect(restoredKeySets(run)).toEqual([[...MUTABLE_FILES].sort()])
+    expect(run.fakes.cleanupOrphans[0].written).toEqual(PRE_MOCKUP_WRITES)
+    expect(presetUnder(run.root)).toBe(SEEDED_PRESET)
+    expect(under(run.root, 'app/routes/__root.tsx')).toBe(false)
+    // signals/today.mockup.html is gitignored scratch, not a checkout file.
     expect(under(run.root, 'signals/today.mockup.html')).toBe(true)
     for (const rel of ENGINEER_OUTPUT) {
       expect(under(run.root, rel), `${rel} absent from the root`).toBe(false)

@@ -813,6 +813,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
   // restore(originalBackup) only reverts paths in the backup; files created
   // by the AI outside that set would leak without this tracking.
   const writtenPaths = new Set()
+  // The pre-run snapshot of MUTABLE_FILES, taken inside the try once the
+  // prompts have loaded. Declared here so the outer catch can roll back to it
+  // from any throw after the first write; null means nothing was written yet.
+  let originalBackup = null
   // Critic verdicts collected across the run; persisted as verdicts.json
   const verdicts = []
   // Final-render screenshot captured by the screenshot critic; persisted
@@ -901,7 +905,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
 
     // Backup all mutable files
     console.log('\n[backup] Backing up mutable files...')
-    const originalBackup = await backup(MUTABLE_FILES, { root })
+    originalBackup = await backup(MUTABLE_FILES, { root })
     console.log(`  backed up ${originalBackup.size} files`)
 
     // -----------------------------------------------------------------------
@@ -1086,7 +1090,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         // it answered the first call. Twenty-six August nights spent their
         // retry on exactly that and reported it as a missing block (#432).
         console.error(`  Art Director failed: ${firstErr.message}`)
-        await restore(originalBackup, { root })
         throw new Error(`Art Director failed: no response from the model — ${firstErr.message}`)
       }
       console.warn(`  Art Director failed (${firstErr.message}) — retrying once with error context`)
@@ -1120,7 +1123,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         })
       } catch (err) {
         console.error(`  Art Director failed after retry: ${err.message}`)
-        await restore(originalBackup, { root })
         throw new Error(`Art Director failed after retry: ${err.message}`)
       }
     }
@@ -1258,8 +1260,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       writtenPaths.add('app/components/WhitePaper.tsx')
       console.log(`  [chassis] wrote WhitePaper.tsx from template`)
     } catch (err) {
-      await cleanupOrphans(writtenPaths, originalBackup, { root })
-      await restore(originalBackup, { root })
       throw new Error(`Chassis file generation failed: ${err.message}`)
     }
 
@@ -1361,14 +1361,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           )
         }
       } catch (err) {
-        await cleanupOrphans(writtenPaths, originalBackup, { root })
-        await restore(originalBackup, { root })
         throw new Error(`Art Director codegen retry failed: ${err.message}`)
       }
       const retryCodegen = validateCodegen({ root })
       if (!retryCodegen.success) {
-        await cleanupOrphans(writtenPaths, originalBackup, { root })
-        await restore(originalBackup, { root })
         throw new Error(
           `Codegen failed after Art Director retry: ${retryCodegen.error?.slice(0, 500)}`
         )
@@ -1608,9 +1604,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       // .github/workflows/daily-redesign.yml (PR #69, 2026-07-12). The
       // model reads the whole prompt every revision round, so growth past
       // this line is a cost and attention problem, not a correctness one.
-      // Restore + throw so the day's run rolls back cleanly instead of
-      // quietly getting more expensive.
-      await restore(originalBackup, { root })
+      // Throw so the day's run rolls back cleanly instead of quietly getting
+      // more expensive.
       throw new Error(
         `mockup-designer system prompt is ${(mockupDesignerPromptBytes / 1024).toFixed(0)}KB — over the ${(MOCKUP_DESIGNER_PROMPT_MAX / 1024).toFixed(0)}KB budget. Trim a reference doc.`
       )
@@ -1701,7 +1696,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
             break
           }
           console.error(`  Mockup Designer failed (round ${round}): ${firstErr.message}`)
-          await restore(originalBackup, { root })
           throw new Error(`Mockup Designer failed: ${firstErr.message}`)
         }
         console.warn(
@@ -1740,7 +1734,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
             output: { error: err.message },
             durationMs: Date.now() - t0Mockup,
           })
-          await restore(originalBackup, { root })
           throw new Error(`Mockup Designer failed after retry: ${err.message}`)
         }
       }
@@ -1947,12 +1940,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           )
         } catch (retryErr) {
           console.error(`  React Engineer failed after stall retry: ${retryErr.message}`)
-          await restore(originalBackup, { root })
           throw new Error(`React Engineer failed after stall retry: ${retryErr.message}`)
         }
       } else {
         console.error(`  React Engineer failed: ${err.message}`)
-        await restore(originalBackup, { root })
         throw new Error(`React Engineer failed: ${err.message}`)
       }
     }
@@ -1998,6 +1989,21 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       }
     }
 
+    // The on-disk state that last passed a build, once there is one. The sweep
+    // records what it removes here as well as in originalBackup, because a
+    // failed revision restores this map, not the original.
+    let passingSnapshot = null
+
+    /**
+     * Snapshot the exact on-disk passing state: every mutable file plus any
+     * extra path the agents wrote.
+     * @returns {Promise<Map<string, string|null>>}
+     */
+    async function snapshotPassingState() {
+      passingSnapshot = await backup([...new Set([...MUTABLE_FILES, ...writtenPaths])], { root })
+      return passingSnapshot
+    }
+
     /**
      * Delete every file under app/components/generated/ that nothing on disk
      * imports, each recorded into the run's backup first so a rollback puts
@@ -2010,7 +2016,13 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
      */
     async function sweepAndTrace(phase, after) {
       const t0Sweep = Date.now()
-      const { kept, removed } = await sweepGenerated({ root, backup: originalBackup })
+      // Both maps a rollback may restore from. Once a build has passed, a
+      // revision that fails to rebuild puts the passing snapshot back, and a
+      // file swept out of that state has to be in it.
+      const { kept, removed } = await sweepGenerated({
+        root,
+        backup: passingSnapshot ? [originalBackup, passingSnapshot] : originalBackup,
+      })
       console.log(
         `  [generated-sweep] kept ${kept.length}, removed ${removed.length}${
           removed.length ? `: ${removed.join(', ')}` : ''
@@ -2051,8 +2063,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // Verify Layout.tsx was written (critical for the site to function)
     const layoutPath = path.join(root, 'app/components/Layout.tsx')
     if (!existsSync(layoutPath)) {
-      await cleanupOrphans(writtenPaths, originalBackup, { root })
-      await restore(originalBackup, { root })
       throw new Error('React Engineer did not produce Layout.tsx — site cannot function without it')
     }
 
@@ -2082,7 +2092,12 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // archive artifacts, persist the archetype, shape the return value.
     // Behavior is identical between callers apart from the rationale suffix.
     async function archiveAndReturn(filesResult, rationaleSuffix = '') {
+      // The card is a new file in the checkout. Track it when this run
+      // created it, so an archive() that throws below takes it out again.
+      const ogCard = `public/og/${today}.png`
+      const ogCardExisted = existsSync(path.join(root, ogCard))
       await captureOgCard(today, { root })
+      if (!ogCardExisted && existsSync(path.join(root, ogCard))) writtenPaths.add(ogCard)
 
       // __root.tsx was written (and possibly rewritten, on a codegen retry)
       // before the capture above ran, so its og:image named today's PNG on
@@ -2616,8 +2631,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
                 // through to archive() on faith is how broken hybrids ship.
                 const restoredBuild = validateBuild({ root, shell: shellDecl, date: today })
                 if (!restoredBuild.success) {
-                  await cleanupOrphans(writtenPaths, originalBackup, { root })
-                  await restore(originalBackup, { root })
                   const fatal = new Error(
                     `Restore of passing state failed to rebuild after post-critic revision. Error:\n${restoredBuild.error?.slice(0, 1000)}`
                   )
@@ -2736,9 +2749,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       // paths the agents wrote). If a post-critic revision breaks the build we
       // restore THIS — originalBackup holds yesterday's files, incompatible
       // with today's preset.ts.
-      const passingBackup = await backup([...new Set([...MUTABLE_FILES, ...writtenPaths])], {
-        root,
-      })
+      const passingBackup = await snapshotPassingState()
       await runScreenshotCriticGate(passingBackup)
       // MUST await: a bare `return promise` inside this try/finally lets the
       // finally (saveTrace) run while archiveAndReturn is still archiving —
@@ -2838,8 +2849,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         // validateBuild — bail out with the real error so debugging points
         // at the actual cause (code review #14).
         await archiveFailedSources(writtenPaths)
-        await cleanupOrphans(writtenPaths, originalBackup, { root })
-        await restore(originalBackup, { root })
         throw new Error(`react-engineer repair crashed: ${err.message}`)
       }
 
@@ -2887,9 +2896,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           },
           durationMs: Date.now() - t0Repair,
         })
-        const passingBackup = await backup([...new Set([...MUTABLE_FILES, ...writtenPaths])], {
-          root,
-        })
+        const passingBackup = await snapshotPassingState()
         await runScreenshotCriticGate(passingBackup)
         // await required — see first-pass call site
         return await archiveAndReturn(engineerResult, ` (repair ${attempt})`)
@@ -2913,15 +2920,27 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       console.warn(`  repair attempt ${attempt} did not pass — carrying the new error forward`)
     }
 
-    // All attempts exhausted — snapshot the failing sources, then restore and throw
+    // All attempts exhausted — snapshot the failing sources, then throw; the
+    // outer catch restores the checkout
     await archiveFailedSources(writtenPaths)
-    await cleanupOrphans(writtenPaths, originalBackup, { root })
-    await restore(originalBackup, { root })
     throw new Error(
       `Build failed after ${attempt} repair attempt(s). Error:\n${repairError?.slice(0, 2500)}`
     )
   } catch (err) {
     swarmError = err
+    // The one rollback. "A run either ships a night or fails and rolls the
+    // checkout back" (CONTEXT.md), so every throw between the first write and
+    // archive() ends here, whichever site raised it. Once archive() has
+    // returned the night shipped and there is nothing to undo. A rollback
+    // that itself fails must not replace the error that ended the run.
+    if (originalBackup && !archiveRan) {
+      try {
+        await cleanupOrphans(writtenPaths, originalBackup, { root })
+        await restore(originalBackup, { root })
+      } catch (rollbackErr) {
+        console.error(`  rollback failed (checkout may be dirty): ${rollbackErr.message}`)
+      }
+    }
     throw err
   } finally {
     await saveTrace(swarmError)

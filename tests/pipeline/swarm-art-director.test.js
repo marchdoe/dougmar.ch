@@ -38,6 +38,17 @@ const restored = (run) => run.fakes.restore.map(({ paths, root }) => ({ paths, r
 /** The `cleanupOrphans` calls as `{ written, root }`. */
 const cleaned = (run) => run.fakes.cleanupOrphans.map(({ written, root }) => ({ written, root }))
 
+/** What the swarm has written by the time the Mockup Designer is called. */
+const CHASSIS_WRITES = [
+  'elements/preset.ts',
+  'elements/chassis-preset.ts',
+  'app/routes/__root.tsx',
+  'app/components/BrandLockup.tsx',
+  'app/components/Material.tsx',
+  'app/components/SiteCallout.tsx',
+  'app/components/WhitePaper.tsx',
+]
+
 const HAPPY_CALLS = [
   'art-director',
   'spec-critic',
@@ -207,7 +218,8 @@ describe('the Art Director retry', () => {
     expect(run.retries).toBe(1)
 
     expect(restored(run)).toEqual([{ paths: MUTABLE_FILES, root: run.root }])
-    expect(run.fakes.cleanupOrphans).toEqual([])
+    // Nothing was written yet, so the outer catch has no orphan to remove.
+    expect(cleaned(run)).toEqual([{ written: [], root: run.root }])
 
     // Nothing was written before the throw, and the restore leaves the seed as it was.
     expect(read(run.root, 'elements/preset.ts')).toBe(seededPreset)
@@ -315,7 +327,9 @@ describe('the mockup designer retry', () => {
     expect(run.retries).toBe(1)
 
     expect(restored(run)).toEqual([{ paths: MUTABLE_FILES, root: run.root }])
-    expect(run.fakes.cleanupOrphans).toEqual([])
+    // The Art Director's preset and the six orchestrator files are on the
+    // orphan list; all seven are in MUTABLE_FILES, so restore covers them.
+    expect(cleaned(run)).toEqual([{ written: CHASSIS_WRITES, root: run.root }])
     expect(read(run.root, 'elements/preset.ts')).toBe(seededPreset)
 
     expect(run.fakes.archive).toHaveLength(0)

@@ -96,10 +96,12 @@ function resolveToGenerated(importerAbs, spec, generated) {
 /**
  * Delete every file under app/components/generated/ that nothing imports.
  *
- * @param {{ root?: string, backup?: Map<string, string|null> }} [options]
- *   `backup` receives the content of each removed file the map does not
- *   already know, so `restore()` brings it back on rollback. A path the map
+ * @param {{ root?: string, backup?: Map<string, string|null> | Array<Map<string, string|null>> }} [options]
+ *   `backup` receives the content of each removed file a map does not
+ *   already know, so `restore()` brings it back on rollback. A path a map
  *   already holds (a file this run wrote over, or created) keeps its entry.
+ *   Pass every map a rollback may restore from: a revision that fails to
+ *   rebuild restores the passing snapshot, not the run's original backup.
  * @returns {Promise<{ kept: string[], removed: string[] }>} repo-relative
  *   paths, sorted
  */
@@ -108,11 +110,16 @@ export async function sweepGenerated({ root = ROOT, backup } = {}) {
   const generated = new Set(listSources(path.join(root, GENERATED_DIR)))
   if (generated.size === 0) return { kept: [], removed: [] }
 
+  const backups = Array.isArray(backup) ? backup : backup ? [backup] : []
   const kept = keptGenerated(importEdges(root, generated), generated)
   const removed = [...generated].filter((f) => !kept.has(f)).sort()
   for (const abs of removed) {
     const rel = toRel(abs)
-    if (backup && !backup.has(rel)) backup.set(rel, await readFile(abs, 'utf8'))
+    const lacking = backups.filter((b) => !b.has(rel))
+    if (lacking.length > 0) {
+      const source = await readFile(abs, 'utf8')
+      for (const b of lacking) b.set(rel, source)
+    }
     await unlink(abs)
   }
 
