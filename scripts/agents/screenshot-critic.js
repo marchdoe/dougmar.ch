@@ -130,8 +130,9 @@ function routeShotBlocks(existing, routeShots) {
  *   `surface-gate.formatFindingsForCritic`; empty string when nothing is wrong
  * @param {string} [ctx.references] - design reference block, if any
  * @param {{ jpeg: Buffer, headerJpeg?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null } | null} [ctx.mockupScreenshot] - approved mockup, if any
- * @param {{ jpeg: Buffer, darkJpeg: Buffer, headerJpeg?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null, mobileJpeg?: Buffer|null, motionStripJpeg?: Buffer|null }} ctx.screenshotBuffer -
- *   rendered homepage: both schemes at 1440, plus a phone filmstrip of the
+ * @param {{ jpeg: Buffer, darkJpeg?: Buffer|null, headerJpeg?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null, mobileJpeg?: Buffer|null, motionStripJpeg?: Buffer|null }} ctx.screenshotBuffer -
+ *   rendered homepage: both schemes at 1440 (the dark one only when it
+ *   differs from the light one), plus a phone filmstrip of the
  *   whole page in the light scheme, plus the motion frame strip on a night
  *   that declared an entrance or a drifting ground (#506)
  * @param {Array<{ label: string, jpeg: Buffer }>} [ctx.phoneFilmstrips] -
@@ -144,6 +145,9 @@ function routeShotBlocks(existing, routeShots) {
  * @returns {Array<{type: string, text?: string, source?: object}>}
  */
 export function buildScreenshotCriticBlocks(ctx) {
+  // Null when the dark capture matched the light one byte for byte, which is
+  // every design that defines no `_light` tokens (see captureScreenshot).
+  const hasDark = Boolean(ctx.screenshotBuffer.darkJpeg)
   const blocks = [
     // enrichedBrief carries hero copy, rationale, and the full visual spec.
     textBlock(`## Structured Brief\n\n${ctx.enrichedBrief}`),
@@ -164,7 +168,9 @@ export function buildScreenshotCriticBlocks(ctx) {
       ctx.mockupScreenshot?.jpeg
     ),
     textBlock(
-      "The rendered homepage in BOTH color schemes follows. ONE of them (the design's canonical mode) must match the mockup; the other is an adaptation and must stay a coherent, committed version of the same design — never a washed-out inversion.\n\nLIGHT scheme, 1440×900 (DESKTOP):"
+      hasDark
+        ? "The rendered homepage in BOTH color schemes follows. ONE of them (the design's canonical mode) must match the mockup; the other is an adaptation and must stay a coherent, committed version of the same design — never a washed-out inversion.\n\nLIGHT scheme, 1440×900 (DESKTOP):"
+        : "The rendered homepage follows. This design defines one color scheme: captured with the dark scheme requested, the page comes out byte-identical, so that capture is not sent. This render is the design's canonical mode and must match the mockup.\n\nDESKTOP, 1440×900:"
     ),
     imageBlock(ctx.screenshotBuffer.jpeg),
     // The phone filmstrip sits next to the desktop shot it is judged against,
@@ -177,8 +183,7 @@ export function buildScreenshotCriticBlocks(ctx) {
         '10 is judged on this against the image above it:',
       ctx.screenshotBuffer.mobileJpeg
     ),
-    textBlock('DARK scheme, 1440×900 (DESKTOP):'),
-    imageBlock(ctx.screenshotBuffer.darkJpeg),
+    ...shot('DARK scheme, 1440×900 (DESKTOP):', ctx.screenshotBuffer.darkJpeg),
     // Two 2x crops of the header region, mockup first, then render. Section 9
     // of the prompt is judged off these — the full-page shots arrive at 1024px
     // wide, where a mark at a quarter of its declared size is indistinguishable

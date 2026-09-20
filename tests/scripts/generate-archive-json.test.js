@@ -1,12 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 import {
   countSnapshotPages,
   indexEntry,
   liftRun,
   projectArchive,
+  publishArchiveImages,
 } from '../../scripts/generate-archive-json.js'
 
 // The build-step projection the site depends on: every calendar cell and
@@ -238,6 +239,14 @@ describe('projectArchive', () => {
     expect(index[0].hasScreenshot).toBe(true)
   })
 
+  it('marks a day whose screenshot is only in its build dir, since the copy is made here (#549)', () => {
+    writeDay('2026-08-20')
+    writeFileSync(join(archiveDir, '2026-08-20', 'build-1', 'screenshot.png'), 'png')
+    const { index } = projectArchive({ archiveDir, publicDir, outDir })
+    expect(index[0].hasScreenshot).toBe(true)
+    expect(readFileSync(join(outDir, '2026-08-20.png'), 'utf8')).toBe('png')
+  })
+
   it('scores each day only against the days that preceded it', () => {
     writeDay('2026-08-18')
     writeDay('2026-08-19')
@@ -253,5 +262,45 @@ describe('projectArchive', () => {
     const { index } = projectArchive({ archiveDir, publicDir, outDir })
     expect(index).toEqual([])
     expect(existsSync(join(outDir, 'index.json'))).toBe(true)
+  })
+})
+
+describe('publishArchiveImages', () => {
+  const put = (file, body) => {
+    mkdirSync(dirname(file), { recursive: true })
+    writeFileSync(file, body)
+  }
+
+  it("copies the shipped build's screenshot and viewport captures to where the site serves them (#549)", () => {
+    writeDay('2026-08-20')
+    const build = join(archiveDir, '2026-08-20', 'build-1')
+    put(join(build, 'screenshot.png'), 'day')
+    put(join(build, 'viewports', 'mobile.webp'), 'new')
+    put(join(build, 'viewports', 'desktop.png'), 'old')
+    put(join(build, 'viewports', 'notes.txt'), 'not an image')
+
+    expect(publishArchiveImages({ archiveDir, outDir })).toBe(3)
+
+    expect(readFileSync(join(outDir, '2026-08-20.png'), 'utf8')).toBe('day')
+    expect(readFileSync(join(outDir, '2026-08-20', 'viewports', 'mobile.webp'), 'utf8')).toBe('new')
+    expect(readFileSync(join(outDir, '2026-08-20', 'viewports', 'desktop.png'), 'utf8')).toBe('old')
+    expect(existsSync(join(outDir, '2026-08-20', 'viewports', 'notes.txt'))).toBe(false)
+  })
+
+  it('leaves a copy that is already there alone, so committed ones keep their bytes', () => {
+    writeDay('2026-08-20')
+    put(join(archiveDir, '2026-08-20', 'build-1', 'screenshot.png'), 'from the build')
+    put(join(outDir, '2026-08-20.png'), 'committed before #549')
+
+    expect(publishArchiveImages({ archiveDir, outDir })).toBe(0)
+
+    expect(readFileSync(join(outDir, '2026-08-20.png'), 'utf8')).toBe('committed before #549')
+  })
+
+  it('does nothing for a day with no build or no images', () => {
+    mkdirSync(join(archiveDir, '2026-08-19'), { recursive: true })
+    writeDay('2026-08-20')
+    expect(publishArchiveImages({ archiveDir, outDir })).toBe(0)
+    expect(existsSync(join(outDir, '2026-08-20.png'))).toBe(false)
   })
 })

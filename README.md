@@ -67,7 +67,7 @@ scripts/
   utils/             validators, mandates, the surface gate, the archive record, models and budgets
 archive/<date>/      that night's record: brief, signals, verdicts, trace, cost, the built files
 public/archive/      the preserved sites, one directory per date, served as static HTML
-public/archive-data/ the archive projected to JSON for the calendar (generated at build)
+public/archive-data/ the archive projected to JSON for the calendar, plus each day's screenshot and viewport captures copied from archive/ (generated at build)
 signals/             profile.yml (yours), today.* (the last collection)
 references/          design references the Art Director is shown
 docs/                evidence screenshots per issue, specs, and plans

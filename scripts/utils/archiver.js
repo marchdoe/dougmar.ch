@@ -11,17 +11,6 @@ import { readUniquenessHistory } from './read-uniqueness-history.js'
 import { DESIGN_FIDELITY_METHOD } from './design-fidelity.js'
 
 /**
- * Where the day's screenshot is published, relative to the repo root.
- *
- * Exported because it is a cross-boundary contract, not a local detail: the
- * nightly workflow embeds this path in every rating issue, and when #154 moved
- * the directory the workflow's copy of it was not moved too, so the rating
- * issues rendered a broken image for months. The workflow cannot import JS, so
- * a test asserts the two agree — see tests/scripts/nightly-commits-its-output.
- */
-export const PUBLIC_SCREENSHOT_DIR = 'public/archive-data'
-
-/**
  * The ladder the responsive measurement walks. Its two ends are the pipeline's
  * own viewports; tablet and laptop are measured here and nowhere else.
  * Exported so a test can hold the narrow end to `NARROW_VIEWPORT`.
@@ -34,60 +23,35 @@ export const RESPONSIVE_VIEWPORTS = [
 ]
 
 /**
- * Copy key archive artifacts to public/ for static serving.
- * - Site HTML  → public/archive/{date}/index.html, about.html, work/*.html
- * - Screenshot → public/archive-data/{date}.png
- * - Viewports  → public/archive-data/{date}/viewports/*.png
+ * Copy the day's site HTML to public/ for static serving:
+ * public/archive/{date}/index.html, about.html, work/*.html
  *
  * Only the site HTML goes under `public/archive/`, which means one thing (#154):
  * the bytes that shipped that day. Everything this project generates *about* a
- * day lives in `public/archive-data/` beside its record.
+ * day lives in `public/archive-data/` beside its record. That includes the
+ * day's screenshot and viewport captures, which are no longer copied here: a
+ * second committed copy of every PNG was the bulk of the repo's weight (#549),
+ * so `scripts/generate-archive-json.js` copies them out of `archive/` at build
+ * time instead.
  */
 async function copyToPublic(dateStr, buildDir, root = ROOT) {
-  const publicBase = path.join(root, 'public', 'archive')
-  const publicData = path.join(root, ...PUBLIC_SCREENSHOT_DIR.split('/'))
-
-  // Copy screenshot if it exists
-  const screenshotSrc = path.join(buildDir, 'screenshot.png')
-  if (existsSync(screenshotSrc)) {
-    await mkdir(publicData, { recursive: true })
-    await copyFile(screenshotSrc, path.join(publicData, `${dateStr}.png`))
-    console.log(`  copied screenshot to public/archive-data/${dateStr}.png`)
-  }
-
-  // Copy site HTML if it exists
   const siteSrc = path.join(buildDir, 'site')
-  if (existsSync(siteSrc)) {
-    const publicSiteDir = path.join(publicBase, dateStr)
-    await mkdir(path.join(publicSiteDir, 'work'), { recursive: true })
-    const entries = await readdir(siteSrc, { withFileTypes: true })
-    for (const entry of entries) {
-      if (entry.isFile() && entry.name.endsWith('.html')) {
-        await copyFile(path.join(siteSrc, entry.name), path.join(publicSiteDir, entry.name))
-      } else if (entry.isDirectory() && entry.name === 'work') {
-        const workEntries = await readdir(path.join(siteSrc, 'work'))
-        for (const w of workEntries) {
-          if (w.endsWith('.html')) {
-            await copyFile(path.join(siteSrc, 'work', w), path.join(publicSiteDir, 'work', w))
-          }
-        }
-      }
-    }
-    console.log(`  copied site HTML to public/archive/${dateStr}/`)
-  }
+  if (!existsSync(siteSrc)) return
 
-  // Copy viewport screenshots (if the build produced them)
-  const vpSrc = path.join(buildDir, 'viewports')
-  if (existsSync(vpSrc)) {
-    const vpDest = path.join(publicData, dateStr, 'viewports')
-    await mkdir(vpDest, { recursive: true })
-    const vpEntries = await readdir(vpSrc)
-    for (const f of vpEntries) {
-      if (f.endsWith('.png')) {
-        await copyFile(path.join(vpSrc, f), path.join(vpDest, f))
-      }
+  const publicSiteDir = path.join(root, 'public', 'archive', dateStr)
+  await mkdir(path.join(publicSiteDir, 'work'), { recursive: true })
+  await copyHtmlFiles(siteSrc, publicSiteDir)
+  await copyHtmlFiles(path.join(siteSrc, 'work'), path.join(publicSiteDir, 'work'))
+  console.log(`  copied site HTML to public/archive/${dateStr}/`)
+}
+
+/** Copy the `.html` files directly inside `from` to `to`; a missing `from` is nothing to copy. */
+async function copyHtmlFiles(from, to) {
+  if (!existsSync(from)) return
+  for (const entry of await readdir(from, { withFileTypes: true })) {
+    if (entry.isFile() && entry.name.endsWith('.html')) {
+      await copyFile(path.join(from, entry.name), path.join(to, entry.name))
     }
-    console.log(`  copied viewport screenshots to public/archive-data/${dateStr}/viewports/`)
   }
 }
 
@@ -312,8 +276,7 @@ export async function archive(
   }
 
   // Write caller-supplied artifacts (screenshot.png, verdicts.json, etc.) into
-  // the build dir BEFORE copyToPublic so screenshot.png is available for
-  // public/archive/{date}.png copy.
+  // the build dir.
   await writeArtifacts(buildDir, artifacts)
 
   // Responsive measurement — soft-fail, non-blocking.
