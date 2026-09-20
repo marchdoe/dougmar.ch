@@ -185,44 +185,51 @@ test.describe('site health — no word breaks across lines', () => {
         )
 
         const shredded = await page.evaluate(() => {
-          const bad: string[] = []
-          const range = document.createRange()
-          const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+          // Vertical type is a deliberate stack, and a hyphenated break is
+          // ordinary typesetting. Neither is this defect.
+          const measurable = (cs: CSSStyleDeclaration) =>
+            cs.visibility !== 'hidden' &&
+            cs.hyphens !== 'auto' &&
+            cs.writingMode.startsWith('horizontal')
 
+          // The box that did the breaking is the nearest one that is not inline.
+          const boxWidth = (el: Element) => {
+            let block = el
+            while (block.parentElement && getComputedStyle(block).display.startsWith('inline')) {
+              block = block.parentElement
+            }
+            const cs = getComputedStyle(block)
+            return (
+              block.clientWidth -
+              Number.parseFloat(cs.paddingLeft) -
+              Number.parseFloat(cs.paddingRight)
+            )
+          }
+
+          // One rect per line the word touches; `display: none` gives none.
+          const range = document.createRange()
+          const brokenWords = (node: Node, el: Element, size: number) =>
+            Array.from((node.textContent ?? '').matchAll(/[\p{L}\p{N}'’]+/gu)).flatMap((word) => {
+              range.setStart(node, word.index)
+              range.setEnd(node, word.index + word[0].length)
+              const rects = Array.from(range.getClientRects()).filter((r) => r.width > 0)
+              const lines = new Set(rects.map((r) => Math.round(r.top / (size / 2))))
+              if (lines.size < 2) return []
+              const needs = rects.reduce((sum, r) => sum + r.width, 0)
+              return [
+                `<${el.tagName.toLowerCase()}> "${word[0]}" at ${Math.round(size)}px needs ` +
+                  `${Math.round(needs)}px, its box is ${Math.round(boxWidth(el))}px, ` +
+                  `broken over ${lines.size} lines`,
+              ]
+            })
+
+          const bad: string[] = []
+          const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
           for (let node = walker.nextNode(); node; node = walker.nextNode()) {
             const el = node.parentElement
             if (!el) continue
             const cs = getComputedStyle(el)
-            if (cs.visibility === 'hidden' || cs.hyphens === 'auto') continue
-            if (!cs.writingMode.startsWith('horizontal')) continue
-
-            const size = Number.parseFloat(cs.fontSize)
-            for (const word of (node.textContent ?? '').matchAll(/[\p{L}\p{N}'’]+/gu)) {
-              range.setStart(node, word.index)
-              range.setEnd(node, word.index + word[0].length)
-
-              // One rect per line the word touches; `display: none` gives none.
-              const rects = Array.from(range.getClientRects()).filter((r) => r.width > 0)
-              const lines = new Set(rects.map((r) => Math.round(r.top / (size / 2))))
-              if (lines.size < 2) continue
-
-              // The box that did the breaking is the nearest one that is not inline.
-              let block: Element = el
-              while (block.parentElement && getComputedStyle(block).display.startsWith('inline')) {
-                block = block.parentElement
-              }
-              const bcs = getComputedStyle(block)
-              const box =
-                block.clientWidth -
-                Number.parseFloat(bcs.paddingLeft) -
-                Number.parseFloat(bcs.paddingRight)
-              const needs = rects.reduce((sum, r) => sum + r.width, 0)
-
-              bad.push(
-                `<${el.tagName.toLowerCase()}> "${word[0]}" at ${Math.round(size)}px needs ` +
-                  `${Math.round(needs)}px, its box is ${Math.round(box)}px, broken over ${lines.size} lines`
-              )
-            }
+            if (measurable(cs)) bad.push(...brokenWords(node, el, Number.parseFloat(cs.fontSize)))
           }
           return bad
         })
