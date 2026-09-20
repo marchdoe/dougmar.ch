@@ -97,8 +97,10 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
 
+      # With coverage, so the floor in vitest.config.ts is enforced. The
+      # nightly's own gate stays `pnpm test`.
       - name: Run unit tests
-        run: pnpm test
+        run: pnpm test:coverage
 
       - name: Build site
         run: pnpm build
