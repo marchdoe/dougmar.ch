@@ -90,8 +90,9 @@ describe('validateWritePath', () => {
       expect(() => validateWritePath('elements/theme/tokens.ts')).toThrow(/allowlist/)
     })
 
-    it('allows app/stubs/ paths', () => {
-      expect(validateWritePath('app/stubs/foo.ts')).toBe('app/stubs/foo.ts')
+    it('rejects app/stubs/ paths: the one file there is hand-written, and the dev server resolves it by path', () => {
+      expect(() => validateWritePath('app/stubs/foo.ts')).toThrow(/allowlist/)
+      expect(() => validateWritePath('app/stubs/start-storage-context.ts')).toThrow(/allowlist/)
     })
 
     it('normalizes ./ prefix', () => {
