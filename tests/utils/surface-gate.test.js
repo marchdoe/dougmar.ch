@@ -455,6 +455,18 @@ describe('measureRoute runs the advisory checks on the mobile rung', () => {
   // would have switched both advisories off with every test still green, so
   // this drives measureRoute with a mobile rung at a width that is not 360.
   // The page is a stand-in that records which in-page functions it was handed.
+  const RESULTS = {
+    findTapTargetFailures: [{ label: 'work', width: 34, height: 22 }],
+    findSmallCopy: { fontSizePx: 12.6, chars: 240, sample: 'Small' },
+    findClippedElements: [],
+  }
+  // Which in-page function an evaluate call was handed. Most ship one source
+  // string; the text-contrast walk ships a table of function sources.
+  function pageFunctionName(arg) {
+    const src = Array.isArray(arg) ? arg[0] : null
+    if (typeof src === 'string') return src.match(/^function (\w+)/)?.[1] ?? null
+    return src && typeof src === 'object' && 'collect' in src ? 'collectTextContrast' : null
+  }
   function fakeBrowser() {
     const ran = []
     const page = {
@@ -463,15 +475,14 @@ describe('measureRoute runs the advisory checks on the mobile rung', () => {
         return { status: () => 200 }
       },
       async waitForTimeout() {},
+      viewportSize() {
+        return null
+      },
       async evaluate(_fn, arg) {
-        const src = Array.isArray(arg) ? arg[0] : null
-        const name = typeof src === 'string' ? src.match(/^function (\w+)/)?.[1] : null
+        const name = pageFunctionName(arg)
         if (name) ran.push(name)
-        if (name === 'findTapTargetFailures') return [{ label: 'work', width: 34, height: 22 }]
-        if (name === 'findSmallCopy') return { fontSizePx: 12.6, chars: 240, sample: 'Small' }
-        if (name === 'findClippedElements') return []
-        if (name) return null
-        return { scrollWidth: 0, clientWidth: 0 }
+        if (name in RESULTS) return RESULTS[name]
+        return name ? null : { scrollWidth: 0, clientWidth: 0 }
       },
       async close() {},
     }
@@ -490,6 +501,7 @@ describe('measureRoute runs the advisory checks on the mobile rung', () => {
     )
     expect(ran).toContain('findTapTargetFailures')
     expect(ran).toContain('findSmallCopy')
+    expect(ran).toContain('collectTextContrast')
     expect(m.tapTargets).toHaveLength(1)
     expect(m.smallCopy).not.toBeNull()
     expect(evaluateMeasurement(m).map((f) => f.kind)).toEqual(
@@ -508,6 +520,8 @@ describe('measureRoute runs the advisory checks on the mobile rung', () => {
     )
     expect(ran).not.toContain('findTapTargetFailures')
     expect(ran).not.toContain('findSmallCopy')
+    // Text contrast is measured at both rungs.
+    expect(ran).toContain('collectTextContrast')
     expect(m.tapTargets).toEqual([])
     expect(m.smallCopy).toBeNull()
   })

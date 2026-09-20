@@ -12,6 +12,7 @@ import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
+import { ARCHIVE_LINK_INKS } from '../../scripts/utils/archive-link-ink.js'
 import { renderRootTemplate } from '../../scripts/utils/chassis.js'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
@@ -217,21 +218,53 @@ describe('renderRootTemplate — the archive link', () => {
 
   it('the template still carries every placeholder the renderer fills', () => {
     // Guards against a future template edit silently dropping one.
-    for (const p of ['{{ARCHIVE_COUNT}}', '{{OG_META}}', '{{GOOGLE_FONTS_URL}}']) {
+    for (const p of [
+      '{{ARCHIVE_COUNT}}',
+      '{{ARCHIVE_LINK_INK}}',
+      '{{OG_META}}',
+      '{{GOOGLE_FONTS_URL}}',
+    ]) {
       expect(template).toContain(p)
     }
   })
 
-  it('uses only tokens that survive a nightly preset rewrite', () => {
-    // textMuted is absent from ~1 preset in 5; text/bg/accent are near-universal.
+  it('sets the link in a semantic colour chosen per night, never an opacity (#566)', () => {
+    // A fixed opacity cannot hold a ratio over a palette that changes nightly:
+    // 2.62 to 3.88:1 on three nights. The ink is a semantic token the renderer
+    // writes in, and the surrounding ground is still `bg`.
     const block = template.slice(
       template.indexOf('const archiveLink'),
-      template.indexOf('export const Route')
+      template.indexOf('const THEME_INIT_SCRIPT')
     )
-    expect(block).not.toContain('textMuted')
-    expect(block).not.toContain('textSecondary')
-    expect(block).toContain("color: 'text'")
+    expect(block).not.toContain('opacity')
+    expect(block).toContain("color: '{{ARCHIVE_LINK_INK}}'")
     expect(block).toContain("background: 'bg'")
+  })
+
+  it.each(ARCHIVE_LINK_INKS)('writes %s into the link, and nothing else', (ink) => {
+    const src = renderRootTemplate('u', '', 1, ink)
+    expect(src).toContain(`color: '${ink}'`)
+    expect(src).not.toContain('{{ARCHIVE_LINK_INK}}')
+    expect(src).not.toContain('opacity: 0.55')
+  })
+
+  it('defaults to text, which clears 4.5:1 on bg by contract', () => {
+    expect(renderRootTemplate('u')).toContain("color: 'text'")
+  })
+
+  it('refuses an ink that is not one of the three it may choose between', () => {
+    expect(() => renderRootTemplate('u', '', 1, "text'); alert(1); ('")).toThrow(/archive link ink/)
+    expect(() => renderRootTemplate('u', '', 1, 'accent')).toThrow(/archive link ink/)
+  })
+
+  it('the committed file carries one of them and no opacity', () => {
+    const block = generated.slice(
+      generated.indexOf('const archiveLink'),
+      generated.indexOf('const THEME_INIT_SCRIPT')
+    )
+    expect(block).not.toContain('opacity')
+    const ink = /color: '(\w+)'/.exec(block)?.[1]
+    expect(ARCHIVE_LINK_INKS).toContain(ink)
   })
 })
 

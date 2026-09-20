@@ -30,6 +30,8 @@ import { readCopyExemptions, readRenderedCopy, renderedCopyFindings } from './co
 import { ROOT } from './file-manager.js'
 import { BODY_TEXT_MIN_PX, TAP_TARGET_MIN_PX } from './responsive-thresholds.js'
 import { withPreviewServer } from './snapshot.js'
+import { collapseTextContrast, textContrastFindings } from './text-contrast.js'
+import { measureTextContrast } from './text-contrast-page.js'
 
 /**
  * Viewport rungs. Both are already on the ladder `archiver.js:311` defines for
@@ -230,6 +232,9 @@ export function evaluateMeasurement(
   // its ground (#503). Split into its own function for the same reason as
   // the advisories.
   findings.push(...brandMarkFindings(m))
+  // Text under 4.5:1 against the ground it sits on, and text over a ground
+  // that cannot be measured (#566). Owner-aware: see text-contrast.js.
+  findings.push(...textContrastFindings(m, ownerForSurface(m.route)))
   // The words (#504). Same shape as the geometry findings, so an em dash on
   // `/` forces a revision through the same path a clipped hero does.
   findings.push(...copyFindings(m, exemptions))
@@ -916,12 +921,16 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
     if (viewport.width === 1440 && scheme === 'light') {
       visibleCopy = await readRenderedCopy(page)
     }
+    // Text contrast, at both rungs in both schemes (#566). Last, because it
+    // resizes the viewport to reveal what fades in on scroll.
+    const textContrast = await measureTextContrast(page)
     return {
       ...base,
       status: resp?.status() ?? null,
       ...box,
       clipped,
       brand,
+      textContrast,
       tapTargets,
       smallCopy,
       visibleCopy,
@@ -1006,10 +1015,13 @@ export async function runSurfaceGate({
         // per build and the leaks accumulate.
         if (browser) await browser.close()
       }
+      // The same label on the same colours turns up on every route that
+      // renders it; fold those into one finding and cap the rest (#566).
+      const folded = collapseTextContrast(findings)
       return {
-        findings,
+        findings: folded,
         measured,
-        errorCount: findings.filter((f) => f.severity === 'error').length,
+        errorCount: folded.filter((f) => f.severity === 'error').length,
       }
     },
     { port }

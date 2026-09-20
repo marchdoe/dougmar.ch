@@ -29,6 +29,7 @@
 import { readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { assertArchiveLinkInk } from './archive-link-ink.js'
 import { stripComments } from './token-gate.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -47,21 +48,28 @@ const DATE = /^\d{4}-\d{2}-\d{2}$/
  * picked from it, and a rollback restores yesterday's file along with
  * yesterday's design, so the line and the design never disagree.
  *
- * @param {{ date: string, archiveCount?: number }} args
+ * The archive link's ink is chosen per night against `bgAlt` by
+ * `archiveLinkInks` (archive-link-ink.js) and passed in as a semantic token
+ * name; `textMuted` is the default (#566).
+ *
+ * @param {{ date: string, archiveCount?: number, archiveLinkInk?: string }} args
  * @returns {string} TSX source
  */
-export function renderSiteCalloutFile({ date, archiveCount = 0 }) {
+export function renderSiteCalloutFile({ date, archiveCount = 0, archiveLinkInk = 'textMuted' }) {
   if (!DATE.test(String(date))) {
     throw new Error(`SiteCallout needs a YYYY-MM-DD date, got: ${date}`)
   }
   const template = readFileSync(TEMPLATE_PATH, 'utf8')
-  for (const placeholder of ['{{DESIGN_DATE}}', '{{ARCHIVE_COUNT}}']) {
+  for (const placeholder of ['{{DESIGN_DATE}}', '{{ARCHIVE_COUNT}}', '{{ARCHIVE_LINK_INK}}']) {
     if (!template.includes(placeholder)) {
       throw new Error(`SiteCallout.tsx.template missing ${placeholder} placeholder`)
     }
   }
   const count = Number.isInteger(archiveCount) && archiveCount >= 0 ? archiveCount : 0
-  return template.replaceAll('{{DESIGN_DATE}}', date).replaceAll('{{ARCHIVE_COUNT}}', String(count))
+  return template
+    .replaceAll('{{DESIGN_DATE}}', date)
+    .replaceAll('{{ARCHIVE_COUNT}}', String(count))
+    .replaceAll('{{ARCHIVE_LINK_INK}}', assertArchiveLinkInk(archiveLinkInk))
 }
 
 /**
