@@ -45,6 +45,7 @@ vi.mock('node:child_process', (o) => m['node:child_process'](o))
 const { MUTABLE_FILES } = await import('../../scripts/utils/site-context.js')
 const { parseDelimiterResponse } = await import('../../scripts/utils/delimiter-parser.js')
 const { formatFindingsForCritic } = await import('../../scripts/utils/surface-gate.js')
+const { renderedCopyFindings } = await import('../../scripts/utils/copy-gate.js')
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
@@ -1090,6 +1091,43 @@ describe('the copy gate (#504)', () => {
     const gateVerdicts = run.verdicts.filter((v) => v.critic === 'surface-gate')
     expect(gateVerdicts.map((v) => v.verdict)).toEqual(['REVISE', 'SHIP'])
     expect(gateVerdicts[0].feedback).toContain('app/routes/index.tsx:14: em dash')
+  })
+
+  it('sends the engineer the block and the fix for an orphan separator on /about (#568)', async () => {
+    // What the surface gate builds from the real 2026-09-20 /about: the
+    // rendered runs go through the real rule, and the finding takes the
+    // shape `runSurfaceGate` returns.
+    const runs = [
+      { tag: 'span', text: '2025,', before: false, after: false },
+      { tag: 'div', text: ', iCapital', before: false, after: false },
+      { tag: 'div', text: 'Founder & Consultant, Spaceman', before: false, after: false },
+    ]
+    const orphans = renderedCopyFindings({ text: '', runs }, { severity: 'error' }).map((f) => ({
+      surface: '/about',
+      viewport: 'desktop',
+      width: 1440,
+      scheme: 'light',
+      ...f,
+    }))
+    expect(orphans).toHaveLength(2)
+
+    const run = await runSwarm({
+      gate: [{ findings: orphans, measured: 8, errorCount: 2 }, CLEAN_GATE],
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.calls.map((c) => c.agent).filter((a) => a === 'react-engineer')).toHaveLength(2)
+    const [first, revision] = run.callsFor('react-engineer')
+    expect(first.userPrompt).not.toContain('orphan separator')
+    const fix = 'A field can be empty; render the separator only when both sides exist.'
+    expect(revision.userPrompt).toContain(
+      `- [error] /about at 1440px (light): orphan separator in rendered copy: <span> "2025," closes on ",". ${fix}`
+    )
+    expect(revision.userPrompt).toContain(
+      `- [error] /about at 1440px (light): orphan separator in rendered copy: <div> ", iCapital" opens on ",". ${fix}`
+    )
+    expect(revision.userPrompt).not.toContain('Founder & Consultant')
+    expect(run.retries).toBe(1)
   })
 
   it('reports a tell in hand-written content as a warning that forces nothing', async () => {

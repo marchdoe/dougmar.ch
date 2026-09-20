@@ -26,7 +26,7 @@ import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { NARROW_VIEWPORT, WIDE_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { contrastRatio, rgbToHex } from './contrast.js'
-import { collectVisibleCopy, readCopyExemptions, renderedCopyFindings } from './copy-gate.js'
+import { readCopyExemptions, readRenderedCopy, renderedCopyFindings } from './copy-gate.js'
 import { ROOT } from './file-manager.js'
 import { BODY_TEXT_MIN_PX, TAP_TARGET_MIN_PX } from './responsive-thresholds.js'
 import { withPreviewServer } from './snapshot.js'
@@ -914,10 +914,7 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
     // is enough to fail a build on.
     let visibleCopy = null
     if (viewport.width === 1440 && scheme === 'light') {
-      visibleCopy = await page.evaluate(
-        ([src]) => new Function(`return ${src}`)()(),
-        [collectVisibleCopy.toString()]
-      )
+      visibleCopy = await readRenderedCopy(page)
     }
     return {
       ...base,

@@ -4,21 +4,23 @@
  *   node scripts/copy-gate-cli.js <path|url>
  *
  * A URL is read the way the nightly reads a route: headless Chromium,
- * `document.body.innerText`, the same in-page function. A directory is its
- * `index.html`. An `.html` file is read as text with its tags stripped, which
- * is how an archived page under `public/archive/<date>/` is checked. A `.ts`
- * or `.tsx` file goes through the static scan, string literals and JSX text.
+ * `document.body.innerText` and the per-block text runs, the same in-page
+ * functions. A directory is its `index.html`, and an `.html` file is opened
+ * from disk in the same browser, which is how an archived page under
+ * `public/archive/<date>/` is checked. A `.ts` or `.tsx` file goes through
+ * the static scan, string literals and JSX text.
  *
  * Exits 1 when anything is found, so it can gate a shell step.
  */
 
 import { existsSync, readFileSync, statSync } from 'node:fs'
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { isMain } from './utils/cli.js'
 import {
-  collectVisibleCopy,
-  htmlToText,
   readCopyExemptions,
+  readRenderedCopy,
+  scanRuns,
   scanSource,
   scanText,
 } from './utils/copy-gate.js'
@@ -32,7 +34,16 @@ function formatHits(hits) {
   )
 }
 
-async function scanUrl(url, exemptions) {
+/** An orphan-separator hit in the shape `formatHits` prints. */
+function orphanHit(h) {
+  return {
+    tell: 'orphan-separator',
+    label: `orphan separator "${h.separator}" at the ${h.position} of <${h.tag}>`,
+    context: h.text,
+  }
+}
+
+async function scanRendered(url, exemptions) {
   const { chromium } = await import('playwright')
   const browser = await chromium.launch({ headless: true })
   try {
@@ -40,13 +51,15 @@ async function scanUrl(url, exemptions) {
       viewport: { width: 1440, height: 900 },
       colorScheme: 'light',
     })
-    await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 })
+    // An archived page has no network to settle, and its fonts come from a CDN.
+    const waitUntil = url.startsWith('file:') ? 'domcontentloaded' : 'networkidle'
+    await page.goto(url, { waitUntil, timeout: 30000 })
     await page.waitForTimeout(900)
-    const visible = await page.evaluate(
-      ([src]) => new Function(`return ${src}`)()(),
-      [collectVisibleCopy.toString()]
-    )
-    return scanText(visible.text, { exemptions, allowed: visible.allowed })
+    const visible = await readRenderedCopy(page)
+    return [
+      ...scanText(visible.text, { exemptions, allowed: visible.allowed }),
+      ...scanRuns(visible.runs, { exemptions }).map(orphanHit),
+    ]
   } finally {
     await browser.close()
   }
@@ -60,17 +73,20 @@ async function scanUrl(url, exemptions) {
 export async function scanTarget(target, { root = ROOT } = {}) {
   const exemptions = readCopyExemptions(root)
   if (/^https?:\/\//.test(target)) {
-    return { target, mode: 'rendered', hits: await scanUrl(target, exemptions) }
+    return { target, mode: 'rendered', hits: await scanRendered(target, exemptions) }
   }
   const file = resolveTargetFile(target)
-  const source = readFileSync(file, 'utf8')
-  const isSource = /\.tsx?$/.test(file)
+  if (/\.tsx?$/.test(file)) {
+    return {
+      target: file,
+      mode: 'static',
+      hits: scanSource(readFileSync(file, 'utf8'), { exemptions }),
+    }
+  }
   return {
     target: file,
-    mode: isSource ? 'static' : 'html',
-    hits: isSource
-      ? scanSource(source, { exemptions })
-      : scanText(htmlToText(source), { exemptions }),
+    mode: 'html',
+    hits: await scanRendered(pathToFileURL(file).href, exemptions),
   }
 }
 

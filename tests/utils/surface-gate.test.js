@@ -724,6 +724,44 @@ describe('the copy gate in the surface gate (#504)', () => {
     expect(evaluateMeasurement({ ...ok, visibleCopy: null })).toEqual([])
   })
 
+  describe('orphan separators (#568)', () => {
+    const withOrphan = {
+      text: 'Founder',
+      allowed: [],
+      runs: [{ tag: 'div', text: ', iCapital', before: false, after: false }],
+    }
+
+    it('fails an engineer-owned route and reaches the critic and the repair brief', () => {
+      const findings = evaluateMeasurement({ ...ok, route: '/about', visibleCopy: withOrphan })
+      expect(findings).toHaveLength(1)
+      expect(findings[0]).toMatchObject({ kind: 'copy-tell', severity: 'error' })
+      const out = formatFindingsForCritic(
+        findings.map((f) => ({
+          ...f,
+          surface: '/about',
+          viewport: 'desktop',
+          width: 1440,
+          scheme: 'light',
+        }))
+      )
+      expect(out).toContain(
+        '- [error] /about at 1440px (light): orphan separator in rendered copy: <div> ", iCapital" opens on ",". A field can be empty; render the separator only when both sides exist.'
+      )
+      expect(
+        faultsForOwner([{ ...findings[0], surface: '/about' }], 'react-engineer')
+      ).toHaveLength(1)
+    })
+
+    it('only warns on a route no agent owns', () => {
+      const findings = evaluateMeasurement({
+        ...ok,
+        route: '/experiments',
+        visibleCopy: withOrphan,
+      })
+      expect(findings.map((f) => f.severity)).toEqual(['warning'])
+    })
+  })
+
   it('skips what the exemptions cover', () => {
     const quote = 'Hope — is the thing.'
     const findings = evaluateMeasurement(

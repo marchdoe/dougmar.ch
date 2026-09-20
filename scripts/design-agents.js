@@ -68,6 +68,7 @@ import {
 } from './utils/semantic-contract.js'
 import { formatPatternPropsForPrompt, readPatternProps } from './utils/pattern-props.js'
 import { collectGateRules, formatGateRulesForPrompt } from './utils/gate-rules.js'
+import { fillContentGaps } from './utils/content-gaps.js'
 import { unslopPatternsSection } from './utils/copy-tells.js'
 import { loadPrompt } from './utils/prompt-loader.js'
 import { parseDelimiterResponse } from './utils/delimiter-parser.js'
@@ -1889,12 +1890,15 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     if (!reactEngineerPromptRaw.includes('{{GATES}}')) {
       throw new Error('react-engineer.md is missing its {{GATES}} placeholder')
     }
-    const reactEngineerSystemPrompt = `${reactEngineerPromptRaw
-      .replace('{{SEMANTIC_COLOR_CONTRACT}}', formatSemanticContractForPrompt())
-      .replace(
-        '{{GATES}}',
-        formatGateRulesForPrompt(collectGateRules({ root }))
-      )}\n\n${designSystemReference}${brandRegisterDeclaration}`
+    // Which content fields are empty today, read from app/content (#568), so
+    // the engineer does not print a separator beside a field that has no text.
+    const reactEngineerPrompt = await fillContentGaps(
+      reactEngineerPromptRaw
+        .replace('{{SEMANTIC_COLOR_CONTRACT}}', formatSemanticContractForPrompt())
+        .replace('{{GATES}}', formatGateRulesForPrompt(collectGateRules({ root }))),
+      { root }
+    )
+    const reactEngineerSystemPrompt = `${reactEngineerPrompt}\n\n${designSystemReference}${brandRegisterDeclaration}`
 
     // The motion-design reference (#506) rides in the engineer's user prompt
     // on a night with an entrance or a scroll reveal to time. The engineer

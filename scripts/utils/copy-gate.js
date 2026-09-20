@@ -9,10 +9,17 @@
  * the same in-page-function convention as the clipping check, and this
  * module only supplies the function and the matcher it feeds.
  *
+ * A second rendered rule reads the page a block at a time rather than as one
+ * string: a heading or line of text that opens or closes on a separator (#568).
+ * `{role}, {company}` with an empty role rendered ", iCapital" at 54px on
+ * 2026-09-20. It is reported under the same `copy-tell` kind, as
+ * `orphan-separator`, so it fails a night and reaches the repair brief the
+ * same way.
+ *
  * What counts as a tell is `copy-tells.js`. What is exempt:
  *
  * - `data-allow-copy-tell` on an element, the way `data-allow-x-overflow`
- *   declares a scroller deliberate. The rendered scan drops that element's
+ *   declares a scroller deliberate. The rendered scans drop that element's
  *   text; the static scan drops the element's JSX subtree.
  * - A quoted hero line from `signals/today.yml`, when it has a named author,
  *   may keep the em dash its source had. Only the em dash, only inside the
@@ -28,7 +35,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import * as yaml from 'js-yaml'
-import { EM_DASH, findTells } from './copy-tells.js'
+import { EM_DASH, ORPHAN_SEPARATOR_FIX, findOrphanSeparator, findTells } from './copy-tells.js'
 import { ROOT } from './file-manager.js'
 import { SITE_CALLOUT_CONTENT } from './site-callout.js'
 import { ENGINEER_FILES } from './site-context.js'
@@ -192,15 +199,162 @@ export function collectVisibleCopy() {
 }
 
 /**
+ * @typedef {object} TextRun
+ * @property {string} tag the block's tag name, lower case
+ * @property {string} text the block's own text, whitespace flattened
+ * @property {boolean} before the sentence carries on from something before it
+ * @property {boolean} after the sentence carries on into something after it
+ */
+
+/**
+ * Runs inside the page, like {@link collectVisibleCopy}, and self-contained
+ * for the same reason. The text a page sets, one run per block: the text nodes
+ * of a block-level element and of the inline elements inside it, whitespace
+ * flattened. A block child starts a run of its own, so a heading and the
+ * paragraph under it are two runs, and `<div>, <!-- -->iCapital</div>` is one.
+ * Only text nodes count, so a bullet a stylesheet draws with `::before` is
+ * never a run. Hidden blocks, script and style, and anything under
+ * `data-allow-copy-tell` are left out.
+ *
+ * `before` and `after` say whether the run's edge is a join, not an orphan.
+ * A flex row splits `DET · off season · <b>no game</b>` into two boxes, and
+ * a chip list puts its "·" at the end of every chip but the last; in both the
+ * separator has something on its far side. They are true when a block child
+ * sits on that side of the run's text inside the same element, or the
+ * neighbouring element is the same tag with the same class and has text.
+ *
+ * @returns {TextRun[]}
+ */
+export function collectTextRuns() {
+  const SKIPPED = ['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE', 'TEXTAREA']
+  const allowedAttr = 'data-allow-copy-tell'
+  const inlineElement = (el) => ['inline', 'contents'].includes(getComputedStyle(el).display)
+  const wanted = (el) => !SKIPPED.includes(el.tagName) && !el.hasAttribute(allowedAttr)
+  const shown = (el) => el.getClientRects().length > 0
+  // A text node, or an inline element: what belongs to the block's own run.
+  const inRun = (node) =>
+    node.nodeType === 3 || (node.nodeType === 1 && wanted(node) && inlineElement(node))
+  const hasWords = (node) => inRun(node) && /\S/.test(node.textContent)
+  const isBlockWithText = (node) =>
+    node.nodeType === 1 &&
+    wanted(node) &&
+    !inlineElement(node) &&
+    shown(node) &&
+    /\S/.test(node.textContent)
+  const runOf = (el) => {
+    let text = ''
+    for (const node of el.childNodes) {
+      if (node.nodeType === 3) text += node.data
+      else if (inRun(node)) text += runOf(node)
+    }
+    return text
+  }
+  // Is there a block child before the last of the text, or after the first?
+  const blockChildSide = (el, side) => {
+    const kids = [...el.childNodes]
+    const first = kids.findIndex(hasWords)
+    const last = kids.findLastIndex(hasWords)
+    return kids.some(
+      (node, i) => isBlockWithText(node) && (side === 'before' ? i < last : i > first)
+    )
+  }
+  const sameKind = (el, sibling) =>
+    Boolean(sibling) &&
+    sibling.tagName === el.tagName &&
+    sibling.className === el.className &&
+    shown(sibling) &&
+    /\S/.test(sibling.textContent)
+  const isRunOwner = (el) =>
+    wanted(el) && !el.closest(`[${allowedAttr}]`) && !inlineElement(el) && shown(el)
+  const runs = []
+  for (const el of document.querySelectorAll('body *')) {
+    const text = isRunOwner(el) ? runOf(el).replace(/\s+/g, ' ').trim() : ''
+    if (!text) continue
+    runs.push({
+      tag: el.tagName.toLowerCase(),
+      text,
+      before: blockChildSide(el, 'before') || sameKind(el, el.previousElementSibling),
+      after: blockChildSide(el, 'after') || sameKind(el, el.nextElementSibling),
+    })
+  }
+  return runs
+}
+
+/**
+ * Both in-page reads for one loaded page: the body's text and the per-block
+ * runs. The one place that knows how the two functions are serialised, so the
+ * surface gate and the CLI cannot drift apart.
+ *
+ * @param {import('playwright').Page} page
+ * @returns {Promise<{ text: string, allowed: string[], runs: TextRun[] }>}
+ */
+export async function readRenderedCopy(page) {
+  const inPage = (fn) =>
+    page.evaluate(([src]) => new Function(`return ${src}`)()(), [fn.toString()])
+  const visible = await inPage(collectVisibleCopy)
+  return { ...visible, runs: await inPage(collectTextRuns) }
+}
+
+/**
+ * The orphan separators in a page's runs (#568), one finding per distinct
+ * block and text, with a count when a template repeats it row after row.
+ * Hand-written content sentences and the attributed quote are masked exactly
+ * as they are for the other tells, so a run that is nothing but content the
+ * pipeline does not write is never reported against the engineer. A separator
+ * on an edge the sentence carries across (`before` or `after` on the run) is a
+ * join and is left alone.
+ *
+ * @param {TextRun[]} runs
+ * @param {{ exemptions?: CopyExemptions }} [opts]
+ * @returns {Array<{ tag: string, text: string, position: string, separator: string, count: number }>}
+ */
+export function scanRuns(runs, { exemptions } = {}) {
+  const found = new Map()
+  for (const run of runs ?? []) {
+    const text = applyExemptions(flat(run.text ?? ''), { exemptions }).trim()
+    const hit = findOrphanSeparator(text)
+    if (!hit || (hit.position === 'start' ? run.before : run.after)) continue
+    const key = `${run.tag}|${text}`
+    const seen = found.get(key)
+    if (seen) seen.count++
+    else found.set(key, { tag: run.tag, text, ...hit, count: 1 })
+  }
+  return [...found.values()]
+}
+
+/**
+ * The words for one orphan separator: which block, what it says, what to do.
+ *
+ * @param {{ tag: string, text: string, position: string, separator: string, count: number }} h
+ * @returns {string}
+ */
+function describeOrphan(h) {
+  const opens = h.position === 'start'
+  const shown = h.text.length > CONTEXT_CHARS ? clipRun(h.text, opens) : h.text
+  const times = h.count > 1 ? ` (x${h.count})` : ''
+  return (
+    `orphan separator in rendered copy: <${h.tag}> "${shown}"${times} ${opens ? 'opens' : 'closes'} ` +
+    `on "${h.separator}". ${ORPHAN_SEPARATOR_FIX}`
+  )
+}
+
+/** The end of a long run that holds the separator, with an ellipsis where it was cut. */
+function clipRun(text, opens) {
+  return opens ? `${text.slice(0, CONTEXT_CHARS)}...` : `...${text.slice(-CONTEXT_CHARS)}`
+}
+
+/**
  * The findings for one rendered route, in the shape `evaluateMeasurement`
  * appends to its list.
  *
- * @param {{ text: string, allowed?: string[] }} visible from {@link collectVisibleCopy}
+ * @param {{ text: string, allowed?: string[], runs?: TextRun[] }} visible
+ *   from {@link readRenderedCopy}; a page read without `runs` gets the
+ *   vocabulary tells only
  * @param {{ exemptions?: CopyExemptions, severity: 'error'|'warning' }} opts
  * @returns {Array<{ kind: 'copy-tell', tell: string, severity: string, detail: string }>}
  */
 export function renderedCopyFindings(visible, { exemptions, severity }) {
-  return scanText(visible.text, { exemptions, allowed: visible.allowed ?? [] })
+  const tells = scanText(visible.text, { exemptions, allowed: visible.allowed ?? [] })
     .slice(0, MAX_COPY_TELLS_PER_SURFACE)
     .map((h) => ({
       kind: 'copy-tell',
@@ -208,6 +362,15 @@ export function renderedCopyFindings(visible, { exemptions, severity }) {
       severity,
       detail: `${h.label} in rendered copy: "${h.context}". ${h.fix}`,
     }))
+  const orphans = scanRuns(visible.runs, { exemptions })
+    .slice(0, MAX_COPY_TELLS_PER_SURFACE)
+    .map((h) => ({
+      kind: 'copy-tell',
+      tell: 'orphan-separator',
+      severity,
+      detail: describeOrphan(h),
+    }))
+  return [...tells, ...orphans]
 }
 
 // ---------------------------------------------------------------------------
