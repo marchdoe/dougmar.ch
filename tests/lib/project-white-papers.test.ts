@@ -87,13 +87,28 @@ describe('the agent has been told these fields exist', () => {
       })
     }
   }
+})
 
-  it('react-engineer.md states that process order is load-bearing', () => {
-    // The one semantic the agent cannot infer from the shape alone.
-    expect(prompts['react-engineer.md'].toLowerCase()).toMatch(/ordered|order must be legible/)
+describe('the fixed page keeps what the fields mean (#533)', () => {
+  // The engineer used to be told these two things in prose. The layout is
+  // app/components/WhitePaper.tsx now, so they are read off its template.
+  const template = read('scripts/templates/WhitePaper.tsx.template')
+
+  it('sets the process as an ordered list', () => {
+    expect(template).toMatch(/<ol[\s\S]*?paper\.process\.map[\s\S]*?<\/ol>/)
   })
 
-  it('react-engineer.md forbids editing this content', () => {
-    expect(prompts['react-engineer.md']).toMatch(/not yours to edit|hand-maintained/)
+  it('sets every decision next to its reason', () => {
+    expect(template).toMatch(/\{d\.decision\}<\/h3>\s*<p[^>]*>\{d\.why\}<\/p>/)
+  })
+
+  it('renders the words as written', () => {
+    // 2026-09-20's generated version rewrote a constraint at render time.
+    expect(template).not.toContain('.replace(')
+  })
+
+  it('react-engineer.md hands the slug to the component', () => {
+    const prompt = read('scripts/prompts/react-engineer.md')
+    expect(prompt).toContain("project.slug === 'dougmar-ch' ? <WhitePaper />")
   })
 })

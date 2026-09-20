@@ -68,6 +68,73 @@ test.describe('site health — project pages', () => {
 })
 
 /**
+ * /work/dougmar-ch is the one page whose layout does not change nightly. The
+ * engineer still rewrites the route around it, so the build validator reads
+ * the route's source and this reads what the route rendered: the fixed
+ * component is on the page, it carries the whole paper, and its column is the
+ * measure it was drawn with. The palette and the faces are the day's, so none
+ * of this names a colour or a font. See #533.
+ */
+test.describe('site health — the white paper holds its layout', () => {
+  test('/work/dougmar-ch renders the fixed page and no other slug does', async ({ page }) => {
+    await page.goto('/work/dougmar-ch')
+    const paper = page.locator('[data-white-paper]')
+    await expect(paper).toHaveCount(1)
+
+    await expect(paper.locator('h2')).toHaveText([
+      'Problem',
+      'Constraints',
+      'Approach',
+      'Process',
+      'Decisions',
+      'Outcome',
+      'References',
+      'Built with',
+    ])
+    await expect(paper.locator('ol > li')).toHaveCount(9)
+    await expect(paper.locator('ol > li h3').first()).toHaveText('Signals')
+    await expect(paper.locator('ol > li h3').last()).toHaveText('Archive')
+    await expect(paper.locator('a[href^="https://chadfowler.com/"]')).toHaveCount(3)
+
+    // The title stays the route's, and there is one of it.
+    await expect(page.locator('h1')).toHaveCount(1)
+    await expect(paper.locator('h1')).toHaveCount(0)
+
+    await page.goto('/work/spaceman')
+    await expect(page.locator('h1')).toHaveCount(1)
+    await expect(page.locator('[data-white-paper]')).toHaveCount(0)
+  })
+
+  for (const [width, measure] of [
+    [1440, 640],
+    [360, 0],
+  ] as const) {
+    test(`the text column holds at ${width}`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto('/work/dougmar-ch')
+      const box = await page.evaluate(() => {
+        const paper = document.querySelector('[data-white-paper]')
+        const prose = paper?.querySelector('section p')
+        if (!paper || !prose) return null
+        const cs = getComputedStyle(prose)
+        return {
+          paper: paper.getBoundingClientRect().width,
+          prose: prose.getBoundingClientRect().width,
+          fontSize: cs.fontSize,
+          scroll: document.documentElement.scrollWidth,
+        }
+      })
+      expect(box).not.toBeNull()
+      if (!box) return
+      expect(box.fontSize).toBe('18px')
+      expect(box.scroll).toBeLessThanOrEqual(width)
+      // 40rem from `lg` up; below it, the article's width less 1.25rem a side.
+      expect(Math.round(box.prose)).toBe(measure || Math.round(box.paper) - 40)
+    })
+  }
+})
+
+/**
  * Panda extracts styles at build time, so a value that only exists at run time
  * — a size picked from a word's length, a delay passed as an argument — yields
  * a class name with no rule behind it. Nothing errors. The markup is right,

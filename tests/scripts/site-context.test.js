@@ -7,12 +7,13 @@ import {
 } from '../../scripts/utils/site-context.js'
 
 describe('file groups', () => {
-  it('ORCHESTRATOR_FILES holds the four generated files, never agent-authored', () => {
+  it('ORCHESTRATOR_FILES holds the five generated files, never agent-authored', () => {
     expect(ORCHESTRATOR_FILES).toEqual([
       'app/routes/__root.tsx',
       'elements/chassis-preset.ts',
       'app/components/BrandLockup.tsx',
       'app/components/Material.tsx',
+      'app/components/WhitePaper.tsx',
     ])
   })
 
