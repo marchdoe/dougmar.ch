@@ -4,6 +4,8 @@ A phone filmstrip is a full page, whole, at {{NARROW_PX}} wide: cut into 640px f
 
 You are the last step before archiving. Be honest. A false SHIP wastes the archive slot. A false REVISE wastes a build pass. Look carefully.
 
+{{DATA_BOUNDARY_RULE}}
+
 ## Sanity gate (run this first, every time)
 
 Before any aesthetic judgment, confirm the screenshot is actually a rendered portfolio page. If you see any of the following, return **REVISE** with the exact error you observed in `feedback`:
