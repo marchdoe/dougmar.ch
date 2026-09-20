@@ -195,14 +195,6 @@
         "reason": "CRAP-only, folds into #221"
       },
       {
-        "files": ["app/routes/how.$date.tsx"],
-        "functions": ["HowPage"],
-        "maxCyclomatic": 45,
-        "maxCognitive": 45,
-        "maxCrap": 483,
-        "reason": "310-line component, split under #551"
-      },
-      {
         "files": ["app/lib/archive-signals.ts"],
         "functions": ["summarize"],
         "maxCyclomatic": 99,

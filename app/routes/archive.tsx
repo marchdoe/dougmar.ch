@@ -15,6 +15,7 @@ import {
   newestMonth,
   swatchFor,
 } from '../lib/archive-calendar'
+import { loadArchiveIndex } from '../lib/archive-data'
 import { css } from '../../styled-system/css'
 import type { ArchiveIndexEntry } from '../types/archive-record'
 import { CANONICAL_ORIGIN } from '../../scripts/utils/site-origin.js'
@@ -293,12 +294,6 @@ function hueVars(entry: ArchiveIndexEntry) {
   return { '--day': swatchFor(entry), '--ink': inkFor(entry) } as React.CSSProperties
 }
 
-function isArchiveIndex(value: unknown): value is ArchiveIndexEntry[] {
-  return (
-    Array.isArray(value) && value.every((e) => typeof (e as { date?: unknown })?.date === 'string')
-  )
-}
-
 function ArchivePage() {
   const [entries, setEntries] = useState<ArchiveIndexEntry[]>([])
   // Three states, not two. `loaded` alone could not tell "the archive is
@@ -311,14 +306,9 @@ function ArchivePage() {
 
   useEffect(() => {
     let cancelled = false
-    fetch('/archive-data/index.json')
-      .then((res) => {
-        if (!res.ok) throw new Error(`archive index responded with ${res.status}`)
-        return res.json()
-      })
-      .then((data: unknown) => {
+    loadArchiveIndex()
+      .then((data) => {
         if (cancelled) return
-        if (!isArchiveIndex(data)) throw new Error('archive index was not the expected shape')
         setEntries(data)
         setYm(newestMonth(data))
         setStatus('ready')
