@@ -18,6 +18,7 @@ import { MUTABLE_FILES, ORCHESTRATOR_FILES } from './site-context.js'
 import { MARK_PATH_FINGERPRINTS, lockupIsDeclared } from './brand-lockup.js'
 import { MATERIAL_OWNER } from './material.js'
 import { HOME_ROUTE, checkCalloutPlacement } from './site-callout.js'
+import { checkWhitePaper } from './white-paper.js'
 import { parseObjectLiteral } from './preset-parser.js'
 import {
   SEMANTIC_COLOR_NAMES,
@@ -719,7 +720,30 @@ export function validateGenerated({ root = ROOT, shell = null } = {}) {
     console.warn(`  brand lockup check skipped: ${err.message}`)
   }
 
-  // Check 7c: the home page places the callout (#532).
+  // Check 7c: the white paper keeps its layout (#533).
+  //
+  // /work/dougmar-ch is rendered by app/components/WhitePaper.tsx, which the
+  // orchestrator writes from a template the way it writes the lockup and the
+  // material. The difference is that those two are placed wherever the day's
+  // design wants them, and this one has a single place: work.$slug.tsx, which
+  // the engineer rewrites every night. A night that forgets it ships the
+  // generated case study in its place and nothing else would notice, so the
+  // route is read here. See white-paper.js for the three findings.
+  try {
+    const sources = []
+    for (const [absPath, source] of readReachableSources(root)) {
+      const rel = absPath
+        .slice(root.length + 1)
+        .split(sep)
+        .join('/')
+      sources.push([rel, source])
+    }
+    errors.push(...checkWhitePaper({ root, sources }))
+  } catch (err) {
+    console.warn(`  white paper check skipped: ${err.message}`)
+  }
+
+  // Check 7d: the home page places the callout (#532).
   //
   // <SiteCallout /> is the only element allowed to say what the site does, and
   // on `/` it also carries the archive link that __root.tsx renders everywhere

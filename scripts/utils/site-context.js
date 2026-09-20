@@ -13,6 +13,7 @@ export const MUTABLE_FILES = [
   'app/components/BrandLockup.tsx',
   'app/components/Material.tsx',
   'app/components/SiteCallout.tsx',
+  'app/components/WhitePaper.tsx',
   'app/components/Layout.tsx',
   'app/components/Sidebar.tsx',
   // SelectedWork, Experiments, Bio, Timeline, Capabilities and Personal used
@@ -50,6 +51,8 @@ export const ORCHESTRATOR_FILES = [
   // The home page callout (#532). The one element allowed to say what the
   // site does, so no agent may write it. See scripts/utils/site-callout.js.
   'app/components/SiteCallout.tsx',
+  // The white paper's fixed page (#533), on the same terms again.
+  'app/components/WhitePaper.tsx',
 ]
 
 /**

@@ -1,0 +1,99 @@
+
+Running 18 tests using 7 workers
+
+  ✓   4 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /work/fishsticks at 360 keeps every word on one line (919ms)
+  ✓   1 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /work/spaceman at 360 keeps every word on one line (941ms)
+  ✓   3 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /about at 360 keeps every word on one line (939ms)
+  ✓   6 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /about at 1440 keeps every word on one line (933ms)
+  ✘   7 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › / at 360 keeps every word on one line (953ms)
+  ✘   2 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › / at 1440 keeps every word on one line (971ms)
+  ✓   5 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /work/spaceman at 1440 keeps every word on one line (1.1s)
+  ✓   9 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /work/15th-club at 360 keeps every word on one line (693ms)
+  ✓   8 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /work/fishsticks at 1440 keeps every word on one line (710ms)
+  ✓  10 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /work/15th-club at 1440 keeps every word on one line (703ms)
+  ✓  11 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /work/dougmar-ch at 360 keeps every word on one line (710ms)
+  ✓  12 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /work/teeturn at 1440 keeps every word on one line (672ms)
+  ✓  14 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /work/teeturn at 360 keeps every word on one line (777ms)
+  ✓  13 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /work/dougmar-ch at 1440 keeps every word on one line (784ms)
+  ✓  16 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /work/politweets at 1440 keeps every word on one line (684ms)
+  ✓  15 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /work/politweets at 360 keeps every word on one line (691ms)
+  ✓  17 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /work/twittertale at 360 keeps every word on one line (696ms)
+  ✓  18 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /work/twittertale at 1440 keeps every word on one line (695ms)
+
+
+  1) [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › / at 360 keeps every word on one line 
+
+    Error: / at 360x640: a word is broken mid-word because its column is narrower than the word. Size the type to the column, or stack words with <br> or writing-mode:
+    <span> "independent" at 48px needs 309px, its box is 280px, broken over 2 lines
+    <h1> "experiment" at 48px needs 281px, its box is 280px, broken over 2 lines
+    <span> "Spaceman" at 55px needs 258px, its box is 222px, broken over 2 lines
+    <span> "FishSticks" at 48px needs 281px, its box is 222px, broken over 2 lines
+    <span> "Politweets" at 48px needs 281px, its box is 222px, broken over 2 lines
+    <span> "Twittertale" at 48px needs 309px, its box is 222px, broken over 2 lines
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 8
+
+    - Array []
+    + Array [
+    +   "<span> \"independent\" at 48px needs 309px, its box is 280px, broken over 2 lines",
+    +   "<h1> \"experiment\" at 48px needs 281px, its box is 280px, broken over 2 lines",
+    +   "<span> \"Spaceman\" at 55px needs 258px, its box is 222px, broken over 2 lines",
+    +   "<span> \"FishSticks\" at 48px needs 281px, its box is 222px, broken over 2 lines",
+    +   "<span> \"Politweets\" at 48px needs 281px, its box is 222px, broken over 2 lines",
+    +   "<span> \"Twittertale\" at 48px needs 309px, its box is 222px, broken over 2 lines",
+    + ]
+
+      240 |             `column is narrower than the word. Size the type to the column, or stack words ` +
+      241 |             `with <br> or writing-mode:\n${shredded.join('\n')}`
+    > 242 |         ).toEqual([])
+          |           ^
+      243 |       })
+      244 |     }
+      245 |   }
+        at tests/e2e/site-health.spec.ts:242:11
+
+    Error Context: test-results/site-health-site-health-—--6c4ff-eeps-every-word-on-one-line-site-health/error-context.md
+
+  2) [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › / at 1440 keeps every word on one line 
+
+    Error: / at 1440x900: a word is broken mid-word because its column is narrower than the word. Size the type to the column, or stack words with <br> or writing-mode:
+    <span> "Spaceman" at 273px needs 1295px, its box is 240px, broken over 8 lines
+    <span> "FishSticks" at 273px needs 1618px, its box is 819px, broken over 2 lines
+    <span> "dougmar" at 273px needs 1133px, its box is 819px, broken over 2 lines
+    <span> "TeeTurn" at 273px needs 1133px, its box is 819px, broken over 2 lines
+    <span> "Politweets" at 273px needs 1618px, its box is 819px, broken over 2 lines
+    <span> "Twittertale" at 273px needs 1780px, its box is 819px, broken over 3 lines
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 8
+
+    - Array []
+    + Array [
+    +   "<span> \"Spaceman\" at 273px needs 1295px, its box is 240px, broken over 8 lines",
+    +   "<span> \"FishSticks\" at 273px needs 1618px, its box is 819px, broken over 2 lines",
+    +   "<span> \"dougmar\" at 273px needs 1133px, its box is 819px, broken over 2 lines",
+    +   "<span> \"TeeTurn\" at 273px needs 1133px, its box is 819px, broken over 2 lines",
+    +   "<span> \"Politweets\" at 273px needs 1618px, its box is 819px, broken over 2 lines",
+    +   "<span> \"Twittertale\" at 273px needs 1780px, its box is 819px, broken over 3 lines",
+    + ]
+
+      240 |             `column is narrower than the word. Size the type to the column, or stack words ` +
+      241 |             `with <br> or writing-mode:\n${shredded.join('\n')}`
+    > 242 |         ).toEqual([])
+          |           ^
+      243 |       })
+      244 |     }
+      245 |   }
+        at tests/e2e/site-health.spec.ts:242:11
+
+    Error Context: test-results/site-health-site-health-—--d72aa-eeps-every-word-on-one-line-site-health/error-context.md
+
+  2 failed
+    [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › / at 360 keeps every word on one line 
+    [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › / at 1440 keeps every word on one line 
+  16 passed (3.9s)

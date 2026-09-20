@@ -14,6 +14,7 @@ describe('file groups', () => {
       'app/components/BrandLockup.tsx',
       'app/components/Material.tsx',
       'app/components/SiteCallout.tsx',
+      'app/components/WhitePaper.tsx',
     ])
   })
 

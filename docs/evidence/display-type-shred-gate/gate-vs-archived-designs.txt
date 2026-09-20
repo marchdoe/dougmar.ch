@@ -1,0 +1,69 @@
+
+Running 8 tests using 7 workers
+
+  ✓  4 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /archive/2026-09-18/about.html at 1440 keeps every word on one line (850ms)
+  ✓  5 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /archive/2026-09-18/ at 1440 keeps every word on one line (849ms)
+  ✓  6 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /archive/2026-09-18/ at 360 keeps every word on one line (847ms)
+  ✓  3 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /archive/2026-09-18/work/spaceman.html at 360 keeps every word on one line (863ms)
+  ✓  2 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /archive/2026-09-16/ at 360 keeps every word on one line (894ms)
+  ✓  7 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /archive/2026-09-18/about.html at 360 keeps every word on one line (886ms)
+  ✘  1 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /archive/2026-09-18/work/spaceman.html at 1440 keeps every word on one line (895ms)
+  ✘  8 [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /archive/2026-09-16/ at 1440 keeps every word on one line (727ms)
+
+
+  1) [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /archive/2026-09-18/work/spaceman.html at 1440 keeps every word on one line 
+
+    Error: /archive/2026-09-18/work/spaceman.html at 1440x900: a word is broken mid-word because its column is narrower than the word. Size the type to the column, or stack words with <br> or writing-mode:
+    <h1> "Spaceman" at 182px needs 929px, its box is 550px, broken over 2 lines
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "<h1> \"Spaceman\" at 182px needs 929px, its box is 550px, broken over 2 lines",
+    + ]
+
+      233 |             `column is narrower than the word. Size the type to the column, or stack words ` +
+      234 |             `with <br> or writing-mode:\n${shredded.join('\n')}`
+    > 235 |         ).toEqual([])
+          |           ^
+      236 |       })
+      237 |     }
+      238 |   }
+        at tests/e2e/site-health.spec.ts:235:11
+
+    Error Context: test-results/site-health-site-health-—--6974b-eeps-every-word-on-one-line-site-health/error-context.md
+
+  2) [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /archive/2026-09-16/ at 1440 keeps every word on one line 
+
+    Error: /archive/2026-09-16/ at 1440x900: a word is broken mid-word because its column is narrower than the word. Size the type to the column, or stack words with <br> or writing-mode:
+    <h1> "questions" at 177px needs 904px, its box is 640px, broken over 2 lines
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "<h1> \"questions\" at 177px needs 904px, its box is 640px, broken over 2 lines",
+    + ]
+
+      233 |             `column is narrower than the word. Size the type to the column, or stack words ` +
+      234 |             `with <br> or writing-mode:\n${shredded.join('\n')}`
+    > 235 |         ).toEqual([])
+          |           ^
+      236 |       })
+      237 |     }
+      238 |   }
+        at tests/e2e/site-health.spec.ts:235:11
+
+    Error Context: test-results/site-health-site-health-—--40902-eeps-every-word-on-one-line-site-health/error-context.md
+
+  2 failed
+    [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /archive/2026-09-18/work/spaceman.html at 1440 keeps every word on one line 
+    [site-health] › tests/e2e/site-health.spec.ts:171:7 › site health — no word breaks across lines › /archive/2026-09-16/ at 1440 keeps every word on one line 
+  6 passed (3.1s)

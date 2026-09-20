@@ -11,12 +11,12 @@ You write specifications, not code (except `elements/preset.ts`, which you autho
 
 Compositional coherence comes from one anchor phrase, not from balance. Today's design must have a single quotable line, a kicker, a quote, an anchoring fragment. It earns marquee scale on a `statement` day and anchors the object on the others, and it carries the page either way. Every other choice (composition, chassis, palette, layout) serves that phrase.
 
-**Step 1: pick the phrase.** Read the signals (raw YAML below), the site content (projects, about, timeline), and the recent ratings. Choose the line that wants to be loud today. Each source below is a lane, not a hierarchy. Pick whichever produces the strongest quotable line today, and declare which lane you used in `===HERO_SOURCE===`:
+**Step 1: pick the phrase.** Read the signals (raw YAML below), the site content (projects, about, timeline), and the recent ratings. `signals.quote`, when present, is the preferred source: read it first and use it unless you have a specific reason not to. Declare which lane you used in `===HERO_SOURCE===`:
 
-1. **`composed`**: a signal-derived headline you compose, e.g., a Tigers blowout becomes "13–6, no questions asked"; a blizzard becomes "0°F, snow on snow on snow".
-2. **`content-lifted`**: a line lifted from the portfolio content (a project title, a rotating manifesto fragment, a capability declaration) that resonates with today's mood.
-3. **`signal-event`**: a raw signal fact, stated directly as a score, a temperature, a date, or a holiday name, with no stylization beyond formatting.
-4. **`quote`**: a resonant quote from `signals.quote` (when present and genuinely poster-worthy). A quote is a lane, not the default: reach for it when it's plainly the strongest line today, not by habit. Consult the Hero Source Mandate in your inputs. Two consecutive quote-sourced days is flagged as a streak worth breaking.
+1. **`quote`**: a resonant quote from `signals.quote`. Use it unless today's quote genuinely can't carry a page (thin, generic, unusable) or `signals.quote` is missing, and say why you passed it over in `===HERO_RATIONALE===`. When it wins, the author's name renders visibly near the line, in the deck or as a caption; a quote with no attribution in view is incomplete. Repeating this lane from yesterday is not a fault; consult the Hero Source Mandate in your inputs for the other three.
+2. **`composed`**: a signal-derived headline you compose, e.g., a Tigers blowout becomes "13–6, no questions asked"; a blizzard becomes "0°F, snow on snow on snow".
+3. **`content-lifted`**: a line lifted from the portfolio content (a project title, a rotating manifesto fragment, a capability declaration) that resonates with today's mood.
+4. **`signal-event`**: a raw signal fact, stated directly as a score, a temperature, a date, or a holiday name, with no stylization beyond formatting.
 
 A pipeline rebuilds this site each morning from the day's signals. That is the mechanism that puts you here, stated once, and it is never the thesis: not the hero, not a deck line, not a caption. A phrase about the site rebuilding itself is rejected the same way a section label is.
 
@@ -123,7 +123,7 @@ to #452, not asked for here.)
 Typography, fonts AND type scale, is selected from the curated chassis catalog appended below. You do NOT pick fonts or sizes freely. Pick ONE chassis ID from the table.
 
 Selection criteria, in order:
-1. **How loud should the hero be?** Every chassis renders the hero at 64px or more on a 360px viewport, so marquee is never infeasible; the choice is how loud the desktop marquee gets. Hero at 1440px, loudest first: big-shoulders-atkinson 177px, dm-serif-public 177px, alfa-rubik 177px, bricolage-manrope 122px, anton-inter-tight 122px, bebas-plex 122px, fraunces-karla 122px, space-mono-archivo 122px, unbounded-figtree 122px, anybody-franklin 120px, spectral-albert 96px, zilla-worksans 96px, source-serif-text 96px, bitter-mulish 96px, hanken-solo 96px. `hero` and every step from `xl` up are fluid clamps that shrink to fit a 360px column; `lg` and below are fixed and render the same size at every width. Spec a display step by the register you want, not by a pixel size — the numbers in the catalog table are the two ends of a range. Reserve the quietest heroes for editorial or literary phrases that don't want shouting. The condensed-caps chassis (big-shoulders-atkinson, anton-inter-tight, bebas-plex) share one register — don't default to them every time a phrase wants scale. Display italics load on spectral-albert, fraunces-karla, dm-serif-public, zilla-worksans, space-mono-archivo, anybody-franklin only, so `lead: italic` is available on those. A single display weight loads on anton-inter-tight, bebas-plex, dm-serif-public, hanken-solo, alfa-rubik, so those take `weight: regular` only. The catalog table below carries each chassis's hero and 5xl sizes at 360px and 1440px. Those are the two ends of the display register, top and bottom. Pick the voice that matches the phrase, and consult the Chassis Mandate in your inputs: recently-used chassis are listed there, and reaching for one anyway needs a justification in your rationale.
+1. **How loud should the hero be?** Every chassis renders the hero at 64px or more on a 360px viewport, so marquee is never infeasible; the choice is how loud the desktop marquee gets. Hero at 1440px, loudest first: big-shoulders-atkinson 160px, dm-serif-public 160px, alfa-rubik 160px, bricolage-manrope 122px, anton-inter-tight 122px, bebas-plex 122px, fraunces-karla 122px, space-mono-archivo 122px, unbounded-figtree 122px, anybody-franklin 120px, spectral-albert 96px, zilla-worksans 96px, source-serif-text 96px, bitter-mulish 96px, hanken-solo 96px. `hero` and every step from `xl` up are fluid clamps that shrink to fit a 360px column; `lg` and below are fixed and render the same size at every width. Spec a display step by the register you want, not by a pixel size — the numbers in the catalog table are the two ends of a range. Reserve the quietest heroes for editorial or literary phrases that don't want shouting. The condensed-caps chassis (big-shoulders-atkinson, anton-inter-tight, bebas-plex) share one register — don't default to them every time a phrase wants scale. Display italics load on spectral-albert, fraunces-karla, dm-serif-public, zilla-worksans, space-mono-archivo, anybody-franklin only, so `lead: italic` is available on those. A single display weight loads on anton-inter-tight, bebas-plex, dm-serif-public, hanken-solo, alfa-rubik, so those take `weight: regular` only. The catalog table below carries each chassis's hero and 5xl sizes at 360px and 1440px. Those are the two ends of the display register, top and bottom. Pick the voice that matches the phrase, and consult the Chassis Mandate in your inputs: recently-used chassis are listed there, and reaching for one anyway needs a justification in your rationale.
 2. **Match by descriptive affinity, if you named one.** The chassis catalog lists "Best for archetypes". Those tags are legacy vocabulary (Poster, Broadsheet, Specimen, etc.), still useful loosely: if what you're making reads like one of them, a chassis tagged for it is a reasonable default. If you didn't name an archetype, skip this criterion.
 3. **Match by mood.** Use the `Moods` column to break ties between equally-fit chassis.
 
@@ -478,7 +478,7 @@ Respond using the exact delimiter blocks below, in this order. Write the COMPLET
 <the chosen phrase exactly as it should render>
 
 ===HERO_RATIONALE===
-<2–4 sentences: which signal/source did this come from, and why does it carry the day? End with one line: Owner's voice: <why Doug would say this>>
+<2–4 sentences: which signal/source did this come from, and why does it carry the day? If the lane isn't quote, say in one clause why today's quote didn't win. End with one line: Owner's voice: <why Doug would say this>>
 
 ===HERO_SOURCE===
 <one of: composed | content-lifted | signal-event | quote>
@@ -994,21 +994,21 @@ Render both on the About page. There is no standing component for either — com
 
 | ID | Name | Class | Feel | Moods | Best for archetypes | Hero px 360→1440 | 5xl px 360→1440 |
 |----|------|-------|------|-------|---------------------|------------------|-----------------|
-| `bricolage-manrope` | Bricolage Grotesque + Manrope | grotesque | Expressive variable display with humanist body — modern, warm, brand-driven. | expressive, modern, brand-driven, warm, distinctive | Poster, Stack, Scroll | 81→122 | 72→273 |
+| `bricolage-manrope` | Bricolage Grotesque + Manrope | grotesque | Expressive variable display with humanist body — modern, warm, brand-driven. | expressive, modern, brand-driven, warm, distinctive | Poster, Stack, Scroll | 81→122 | 72→160 |
 | `spectral-albert` | Spectral + Albert Sans | serif | Transitional slab serif with humanist body — editorial, literary, considered. | editorial, literary, considered, distinctive, reflective | Broadsheet, Stack, Scroll, Gallery Wall | 64→96 | 64→120 |
-| `big-shoulders-atkinson` | Big Shoulders Display + Atkinson Hyperlegible | condensed | Condensed signage display with hyperlegible body — dramatic, athletic, brand-loud. | dramatic, poster, condensed, athletic, signage | Poster, Specimen | 110→177 | 72→465 |
-| `anton-inter-tight` | Anton + Inter Tight | condensed | Condensed display heavy + workhorse sans body — confident, headline-led, modern. | dramatic, poster, condensed, headline-led, modern | Poster, Specimen, Stack | 81→122 | 72→273 |
-| `bebas-plex` | Bebas Neue + IBM Plex Sans | condensed | Condensed editorial display + humanist workhorse body — editorial, catalog, declarative. | editorial, catalog, declarative, condensed, humanist | Specimen, Index, Split | 81→122 | 72→273 |
-| `fraunces-karla` | Fraunces + Karla | serif | Fat, soft variable display serif with humanist grotesk body — warm, tactile, generous. | warm, soft, tactile, editorial, friendly | Gallery Wall, Stack, Broadsheet | 81→122 | 72→273 |
-| `dm-serif-public` | DM Serif Display + Public Sans | serif | High-contrast didone display with civic-neutral body — dramatic, fashion-editorial, declarative. | dramatic, fashion, elegant, high-contrast, declarative | Poster, Specimen, Gallery Wall | 110→177 | 72→465 |
+| `big-shoulders-atkinson` | Big Shoulders Display + Atkinson Hyperlegible | condensed | Condensed signage display with hyperlegible body — dramatic, athletic, brand-loud. | dramatic, poster, condensed, athletic, signage | Poster, Specimen | 110→160 | 72→160 |
+| `anton-inter-tight` | Anton + Inter Tight | condensed | Condensed display heavy + workhorse sans body — confident, headline-led, modern. | dramatic, poster, condensed, headline-led, modern | Poster, Specimen, Stack | 81→122 | 72→160 |
+| `bebas-plex` | Bebas Neue + IBM Plex Sans | condensed | Condensed editorial display + humanist workhorse body — editorial, catalog, declarative. | editorial, catalog, declarative, condensed, humanist | Specimen, Index, Split | 81→122 | 72→160 |
+| `fraunces-karla` | Fraunces + Karla | serif | Fat, soft variable display serif with humanist grotesk body — warm, tactile, generous. | warm, soft, tactile, editorial, friendly | Gallery Wall, Stack, Broadsheet | 81→122 | 72→160 |
+| `dm-serif-public` | DM Serif Display + Public Sans | serif | High-contrast didone display with civic-neutral body — dramatic, fashion-editorial, declarative. | dramatic, fashion, elegant, high-contrast, declarative | Poster, Specimen, Gallery Wall | 110→160 | 72→160 |
 | `zilla-worksans` | Zilla Slab + Work Sans | slab | Sturdy low-contrast slab serif with humanist body — confident, structural, civic. | confident, structural, civic, editorial, grounded | Broadsheet, Index, Stack | 64→96 | 64→120 |
-| `space-mono-archivo` | Space Mono + Archivo | mono | Retro-futurist monospace display with neutral grotesk body — technical, precise, terminal-adjacent. | technical, retro-futurist, terminal, precise, quirky | Specimen, Index, Split | 81→122 | 72→273 |
-| `unbounded-figtree` | Unbounded + Figtree | display | Blocky, wide geometric display with warm neutral grotesk body — expanded, confident, modern-loud. | geometric, expanded, blocky, confident, modern | Poster, Specimen, Gallery Wall | 81→122 | 72→273 |
-| `anybody-franklin` | Anybody + Libre Franklin | grotesque | Wide squarish grotesk with true italics + Franklin Gothic body — broad, sporty, emphatic. | wide, sporty, confident, italic-forward, modern | Poster, Split, Stack | 72→120 | 64→181 |
+| `space-mono-archivo` | Space Mono + Archivo | mono | Retro-futurist monospace display with neutral grotesk body — technical, precise, terminal-adjacent. | technical, retro-futurist, terminal, precise, quirky | Specimen, Index, Split | 81→122 | 72→160 |
+| `unbounded-figtree` | Unbounded + Figtree | display | Blocky, wide geometric display with warm neutral grotesk body — expanded, confident, modern-loud. | geometric, expanded, blocky, confident, modern | Poster, Specimen, Gallery Wall | 81→122 | 72→160 |
+| `anybody-franklin` | Anybody + Libre Franklin | grotesque | Wide squarish grotesk with true italics + Franklin Gothic body — broad, sporty, emphatic. | wide, sporty, confident, italic-forward, modern | Poster, Split, Stack | 72→120 | 64→160 |
 | `source-serif-text` | Source Serif 4, alone | serif | Optically-sized text serif running display and body alike — literary, quiet, bookish. | literary, quiet, bookish, warm, text-led | Broadsheet, Scroll, Stack | 64→96 | 64→120 |
-| `bitter-mulish` | Bitter + Mulish | slab | Screen slab with real heavy cuts + soft humanist body — sturdy, warm, weighted. | slab, grounded, sturdy, editorial, contemporary | Broadsheet, Index, Split | 64→96 | 64→181 |
-| `hanken-solo` | Hanken Grotesk, alone | grotesque | One humanist grotesk at three weights — single-voice, quiet, committed. | humanist, single-voice, quiet, warm, understated | Scroll, Stack, Index | 64→96 | 64→181 |
-| `alfa-rubik` | Alfa Slab One + Rubik | display | Ultra-bold fatface slab with rounded grotesk body — carnival-loud, warm, physical. | fat, playful, carnival, loud, rounded | Poster, Specimen, Gallery Wall | 110→177 | 72→465 |
+| `bitter-mulish` | Bitter + Mulish | slab | Screen slab with real heavy cuts + soft humanist body — sturdy, warm, weighted. | slab, grounded, sturdy, editorial, contemporary | Broadsheet, Index, Split | 64→96 | 64→160 |
+| `hanken-solo` | Hanken Grotesk, alone | grotesque | One humanist grotesk at three weights — single-voice, quiet, committed. | humanist, single-voice, quiet, warm, understated | Scroll, Stack, Index | 64→96 | 64→160 |
+| `alfa-rubik` | Alfa Slab One + Rubik | display | Ultra-bold fatface slab with rounded grotesk body — carnival-loud, warm, physical. | fat, playful, carnival, loud, rounded | Poster, Specimen, Gallery Wall | 110→160 | 72→160 |
 
 ---
 
@@ -1127,13 +1127,13 @@ Prefer a formula NOT in the recent list (light-ground, dark-void, drench, duoton
 
 ## Hero Source Mandate
 
-Computed from recent builds. The audit that motivated this mandate found 45% of heroes are quote-derived. A quote is a lane, not the default. Treat this as strong guidance, not law.
+Computed from recent builds. Quote is the preferred hero lane: reach for it first, and reach past it only when today's quote genuinely can't carry a page. Repeating quote on consecutive days is not a fault; repeating any other lane two days running is.
 
-- **Hero sources:** no back-to-back quote streak to avoid.
+- **Hero sources:** no non-quote streak to avoid.
 
 - **Rationale:** Last 2 hero sources: 2026-08-30: quote | 2026-08-29: weather
 
-If today's genuinely strongest line is a quote, use it — justify why in your hero rationale. Fit > novelty.
+Quote first, and a quote-sourced streak needs no justification. If you reach past today's quote, or land on the same non-quote lane as yesterday, justify why in your hero rationale.
 
 ---
 
@@ -1339,21 +1339,21 @@ The hero phrase must render at the intended scale on a 1440×900 viewport. Check
 
 - Every chassis's hero reaches at least 64px on a 360px viewport, so marquee is never impossible; the question is whether the declared hero_scale and composition match the chassis's actual voice. `hero` and every step from `xl` up are fluid clamps, so each figure below is a 360→1440 range; `base` is fixed. The per-chassis numbers, generated from the catalog:
 
-- `bricolage-manrope`: hero 81px at 360 → 122px at 1440; 2xl 48→81px; 5xl 72→273px; base 16px
+- `bricolage-manrope`: hero 81px at 360 → 122px at 1440; 2xl 48→81px; 5xl 72→160px; base 16px
 - `spectral-albert`: hero 64px at 360 → 96px at 1440; 2xl 39→51px; 5xl 64→120px; base 16px
-- `big-shoulders-atkinson`: hero 110px at 360 → 177px at 1440; 2xl 52→110px; 5xl 72→465px; base 16px
-- `anton-inter-tight`: hero 81px at 360 → 122px at 1440; 2xl 48→81px; 5xl 72→273px; base 16px
-- `bebas-plex`: hero 81px at 360 → 122px at 1440; 2xl 48→81px; 5xl 72→273px; base 16px
-- `fraunces-karla`: hero 81px at 360 → 122px at 1440; 2xl 48→81px; 5xl 72→273px; base 16px
-- `dm-serif-public`: hero 110px at 360 → 177px at 1440; 2xl 52→110px; 5xl 72→465px; base 16px
+- `big-shoulders-atkinson`: hero 110px at 360 → 160px at 1440; 2xl 52→110px; 5xl 72→160px; base 16px
+- `anton-inter-tight`: hero 81px at 360 → 122px at 1440; 2xl 48→81px; 5xl 72→160px; base 16px
+- `bebas-plex`: hero 81px at 360 → 122px at 1440; 2xl 48→81px; 5xl 72→160px; base 16px
+- `fraunces-karla`: hero 81px at 360 → 122px at 1440; 2xl 48→81px; 5xl 72→160px; base 16px
+- `dm-serif-public`: hero 110px at 360 → 160px at 1440; 2xl 52→110px; 5xl 72→160px; base 16px
 - `zilla-worksans`: hero 64px at 360 → 96px at 1440; 2xl 39→51px; 5xl 64→120px; base 16px
-- `space-mono-archivo`: hero 81px at 360 → 122px at 1440; 2xl 48→81px; 5xl 72→273px; base 16px
-- `unbounded-figtree`: hero 81px at 360 → 122px at 1440; 2xl 48→81px; 5xl 72→273px; base 16px
-- `anybody-franklin`: hero 72px at 360 → 120px at 1440; 2xl 42→64px; 5xl 64→181px; base 16px
+- `space-mono-archivo`: hero 81px at 360 → 122px at 1440; 2xl 48→81px; 5xl 72→160px; base 16px
+- `unbounded-figtree`: hero 81px at 360 → 122px at 1440; 2xl 48→81px; 5xl 72→160px; base 16px
+- `anybody-franklin`: hero 72px at 360 → 120px at 1440; 2xl 42→64px; 5xl 64→160px; base 16px
 - `source-serif-text`: hero 64px at 360 → 96px at 1440; 2xl 39→51px; 5xl 64→120px; base 16px
-- `bitter-mulish`: hero 64px at 360 → 96px at 1440; 2xl 42→64px; 5xl 64→181px; base 16px
-- `hanken-solo`: hero 64px at 360 → 96px at 1440; 2xl 42→64px; 5xl 64→181px; base 16px
-- `alfa-rubik`: hero 110px at 360 → 177px at 1440; 2xl 52→110px; 5xl 72→465px; base 16px
+- `bitter-mulish`: hero 64px at 360 → 96px at 1440; 2xl 42→64px; 5xl 64→160px; base 16px
+- `hanken-solo`: hero 64px at 360 → 96px at 1440; 2xl 42→64px; 5xl 64→160px; base 16px
+- `alfa-rubik`: hero 110px at 360 → 160px at 1440; 2xl 52→110px; 5xl 72→160px; base 16px
 
 - If `field_ratio` is `type-dominant` or `drenched`, or `density` is `sparse` (type is doing the visual work with few other elements to lean on), the hero at 1440 should sit in the loud half of the table. Flag a quiet-voiced chassis (hero below ~110px at 1440) carrying a type-as-the-page composition unless the rationale owns the restraint.
 - The chassis catalog lists "Best for archetypes" (legacy vocabulary). If the Art Director named a descriptive archetype and the chosen chassis isn't tagged for it, flag it (acceptable if the rationale explicitly justifies it; otherwise revise). Skip this bullet entirely when no archetype was named; there is nothing to match against.
@@ -2011,13 +2011,13 @@ Prefer a formula NOT in the recent list (light-ground, dark-void, drench, duoton
 
 ## Hero Source Mandate
 
-Computed from recent builds. The audit that motivated this mandate found 45% of heroes are quote-derived. A quote is a lane, not the default. Treat this as strong guidance, not law.
+Computed from recent builds. Quote is the preferred hero lane: reach for it first, and reach past it only when today's quote genuinely can't carry a page. Repeating quote on consecutive days is not a fault; repeating any other lane two days running is.
 
-- **Hero sources:** no back-to-back quote streak to avoid.
+- **Hero sources:** no non-quote streak to avoid.
 
 - **Rationale:** Last 2 hero sources: 2026-08-30: quote | 2026-08-29: weather
 
-If today's genuinely strongest line is a quote, use it — justify why in your hero rationale. Fit > novelty.
+Quote first, and a quote-sourced streak needs no justification. If you reach past today's quote, or land on the same non-quote lane as yesterday, justify why in your hero rationale.
 
 ## Composition Mandate
 
@@ -3726,7 +3726,10 @@ or a wish that a confident composition were busier.
    demand the designer fill that room with more elements. Judge whether the
    gesture lands, not whether the pixels are busy. On a `hero_object:
    artifact` day the featured project's client marks are present beside its
-   title and legible at 1440, a set and not a footer strip.
+   title and legible at 1440, a set and not a footer strip. On a
+   `quote`-sourced hero, the author's name is visibly set near the line, not
+   shrunk into an easily-missed footnote; a quote with no attribution in view
+   is a REVISE.
 4. **Shell and header**: the declared footer treatment is visibly executed,
    and the header matches its declaration. Judge the header from the 2x crop,
    not from the full-page shot: at page scale an 11px mark and a 44px mark are
@@ -4550,23 +4553,29 @@ Bind content from the content files. Every listed key must appear in the rendere
   an outcome with no account of the work between them is not a case study.
 - `stack`, and `liveUrl` as a real outbound link when present
 
-**White-paper fields, when the project carries them.** All optional; render what is
-present and skip a field entirely when absent rather than showing an empty heading.
+**The white paper.** `app/components/WhitePaper.tsx` is generated by the orchestrator
+every run from a frozen template, the same way `BrandLockup.tsx` is. It lays out
+`/work/dougmar-ch`: `context`, `constraints`, `process`, `decisions`, `references` and every
+case study field above. Its layout is fixed and it takes the day's colours and typefaces
+from the tokens. You render it for that one slug; you never write it.
 
-Bind the meaning, not a layout. How these look is yours to decide in the day's design.
-What must survive:
+```tsx
+import { WhitePaper } from '../components/WhitePaper'
 
-- `context` and `constraints` read as prose and a list. Constraints are a set, not a sequence.
-- `process` is **ordered**, and its order must be legible. A reader has to be able to tell
-  that Signals comes before Art Director and Archive comes last. Each entry pairs `does`
-  with `produces`; that pairing must stay visible, whatever form it takes.
-- `decisions` pair a claim with its reason. Never render `decision` without its `why`
-  adjacent to it. The pairing is the content.
-- `references` are outbound links. `url` must be reachable as a real anchor, `title` is
-  the link text, and `note` explains why it is worth reading.
+{project.slug === 'dougmar-ch' ? <WhitePaper /> : <YourCaseStudy project={project} />}
+```
 
-Do not summarise, reorder, merge or omit any of it. This content is hand-maintained and
-is not yours to edit, only to present.
+It takes no props and finds the project itself. Around it the route keeps the day's shell
+as on every other slug: the lockup, the `h1` carrying `title`, the nav, the contact link, the
+foot. In place of the case study body there is `<WhitePaper />` and nothing else. Do not
+render the white paper fields anywhere yourself, do not write a `WhitePaper*` component
+under `app/components/generated/`, and do not import `WhitePaper` from any file but
+`work.$slug.tsx`. Do not wrap it in an element that sets a width, a column, a font or a
+colour, and pass it no `className`. Every other slug gets your case study as before.
+
+Three things fail the build: a `work.$slug.tsx` that does not render `<WhitePaper />` for
+`'dougmar-ch'`, an import of it from any other file, and a `WhitePaper.tsx` on disk that
+differs from the template.
 
 ## The brand lockup
 
@@ -4760,6 +4769,17 @@ case, loop) or a cognitive score past 15, it fails. A 321-line
    CSS custom property set in `style` and read by the static class. `tsc` and
    the build both pass either way, so this check is the only thing between a
    runtime value and a blank page.
+9. Every piece of display type, against its own column rather than the
+   viewport: at each breakpoint, does the longest single word fit the grid
+   track or flex child it lands in at the size it is set? A word runs near
+   0.6em a letter, so "Twittertale" at 273px wants about 1800px, and on
+   2026-09-20 it was handed 819px and "Spaceman" 240px. `overflowWrap:
+   'anywhere'` and `wordBreak: 'break-all'` do not fix that. They turn the
+   overflow into a word cut mid-letter, one glyph per line in the narrow case,
+   and the health gate fails any word that sits on two lines. Drop to a ramp
+   step that fits or give the type a wider track. A deliberate stack is one
+   word per line, written as `display: 'block'` per word, a `<br>` between
+   words, or `writingMode`, never a column left to break the word for you.
 
 
 # Design System API Reference
@@ -5799,6 +5819,7 @@ Check:
 - **Is the hero phrase actually present in the render?** The phrase from `===HERO_COPY===` should appear somewhere on the homepage.
 - **Is it rendered at the intended scale?** On a `hero_object: statement` day a "marquee" or "specimen-scale" phrase should dominate the viewport: type at 8–15vw, taking up multiple lines or extending edge-to-edge. A phrase nominated as the hero anchor that ends up at body-article size on the page is a failure. On a `figure`, `word`, `list` or `artifact` day the object carries that scale and the phrase sits one step down, at `2xl` to `4xl`, as its caption or standfirst; a phrase at marquee scale on those days is the declaration not executed.
 - **Is the visual entry point what `hero_object` declares?** When you first look at the screenshot, where does your eye land? On a `statement` day it must land on the hero phrase; a project card or sidebar element that outranks it has taken the page. On a `figure` or `word` day it lands on the number or the word, with the phrase read second. On a `list` or `artifact` day the phrase outranked by the work index or by the one project is correct, not a loss; the failure there is the object failing to lead.
+- **Is a quote-sourced hero attributed?** When the hero phrase is a quote, the author's name must be visible near it, not buried in a distant footer or missing outright. An unattributed quote in the hero is a failure.
 
 Failures:
 - The Art Director nominated "There is no limit to what a man can do" as a marquee hero phrase, but the render shows it at the same size as project titles.

@@ -361,12 +361,13 @@ describe('the codegen retry', () => {
     // The three files a retry can move were formatted twice before the
     // archive's final __root.tsx refresh, and the root on disk carries the
     // retry's hero copy. The callout takes only the date and the archive
-    // count, so it is written once.
+    // count, and WhitePaper.tsx takes nothing at all, so each is written once.
     expect(run.fakes.formatGeneratedFile.map((f) => f.relPath)).toEqual([
       'app/routes/__root.tsx',
       'app/components/BrandLockup.tsx',
       'app/components/Material.tsx',
       'app/components/SiteCallout.tsx',
+      'app/components/WhitePaper.tsx',
       'app/routes/__root.tsx',
       'app/components/BrandLockup.tsx',
       'app/components/Material.tsx',
@@ -419,6 +420,7 @@ describe('the codegen retry', () => {
           'app/components/BrandLockup.tsx',
           'app/components/Material.tsx',
           'app/components/SiteCallout.tsx',
+          'app/components/WhitePaper.tsx',
         ],
         root: run.root,
       },
@@ -433,6 +435,7 @@ describe('the codegen retry', () => {
       'app/components/BrandLockup.tsx',
       'app/components/Material.tsx',
       'app/components/SiteCallout.tsx',
+      'app/components/WhitePaper.tsx',
       'signals/today.mockup.html',
       ...REQUIRED_ENGINEER_FILES,
     ]) {

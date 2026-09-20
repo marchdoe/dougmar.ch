@@ -50,20 +50,87 @@ test.describe('site health — core pages', () => {
   }
 })
 
-test.describe('site health — project pages', () => {
-  const slugs = [
-    'spaceman',
-    'fishsticks',
-    '15th-club',
-    'dougmar-ch',
-    'teeturn',
-    'politweets',
-    'twittertale',
-  ]
+const PROJECT_SLUGS = [
+  'spaceman',
+  'fishsticks',
+  '15th-club',
+  'dougmar-ch',
+  'teeturn',
+  'politweets',
+  'twittertale',
+]
 
-  for (const slug of slugs) {
+test.describe('site health — project pages', () => {
+  for (const slug of PROJECT_SLUGS) {
     test(`/work/${slug} loads and renders`, async ({ page }) => {
       await expectPageLoads(page, `/work/${slug}`)
+    })
+  }
+})
+
+/**
+ * /work/dougmar-ch is the one page whose layout does not change nightly. The
+ * engineer still rewrites the route around it, so the build validator reads
+ * the route's source and this reads what the route rendered: the fixed
+ * component is on the page, it carries the whole paper, and its column is the
+ * measure it was drawn with. The palette and the faces are the day's, so none
+ * of this names a colour or a font. See #533.
+ */
+test.describe('site health — the white paper holds its layout', () => {
+  test('/work/dougmar-ch renders the fixed page and no other slug does', async ({ page }) => {
+    await page.goto('/work/dougmar-ch')
+    const paper = page.locator('[data-white-paper]')
+    await expect(paper).toHaveCount(1)
+
+    await expect(paper.locator('h2')).toHaveText([
+      'Problem',
+      'Constraints',
+      'Approach',
+      'Process',
+      'Decisions',
+      'Outcome',
+      'References',
+      'Built with',
+    ])
+    await expect(paper.locator('ol > li')).toHaveCount(9)
+    await expect(paper.locator('ol > li h3').first()).toHaveText('Signals')
+    await expect(paper.locator('ol > li h3').last()).toHaveText('Archive')
+    await expect(paper.locator('a[href^="https://chadfowler.com/"]')).toHaveCount(3)
+
+    // The title stays the route's, and there is one of it.
+    await expect(page.locator('h1')).toHaveCount(1)
+    await expect(paper.locator('h1')).toHaveCount(0)
+
+    await page.goto('/work/spaceman')
+    await expect(page.locator('h1')).toHaveCount(1)
+    await expect(page.locator('[data-white-paper]')).toHaveCount(0)
+  })
+
+  for (const [width, measure] of [
+    [1440, 640],
+    [360, 0],
+  ] as const) {
+    test(`the text column holds at ${width}`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto('/work/dougmar-ch')
+      const box = await page.evaluate(() => {
+        const paper = document.querySelector('[data-white-paper]')
+        const prose = paper?.querySelector('section p')
+        if (!paper || !prose) return null
+        const cs = getComputedStyle(prose)
+        return {
+          paper: paper.getBoundingClientRect().width,
+          prose: prose.getBoundingClientRect().width,
+          fontSize: cs.fontSize,
+          scroll: document.documentElement.scrollWidth,
+        }
+      })
+      expect(box).not.toBeNull()
+      if (!box) return
+      expect(box.fontSize).toBe('18px')
+      expect(box.scroll).toBeLessThanOrEqual(width)
+      // 40rem from `lg` up; below it, the article's width less 1.25rem a side.
+      expect(Math.round(box.prose)).toBe(measure || Math.round(box.paper) - 40)
     })
   }
 })
@@ -128,6 +195,121 @@ test.describe('site health — nothing renders invisible', () => {
 
       expect(invisible, `text painted in nothing at all:\n${invisible.join('\n')}`).toEqual([])
     })
+  }
+})
+
+/**
+ * Type sized without reference to the column it lands in. 2026-09-20 set
+ * project titles at 273px in columns of 240px and 819px under `overflow-wrap:
+ * anywhere`, so instead of overflowing, "Spaceman" ran one letter per line and
+ * "Twittertale" came out as twit / tert / ale. The text was painted and nothing
+ * scrolled sideways, so every other check here passed. See #530.
+ *
+ * The assertion is the break itself: one word whose glyphs sit on more than
+ * one line. A word wider than its box is the cause, but a wide word can also
+ * overflow or bleed on purpose without breaking, and telling those apart takes
+ * thresholds. A word on two lines has no honest reading, at any size. Run over
+ * the 19 archived designs from 2026-08-30 on, every hit was a word cut in half.
+ *
+ * A word is a run of letters and digits, so a URL or an email wrapping at its
+ * punctuation is not a break, and neither is a hyphenated compound. A stack
+ * of one word per line stays expressible: `<br>` between words breaks between
+ * them, and vertical `writing-mode` is skipped outright. So is `hyphens:
+ * auto`, where the break arrives with a hyphen and is ordinary typesetting.
+ */
+const SHRED_VIEWPORTS = [
+  { width: 360, height: 640 },
+  { width: 1440, height: 900 },
+]
+
+// Designs the owner chose to leave up with this defect, keyed by the date in
+// the page's og:image, with the routes it shows on. `test.fail` rather than a
+// skip: CI keeps proving the gate catches the day, and the entry stops
+// applying the night a new design replaces it. Delete entries once they are
+// history.
+const KNOWN_SHREDS: Record<string, string[]> = {
+  '2026-09-20': ['/'],
+}
+
+test.describe('site health — no word breaks across lines', () => {
+  const paths = ['/', '/about', ...PROJECT_SLUGS.map((slug) => `/work/${slug}`)]
+
+  for (const path of paths) {
+    for (const viewport of SHRED_VIEWPORTS) {
+      test(`${path} at ${viewport.width} keeps every word on one line`, async ({ page }) => {
+        await page.setViewportSize(viewport)
+        await page.goto(path)
+        await page.waitForLoadState('networkidle')
+        // A fallback face has different widths; measure the one that ships.
+        await page.evaluate(() => document.fonts.ready)
+
+        const ogImage = await page.evaluate(
+          () => document.querySelector('meta[property="og:image"]')?.getAttribute('content') ?? ''
+        )
+        const designDate = ogImage.match(/\/og\/(\d{4}-\d{2}-\d{2})\.png$/)?.[1] ?? ''
+        test.fail(
+          KNOWN_SHREDS[designDate]?.includes(path) ?? false,
+          `${designDate} shipped with shredded titles and stays up (#530)`
+        )
+
+        const shredded = await page.evaluate(() => {
+          // Vertical type is a deliberate stack, and a hyphenated break is
+          // ordinary typesetting. Neither is this defect.
+          const measurable = (cs: CSSStyleDeclaration) =>
+            cs.visibility !== 'hidden' &&
+            cs.hyphens !== 'auto' &&
+            cs.writingMode.startsWith('horizontal')
+
+          // The box that did the breaking is the nearest one that is not inline.
+          const boxWidth = (el: Element) => {
+            let block = el
+            while (block.parentElement && getComputedStyle(block).display.startsWith('inline')) {
+              block = block.parentElement
+            }
+            const cs = getComputedStyle(block)
+            return (
+              block.clientWidth -
+              Number.parseFloat(cs.paddingLeft) -
+              Number.parseFloat(cs.paddingRight)
+            )
+          }
+
+          // One rect per line the word touches; `display: none` gives none.
+          const range = document.createRange()
+          const brokenWords = (node: Node, el: Element, size: number) =>
+            Array.from((node.textContent ?? '').matchAll(/[\p{L}\p{N}'’]+/gu)).flatMap((word) => {
+              range.setStart(node, word.index)
+              range.setEnd(node, word.index + word[0].length)
+              const rects = Array.from(range.getClientRects()).filter((r) => r.width > 0)
+              const lines = new Set(rects.map((r) => Math.round(r.top / (size / 2))))
+              if (lines.size < 2) return []
+              const needs = rects.reduce((sum, r) => sum + r.width, 0)
+              return [
+                `<${el.tagName.toLowerCase()}> "${word[0]}" at ${Math.round(size)}px needs ` +
+                  `${Math.round(needs)}px, its box is ${Math.round(boxWidth(el))}px, ` +
+                  `broken over ${lines.size} lines`,
+              ]
+            })
+
+          const bad: string[] = []
+          const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+          for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+            const el = node.parentElement
+            if (!el) continue
+            const cs = getComputedStyle(el)
+            if (measurable(cs)) bad.push(...brokenWords(node, el, Number.parseFloat(cs.fontSize)))
+          }
+          return bad
+        })
+
+        expect(
+          shredded,
+          `${path} at ${viewport.width}x${viewport.height}: a word is broken mid-word because its ` +
+            `column is narrower than the word. Size the type to the column, or stack words ` +
+            `with <br> or writing-mode:\n${shredded.join('\n')}`
+        ).toEqual([])
+      })
+    }
   }
 })
 

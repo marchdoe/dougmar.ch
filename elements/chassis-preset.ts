@@ -49,8 +49,8 @@ export const chassisPreset = definePreset({
           xl: { value: "clamp(2.585rem, 2.322rem + 1.17vw, 3.375rem)" },
           '2xl': { value: "clamp(2.969rem, 2.271rem + 3.102vw, 5.063rem)" },
           '3xl': { value: "clamp(3.41rem, 2.015rem + 6.199vw, 7.594rem)" },
-          '4xl': { value: "clamp(3.917rem, 1.426rem + 11.073vw, 11.391rem)" },
-          '5xl': { value: "clamp(4.5rem, 0.305rem + 18.646vw, 17.086rem)" },
+          '4xl': { value: "clamp(3.917rem, 1.889rem + 9.012vw, 10rem)" },
+          '5xl': { value: "clamp(4.5rem, 2.667rem + 8.148vw, 10rem)" },
           hero: { value: "clamp(5.063rem, 4.219rem + 3.75vw, 7.594rem)" },
         },
         fontWeights: {

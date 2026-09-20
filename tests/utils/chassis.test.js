@@ -58,6 +58,12 @@ const NARROW_COLUMN_PX = 317
  *  from the same measurement: "Spaceman" at 89.76px ran to 388px. */
 const EIGHT_CHAR_EM = 388 / 89.76
 
+/** The ceiling scale.js holds every step's 1440px size to, in rem. */
+const DESKTOP_MAX_REM = 10
+
+/** A step's 1440px maximum in rem, whichever of the two size forms it uses. */
+const maxRemOf = (size) => Number(size.match(/([\d.]+)rem\)?$/)[1])
+
 /** The ratio a chassis was authored on, read back off its own table: `md` is
  *  one ratio step above `base`. Derived rather than listed, so adding a
  *  chassis never means updating a map here. */
@@ -89,12 +95,12 @@ describe('scaleSteps — the generated table', () => {
     expect(scaleSteps(1.5, '1.125rem').base.size).toBe('1.125rem')
   })
 
-  it('runs the ratio up to 5xl and the fixed minor second down to 2xs', () => {
+  it('runs the ratio up to the desktop ceiling and the fixed minor second down to 2xs', () => {
     expect(steps.md.size).toBe('1.5rem')
     expect(steps.lg.size).toBe('2.25rem')
     expect(stepPxAt(steps.xl, 1440)).toBe(54)
     expect(stepPxAt(steps['2xl'], 1440)).toBe(81)
-    expect(stepPxAt(steps['5xl'], 1440)).toBe(273.4)
+    expect(stepPxAt(steps['5xl'], 1440)).toBe(160)
     expect(steps.sm.size).toBe('0.889rem')
     expect(steps.xs.size).toBe('0.79rem')
     expect(steps['2xs'].size).toBe('0.702rem')
@@ -121,15 +127,58 @@ describe('scaleSteps — the generated table', () => {
     }
   })
 
-  it('caps each display clamp at the value the fixed step shipped', () => {
-    // The geometric ramp, base 1rem on ratio 1.5. Desktop must not move: the
-    // only thing #457 and #469 changed is where each step starts at 360.
+  it('caps each display clamp at the value the fixed step shipped, up to the ceiling', () => {
+    // The geometric ramp, base 1rem on ratio 1.5. #457 and #469 only changed
+    // where each step starts at 360, so xl to 3xl are the sizes the fixed
+    // table shipped. 4xl (11.391rem) and 5xl (17.086rem) were over 10rem.
     const maxOf = (size) => size.match(/,\s*([\d.]+rem)\)$/)[1]
     expect(maxOf(steps.xl.size)).toBe('3.375rem')
     expect(maxOf(steps['2xl'].size)).toBe('5.063rem')
     expect(maxOf(steps['3xl'].size)).toBe('7.594rem')
-    expect(maxOf(steps['4xl'].size)).toBe('11.391rem')
-    expect(maxOf(steps['5xl'].size)).toBe('17.086rem')
+    expect(maxOf(steps['4xl'].size)).toBe('10rem')
+    expect(maxOf(steps['5xl'].size)).toBe('10rem')
+  })
+
+  it('leaves every step of a 1.5 chassis that was under the ceiling as it was', () => {
+    // Pinned as strings, not recomputed: the ceiling must not disturb a clamp
+    // it has no reason to touch, including the 360px end of the ones it does.
+    expect(Object.fromEntries(RAMP_STEPS.map((s) => [s, steps[s].size]))).toEqual({
+      '2xs': '0.702rem',
+      xs: '0.79rem',
+      sm: '0.889rem',
+      base: '1rem',
+      md: '1.5rem',
+      lg: '2.25rem',
+      xl: 'clamp(2.585rem, 2.322rem + 1.17vw, 3.375rem)',
+      '2xl': 'clamp(2.969rem, 2.271rem + 3.102vw, 5.063rem)',
+      '3xl': 'clamp(3.41rem, 2.015rem + 6.199vw, 7.594rem)',
+      '4xl': 'clamp(3.917rem, 1.889rem + 9.012vw, 10rem)',
+      '5xl': 'clamp(4.5rem, 2.667rem + 8.148vw, 10rem)',
+      hero: 'clamp(5.063rem, 4.219rem + 3.75vw, 7.594rem)',
+    })
+  })
+
+  it('flattens the top of a 1.618 ramp onto the ceiling, hero included', () => {
+    // Uncapped: 3xl 11.09rem, 4xl 17.944rem, 5xl 29.03rem (464px), hero 11.09rem.
+    const loud = scaleSteps(1.618, '1rem')
+    expect(stepPxAt(loud['2xl'], 1440)).toBe(109.7)
+    for (const step of ['3xl', '4xl', '5xl', 'hero']) {
+      expect(stepPxAt(loud[step], 1440), step).toBe(160)
+    }
+  })
+
+  it('holds a chassis override to the ceiling, clamp or bare rem', () => {
+    const over = scaleSteps(1.5, '1rem', {
+      hero: { size: fluid('5rem', '14rem') },
+      '4xl': { size: '12rem' },
+      '5xl': { size: fluid('10.5rem', '14rem') },
+      '3xl': { size: fluid('4rem', '9rem') },
+    })
+    expect(over.hero.size).toBe(fluid('5rem', '10rem'))
+    expect(over['4xl'].size).toBe('10rem')
+    // A minimum already at the ceiling has nothing left to interpolate.
+    expect(over['5xl'].size).toBe('10rem')
+    expect(over['3xl'].size).toBe(fluid('4rem', '9rem'))
   })
 
   it('compresses the narrow end onto a smaller ratio, topping out at the ceiling', () => {
@@ -374,27 +423,47 @@ describe('the catalog', () => {
       // Both ends, since #457: the display steps interpolate, and a narrow-end
       // minimum picked without regard for the step below it would let the ramp
       // flatten or invert on a phone while reading fine on the desktop.
+      //
+      // Strictly increasing, with one exception: steps that have reached the
+      // desktop ceiling sit level on it at 1440. Nothing may ever step down.
+      const ceilingPx = DESKTOP_MAX_REM * 16
       for (const viewport of [360, 1440]) {
         for (let i = 1; i < fixed.length; i++) {
           const prev = stepPxAt(chassis.type.steps[fixed[i - 1]], viewport)
           const next = stepPxAt(chassis.type.steps[fixed[i]], viewport)
-          expect(next, `${fixed[i]} > ${fixed[i - 1]} at ${viewport}`).toBeGreaterThan(prev)
+          const label = `${fixed[i]} vs ${fixed[i - 1]} at ${viewport}`
+          if (prev === ceilingPx) expect(next, label).toBe(ceilingPx)
+          else expect(next, label).toBeGreaterThan(prev)
         }
       }
     }
   )
 
   it.each(CHASSIS_CATALOG.map((c) => [c.id, c]))(
-    '%s runs xl through 5xl as clamps whose maximum is the geometric step',
+    '%s keeps every step, hero included, at or under 10rem',
+    (_id, chassis) => {
+      for (const step of RAMP_STEPS) {
+        const { size } = chassis.type.steps[step]
+        expect(maxRemOf(size), `${step} max`).toBeLessThanOrEqual(DESKTOP_MAX_REM)
+        expect(stepPxAt({ size }, 1440), `${step} at 1440`).toBeLessThanOrEqual(160)
+        // Past 1440 too: the clamp's last term is the size on any wider screen.
+        expect(stepPxAt({ size }, 2560), `${step} at 2560`).toBeLessThanOrEqual(160)
+      }
+    }
+  )
+
+  it.each(CHASSIS_CATALOG.map((c) => [c.id, c]))(
+    '%s runs xl through 5xl as clamps whose maximum is the geometric step or the ceiling',
     (_id, chassis) => {
       // Desktop is the contract: whatever the narrow end does, the top of each
-      // clamp is still base × ratio^n, the size the fixed table shipped.
+      // clamp is still base × ratio^n, the size the fixed table shipped, until
+      // that passes 10rem.
       const ratio = ratioOf(chassis)
       for (const [i, step] of ['xl', '2xl', '3xl', '4xl', '5xl'].entries()) {
         const size = chassis.type.steps[step].size
         expect(size, step).toMatch(/^clamp\(/)
         const max = Number(size.match(/,\s*([\d.]+)rem\)$/)[1])
-        expect(max, `${step} max`).toBeCloseTo(ratio ** (3 + i), 2)
+        expect(max, `${step} max`).toBeCloseTo(Math.min(ratio ** (3 + i), DESKTOP_MAX_REM), 2)
       }
     }
   )
@@ -464,7 +533,7 @@ describe('renderChassisPresetFile', () => {
 
   it('emits the full ramp, quoting the keys that need it', () => {
     expect(source).toContain(`'2xs': { value: "0.702rem" }`)
-    expect(source).toContain(`'5xl': { value: "clamp(4.5rem, 0.305rem + 18.646vw, 17.086rem)" }`)
+    expect(source).toContain(`'5xl': { value: "clamp(4.5rem, 2.667rem + 8.148vw, 10rem)" }`)
     expect(source).toContain(`hero: { value: "clamp(5.063rem, 4.219rem + 3.75vw, 7.594rem)" }`)
   })
 

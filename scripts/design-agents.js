@@ -87,6 +87,7 @@ import {
 import { renderBrandLockupFile } from './utils/brand-lockup.js'
 import { renderSiteCalloutFile, SITE_CALLOUT_OWNER } from './utils/site-callout.js'
 import { formatMaterialContractBlock, materialSeed, renderMaterialFile } from './utils/material.js'
+import { renderWhitePaperFile } from './utils/white-paper.js'
 import { formatClientMarksForPrompt, readClientMarkSources } from './utils/client-marks.js'
 import { formatHeader } from './utils/header-grammar.js'
 import { formatTypeTreatment } from './utils/type-grammar.js'
@@ -1242,6 +1243,18 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       formatGeneratedFile(SITE_CALLOUT_OWNER, { root })
       writtenPaths.add(SITE_CALLOUT_OWNER)
       console.log(`  [chassis] wrote SiteCallout.tsx from template`)
+
+      // The white paper's fixed page (#533), on the same terms. It takes
+      // nothing from the chassis or the Art Director, so the codegen retry
+      // below has no reason to write it again.
+      await writeFile(
+        path.join(root, 'app/components/WhitePaper.tsx'),
+        renderWhitePaperFile(),
+        'utf8'
+      )
+      formatGeneratedFile('app/components/WhitePaper.tsx', { root })
+      writtenPaths.add('app/components/WhitePaper.tsx')
+      console.log(`  [chassis] wrote WhitePaper.tsx from template`)
     } catch (err) {
       await cleanupOrphans(writtenPaths, originalBackup, { root })
       await restore(originalBackup, { root })

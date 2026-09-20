@@ -81,7 +81,10 @@ or a wish that a confident composition were busier.
    demand the designer fill that room with more elements. Judge whether the
    gesture lands, not whether the pixels are busy. On a `hero_object:
    artifact` day the featured project's client marks are present beside its
-   title and legible at 1440, a set and not a footer strip.
+   title and legible at 1440, a set and not a footer strip. On a
+   `quote`-sourced hero, the author's name is visibly set near the line, not
+   shrunk into an easily-missed footnote; a quote with no attribution in view
+   is a REVISE.
 4. **Shell and header**: the declared footer treatment is visibly executed,
    and the header matches its declaration. Judge the header from the 2x crop,
    not from the full-page shot: at page scale an 11px mark and a 44px mark are

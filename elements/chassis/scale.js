@@ -33,6 +33,9 @@
  *   below for why they had to move: a fixed 5xl is 273px on a 1.5-ratio
  *   chassis, which is most of a 360px viewport before the first character
  *   is drawn.
+ * - Nothing tops out above 10rem. See DESKTOP_MAX_REM below: the geometric
+ *   value is the 1440px maximum only until it reaches the ceiling, so the top
+ *   of a steep ramp goes flat instead of running to 464px.
  */
 
 /** The ramp, small to large. Order matters: it is the emission order. */
@@ -86,6 +89,24 @@ const NARROW_ANCHOR_STEP = 'lg'
  * eight-character word in 311px and leaves the rest as slack.
  */
 const NARROW_MAX_REM = 4.5
+
+/**
+ * The largest size any step may reach at 1440px, in rem.
+ *
+ * The ramp is geometric with nothing above it, so the top steps grow with the
+ * ratio's seventh power: `5xl` is 17.086rem (273px) on a 1.5 chassis and
+ * 29.03rem (464px) on a 1.618 one. At 273px the project titles on 2026-09-20
+ * broke mid-word inside their columns (#530). The hero already tops out near
+ * `3xl`, 6rem to 11.1rem across the catalog, and 10rem (160px) sits at the
+ * loud end of that range. Only the 1.618 hero was over it, by 17px.
+ *
+ * Applied to the finished table, after overrides, so a chassis that declares
+ * its own `fluid(min, max)` or a bare rem is held to the same ceiling. Steps
+ * past the ceiling share it: `4xl` and `5xl` are both 10rem at 1440 on a 1.5
+ * chassis, and `3xl` and the hero join them on 1.618. They still differ below
+ * 1440, because each keeps its own 360px minimum.
+ */
+const DESKTOP_MAX_REM = 10
 
 /**
  * Floor for the compressed narrow-end ratio. Purely an inversion guard for a
@@ -175,6 +196,21 @@ function fluidStepSize(step, narrowRem, fixedRem) {
 }
 
 /**
+ * Hold a finished size to DESKTOP_MAX_REM. Reads the two forms the schema
+ * allows, a rem or a `clamp()` ending in its 1440px rem, and rebuilds the
+ * clamp from its own minimum when the maximum is over. A minimum already at
+ * the ceiling leaves nothing to interpolate, so that emits the plain rem.
+ */
+function capSize(size) {
+  const clampMatch = /^clamp\(([\d.]+)rem,.*,\s*([\d.]+)rem\)$/.exec(size)
+  const maxRem = clampMatch ? Number(clampMatch[2]) : parseRem(size)
+  if (maxRem <= DESKTOP_MAX_REM) return size
+  const minRem = clampMatch ? Number(clampMatch[1]) : maxRem
+  if (minRem >= DESKTOP_MAX_REM) return `${DESKTOP_MAX_REM}rem`
+  return fluid(`${minRem}rem`, `${DESKTOP_MAX_REM}rem`)
+}
+
+/**
  * Generate a full step table from a ratio and a base size, then lay
  * per-step overrides on top.
  *
@@ -235,6 +271,7 @@ export function scaleSteps(ratio, base, overrides = {}) {
       tracking: DEFAULT_TRACKING[step],
       ...(overrides[step] || {}),
     }
+    steps[step].size = capSize(steps[step].size)
   }
 
   for (const step of Object.keys(overrides)) {
