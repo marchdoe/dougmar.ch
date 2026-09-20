@@ -62,7 +62,12 @@
   // only the dev server loads. The deployed site and api/ never import them,
   // so they stay devDependencies. Fallow reads scripts/*.js as entry points and
   // reports the three as dev dependencies used in production.
-  "ignoreDependencies": ["@anthropic-ai/sdk", "dotenv", "js-yaml"],
+  //
+  // @pandacss/dev is the fourth: /elements imports elements/preset.ts and
+  // elements/chassis-preset.ts to list their tokens (#552), and both call
+  // `definePreset` from it. That function returns its argument, and the
+  // package is side-effect free, so the bundle keeps only that call.
+  "ignoreDependencies": ["@anthropic-ai/sdk", "dotenv", "js-yaml", "@pandacss/dev"],
 
   // Each of these overrides a transitive package, so no workspace package
   // declares it and fallow calls it unused. pnpm-workspace.yaml gives the

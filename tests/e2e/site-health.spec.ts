@@ -942,104 +942,116 @@ test.describe('site health — navigation', () => {
  * scrolls sideways, and the nightly Sidebar, which runs down the left edge of
  * the Layout wrapper, must not sit on the content. None of it names a token or
  * a size: the preset changes every night.
+ *
+ * The page callbacks only gather numbers and strings; the comparing happens
+ * here, so each stays a few lines long.
  */
+const rgbToHex = (rgb: string) => {
+  const m = /rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(rgb)
+  if (!m) return rgb
+  return `#${[m[1], m[2], m[3]].map((n) => Number(n).toString(16).padStart(2, '0')).join('')}`
+}
+
 test.describe('site health — /elements reads the preset', () => {
-  for (const width of [360, 820, 1440]) {
-    test(`tables, type floor, overflow and sidebar at ${width}`, async ({ page }) => {
-      await page.setViewportSize({ width, height: 900 })
-      await page.goto('/elements')
-      await page.waitForLoadState('networkidle')
-      await expect(page.locator('[data-token-path]').first()).toBeVisible()
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/elements')
+    await page.waitForLoadState('networkidle')
+    await expect(page.locator('[data-token-path]').first()).toBeVisible()
+  })
 
-      const report = await page.evaluate(() => {
-        const toHex = (rgb: string) => {
-          const m = /rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(rgb)
-          if (!m) return rgb
-          return `#${[m[1], m[2], m[3]].map((n) => Number(n).toString(16).padStart(2, '0')).join('')}`
-        }
-
-        // (a) each printed hex is the colour the built CSS paints for that token.
-        const mismatched: string[] = []
-        let painted = 0
-        for (const item of document.querySelectorAll('[data-token-path]')) {
-          const printed = item.querySelector('[data-token-value]')?.textContent?.trim()
-          const block = item.firstElementChild
-          if (!printed || !block || !/^#[0-9a-f]{6}$/i.test(printed)) continue
-          const bg = getComputedStyle(block).backgroundColor
-          painted++
-          if (toHex(bg).toLowerCase() !== printed.toLowerCase()) {
-            mismatched.push(
-              `${item.getAttribute('data-token-path')}: prints ${printed}, paints ${bg}`
-            )
-          }
-        }
-
-        // (b) the ramp floor is whatever `2xs` is tonight.
-        const probe = document.createElement('span')
-        probe.style.fontSize = 'var(--font-sizes-2xs)'
-        document.body.append(probe)
-        const floor = Number.parseFloat(getComputedStyle(probe).fontSize)
-        probe.remove()
-        const small: string[] = []
-        const rects: DOMRect[] = []
-        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
-        for (let n = walker.nextNode(); n; n = walker.nextNode()) {
-          const el = n.parentElement
-          if (!el?.textContent?.trim() || el.closest('[aria-hidden="true"]')) continue
-          const size = Number.parseFloat(getComputedStyle(el).fontSize)
-          if (size < floor - 0.01) small.push(`${size}px "${n.textContent?.trim().slice(0, 24)}"`)
-          const range = document.createRange()
-          range.selectNodeContents(n)
-          rects.push(...Array.from(range.getClientRects()))
-        }
-
-        // (d) the Sidebar, when it is showing, keeps clear of every line of text.
-        const sidebar = document.querySelector('[aria-hidden="true"]')
-        const side =
-          sidebar && getComputedStyle(sidebar).display !== 'none'
-            ? sidebar.getBoundingClientRect()
-            : null
-        const overlaps = side
-          ? rects.filter((r) => r.width > 0 && r.left < side.right && r.right > side.left).length
-          : 0
-
-        const root = document.documentElement
-        return {
-          painted,
-          mismatched,
-          floor,
-          small,
-          overflow: root.scrollWidth - root.clientWidth,
-          sidebar: Boolean(side),
-          overlaps,
-        }
-      })
-
-      expect(report.painted, 'no swatch had a hex to compare').toBeGreaterThan(0)
-      expect(report.mismatched).toEqual([])
-      expect(report.small, `text under the ${report.floor}px ramp floor`).toEqual([])
-      expect(report.overflow).toBeLessThanOrEqual(0)
-      if (width >= 768) expect(report.sidebar, 'the sidebar did not render').toBe(true)
-      expect(report.overlaps, 'text under the sidebar').toBe(0)
-    })
-  }
+  test('every printed colour is the colour the built CSS paints', async ({ page }) => {
+    const swatches = await page.locator('[data-token-path]').evaluateAll((items) =>
+      items.map((item) => ({
+        path: item.getAttribute('data-token-path'),
+        printed: item.querySelector('[data-token-value]')?.textContent?.trim() ?? '',
+        paints: item.firstElementChild
+          ? getComputedStyle(item.firstElementChild).backgroundColor
+          : '',
+      }))
+    )
+    const hexes = swatches.filter((s) => /^#[0-9a-f]{6}$/i.test(s.printed))
+    expect(hexes.length, 'no swatch had a hex to compare').toBeGreaterThan(0)
+    const wrong = hexes.filter((s) => rgbToHex(s.paints).toLowerCase() !== s.printed.toLowerCase())
+    expect(wrong.map((s) => `${s.path}: prints ${s.printed}, paints ${s.paints}`)).toEqual([])
+  })
 
   test('a semantic colour with no value tonight says so instead of painting nothing', async ({
     page,
   }) => {
-    await page.goto('/elements')
-    await page.waitForLoadState('networkidle')
-    const empty = await page.evaluate(() =>
-      Array.from(document.querySelectorAll('[data-token-path^="semantic."]'))
-        .filter((item) => !/not defined tonight/.test(item.textContent ?? ''))
-        .filter((item) => {
-          const bg = item.firstElementChild
-            ? getComputedStyle(item.firstElementChild).backgroundColor
-            : ''
-          return bg === 'rgba(0, 0, 0, 0)' || bg === ''
-        })
-        .map((item) => item.getAttribute('data-token-path'))
+    const swatches = await page.locator('[data-token-path^="semantic."]').evaluateAll((items) =>
+      items.map((item) => ({
+        path: item.getAttribute('data-token-path'),
+        said: /not defined tonight/.test(item.textContent ?? ''),
+        paints: item.firstElementChild
+          ? getComputedStyle(item.firstElementChild).backgroundColor
+          : '',
+      }))
     )
-    expect(empty).toEqual([])
+    const blank = swatches.filter(
+      (s) => !s.said && (s.paints === '' || s.paints === 'rgba(0, 0, 0, 0)')
+    )
+    expect(blank.map((s) => s.path)).toEqual([])
   })
+
+  for (const width of [360, 820, 1440]) {
+    test(`type floor, overflow and sidebar at ${width}`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 })
+      await page.reload()
+      await page.waitForLoadState('networkidle')
+
+      // The ramp floor is whatever `2xs` is tonight.
+      const floor = await page.evaluate(() => {
+        const probe = document.createElement('span')
+        probe.style.fontSize = 'var(--font-sizes-2xs)'
+        document.body.append(probe)
+        const size = Number.parseFloat(getComputedStyle(probe).fontSize)
+        probe.remove()
+        return size
+      })
+
+      const lines = await page.evaluate(() => {
+        const out: { size: number; text: string; left: number; right: number }[] = []
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+        for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+          const el = n.parentElement
+          const text = n.textContent?.trim() ?? ''
+          if (!el || !text || el.closest('[aria-hidden="true"]')) continue
+          const size = Number.parseFloat(getComputedStyle(el).fontSize)
+          const range = document.createRange()
+          range.selectNodeContents(n)
+          for (const r of range.getClientRects()) {
+            if (r.width > 0)
+              out.push({ size, text: text.slice(0, 24), left: r.left, right: r.right })
+          }
+        }
+        return out
+      })
+      const small = lines.filter((l) => l.size < floor - 0.01)
+      expect(
+        small.map((l) => `${l.size}px "${l.text}"`),
+        `text under the ${floor}px floor`
+      ).toEqual([])
+
+      const page_ = await page.evaluate(() => {
+        const root = document.documentElement
+        const sidebar = document.querySelector('[aria-hidden="true"]')
+        const shown = sidebar && getComputedStyle(sidebar).display !== 'none'
+        const box = shown ? sidebar.getBoundingClientRect() : null
+        return {
+          overflow: root.scrollWidth - root.clientWidth,
+          side: box && { left: box.left, right: box.right },
+        }
+      })
+      expect(page_.overflow).toBeLessThanOrEqual(0)
+
+      // The Sidebar shows from the md breakpoint up, and keeps clear of every line.
+      if (width >= 768) expect(page_.side, 'the sidebar did not render').not.toBeNull()
+      const { side } = page_
+      const under = side ? lines.filter((l) => l.left < side.right && l.right > side.left) : []
+      expect(
+        under.map((l) => l.text),
+        'text under the sidebar'
+      ).toEqual([])
+    })
+  }
 })
