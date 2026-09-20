@@ -161,7 +161,7 @@ function describeText(c) {
 
 function ownerNote(c) {
   return c.part
-    ? ` ${c.part} is written by the orchestrator, so this is reported for the owner and is not a revision.`
+    ? ` ${c.part[0].toUpperCase()}${c.part.slice(1)} is written by the orchestrator, so this is reported for the owner and is not a revision.`
     : ''
 }
 
