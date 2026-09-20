@@ -17,7 +17,7 @@ export const ROOT = path.resolve(__dirname, '../..')
 // (ArchiveMarkdown, RunStages, MobileFooter, SectionHead, ProjectRow,
 // FeaturedProject, the panel) are out of the engineer's reach. One run
 // overwrote FeaturedProject.tsx, which only /elements renders (#432).
-export const ALLOWED_WRITE_PREFIXES = ['app/components/generated/', 'app/routes/', 'app/stubs/']
+export const ALLOWED_WRITE_PREFIXES = ['app/components/generated/', 'app/routes/']
 
 // The two components under app/components/ the engineer still writes: the
 // required shell files, on MUTABLE_FILES and REQUIRED_FILES. Listed here by
