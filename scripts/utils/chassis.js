@@ -552,27 +552,6 @@ export function formatChassisCatalogForPrompt(catalog) {
 }
 
 /**
- * Per-chassis render facts for the spec critic: the size of each display
- * register at both ends of the viewport window, plus the body size, which is
- * fixed. Generated from the catalog so "can it render marquee" is a lookup,
- * not a hardcoded list that goes stale when a chassis is added.
- *
- * `2xl` and `5xl` are ranges, not single numbers: since #457 (#469 for `xl`)
- * every step from `xl` up is a clamp, so quoting one figure would describe
- * the desktop only.
- */
-export function formatChassisRenderFactsForPrompt(catalog) {
-  const lines = []
-  for (const c of catalog) {
-    const s = c.type.steps
-    lines.push(
-      `- \`${c.id}\`: hero ${Math.round(stepPxAt(s.hero, NARROW_PX))}px at ${NARROW_PX} → ${Math.round(stepPxAt(s.hero, 1440))}px at 1440; 2xl ${Math.round(stepPxAt(s['2xl'], NARROW_PX))}→${Math.round(stepPxAt(s['2xl'], 1440))}px; 5xl ${Math.round(stepPxAt(s['5xl'], NARROW_PX))}→${Math.round(stepPxAt(s['5xl'], 1440))}px; base ${Math.round(stepPxAt(s.base, 1440))}px`
-    )
-  }
-  return lines.join('\n')
-}
-
-/**
  * The chassis-selection facts injected into the Art Director prompt in
  * place of the hardcoded ratio list it used to carry. Every chassis reaches
  * the 64px mobile marquee floor by construction (see scale.js), so the

@@ -114,7 +114,7 @@ describe('callClaudeSDK', () => {
 
   it('omits thinking on haiku, which rejects adaptive', async () => {
     const { client, create } = stubClient(OK)
-    await callClaudeSDK('spec-critic', 'sys', [textBlock('x')], {
+    await callClaudeSDK('mockup-critic', 'sys', [textBlock('x')], {
       client,
       model: 'claude-haiku-4-5',
     })

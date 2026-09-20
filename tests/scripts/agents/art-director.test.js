@@ -150,7 +150,7 @@ describe('validateArtDirectorResult', () => {
     visual_spec: '## Color\n- 18°',
     self_check: '1. Yes 2. Yes 3. Yes',
     measurables:
-      'canvas_utilization_min: 70\nhero_scale: clamp(96px, 13vw, 200px)\ncolor_coverage_min: 60',
+      'canvas_utilization_min: 70\nhero_scale: clamp(64px, 8vw, 112px)\ncolor_coverage_min: 60',
     shell:
       'footer: data strip\nbrand_lockup: horizontal-md\nbrand_color_mode: original\nground_material: none',
     header: validHeader,

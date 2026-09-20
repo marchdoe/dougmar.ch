@@ -103,7 +103,7 @@ export const projects: Project[] = [
       'Every run costs tokens, so anything decidable by arithmetic should not be decided by a model.',
     ],
     approach:
-      "Each morning a pipeline of Claude agents rebuilds the site from nothing. An art director reads the day's signals and writes a specification: a composition drawn from eight independent axes, a type and colour scale, the hero line, and whether the page carries a shell at all. A mockup designer renders that specification at full fidelity, an engineer rebuilds it as the real site, and three separate critics can send any of it back. What the agents may touch is enumerated in a list. The content files, this sentence included, are refused at the write layer.",
+      "Each morning a pipeline of Claude agents rebuilds the site from nothing. An art director reads the day's signals and writes a specification: a composition drawn from eight independent axes, a type and colour scale, the hero line, and whether the page carries a shell at all. A mockup designer renders that specification at full fidelity, an engineer rebuilds it as the real site, and two separate critics can send any of it back. What the agents may touch is enumerated in a list. The content files, this sentence included, are refused at the write layer.",
     process: [
       {
         phase: 'Signals',
@@ -114,11 +114,6 @@ export const projects: Project[] = [
         phase: 'Art Director',
         does: 'Picks a composition from eight axes rather than a named layout, sets the tokens, writes the hero line, declares the shell.',
         produces: 'A specification',
-      },
-      {
-        phase: 'Spec critic',
-        does: "Reads the specification against the day's brief and the standing mandates, and can send it back.",
-        produces: 'A verdict',
       },
       {
         phase: 'Mockup Designer',

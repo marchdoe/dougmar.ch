@@ -60,7 +60,6 @@ describe('runAgentSwarm on the recorded night', () => {
 
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -89,7 +88,6 @@ describe('runAgentSwarm on the recorded night', () => {
     expect(mobile.carrier).toMatch(/gold thesis field/)
     // Every downstream agent received the declaration.
     for (const agent of [
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -108,7 +106,6 @@ describe('runAgentSwarm on the recorded night', () => {
       texture: 'stacked',
     })
     for (const agent of [
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -163,7 +160,6 @@ describe('runAgentSwarm on the recorded night', () => {
         channel,
       }))
     ).toEqual([
-      { critic: 'spec-critic', round: undefined, verdict: 'APPROVED', channel: undefined },
       { critic: 'mockup-critic', round: 0, verdict: 'APPROVE', channel: 'sdk-vision' },
       { critic: 'surface-gate', round: 1, verdict: 'SHIP', channel: undefined },
       { critic: 'screenshot-critic', round: undefined, verdict: 'SHIP', channel: 'sdk-vision' },
@@ -246,7 +242,6 @@ describe('runAgentSwarm on the recorded night', () => {
     const names = run.trace.steps.map((s) => s.name)
     const expected = [
       'art-director',
-      'spec-critic',
       'mockup-critic',
       'react-engineer',
       'build-validation',

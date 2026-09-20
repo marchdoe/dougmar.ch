@@ -44,7 +44,7 @@ const valid = () => ({
   visual_spec: 'spec',
   self_check: 'yes',
   measurables:
-    'canvas_utilization_min: 70\nhero_scale: clamp(96px, 13vw, 200px)\ncolor_coverage_min: 60',
+    'canvas_utilization_min: 70\nhero_scale: clamp(64px, 8vw, 112px)\ncolor_coverage_min: 60',
   shell:
     'footer: data strip\nbrand_lockup: horizontal-md\nbrand_color_mode: original\nground_material: none',
   header: validHeader,
@@ -88,7 +88,7 @@ describe('validateArtDirectorResult — MEASURABLES + SHELL', () => {
   it('accepts canvas_utilization_min: >=70 in MEASURABLES (passes validation)', () => {
     const r = valid()
     r.measurables =
-      'canvas_utilization_min: >=70\nhero_scale: clamp(96px, 13vw, 200px)\ncolor_coverage_min: 60'
+      'canvas_utilization_min: >=70\nhero_scale: clamp(64px, 8vw, 112px)\ncolor_coverage_min: 60'
     expect(() => validateArtDirectorResult(r)).not.toThrow()
   })
 
@@ -102,6 +102,63 @@ describe('validateArtDirectorResult — MEASURABLES + SHELL', () => {
     const r = valid()
     // shell already has no ground_strategy line — confirms it's not required
     expect(r.shell).not.toContain('ground_strategy')
+    expect(() => validateArtDirectorResult(r)).not.toThrow()
+  })
+})
+
+describe('validateArtDirectorResult, the reply checked against itself (#576)', () => {
+  const PRESET = "theme: { tokens: { colors: { pine: { 600: { value: '#0a7d54' } } } } }"
+  const HUGE_HERO =
+    'canvas_utilization_min: 70\nhero_scale: clamp(140px, 27vw, 400px)\ncolor_coverage_min: 60'
+  const withSpec = (overrides = {}) => ({
+    ...valid(),
+    visual_spec: '### 1. Color Specification\n- accent `#0a7d54`',
+    files: [{ path: 'elements/preset.ts', content: PRESET }],
+    ...overrides,
+  })
+
+  it('accepts a spec whose colours the preset defines', () => {
+    expect(() => validateArtDirectorResult(withSpec())).not.toThrow()
+    expect(validateArtDirectorResult(withSpec())).toEqual([])
+  })
+
+  it('throws on a spec hex the preset lacks, naming it', () => {
+    const r = withSpec({ visual_spec: '### 1. Color Specification\n- accent `#e86f1e`' })
+    expect(() => validateArtDirectorResult(r)).toThrow(
+      /Art Director reply disagrees with its own chassis or preset:\n- the Color Specification .* names #e86f1e/
+    )
+  })
+
+  it('throws on a hero_scale above the chassis ramp, naming field, value and ceiling', () => {
+    const r = withSpec({ measurables: HUGE_HERO })
+    expect(() => validateArtDirectorResult(r)).toThrow(
+      /MEASURABLES hero_scale "clamp\(140px, 27vw, 400px\)" resolves to 389px at 1440px, and chassis big-shoulders-atkinson tops out at 160px/
+    )
+  })
+
+  it('reports every failed check in one message, so one retry can fix them all', () => {
+    const r = withSpec({
+      visual_spec: '### 1. Color Specification\n- accent `#e86f1e`',
+      measurables: HUGE_HERO,
+    })
+    expect(() => validateArtDirectorResult(r)).toThrow(/#e86f1e[\s\S]*hero_scale/)
+  })
+
+  it('returns the findings instead of throwing when enforceSpec is off (the retry)', () => {
+    const r = withSpec({ visual_spec: '### 1. Color Specification\n- accent `#e86f1e`' })
+    const findings = validateArtDirectorResult(r, { enforceSpec: false })
+    expect(findings).toHaveLength(1)
+    expect(findings[0]).toContain('#e86f1e')
+  })
+
+  it('still throws for a missing block when enforceSpec is off', () => {
+    const r = withSpec()
+    delete r.mobile
+    expect(() => validateArtDirectorResult(r, { enforceSpec: false })).toThrow(/MOBILE/)
+  })
+
+  it('leaves an unknown chassis to the orchestrator, which falls back', () => {
+    const r = withSpec({ chassis_id: 'no-such-chassis', measurables: HUGE_HERO })
     expect(() => validateArtDirectorResult(r)).not.toThrow()
   })
 })

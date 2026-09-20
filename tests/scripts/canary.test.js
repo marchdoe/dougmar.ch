@@ -468,12 +468,12 @@ describe('runCanary — a lost night', () => {
 describe('runCanary — "Ended in" reads the failing agent off the error, not the last step', () => {
   const fixedNow = () => new Date(2026, 8, 2, 14, 5, 0)
 
-  // The trace's last step is always spec-critic (phase 1) — a retry (e.g.
+  // The trace's last step is a critic here (phase 2), and a retry (e.g.
   // #432's mockup-designer-rejected) can log a step for the phase that
   // eventually failed, so the last step in the trace is not always where the
   // run actually ended. Only the thrown error's own message says that.
-  const traceEndingInSpecCritic = {
-    steps: [{ name: 'spec-critic', phase: 1, durationMs: 200, timestamp: 't1' }],
+  const traceEndingInMockupCritic = {
+    steps: [{ name: 'mockup-critic', phase: 2, durationMs: 200, timestamp: 't1' }],
   }
 
   it.each([
@@ -490,7 +490,7 @@ describe('runCanary — "Ended in" reads the failing agent off the error, not th
       writeArchiveFixture({
         date: '2026-09-02',
         buildName: 'build-failed-999',
-        trace: traceEndingInSpecCritic,
+        trace: traceEndingInMockupCritic,
         cost: { total_usd: 0.1, calls: 1, retries: 1 },
         extraFiles: { 'error.txt': errorText },
       })
@@ -499,7 +499,7 @@ describe('runCanary — "Ended in" reads the failing agent off the error, not th
       expect(result.exitCode).toBe(1)
       const summary = readFileSync(path.join(result.evidenceDir, 'summary.md'), 'utf8')
       expect(summary).toContain(`**Ended in:** ${expectedPhase}`)
-      expect(summary).not.toContain('**Ended in:** phase 1 (spec-critic)')
+      expect(summary).not.toContain('**Ended in:** phase 2 (mockup-critic)')
     })
   )
 
@@ -508,13 +508,13 @@ describe('runCanary — "Ended in" reads the failing agent off the error, not th
       writeArchiveFixture({
         date: '2026-09-02',
         buildName: 'build-failed-999',
-        trace: traceEndingInSpecCritic,
+        trace: traceEndingInMockupCritic,
         cost: { total_usd: 0.1, calls: 1, retries: 0 },
         extraFiles: { 'error.txt': 'run budget exhausted before the Mockup Designer could start' },
       })
       const exec = () => ({ status: 1, stdout: '', stderr: 'pipeline failed\n' })
       const result = await runCanary({ exec, now: fixedNow, root, worktreePath: worktree })
       const summary = readFileSync(path.join(result.evidenceDir, 'summary.md'), 'utf8')
-      expect(summary).toContain('**Ended in:** phase 1 (spec-critic)')
+      expect(summary).toContain('**Ended in:** phase 2 (mockup-critic)')
     }))
 })

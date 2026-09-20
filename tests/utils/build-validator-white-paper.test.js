@@ -249,14 +249,14 @@ describe('<WhitePaper>', () => {
     for (const s of paper.stack) expect(html).toContain(asHtml(s))
   })
 
-  it('numbers the nine phases in order inside one ordered list', () => {
+  it('numbers the phases in order inside one ordered list', () => {
     const list = html.slice(html.indexOf('<ol'), html.indexOf('</ol>'))
     expect(list.match(/<li/g)).toHaveLength(paper.process.length)
     const positions = paper.process.map((step) => list.indexOf(`>${asHtml(step.phase)}</h3>`))
     expect(positions.every((p) => p > 0)).toBe(true)
     expect([...positions].sort((a, b) => a - b)).toEqual(positions)
     expect(list).toContain('>01<')
-    expect(list).toContain('>09<')
+    expect(list).toContain(`>${String(paper.process.length).padStart(2, '0')}<`)
   })
 
   it('links every reference, and leaves the h1 to the route', () => {

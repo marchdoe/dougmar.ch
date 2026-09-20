@@ -34,7 +34,6 @@ describe('AGENT_BUDGETS', () => {
     expect(budgetFor('art-director')).toEqual({ timeoutMs: 1_500_000, stallTimeoutMs: 480_000 })
     expect(budgetFor('mockup-designer')).toEqual({ timeoutMs: 1_800_000, stallTimeoutMs: 480_000 })
     expect(budgetFor('react-engineer')).toEqual({ timeoutMs: 1_800_000, stallTimeoutMs: 480_000 })
-    expect(budgetFor('spec-critic')).toEqual({ timeoutMs: 600_000, stallTimeoutMs: 300_000 })
   })
 
   // #486 capped both vision critics at 6000. The mockup critic is Haiku with

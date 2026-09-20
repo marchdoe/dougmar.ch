@@ -21,7 +21,7 @@ Our autonomous design pipeline (`scripts/design-agents.js`) loads these referenc
 | `bolder.md` | mockup-designer (only on committed/drenched color days) |
 | `responsive-design.md` | not loaded directly — its rules are salvaged into mockup-designer.md's Responsive section |
 | `brand.md` | all design agents (we are brand register) |
-| `critique.md` | spec-critic, screenshot-critic, mockup-critic |
+| `critique.md` | screenshot-critic, mockup-critic |
 
 ## What we don't use
 

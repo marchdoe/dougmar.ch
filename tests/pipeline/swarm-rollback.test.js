@@ -90,7 +90,7 @@ const pastDeadlineAfter = (fixture) => () => {
 describe('every throw between the first write and archive() rolls the checkout back', () => {
   it('run budget spent before the Mockup Designer', async () => {
     const { run, changed } = await runAndDiff({
-      agents: { 'spec-critic': [pastDeadlineAfter(fixtureFor('spec-critic'))] },
+      agents: { 'art-director': [pastDeadlineAfter(fixtureFor('art-director'))] },
     })
 
     expect(run.error.message).toMatch(/^run budget exhausted before the Mockup Designer/)
@@ -170,7 +170,7 @@ describe('every throw between the first write and archive() rolls the checkout b
     // Not the chassis writer's own catch: the run got past it.
     expect(run.error.message).toMatch(/ENOENT.*logo\.svg/)
     expect(run.error.message).not.toMatch(/^Chassis file generation failed/)
-    expect(run.calls.map((c) => c.agent)).toEqual(['art-director', 'spec-critic'])
+    expect(run.calls.map((c) => c.agent)).toEqual(['art-director'])
     expectRolledBack(run, changed)
   })
 })

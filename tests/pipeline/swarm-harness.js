@@ -52,7 +52,6 @@ export const TEST_BOUNDARY_ID = 'a1b2c3d4'
 
 export const AGENTS = [
   'art-director',
-  'spec-critic',
   'mockup-designer',
   'mockup-critic',
   'react-engineer',

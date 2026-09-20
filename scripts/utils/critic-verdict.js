@@ -1,7 +1,7 @@
 /**
  * Shared verdict parser for the pipeline's critic gates.
  *
- * Every critic prompt (spec-critic, screenshot-critic, mockup-critic) ends
+ * Every critic prompt (screenshot-critic, mockup-critic) ends
  * with a `===VERDICT===\n<VALUE>\n===END===` block. Parsing the verdict with a
  * bare `raw.includes('REVISE')` is wrong: any response that so much as mentions
  * the word REVISE — an echo of the "APPROVE | REVISE" template line, or prose
@@ -17,8 +17,7 @@
  *
  * @param {string} raw - the critic's raw response text
  * @param {string} positiveToken - the non-REVISE verdict for this critic
- *   ('APPROVED' for spec-critic, 'SHIP' for screenshot-critic, 'APPROVE' for
- *   mockup-critic)
+ *   ('SHIP' for screenshot-critic, 'APPROVE' for mockup-critic)
  * @returns {{ verdict: string, malformed: boolean }} verdict is either
  *   positiveToken or 'REVISE'; malformed is true when no valid block was found
  */
