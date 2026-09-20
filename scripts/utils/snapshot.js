@@ -891,9 +891,7 @@ async function waitUntilServing(preview, baseUrl, timeoutMs) {
       // not listening yet
     }
     if (Date.now() >= deadline) {
-      throw new Error(
-        `vite preview did not answer on ${baseUrl} within ${timeoutMs}ms${detail()}`
-      )
+      throw new Error(`vite preview did not answer on ${baseUrl} within ${timeoutMs}ms${detail()}`)
     }
     await new Promise((r) => setTimeout(r, 250))
   }

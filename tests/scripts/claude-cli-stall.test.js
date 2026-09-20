@@ -418,7 +418,7 @@ describe('callClaudeCLI temp prompt file', () => {
 
   it('gives each call its own file, even two for one agent, and removes both', async () => {
     const { callClaudeCLI } = await import('../../scripts/utils/claude-cli.js')
-    const { writeFile, unlink } = await import('fs/promises')
+    const { writeFile, unlink } = await import('node:fs/promises')
     const opts = { model: 'claude-sonnet-5', timeoutMs: 60 * 60 * 1000, stallTimeoutMs: 1000 }
 
     const first = callClaudeCLI('test-agent', 'system', 'first prompt', opts).catch((e) => e)
