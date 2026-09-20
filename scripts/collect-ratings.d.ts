@@ -19,6 +19,9 @@ export interface RatingIssue {
   title?: string
   body?: string
   comments?: RatingIssueComment[]
+  author?: { login?: string } | null
 }
 
 export function parseRatingFromIssue(issue: RatingIssue): ParsedRating | null
+
+export function isTrustedIssueAuthor(issue: Pick<RatingIssue, 'author'>): boolean

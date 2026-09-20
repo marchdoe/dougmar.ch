@@ -35,14 +35,21 @@ import { LOCKUP_IDS } from '../utils/brand-lockup.js'
 import { MATERIAL_NAMES, isMaterialName } from '../utils/material.js'
 import { modelFor } from '../utils/models.js'
 import { budgetFor } from '../utils/budgets.js'
+import { newBoundaryId, serialiseSignals, wrapAsData } from '../utils/data-boundary.js'
 
 const BRAND_LOCKUP_IDS = new Set(LOCKUP_IDS)
 
 /**
  * Assemble the user prompt for the Art Director call.
  * Pure function — no I/O — so unit tests can drive it directly.
+ *
+ * The signals, the design references and the archive briefs are text a
+ * stranger or an earlier model run wrote. Each goes inside a tag ending in
+ * `boundaryId`, which the system prompt names as data (data-boundary.js).
+ * `runAgentSwarm` draws one id per run; without one a random id is drawn here.
  */
 export function buildArtDirectorUserPrompt({
+  boundaryId = newBoundaryId(),
   signals,
   contentSummary,
   chassisCatalogBlock,
@@ -68,12 +75,12 @@ export function buildArtDirectorUserPrompt({
   // Every block after the first three is optional and skipped when empty;
   // the order here is the order the Art Director reads them in.
   const sections = [
-    `## Today's Raw Signals\n\n\`\`\`yaml\n${formatSignalsAsYaml(signals)}\n\`\`\``,
+    `## Today's Raw Signals\n\n${wrapAsData('signals', `\`\`\`yaml\n${serialiseSignals(signals)}\n\`\`\``, boundaryId)}`,
     `## Site Content (read-only — for hero phrase mining)\n\n${contentSummary}`,
     `## Typography Chassis Catalog\n\n${chassisCatalogBlock}`,
-    recentBriefs && `## Recent Archive Briefs\n\n${recentBriefs}`,
+    recentBriefs && `## Recent Archive Briefs\n\n${wrapAsData('briefs', recentBriefs, boundaryId)}`,
     recentRatings && `## User Design Ratings (learn from these)\n\n${recentRatings}`,
-    references && `## Design References\n\n${references}`,
+    references && `## Design References\n\n${wrapAsData('references', references, boundaryId)}`,
     colorMandateSection,
     shellMandateSection,
     paletteFormulaMandateSection,
@@ -91,13 +98,6 @@ export function buildArtDirectorUserPrompt({
     retryContext,
   ]
   return sections.filter(Boolean).join('\n\n---\n\n')
-}
-
-function formatSignalsAsYaml(signals) {
-  return Object.entries(signals)
-    .filter(([, v]) => v !== undefined)
-    .map(([k, v]) => (typeof v === 'string' ? `${k}: '${v}'` : `${k}: ${JSON.stringify(v)}`))
-    .join('\n')
 }
 
 /**
@@ -260,6 +260,7 @@ function validateMotion(parsed) {
  * Run the Art Director phase.
  *
  * @param {{
+ *   boundaryId?: string,
  *   signals: object,
  *   contentSummary: string,
  *   chassisCatalog: object[],
