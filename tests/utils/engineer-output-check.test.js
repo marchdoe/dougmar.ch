@@ -48,6 +48,33 @@ describe('findEngineerOutputProblem', () => {
     expect(problem.reminder).toMatch(/- app\/components\/Sidebar\.tsx/)
   })
 
+  it('says in the missing-files reminder what every required file has to hold', () => {
+    const problem = findEngineerOutputProblem([], 'standard')
+    expect(problem.kind).toBe('missing-files')
+    for (const p of REQUIRED_FILES) {
+      expect(problem.reminder).toContain(`- ${p}: `)
+    }
+    expect(problem.reminder).not.toMatch(/undefined/)
+    expect(problem.reminder).toMatch(/export function Layout.*wraps `\{children\}`/)
+    expect(problem.reminder).toMatch(/export function Sidebar.*props Layout\.tsx passes/)
+    expect(problem.reminder).toContain("createFileRoute('/work/$slug')")
+  })
+
+  it('asks for a patch in every reminder, never for the whole response again', () => {
+    const files = [...complete(), file('app/components/MobileFooter.tsx', '<nav>')]
+    const reminders = [
+      findEngineerOutputProblem([], 'standard').reminder,
+      findEngineerOutputProblem(files, 'standard').reminder,
+      findEngineerOutputProblem(
+        complete().map((f) => file(f.path, '<nav>')),
+        'none'
+      ).reminder,
+    ]
+    for (const reminder of reminders) {
+      expect(reminder).not.toMatch(/re-emit|COMPLETE response|RETRY/i)
+    }
+  })
+
   it('reports a posture violation once the files are complete', () => {
     const files = complete().map((f) =>
       f.path === 'app/components/Sidebar.tsx' ? file(f.path, '<nav>links</nav>') : f
@@ -56,6 +83,18 @@ describe('findEngineerOutputProblem', () => {
     expect(problem.kind).toBe('shell-posture')
     expect(problem.message).toMatch(/app\/components\/Sidebar\.tsx/)
     expect(problem.reminder).toMatch(/SHELL POSTURE VIOLATION/)
+  })
+
+  it('names each offending file on its own line in the posture reminder', () => {
+    const files = complete().map((f) =>
+      ['app/components/Layout.tsx', 'app/components/Sidebar.tsx'].includes(f.path)
+        ? file(f.path, '<nav className="x">links</nav>')
+        : f
+    )
+    const { reminder } = findEngineerOutputProblem(files, 'none')
+    expect(reminder).toContain('\n- app/components/Layout.tsx')
+    expect(reminder).toContain('\n- app/components/Sidebar.tsx')
+    expect(reminder).not.toContain('\n- app/routes/index.tsx')
   })
 
   it('reports missing files before posture, since an absent file cannot be judged', () => {
@@ -121,6 +160,21 @@ describe('findEngineerOutputProblem on an unwritable path', () => {
     expect(problem.message).toMatch(/MobileFooter\.tsx/)
     expect(problem.reminder).toMatch(/FILE PATH NOT YOURS/)
     expect(problem.reminder).toMatch(/app\/components\/generated\//)
+  })
+
+  it('prints the rejected file, which is not on disk for the brief to show', () => {
+    const files = [
+      ...complete(),
+      file('app/components/MobileFooter.tsx', 'export const MobileFooter = () => null'),
+    ]
+    const { reminder } = findEngineerOutputProblem(files, 'standard')
+    expect(reminder).toContain(
+      '--- app/components/MobileFooter.tsx (not written) ---\n' +
+        'export const MobileFooter = () => null\n' +
+        '--- end app/components/MobileFooter.tsx ---'
+    )
+    // Only the rejected file is printed; the written ones are the brief's.
+    expect(reminder).not.toContain('--- app/routes/index.tsx')
   })
 
   it('reports missing files first, since the response is incomplete either way', () => {

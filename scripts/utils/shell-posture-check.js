@@ -13,16 +13,22 @@
 /**
  * @param {Array<{ path: string, content: string }>} files
  * @param {string|null|undefined} shellPosture
+ * @returns {string[]} the paths whose content holds a <nav> element, in file
+ *   order; empty for any posture but `none`
+ */
+export function findNavOffenders(files, shellPosture) {
+  if (shellPosture !== 'none') return []
+  return (files || []).filter((f) => /<nav[\s>]/.test(f.content || '')).map((f) => f.path)
+}
+
+/**
+ * @param {Array<{ path: string, content: string }>} files
+ * @param {string|null|undefined} shellPosture
  * @returns {string|null} a violation message, or null if the files respect
  *   the declared posture (always null when shellPosture isn't 'none')
  */
 export function findShellPostureViolation(files, shellPosture) {
-  if (shellPosture !== 'none') return null
-
-  const offenders = (files || [])
-    .filter((f) => /<nav[\s>]/.test(f.content || ''))
-    .map((f) => f.path)
-
+  const offenders = findNavOffenders(files, shellPosture)
   if (offenders.length === 0) return null
 
   return `shell_posture: none declares no nav element, but <nav> appears in: ${offenders.join(', ')}`
