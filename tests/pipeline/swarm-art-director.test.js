@@ -358,13 +358,15 @@ describe('the codegen retry', () => {
     expect(run.fakes.cleanupOrphans).toEqual([])
     expect(run.retries).toBe(1)
 
-    // The three chassis-era files were formatted twice before the archive's
-    // final __root.tsx refresh, and the root on disk carries the retry's hero
-    // copy. WhitePaper.tsx takes nothing the retry can change, so once.
+    // The three files a retry can move were formatted twice before the
+    // archive's final __root.tsx refresh, and the root on disk carries the
+    // retry's hero copy. The callout takes only the date and the archive
+    // count, and WhitePaper.tsx takes nothing at all, so each is written once.
     expect(run.fakes.formatGeneratedFile.map((f) => f.relPath)).toEqual([
       'app/routes/__root.tsx',
       'app/components/BrandLockup.tsx',
       'app/components/Material.tsx',
+      'app/components/SiteCallout.tsx',
       'app/components/WhitePaper.tsx',
       'app/routes/__root.tsx',
       'app/components/BrandLockup.tsx',
@@ -417,6 +419,7 @@ describe('the codegen retry', () => {
           'app/routes/__root.tsx',
           'app/components/BrandLockup.tsx',
           'app/components/Material.tsx',
+          'app/components/SiteCallout.tsx',
           'app/components/WhitePaper.tsx',
         ],
         root: run.root,
@@ -431,6 +434,7 @@ describe('the codegen retry', () => {
       'app/routes/__root.tsx',
       'app/components/BrandLockup.tsx',
       'app/components/Material.tsx',
+      'app/components/SiteCallout.tsx',
       'app/components/WhitePaper.tsx',
       'signals/today.mockup.html',
       ...REQUIRED_ENGINEER_FILES,

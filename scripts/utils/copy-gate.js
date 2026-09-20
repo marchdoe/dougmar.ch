@@ -30,6 +30,7 @@ import path from 'node:path'
 import * as yaml from 'js-yaml'
 import { EM_DASH, findTells } from './copy-tells.js'
 import { ROOT } from './file-manager.js'
+import { SITE_CALLOUT_CONTENT } from './site-callout.js'
 import { ENGINEER_FILES } from './site-context.js'
 import { CAN_OPEN_STRING, EXPRESSION_KEYWORDS, stripComments } from './token-gate.js'
 
@@ -436,6 +437,13 @@ function listTs(root, dir) {
 /**
  * The files the static scan reads: the engineer's, then the ones a human owns.
  *
+ * One content file is left out by path: app/content/callout.ts holds the home
+ * callout's lines, which are about the site on purpose (#532), and reporting
+ * them would put the same three warnings in every critic prompt. Nothing else
+ * is exempt. `readContentTexts` still reads the file, which is what masks
+ * those lines out of the rendered text of `/`, and app/components/SiteCallout.tsx
+ * holds no copy of its own and was never on this list.
+ *
  * @param {string} root
  * @returns {string[]} repo-relative paths that exist
  */
@@ -443,7 +451,7 @@ export function listScannedFiles(root = ROOT) {
   return [
     ...ENGINEER_FILES,
     ...listTs(root, GENERATED_DIR),
-    ...listTs(root, CONTENT_DIR),
+    ...listTs(root, CONTENT_DIR).filter((rel) => rel !== SITE_CALLOUT_CONTENT),
     ...HUMAN_ROUTE_FILES,
   ].filter((rel) => existsSync(path.join(root, rel)))
 }

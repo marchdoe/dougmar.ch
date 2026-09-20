@@ -13,6 +13,7 @@ describe('file groups', () => {
       'elements/chassis-preset.ts',
       'app/components/BrandLockup.tsx',
       'app/components/Material.tsx',
+      'app/components/SiteCallout.tsx',
       'app/components/WhitePaper.tsx',
     ])
   })

@@ -1,6 +1,7 @@
 import { extname, join } from 'node:path'
 import { readFile, stat } from 'node:fs/promises'
 import { createServer, type Server } from 'node:http'
+import { siteCallout } from '../../app/content/callout'
 import { CANONICAL_ORIGIN, RECOGNIZED_ORIGINS } from '../../scripts/utils/site-origin.js'
 import { test, expect, type Page } from '@playwright/test'
 
@@ -690,7 +691,9 @@ test.describe('site health — archive link (#155)', () => {
   // through 2026-07-10 and vanished on 2026-07-12, the day the page shell
   // became a declared Art Director choice. Sixteen builds shipped without it
   // before anyone looked. The link now lives in __root.tsx, outside <Layout>,
-  // where no agent can delete it.
+  // where no agent can delete it. On `/` the home callout carries it instead
+  // (#532, below), on the same `data-archive-link` hook, so these assertions
+  // hold for home without knowing which file rendered the link.
   //
   // Asserts VISIBLE, not merely present: a design using full-bleed
   // `position: fixed` or `overflow: hidden` can bury an element that is
@@ -711,6 +714,77 @@ test.describe('site health — archive link (#155)', () => {
     await expect(link).toBeVisible({ timeout: 15000 })
     await link.click()
     await expect(page).toHaveURL(/\/archive/, { timeout: 15000 })
+  })
+})
+
+test.describe('site health — the home callout (#532)', () => {
+  // The one element that says what the site does, and home's only link to the
+  // white paper and the archive. The orchestrator writes the component and the
+  // engineer places it, so this is the check on the placing: a callout the
+  // build validator saw in index.tsx can still be buried, or put in the hero.
+  test('home shows it below the hero, above the footer, with one of its lines', async ({
+    page,
+  }) => {
+    await page.goto('/')
+    const callout = page.locator('[data-site-callout]')
+    await expect(callout).toBeVisible({ timeout: 15000 })
+    await expect(callout).toHaveCount(1)
+    await expect(callout).toHaveAccessibleName(siteCallout.label)
+
+    const line = (await callout.locator('p').first().textContent())?.trim()
+    expect(siteCallout.lines).toContain(line)
+
+    const placed = await page.evaluate(() => {
+      const el = document.querySelector('[data-site-callout]') as Element
+      const h1 = document.querySelector('h1') as Element
+      const footer = document.querySelector('footer')
+      const top = (node: Element) => node.getBoundingClientRect().top + window.scrollY
+      return {
+        holdsHero: el.contains(h1),
+        calloutTop: top(el),
+        heroBottom: h1.getBoundingClientRect().bottom + window.scrollY,
+        footerTop: footer && !footer.contains(el) ? top(footer) : null,
+        overflows: el.getBoundingClientRect().right > window.innerWidth + 1,
+      }
+    })
+    expect(placed.holdsHero).toBe(false)
+    expect(placed.calloutTop).toBeGreaterThanOrEqual(placed.heroBottom)
+    if (placed.footerTop !== null) expect(placed.calloutTop).toBeLessThan(placed.footerTop)
+    expect(placed.overflows).toBe(false)
+  })
+
+  test('the archive link on home is the callout’s, and the only one', async ({ page }) => {
+    await page.goto('/')
+    await expect(page.locator('[data-site-callout]')).toBeVisible({ timeout: 15000 })
+    await expect(page.locator('a[data-archive-link]')).toHaveCount(1)
+    await expect(page.locator('[data-site-callout] a[data-archive-link]')).toHaveCount(1)
+  })
+
+  test('no other page carries the callout', async ({ page }) => {
+    for (const path of ['/about', '/work/spaceman']) {
+      await page.goto(path)
+      await expect(page.locator('a[data-archive-link]')).toBeVisible({ timeout: 15000 })
+      await expect(page.locator('[data-site-callout]')).toHaveCount(0)
+    }
+  })
+
+  test('the main link reaches the white paper', async ({ page }) => {
+    await page.goto('/')
+    const link = page.locator('[data-site-callout] a[data-callout-white-paper]')
+    await expect(link).toBeVisible({ timeout: 15000 })
+    await expect(link).toHaveAttribute('href', '/work/dougmar-ch')
+    await link.click()
+    await expect(page).toHaveURL(/\/work\/dougmar-ch$/, { timeout: 15000 })
+    await expect(page.locator('h1')).toBeVisible({ timeout: 15000 })
+  })
+
+  test('the second link reaches the archive', async ({ page }) => {
+    await page.goto('/')
+    const link = page.locator('[data-site-callout] a[data-archive-link]')
+    await expect(link).toBeVisible({ timeout: 15000 })
+    await link.click()
+    await expect(page).toHaveURL(/\/archive/, { timeout: 15000 })
+    await expect(page.locator('h1')).toContainText('every design it has made', { timeout: 15000 })
   })
 })
 

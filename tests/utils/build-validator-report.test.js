@@ -69,7 +69,9 @@ function seedRoot(root, { violate = true } = {}) {
 
   writeFileSync(
     path.join(root, 'app', 'routes', 'index.tsx'),
-    "import { Sidebar } from '../components/Sidebar'\nexport function Index() { return <Sidebar /> }\n"
+    "import { Sidebar } from '../components/Sidebar'\n" +
+      "import { SiteCallout } from '../components/SiteCallout'\n" +
+      'export function Index() { return <><Sidebar /><SiteCallout /></> }\n'
   )
 
   const sidebar = violate

@@ -12,6 +12,7 @@ export const MUTABLE_FILES = [
   'elements/preset.ts',
   'app/components/BrandLockup.tsx',
   'app/components/Material.tsx',
+  'app/components/SiteCallout.tsx',
   'app/components/WhitePaper.tsx',
   'app/components/Layout.tsx',
   'app/components/Sidebar.tsx',
@@ -47,6 +48,9 @@ export const ORCHESTRATOR_FILES = [
   'app/components/BrandLockup.tsx',
   // The material library (#505), on the same terms as the lockup.
   'app/components/Material.tsx',
+  // The home page callout (#532). The one element allowed to say what the
+  // site does, so no agent may write it. See scripts/utils/site-callout.js.
+  'app/components/SiteCallout.tsx',
   // The white paper's fixed page (#533), on the same terms again.
   'app/components/WhitePaper.tsx',
 ]
