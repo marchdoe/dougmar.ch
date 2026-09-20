@@ -135,8 +135,7 @@ const titleClass = css({
   letterSpacing: 'tight',
   lineHeight: 'tight',
   color: 'text',
-  fontSize: { base: '2xl', md: '5xl' },
-  overflowWrap: 'anywhere',
+  fontSize: { base: 'md', md: 'xl', lg: '2xl', xl: '3xl' },
 })
 
 const featuredTitleClass = css({
@@ -147,13 +146,11 @@ const featuredTitleClass = css({
   letterSpacing: 'tight',
   lineHeight: 'tight',
   color: 'fieldInk',
-  fontSize: { base: '3xl', md: '5xl' },
-  overflowWrap: 'anywhere',
+  fontSize: { base: 'md', md: 'xl', lg: '2xl', xl: '3xl' },
 })
 
 const featuredBodyClass = css({
-  gridColumn: { base: '1 / -1', md: 'auto' },
-  gridArea: { md: 'title' },
+  gridColumn: { base: '1 / -1', md: '2 / -1' },
   fontFamily: 'body',
   fontSize: 'base',
   color: 'textMuted',

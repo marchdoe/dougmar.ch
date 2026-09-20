@@ -227,9 +227,7 @@ const SHRED_VIEWPORTS = [
 // skip: CI keeps proving the gate catches the day, and the entry stops
 // applying the night a new design replaces it. Delete entries once they are
 // history.
-const KNOWN_SHREDS: Record<string, string[]> = {
-  '2026-09-20': ['/'],
-}
+const KNOWN_SHREDS: Record<string, string[]> = {}
 
 test.describe('site health — no word breaks across lines', () => {
   const paths = ['/', '/about', ...PROJECT_SLUGS.map((slug) => `/work/${slug}`)]
