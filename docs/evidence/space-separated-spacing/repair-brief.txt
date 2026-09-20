@@ -1,0 +1,11 @@
+# the repair brief the engineer would get for app/routes/experiments.tsx as it was on main (b03b7f1d)
+
+3 token references did not resolve. PandaCSS passes an unknown token through as a literal, so these shipped as invalid CSS that the browser drops, or as a px value nobody asked for.
+
+Several values in one spacing string:
+  - app/routes/experiments.tsx:17: padding: '3 4' ships as written, with px appended to each bare number. Panda resolves a token only when it is the whole value. Write paddingBlock: '3', paddingInline: '4'.
+      padding: '3 4',
+  - app/routes/experiments.tsx:45: padding: '6 4' ships as written, with px appended to each bare number. Panda resolves a token only when it is the whole value. Write paddingBlock: '6', paddingInline: '4'.
+      padding={{ base: '6 4', md: '8 6vw' }}
+  - app/routes/experiments.tsx:45: padding: '8 6vw' ships as written, with px appended to each bare number. Panda resolves a token only when it is the whole value. Write paddingBlock: '8', paddingInline: '6vw'.
+      padding={{ base: '6 4', md: '8 6vw' }}
