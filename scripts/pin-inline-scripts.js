@@ -14,10 +14,17 @@
  * Browsers enforce the intersection of the header and the meta, so the header
  * stays the outer bound and this is the real fence. See issue #332.
  *
+ * The hashes cannot move into the header to drop its `'unsafe-inline'`: every
+ * page's stream barrier is unique (143 pages, 143 distinct hashes in the
+ * 2026-09-20 build) and `vercel.json` is static, plain JSON with no room for a
+ * comment. This paragraph and tests/scripts/csp.test.js are where that
+ * decision is written down.
+ *
  * Known shapes, and only these three are ever accepted:
  *   - theme-init:              THEME_INIT_SCRIPT, verbatim, from
  *                              scripts/templates/__root.tsx.template
- *   - tsr-scroll-restoration:  TanStack's scroll-restoration script
+ *   - tsr-scroll-restoration:  TanStack's scroll-restoration script,
+ *                              SCROLL_RESTORATION_SCRIPT, verbatim
  *   - tsr-stream-barrier:      TanStack's `$tsr` stream barrier (the one that
  *                              differs every build)
  *
@@ -43,6 +50,15 @@ const SCRIPT_TAG = /<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi
 const CSP_META = /<meta\s+http-equiv=["']Content-Security-Policy["'][^>]*>/gi
 
 const HEAD_OPEN = /<head[^>]*>/i
+
+/**
+ * TanStack's scroll-restoration script as `vite build` writes it into every
+ * prerendered page, matched byte for byte. The router serializes its inline
+ * function with the storage key baked in, so the text only changes when
+ * TanStack or the minifier changes it. When a dependency bump does, the build
+ * refuses the page and prints the new script: read it, then paste it here.
+ */
+export const SCROLL_RESTORATION_SCRIPT = `(function(a,f){let l;try{l=JSON.parse(sessionStorage.getItem(a)||"{}")}catch{return}const n=l?.[f||history.state?.__TSR_key];let c=!1;for(const t in n){const e=n[t],o=e?.scrollX,s=e?.scrollY;if(Number.isFinite(o)&&Number.isFinite(s)){if(t==="window")scrollTo(o,s),c=!0;else if(t)try{const r=document.querySelector(t);r&&(r.scrollLeft=o,r.scrollTop=s)}catch{}}}if(c)return;const i=location.hash.slice(1);if(i){const t=history.state?.__hashScrollIntoViewOptions??!0;if(t){const e=document.getElementById(i);e&&e.scrollIntoView(t)}return}scrollTo(0,0)})("tsr-scroll-restoration-v1_3");document.currentScript.remove()`
 
 let themeInitScriptCache = null
 
@@ -135,7 +151,7 @@ function normalizeScriptBody(body) {
  */
 export function classifyScript({ attrs, body }) {
   if (body === themeInitScript()) return 'theme-init'
-  if (body.includes('tsr-scroll-restoration')) return 'tsr-scroll-restoration'
+  if (body === SCROLL_RESTORATION_SCRIPT) return 'tsr-scroll-restoration'
   if (/class=["']\$tsr["']/.test(attrs) || /id=["']\$tsr-stream-barrier["']/.test(attrs)) {
     return 'tsr-stream-barrier'
   }
