@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { css, cx } from '../../../styled-system/css'
 import { badge, mutedText, errorText, archiveLink, ratingNotes, archiveRow } from './styles'
+import { loadArchiveIndex } from '../../lib/archive-data'
 
 import type { ArchiveIndexEntry } from '../../types/archive-record'
 
@@ -14,12 +15,8 @@ export function ArchiveTab() {
   const [state, setState] = useState<State>({ kind: 'loading' })
 
   useEffect(() => {
-    fetch('/archive-data/index.json')
-      .then(async (res) => {
-        if (!res.ok) throw new Error(`Failed to load archive (${res.status})`)
-        const data = (await res.json()) as ArchiveIndexEntry[]
-        setState({ kind: 'loaded', entries: data })
-      })
+    loadArchiveIndex()
+      .then((entries) => setState({ kind: 'loaded', entries }))
       .catch((err: unknown) => {
         setState({
           kind: 'error',

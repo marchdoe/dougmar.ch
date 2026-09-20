@@ -29,6 +29,7 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { RAMP_STEPS } from '../../elements/chassis/scale.js'
 import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
+import { assertArchiveLinkInk } from './archive-link-ink.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -268,29 +269,40 @@ export function stepPxAt(step, viewportPx) {
 
 /**
  * Read the frozen __root.tsx template and substitute its placeholders:
- * {{GOOGLE_FONTS_URL}}, {{OG_META}}, and {{ARCHIVE_COUNT}}.
+ * {{GOOGLE_FONTS_URL}}, {{OG_META}}, {{ARCHIVE_COUNT}} and
+ * {{ARCHIVE_LINK_INK}}.
  *
  * The template lives at scripts/templates/__root.tsx.template. Agents never
- * author it, which is why the archive link lives there (#155).
+ * author it, which is why the archive link lives there (#155). The link's ink
+ * is a semantic token chosen against the night's `bg` by
+ * `archiveLinkInks` (archive-link-ink.js), so the caller passes its name in;
+ * `text` is the default, and it clears 4.5:1 on `bg` by contract (#566).
  *
  * Read fresh on every call so a developer editing the template during a
  * dev loop sees changes without a node restart. Cost is negligible.
  */
-export function renderRootTemplate(googleFontsUrl, ogMeta = '', archiveCount = 0) {
+export function renderRootTemplate(
+  googleFontsUrl,
+  ogMeta = '',
+  archiveCount = 0,
+  archiveLinkInk = 'text'
+) {
   const template = readFileSync(TEMPLATE_PATH, 'utf8')
-  if (!template.includes('{{GOOGLE_FONTS_URL}}')) {
-    throw new Error('__root.tsx.template missing {{GOOGLE_FONTS_URL}} placeholder')
-  }
-  if (!template.includes('{{OG_META}}')) {
-    throw new Error('__root.tsx.template missing {{OG_META}} placeholder')
-  }
-  if (!template.includes('{{ARCHIVE_COUNT}}')) {
-    throw new Error('__root.tsx.template missing {{ARCHIVE_COUNT}} placeholder')
+  for (const placeholder of [
+    '{{GOOGLE_FONTS_URL}}',
+    '{{OG_META}}',
+    '{{ARCHIVE_COUNT}}',
+    '{{ARCHIVE_LINK_INK}}',
+  ]) {
+    if (!template.includes(placeholder)) {
+      throw new Error(`__root.tsx.template missing ${placeholder} placeholder`)
+    }
   }
   return template
     .replace('{{GOOGLE_FONTS_URL}}', googleFontsUrl)
     .replace('{{OG_META}}', ogMeta)
     .replace('{{ARCHIVE_COUNT}}', String(archiveCount))
+    .replace('{{ARCHIVE_LINK_INK}}', assertArchiveLinkInk(archiveLinkInk))
 }
 
 function parseRem(value) {

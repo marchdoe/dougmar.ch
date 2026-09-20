@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { runCollector } from '../scripts/collect-signals.js'
+import { parseOnly, runCollector, selectProviders } from '../scripts/collect-signals.js'
 
 describe('collect-signals orchestrator', () => {
   // No cleanup hook here on purpose.
@@ -88,5 +88,42 @@ describe('collect-signals orchestrator', () => {
     await runCollector(providers, { location: { tz: 'America/New_York' } }, { now })
     expect(new Set(seen).size).toBe(1)
     expect(seen[0]).toBe('2026-08-30T12:00:00.000Z')
+  })
+})
+
+describe('--only', () => {
+  const provider = (name) => ({
+    name,
+    timeout: 1000,
+    collect: async () => ({ data: { name }, meta: { source: 'test', items: 1 } }),
+  })
+  const providers = ['weather', 'season', 'sun'].map(provider)
+
+  it('reads the names after the flag, either spelling', () => {
+    expect(parseOnly(['--only', 'weather,season'])).toEqual(['weather', 'season'])
+    expect(parseOnly(['--only=weather, season'])).toEqual(['weather', 'season'])
+    expect(parseOnly(['--other', '--only', 'sun'])).toEqual(['sun'])
+  })
+
+  it('is null when the flag is absent, and an error when it names nothing', () => {
+    expect(parseOnly([])).toBeNull()
+    expect(() => parseOnly(['--only'])).toThrow(/comma-separated list/)
+    expect(() => parseOnly(['--only='])).toThrow(/comma-separated list/)
+  })
+
+  it('keeps only the named providers, so only those are collected', async () => {
+    const chosen = selectProviders(providers, ['season', 'weather'])
+    expect(chosen.map((p) => p.name)).toEqual(['weather', 'season'])
+
+    const { signals, meta } = await runCollector(chosen, { location: { tz: 'America/New_York' } })
+    expect(Object.keys(signals).sort()).toEqual(['date', 'season', 'weather'])
+    expect(meta.providers_total).toBe(2)
+    expect(Object.keys(meta.sources).sort()).toEqual(['season', 'weather'])
+  })
+
+  it('refuses a name that is not a provider and lists the ones that are', () => {
+    expect(() => selectProviders(providers, ['weather', 'wether'])).toThrow(
+      /wether, which is not a provider\. Providers: season, sun, weather/
+    )
   })
 })

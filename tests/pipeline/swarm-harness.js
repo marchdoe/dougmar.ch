@@ -42,9 +42,13 @@ import { tempRepoRoot, writeUnder } from '../helpers/tmp.js'
 import { clearRunDeadline } from '../../scripts/utils/run-budget.js'
 import { summarizeLedger } from '../../scripts/utils/cost-ledger.js'
 import { modelFor } from '../../scripts/utils/models.js'
+import { VisionTruncatedError } from '../../scripts/utils/vision-truncated-error.js'
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const FIXTURES = path.join(REPO, 'tests', 'fixtures')
+
+/** The data-boundary suffix every swarm run gets, so a prompt snapshot stays byte for byte. */
+export const TEST_BOUNDARY_ID = 'a1b2c3d4'
 
 export const AGENTS = [
   'art-director',
@@ -95,6 +99,7 @@ const state = {
     routeCapture: [],
     phoneFilmstrip: [],
     routes: [],
+    archive: [],
   },
   /** per-seam call recorders */
   fakes: {
@@ -203,9 +208,11 @@ function renderBlocks(blocks) {
 /**
  * Wrap a queued response so `fakeCallVisionAgent` reports it through a
  * specific `onChannel` value instead of the default `sdk-vision` — for a
- * scenario where the vision router fell back to a text channel or gave up on
- * a truncated reply (#486), and the real response text still matters (a
- * critic's REVISE text, or the router's truncation reason).
+ * scenario where the vision router fell back to a text channel (the response
+ * text still matters: a critic's REVISE text) or gave up on a truncated reply
+ * (#486). On `sdk-vision-truncated` the fake behaves like the router: it
+ * reports the channel and throws VisionTruncatedError with `text` as the
+ * reason, and returns nothing (#570).
  * @param {unknown} text - the response `takeResponse` would otherwise return
  * @param {string} channel
  */
@@ -229,6 +236,9 @@ async function fakeCallVisionAgent(args) {
   const response = takeResponse(agentName, call)
   if (response && typeof response === 'object' && '__visionChannel' in response) {
     args.onChannel?.(response.__visionChannel)
+    if (response.__visionChannel === 'sdk-vision-truncated') {
+      throw new VisionTruncatedError({ agent: agentName, reason: response.text })
+    }
     return response.text
   }
   args.onChannel?.('sdk-vision')
@@ -392,6 +402,9 @@ async function fakeArchive(
     options,
     buildDir,
   })
+  const scripted = nextScript('archive', null)
+  const r = typeof scripted === 'function' ? scripted() : scripted
+  if (r instanceof Error) throw r
   if (!buildDir) return
   await mkdir(buildDir, { recursive: true })
   for (const [name, value] of Object.entries(artifacts)) {
@@ -530,11 +543,26 @@ export async function seedRoot() {
   copy(path.join('styled-system', 'jsx', 'index.d.ts'))
 
   cpSync(path.join(FIXTURES, 'swarm-archive'), path.join(root, 'archive'), { recursive: true })
+  writeUnder(root, 'app/content/timeline.ts', CONTENT_FIXTURE)
   const signalsYaml = readFileSync(path.join(FIXTURES, 'signals', 'today.yml'), 'utf8')
   writeUnder(root, 'signals/today.yml', signalsYaml)
   const signals = yaml.load(signalsYaml)
   return { root, signals }
 }
+
+/**
+ * The one content file the seeded root carries, so the engineer's prompt has
+ * a stable "Content fields that can be empty" list to snapshot: `role` is
+ * empty in one of two entries, `description` in one, and `company` never.
+ */
+export const CONTENT_FIXTURE = [
+  'export type TimelineEntry = { year: string; role: string; company: string; description: string }',
+  'export const timeline: TimelineEntry[] = [',
+  "  { year: '2025 —', role: '', company: 'Acme', description: '' },",
+  "  { year: '2020 — 2025', role: 'Designer', company: 'Globex', description: 'Shipped it.' },",
+  ']',
+  '',
+].join('\n')
 
 /** What `readContext()` would compute from projects.ts, held still. */
 export const CONTENT_SUMMARY = [
@@ -621,6 +649,10 @@ export function readTrace(root, date) {
  * @param {Array<Buffer|Error|Function>} [opts.routeCapture] `captureRouteScreenshot` results
  * @param {Array<Buffer|null|Error|Function>} [opts.phoneFilmstrip] `captureRoutePhoneFilmstrip` results
  * @param {Array<Array<object>|Error|Function>} [opts.routes] `listGeneratedRoutes` results
+ * @param {Array<Error|Function>} [opts.archive] `archive` outcomes; an `Error` is thrown
+ *   after the call is recorded and before any file is written
+ * @param {(seeded: object) => object} [opts.signals] replaces the seeded
+ *   signals the swarm is handed (`signals.date` must survive)
  * @param {string} [opts.brief] the optional `context.brief`; the nightly never sets it
  * @param {Function} [opts.onTraceStep]
  * @param {(root: string) => void|Promise<void>} [opts.beforeRun] runs after
@@ -647,7 +679,11 @@ export async function runSwarm(opts = {}) {
   }
   await opts.beforeRun?.(root)
 
-  const context = { signals, contentSummary: CONTENT_SUMMARY }
+  const context = {
+    signals: opts.signals ? opts.signals(signals) : signals,
+    contentSummary: CONTENT_SUMMARY,
+    boundaryId: TEST_BOUNDARY_ID,
+  }
   if (opts.brief) context.brief = opts.brief
 
   let result = null
@@ -678,30 +714,27 @@ export async function runSwarm(opts = {}) {
 }
 
 /**
- * A stable, readable rendering of the model calls for a file snapshot: agent,
- * model, timeouts, then both prompts. The temp root is replaced by `<root>`
- * so the text carries no absolute paths.
+ * A stable, readable rendering of one model call for a file snapshot: agent,
+ * model, timeouts, then both prompts. `index` is the call's position in the
+ * run, so each file keeps its `call N` header. The temp root is replaced by
+ * `<root>` so the text carries no absolute paths.
  */
-export function serializeCalls(calls, root) {
+export function serializeCall(call, index, root) {
   const scrub = (s) =>
     String(s ?? '')
       .split(root)
       .join('<root>')
-  return calls
-    .map((c, i) => {
-      const o = c.options ?? {}
-      return [
-        `${'='.repeat(78)}`,
-        `call ${i + 1}: ${c.agent} (${c.channel})`,
-        `model: ${c.model}`,
-        `timeoutMs: ${o.timeoutMs} | stallTimeoutMs: ${o.stallTimeoutMs}${
-          o.maxTokens !== undefined ? ` | maxTokens: ${o.maxTokens}` : ''
-        }${c.imageCount !== undefined ? ` | images: ${c.imageCount}` : ''}`,
-        `${'-'.repeat(30)} system prompt ${'-'.repeat(33)}`,
-        scrub(c.systemPrompt),
-        `${'-'.repeat(30)} user prompt ${'-'.repeat(35)}`,
-        scrub(c.userPrompt),
-      ].join('\n')
-    })
-    .join('\n\n')
+  const o = call.options ?? {}
+  return [
+    `${'='.repeat(78)}`,
+    `call ${index + 1}: ${call.agent} (${call.channel})`,
+    `model: ${call.model}`,
+    `timeoutMs: ${o.timeoutMs} | stallTimeoutMs: ${o.stallTimeoutMs}${
+      o.maxTokens !== undefined ? ` | maxTokens: ${o.maxTokens}` : ''
+    }${call.imageCount !== undefined ? ` | images: ${call.imageCount}` : ''}`,
+    `${'-'.repeat(30)} system prompt ${'-'.repeat(33)}`,
+    scrub(call.systemPrompt),
+    `${'-'.repeat(30)} user prompt ${'-'.repeat(35)}`,
+    scrub(call.userPrompt),
+  ].join('\n')
 }

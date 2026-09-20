@@ -29,14 +29,13 @@ pnpm test:e2e:dev     # the dev panel, against vite dev (CI sets E2E_DEV=1 for i
 pnpm fallow audit --base origin/main   # the architecture job; fails only on what the PR changed
 ```
 
-Before opening a PR, run `pnpm fallow --summary`. It covers the whole repo, so it lists findings that were already on `main`; the CI audit above does not fail on those.
+Before opening a PR, run `pnpm fallow --summary`. It covers the whole repo and exits 0 on a clean checkout of `main`, so any finding it prints is new. The CI audit above fails only on what the PR changed, so a regression elsewhere reaches `main` without turning CI red.
 
 The pipeline, locally:
 
 ```bash
-pnpm pipeline:collect # write signals/today.yml from the 19 providers
-pnpm pipeline:dry     # full run, no commit
-pnpm pipeline         # full run
+pnpm pipeline:collect # write signals/today.yml from the 19 providers (-- --only season,sun for a subset)
+pnpm pipeline         # full run; leaves the night on disk, commits nothing
 pnpm pipeline:canary  # a $0 dry run in a disposable worktree, evidence kept
 ```
 
@@ -83,7 +82,7 @@ scripts/
   utils/             validators, mandates, the surface gate, the archive record, models and budgets
 archive/<date>/      that night's record: brief, signals, verdicts, trace, cost, the built files
 public/archive/      the preserved sites, one directory per date, served as static HTML
-public/archive-data/ the archive projected to JSON for the calendar (generated at build)
+public/archive-data/ the archive projected to JSON for the calendar, plus each day's screenshot and viewport captures copied from archive/ (generated at build)
 signals/             profile.yml (yours), today.* (the last collection)
 references/          design references the Art Director is shown
 fixtures/agents/     recorded agent replies that MOCK_MODE and `pipeline:canary --mock` replay

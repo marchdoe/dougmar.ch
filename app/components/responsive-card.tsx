@@ -1,4 +1,24 @@
+import { useState } from 'react'
 import type { ResponsiveMetrics } from '../server/archive'
+
+/**
+ * One viewport capture. Nights since #549 store WebP; every earlier night
+ * stored PNG under the same name, so a WebP that 404s falls back to the PNG.
+ */
+function ViewportImage({ base, name }: { base: string; name: string }) {
+  const [ext, setExt] = useState<'webp' | 'png'>('webp')
+  const src = `${base}/${name}.${ext}`
+  return (
+    <a href={src} target="_blank" rel="noreferrer">
+      <img
+        src={src}
+        alt={`${name} viewport screenshot`}
+        onError={() => setExt('png')}
+        style={{ width: '100%', height: 'auto', display: 'block' }}
+      />
+    </a>
+  )
+}
 
 export function ResponsiveCard({
   metrics,
@@ -56,13 +76,7 @@ export function ResponsiveCard({
                 </span>
                 <span>{v.score}/5</span>
               </div>
-              <a href={`${base}/${name}.png`} target="_blank" rel="noreferrer">
-                <img
-                  src={`${base}/${name}.png`}
-                  alt={`${name} viewport screenshot`}
-                  style={{ width: '100%', height: 'auto', display: 'block' }}
-                />
-              </a>
+              <ViewportImage base={base} name={name} />
             </div>
           )
         })}

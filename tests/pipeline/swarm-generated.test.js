@@ -92,6 +92,57 @@ describe("a previous night's component under app/components/generated/", () => {
   })
 })
 
+describe("a previous night's component that today's files import (#575)", () => {
+  const INDEX = 'app/routes/index.tsx'
+  const IMPORT_LINE = "import { Yesterday } from '../components/generated/Yesterday'\n"
+  const HEADER = `===FILE:${INDEX}===\n`
+  const FIXTURE = fixtureFor('react-engineer')
+  const REVISE_REPLY = [
+    '===VERDICT===',
+    'REVISE',
+    '===END===',
+    '',
+    '**Responsible agent:** react-engineer',
+    '',
+    '===FEEDBACK===',
+    'The home page needs a second look.',
+    '===END===',
+    '',
+  ].join('\n')
+
+  const start = FIXTURE.indexOf(HEADER) + HEADER.length
+  const indexSource = FIXTURE.slice(start, FIXTURE.indexOf('\n===', start) + 1)
+  /** The engineer's first reply: the recorded one, with the home route importing Yesterday. */
+  const importsYesterday = FIXTURE.replace(HEADER, HEADER + IMPORT_LINE)
+  /** The revision's patch: the home route as recorded, without the import. */
+  const dropsTheImport = `${HEADER}${indexSource}\n===RATIONALE===\ndrop the import\n`
+
+  it('is put back when a revision that stops importing it fails to rebuild', async () => {
+    const run = await runSwarm({
+      build: [true, false, true],
+      agents: {
+        'react-engineer': [importsYesterday, dropsTheImport],
+        'screenshot-critic': [REVISE_REPLY],
+      },
+      beforeRun: (root) => writeUnder(root, YESTERDAY, YESTERDAY_SRC),
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.fakes.validateBuild).toHaveLength(3)
+
+    // The first sweep kept it (the home route imports it); the revision's
+    // sweep removed it, and the rollback of that revision restored the
+    // passing state, which is where the file has to come from.
+    const sweeps = run.trace.steps.filter((s) => s.name === 'generated-sweep')
+    expect(sweeps.map((s) => s.output.removed)).toEqual([[], [YESTERDAY]])
+    expect(run.fakes.restore).toHaveLength(1)
+    expect(run.fakes.restore[0].map.get(YESTERDAY)).toBe(YESTERDAY_SRC)
+
+    expect(onDisk(run.root, YESTERDAY)).toBe(YESTERDAY_SRC)
+    expect(onDisk(run.root, INDEX)).toContain(IMPORT_LINE.trim())
+  })
+})
+
 describe('a hand-written component beside the directory', () => {
   const HAND = 'app/components/FeaturedProject.tsx'
   const ORIGINAL = 'export function FeaturedProject() {\n  return null\n}\n'

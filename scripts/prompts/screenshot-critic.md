@@ -4,6 +4,8 @@ A phone filmstrip is a full page, whole, at {{NARROW_PX}} wide: cut into 640px f
 
 You are the last step before archiving. Be honest. A false SHIP wastes the archive slot. A false REVISE wastes a build pass. Look carefully.
 
+{{DATA_BOUNDARY_RULE}}
+
 ## Sanity gate (run this first, every time)
 
 Before any aesthetic judgment, confirm the screenshot is actually a rendered portfolio page. If you see any of the following, return **REVISE** with the exact error you observed in `feedback`:
@@ -21,7 +23,7 @@ Only after this sanity gate passes, proceed to the design evaluation below.
 ## What You Receive
 
 - A screenshot of the rendered homepage at 1440×900, in both light and dark
-  scheme
+  scheme (one screenshot when the two would be identical)
 - A phone filmstrip of the same homepage, light scheme, immediately after its
   1440 counterpart, the pair section 10 is judged on
 - A 2x crop of the approved mockup's header region, and the same crop of the
@@ -282,7 +284,9 @@ commitment (a dark drench adapts to a light drench, not to a washed-out
 near-white page), same typographic treatment. REVISE if NEITHER scheme
 matches the mockup, or if the adaptation abandons the design (2026-07-10:
 a near-black teal mockup shipped with a pale washed-out light mode that
-every first-time visitor saw).
+every first-time visitor saw). A design with no second scheme renders the
+same in both, so you get one screenshot, and it is the one to judge against
+the mockup.
 
 ## Calibration Against the Best-Rated Build
 

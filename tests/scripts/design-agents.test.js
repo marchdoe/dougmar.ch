@@ -3,6 +3,7 @@ import { describe, it, expect } from 'vitest'
 import {
   FILE_OWNERSHIP,
   identifyFailingAgent,
+  planRepairs,
   parseDelimiterResponse,
   buildCompositionContractBlock,
   archiveArtifacts,
@@ -86,6 +87,29 @@ describe('identifyFailingAgent', () => {
   })
 })
 
+describe('planRepairs', () => {
+  const error = 'elements/preset.ts: semanticTokens.colors is missing fieldInk'
+
+  it('gives an engineer or unattributed failure every attempt and the error untouched', () => {
+    expect(planRepairs('react-engineer', error, 3)).toEqual({ attempts: 3, error })
+    expect(planRepairs('both', error, 3)).toEqual({ attempts: 3, error })
+  })
+
+  it('gives a failure only the Art Director owns no attempts, and says why', () => {
+    const plan = planRepairs('art-director', error, 3)
+    expect(plan.attempts).toBe(0)
+    expect(plan.error).toContain('The failure is in elements/preset.ts')
+    expect(plan.error.endsWith(error)).toBe(true)
+  })
+
+  it('reads the real gate messages: a preset-only report fails fast, a mixed one does not', () => {
+    const presetOnly = `1 of 4 gates failed:\n\nPre-build validation:\n${error}`
+    const mixed = `${presetOnly}\napp/components/Layout.tsx(15,7): error TS2322`
+    expect(planRepairs(identifyFailingAgent(presetOnly), presetOnly, 3).attempts).toBe(0)
+    expect(planRepairs(identifyFailingAgent(mixed), mixed, 3).attempts).toBe(3)
+  })
+})
+
 describe('archiveArtifacts', () => {
   const base = {
     finalScreenshot: null,
@@ -143,6 +167,13 @@ describe('archiveArtifacts', () => {
     expect(JSON.parse(out['mobile.json'])).toEqual(base.mobileDecl)
     // The motion declaration lands beside it (#506).
     expect(JSON.parse(out['motion.json'])).toEqual(base.motionDecl)
+  })
+
+  it('writes no screenshot-dark.png when the dark capture matched the light one (#549)', () => {
+    const png = Buffer.from([1])
+    const out = archiveArtifacts({ ...base, finalScreenshot: { png, darkPng: null } })
+    expect(out['screenshot.png']).toBe(png)
+    expect(out['screenshot-dark.png']).toBeNull()
   })
 
   // #456: the declared MEASURABLES floors were parsed every night and thrown

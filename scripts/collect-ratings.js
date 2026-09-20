@@ -22,11 +22,31 @@ const ROOT = resolve(import.meta.dirname, '..')
 
 // The daily-rating issue is public: anyone can comment, and comment text
 // flows into the Art Director prompt as owner instructions. Only accept
-// rating comments from accounts GitHub vouches for on this repo. The issue
-// body needs no gate — it's bot-authored and only collaborators can edit it.
+// rating comments from accounts GitHub vouches for on this repo.
 const TRUSTED_ASSOCIATIONS = new Set(['OWNER', 'MEMBER', 'COLLABORATOR'])
 
+// The issue itself needs a gate too. The `daily-rating` label is all that
+// picks an issue up, and anyone can open an issue that carries it (a template
+// with `labels: daily-rating` would do it), so its body is only read when a
+// known account opened it. The nightly workflow opens it as the Actions bot
+// (`gh` names that login `app/github-actions`, the REST API
+// `github-actions[bot]`), and the owner panel opens it with the owner's token.
+// `gh issue list --json` has no association field for issues, so this is by
+// login.
+const TRUSTED_ISSUE_AUTHORS = new Set(['app/github-actions', 'github-actions[bot]', 'marchdoe'])
+
+/**
+ * Whether a known account opened this issue. An issue with no author is
+ * treated as a stranger's.
+ * @param {{ author?: { login?: string } | null }} issue
+ * @returns {boolean}
+ */
+export function isTrustedIssueAuthor(issue) {
+  return TRUSTED_ISSUE_AUTHORS.has(issue.author?.login ?? '')
+}
+
 export function parseRatingFromIssue(issue) {
+  if (!isTrustedIssueAuthor(issue)) return null
   const dateMatch = /Rate:\s*(\d{4}-\d{2}-\d{2})/.exec(issue.title || '')
   if (!dateMatch) return null
   const date = dateMatch[1]
@@ -137,7 +157,7 @@ function harvest() {
         '--state',
         'open',
         '--json',
-        'number,title,body,comments',
+        'number,title,body,comments,author',
         '--limit',
         '30',
       ],
@@ -157,7 +177,10 @@ function harvest() {
     try {
       const rating = parseRatingFromIssue(issue)
       if (!rating) {
-        console.log(`[collect-ratings] #${issue.number} not yet filled — leaving open`)
+        const why = isTrustedIssueAuthor(issue)
+          ? 'not yet filled'
+          : `opened by ${issue.author?.login ?? 'an unknown author'}, not a trusted account`
+        console.log(`[collect-ratings] #${issue.number} ${why} — leaving open`)
         continue
       }
       const dateDir = join(ROOT, 'archive', rating.date)

@@ -8,12 +8,16 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { chromium } from '@playwright/test'
 import { measureDesignFidelity } from '../../scripts/utils/design-fidelity.js'
 
-async function measure(browser, html, { width = 400, height = 300, bodyStyle = '' } = {}) {
+async function measure(
+  browser,
+  html,
+  { width = 400, height = 300, bodyStyle = '', htmlStyle = '', head = '' } = {}
+) {
   const page = await browser.newPage({ viewport: { width, height } })
   try {
     await page.setContent(
-      `<!doctype html><html><head><style>html,body{margin:0;padding:0}</style></head>` +
-        `<body style="${bodyStyle}">${html}</body></html>`
+      `<!doctype html><html style="${htmlStyle}"><head><style>html,body{margin:0;padding:0}</style>` +
+        `${head}</head><body style="${bodyStyle}">${html}</body></html>`
     )
     return await page.evaluate(measureDesignFidelity)
   } finally {
@@ -110,6 +114,133 @@ describe('measureDesignFidelity', () => {
     )
     expect(hero_px).toBe(16)
     expect(canvas_utilization).toBeLessThan(20)
+  })
+
+  // The four pages from #572, at the desktop size the capture uses. Before the
+  // fix the first three measured 4.4%, 0% and 0% canvas.
+  describe('paint that is not a background colour on an element', () => {
+    const desktop = { width: 1440, height: 900 }
+
+    it('counts a body painted with a flat colour as a full canvas', async () => {
+      const { canvas_utilization, color_coverage } = await measure(browser, '', {
+        ...desktop,
+        bodyStyle: 'background:#1f5142',
+      })
+      expect(canvas_utilization).toBeGreaterThan(95)
+      expect(color_coverage).toBeGreaterThan(95)
+    })
+
+    it('counts a full-bleed div that is only a linear-gradient', async () => {
+      const { canvas_utilization, color_coverage } = await measure(
+        browser,
+        `<div style="position:fixed;inset:0;background-image:linear-gradient(#1f5142,#0b2a20)"></div>`,
+        desktop
+      )
+      expect(canvas_utilization).toBeGreaterThan(95)
+      expect(color_coverage).toBeGreaterThan(95)
+    })
+
+    it('counts a full-bleed inline svg', async () => {
+      const { canvas_utilization } = await measure(
+        browser,
+        `<svg style="position:fixed;inset:0;width:100%;height:100%" viewBox="0 0 10 10">` +
+          `<rect width="10" height="10" fill="#1f5142"/></svg>`,
+        desktop
+      )
+      expect(canvas_utilization).toBeGreaterThan(95)
+    })
+
+    it('counts a full-bleed div with a background colour (control)', async () => {
+      const { canvas_utilization, color_coverage } = await measure(
+        browser,
+        `<div style="position:fixed;inset:0;background-color:#1f5142"></div>`,
+        desktop
+      )
+      expect(canvas_utilization).toBeGreaterThan(95)
+      expect(color_coverage).toBeGreaterThan(95)
+    })
+
+    it('counts a gradient painted on body, which paints the whole canvas', async () => {
+      const { canvas_utilization, color_coverage } = await measure(browser, '', {
+        ...desktop,
+        bodyStyle: 'background:radial-gradient(120% 90% at 50% 34%,#1f6b57,#0b2a20)',
+      })
+      expect(canvas_utilization).toBeGreaterThan(95)
+      expect(color_coverage).toBeGreaterThan(95)
+    })
+
+    it('counts a background set on html', async () => {
+      const { canvas_utilization, color_coverage } = await measure(browser, '', {
+        ...desktop,
+        htmlStyle: 'background:#1f5142',
+      })
+      expect(canvas_utilization).toBeGreaterThan(95)
+      expect(color_coverage).toBeGreaterThan(95)
+    })
+
+    it('does not count an explicit opaque white html and body', async () => {
+      const { canvas_utilization } = await measure(browser, '', {
+        ...desktop,
+        htmlStyle: 'background:#ffffff',
+        bodyStyle: 'background:#ffffff',
+      })
+      expect(canvas_utilization).toBe(0)
+    })
+
+    it('counts a gradient that only fades to transparent, but not as colour when its stops are grey', async () => {
+      const { canvas_utilization, color_coverage } = await measure(
+        browser,
+        `<div style="position:fixed;inset:0;background-image:linear-gradient(transparent,rgba(0,0,0,.5))"></div>`,
+        desktop
+      )
+      expect(canvas_utilization).toBeGreaterThan(95)
+      expect(color_coverage).toBe(0)
+    })
+
+    it('counts a chromatic stop that shows and ignores one that is fully transparent', async () => {
+      const { color_coverage } = await measure(
+        browser,
+        `<div style="position:fixed;inset:0;background-image:linear-gradient(#e0217a,transparent)"></div>`,
+        desktop
+      )
+      expect(color_coverage).toBeGreaterThan(95)
+    })
+
+    it('reads a positioned ::before that paints a host with no paint of its own', async () => {
+      const { canvas_utilization, color_coverage } = await measure(
+        browser,
+        `<div class="field"></div>`,
+        {
+          ...desktop,
+          head:
+            `<style>.field{position:fixed;inset:0}` +
+            `.field::before{content:"";position:absolute;inset:0;background:#e0217a}</style>`,
+        }
+      )
+      expect(canvas_utilization).toBeGreaterThan(95)
+      expect(color_coverage).toBeGreaterThan(95)
+    })
+
+    it('sizes a ::after by its own box, not the whole host', async () => {
+      // 200x150 of a 400x300 viewport is a quarter of the grid.
+      const { canvas_utilization } = await measure(browser, `<div class="box"></div>`, {
+        head:
+          `<style>.box{position:relative;width:200px;height:150px}` +
+          `.box::after{content:"";position:absolute;inset:0;background:#e0217a}</style>`,
+      })
+      expect(canvas_utilization).toBeGreaterThan(20)
+      expect(canvas_utilization).toBeLessThan(30)
+    })
+
+    it('ignores a pseudo-element with no content, which generates no box', async () => {
+      const { canvas_utilization } = await measure(browser, `<div class="field"></div>`, {
+        ...desktop,
+        head:
+          `<style>.field{position:fixed;inset:0}` +
+          `.field::before{position:absolute;inset:0;background:#e0217a}</style>`,
+      })
+      expect(canvas_utilization).toBe(0)
+    })
   })
 
   it('returns numbers, never NaN, on a blank page', async () => {

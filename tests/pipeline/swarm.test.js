@@ -14,7 +14,7 @@ import {
   REQUIRED_ENGINEER_FILES,
   mockFactories as m,
   runSwarm,
-  serializeCalls,
+  serializeCall,
 } from './swarm-harness.js'
 
 vi.mock('../../scripts/utils/claude-cli.js', (o) => m['scripts/utils/claude-cli.js'](o))
@@ -191,9 +191,15 @@ describe('runAgentSwarm on the recorded night', () => {
   it('asks every agent the same thing, in the same order, with the same budgets', async () => {
     const run = await runSwarm()
     expect(run.error).toBeNull()
-    const serialized = serializeCalls(run.calls, run.root)
-    expect(serialized).not.toContain(run.root)
-    await expect(serialized).toMatchFileSnapshot('./__snapshots__/swarm-calls.snap')
+    // One file per call, so a prompt change shows up as a diff in that
+    // agent's file. The recorded night makes each agent exactly one call.
+    for (const [i, call] of run.calls.entries()) {
+      const serialized = serializeCall(call, i, run.root)
+      expect(serialized).not.toContain(run.root)
+      await expect(serialized).toMatchFileSnapshot(
+        `./__snapshots__/swarm-calls/${String(i + 1).padStart(2, '0')}-${call.agent}.txt`
+      )
+    }
   })
 
   it('sends no unfilled {{PLACEHOLDER}} to any agent, the repair brief included', async () => {
@@ -212,6 +218,26 @@ describe('runAgentSwarm on the recorded night', () => {
       ].map((m) => `${c.agent}: ${m[0]}`)
     )
     expect(unfilled).toEqual([])
+  })
+
+  it('tells the engineer which content fields are empty, read from app/content under the root (#568)', async () => {
+    // The seeded root carries a two-entry timeline with one empty role and
+    // one empty description, so the list is the fixture's, not the owner's.
+    // A repair call reuses the same system prompt.
+    const run = await runSwarm({ build: [false, true] })
+    expect(run.error).toBeNull()
+    const [first, repair] = run.callsFor('react-engineer')
+    for (const call of [first, repair]) {
+      expect(call.systemPrompt).toContain('### Content fields that can be empty')
+      expect(call.systemPrompt).toContain("- `timeline[].role` is '' in 1 of 2 entries")
+      expect(call.systemPrompt).toContain("- `timeline[].description` is '' in 1 of 2 entries")
+      expect(call.systemPrompt).not.toContain('`timeline[].company`')
+      expect(call.systemPrompt).toContain('leave it out along with its separator')
+    }
+    // Only the engineer is told; no other agent writes a template.
+    for (const agent of ['art-director', 'mockup-designer', 'screenshot-critic']) {
+      expect(run.callsFor(agent)[0].systemPrompt).not.toContain('Content fields that can be empty')
+    }
   })
 
   it('records the phases in the trace, in order', async () => {

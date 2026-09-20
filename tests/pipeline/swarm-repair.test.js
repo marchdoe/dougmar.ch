@@ -45,6 +45,7 @@ vi.mock('node:child_process', (o) => m['node:child_process'](o))
 const { MUTABLE_FILES } = await import('../../scripts/utils/site-context.js')
 const { parseDelimiterResponse } = await import('../../scripts/utils/delimiter-parser.js')
 const { formatFindingsForCritic } = await import('../../scripts/utils/surface-gate.js')
+const { renderedCopyFindings } = await import('../../scripts/utils/copy-gate.js')
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
@@ -487,6 +488,52 @@ describe('Phase 5: the build fails', () => {
   })
 })
 
+describe('Phase 5: a failure only the Art Director can fix', () => {
+  // What validateBuild reports when the preset breaks the frozen semantic set.
+  const PRESET_ERROR = [
+    '1 of 4 gates failed:',
+    '',
+    'Pre-build validation:',
+    'elements/preset.ts: semanticTokens.colors is missing fieldInk — the semantic set is frozen and every one must be defined. Map the missing role onto the palette this design already has.',
+  ].join('\n')
+
+  it('fails with the reason and makes no repair call, and still rolls back', async () => {
+    const run = await runSwarm({ build: [{ success: false, error: PRESET_ERROR }] })
+
+    expect(run.result).toBeNull()
+    expect(run.error.message.startsWith('Build failed after 0 repair attempt(s)')).toBe(true)
+    expect(run.error.message).toContain('The failure is in elements/preset.ts')
+    expect(run.error.message).toContain('no repair was attempted')
+    expect(run.error.message).toContain(PRESET_ERROR)
+    // The engineer's first generation is the only engineer call.
+    expect(run.callsFor('react-engineer')).toHaveLength(1)
+    expect(run.retries).toBe(0)
+    expect(run.fakes.validateBuild).toHaveLength(1)
+    expect(run.trace.steps.filter((s) => s.name === 'repair')).toEqual([])
+
+    expect(run.fakes.archive).toHaveLength(0)
+    expect(run.fakes.restore).toHaveLength(1)
+    expect(onDisk(run.root, 'elements/preset.ts')).toBe(
+      readFileSync(path.join(REPO, 'elements', 'preset.ts'), 'utf8')
+    )
+    const errorTxt = readFileSync(
+      path.join(run.root, 'archive', run.date, run.trace.dir, 'error.txt'),
+      'utf8'
+    )
+    expect(errorTxt).toContain('no repair was attempted')
+  })
+
+  it('still repairs when the same report also names an engineer file', async () => {
+    const both = `${PRESET_ERROR}\napp/components/Layout.tsx(12,7): error TS2322: Type 'string' is not assignable to type 'number'.`
+    const run = await runSwarm({ build: [{ success: false, error: both }, true] })
+
+    expect(run.error).toBeNull()
+    expect(run.callsFor('react-engineer')).toHaveLength(2)
+    expect(run.callsFor('react-engineer')[1].userPrompt).toContain(both)
+    expect(run.retries).toBe(1)
+  })
+})
+
 describe('after the build passes: the screenshot critic and the surface gate', () => {
   it('revises on REVISE with a one-file patch and ships the merged set', async () => {
     const marker = 'post-critic revision'
@@ -662,6 +709,130 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     // failure, just an unconfirmed one.
     expect(onDisk(run.root, 'app/components/Sidebar.tsx')).toContain(marker)
     expect(run.fakes.archive).toHaveLength(1)
+  })
+
+  // #570: the message the router reported on 2026-09-09, when the critic
+  // stopped at its cap. It used to come back as the critic's reply, fail
+  // closed to REVISE, and become the engineer's feedback.
+  const TRUNCATION_REASON =
+    '[screenshot-critic] response truncated at max_tokens (6000 output tokens, cap 6000)'
+
+  it('gives a truncated round-1 critic no verdict and does not revise on it (#570)', async () => {
+    const run = await runSwarm({
+      agents: {
+        'screenshot-critic': [withChannel(TRUNCATION_REASON, 'sdk-vision-truncated')],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    // One engineer call, no revision, no final re-judge: nothing was
+    // revised, so there is no post-revision build to judge.
+    expect(run.calls.map((c) => c.agent)).toEqual([
+      'art-director',
+      'spec-critic',
+      'mockup-designer',
+      'mockup-critic',
+      'react-engineer',
+      'screenshot-critic',
+    ])
+    expect(run.retries).toBe(0)
+    expect(run.fakes.validateBuild).toHaveLength(1)
+    expect(run.fakes.archive).toHaveLength(1)
+    expect(
+      run.verdicts
+        .filter((v) => v.critic === 'screenshot-critic')
+        .map(({ round, verdict, channel, feedback }) => ({ round, verdict, channel, feedback }))
+    ).toEqual([
+      {
+        round: undefined,
+        verdict: 'UNVERIFIED',
+        channel: 'sdk-vision-truncated',
+        feedback: TRUNCATION_REASON,
+      },
+    ])
+  })
+
+  it('gives a text-only round-1 critic no verdict either, so its REVISE revises nothing (#570)', async () => {
+    const run = await runSwarm({
+      agents: { 'screenshot-critic': [withChannel(REVISE_REPLY, 'cli-text-fallback')] },
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.callsFor('react-engineer')).toHaveLength(1)
+    expect(run.retries).toBe(0)
+    const [verdict] = run.verdicts.filter((v) => v.critic === 'screenshot-critic')
+    expect(verdict).toMatchObject({ verdict: 'UNVERIFIED', channel: 'cli-text-fallback' })
+  })
+
+  it('still runs the gate-driven revision when the round-1 critic truncated, on the gate faults alone (#570)', async () => {
+    const run = await runSwarm({
+      gate: [{ findings: [OVERFLOW_AT_390], measured: 8, errorCount: 1 }, CLEAN_GATE],
+      agents: {
+        'screenshot-critic': [
+          withChannel(TRUNCATION_REASON, 'sdk-vision-truncated'),
+          fixtureFor('screenshot-critic'),
+        ],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.calls.map((c) => c.agent)).toEqual([
+      'art-director',
+      'spec-critic',
+      'mockup-designer',
+      'mockup-critic',
+      'react-engineer',
+      'screenshot-critic',
+      'react-engineer',
+      'screenshot-critic',
+    ])
+    const faults = formatFindingsForCritic([OVERFLOW_AT_390])
+    const revision = run.callsFor('react-engineer')[1]
+    expect(revision.userPrompt).toContain(faults)
+    expect(revision.userPrompt).not.toContain('truncated at max_tokens')
+    expect(run.retries).toBe(1)
+    expect(
+      run.verdicts
+        .filter((v) => v.critic === 'screenshot-critic')
+        .map(({ round, verdict, channel }) => ({ round, verdict, channel }))
+    ).toEqual([
+      { round: undefined, verdict: 'UNVERIFIED', channel: 'sdk-vision-truncated' },
+      { round: 'final', verdict: 'SHIP', channel: 'sdk-vision' },
+    ])
+  })
+
+  it('records a truncated final re-judge as UNVERIFIED with the reason, as before (#570)', async () => {
+    const run = await runSwarm({
+      agents: {
+        'react-engineer': [
+          ENGINEER_FIXTURE,
+          patchReply([markedFile('app/components/Sidebar.tsx', 'post-critic revision')]),
+        ],
+        'screenshot-critic': [REVISE_REPLY, withChannel(TRUNCATION_REASON, 'sdk-vision-truncated')],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.callsFor('react-engineer')).toHaveLength(2)
+    expect(
+      run.verdicts
+        .filter((v) => v.critic === 'screenshot-critic')
+        .map(({ round, verdict, channel, feedback }) => ({
+          round,
+          verdict,
+          channel,
+          feedback: round === 'final' ? feedback : undefined,
+        }))
+    ).toEqual([
+      { round: undefined, verdict: 'REVISE', channel: 'sdk-vision', feedback: undefined },
+      {
+        round: 'final',
+        verdict: 'UNVERIFIED',
+        channel: 'sdk-vision-truncated',
+        feedback: TRUNCATION_REASON,
+      },
+    ])
+    expect(run.verdicts.some((v) => v.critic === 'ship-gate')).toBe(false)
   })
 
   it('rolls a revision that fails to build back to the passing state and ships that', async () => {
@@ -966,6 +1137,43 @@ describe('the copy gate (#504)', () => {
     const gateVerdicts = run.verdicts.filter((v) => v.critic === 'surface-gate')
     expect(gateVerdicts.map((v) => v.verdict)).toEqual(['REVISE', 'SHIP'])
     expect(gateVerdicts[0].feedback).toContain('app/routes/index.tsx:14: em dash')
+  })
+
+  it('sends the engineer the block and the fix for an orphan separator on /about (#568)', async () => {
+    // What the surface gate builds from the real 2026-09-20 /about: the
+    // rendered runs go through the real rule, and the finding takes the
+    // shape `runSurfaceGate` returns.
+    const runs = [
+      { tag: 'span', text: '2025,', before: false, after: false },
+      { tag: 'div', text: ', iCapital', before: false, after: false },
+      { tag: 'div', text: 'Founder & Consultant, Spaceman', before: false, after: false },
+    ]
+    const orphans = renderedCopyFindings({ text: '', runs }, { severity: 'error' }).map((f) => ({
+      surface: '/about',
+      viewport: 'desktop',
+      width: 1440,
+      scheme: 'light',
+      ...f,
+    }))
+    expect(orphans).toHaveLength(2)
+
+    const run = await runSwarm({
+      gate: [{ findings: orphans, measured: 8, errorCount: 2 }, CLEAN_GATE],
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.calls.map((c) => c.agent).filter((a) => a === 'react-engineer')).toHaveLength(2)
+    const [first, revision] = run.callsFor('react-engineer')
+    expect(first.userPrompt).not.toContain('orphan separator')
+    const fix = 'A field can be empty; render the separator only when both sides exist.'
+    expect(revision.userPrompt).toContain(
+      `- [error] /about at 1440px (light): orphan separator in rendered copy: <span> "2025," closes on ",". ${fix}`
+    )
+    expect(revision.userPrompt).toContain(
+      `- [error] /about at 1440px (light): orphan separator in rendered copy: <div> ", iCapital" opens on ",". ${fix}`
+    )
+    expect(revision.userPrompt).not.toContain('Founder & Consultant')
+    expect(run.retries).toBe(1)
   })
 
   it('reports a tell in hand-written content as a warning that forces nothing', async () => {

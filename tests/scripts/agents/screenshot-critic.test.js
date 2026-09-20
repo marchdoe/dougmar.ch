@@ -1,8 +1,19 @@
-import { describe, expect, it } from 'vitest'
-import {
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
+const callVisionAgentMock = vi.fn()
+vi.mock('../../../scripts/utils/vision-router.js', () => ({ callVisionAgent: callVisionAgentMock }))
+
+const {
   buildScreenshotCriticBlocks,
+  describeRevision,
+  logNoRevision,
   MAX_SCREENSHOT_CRITIC_IMAGES,
-} from '../../../scripts/agents/screenshot-critic.js'
+  readRevisionRequest,
+  recordFinalJudgment,
+  runScreenshotCritic,
+} = await import('../../../scripts/agents/screenshot-critic.js')
+const { VisionTruncatedError } = await import('../../../scripts/utils/vision-truncated-error.js')
+const { ModelTransportError } = await import('../../../scripts/utils/model-transport-error.js')
 
 const baseCtx = {
   enrichedBrief: 'the brief',
@@ -17,6 +28,18 @@ describe('buildScreenshotCriticBlocks', () => {
     const blocks = buildScreenshotCriticBlocks(baseCtx)
     const images = blocks.filter((b) => b.type === 'image')
     expect(images).toHaveLength(2)
+  })
+
+  it('sends one desktop render, not two, when the dark capture matched the light one (#549)', () => {
+    const blocks = buildScreenshotCriticBlocks({
+      ...baseCtx,
+      screenshotBuffer: { jpeg: baseCtx.screenshotBuffer.jpeg, darkJpeg: null },
+    })
+    expect(blocks.filter((b) => b.type === 'image')).toHaveLength(1)
+    const texts = blocks.filter((b) => b.type === 'text').map((b) => b.text)
+    expect(texts.some((t) => t.includes('DARK scheme'))).toBe(false)
+    expect(texts.some((t) => t.includes('BOTH color schemes'))).toBe(false)
+    expect(texts.some((t) => t.includes('defines one color scheme'))).toBe(true)
   })
 
   it('carries the SHELL declaration as text ahead of the header, and omits it when absent (#505)', () => {
@@ -264,5 +287,267 @@ describe('buildScreenshotCriticBlocks', () => {
       .map((b) => b.text)
       .join('\n')
     expect(text).not.toContain('base64')
+  })
+})
+
+describe('runScreenshotCritic', () => {
+  const ask = (wantsBar = false) =>
+    runScreenshotCritic({ systemPrompt: 'sys', contentBlocks: [], wantsBar })
+
+  /** The router reports its channel through onChannel before it answers. */
+  function answerOn(channel, text) {
+    callVisionAgentMock.mockImplementation(async (args) => {
+      args.onChannel(channel)
+      return text
+    })
+  }
+
+  beforeEach(() => {
+    callVisionAgentMock.mockReset()
+  })
+
+  it('reads the verdict and the BAR line from a critic that saw the build', async () => {
+    answerOn(
+      'sdk-vision',
+      '===VERDICT===\nSHIP\n===END===\nBAR: below — flatter than the reference'
+    )
+
+    expect(await ask(true)).toMatchObject({
+      verdict: 'SHIP',
+      visionChannel: 'sdk-vision',
+      bar: { position: 'below', reason: 'flatter than the reference' },
+    })
+    expect((await ask(false)).bar).toBeNull()
+  })
+
+  it('keeps a REVISE from a critic that saw the build', async () => {
+    answerOn('sdk-vision', '===VERDICT===\nREVISE\n===END===')
+
+    expect(await ask()).toMatchObject({ verdict: 'REVISE', visionChannel: 'sdk-vision' })
+  })
+
+  it('says UNVERIFIED for a truncated reply, with the reason and no BAR (#570)', async () => {
+    const reason =
+      '[screenshot-critic] response truncated at max_tokens (6000 output tokens, cap 6000)'
+    callVisionAgentMock.mockRejectedValue(
+      new VisionTruncatedError({ agent: 'screenshot-critic', reason })
+    )
+
+    expect(await ask(true)).toEqual({
+      verdict: 'UNVERIFIED',
+      criticResponse: reason,
+      visionChannel: 'sdk-vision-truncated',
+      bar: null,
+    })
+  })
+
+  it.each(['cli-text-fallback', 'cli-text-no-key', 'cli-text-no-images', 'fixture-replay'])(
+    'says UNVERIFIED for a REVISE that reached us on %s (#570)',
+    async (channel) => {
+      answerOn(channel, '===VERDICT===\nREVISE\n===END===\nBAR: above — fine')
+
+      expect(await ask(true)).toMatchObject({
+        verdict: 'UNVERIFIED',
+        visionChannel: channel,
+        bar: null,
+      })
+    }
+  )
+
+  it('lets any other failure through', async () => {
+    callVisionAgentMock.mockRejectedValue(
+      new ModelTransportError({
+        agent: 'screenshot-critic',
+        channel: 'cli-text-fallback',
+        emptyReply: true,
+      })
+    )
+
+    await expect(ask()).rejects.toBeInstanceOf(ModelTransportError)
+  })
+})
+
+describe('readRevisionRequest', () => {
+  it('sends a REVISE to the agent the critic named', () => {
+    const reply =
+      '===VERDICT===\nREVISE\n===FEEDBACK===\nThe hero is undersized.\n**Responsible agent:** mockup-designer\n===END==='
+
+    expect(readRevisionRequest('REVISE', reply).responsibleAgent).toBe('mockup-designer')
+  })
+
+  it('falls back to the engineer when a REVISE names no agent', () => {
+    expect(readRevisionRequest('REVISE', '===VERDICT===\nREVISE\n===END===').responsibleAgent).toBe(
+      'react-engineer'
+    )
+  })
+
+  it('takes the FEEDBACK block up to ===END===', () => {
+    const reply =
+      '===VERDICT===\nREVISE\n===FEEDBACK===\nThe hero is undersized.\n===END===\nBAR: x'
+
+    expect(readRevisionRequest('REVISE', reply).criticFeedback).toBe('The hero is undersized.')
+  })
+
+  it('takes a FEEDBACK block that never closes to the end of the reply', () => {
+    const reply = '===VERDICT===\nREVISE\n===FEEDBACK===\nThe hero is undersized.\nAnd the nav.'
+
+    expect(readRevisionRequest('REVISE', reply).criticFeedback).toBe(
+      'The hero is undersized.\nAnd the nav.'
+    )
+  })
+
+  it('strips the frame from a reply with no FEEDBACK block, keeping REVISE inside the prose', () => {
+    const reply = '===VERDICT===\nREVISE\nREVISE the hero scale.\n===END==='
+
+    expect(readRevisionRequest('REVISE', reply).criticFeedback).toBe('REVISE the hero scale.')
+  })
+
+  it.each(['SHIP', 'UNVERIFIED'])(
+    'gives a %s no critique and no agent but the engineer, whatever the reply says',
+    (verdict) => {
+      const reply =
+        '===VERDICT===\nREVISE\n===FEEDBACK===\nA finding.\n**Responsible agent:** mockup-designer\n===END==='
+
+      expect(readRevisionRequest(verdict, reply)).toEqual({
+        responsibleAgent: 'react-engineer',
+        criticFeedback: '',
+      })
+    }
+  )
+})
+
+describe('describeRevision', () => {
+  it('names the responsible agent for a critic REVISE', () => {
+    expect(describeRevision('REVISE', 'react-engineer', 3)).toBe(
+      '  [screenshot-critic] REVISE — responsible: react-engineer'
+    )
+  })
+
+  it('says the gate is revising anyway after a SHIP', () => {
+    expect(describeRevision('SHIP', 'react-engineer', 2)).toBe(
+      '  [surface-gate] critic said SHIP; revising anyway for 2 measured fault(s)'
+    )
+  })
+
+  it('says the critic gave no verdict after an UNVERIFIED (#570)', () => {
+    expect(describeRevision('UNVERIFIED', 'react-engineer', 1)).toBe(
+      '  [surface-gate] critic gave no verdict; revising anyway for 1 measured fault(s)'
+    )
+  })
+})
+
+describe('logNoRevision', () => {
+  beforeEach(() => {
+    // tests/setup.js already silences console; clear what earlier tests logged.
+    vi.spyOn(console, 'log')
+      .mockImplementation(() => {})
+      .mockClear()
+    vi.spyOn(console, 'warn')
+      .mockImplementation(() => {})
+      .mockClear()
+  })
+
+  it('warns that the build ships as-is when the critic gave no verdict (#570)', () => {
+    logNoRevision('UNVERIFIED', 'sdk-vision-truncated')
+
+    expect(console.warn).toHaveBeenCalledWith(
+      '  [screenshot-critic] no verdict (sdk-vision-truncated) — no critic-driven revision, shipping the build as-is'
+    )
+    expect(console.log).not.toHaveBeenCalled()
+  })
+
+  it('logs a plain SHIP otherwise', () => {
+    logNoRevision('SHIP', 'sdk-vision')
+
+    expect(console.log).toHaveBeenCalledWith('  [screenshot-critic] SHIP')
+    expect(console.warn).not.toHaveBeenCalled()
+  })
+})
+
+describe('recordFinalJudgment', () => {
+  beforeEach(() => {
+    // tests/setup.js already silences console; clear what earlier tests logged.
+    vi.spyOn(console, 'log')
+      .mockImplementation(() => {})
+      .mockClear()
+    vi.spyOn(console, 'warn')
+      .mockImplementation(() => {})
+      .mockClear()
+  })
+
+  const judged = (verdict, visionChannel, criticResponse = 'the critique') => ({
+    verdict,
+    criticResponse,
+    visionChannel,
+  })
+
+  it('records a SHIP from a critic that saw the build, and nothing else', () => {
+    const verdicts = []
+
+    expect(recordFinalJudgment(verdicts, judged('SHIP', 'sdk-vision'), '')).toBe('SHIP')
+
+    expect(verdicts).toEqual([
+      {
+        critic: 'screenshot-critic',
+        round: 'final',
+        verdict: 'SHIP',
+        feedback: 'the critique',
+        channel: 'sdk-vision',
+        ts: expect.any(Number),
+      },
+    ])
+    expect(console.log).toHaveBeenCalledWith('  [screenshot-critic] final verdict: SHIP')
+    expect(console.warn).not.toHaveBeenCalled()
+  })
+
+  it('ships a final REVISE with the faults logged, critique first and measured faults after', () => {
+    const verdicts = []
+
+    expect(
+      recordFinalJudgment(verdicts, judged('REVISE', 'sdk-vision', 'still wrong'), '- [error] /: x')
+    ).toBe('REVISE')
+
+    expect(verdicts.map((v) => [v.critic, v.verdict])).toEqual([
+      ['screenshot-critic', 'REVISE'],
+      ['ship-gate', 'SHIPPED-WITH-FAULTS'],
+    ])
+    expect(verdicts[1].feedback).toBe('still wrong\n\n- [error] /: x')
+    expect(console.warn).toHaveBeenCalledWith(
+      '  [ship-gate] final critic still says REVISE — shipping with the faults logged'
+    )
+  })
+
+  it('leaves the blank out of the ship-gate feedback when the second measurement was clean', () => {
+    const verdicts = []
+
+    recordFinalJudgment(verdicts, judged('REVISE', 'sdk-vision', 'still wrong'), '')
+
+    expect(verdicts[1].feedback).toBe('still wrong')
+  })
+
+  it.each(['cli-text-fallback', 'cli-text-no-images', 'sdk-vision-truncated'])(
+    'records UNVERIFIED, never SHIPPED-WITH-FAULTS, for a REVISE that reached us on %s (#486)',
+    (channel) => {
+      const verdicts = []
+
+      expect(recordFinalJudgment(verdicts, judged('REVISE', channel), '- [error] /: x')).toBe(
+        'UNVERIFIED'
+      )
+
+      expect(verdicts).toHaveLength(1)
+      expect(verdicts[0]).toMatchObject({ verdict: 'UNVERIFIED', channel, round: 'final' })
+      expect(console.warn).toHaveBeenCalledWith(
+        `  [screenshot-critic] final re-judge did not reach the SDK vision channel (${channel}) — recording UNVERIFIED instead of a faults verdict`
+      )
+    }
+  )
+
+  it('caps the recorded critique at 2000 characters', () => {
+    const verdicts = []
+
+    recordFinalJudgment(verdicts, judged('REVISE', 'sdk-vision', 'x'.repeat(2500)), 'faults')
+
+    expect(verdicts[0].feedback).toHaveLength(2000)
+    expect(verdicts[1].feedback).toBe(`${'x'.repeat(2000)}\n\nfaults`)
   })
 })

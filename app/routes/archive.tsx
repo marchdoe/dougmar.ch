@@ -15,6 +15,7 @@ import {
   newestMonth,
   swatchFor,
 } from '../lib/archive-calendar'
+import { loadArchiveIndex } from '../lib/archive-data'
 import { css } from '../../styled-system/css'
 import type { ArchiveIndexEntry } from '../types/archive-record'
 import { CANONICAL_ORIGIN } from '../../scripts/utils/site-origin.js'
@@ -166,7 +167,7 @@ const weekday = css({
   letterSpacing: '0.1em',
 })
 
-const cell = css({
+const cell = css.raw({
   aspectRatio: '1',
   border: '1px solid',
   borderColor: 'archive.lineSoft',
@@ -182,7 +183,7 @@ const cell = css({
   overflow: 'hidden',
 })
 
-const built = css({
+const built = css.raw({
   background: 'var(--day)',
   borderColor: 'transparent',
   color: 'var(--ink)',
@@ -196,7 +197,7 @@ const built = css({
   '&[aria-current="date"]': { outlineColor: 'archive.text' },
 })
 
-const recordOnly = css({
+const recordOnly = css.raw({
   borderStyle: 'dashed',
   borderColor: 'archive.faint',
   color: 'archive.dim',
@@ -293,12 +294,6 @@ function hueVars(entry: ArchiveIndexEntry) {
   return { '--day': swatchFor(entry), '--ink': inkFor(entry) } as React.CSSProperties
 }
 
-function isArchiveIndex(value: unknown): value is ArchiveIndexEntry[] {
-  return (
-    Array.isArray(value) && value.every((e) => typeof (e as { date?: unknown })?.date === 'string')
-  )
-}
-
 function ArchivePage() {
   const [entries, setEntries] = useState<ArchiveIndexEntry[]>([])
   // Three states, not two. `loaded` alone could not tell "the archive is
@@ -311,14 +306,9 @@ function ArchivePage() {
 
   useEffect(() => {
     let cancelled = false
-    fetch('/archive-data/index.json')
-      .then((res) => {
-        if (!res.ok) throw new Error(`archive index responded with ${res.status}`)
-        return res.json()
-      })
-      .then((data: unknown) => {
+    loadArchiveIndex()
+      .then((data) => {
         if (cancelled) return
-        if (!isArchiveIndex(data)) throw new Error('archive index was not the expected shape')
         setEntries(data)
         setYm(newestMonth(data))
         setStatus('ready')
@@ -461,14 +451,14 @@ function MonthGrid({
           // biome-ignore lint/suspicious/noArrayIndexKey: leading blanks have no date; the slot index is their only identity and the row is never reordered.
           <div key={`pad-${ym}-slot${i}`} />
         ) : c.state === 'empty' || !c.entry ? (
-          <div key={c.date} className={cell}>
+          <div key={c.date} className={css(cell)}>
             <span>{c.day}</span>
           </div>
         ) : c.state === 'record' ? (
           <a
             key={c.date}
             href={hrefFor(c.entry)}
-            className={`${cell} ${recordOnly}`}
+            className={css(cell, recordOnly)}
             aria-current={current(c.date)}
             title={`${c.date} — record only, no design preserved`}
           >
@@ -479,7 +469,7 @@ function MonthGrid({
           <a
             key={c.date}
             href={hrefFor(c.entry)}
-            className={`${cell} ${built}`}
+            className={css(cell, built)}
             aria-current={current(c.date)}
             style={hueVars(c.entry)}
             title={`${c.date}${c.entry.primaryHue?.name ? ` — ${c.entry.primaryHue.name}` : ''}`}

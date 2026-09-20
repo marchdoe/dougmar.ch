@@ -411,6 +411,37 @@ test.describe('site health — archive', () => {
     expect(index.status()).toBe(200)
     expect((await index.json()).length).toBeGreaterThan(0)
   })
+
+  // The screenshot and viewport captures are copied out of archive/ at build
+  // time, not committed a second time (#549). A build that stops copying them
+  // would still answer 200 for these URLs, with the SPA shell, so the type is
+  // what proves an image came back.
+  test("the newest day's screenshot and phone capture are served as images", async ({
+    request,
+  }) => {
+    const index = (await (await request.get('/archive-data/index.json')).json()) as {
+      date: string
+      hasScreenshot: boolean
+    }[]
+    const newest = index
+      .filter((e) => e.hasScreenshot)
+      .map((e) => e.date)
+      .sort()
+      .at(-1)
+    expect(newest).toBeTruthy()
+
+    const shot = await request.get(`/archive-data/${newest}.png`)
+    expect(shot.status()).toBe(200)
+    expect(shot.headers()['content-type']).toContain('image/png')
+
+    // PNG before #549, WebP after; one of the two has to answer.
+    const phone = await Promise.all(
+      ['webp', 'png'].map((ext) => request.get(`/archive-data/${newest}/viewports/mobile.${ext}`))
+    )
+    expect(
+      phone.some((r) => r.status() === 200 && r.headers()['content-type']?.startsWith('image/'))
+    ).toBe(true)
+  })
 })
 
 test.describe('site health — archived site serving', () => {
@@ -660,14 +691,13 @@ test.describe('site health — content verification', () => {
 })
 
 test.describe('site health — share-sheet meta', () => {
-  test('shell HTML og meta is well-formed when present', async ({ page }) => {
+  test('shell HTML og meta is well-formed', async ({ page }) => {
     await page.goto('/')
-    // A committed checkout (before the first pipeline run on this branch) has
-    // no og meta in __root.tsx — skip rather than hard-fail in that case.
+    // __root.tsx has carried og meta since 2026-07-13 and the pipeline's
+    // template always writes it, so a missing tag is a regression, not a
+    // checkout that has not had its first run.
     const ogMeta = page.locator('meta[property="og:image"]')
-    // Fast skip (no ~30s auto-wait) when the tag is absent on a pre-pipeline checkout.
-    if ((await ogMeta.count()) === 0)
-      test.skip(true, 'og meta not yet generated (pre-first-pipeline-run checkout)')
+    await expect(ogMeta).toHaveCount(1)
     const ogImage = await ogMeta.getAttribute('content')
     // Two shapes are valid. A dated capture is what the pipeline writes on a
     // green run; `default.png` is the committed fallback that ships a real card
@@ -903,4 +933,204 @@ test.describe('site health — navigation', () => {
     await aboutLink.click()
     await expect(page).toHaveURL(/\/about/, { timeout: 15000 })
   })
+})
+
+/**
+ * /elements reads the presets, so the browser is where it gets held to them
+ * (#552). Every colour it prints must be the colour its swatch paints from the
+ * built stylesheet, no text may sit under the type ramp's floor, nothing
+ * scrolls sideways, and the nightly Sidebar, which runs down the left edge of
+ * the Layout wrapper, must not sit on the content. None of it names a token or
+ * a size: the preset changes every night.
+ *
+ * The page callbacks only gather numbers and strings; the comparing happens
+ * here, so each stays a few lines long.
+ */
+const rgbToHex = (rgb: string) => {
+  const m = /rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(rgb)
+  if (!m) return rgb
+  return `#${[m[1], m[2], m[3]].map((n) => Number(n).toString(16).padStart(2, '0')).join('')}`
+}
+
+test.describe('site health — /elements reads the preset', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/elements')
+    await page.waitForLoadState('networkidle')
+    await expect(page.locator('[data-token-path]').first()).toBeVisible()
+  })
+
+  test('every printed colour is the colour the built CSS paints', async ({ page }) => {
+    const swatches = await page.locator('[data-token-path]').evaluateAll((items) =>
+      items.map((item) => ({
+        path: item.getAttribute('data-token-path'),
+        printed: item.querySelector('[data-token-value]')?.textContent?.trim() ?? '',
+        paints: item.firstElementChild
+          ? getComputedStyle(item.firstElementChild).backgroundColor
+          : '',
+      }))
+    )
+    const hexes = swatches.filter((s) => /^#[0-9a-f]{6}$/i.test(s.printed))
+    expect(hexes.length, 'no swatch had a hex to compare').toBeGreaterThan(0)
+    const wrong = hexes.filter((s) => rgbToHex(s.paints).toLowerCase() !== s.printed.toLowerCase())
+    expect(wrong.map((s) => `${s.path}: prints ${s.printed}, paints ${s.paints}`)).toEqual([])
+  })
+
+  test('a semantic colour with no value tonight says so instead of painting nothing', async ({
+    page,
+  }) => {
+    const swatches = await page.locator('[data-token-path^="semantic."]').evaluateAll((items) =>
+      items.map((item) => ({
+        path: item.getAttribute('data-token-path'),
+        said: /not defined tonight/.test(item.textContent ?? ''),
+        paints: item.firstElementChild
+          ? getComputedStyle(item.firstElementChild).backgroundColor
+          : '',
+      }))
+    )
+    const blank = swatches.filter(
+      (s) => !s.said && (s.paints === '' || s.paints === 'rgba(0, 0, 0, 0)')
+    )
+    expect(blank.map((s) => s.path)).toEqual([])
+  })
+
+  for (const width of [360, 820, 1440]) {
+    test(`type floor, overflow and sidebar at ${width}`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 })
+      await page.reload()
+      await page.waitForLoadState('networkidle')
+
+      // The ramp floor is whatever `2xs` is tonight.
+      const floor = await page.evaluate(() => {
+        const probe = document.createElement('span')
+        probe.style.fontSize = 'var(--font-sizes-2xs)'
+        document.body.append(probe)
+        const size = Number.parseFloat(getComputedStyle(probe).fontSize)
+        probe.remove()
+        return size
+      })
+
+      const lines = await page.evaluate(() => {
+        const out: { size: number; text: string; left: number; right: number }[] = []
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+        for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+          const el = n.parentElement
+          const text = n.textContent?.trim() ?? ''
+          if (!el || !text || el.closest('[aria-hidden="true"]')) continue
+          const size = Number.parseFloat(getComputedStyle(el).fontSize)
+          const range = document.createRange()
+          range.selectNodeContents(n)
+          for (const r of range.getClientRects()) {
+            if (r.width > 0)
+              out.push({ size, text: text.slice(0, 24), left: r.left, right: r.right })
+          }
+        }
+        return out
+      })
+      const small = lines.filter((l) => l.size < floor - 0.01)
+      expect(
+        small.map((l) => `${l.size}px "${l.text}"`),
+        `text under the ${floor}px floor`
+      ).toEqual([])
+
+      const page_ = await page.evaluate(() => {
+        const root = document.documentElement
+        const sidebar = document.querySelector('[aria-hidden="true"]')
+        const shown = sidebar && getComputedStyle(sidebar).display !== 'none'
+        const box = shown ? sidebar.getBoundingClientRect() : null
+        return {
+          overflow: root.scrollWidth - root.clientWidth,
+          side: box && { left: box.left, right: box.right },
+        }
+      })
+      expect(page_.overflow).toBeLessThanOrEqual(0)
+
+      // The Sidebar shows from the md breakpoint up, and keeps clear of every line.
+      if (width >= 768) expect(page_.side, 'the sidebar did not render').not.toBeNull()
+      const { side } = page_
+      const under = side ? lines.filter((l) => l.left < side.right && l.right > side.left) : []
+      expect(
+        under.map((l) => l.text),
+        'text under the sidebar'
+      ).toEqual([])
+    })
+  }
+})
+
+/**
+ * /experiments wrote `padding: '3 4'`. Panda resolves a token only when it is
+ * the whole value, so the row shipped 3px of vertical padding and 4px of
+ * horizontal, and stood 25px tall against a 44px tap target (#553). The page
+ * sits in the nightly Layout wrapper, whose Sidebar is absolute from top to
+ * bottom, so a wrapper as tall as three rows put the Sidebar's line on the rows.
+ *
+ * The spacing values are read back from the stylesheet's own `--spacing-*`
+ * variables, so this names no pixel value: the chassis moves them nightly.
+ */
+test.describe('site health — /experiments spacing', () => {
+  for (const width of [360, 820, 1440]) {
+    test(`rows carry the spacing tokens, reach 44px and clear the sidebar at ${width}`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto('/experiments')
+      await page.waitForLoadState('networkidle')
+
+      const token = (name: string) =>
+        page.evaluate((n) => {
+          const probe = document.createElement('div')
+          probe.style.paddingLeft = `var(--spacing-${n})`
+          document.body.append(probe)
+          const px = getComputedStyle(probe).paddingLeft
+          probe.remove()
+          return px
+        }, name)
+
+      const rows = await page.locator('a[href]:not([data-archive-link])').evaluateAll((links) =>
+        links.map((a) => {
+          const cs = getComputedStyle(a)
+          return {
+            block: [cs.paddingTop, cs.paddingBottom],
+            inline: [cs.paddingLeft, cs.paddingRight],
+            height: a.getBoundingClientRect().height,
+          }
+        })
+      )
+      expect(rows.length).toBeGreaterThan(0)
+      const block = await token('3')
+      const inline = await token('4')
+      for (const row of rows) {
+        expect(row.block).toEqual([block, block])
+        expect(row.inline).toEqual([inline, inline])
+        expect(row.height).toBeGreaterThanOrEqual(44)
+      }
+
+      const lines = await page.evaluate(() => {
+        const out: { text: string; left: number; right: number; side: boolean }[] = []
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+        for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+          const el = n.parentElement
+          if (!el || !n.textContent?.trim()) continue
+          const range = document.createRange()
+          range.selectNodeContents(n)
+          const side = Boolean(el.closest('[aria-hidden="true"]'))
+          for (const r of range.getClientRects()) {
+            out.push({
+              text: n.textContent.trim().slice(0, 24),
+              left: r.left,
+              right: r.right,
+              side,
+            })
+          }
+        }
+        return out
+      })
+      const side = lines.filter((l) => l.side)
+      const under = lines.filter(
+        (l) => !l.side && side.some((s) => l.left < s.right && l.right > s.left)
+      )
+      // The Sidebar is a md-and-up element: it has text to clear only there.
+      if (width >= 768) expect(side.length, 'the sidebar did not render').toBeGreaterThan(0)
+      expect(under.map((l) => l.text)).toEqual([])
+    })
+  }
 })

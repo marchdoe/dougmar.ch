@@ -69,6 +69,104 @@ function clusterRecurring(entries) {
 }
 
 /**
+ * Whether a verdict record is something a critic found, and so worth teaching
+ * the next night. A record's `channel` says how the reply reached us: only
+ * `sdk-vision` means the critic saw the build. Anything else is the pipeline's
+ * own output, such as a truncation message or a text-only fallback's guess, and
+ * absent means a deterministic gate or a text agent, which stay. A critic's
+ * fail-closed REVISE on a malformed reply carries the reply's first characters
+ * and no finding, so it goes too (#571).
+ * @param {{ channel?: string, feedback?: unknown, malformed?: boolean }} v
+ * @returns {boolean}
+ */
+function isCriticFinding(v) {
+  if (v.channel && v.channel !== 'sdk-vision') return false
+  if (v.malformed) return false
+  return !String(v.feedback ?? '').startsWith('malformed critic response')
+}
+
+/**
+ * A critic's feedback without the frame around it: the `===VERDICT===` line
+ * and the verdict word after it, the `**Issues:**` and `**Responsible
+ * agent:**` lines, `===FEEDBACK===` and `===END===`, and a bare leading
+ * REVISE, and the dash of a leading list item, which the block adds its own
+ * of. Run before the length cap, so the 400 characters are spent on the
+ * finding (#571).
+ * @param {unknown} feedback
+ * @returns {string}
+ */
+function stripVerdictBoilerplate(feedback) {
+  return String(feedback ?? '')
+    .replace(/===VERDICT===\s*\n\s*[A-Z-]+[ \t]*\n?/g, '')
+    .replace(/===FEEDBACK===|===END===/g, '')
+    .replace(/^[ \t]*(?:\*\*Issues:\*\*|\*\*Responsible agent:\*\*.*)[ \t]*$/gm, '')
+    .replace(/^\s*REVISE[ \t]*\n/, '')
+    .trim()
+    .replace(/^[-*][ \t]+/, '')
+}
+
+/** The owner's rating critiques (didnt/try) as lesson entries. */
+function ratingLessons(archiveDir, lookbackDays) {
+  const entries = []
+  for (const r of readRecentRatings(archiveDir, { lookbackDays })) {
+    const text = [r.didnt, r.try].filter(Boolean).join(' — try: ')
+    if (text) entries.push({ date: r.date, source: `owner (grade ${r.grade})`, text })
+  }
+  return entries
+}
+
+/**
+ * One verdict's lesson entries, pushed onto `entries`: the critic's REVISE
+ * finding, and the BAR self-eval. Pushes rather than returns, so a verdict
+ * that throws partway keeps the entries the earlier ones added.
+ */
+function pushVerdictLessons(entries, date, v) {
+  const feedback = v.verdict === 'REVISE' ? stripVerdictBoilerplate(v.feedback) : ''
+  if (feedback) entries.push({ date, source: v.critic, text: feedback.slice(0, 400) })
+  // The screenshot-critic's BAR self-eval (calibration against the
+  // owner's highest-rated past build) rides on the verdict, not
+  // gated by it — a SHIP can still land "below," which is exactly
+  // the signal worth carrying forward. Independent of the REVISE
+  // branch above so both can fire on the same verdict entry.
+  if (!v.bar?.position) return
+  const reason = v.bar.reason ? ` — ${v.bar.reason}` : ''
+  entries.push({
+    date,
+    source: `${v.critic} (BAR)`,
+    text: `BAR vs best build: ${v.bar.position}${reason}`.slice(0, 400),
+  })
+}
+
+/** Push the lessons in one build's verdicts.json onto `entries`. */
+function pushBuildLessons(entries, { date, buildDir }) {
+  const verdictsPath = path.join(buildDir, 'verdicts.json')
+  if (!existsSync(verdictsPath)) return
+  try {
+    for (const v of JSON.parse(readFileSync(verdictsPath, 'utf8'))) {
+      if (isCriticFinding(v)) pushVerdictLessons(entries, date, v)
+    }
+  } catch {
+    /* ignore malformed */
+  }
+}
+
+/** Newest first, then fold substantially-similar complaints (≥2 builds) into one RECURRING entry. */
+function rankLessons(entries) {
+  entries.sort((a, b) => b.date.localeCompare(a.date))
+  const clustered = clusterRecurring(entries).map((c) =>
+    c.count >= 2 ? { ...c, text: `RECURRING (${c.count}x): ${c.text}` } : c
+  )
+  // A flaw that keeps coming back matters more than the newest one-off note.
+  return clustered.sort((a, b) => {
+    const aRecurring = a.count >= 2
+    const bRecurring = b.count >= 2
+    if (aRecurring !== bRecurring) return aRecurring ? -1 : 1
+    if (aRecurring && a.count !== b.count) return b.count - a.count
+    return b.date.localeCompare(a.date)
+  })
+}
+
+/**
  * Derive a rolling "Recent Lessons" prompt block from persisted critic
  * verdicts (REVISE feedback) and owner rating critiques (didnt/try fields).
  * Pure derivation at prompt-build time — no mutable state file.
@@ -76,63 +174,15 @@ function clusterRecurring(entries) {
  * @returns {string} markdown block, or '' when there is nothing to learn from
  */
 export function buildLessonsBlock(archiveDir, { limit = 7, lookbackDays = 14 } = {}) {
-  const entries = [] // { date, source, text }
-
-  for (const r of readRecentRatings(archiveDir, { lookbackDays })) {
-    const text = [r.didnt, r.try].filter(Boolean).join(' — try: ')
-    if (text) entries.push({ date: r.date, source: `owner (grade ${r.grade})`, text })
-  }
+  const entries = ratingLessons(archiveDir, lookbackDays) // { date, source, text }
   // The build that shipped, not the newest — see scripts/utils/recent-builds.js
-  for (const { date: dateDir, buildDir } of readRecentBuilds(archiveDir, { lookbackDays })) {
-    const verdictsPath = path.join(buildDir, 'verdicts.json')
-    if (!existsSync(verdictsPath)) continue
-    try {
-      for (const v of JSON.parse(readFileSync(verdictsPath, 'utf8'))) {
-        if (v.verdict === 'REVISE' && v.feedback) {
-          entries.push({
-            date: dateDir,
-            source: v.critic,
-            text: String(v.feedback).slice(0, 400),
-          })
-        }
-        // The screenshot-critic's BAR self-eval (calibration against the
-        // owner's highest-rated past build) rides on the verdict, not
-        // gated by it — a SHIP can still land "below," which is exactly
-        // the signal worth carrying forward. Independent of the REVISE
-        // branch above so both can fire on the same verdict entry.
-        if (v.bar?.position) {
-          const reason = v.bar.reason ? ` — ${v.bar.reason}` : ''
-          entries.push({
-            date: dateDir,
-            source: `${v.critic} (BAR)`,
-            text: `BAR vs best build: ${v.bar.position}${reason}`.slice(0, 400),
-          })
-        }
-      }
-    } catch {
-      /* ignore malformed */
-    }
+  for (const build of readRecentBuilds(archiveDir, { lookbackDays })) {
+    pushBuildLessons(entries, build)
   }
-
   if (entries.length === 0) return ''
-  entries.sort((a, b) => b.date.localeCompare(a.date))
-
-  // Fold substantially-similar complaints (≥2 builds) into one RECURRING
-  // entry, escalated to the front — a flaw that keeps coming back matters
-  // more than the newest one-off note.
-  const clustered = clusterRecurring(entries).map((c) =>
-    c.count >= 2 ? { ...c, text: `RECURRING (${c.count}x): ${c.text}` } : c
-  )
-  clustered.sort((a, b) => {
-    const aRecurring = a.count >= 2
-    const bRecurring = b.count >= 2
-    if (aRecurring !== bRecurring) return aRecurring ? -1 : 1
-    if (aRecurring && a.count !== b.count) return b.count - a.count
-    return b.date.localeCompare(a.date)
-  })
 
   const lines = ['## Recent Lessons — recurring flaws; do NOT repeat these', '']
-  for (const e of clustered.slice(0, limit)) {
+  for (const e of rankLessons(entries).slice(0, limit)) {
     lines.push(`- [${e.date}, ${e.source}] ${e.text}`)
   }
   return lines.join('\n')

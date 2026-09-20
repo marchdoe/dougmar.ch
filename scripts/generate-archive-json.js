@@ -15,11 +15,21 @@
  *
  * The files live under `/archive-data/` rather than inside `/archive/`, which is
  * reserved for bytes that shipped on the day they are named after. The day's
- * screenshot sits here too, written by the pipeline rather than by this script.
+ * screenshot and viewport captures are served from here too. They are copied
+ * out of `archive/<date>/build-*` by `publishArchiveImages` below, at build
+ * time, rather than committed a second time (#549).
  */
 
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
+import {
+  constants,
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+} from 'node:fs'
+import { dirname, join } from 'node:path'
 import { ROOT } from './utils/file-manager.js'
 import { isMain } from './utils/cli.js'
 import { archivedDates, readJsonSafe } from './utils/archive-fs.js'
@@ -45,6 +55,61 @@ export function loadRecord(date, archiveDir) {
     }
   }
   return { record: buildRecord(date, { archiveDir }), rebuilt: true }
+}
+
+/** The image types a build's `viewports/` directory has held: PNG first, WebP since #549. */
+const VIEWPORT_IMAGE = /\.(png|webp)$/i
+
+/**
+ * Copy one file unless the destination already exists. Returns 1 when it wrote.
+ * @param {string} src
+ * @param {string} dest
+ * @returns {number}
+ */
+function copyIfAbsent(src, dest) {
+  mkdirSync(dirname(dest), { recursive: true })
+  try {
+    copyFileSync(src, dest, constants.COPYFILE_EXCL)
+    return 1
+  } catch (err) {
+    if (err?.code === 'EEXIST') return 0
+    throw err
+  }
+}
+
+/**
+ * Put each day's screenshot and viewport captures where the site serves them:
+ * `<outDir>/<date>.png` and `<outDir>/<date>/viewports/<name>`, copied from the
+ * build that shipped that day.
+ *
+ * Until #549 the nightly committed these as a second copy beside the ones in
+ * `archive/`, and the same bytes then sat in the tree up to five times. They
+ * are gitignored now and made here, the way the JSON beside them is.
+ *
+ * An existing file is never overwritten. Every copy committed before #549 is
+ * the served bytes for its URL and must keep answering it unchanged, and
+ * leaving a tracked file alone also keeps the nightly's working tree clean.
+ * A stale local copy is cleared with `git clean -fdX public/archive-data`.
+ *
+ * @param {{ archiveDir: string, outDir: string }} paths
+ * @returns {number} files written
+ */
+export function publishArchiveImages({ archiveDir, outDir }) {
+  let written = 0
+  for (const date of archivedDates(archiveDir)) {
+    const { buildDir } = pickBuild(join(archiveDir, date))
+    if (!buildDir) continue
+
+    const screenshot = join(buildDir, 'screenshot.png')
+    if (existsSync(screenshot)) written += copyIfAbsent(screenshot, join(outDir, `${date}.png`))
+
+    const viewports = join(buildDir, 'viewports')
+    if (!existsSync(viewports)) continue
+    for (const name of readdirSync(viewports).filter((f) => VIEWPORT_IMAGE.test(f))) {
+      written += copyIfAbsent(join(viewports, name), join(outDir, date, 'viewports', name))
+    }
+  }
+  return written
 }
 
 /**
@@ -203,6 +268,9 @@ export function projectArchive({ archiveDir, publicDir, outDir }) {
 
   const dates = archivedDates(archiveDir, { newestFirst: true })
   mkdirSync(outDir, { recursive: true })
+  // Before the loop: `hasScreenshot` below asks whether the day's PNG is there.
+  const images = publishArchiveImages({ archiveDir, outDir })
+  console.log(`  published ${images} image file(s) from archive/ to ${outDir}`)
 
   const index = []
   let rebuilt = 0

@@ -68,6 +68,7 @@ import {
 } from './utils/semantic-contract.js'
 import { formatPatternPropsForPrompt, readPatternProps } from './utils/pattern-props.js'
 import { collectGateRules, formatGateRulesForPrompt } from './utils/gate-rules.js'
+import { fillContentGaps } from './utils/content-gaps.js'
 import { unslopPatternsSection } from './utils/copy-tells.js'
 import { loadPrompt } from './utils/prompt-loader.js'
 import { parseDelimiterResponse } from './utils/delimiter-parser.js'
@@ -106,6 +107,9 @@ import {
 } from './utils/engineer-patch.js'
 import { sweepGenerated } from './utils/generated-sweep.js'
 import { countArchivedDesigns } from './utils/archive-count.js'
+import { archiveLinkInks } from './utils/archive-link-ink.js'
+import { settleMockupRound } from './utils/mockup-rounds.js'
+import { newBoundaryId } from './utils/data-boundary.js'
 export { parseDelimiterResponse }
 
 /**
@@ -194,15 +198,20 @@ async function writeEngineerFiles(result, agentLabel, { root = ROOT, backup } = 
  * serves at the og:image URL injected into __root.tsx. Best-effort: a
  * missing og.tsx or a capture failure must never block shipping.
  * @param {string} date YYYY-MM-DD
- * @param {{ root?: string }} [options] repo root to write under
+ * @param {{ root?: string, writtenPaths?: Set<string> }} [options] repo root
+ *   to write under; `writtenPaths` receives the card's path when it is new
  */
-async function captureOgCard(date, { root = ROOT } = {}) {
+async function captureOgCard(date, { root = ROOT, writtenPaths } = {}) {
   try {
     const { captureRouteScreenshot } = await import('./utils/snapshot.js')
     const ogBuffer = await captureRouteScreenshot('/og')
     const ogDir = path.join(root, 'public', 'og')
     await mkdir(ogDir, { recursive: true })
-    await writeFile(path.join(ogDir, `${date}.png`), ogBuffer)
+    const cardPath = path.join(ogDir, `${date}.png`)
+    // A card this run creates is a new file in the checkout: record it so a
+    // rollback after a later throw (archive() itself) removes it again.
+    if (!existsSync(cardPath)) writtenPaths?.add(`public/og/${date}.png`)
+    await writeFile(cardPath, ogBuffer)
     console.log(`  [og] captured public/og/${date}.png (${(ogBuffer.length / 1024).toFixed(0)}KB)`)
   } catch (err) {
     console.warn(`  [og] capture failed (non-blocking): ${err.message}`)
@@ -359,10 +368,9 @@ export function archiveArtifacts(run) {
  *  Token-designer ownership was removed in the Art Director pipeline —
  *  preset.ts is now written by the Art Director. The Art Director's
  *  files are not retried via this map; retries go through the
- *  React Engineer (which is the only agent whose files can fail
- *  build validation in the new pipeline — preset.ts is validated by
- *  codegen at write time, and the Mockup Designer's HTML never enters
- *  the build).
+ *  React Engineer, so a build error that names only the Art Director's
+ *  files ends the run without one (`planRepairs`). The Mockup Designer's
+ *  HTML never enters the build.
  */
 export const FILE_OWNERSHIP = Object.fromEntries([
   ['elements/preset.ts', 'art-director'],
@@ -458,6 +466,39 @@ export function identifyFailingAgent(errorOutput) {
   if (agents.size === 0) return 'both'
   if (agents.size === 2) return 'both'
   return [...agents][0]
+}
+
+/**
+ * How a failed build is repaired: how many attempts, and the error the first
+ * one is given.
+ *
+ * Every repair goes to the React Engineer, and it has no way to fix a failure
+ * that names only `elements/preset.ts`. Its repair brief lists just the files
+ * it owns (`engineerOwnedPaths` leaves the preset out), so it never sees the
+ * file, and its prompt says never to emit it. A reply block for the preset
+ * would still be written, but it would be a blind rewrite of the Art
+ * Director's palette. The failures that name only the preset are about the
+ * preset itself, a semantic colour the frozen set is missing or has extra or
+ * a token that references itself, and no edit to the engineer's files
+ * touches them. Three attempts on such an error can only repeat it, so none
+ * are made and the run fails with the reason.
+ *
+ * `identifyFailingAgent` answers 'both' whenever the error also names an
+ * engineer file or names none, so those still get every attempt.
+ *
+ * @param {'art-director'|'react-engineer'|'both'} failingAgent
+ * @param {string} error the build error
+ * @param {number} maxAttempts the bound when a repair can help
+ * @returns {{ attempts: number, error: string }}
+ */
+export function planRepairs(failingAgent, error, maxAttempts) {
+  if (failingAgent !== 'art-director') return { attempts: maxAttempts, error }
+  return {
+    attempts: 0,
+    error:
+      "The failure is in elements/preset.ts, which the Art Director wrote. The React Engineer's repair brief does not include that file and its instructions forbid writing it, so no repair was attempted.\n\n" +
+      error,
+  }
 }
 
 /**
@@ -641,14 +682,17 @@ function validateCodegen({ root = ROOT } = {}) {
  * Phase 4: Build validation
  * Phase 5: Retry on failure
  *
- * @param {{ signals: object, brief: string, contentSummary: string }} context
+ * @param {{ signals: object, brief: string, contentSummary: string, boundaryId?: string }} context
+ *   `boundaryId` is the run's data-boundary suffix (utils/data-boundary.js): a
+ *   fresh random one by default, fixed by a test so a prompt snapshot stays
+ *   byte for byte
  * @param {{ onTraceStep?: Function, root?: string }} [options] `root` is the
  *   checkout the swarm reads prompts from and writes generated files, signals
  *   and the archive under; defaults to the repo
  * @returns {Promise<{ rationale: string, design_brief: string, files: Array<{path: string, content: string}> }>}
  */
 export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) {
-  const { signals, brief, contentSummary } = context
+  const { signals, brief, contentSummary, boundaryId = newBoundaryId() } = context
 
   // Start this run's cost accounting from zero. The ledger is module-level,
   // so a second swarm in the same process (the dev panel's Run button) would
@@ -813,6 +857,27 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
   // restore(originalBackup) only reverts paths in the backup; files created
   // by the AI outside that set would leak without this tracking.
   const writtenPaths = new Set()
+  // The pre-run snapshot of MUTABLE_FILES, taken inside the try once the
+  // prompts have loaded. Declared here so the outer catch can roll back to it
+  // from any throw after the first write; null means nothing was written yet.
+  let originalBackup = null
+  /**
+   * The one rollback. "A run either ships a night or fails and rolls the
+   * checkout back" (CONTEXT.md), so every throw between the first write and
+   * archive() ends here through the outer catch, whichever site raised it.
+   * Once archive() has returned the night shipped and there is nothing to
+   * undo. A rollback that itself fails must not replace the error that ended
+   * the run.
+   */
+  async function rollBackCheckout() {
+    if (!originalBackup || archiveRan) return
+    try {
+      await cleanupOrphans(writtenPaths, originalBackup, { root })
+      await restore(originalBackup, { root })
+    } catch (rollbackErr) {
+      console.error(`  rollback failed (checkout may be dirty): ${rollbackErr.message}`)
+    }
+  }
   // Critic verdicts collected across the run; persisted as verdicts.json
   const verdicts = []
   // Final-render screenshot captured by the screenshot critic; persisted
@@ -901,7 +966,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
 
     // Backup all mutable files
     console.log('\n[backup] Backing up mutable files...')
-    const originalBackup = await backup(MUTABLE_FILES, { root })
+    originalBackup = await backup(MUTABLE_FILES, { root })
     console.log(`  backed up ${originalBackup.size} files`)
 
     // -----------------------------------------------------------------------
@@ -1056,6 +1121,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     const t0Director = Date.now()
     try {
       artDirectorResult = await runArtDirector({
+        boundaryId,
         signals,
         contentSummary,
         chassisCatalog: CHASSIS_CATALOG,
@@ -1086,13 +1152,13 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         // it answered the first call. Twenty-six August nights spent their
         // retry on exactly that and reported it as a missing block (#432).
         console.error(`  Art Director failed: ${firstErr.message}`)
-        await restore(originalBackup, { root })
         throw new Error(`Art Director failed: no response from the model — ${firstErr.message}`)
       }
       console.warn(`  Art Director failed (${firstErr.message}) — retrying once with error context`)
       noteRetry()
       try {
         artDirectorResult = await runArtDirector({
+          boundaryId,
           signals,
           contentSummary,
           chassisCatalog: CHASSIS_CATALOG,
@@ -1120,7 +1186,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         })
       } catch (err) {
         console.error(`  Art Director failed after retry: ${err.message}`)
-        await restore(originalBackup, { root })
         throw new Error(`Art Director failed after retry: ${err.message}`)
       }
     }
@@ -1201,10 +1266,14 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         heroCopy: artDirectorResult.heroCopy,
         designBrief: artDirectorResult.designBrief,
       })
+      // The archive link's ink, chosen against tonight's bg and bgAlt now
+      // that the preset exists (#566).
+      const archiveInks = archiveLinkInks(artDirectorResult.presetTs)
       const rootSrc = renderRootTemplate(
         buildGoogleFontsUrl(chosenChassis),
         ogMeta,
-        countArchivedDesigns(path.join(root, 'archive'))
+        countArchivedDesigns(path.join(root, 'archive')),
+        archiveInks.root.token
       )
       const rootPath = path.join(root, 'app/routes/__root.tsx')
       await writeFile(rootPath, rootSrc, 'utf8')
@@ -1233,12 +1302,14 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
 
       // The home page callout (#532), same ownership again. The run's date
       // picks its line and the count feeds its archive link, so neither
-      // moves on a codegen retry and this is the only place it is written.
+      // moves on a codegen retry. The link's ink follows the preset, so the
+      // retry below writes this file again (#566).
       await writeFile(
         path.join(root, SITE_CALLOUT_OWNER),
         renderSiteCalloutFile({
           date: runDate(signals),
           archiveCount: countArchivedDesigns(path.join(root, 'archive')),
+          archiveLinkInk: archiveInks.callout.token,
         }),
         'utf8'
       )
@@ -1258,8 +1329,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       writtenPaths.add('app/components/WhitePaper.tsx')
       console.log(`  [chassis] wrote WhitePaper.tsx from template`)
     } catch (err) {
-      await cleanupOrphans(writtenPaths, originalBackup, { root })
-      await restore(originalBackup, { root })
       throw new Error(`Chassis file generation failed: ${err.message}`)
     }
 
@@ -1292,6 +1361,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         // The full Director re-run is expensive but rare — codegen failures
         // are uncommon now that the Art Director sees PandaCSS rules.
         artDirectorResult = await runArtDirector({
+          boundaryId,
           signals,
           contentSummary,
           chassisCatalog: CHASSIS_CATALOG,
@@ -1333,7 +1403,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           const retryRootSrc = renderRootTemplate(
             buildGoogleFontsUrl(chosenChassis),
             retryOgMeta,
-            countArchivedDesigns(path.join(root, 'archive'))
+            countArchivedDesigns(path.join(root, 'archive')),
+            archiveLinkInks(artDirectorResult.presetTs).root.token
           )
           await writeFile(path.join(root, 'app/routes/__root.tsx'), retryRootSrc, 'utf8')
           formatGeneratedFile('app/routes/__root.tsx', { root })
@@ -1355,20 +1426,29 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           )
           formatGeneratedFile('app/components/Material.tsx', { root })
           console.log('  [chassis] regenerated Material.tsx after codegen retry')
+          // The callout's archive link is set in a token chosen against the
+          // preset's bgAlt, and the retry brought a new preset (#566).
+          await writeFile(
+            path.join(root, SITE_CALLOUT_OWNER),
+            renderSiteCalloutFile({
+              date: runDate(signals),
+              archiveCount: countArchivedDesigns(path.join(root, 'archive')),
+              archiveLinkInk: archiveLinkInks(artDirectorResult.presetTs).callout.token,
+            }),
+            'utf8'
+          )
+          formatGeneratedFile(SITE_CALLOUT_OWNER, { root })
+          console.log('  [chassis] regenerated SiteCallout.tsx after codegen retry')
         } catch (rootErr) {
           console.warn(
             `  __root.tsx og-meta refresh after retry failed (non-blocking): ${rootErr.message}`
           )
         }
       } catch (err) {
-        await cleanupOrphans(writtenPaths, originalBackup, { root })
-        await restore(originalBackup, { root })
         throw new Error(`Art Director codegen retry failed: ${err.message}`)
       }
       const retryCodegen = validateCodegen({ root })
       if (!retryCodegen.success) {
-        await cleanupOrphans(writtenPaths, originalBackup, { root })
-        await restore(originalBackup, { root })
         throw new Error(
           `Codegen failed after Art Director retry: ${retryCodegen.error?.slice(0, 500)}`
         )
@@ -1608,9 +1688,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       // .github/workflows/daily-redesign.yml (PR #69, 2026-07-12). The
       // model reads the whole prompt every revision round, so growth past
       // this line is a cost and attention problem, not a correctness one.
-      // Restore + throw so the day's run rolls back cleanly instead of
-      // quietly getting more expensive.
-      await restore(originalBackup, { root })
+      // Throw so the day's run rolls back cleanly instead of quietly getting
+      // more expensive.
       throw new Error(
         `mockup-designer system prompt is ${(mockupDesignerPromptBytes / 1024).toFixed(0)}KB — over the ${(MOCKUP_DESIGNER_PROMPT_MAX / 1024).toFixed(0)}KB budget. Trim a reference doc.`
       )
@@ -1671,10 +1750,18 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     let mockup
     let mockupScreenshot = null
     let revisionFeedback = ''
+    // The mockup the critic just reviewed. The designer revises this page
+    // instead of regenerating one from the brief (#573).
+    let previousMockupHtml = ''
+    let producedMockupRound = -1
     // The measured design-fidelity numbers (#487) per mockup revision round,
     // so the mockup-versus-build gap is visible for every round the critic
     // saw, not only the last — archived as mockup-measurables.json.
     const mockupMeasurableRounds = []
+    // Every round's mockup and screenshot, so the loop can ship an earlier
+    // round when the critic never approves one and a later round measured
+    // worse (#573).
+    const keptMockupRounds = new Map()
     const MAX_MOCKUP_REVISIONS = 2
     for (let round = 0; round <= MAX_MOCKUP_REVISIONS; round++) {
       // The optional steps check the deadline before starting; the two
@@ -1688,7 +1775,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       }
       const t0Mockup = Date.now()
       try {
-        mockup = await runMockupDesigner({ ...mockupCtxBase, revisionFeedback })
+        mockup = await runMockupDesigner({ ...mockupCtxBase, revisionFeedback, previousMockupHtml })
       } catch (firstErr) {
         if (firstErr.transport) {
           // A dead model answers the retry the same way it answered the
@@ -1701,7 +1788,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
             break
           }
           console.error(`  Mockup Designer failed (round ${round}): ${firstErr.message}`)
-          await restore(originalBackup, { root })
           throw new Error(`Mockup Designer failed: ${firstErr.message}`)
         }
         console.warn(
@@ -1719,6 +1805,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           mockup = await runMockupDesigner({
             ...mockupCtxBase,
             revisionFeedback,
+            previousMockupHtml,
             retryContext: `## Previous attempt was rejected\n\nYour previous mockup failed validation: ${firstErr.message}\nReturn a JS-free mockup.html and every required block this time.`,
           })
         } catch (err) {
@@ -1740,11 +1827,11 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
             output: { error: err.message },
             durationMs: Date.now() - t0Mockup,
           })
-          await restore(originalBackup, { root })
           throw new Error(`Mockup Designer failed after retry: ${err.message}`)
         }
       }
       await writeFile(mockupPath, mockup.mockupHtml, 'utf8')
+      producedMockupRound = round
 
       console.log(`\n[phase-2b] Mockup Critic (round ${round})`)
       try {
@@ -1760,6 +1847,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         mockupScreenshot = null
         break
       }
+      keptMockupRounds.set(round, { mockup, mockupScreenshot })
       if (mockupScreenshot.measured) {
         mockupMeasurableRounds.push({
           round,
@@ -1844,7 +1932,23 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       // whether the critic loop earned its keep (#303).
       noteRetry()
       revisionFeedback = critique.feedback
+      previousMockupHtml = mockup.mockupHtml
     }
+
+    // When the critic never approved, the last round is not necessarily the
+    // best one; this ships the round with the smallest measured shortfall.
+    const settled = await settleMockupRound({
+      verdicts,
+      rounds: mockupMeasurableRounds,
+      declared: measurablesDecl,
+      producedRound: producedMockupRound,
+      kept: keptMockupRounds,
+      current: { mockup, mockupScreenshot },
+      mockupPath,
+      trace,
+    })
+    mockup = settled.mockup
+    mockupScreenshot = settled.mockupScreenshot
 
     // -----------------------------------------------------------------------
     // Phase 2c: React Engineer — translate the approved mockup to TSX
@@ -1861,12 +1965,15 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     if (!reactEngineerPromptRaw.includes('{{GATES}}')) {
       throw new Error('react-engineer.md is missing its {{GATES}} placeholder')
     }
-    const reactEngineerSystemPrompt = `${reactEngineerPromptRaw
-      .replace('{{SEMANTIC_COLOR_CONTRACT}}', formatSemanticContractForPrompt())
-      .replace(
-        '{{GATES}}',
-        formatGateRulesForPrompt(collectGateRules({ root }))
-      )}\n\n${designSystemReference}${brandRegisterDeclaration}`
+    // Which content fields are empty today, read from app/content (#568), so
+    // the engineer does not print a separator beside a field that has no text.
+    const reactEngineerPrompt = await fillContentGaps(
+      reactEngineerPromptRaw
+        .replace('{{SEMANTIC_COLOR_CONTRACT}}', formatSemanticContractForPrompt())
+        .replace('{{GATES}}', formatGateRulesForPrompt(collectGateRules({ root }))),
+      { root }
+    )
+    const reactEngineerSystemPrompt = `${reactEngineerPrompt}\n\n${designSystemReference}${brandRegisterDeclaration}`
 
     // The motion-design reference (#506) rides in the engineer's user prompt
     // on a night with an entrance or a scroll reveal to time. The engineer
@@ -1947,12 +2054,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           )
         } catch (retryErr) {
           console.error(`  React Engineer failed after stall retry: ${retryErr.message}`)
-          await restore(originalBackup, { root })
           throw new Error(`React Engineer failed after stall retry: ${retryErr.message}`)
         }
       } else {
         console.error(`  React Engineer failed: ${err.message}`)
-        await restore(originalBackup, { root })
         throw new Error(`React Engineer failed: ${err.message}`)
       }
     }
@@ -1998,6 +2103,21 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       }
     }
 
+    // The on-disk state that last passed a build, once there is one. The sweep
+    // records what it removes here as well as in originalBackup, because a
+    // failed revision restores this map, not the original.
+    let passingSnapshot = null
+
+    /**
+     * Snapshot the exact on-disk passing state: every mutable file plus any
+     * extra path the agents wrote.
+     * @returns {Promise<Map<string, string|null>>}
+     */
+    async function snapshotPassingState() {
+      passingSnapshot = await backup([...new Set([...MUTABLE_FILES, ...writtenPaths])], { root })
+      return passingSnapshot
+    }
+
     /**
      * Delete every file under app/components/generated/ that nothing on disk
      * imports, each recorded into the run's backup first so a rollback puts
@@ -2010,7 +2130,13 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
      */
     async function sweepAndTrace(phase, after) {
       const t0Sweep = Date.now()
-      const { kept, removed } = await sweepGenerated({ root, backup: originalBackup })
+      // Both maps a rollback may restore from. Once a build has passed, a
+      // revision that fails to rebuild puts the passing snapshot back, and a
+      // file swept out of that state has to be in it.
+      const { kept, removed } = await sweepGenerated({
+        root,
+        backup: [originalBackup, passingSnapshot],
+      })
       console.log(
         `  [generated-sweep] kept ${kept.length}, removed ${removed.length}${
           removed.length ? `: ${removed.join(', ')}` : ''
@@ -2051,8 +2177,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // Verify Layout.tsx was written (critical for the site to function)
     const layoutPath = path.join(root, 'app/components/Layout.tsx')
     if (!existsSync(layoutPath)) {
-      await cleanupOrphans(writtenPaths, originalBackup, { root })
-      await restore(originalBackup, { root })
       throw new Error('React Engineer did not produce Layout.tsx — site cannot function without it')
     }
 
@@ -2082,7 +2206,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // archive artifacts, persist the archetype, shape the return value.
     // Behavior is identical between callers apart from the rationale suffix.
     async function archiveAndReturn(filesResult, rationaleSuffix = '') {
-      await captureOgCard(today, { root })
+      await captureOgCard(today, { root, writtenPaths })
 
       // __root.tsx was written (and possibly rewritten, on a codegen retry)
       // before the capture above ran, so its og:image named today's PNG on
@@ -2101,7 +2225,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         const finalRootSrc = renderRootTemplate(
           buildGoogleFontsUrl(chosenChassis),
           finalOgMeta,
-          countArchivedDesigns(path.join(root, 'archive'))
+          countArchivedDesigns(path.join(root, 'archive')),
+          archiveLinkInks(artDirectorResult.presetTs).root.token
         )
         await writeFile(path.join(root, 'app/routes/__root.tsx'), finalRootSrc, 'utf8')
         formatGeneratedFile('app/routes/__root.tsx', { root })
@@ -2260,6 +2385,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         findingLocation,
       } = await import('./utils/surface-gate.js')
       const { runCopyGate } = await import('./utils/copy-gate.js')
+      const { readRevisionRequest, describeRevision, logNoRevision, recordFinalJudgment } =
+        await import('./agents/screenshot-critic.js')
 
       /**
        * Measure every route and record what was found. Round 1 runs before
@@ -2365,6 +2492,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
        * change to either (the phone filmstrip, say) reaches both for free.
        * @param {Array<object>} measuredFindings - surface-gate findings for this build
        * @returns {Promise<{verdict: string, criticResponse: string, visionChannel: string, bar: object|null}>}
+       *   `verdict` is 'UNVERIFIED' unless the critic saw the build (#570).
        */
       async function judgeScreenshot(measuredFindings) {
         console.log('\n[screenshot-critic] Capturing screenshot...')
@@ -2383,10 +2511,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         // these JPEGs as base64 data-URIs in a CLI text prompt billed ~300k
         // tokens per image and the model never saw the pixels (a solid-red
         // probe read back as "light gray"). Three image blocks are ~5k tokens.
-        const { callVisionAgent } = await import('./utils/vision-router.js')
-        const { buildScreenshotCriticBlocks } = await import('./agents/screenshot-critic.js')
+        const { buildScreenshotCriticBlocks, runScreenshotCritic } = await import(
+          './agents/screenshot-critic.js'
+        )
         const { findBestRatedReference } = await import('./utils/ratings.js')
-        const { parseBarLine } = await import('./utils/critic-verdict.js')
 
         // Self-eval calibration: attach the owner's highest-rated past own
         // build alongside today's render, when one has been auto-promoted
@@ -2458,6 +2586,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           collapse: chosenComposition.collapse,
           motion: formatMotion(motionDecl),
           references,
+          boundaryId,
           mockupScreenshot,
           screenshotBuffer,
           bestReference,
@@ -2466,36 +2595,21 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           measuredFaults: formatFindingsForCritic(measuredFindings),
         })
 
-        // Which channel answered. A SHIP reached without pixels is a
-        // different claim from one reached with them, so verdicts.json says
-        // which it was.
-        let visionChannel = 'unknown'
-        const criticResponse = await callVisionAgent({
-          agentName: 'screenshot-critic',
+        return await runScreenshotCritic({
           systemPrompt: screenshotCriticPrompt,
           contentBlocks: criticBlocks,
-          // The SDK path uses timeoutMs only; the CLI fallback uses both.
-          ...budgetFor('screenshot-critic'),
-          onChannel: (c) => {
-            visionChannel = c
-          },
+          wantsBar: Boolean(bestReference),
         })
-        if (visionChannel !== 'sdk-vision') {
-          console.warn(
-            `  [screenshot-critic] verdict reached WITHOUT images (${visionChannel}) — it did not see the design`
-          )
-        }
-        const { verdict } = parseCriticVerdict(criticResponse, 'SHIP')
-        // BAR is only expected when a reference image was actually attached;
-        // parseBarLine is tolerant regardless — absent is fine either way.
-        const bar = bestReference ? parseBarLine(criticResponse) : null
-        if (bar) console.log(`  [screenshot-critic] BAR: ${bar.position} — ${bar.reason}`)
-
-        return { verdict, criticResponse, visionChannel, bar }
       }
 
       try {
         const t0ScreenshotCritic = Date.now()
+        // Only a critic that saw the build gets a vote: judgeScreenshot says
+        // UNVERIFIED for a truncated reply or a text-only fallback, and a
+        // REVISE from either is not a finding (09-09 paid the engineer to
+        // revise against a sentence about token counts, #570). No verdict
+        // skips the critic-driven revision and keeps the gate-driven one,
+        // as the mockup-critic loop does for a malformed reply.
         const {
           verdict: screenshotVerdict,
           criticResponse,
@@ -2524,29 +2638,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         })
 
         if (screenshotVerdict === 'REVISE' || gateDemandsRevision) {
-          const agentMatch = criticResponse.match(/\*\*Responsible agent:\*\*\s*([\w-]+)/)
-          // A gate-forced revision goes to the engineer: the faults are on
-          // surfaces faultsForOwner already attributed to it.
-          const responsibleAgent =
-            screenshotVerdict === 'REVISE' ? agentMatch?.[1] || 'react-engineer' : 'react-engineer'
-
-          // Take the FEEDBACK block if the critic emitted one, as
-          // parseMockupCriticResponse already does. The old form stripped the
-          // first literal "REVISE" anywhere in the prose, so a critic writing
-          // "REVISE the hero scale" sent the engineer "the hero scale".
-          const feedbackBlock = criticResponse.match(
-            /===FEEDBACK===\s*\n([\s\S]*?)(?:===END===|$)/
-          )?.[1]
-          const criticFeedback =
-            screenshotVerdict === 'REVISE'
-              ? (
-                  feedbackBlock ??
-                  criticResponse
-                    .replace(/===VERDICT===/, '')
-                    .replace(/===END===/, '')
-                    .replace(/^\s*REVISE\b/m, '')
-                ).trim()
-              : ''
+          const { responsibleAgent, criticFeedback } = readRevisionRequest(
+            screenshotVerdict,
+            criticResponse
+          )
           // The measured faults ride along whether or not the critic mentioned
           // them: they are exact, and they are the reason a SHIP is being
           // revised when the gate forced it. The tap-target and small-copy
@@ -2562,11 +2657,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
             .filter(Boolean)
             .join('\n\n')
 
-          console.log(
-            screenshotVerdict === 'REVISE'
-              ? `  [screenshot-critic] REVISE — responsible: ${responsibleAgent}`
-              : `  [surface-gate] critic said SHIP; revising anyway for ${engineerFaults.length} measured fault(s)`
-          )
+          console.log(describeRevision(screenshotVerdict, responsibleAgent, engineerFaults.length))
           console.log(`  feedback: ${feedback.slice(0, 200)}...`)
 
           // Shared reactEngineerAgentConfig keeps this retry path in sync
@@ -2628,8 +2719,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
                 // through to archive() on faith is how broken hybrids ship.
                 const restoredBuild = validateBuild({ root, shell: shellDecl, date: today })
                 if (!restoredBuild.success) {
-                  await cleanupOrphans(writtenPaths, originalBackup, { root })
-                  await restore(originalBackup, { root })
                   const fatal = new Error(
                     `Restore of passing state failed to rebuild after post-critic revision. Error:\n${restoredBuild.error?.slice(0, 1000)}`
                   )
@@ -2660,51 +2749,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
                 // needed here.
                 try {
                   const final = await judgeScreenshot(regate?.findings ?? [])
-                  // The build that ships after a repair round only means
-                  // something if the critic that judged it actually saw it.
-                  // A REVISE reached through a text-only fallback (or a
-                  // truncated SDK reply, #486) is not a verified fault: it is
-                  // no verdict at all, and must never become
-                  // SHIPPED-WITH-FAULTS — that section says "the final
-                  // critique still found a fault," which was never true when
-                  // nothing was re-seen.
-                  const sawTheBuild = final.visionChannel === 'sdk-vision'
-                  const finalVerdict = sawTheBuild ? final.verdict : 'UNVERIFIED'
-                  verdicts.push({
-                    critic: 'screenshot-critic',
-                    round: 'final',
-                    verdict: finalVerdict,
-                    feedback: final.criticResponse.slice(0, 2000),
-                    channel: final.visionChannel,
-                    ts: Date.now(),
-                  })
-                  console.log(`  [screenshot-critic] final verdict: ${finalVerdict}`)
-
-                  if (!sawTheBuild) {
-                    console.warn(
-                      `  [screenshot-critic] final re-judge did not reach the SDK vision channel (${final.visionChannel}) — recording UNVERIFIED instead of a faults verdict`
-                    )
-                  } else if (finalVerdict === 'REVISE') {
-                    // The owner's call (#467): a final REVISE does not buy
-                    // another repair. Ship it, but log the fault where the
-                    // archive, the lessons block and the rating issue can
-                    // all find it.
-                    const shipFeedback = [
-                      final.criticResponse.slice(0, 2000),
-                      formatFindingsForCritic(remainingFaults),
-                    ]
-                      .filter(Boolean)
-                      .join('\n\n')
-                    verdicts.push({
-                      critic: 'ship-gate',
-                      verdict: 'SHIPPED-WITH-FAULTS',
-                      feedback: shipFeedback,
-                      ts: Date.now(),
-                    })
-                    console.warn(
-                      '  [ship-gate] final critic still says REVISE — shipping with the faults logged'
-                    )
-                  }
+                  recordFinalJudgment(verdicts, final, formatFindingsForCritic(remainingFaults))
                 } catch (finalErr) {
                   // Best-effort, exactly like round 1: a critic call that
                   // cannot run must not stop a build that otherwise passed.
@@ -2728,7 +2773,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
             }
           }
         } else {
-          console.log('  [screenshot-critic] SHIP')
+          logNoRevision(screenshotVerdict, visionChannel)
         }
       } catch (err) {
         if (err.fatal) throw err
@@ -2744,9 +2789,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       // paths the agents wrote). If a post-critic revision breaks the build we
       // restore THIS — originalBackup holds yesterday's files, incompatible
       // with today's preset.ts.
-      const passingBackup = await backup([...new Set([...MUTABLE_FILES, ...writtenPaths])], {
-        root,
-      })
+      const passingBackup = await snapshotPassingState()
       await runScreenshotCriticGate(passingBackup)
       // MUST await: a bare `return promise` inside this try/finally lets the
       // finally (saveTrace) run while archiveAndReturn is still archiving —
@@ -2802,11 +2845,12 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // deadline cannot finish and archive.
     const MAX_REPAIR_ATTEMPTS = 3
     const engineerConfig = agentConfig['react-engineer']
+    const repairPlan = planRepairs(failingAgent, buildResult.error, MAX_REPAIR_ATTEMPTS)
 
-    let repairError = buildResult.error
+    let repairError = repairPlan.error
     let attempt = 0
 
-    while (attempt < MAX_REPAIR_ATTEMPTS) {
+    while (attempt < repairPlan.attempts) {
       if (pastDeadline()) {
         console.warn(
           `  [deadline] run budget exhausted after ${attempt} repair attempt(s) — stopping`
@@ -2846,8 +2890,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         // validateBuild — bail out with the real error so debugging points
         // at the actual cause (code review #14).
         await archiveFailedSources(writtenPaths)
-        await cleanupOrphans(writtenPaths, originalBackup, { root })
-        await restore(originalBackup, { root })
         throw new Error(`react-engineer repair crashed: ${err.message}`)
       }
 
@@ -2895,9 +2937,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           },
           durationMs: Date.now() - t0Repair,
         })
-        const passingBackup = await backup([...new Set([...MUTABLE_FILES, ...writtenPaths])], {
-          root,
-        })
+        const passingBackup = await snapshotPassingState()
         await runScreenshotCriticGate(passingBackup)
         // await required — see first-pass call site
         return await archiveAndReturn(engineerResult, ` (repair ${attempt})`)
@@ -2921,15 +2961,15 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       console.warn(`  repair attempt ${attempt} did not pass — carrying the new error forward`)
     }
 
-    // All attempts exhausted — snapshot the failing sources, then restore and throw
+    // All attempts exhausted — snapshot the failing sources, then throw; the
+    // outer catch restores the checkout
     await archiveFailedSources(writtenPaths)
-    await cleanupOrphans(writtenPaths, originalBackup, { root })
-    await restore(originalBackup, { root })
     throw new Error(
       `Build failed after ${attempt} repair attempt(s). Error:\n${repairError?.slice(0, 2500)}`
     )
   } catch (err) {
     swarmError = err
+    await rollBackCheckout()
     throw err
   } finally {
     await saveTrace(swarmError)

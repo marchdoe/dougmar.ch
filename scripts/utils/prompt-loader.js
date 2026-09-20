@@ -9,6 +9,8 @@
  * `loadPromptSync`: `scripts/design-agents.js`, `engineer-patch.js` for the
  * repair brief, and `select-lane.js` for the lanes.
  *
+ * `{{DATA_BOUNDARY_RULE}}` is filled here too, from `data-boundary-rule.md`.
+ *
  * The other placeholders (`{{GATES}}`, `{{CHASSIS_RENDER_FACTS}}` and the
  * rest) are still filled by their own `.replace` where each prompt is
  * assembled. They are generated blocks with one owner each; this is a single
@@ -41,14 +43,38 @@ export function fillViewportTokens(text, { narrowPx = NARROW_VIEWPORT.width } = 
 }
 
 /**
- * Read a prompt file with its viewport tokens filled.
+ * The token a prompt writes where the third-party data rule belongs. The rule
+ * is one paragraph in `data-boundary-rule.md`, shared by every agent that is
+ * handed text a stranger wrote, so it is worded once (see
+ * `scripts/utils/data-boundary.js`).
+ */
+export const DATA_BOUNDARY_RULE_TOKEN = '{{DATA_BOUNDARY_RULE}}'
+const DATA_BOUNDARY_RULE_REL = 'data-boundary-rule.md'
+
+/**
+ * Replace every `{{DATA_BOUNDARY_RULE}}` with the rule text.
+ * @param {string} text
+ * @param {string} rule the contents of `data-boundary-rule.md`
+ * @returns {string}
+ */
+export function fillDataBoundaryRule(text, rule) {
+  return text.replaceAll(DATA_BOUNDARY_RULE_TOKEN, rule.trim())
+}
+
+/**
+ * Read a prompt file with its viewport tokens and the data boundary rule filled.
  * @param {string} rel path under `scripts/prompts/`, e.g. `art-director.md`
  *   or `impeccable/reference/brand.md`
  * @param {{ root?: string }} [options] the checkout to read from
  * @returns {Promise<string>}
  */
 export async function loadPrompt(rel, { root = REPO_ROOT } = {}) {
-  return fillViewportTokens(await readFile(path.join(root, PROMPTS_REL, rel), 'utf8'))
+  const text = fillViewportTokens(await readFile(path.join(root, PROMPTS_REL, rel), 'utf8'))
+  if (!text.includes(DATA_BOUNDARY_RULE_TOKEN)) return text
+  return fillDataBoundaryRule(
+    text,
+    await readFile(path.join(root, PROMPTS_REL, DATA_BOUNDARY_RULE_REL), 'utf8')
+  )
 }
 
 /**
@@ -58,5 +84,10 @@ export async function loadPrompt(rel, { root = REPO_ROOT } = {}) {
  * @returns {string}
  */
 export function loadPromptSync(rel, { root = REPO_ROOT } = {}) {
-  return fillViewportTokens(readFileSync(path.join(root, PROMPTS_REL, rel), 'utf8'))
+  const text = fillViewportTokens(readFileSync(path.join(root, PROMPTS_REL, rel), 'utf8'))
+  if (!text.includes(DATA_BOUNDARY_RULE_TOKEN)) return text
+  return fillDataBoundaryRule(
+    text,
+    readFileSync(path.join(root, PROMPTS_REL, DATA_BOUNDARY_RULE_REL), 'utf8')
+  )
 }
