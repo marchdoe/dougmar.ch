@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — ten years independent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#081412; --bgAlt:#0d1c19; --surface:#10201d;
+    --text:#e6efed; --textMuted:#9db5b0; --textFaint:#6f8a85;
+    --accent:#2dd4bf; --accentAlt:#14b8a6; --teal300:#5eead4; --teal600:#0d9488;
+    --field:#0b3d38; --fieldInk:#d6f5ef; --fieldInkMuted:#7fbfb6;
+    --border:#1e332f; --borderStrong:#2f4a45; --fieldBorder:#1a5a52;
+    --accentText:#05201c;
+    --disp:"Space Mono", ui-monospace, monospace;
+    --body:"Archivo", system-ui, sans-serif;
+    --mesh:
+      radial-gradient(at 14% 18%, rgba(45,212,191,.30) 0, transparent 46%),
+      radial-gradient(at 82% 12%, rgba(20,184,166,.24) 0, transparent 50%),
+      radial-gradient(at 64% 78%, rgba(94,234,212,.18) 0, transparent 54%),
+      radial-gradient(at 26% 92%, rgba(13,148,136,.22) 0, transparent 52%);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;max-width:100%;overflow-x:hidden;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:var(--body); font-size:16px; line-height:1.55;
+    font-variant-numeric:tabular-nums; -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent);color:var(--accentText);}
+  .page{position:relative;width:100%;}
+
+  .spine{display:none;}
+
+  /* ---------- MASTHEAD (folded hero, teal field) ---------- */
+  .masthead{
+    position:relative; overflow:hidden;
+    background:var(--field); color:var(--fieldInk);
+    padding:36px 20px 40px;
+    border-bottom:3px solid var(--fieldBorder);
+  }
+  .masthead::before{
+    content:""; position:absolute; inset:0; z-index:0;
+    background-image:var(--mesh); pointer-events:none;
+  }
+  .masthead > *{position:relative; z-index:1;}
+
+  .lockup{display:flex;flex-direction:column;align-items:flex-start;gap:12px;margin-bottom:34px;}
+  .lockup svg{height:72px;width:auto;display:block;}
+  .wordmark{
+    font-family:var(--disp); font-weight:700; line-height:1;
+    letter-spacing:-0.015em; font-size:30px; color:var(--fieldInk);
+  }
+
+  .standfirst{
+    font-family:var(--disp); font-weight:400; text-transform:lowercase;
+    letter-spacing:-0.01em; line-height:1.12; color:var(--fieldInk);
+    font-size:clamp(28px,4vw,56px); max-width:16em; margin:0 0 30px;
+  }
+  .standfirst .lede{color:var(--teal300);}
+
+  nav.nums{display:flex;flex-wrap:wrap;gap:22px 30px;}
+  nav.nums a{
+    font-family:var(--disp); font-size:15px; text-transform:lowercase;
+    letter-spacing:0.02em; color:var(--fieldInk);
+    display:inline-flex; align-items:baseline; gap:8px;
+    padding:11px 0; min-height:44px;
+  }
+  nav.nums a .n{color:var(--teal300);font-weight:700;}
+  nav.nums a:hover{text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:5px;}
+
+  /* ---------- SECTION LABELS ---------- */
+  .kicker{
+    font-family:var(--body); font-weight:700; font-size:12px;
+    text-transform:uppercase; letter-spacing:0.14em; color:var(--accent);
+    display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    padding:20px 20px 14px;
+  }
+  .kicker span:last-child{color:var(--textFaint);letter-spacing:0.1em;}
+
+  /* ---------- WORK INDEX ---------- */
+  .index{
+    position:relative;
+    background-color:var(--bg);
+    background-image:var(--mesh);
+  }
+  .rows{border-top:1px solid var(--borderStrong);}
+  .row{
+    display:grid; align-items:center;
+    grid-template-columns:2.6rem 1fr;
+    grid-template-areas:
+      "num title"
+      "num meta";
+    column-gap:12px; row-gap:6px;
+    padding:22px 20px;
+    border-bottom:1px solid var(--border);
+    min-height:clamp(112px,20vw,148px);
+    transition:background-color .18s ease;
+  }
+  .row:hover{background:var(--surface);}
+  .row:hover .num{color:var(--accent);}
+  .num{
+    grid-area:num; align-self:start;
+    font-family:var(--disp); font-weight:700; font-size:15px;
+    color:var(--textFaint); padding-top:.4em;
+  }
+  .title{
+    grid-area:title;
+    font-family:var(--disp); font-weight:400; text-transform:lowercase;
+    letter-spacing:-0.02em; line-height:0.98; color:var(--text);
+    font-size:clamp(30px,8vw,48px);
+    overflow-wrap:anywhere;
+  }
+  .meta{
+    grid-area:meta; display:flex; gap:18px; flex-wrap:wrap; align-items:baseline;
+    font-family:var(--disp); font-size:13px;
+  }
+  .meta .yr{color:var(--accent);font-weight:700;}
+  .meta .role{color:var(--textMuted);text-transform:lowercase;}
+  .row:hover .title{text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:6px;}
+
+  .featured .title{color:var(--fieldInk);}
+  .prob{
+    grid-area:title; /* overridden below via wrapper */
+  }
+  .feat-body{
+    grid-column:1/-1; grid-row:auto;
+    font-family:var(--body); font-size:16px; line-height:1.55;
+    color:var(--textMuted); max-width:58ch; margin-top:12px;
+  }
+  .feat-link{
+    display:inline-flex;align-items:baseline;gap:6px;margin-top:12px;
+    font-family:var(--disp);font-size:13px;color:var(--accent);
+    text-transform:lowercase;letter-spacing:0.02em;
+    text-decoration:underline;text-decoration-color:var(--fieldBorder);
+    text-underline-offset:4px; min-height:44px; padding-top:6px;
+  }
+  .feat-link:hover{text-decoration-color:var(--accent);}
+
+  /* ---------- RUNNING FOOT ---------- */
+  .foot{
+    position:relative;
+    background:var(--bgAlt);
+    border-top:3px solid var(--borderStrong);
+    padding:0 20px 44px;
+  }
+  .foot .kicker{padding-left:0;padding-right:0;}
+  .footgrid{
+    display:grid; grid-template-columns:1fr; gap:0;
+    border-top:1px solid var(--border);
+  }
+  .fblock{
+    padding:20px 0; border-bottom:1px solid var(--border);
+  }
+  .flabel{
+    font-family:var(--body); font-weight:700; font-size:11px;
+    text-transform:uppercase; letter-spacing:0.14em; color:var(--textFaint);
+    margin-bottom:12px;
+  }
+  .frow{
+    display:flex; justify-content:space-between; align-items:baseline; gap:16px;
+    font-family:var(--disp); font-size:16px; padding:5px 0; color:var(--text);
+  }
+  .frow .r{color:var(--textMuted);font-size:14px;text-transform:lowercase;}
+  .under{color:var(--accent);font-weight:700;}
+  .metrics{display:flex;flex-wrap:wrap;gap:26px;}
+  .metric .v{font-family:var(--disp);font-size:22px;color:var(--fieldInk);}
+  .metric .up{color:var(--accent);}
+  .metric .k{font-family:var(--body);font-size:12px;color:var(--textFaint);text-transform:uppercase;letter-spacing:0.1em;margin-top:4px;}
+  .rotation{font-family:var(--disp);font-size:16px;color:var(--text);}
+  .rotation em{color:var(--teal300);font-style:normal;}
+  .quote{
+    grid-column:1/-1; padding-top:24px;
+    font-family:var(--disp); font-style:italic; font-weight:400;
+    font-size:15px; line-height:1.5; color:var(--fieldInkMuted); max-width:62ch;
+  }
+  .quote cite{font-style:normal;color:var(--textFaint);}
+
+  /* ---------- >=768 ---------- */
+  @media(min-width:768px){
+    .masthead{padding:64px 6vw 56px; min-height:60vh; display:flex; flex-direction:column; justify-content:center;}
+    .standfirst{font-size:clamp(40px,4vw,56px);margin-bottom:36px;}
+    .kicker{padding:26px 6vw 16px;}
+    .index{padding:0;}
+    .row{
+      grid-template-columns:4rem minmax(0,1fr) 5rem 9rem;
+      grid-template-areas:"num title yr role";
+      column-gap:24px; padding:0 6vw;
+      align-items:baseline; min-height:clamp(120px,13vh,150px);
+    }
+    .num{font-size:17px;align-self:baseline;padding-top:0;}
+    .title{font-size:clamp(44px,7vw,104px);}
+    .meta{display:contents;}
+    .meta .yr{grid-area:yr;justify-self:start;font-size:16px;align-self:baseline;}
+    .meta .role{grid-area:role;justify-self:start;font-size:14px;align-self:baseline;}
+    .feat-body{grid-area:title;grid-column:auto;max-width:52ch;margin-top:18px;}
+    .featured{padding-top:34px;padding-bottom:34px;}
+    .foot{padding:0 6vw 64px;}
+    .foot .kicker{padding-left:0;padding-right:0;}
+    .footgrid{grid-template-columns:repeat(2,1fr);column-gap:56px;}
+    .fblock{padding:26px 0;}
+    .fblock.span{grid-column:1/-1;}
+    .spine{
+      display:block; position:absolute; top:0; left:10px; z-index:2;
+      writing-mode:vertical-rl; transform:rotate(180deg); transform-origin:center;
+      font-family:var(--disp); font-size:12px; letter-spacing:0.28em;
+      text-transform:lowercase; color:var(--fieldInkMuted); pointer-events:none;
+      height:100%; display:flex; align-items:flex-end; padding-bottom:40px;
+    }
+  }
+  @media(min-width:1100px){
+    .lockup{flex-direction:row;align-items:flex-end;gap:20px;}
+    .lockup svg{height:86px;}
+    .wordmark{font-size:34px;}
+    .footgrid{grid-template-columns:1.2fr 1fr 1fr;}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="spine">ashburn, virginia · est. 2016 · spaceman llc</div>
+
+  <!-- ============ MASTHEAD / FOLDED HERO ============ -->
+  <header class="masthead">
+    <a class="lockup" href="#top" aria-label="Doug March — home">
+      <svg viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Doug March logo">
+        <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+        <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+        <circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+        <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+      </svg>
+      <span class="wordmark">Doug March</span>
+    </a>
+
+    <h1 class="standfirst"><span class="lede">ten years independent.</span> still the vehicle for the next experiment.</h1>
+
+    <nav class="nums" aria-label="Primary">
+      <a href="#index"><span class="n">01</span> work</a>
+      <a href="#about"><span class="n">02</span> about</a>
+      <a href="#contact"><span class="n">03</span> contact</a>
+    </nav>
+  </header>
+
+  <!-- ============ WORK INDEX ============ -->
+  <section class="index" id="index">
+    <div class="kicker"><span>the register — a decade of experiments</span><span>2008 – 2026 · 07 entries</span></div>
+    <div class="rows">
+
+      <a class="row featured" href="#spaceman" id="spaceman">
+        <span class="num">01</span>
+        <span class="title">spaceman</span>
+        <span class="meta"><span class="yr">2018</span><span class="role">founder</span></span>
+        <div class="feat-body">
+          Independent design &amp; engineering studio — the holding company for a decade of work. The vehicle every experiment ships under, from golf tooling to Twitter-era hacks.
+          <br><a class="feat-link" href="https://spaceman.llc" target="_blank" rel="noopener">visit spaceman.llc ↗</a>
+        </div>
+      </a>
+
+      <a class="row" href="#fishsticks">
+        <span class="num">02</span>
+        <span class="title">fishsticks</span>
+        <span class="meta"><span class="yr">2025</span><span class="role">saas</span></span>
+      </a>
+
+      <a class="row" href="#15th-club">
+        <span class="num">03</span>
+        <span class="title">15th club</span>
+        <span class="meta"><span class="yr">2025</span><span class="role">ai</span></span>
+      </a>
+
+      <a class="row" href="#dougmar-ch">
+        <span class="num">04</span>
+        <span class="title">dougmar.ch</span>
+        <span class="meta"><span class="yr">2026</span><span class="role">ai</span></span>
+      </a>
+
+      <a class="row" href="#teeturn">
+        <span class="num">05</span>
+        <span class="title">teeturn</span>
+        <span class="meta"><span class="yr">2020</span><span class="role">experiment</span></span>
+      </a>
+
+      <a class="row" href="#politweets">
+        <span class="num">06</span>
+        <span class="title">politweets</span>
+        <span class="meta"><span class="yr">2008</span><span class="role">experiment</span></span>
+      </a>
+
+      <a class="row" href="#twittertale">
+        <span class="num">07</span>
+        <span class="title">twittertale</span>
+        <span class="meta"><span class="yr">2008</span><span class="role">experiment</span></span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ============ RUNNING FOOT / SIGNALS ============ -->
+  <footer class="foot" id="contact">
+    <div class="kicker"><span>running foot — the closing rows</span><span>20 sep 2026 · ashburn va</span></div>
+    <div class="footgrid">
+
+      <div class="fblock">
+        <div class="flabel">detroit</div>
+        <div class="frow"><span>lions</span><span>31–41 <span class="r">loss</span></span></div>
+        <div class="frow"><span>tigers</span><span>1–3 <span class="r">loss</span></span></div>
+      </div>
+
+      <div class="fblock">
+        <div class="flabel">biltmore championship</div>
+        <div class="frow"><span>shipley</span><span class="under">-21</span></div>
+        <div class="frow"><span>kohles</span><span class="under">-20</span></div>
+        <div class="frow"><span>cole</span><span class="under">-17</span></div>
+      </div>
+
+      <div class="fblock span">
+        <div class="flabel">conditions</div>
+        <div class="metrics">
+          <div class="metric"><div class="v">63.7°F</div><div class="k">fog</div></div>
+          <div class="metric"><div class="v">71%</div><div class="k">waxing gibbous</div></div>
+          <div class="metric"><div class="v">761.69 <span class="up">+0.13%</span></div><div class="k">spy</div></div>
+        </div>
+      </div>
+
+      <div class="fblock span">
+        <div class="flabel">in rotation</div>
+        <div class="rotation"><em>wet leg</em> &nbsp;·&nbsp; <em>tobin sprout</em></div>
+      </div>
+
+      <p class="quote">“the highest level of wisdom is when you not only accept but love adversity.” <cite>— j. lagace</cite></p>
+
+    </div>
+  </footer>
+</div>
+</body>
+</html>

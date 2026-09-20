@@ -1,70 +1,26 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { css } from '../../styled-system/css'
-import { Hero } from '../components/generated/Hero'
-import { BodyGrid } from '../components/generated/BodyGrid'
-import { DesignedPanel, BuiltPanel } from '../components/generated/Panel'
-import { FeaturedProject } from '../components/generated/FeaturedProject'
-import { WorkList } from '../components/generated/WorkList'
-import { ExperimentsList } from '../components/generated/ExperimentsList'
-import { Leaderboard } from '../components/generated/Leaderboard'
-import { ClosingLine } from '../components/generated/ClosingLine'
 import { featuredProject, selectedWork, experiments } from '../content/projects'
-import { identity } from '../content/about'
+import { Masthead } from '../components/generated/Masthead'
+import { WorkIndex } from '../components/generated/WorkIndex'
+import { RunningFoot } from '../components/generated/RunningFoot'
+import { css } from '../../styled-system/css'
 
 export const Route = createFileRoute('/')({ component: HomePage })
 
 function HomePage() {
-  const workHref = selectedWork[0]
-    ? `/work/${selectedWork[0].slug}`
-    : featuredProject
-      ? `/work/${featuredProject.slug}`
-      : '/'
-
+  const rest = [...selectedWork, ...experiments]
   return (
     <>
-      <Hero
-        word="GAP"
-        eyebrow="Doug March. Type specimen."
-        deck={
+      <Masthead
+        heroContent={
           <>
-            Closing the gap between what gets{' '}
-            <b className={css({ color: 'accentAlt', fontWeight: 'bold' })}>designed</b> and what
-            gets <b className={css({ color: 'accentAlt', fontWeight: 'bold' })}>built</b>.
+            <span className={css({ color: 'accent' })}>ten years independent.</span> still the
+            vehicle for the next experiment.
           </>
         }
       />
-      <BodyGrid
-        left={
-          <DesignedPanel note="what the work looks like">
-            {featuredProject && (
-              <FeaturedProject
-                slug={featuredProject.slug}
-                title={featuredProject.title}
-                role={featuredProject.role}
-                year={featuredProject.year}
-                problem={featuredProject.problem}
-                description={featuredProject.description}
-                externalUrl={featuredProject.externalUrl}
-                liveUrl={featuredProject.liveUrl}
-              />
-            )}
-            <WorkList items={selectedWork} />
-          </DesignedPanel>
-        }
-        right={
-          <BuiltPanel note="what actually ships">
-            <Leaderboard />
-            <ExperimentsList items={experiments} />
-            <ClosingLine
-              firstHref={workHref}
-              firstLabel="the work"
-              secondHref="/about"
-              secondLabel="about"
-              email={identity.email}
-            />
-          </BuiltPanel>
-        }
-      />
+      <WorkIndex featured={featuredProject} rest={rest} />
+      <RunningFoot />
     </>
   )
 }

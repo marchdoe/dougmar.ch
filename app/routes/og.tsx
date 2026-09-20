@@ -25,31 +25,47 @@ function OgCard() {
           height: '630px',
           overflow: 'hidden',
           bg: 'field',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          px: '9',
-          py: '9',
+          color: 'fieldInk',
+          padding: '9',
         })}
       >
-        <Ground material="dots" seed={1959335082} />
-        <div className={css({ position: 'relative', zIndex: 1 })}>
-          <BrandLockup variant="mark-only-md" mode="original" />
-        </div>
-        <div className={css({ position: 'relative', zIndex: 1 })}>
+        <Ground material="mesh" seed={1975965606} />
+        <div
+          className={css({
+            position: 'relative',
+            zIndex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            height: '100%',
+          })}
+        >
+          <BrandLockup variant="stacked-lg" mode="original" />
           <h1
             className={css({
               fontFamily: 'display',
-              fontWeight: 'bold',
-              textTransform: 'uppercase',
-              textStyle: 'hero',
-              lineHeight: 'tight',
+              fontWeight: 'normal',
+              textTransform: 'lowercase',
               color: 'fieldInk',
-              maxWidth: '11ch',
+              fontSize: 'hero',
+              lineHeight: 'tight',
+              letterSpacing: 'tight',
+              maxWidth: '18ch',
             })}
           >
-            Closing the gap between what gets designed and what gets built.
+            <span className={css({ color: 'accent' })}>ten years independent.</span> still the
+            vehicle for the next experiment.
           </h1>
+          <div
+            className={css({
+              fontFamily: 'display',
+              fontSize: 'sm',
+              color: 'fieldInkMuted',
+              textTransform: 'lowercase',
+            })}
+          >
+            doug march, design and engineering
+          </div>
         </div>
       </div>
     </div>

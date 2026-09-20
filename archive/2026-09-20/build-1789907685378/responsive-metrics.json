@@ -1,0 +1,97 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_0px z_0 pointer-events_none ov_hidden",
+            "b": "DIV.pos_relative z_1"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 14.2,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "tablet": {
+      "width": 768,
+      "height": 1024,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_0px z_0 pointer-events_none ov_hidden",
+            "b": "DIV.pos_relative z_1"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 14.2,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_0px z_0 pointer-events_none ov_hidden",
+            "b": "DIV.pos_relative z_1"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 14.2,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_0px z_0 pointer-events_none ov_hidden",
+            "b": "DIV.pos_relative z_1"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 14.2,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    }
+  },
+  "overallScore": 3,
+  "worstFailure": {
+    "viewport": "mobile",
+    "check": "headerOverlap",
+    "detail": "1 overlapping pair(s) in the header"
+  },
+  "buildId": "1789907685378",
+  "date": "2026-09-20",
+  "archetype": "The work index as a ten-year register."
+}

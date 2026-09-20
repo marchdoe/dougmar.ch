@@ -50,17 +50,17 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Closing the gap between what gets designed and what gets built.' },
+      { title: 'Ten years independent. Still the vehicle for the next experiment.' },
       {
         property: 'og:title',
-        content: 'Closing the gap between what gets designed and what gets built.',
+        content: 'Ten years independent. Still the vehicle for the next experiment.',
       },
       {
         property: 'og:description',
         content:
-          'Blueprint-green specimen on a pale sheet: GAP outlined and justified edge to edge, a designed field beside a built one, the oversized seam between them the whole point.',
+          'Teal-void register: a decade of experiments cataloged in lowercase monospace, one standfirst above seven numbered rows, fog-teal blooms on near-black, the real mark glowing top-left.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-19.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-20.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
@@ -68,16 +68,16 @@ export const Route = createRootRoute({
       { name: 'twitter:card', content: 'summary_large_image' },
       {
         name: 'twitter:title',
-        content: 'Closing the gap between what gets designed and what gets built.',
+        content: 'Ten years independent. Still the vehicle for the next experiment.',
       },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-19.png' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-20.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Figtree:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -237,7 +237,7 @@ function RootDocument({ children, bare = false }: { children: ReactNode; bare?: 
         {children}
         {bare ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 140 designs
+            Archive · 141 designs
           </a>
         )}
         <ScrollRestoration />
