@@ -4,7 +4,7 @@ import { createServer, type Server } from 'node:http'
 import { siteCallout } from '../../app/content/callout'
 import { NARROW_VIEWPORT, WIDE_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { CANONICAL_ORIGIN, RECOGNIZED_ORIGINS } from '../../scripts/utils/site-origin.js'
-import { test, expect, type Page } from '@playwright/test'
+import { test, expect, type Locator, type Page } from '@playwright/test'
 
 // Runs against PREVIEW_URL (Vercel preview deploy, or localhost dev server)
 // Usage: PREVIEW_URL=https://your-preview.vercel.app pnpm test:e2e:site
@@ -1332,6 +1332,161 @@ test.describe('site health — the explainer reads on a phone (#559)', () => {
     for (const t of targets) {
       expect(t.h, `"${t.text}" is ${t.w}x${t.h}`).toBeGreaterThanOrEqual(44)
       expect(t.w, `"${t.text}" is ${t.w}x${t.h}`).toBeGreaterThanOrEqual(44)
+    }
+  })
+})
+
+/**
+ * /archive set every label at 11px, truncated mood words to three letters on a
+ * phone, put white ink on orange and sky blue at 2.1 to 2.4:1, and made its
+ * controls 30px tall (#563). The floors are the pipeline's own: 12px text, 4.5:1
+ * ink, a 44px control. Day cells are not held to 44px: a seven-column month is
+ * 34px at 320 and 44px at 390, and WCAG 2.2's 24px minimum is what fits.
+ */
+test.describe('site health — the archive calendar reads on a phone (#563)', () => {
+  for (const width of [320, 1440]) {
+    test(`holds a 12px floor, 44px controls and no overflow at ${width}`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto('/archive')
+      await expect(page.locator('a[aria-current="date"]')).toBeVisible({ timeout: 15000 })
+
+      for (const view of ['Month', 'All']) {
+        const toggle = page.getByRole('button', { name: view, exact: true })
+        await toggle.click()
+        await expect(toggle).toHaveAttribute('aria-pressed', 'true')
+
+        const overflow = await page.evaluate(() => {
+          const root = document.documentElement
+          return root.scrollWidth - root.clientWidth
+        })
+        expect(overflow, `${view} view overflows`).toBeLessThanOrEqual(0)
+
+        const small = await page.evaluate(() => {
+          const out: string[] = []
+          const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+          for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+            const el = n.parentElement
+            const text = n.textContent?.trim() ?? ''
+            if (!el || !text || ['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(el.tagName)) continue
+            const size = Number.parseFloat(getComputedStyle(el).fontSize)
+            if (size < 12) out.push(`${size}px "${text.slice(0, 24)}"`)
+          }
+          return out
+        })
+        expect(small, `${view} view has text under 12px`).toEqual([])
+
+        const controls = await page.locator('button').evaluateAll((els) =>
+          els.map((el) => {
+            const box = el.getBoundingClientRect()
+            return { text: (el.textContent ?? '').trim().slice(0, 24), w: box.width, h: box.height }
+          })
+        )
+        expect(controls.length).toBeGreaterThanOrEqual(3)
+        for (const c of controls) {
+          expect(c.h, `"${c.text}" is ${c.w}x${c.h}`).toBeGreaterThanOrEqual(44)
+          expect(c.w, `"${c.text}" is ${c.w}x${c.h}`).toBeGreaterThanOrEqual(44)
+        }
+      }
+    })
+  }
+
+  // The newest day's link is the one the calendar marks. Its accessible name is
+  // the day number then its label, from the same index the page reads.
+  async function newestDay(page: Page) {
+    const current = page.locator('a[aria-current="date"]')
+    await expect(current).toBeVisible({ timeout: 15000 })
+    const index = await page.evaluate(() =>
+      fetch('/archive-data/index.json').then(
+        (r) =>
+          r.json() as Promise<
+            { date: string; moodWord: string | null; legacyArchetype: string | null }[]
+          >
+      )
+    )
+    const newest = index.sort((a, b) => a.date.localeCompare(b.date)).at(-1)
+    if (!newest) throw new Error('the archive index is empty')
+    const label = newest.moodWord ?? newest.legacyArchetype ?? ''
+    const name = new RegExp(`^${Number(newest.date.slice(8))}\\s*${label}$`, 'i')
+    return { current, name, word: current.locator('span').nth(1) }
+  }
+
+  const rectOf = (el: Locator) =>
+    el.evaluate((node) => {
+      const r = node.getBoundingClientRect()
+      return { x: r.x, y: r.y, w: r.width, h: r.height }
+    })
+
+  test('below md the mood label is hidden and still in the accessible name', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 900 })
+    await page.goto('/archive')
+    const { current, name, word } = await newestDay(page)
+    await expect(current).toHaveAccessibleName(name)
+    expect((await rectOf(word)).w, 'label is visible at 390').toBeLessThanOrEqual(2)
+  })
+
+  test('from md the mood label shows whole, inside its cell', async ({ page }) => {
+    await page.setViewportSize({ width: 820, height: 900 })
+    await page.goto('/archive')
+    const { current, name, word } = await newestDay(page)
+    await expect(current).toHaveAccessibleName(name)
+    const label = await rectOf(word)
+    const cell = await rectOf(current)
+    expect(label.w, 'label is hidden at 820').toBeGreaterThan(10)
+    expect(label.x).toBeGreaterThanOrEqual(cell.x - 0.5)
+    expect(label.x + label.w).toBeLessThanOrEqual(cell.x + cell.w + 0.5)
+    expect(label.y + label.h).toBeLessThanOrEqual(cell.y + cell.h + 0.5)
+  })
+
+  test('every day cell in the month reads at 4.5:1 and the disabled control at 3:1', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 820, height: 900 })
+    await page.goto('/archive')
+    await expect(page.locator('a[aria-current="date"]')).toBeVisible({ timeout: 15000 })
+
+    const { cells, disabled } = await page.evaluate(() => {
+      type Rgb = { r: number; g: number; b: number }
+      const channels = (css: string): Rgb => {
+        const m = css.match(/rgba?\(([^)]+)\)/)
+        const [r, g, b] = (m?.[1] ?? '0 0 0').split(/[ ,/]+/).map(Number)
+        return { r, g, b }
+      }
+      const lin = (c: number) => {
+        const s = c / 255
+        return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4
+      }
+      const lum = (c: Rgb) => 0.2126 * lin(c.r) + 0.7152 * lin(c.g) + 0.0722 * lin(c.b)
+      const ratio = (a: Rgb, b: Rgb) => {
+        const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x)
+        return (hi + 0.05) / (lo + 0.05)
+      }
+      // The page's own div carries the ground; the headline's nearest div is it.
+      const ground = channels(
+        getComputedStyle(document.querySelector('h1')?.closest('div') as Element).backgroundColor
+      )
+      const cells = [...document.querySelectorAll<HTMLElement>('a[style*="--day"]')].map((a) => {
+        const bg = channels(getComputedStyle(a).backgroundColor)
+        const worst = Math.min(
+          ...[...a.querySelectorAll('span')].map((s) =>
+            ratio(channels(getComputedStyle(s).color), bg)
+          )
+        )
+        return { href: a.getAttribute('href') ?? '', worst }
+      })
+      const disabled = [...document.querySelectorAll<HTMLElement>('button:disabled')].map((b) => ({
+        text: b.textContent ?? '',
+        ratio: ratio(channels(getComputedStyle(b).color), ground),
+        opacity: Number(getComputedStyle(b).opacity),
+      }))
+      return { cells, disabled }
+    })
+
+    expect(cells.length).toBeGreaterThan(0)
+    for (const c of cells) expect(c.worst, `${c.href} ink`).toBeGreaterThanOrEqual(4.5)
+    expect(disabled.length, 'the newest month disables Next').toBeGreaterThan(0)
+    for (const d of disabled) {
+      expect(d.opacity, `"${d.text}" is dimmed with opacity`).toBe(1)
+      expect(d.ratio, `"${d.text}" disabled ink`).toBeGreaterThanOrEqual(3)
     }
   })
 })

@@ -6,6 +6,8 @@
  * white. The last one is not a matter of taste and was wrong in the prototype.
  */
 
+import { contrastRatio } from '../../scripts/utils/contrast.js'
+import type { Rgb } from '../../scripts/utils/contrast.js'
 import type { ArchiveIndexEntry } from '../types/archive-record'
 
 export type CellState = 'built' | 'record' | 'empty'
@@ -102,35 +104,80 @@ export function stateFor(entry: ArchiveIndexEntry | undefined): CellState {
   return entry.pages > 0 ? 'built' : 'record'
 }
 
+/** The ground of a day with no recorded color. */
+const NEUTRAL = '#3a3a42'
+
 /** `hsl(...)` for a day's hue, or a neutral for the 31 dates with no color recorded. */
 export function swatchFor(entry: ArchiveIndexEntry): string {
-  if (!entry.primaryHue) return '#3a3a42'
+  if (!entry.primaryHue) return NEUTRAL
   const { h, s, l } = entry.primaryHue
   return `hsl(${h} ${s}% ${l}%)`
 }
 
-/**
- * Black or white ink over a day's hue, by relative luminance.
- *
- * Lightness is the wrong measure and the prototype used it: `l > 55` puts white
- * on saturated yellow-greens, where it is unreadable. This converts HSL to sRGB,
- * linearises, and weights by WCAG coefficients, which gets 2026-06-08 and
- * 2026-06-24 right.
- */
-export function inkFor(entry: ArchiveIndexEntry | null): string {
-  const LIGHT = '#f2f2f4'
-  const DARK = '#0e0e10'
-  if (!entry?.primaryHue) return LIGHT
+const LIGHT = '#f2f2f4'
+const DARK = '#0e0e10'
+const WHITE = '#ffffff'
+const BLACK = '#000000'
 
-  const { h, s, l } = entry.primaryHue
+/** WCAG AA for small text. */
+const MIN_INK_CONTRAST = 4.5
+
+function hexToRgb(hex: string): Rgb {
+  const channel = (i: number) => Number.parseInt(hex.slice(i, i + 2), 16)
+  return { r: channel(1), g: channel(3), b: channel(5) }
+}
+
+/** The 8-bit sRGB a browser paints for `hsl(h s% l%)`, so the ratio is the one on screen. */
+function hslToRgb(h: number, s: number, l: number): Rgb {
   const a = (s / 100) * Math.min(l / 100, 1 - l / 100)
   const channel = (n: number) => {
     const k = (n + h / 30) % 12
-    return l / 100 - a * Math.max(-1, Math.min(k - 3, 9 - k, 1))
+    return Math.round(255 * (l / 100 - a * Math.max(-1, Math.min(k - 3, 9 - k, 1))))
   }
-  const linear = (c: number) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4)
-  const L = 0.2126 * linear(channel(0)) + 0.7152 * linear(channel(8)) + 0.0722 * linear(channel(4))
-  return L > 0.35 ? DARK : LIGHT
+  return { r: channel(0), g: channel(8), b: channel(4) }
+}
+
+function groundOf(entry: ArchiveIndexEntry | null): Rgb {
+  if (!entry?.primaryHue) return hexToRgb(NEUTRAL)
+  const { h, s, l } = entry.primaryHue
+  return hslToRgb(h, s, l)
+}
+
+function strongest(inks: readonly string[], ground: Rgb): { ink: string; ratio: number } {
+  return inks
+    .map((ink) => ({ ink, ratio: contrastRatio(hexToRgb(ink), ground) }))
+    .reduce((best, next) => (next.ratio > best.ratio ? next : best))
+}
+
+/**
+ * The ink with the most contrast over a day's color. The archive's own pair
+ * comes first. Between the two, a mid-luminance hue (relative luminance about
+ * 0.16 to 0.19: 2026-05-16, 05-24, 06-01 and four more) reaches only 4.2 to
+ * 4.4:1 with either, so those fall back to pure white or black, which clear
+ * 4.5:1 for every possible ground (the worst case, luminance 0.179, is 4.58).
+ */
+function inkOn(ground: Rgb): { ink: string; ratio: number } {
+  const own = strongest([LIGHT, DARK], ground)
+  return own.ratio >= MIN_INK_CONTRAST ? own : strongest([WHITE, BLACK], ground)
+}
+
+/**
+ * Ink over a day's hue, chosen by measured contrast.
+ *
+ * Lightness is the wrong measure and the prototype used it: `l > 55` puts white
+ * on saturated yellow-greens, where it is unreadable. The first fix put a
+ * luminance line at 0.35, which left white on orange and sky blue at 2.1 to
+ * 2.6:1. The crossover between these two inks is luminance 0.176, so this
+ * compares the two ratios directly, using the WCAG helpers the surface gate
+ * uses.
+ */
+export function inkFor(entry: ArchiveIndexEntry | null): string {
+  return inkOn(groundOf(entry)).ink
+}
+
+/** The contrast ratio `inkFor` reaches on that day's color. */
+export function inkContrast(entry: ArchiveIndexEntry | null): number {
+  return inkOn(groundOf(entry)).ratio
 }
 
 /** One month's grid: leading blanks, then every day of the month. */
