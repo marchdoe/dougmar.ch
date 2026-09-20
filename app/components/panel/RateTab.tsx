@@ -13,7 +13,7 @@ import {
   inlineLink,
   dateMuted,
 } from './styles'
-import { submitRating, type RatingIssue } from './api'
+import { submitRating, type Grade, type RatingIssue } from './api'
 
 function prettyDate(iso: string): string {
   const d = new Date(`${iso}T00:00:00`)
@@ -61,7 +61,7 @@ function activeFrom(unrated: RatingIssue[], chosen: string): string {
 export function RateTab({ unrated, onRated }: { unrated: RatingIssue[]; onRated: () => void }) {
   const [chosenDate, setActiveDate] = useState(unrated[0]?.date ?? '')
   const activeDate = activeFrom(unrated, chosenDate)
-  const [grade, setGrade] = useState<'A' | 'B' | 'C' | 'D' | null>(null)
+  const [grade, setGrade] = useState<Grade | null>(null)
   const [worked, setWorked] = useState('')
   const [didnt, setDidnt] = useState('')
   const [tryNext, setTryNext] = useState('')

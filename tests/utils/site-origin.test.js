@@ -5,7 +5,7 @@ import {
   RECOGNIZED_HOSTS,
   RECOGNIZED_ORIGINS,
   matchOrigin,
-} from '../../scripts/utils/site-origin.js'
+} from '../../shared/site-origin.js'
 
 describe('the origin list', () => {
   it('recognizes the canonical origin', () => {

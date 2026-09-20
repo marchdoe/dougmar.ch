@@ -18,7 +18,7 @@ import {
 import { loadArchiveIndex } from '../lib/archive-data'
 import { css } from '../../styled-system/css'
 import type { ArchiveIndexEntry } from '../types/archive-record'
-import { CANONICAL_ORIGIN } from '../../scripts/utils/site-origin.js'
+import { CANONICAL_ORIGIN } from '../../shared/site-origin.js'
 
 const TITLE = 'Archive — every design this site has made'
 const ARCHIVE_URL = `${CANONICAL_ORIGIN}/archive`

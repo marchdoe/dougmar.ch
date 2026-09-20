@@ -1,4 +1,4 @@
-import { CANONICAL_ORIGIN, RECOGNIZED_ORIGINS } from '../../scripts/utils/site-origin.js'
+import { CANONICAL_ORIGIN, RECOGNIZED_ORIGINS } from '../../shared/site-origin.js'
 import { describe, expect, it } from 'vitest'
 
 import {

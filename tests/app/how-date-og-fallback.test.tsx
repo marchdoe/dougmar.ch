@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach } from 'vitest'
-import { CANONICAL_ORIGIN } from '../../scripts/utils/site-origin.js'
+import { CANONICAL_ORIGIN } from '../../shared/site-origin.js'
 
 /**
  * how.$date.tsx's head() names /og/<date>.png for every date, but the

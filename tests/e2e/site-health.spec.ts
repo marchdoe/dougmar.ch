@@ -3,7 +3,7 @@ import { readFile, stat } from 'node:fs/promises'
 import { createServer, type Server } from 'node:http'
 import { siteCallout } from '../../app/content/callout'
 import { NARROW_VIEWPORT, WIDE_VIEWPORT } from '../../elements/chassis/viewports.js'
-import { CANONICAL_ORIGIN, RECOGNIZED_ORIGINS } from '../../scripts/utils/site-origin.js'
+import { CANONICAL_ORIGIN, RECOGNIZED_ORIGINS } from '../../shared/site-origin.js'
 import { test, expect, type Page } from '@playwright/test'
 
 // Runs against PREVIEW_URL (Vercel preview deploy, or localhost dev server)

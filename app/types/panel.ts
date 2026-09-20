@@ -30,6 +30,9 @@ export interface RunInfo {
   createdAt: string
 }
 
+/** The rating scale the panel offers and /api/panel/rate accepts. */
+export type Grade = 'A' | 'B' | 'C' | 'D'
+
 export type StatusSection = 'unrated' | 'weights' | 'latestRun'
 
 export interface PanelStatus {

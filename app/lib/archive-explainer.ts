@@ -1,4 +1,5 @@
 import type { ArchiveTokens } from '../types/archive-record'
+import { isRecord } from './guards'
 
 /**
  * The readers behind the explainer page (/how/<date>).
@@ -27,11 +28,6 @@ export interface Pair {
 export interface BriefSection {
   heading: string
   body: string
-}
-
-/** A plain object: not an array, not null, not a primitive. */
-export function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
 /** The value as a plain object, or null for anything else. */
