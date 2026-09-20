@@ -8,6 +8,7 @@ import {
   archiveArtifacts,
   describeRiskTier,
   resolveRiskWeight,
+  dropUnwritableFiles,
 } from '../../scripts/design-agents.js'
 
 describe('FILE_OWNERSHIP', () => {
@@ -600,5 +601,54 @@ describe('the swarm takes a root', () => {
     expect(bodyStart).toBeGreaterThan(-1)
     expect(end).toBeGreaterThan(bodyStart)
     expect(SOURCE.slice(bodyStart, end)).not.toMatch(/\bROOT\b/)
+  })
+})
+
+/**
+ * The floor under `findEngineerOutputProblem`'s retry.
+ *
+ * The retry is the outcome worth having: it moves the file AND fixes the
+ * import. But every retry in this pipeline is allowed to fail and proceed with
+ * the original output, and on 2026-09-20 what "proceed" met was
+ * `validateWritePath` throwing out of the run. A discarded file whose import
+ * survives fails the build gate, which is a repair round. A throw is the night.
+ */
+describe('dropUnwritableFiles', () => {
+  const file = (path) => ({ path, content: 'export {}' })
+
+  it('keeps everything the engineer is allowed to write', () => {
+    const files = [
+      file('app/components/generated/ManifestBand.tsx'),
+      file('app/routes/index.tsx'),
+      file('app/components/Layout.tsx'),
+      file('app/components/Sidebar.tsx'),
+      file('elements/preset.ts'),
+    ]
+    expect(dropUnwritableFiles(files).map((f) => f.path)).toEqual(files.map((f) => f.path))
+  })
+
+  it('discards the misplaced component and keeps the rest', () => {
+    const files = [
+      file('app/routes/index.tsx'),
+      file('app/components/MobileFooter.tsx'),
+      file('app/components/generated/Hero.tsx'),
+    ]
+    expect(dropUnwritableFiles(files).map((f) => f.path)).toEqual([
+      'app/routes/index.tsx',
+      'app/components/generated/Hero.tsx',
+    ])
+  })
+
+  it.each([['../escape.tsx'], ['.github/workflows/ci.yml'], ['app/routeTree.gen.ts']])(
+    'discards %s rather than letting the write throw',
+    (path) => {
+      expect(dropUnwritableFiles([file(path)])).toEqual([])
+    }
+  )
+
+  it('never throws, whatever it is handed', () => {
+    expect(() => dropUnwritableFiles(undefined)).not.toThrow()
+    expect(dropUnwritableFiles(undefined)).toEqual([])
+    expect(dropUnwritableFiles([])).toEqual([])
   })
 })

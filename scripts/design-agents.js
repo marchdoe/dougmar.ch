@@ -35,7 +35,14 @@ import {
   ENGINEER_FILES,
   readContext,
 } from './utils/site-context.js'
-import { backup, writeFiles, restore, cleanupOrphans, ROOT } from './utils/file-manager.js'
+import {
+  backup,
+  writeFiles,
+  restore,
+  cleanupOrphans,
+  isWritablePath,
+  ROOT,
+} from './utils/file-manager.js'
 import { validateBuild, formatGeneratedFile } from './utils/build-validator.js'
 import { archive } from './utils/archiver.js'
 import { resetLedger, noteRetry, summarizeLedger } from './utils/cost-ledger.js'
@@ -127,6 +134,35 @@ export function dropOrchestratorFiles(files, agentName = 'agent') {
 }
 
 /**
+ * Discard files the write allowlist would refuse.
+ *
+ * `findEngineerOutputProblem` asks the engineer to move these itself, which is
+ * the outcome worth having because it fixes the imports too. This is the floor
+ * under that: the retry is allowed to fail, and on 2026-09-20 the alternative
+ * to a floor was `validateWritePath` throwing out of `applyEngineerPatch`,
+ * past `runAgentSwarm`, and ending a run 31 minutes in over one misplaced
+ * component. A dropped file whose import survives fails the build gate, which
+ * is a repair round. A throw is the whole night.
+ *
+ * @param {Array<{path: string, content: string}>} files
+ * @param {string} agentName for the log line
+ * @returns {Array<{path: string, content: string}>}
+ */
+export function dropUnwritableFiles(files, agentName = 'agent') {
+  const kept = []
+  for (const file of files ?? []) {
+    if (!isWritablePath(file.path)) {
+      console.warn(
+        `  ⚠ ${agentName} emitted ${file.path}, which is not a path it may write — discarding that block`
+      )
+      continue
+    }
+    kept.push(file)
+  }
+  return kept
+}
+
+/**
  * How a full engineer generation reaches disk.
  *
  * Three call sites used to write engineer output: the primary Phase 2c pass,
@@ -146,7 +182,7 @@ export function dropOrchestratorFiles(files, agentName = 'agent') {
  * @returns {Promise<string[]>} the paths written
  */
 async function writeEngineerFiles(result, agentLabel, { root = ROOT, backup } = {}) {
-  result.files = dropOrchestratorFiles(result.files, agentLabel)
+  result.files = dropUnwritableFiles(dropOrchestratorFiles(result.files, agentLabel), agentLabel)
   return await writeFiles(result.files, { root, backup })
 }
 
@@ -2019,7 +2055,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       input: {},
       output: {
         success: buildResult.success,
-        error: buildResult.success ? undefined : (buildResult.error || '').slice(0, 500),
+        // 500 cut the token gate's message mid-filename, before the part that
+        // names the property and the value that did not resolve — so the one
+        // artifact left behind by a lost night could not say what broke.
+        error: buildResult.success ? undefined : (buildResult.error || '').slice(0, 4000),
       },
       durationMs: 0,
     })
@@ -2156,7 +2195,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     async function applyEngineerPatch(owned, reply, label) {
       // The error text has named __root.tsx before, which invites the agent to
       // "fix" a file it does not own.
-      const files = dropOrchestratorFiles(reply.files, label)
+      const files = dropUnwritableFiles(dropOrchestratorFiles(reply.files, label), label)
       const patch = mergeEngineerPatch(owned, files)
       const summary = {
         replied: files.length,

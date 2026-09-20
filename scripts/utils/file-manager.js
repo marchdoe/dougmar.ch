@@ -118,6 +118,29 @@ export function validateWritePath(relPath) {
 }
 
 /**
+ * Whether `validateWritePath` would accept this path, without throwing.
+ *
+ * Derived from the enforcer rather than restating its rules, so a caller that
+ * asks "may I write this?" can never disagree with the function that decides.
+ * A check that answered "yes" where the write then threw is how the whole of
+ * 2026-09-20 was lost: the engineer's repair named
+ * `app/components/MobileFooter.tsx`, one directory above the part of
+ * `app/components/` it owns, and the throw travelled all the way out of the
+ * run.
+ *
+ * @param {string} relPath relative path from ROOT
+ * @returns {boolean}
+ */
+export function isWritablePath(relPath) {
+  try {
+    validateWritePath(relPath)
+    return true
+  } catch {
+    return false
+  }
+}
+
+/**
  * Read each file in filePaths. Returns Map<relativePath, content|null>.
  * null means the file did not exist at backup time.
  * @param {string[]} filePaths - relative paths from repo root
