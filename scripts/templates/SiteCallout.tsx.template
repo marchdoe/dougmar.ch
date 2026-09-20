@@ -23,6 +23,11 @@ import { calloutLineFor, siteCallout } from '../content/callout'
  * day's palette and type without naming anything a preset can drop. Structure
  * and proportions are fixed here and take no props.
  *
+ * The archive link's ink is the one colour chosen per night rather than fixed
+ * (#566): the quietest of `textFaint`, `textMuted` and `text` that reaches
+ * 4.5:1 on `bgAlt`, written in below by the orchestrator
+ * (scripts/utils/archive-link-ink.js).
+ *
  * DATE. The run's date and the archive count are written in below by the
  * orchestrator. The line is picked from the date, never from the visitor's
  * clock, so an archived page shows the line it shipped with.
@@ -96,7 +101,7 @@ const primary = css({
 })
 
 const secondary = css({
-  color: 'textMuted',
+  color: '{{ARCHIVE_LINK_INK}}',
   textDecorationColor: 'borderStrong',
   _hover: { color: 'text', textDecorationColor: 'accent' },
 })

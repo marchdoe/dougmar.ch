@@ -106,6 +106,7 @@ import {
 } from './utils/engineer-patch.js'
 import { sweepGenerated } from './utils/generated-sweep.js'
 import { countArchivedDesigns } from './utils/archive-count.js'
+import { archiveLinkInks } from './utils/archive-link-ink.js'
 import { settleMockupRound } from './utils/mockup-rounds.js'
 import { newBoundaryId } from './utils/data-boundary.js'
 export { parseDelimiterResponse }
@@ -1264,10 +1265,14 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         heroCopy: artDirectorResult.heroCopy,
         designBrief: artDirectorResult.designBrief,
       })
+      // The archive link's ink, chosen against tonight's bg and bgAlt now
+      // that the preset exists (#566).
+      const archiveInks = archiveLinkInks(artDirectorResult.presetTs)
       const rootSrc = renderRootTemplate(
         buildGoogleFontsUrl(chosenChassis),
         ogMeta,
-        countArchivedDesigns(path.join(root, 'archive'))
+        countArchivedDesigns(path.join(root, 'archive')),
+        archiveInks.root.token
       )
       const rootPath = path.join(root, 'app/routes/__root.tsx')
       await writeFile(rootPath, rootSrc, 'utf8')
@@ -1296,12 +1301,14 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
 
       // The home page callout (#532), same ownership again. The run's date
       // picks its line and the count feeds its archive link, so neither
-      // moves on a codegen retry and this is the only place it is written.
+      // moves on a codegen retry. The link's ink follows the preset, so the
+      // retry below writes this file again (#566).
       await writeFile(
         path.join(root, SITE_CALLOUT_OWNER),
         renderSiteCalloutFile({
           date: runDate(signals),
           archiveCount: countArchivedDesigns(path.join(root, 'archive')),
+          archiveLinkInk: archiveInks.callout.token,
         }),
         'utf8'
       )
@@ -1395,7 +1402,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           const retryRootSrc = renderRootTemplate(
             buildGoogleFontsUrl(chosenChassis),
             retryOgMeta,
-            countArchivedDesigns(path.join(root, 'archive'))
+            countArchivedDesigns(path.join(root, 'archive')),
+            archiveLinkInks(artDirectorResult.presetTs).root.token
           )
           await writeFile(path.join(root, 'app/routes/__root.tsx'), retryRootSrc, 'utf8')
           formatGeneratedFile('app/routes/__root.tsx', { root })
@@ -1417,6 +1425,19 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           )
           formatGeneratedFile('app/components/Material.tsx', { root })
           console.log('  [chassis] regenerated Material.tsx after codegen retry')
+          // The callout's archive link is set in a token chosen against the
+          // preset's bgAlt, and the retry brought a new preset (#566).
+          await writeFile(
+            path.join(root, SITE_CALLOUT_OWNER),
+            renderSiteCalloutFile({
+              date: runDate(signals),
+              archiveCount: countArchivedDesigns(path.join(root, 'archive')),
+              archiveLinkInk: archiveLinkInks(artDirectorResult.presetTs).callout.token,
+            }),
+            'utf8'
+          )
+          formatGeneratedFile(SITE_CALLOUT_OWNER, { root })
+          console.log('  [chassis] regenerated SiteCallout.tsx after codegen retry')
         } catch (rootErr) {
           console.warn(
             `  __root.tsx og-meta refresh after retry failed (non-blocking): ${rootErr.message}`
@@ -2200,7 +2221,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         const finalRootSrc = renderRootTemplate(
           buildGoogleFontsUrl(chosenChassis),
           finalOgMeta,
-          countArchivedDesigns(path.join(root, 'archive'))
+          countArchivedDesigns(path.join(root, 'archive')),
+          archiveLinkInks(artDirectorResult.presetTs).root.token
         )
         await writeFile(path.join(root, 'app/routes/__root.tsx'), finalRootSrc, 'utf8')
         formatGeneratedFile('app/routes/__root.tsx', { root })

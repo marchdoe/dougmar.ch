@@ -25,24 +25,25 @@ import type { ReactNode } from 'react'
  * home page that does not render it (checkCalloutPlacement in
  * scripts/utils/site-callout.js). Every other page keeps this link.
  *
- * Only `text`, `bg`, and `accent` are used. Semantic tokens are not guaranteed
- * across nightly presets — `textMuted` is missing from roughly one preset in
- * five — so the quiet tone comes from opacity, not from a dimmer token. Font
- * size comes from the chassis ramp, which the orchestrator owns.
+ * The quiet tone is a colour, not an opacity (#566). A fixed opacity over a
+ * palette that changes nightly measured 2.62 to 3.88:1 on three nights. The
+ * orchestrator writes this file after the preset exists, so it picks the
+ * quietest of `textFaint`, `textMuted` and `text` that reaches 4.5:1 on `bg`
+ * (scripts/utils/archive-link-ink.js) and writes its name in below. Font size
+ * comes from the chassis ramp, which the orchestrator owns.
  */
 const archiveLink = css({
   display: 'block',
   background: 'bg',
-  color: 'text',
-  opacity: 0.55,
+  color: 'textFaint',
   fontSize: 'xs',
   letterSpacing: '0.08em',
   textAlign: 'center',
   textDecoration: 'none',
   padding: '28px 16px',
   minHeight: '44px',
-  transition: 'opacity 0.2s ease, color 0.2s ease',
-  _hover: { opacity: 1, color: 'accent' },
+  transition: 'color 0.2s ease',
+  _hover: { color: 'accent' },
 })
 
 const THEME_INIT_SCRIPT = `(function(){
