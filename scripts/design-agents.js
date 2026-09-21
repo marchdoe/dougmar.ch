@@ -93,7 +93,7 @@ import { formatHeader } from './utils/header-grammar.js'
 import { formatTypeTreatment } from './utils/type-grammar.js'
 import { formatMobile } from './utils/mobile-grammar.js'
 import { formatMotion, wantsMotionReference } from './utils/motion-grammar.js'
-import { NARROW_VIEWPORT } from '../elements/chassis/viewports.js'
+import { NARROW_VIEWPORT, WIDE_VIEWPORT } from '../elements/chassis/viewports.js'
 import { formatTuple } from './utils/composition-grammar.js'
 import { findEngineerOutputProblem } from './utils/engineer-output-check.js'
 import { patchOutputProblem } from './utils/engineer-output-patch.js'
@@ -253,6 +253,55 @@ async function capturePhoneFilmstripsForCritic(slugRoute) {
   } catch (err) {
     console.warn(
       `  [screenshot-critic] phone filmstrip capture failed (non-blocking): ${err.message}`
+    )
+    return []
+  }
+}
+
+/**
+ * The first case study route the build lists, or null when there is none or
+ * the list cannot be read. It is the one the critic is sent images of.
+ *
+ * @param {string} root - repo root
+ * @returns {Promise<{ route: string } | null>}
+ */
+async function firstCaseStudyRoute(root) {
+  try {
+    const { listGeneratedRoutes } = await import('./utils/surface-gate.js')
+    return (await listGeneratedRoutes(root)).find((r) => r.route.startsWith('/work/')) ?? null
+  } catch (err) {
+    console.warn(`  [screenshot-critic] case study lookup failed (non-blocking): ${err.message}`)
+    return null
+  }
+}
+
+/**
+ * The whole first case study at 1440, as one filmstrip for the screenshot
+ * critic (#569). Best-effort like the phone filmstrips: a capture that fails
+ * costs the critic one image, never the run.
+ *
+ * @param {{ route: string } | null | undefined} slugRoute - from {@link firstCaseStudyRoute}
+ * @returns {Promise<Array<{ label: string, jpeg: Buffer }>>}
+ */
+async function captureDesktopFilmstripsForCritic(slugRoute) {
+  if (!slugRoute) return []
+  try {
+    const { captureRouteDesktopFilmstrip } = await import('./utils/snapshot.js')
+    const jpeg = await captureRouteDesktopFilmstrip(slugRoute.route)
+    if (!jpeg) return []
+    console.log('  [screenshot-critic] +1 desktop filmstrip')
+    return [
+      {
+        label:
+          `A desktop filmstrip of ${slugRoute.route}, light scheme: the whole page at ${WIDE_VIEWPORT.width} wide, ` +
+          `cut into ${WIDE_VIEWPORT.height}px folds and laid two across, row by row (the fold labels are ours, not the site's). ` +
+          'Judge what the page does with the width below the first fold:',
+        jpeg,
+      },
+    ]
+  } catch (err) {
+    console.warn(
+      `  [screenshot-critic] desktop filmstrip capture failed (non-blocking): ${err.message}`
     )
     return []
   }
@@ -2261,6 +2310,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         runSurfaceGate,
         faultsForOwner,
         formatFindingsForCritic,
+        formatMeasuredForCritic,
         advisoryFaultsForOwner,
         formatAdvisoryForRepairBrief,
         findingLocation,
@@ -2333,7 +2383,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         }
       }
 
-      const surfaceFindings = (await measureSurfaces(1))?.findings ?? []
+      const firstGate = await measureSurfaces(1)
+      const surfaceFindings = firstGate?.findings ?? []
 
       // The gate decides, not just measures. An error on a surface the
       // engineer owns forces a revision whether or not the critic, who looks
@@ -2375,11 +2426,12 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
        * Shared by the first pass and the final re-judge after a repair round
        * (#467): both go through the same capture and payload function, so a
        * change to either (the phone filmstrip, say) reaches both for free.
-       * @param {Array<object>} measuredFindings - surface-gate findings for this build
+       * @param {{ findings?: Array<object>, facts?: string }|null} gate - what the surface
+       *   gate measured on this build: its findings, and the measurements that are not faults (#569)
        * @returns {Promise<{verdict: string, criticResponse: string, visionChannel: string, bar: object|null}>}
        *   `verdict` is 'UNVERIFIED' unless the critic saw the build (#570).
        */
-      async function judgeScreenshot(measuredFindings) {
+      async function judgeScreenshot(gate) {
         console.log('\n[screenshot-critic] Capturing screenshot...')
         const { captureScreenshot } = await import('./utils/snapshot.js')
         const screenshotBuffer = await captureScreenshot(undefined, {
@@ -2420,42 +2472,18 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           )
         }
 
-        // A project page, in the design's canonical scheme only. It is
-        // rewritten nightly and had never been reviewed: /work/<slug> shipped
-        // with its prev/next navigation rendered twice, in two different type
-        // treatments, at every viewport (#215). One image is the whole cost —
-        // the geometry across every other route is already covered above, for
-        // free, by measurement.
-        //
-        // The share card used to be captured here too. It gave up its slot to
-        // the 360 render of the homepage: /og is a fixed 1200×630 composition
-        // that measurement covers, and the phone is where a design either
-        // survives the width or stops existing.
-        let routeShots = []
-        let slugRoute = null
-        try {
-          const { captureRouteScreenshot } = await import('./utils/snapshot.js')
-          const { listGeneratedRoutes } = await import('./utils/surface-gate.js')
-          slugRoute = (await listGeneratedRoutes(root)).find((r) => r.route.startsWith('/work/'))
-          const extra = [
-            slugRoute ? { label: 'A project page', route: slugRoute.route, w: 1440, h: 900 } : null,
-          ].filter(Boolean)
-          for (const e of extra) {
-            const png = await captureRouteScreenshot(e.route, { width: e.w, height: e.h })
-            routeShots.push({ label: `${e.label} (${e.route}):`, png })
-          }
-          console.log(`  [screenshot-critic] +${routeShots.length} route captures`)
-        } catch (err) {
-          // Best-effort. The homepage verdict is still worth having without
-          // them, and a capture failure must not block a passing build.
-          console.warn(`  [screenshot-critic] route capture failed (non-blocking): ${err.message}`)
-          routeShots = []
-        }
-
-        // Phone filmstrips of /about and the first case study route (#466),
-        // extracted so this shared capture-and-critic path (#467) stays
-        // under the complexity budget.
+        // The first case study, seen whole: at the phone (#466) and at 1440
+        // (#569). /work/<slug> is rewritten nightly and shipped its prev/next
+        // navigation rendered twice, in two different type treatments, at every
+        // viewport (#215); the geometry across every route is covered above by
+        // measurement, and what measurement cannot see is a 568px column of
+        // copy with the rest of the row empty. The 1440 still of the page's
+        // first screen that used to go here is the first tile of the desktop
+        // filmstrip now. Both are extracted so this shared capture-and-critic
+        // path (#467) stays under the complexity budget.
+        const slugRoute = await firstCaseStudyRoute(root)
         const phoneFilmstrips = await capturePhoneFilmstripsForCritic(slugRoute)
+        const desktopFilmstrips = await captureDesktopFilmstripsForCritic(slugRoute)
 
         const criticBlocks = buildScreenshotCriticBlocks({
           // enrichedBrief carries hero copy, rationale, and the full visual
@@ -2475,9 +2503,9 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           mockupScreenshot,
           screenshotBuffer,
           bestReference,
-          routeShots,
           phoneFilmstrips,
-          measuredFaults: formatFindingsForCritic(measuredFindings),
+          desktopFilmstrips,
+          measuredFaults: formatMeasuredForCritic(gate),
         })
 
         return await runScreenshotCritic({
@@ -2500,7 +2528,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           criticResponse,
           visionChannel,
           bar,
-        } = await judgeScreenshot(surfaceFindings)
+        } = await judgeScreenshot(firstGate)
 
         verdicts.push({
           critic: 'screenshot-critic',
@@ -2633,7 +2661,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
                 // re-captures the screenshot, so no separate re-capture is
                 // needed here.
                 try {
-                  const final = await judgeScreenshot(regate?.findings ?? [])
+                  const final = await judgeScreenshot(regate)
                   recordFinalJudgment(verdicts, final, formatFindingsForCritic(remainingFaults))
                 } catch (finalErr) {
                   // Best-effort, exactly like round 1: a critic call that

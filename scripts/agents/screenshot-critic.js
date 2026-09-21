@@ -16,36 +16,46 @@ import { VisionTruncatedError } from '../utils/vision-truncated-error.js'
 /**
  * Hard ceiling on image blocks per call: mockup + light at 1440 + a phone
  * filmstrip of the home page + a tablet still of the home page + dark at 1440
- * + the two header crops leaves one slot for the /about and case-study phone
- * filmstrips, a project page, and one calibration reference to compete over.
- * The dark capture is only sent when it differs from the light one, which is
- * most nights not, and the motion strip only on a night that declared motion.
+ * + the two header crops is seven, and the motion strip is the eighth on a
+ * night that declared motion. The dark capture is only sent when it differs
+ * from the light one, and it did on all ten sealed nights 2026-09-11 to
+ * 2026-09-20; the motion strip was taken on six of them. What is left for the
+ * case study's desktop filmstrip, the two phone filmstrips, a project page and
+ * one calibration reference to compete over is one slot, or none.
  *
  * The header crops cost about 1.2k image tokens each and are the only place
- * the critic can read a mark size off (#254). The project-page capture is the
- * only 1440 capture that sees anything but the homepage: `/work/<slug>`
- * shipped its prev/next navigation rendered twice at every viewport in both
- * schemes, and no critic had ever opened that route (#215).
+ * the critic can read a mark size off (#254). `/work/<slug>` shipped its
+ * prev/next navigation rendered twice at every viewport in both schemes, and
+ * no critic had ever opened that route (#215).
  *
  * When the ceiling binds, the calibration reference drops first, then the
- * 1440 route captures — never a crop, and never a phone filmstrip. The tablet
- * still (#565) took the eighth slot on a typical night, so that night loses
- * the calibration reference; a night with a dark capture or a motion strip
- * loses the case-study phone filmstrip, and one with both loses the /about
- * filmstrip too. Until
- * #466 only the home page ever got a phone image at all, and it was a single
- * 640px crop rather than the whole page; `/about` at 9361px tall had never
- * been seen by a critic in any form. A phone filmstrip surviving the ceiling
- * squeeze that used to protect the calibration reference is the point of
- * that reordering.
+ * 1440 route captures, then the filmstrips in the order below: never a crop.
+ * The tablet still (#565) took the eighth slot on a typical night, so that
+ * night loses the calibration reference.
  *
- * It stops at eight on purpose. The geometry of every route at every rung is
+ * The case study's desktop filmstrip (#569) is a fact no measurement has: the
+ * gate cannot see a 568px column at the left with the rest of the row empty,
+ * and `screenshot-critic.md` names it as a failure. It goes first among the
+ * filmstrips, ahead of the two phone ones, which the phone gate measures at the
+ * phone. It costs a slot the ceiling did not have, and on the ten nights above
+ * no route capture of the case study reached the critic at all (the 1440 still
+ * of it was squeezed out on every night that had a mockup and both crops), so
+ * there was no image to trade it for. The ceiling goes from eight to nine
+ * instead: that drops nothing that shipped on any of those nights. A dark-only
+ * night now carries /about's phone filmstrip beside it, as before, and a
+ * dark-and-motion night carries the desktop filmstrip and no phone filmstrip,
+ * as before it carried none. The case study's phone filmstrip fits on neither.
+ * Until #466 only the home page ever got a phone image at all, and it was a
+ * single 640px crop rather than the whole page; `/about` at 9361px tall had
+ * never been seen by a critic in any form.
+ *
+ * It stops at nine on purpose. The geometry of every route at every rung is
  * already covered by `surface-gate.js`, which measures rather than looks and
  * so costs nothing; images are reserved for the judgements measurement cannot
  * make. Raising this further buys re-litigation of facts the gate already
- * established, at roughly 1.7k tokens an image.
+ * established, at roughly 1.5k tokens an image.
  */
-export const MAX_SCREENSHOT_CRITIC_IMAGES = 8
+export const MAX_SCREENSHOT_CRITIC_IMAGES = 9
 
 /**
  * A labelled image, or nothing at all when that capture failed. Every optional
@@ -73,17 +83,19 @@ function imageCount(blocks) {
 }
 
 /**
- * Phone filmstrips of /about and a case study — the pages the phone gate
- * never covered before #466. Pushed ahead of the 1440 route captures and
- * the calibration reference so the ceiling squeezes those first: a design
+ * Filmstrips of other routes: the phone filmstrips of /about and a case
+ * study, which the phone gate never covered before #466, and the desktop
+ * filmstrip of the case study (#569). Pushed ahead of the 1440 route captures
+ * and the calibration reference so the ceiling squeezes those first: a design
  * that dies at 360 on /about is worse than losing a bar-setting comparison.
  * Returns the blocks to append; never mutates `existing`.
  *
  * @param {Array<{type: string}>} existing - blocks already assembled
- * @param {Array<{ label: string, jpeg: Buffer }>} [filmstrips]
+ * @param {Array<{ label: string, jpeg: Buffer }>} [filmstrips] in the order
+ *   the ceiling should keep them
  * @returns {Array<{type: string, text?: string, source?: object}>}
  */
-function phoneFilmstripBlocks(existing, filmstrips) {
+function filmstripBlocks(existing, filmstrips) {
   const appended = []
   for (const filmstrip of filmstrips ?? []) {
     if (imageCount(existing) + imageCount(appended) >= MAX_SCREENSHOT_CRITIC_IMAGES) break
@@ -154,6 +166,8 @@ function routeShotBlocks(existing, routeShots) {
  * @param {Array<{ label: string, jpeg: Buffer }>} [ctx.phoneFilmstrips] -
  *   phone filmstrips of other routes (/about, a case study); prioritized
  *   over routeShots and bestReference when the ceiling binds
+ * @param {Array<{ label: string, jpeg: Buffer }>} [ctx.desktopFilmstrips] -
+ *   the whole case study at 1440 (#569); kept ahead of the phone filmstrips
  * @param {Array<{ label: string, png: Buffer }>} [ctx.routeShots] - additional
  *   routes in the canonical scheme at 1440, appended while the ceiling allows
  * @param {{ buffer: Buffer, description: string } | null} [ctx.bestReference] -
@@ -235,7 +249,12 @@ export function buildScreenshotCriticBlocks(ctx) {
     ),
   ]
 
-  blocks.push(...phoneFilmstripBlocks(blocks, ctx.phoneFilmstrips))
+  // The desktop filmstrip is first: the phone gate measures those pages at the
+  // phone and nothing measures what a 568px column leaves empty at 1440, so
+  // when the ceiling binds it is a phone filmstrip that goes.
+  blocks.push(
+    ...filmstripBlocks(blocks, [...(ctx.desktopFilmstrips ?? []), ...(ctx.phoneFilmstrips ?? [])])
+  )
   blocks.push(...routeShotBlocks(blocks, ctx.routeShots))
 
   if (ctx.bestReference && imageCount(blocks) < MAX_SCREENSHOT_CRITIC_IMAGES) {
