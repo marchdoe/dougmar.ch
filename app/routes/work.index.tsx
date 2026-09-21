@@ -40,7 +40,7 @@ export const Route = createFileRoute('/work/')({ component: WorkIndex })
 function WorkIndex() {
   return (
     <>
-      <header className={mastheadClass}>
+      <header className={mastheadClass} data-page="work">
         <div className={innerClass}>
           <a href="/" aria-label={`${identity.name}, home`} className={brandClass}>
             <BrandLockup variant="horizontal-md" />
@@ -69,7 +69,7 @@ function WorkIndex() {
         </div>
       </header>
 
-      <main className={pageClass}>
+      <main className={pageClass} data-page="work">
         <div className={columnClass}>
           {featuredProject && (
             <section aria-labelledby="work-featured" className={sectionClass}>

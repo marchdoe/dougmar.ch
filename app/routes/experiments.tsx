@@ -51,6 +51,7 @@ function ExperimentsPage() {
     // of the Layout wrapper, a full-height column. Without it the wrapper is as
     // tall as this content and the sidebar's line wraps onto the rows.
     <Box
+      data-page="experiments"
       containerType="inline-size"
       boxSizing="border-box"
       minHeight="100vh"

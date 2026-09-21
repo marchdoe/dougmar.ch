@@ -237,7 +237,7 @@ const demoRowLight: Project = {
 
 function Elements() {
   return (
-    <Page>
+    <Page data-page="elements">
       <PageTitle>ELEMENTS</PageTitle>
       <PageDesc>
         The building blocks of this site — design tokens and components from the elements/ preset.
