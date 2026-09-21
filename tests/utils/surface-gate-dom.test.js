@@ -151,6 +151,20 @@ describe('findClippedElements', () => {
     }
   }
 
+  it('records the element chain, three ancestors deep, with Panda classes and no conditions (#630)', async () => {
+    const found = await clipped(
+      `<main class="d_flex"><div class="d_grid grid-tc_84px_1fr [@supports_(x)]:anim-n_rise">` +
+        `<span>2025</span><div class="min-w_0" id="roles">` +
+        `<span class="ff_display fs_xl c_text" style="display:block;white-space:nowrap;width:216px;overflow:hidden">` +
+        `Director of Engineering · Interfolio</span></div></div></main>`
+    )
+    expect(found).toHaveLength(1)
+    expect(found[0].tag).toBe('SPAN')
+    expect(found[0].selector).toBe(
+      'div.d_grid.grid-tc_84px_1fr > div#roles.min-w_0 > span.ff_display.fs_xl.c_text'
+    )
+  })
+
   it('reports a clipped parent once, not once per clipped child', async () => {
     // 2026-09-04 reported {DIV "Daylight06:46…" right:392} and
     // {DIV "Daylight" right:368} as two faults. They are one.

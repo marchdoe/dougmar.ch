@@ -1156,44 +1156,121 @@ describe('known faults never ship (#625)', () => {
     ])
   })
 
-  it('refuses to ship when two revisions still leave measured faults', async () => {
+  it('refuses to ship when every revision round still leaves measured faults', async () => {
     const run = await runSwarm({
-      gate: [FAULTY, FAULTY, FAULTY],
-      agents: { 'react-engineer': engineer(2) },
+      gate: [FAULTY, FAULTY, FAULTY, FAULTY],
+      agents: { 'react-engineer': engineer(3) },
     })
 
     expect(run.error).not.toBeNull()
     expect(run.error.message).toMatch(
-      /^Refusing to ship: 1 engineer-owned fault\(s\) remain after 2 revision round\(s\)/
+      /^Refusing to ship: 1 engineer-owned fault\(s\) remain after 3 revision round\(s\)/
     )
     expect(run.error.message).toContain(formatFindingsForCritic([OVERFLOW_AT_390]))
-    expect(run.callsFor('react-engineer')).toHaveLength(3)
+    expect(run.callsFor('react-engineer')).toHaveLength(4)
     expect(run.fakes.archive).toHaveLength(0)
-    expect(measuredRounds(run)).toEqual(['1:1', '2:1', '3:1'])
+    expect(measuredRounds(run)).toEqual(['1:1', '2:1', '3:1', '4:1'])
+    // From the second round on, the brief says the fault was there last time
+    // too (#630); the first revision's brief cannot know that.
+    const [, first, second, third] = run.callsFor('react-engineer')
+    expect(first.userPrompt).not.toContain('STILL PRESENT after the last revision')
+    expect(second.userPrompt).toContain('STILL PRESENT after the last revision')
+    expect(third.userPrompt).toContain('STILL PRESENT after the last revision')
   })
 
   it('tries again when a gate-forced revision broke the build, and refuses when that fails too', async () => {
     // Before, a revision that broke the build put the round-1 build back and
     // shipped it: the very build the gate had just said required a revision.
     const run = await runSwarm({
-      build: [true, false, true, false, true],
+      build: [true, false, true, false, true, false, true],
       gate: [FAULTY],
-      agents: { 'react-engineer': engineer(2) },
+      agents: { 'react-engineer': engineer(3) },
     })
 
     expect(run.error).not.toBeNull()
     expect(run.error.message).toMatch(
-      /^Refusing to ship: 1 engineer-owned fault\(s\) remain after 2 revision round\(s\)/
+      /^Refusing to ship: 1 engineer-owned fault\(s\) remain after 3 revision round\(s\)/
     )
-    expect(run.callsFor('react-engineer')).toHaveLength(3)
+    expect(run.callsFor('react-engineer')).toHaveLength(4)
     // The second brief says the first attempt was not kept, and why.
     expect(run.callsFor('react-engineer')[2].userPrompt).toContain(
       'The previous revision was not kept (build-broke-restored)'
     )
-    // Two revisions put the passing state back, then the refused run rolls
+    // Three revisions put the passing state back, then the refused run rolls
     // the checkout back to yesterday's files.
-    expect(run.fakes.restore).toHaveLength(3)
+    expect(run.fakes.restore).toHaveLength(4)
     expect(run.fakes.archive).toHaveLength(0)
+  })
+
+  it('keeps the rebuilt build and its faults when a later patch is refused (#631 review)', async () => {
+    // Round 1 is clean and the critic asks for a revision; that revision
+    // rebuilds and the re-measure finds a fault. The next patch is refused
+    // (it empties Sidebar), so nothing changes on disk: the fault is still
+    // there and the decision must still say so. The first loop reset to the
+    // round-0 measurement here and shipped the fault as none.
+    const noSidebar = '===FILE:app/components/Sidebar.tsx===\n\n===RATIONALE===\nremoved\n'
+    const run = await runSwarm({
+      gate: [CLEAN_GATE, FAULTY, FAULTY],
+      agents: {
+        'react-engineer': [
+          ENGINEER_FIXTURE,
+          patchReply([markedFile('app/components/Sidebar.tsx', 'revision 1')]),
+          noSidebar,
+          patchReply([markedFile('app/components/Sidebar.tsx', 'revision 3')]),
+        ],
+        'screenshot-critic': [REVISE_REPLY, fixtureFor('screenshot-critic')],
+      },
+    })
+
+    expect(run.error).not.toBeNull()
+    expect(run.error.message).toMatch(
+      /^Refusing to ship: 1 engineer-owned fault\(s\) remain after 3 revision round\(s\)/
+    )
+    expect(run.fakes.archive).toHaveLength(0)
+    // A gate round is numbered after the revision it measured, so the refused
+    // round 2 leaves a gap.
+    expect(measuredRounds(run)).toEqual(['1:0', '2:1', '4:1'])
+    const outcomes = run.trace.steps
+      .filter((s) => s.name === 'revision')
+      .map((s) => s.output.outcome)
+    expect(outcomes).toEqual(['rebuilt', 'not-applied', 'rebuilt'])
+    // The third brief carried the fault the second measurement found, not
+    // the clean first round.
+    expect(run.callsFor('react-engineer')[3].userPrompt).toContain(
+      formatFindingsForCritic([OVERFLOW_AT_390])
+    )
+  })
+
+  it('restores the rebuilt build, not the first, when a later revision breaks the build (#631 review)', async () => {
+    const run = await runSwarm({
+      build: [true, true, false, true, true],
+      gate: [FAULTY, FAULTY, CLEAN_GATE],
+      agents: { 'react-engineer': engineer(3) },
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.fakes.archive).toHaveLength(1)
+    const outcomes = run.trace.steps
+      .filter((s) => s.name === 'revision')
+      .map((s) => s.output.outcome)
+    expect(outcomes).toEqual(['rebuilt', 'build-broke-restored', 'rebuilt'])
+    // The snapshot put back after round 2 broke is round 1's build.
+    expect(run.fakes.restore).toHaveLength(1)
+    expect(run.fakes.restore[0].map.get('app/components/Sidebar.tsx')).toContain('// revision 1')
+    expect(measuredRounds(run)).toEqual(['1:1', '2:1', '4:0'])
+  })
+
+  it('ships, and says so, when the gate cannot measure a rebuilt round (#631 review)', async () => {
+    const run = await runSwarm({
+      gate: [FAULTY, new Error('playwright fell over in round 2')],
+      agents: { 'react-engineer': engineer(1) },
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.fakes.archive).toHaveLength(1)
+    expect(
+      run.verdicts.some((v) => v.critic === 'surface-gate' && v.verdict === 'GATE-FAILED')
+    ).toBe(true)
   })
 
   it('ships when the retry after a broken revision rebuilds clean', async () => {

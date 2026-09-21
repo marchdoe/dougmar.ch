@@ -226,10 +226,11 @@ async function captureOgCard(date, { root = ROOT, writtenPaths } = {}) {
  * overflow on /about by narrowing the column, round 2 measured twenty words
  * broken across lines in it, the run shipped "with the record saying so",
  * and the workflow's e2e gate failed the night on the same fault after every
- * call had been paid for. A second round costs what the first did (about
- * $0.50); the night it saves cost $4.73.
+ * call had been paid for. A round costs what the first did (about $0.50); the
+ * night it saves cost $4.73. Two was the edge, not the margin: the first two
+ * nights through this loop went 124 → 10 → 0 and 101 → 73 → 9 (#630).
  */
-export const MAX_REVISION_ROUNDS = 2
+export const MAX_REVISION_ROUNDS = 3
 
 /**
  * Only the engineer has a revision path. A critic that names another agent
@@ -246,6 +247,11 @@ function engineerFor(responsibleAgent) {
     )
   }
   return 'react-engineer'
+}
+
+/** A gate round's findings, or null for a round that did not measure. */
+function findingsOf(gate) {
+  return gate ? gate.findings : null
 }
 
 /** The log line for a revision that rebuilt and still left measured faults. */
@@ -2070,11 +2076,13 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
      */
     async function refuseKnownFaults(decision) {
       const { remainingFaults, measured, rounds } = decision
-      if (remainingFaults.length === 0) return
       if (!measured) {
-        console.warn('  [ship-gate] nothing measured this round — shipping unmeasured')
+        console.warn(
+          `  [ship-gate] the last round measured nothing — shipping unmeasured, ${remainingFaults.length} fault(s) known from the round before`
+        )
         return
       }
+      if (remainingFaults.length === 0) return
       console.error(
         `  [ship-gate] ${remainingFaults.length} engineer-owned fault(s) remain after ${rounds} revision round(s) — refusing to ship`
       )
@@ -2592,12 +2600,14 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
        * warnings that ride along for free (#488).
        * @param {Array<object>} findings - a gate round's findings
        * @param {string} [criticFeedback]
+       * @param {{ previous?: Array<object>|null }} [opts] the round before, so a fault
+       *   still there is marked as such in the brief
        * @returns {string}
        */
-      function feedbackFor(findings, criticFeedback = '') {
+      function feedbackFor(findings, criticFeedback = '', { previous = null } = {}) {
         return [
           criticFeedback,
-          formatFindingsForCritic(faultsForOwner(findings, 'react-engineer')),
+          formatFindingsForCritic(faultsForOwner(findings, 'react-engineer'), { previous }),
           formatAdvisoryForRepairBrief(advisoryFaultsForOwner(findings, 'react-engineer')),
         ]
           .filter(Boolean)
@@ -2728,8 +2738,18 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
         // round-1 build shipped with the faults the critic had just named.
         const agent = engineerFor(responsibleAgent)
 
+        // What is on disk and what was measured on it. A round that rebuilt
+        // moves both forward and refreshes the snapshot a later failure
+        // restores, so the best build is always the one that stands. A round
+        // that did not rebuild leaves the disk as it was: nothing written
+        // (`not-applied`), or the snapshot put back (`build-broke-restored`,
+        // `failed`). The review of #631 found the first version of this loop
+        // resetting to the round-0 build on every failure, which after a
+        // rebuilt round described faults that were no longer on disk and, when
+        // round 0 had been clean, shipped a revision's faults as none.
         let remaining = engineerFaults
         let lastGate = firstGate
+        let measured = firstGate != null
         let rebuilt = false
         let report = feedback
         let rounds = 0
@@ -2744,26 +2764,35 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
           rounds = round
           const attempt = await attemptRevision({ agent, feedback: report, round, verdict })
           if (attempt.outcome !== 'rebuilt') {
-            // The round-1 build is back on disk with its round-1 faults. A
-            // critic-only revision (nothing measured wrong) ends here, as it
-            // always did: the passing build stands. A gate-forced one gets
-            // its next round, with what went wrong on the report.
-            remaining = engineerFaults
-            lastGate = firstGate
-            if (engineerFaults.length === 0) break
-            report = `${feedback}\n\nThe previous revision was not kept (${attempt.outcome}): ${clip(attempt.error, 1500)}`
+            // A critic-only revision (nothing measured wrong on disk) ends
+            // here, as it always did: the passing build stands.
+            if (remaining.length === 0) break
+            report = `${report}\n\nThe previous revision was not kept (${attempt.outcome}): ${clip(attempt.error, 1500)}`
             continue
           }
           rebuilt = true
+          passingBackup = await snapshotPassingState()
+          const previous = lastGate
           lastGate = attempt.regate
-          remaining = lastGate ? faultsForOwner(lastGate.findings, 'react-engineer') : []
+          measured = lastGate != null
+          if (!measured) {
+            // The gate threw on this round: the faults it would have found
+            // are unknown, the ones before it are the best information there
+            // is, and the ship decision says so rather than reading silence
+            // as a clean pass.
+            console.warn(
+              `  [surface-gate] round ${round + 1} measured nothing — the last measurement stands`
+            )
+            break
+          }
+          remaining = faultsForOwner(lastGate.findings, 'react-engineer')
           if (remaining.length === 0) break
           console.warn(describeLeftover(round, remaining.length))
-          report = feedbackFor(lastGate.findings)
+          report = feedbackFor(lastGate.findings, '', { previous: findingsOf(previous) })
         }
 
         if (rebuilt) await rejudgeFinal(lastGate, remaining)
-        return { remainingFaults: remaining, measured: lastGate != null, rounds }
+        return { remainingFaults: remaining, measured, rounds }
       }
 
       /**
@@ -2868,7 +2897,11 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
       } catch (err) {
         if (err.fatal) throw err
         console.warn(`  [screenshot-critic] Failed (non-blocking): ${err.message}`)
-        console.warn('  Shipping without screenshot review')
+        console.warn(
+          decision.remainingFaults.length
+            ? `  ${decision.remainingFaults.length} measured fault(s) stand — the ship decision follows`
+            : '  Shipping without screenshot review'
+        )
       }
       return decision
     }
