@@ -32,12 +32,15 @@ import {
 import { contrastRatio, rgbToHex } from './contrast.js'
 import { readCopyExemptions, readRenderedCopy, renderedCopyFindings } from './copy-gate.js'
 import { ROOT } from './file-manager.js'
+import { measureLegibility } from './legibility.js'
+import { collapseLineLength, lineLengthFindings } from './line-length.js'
 import { TAP_TARGET_MIN_PX } from './responsive-thresholds.js'
 import { collapseRenderHealth, measureRenderHealth, renderHealthFindings } from './render-health.js'
 import { collapseSmallText, smallTextFindings } from './small-text.js'
 import { withPreviewServer } from './snapshot.js'
 import { TABLET_RUNG, tabletMeasurement } from './tablet-rung.js'
 import { collapseTextContrast, textContrastFindings } from './text-contrast.js'
+import { foldDensity, formatDensityForCritic } from './text-density.js'
 
 /**
  * Viewport rungs. All three are on the ladder `archiver.js` defines for
@@ -66,7 +69,7 @@ export const RUNNING_COPY_MAX_PX = 48
 
 export const VIEWPORT_RUNGS = [
   { name: 'mobile', ...NARROW_VIEWPORT },
-  // Overflow and clipping only; see tablet-rung.js (#565).
+  // Overflow, clipping and line length only; see tablet-rung.js (#565, #569).
   { name: TABLET_RUNG, ...TABLET_VIEWPORT },
   { name: 'desktop', ...WIDE_VIEWPORT },
 ]
@@ -248,6 +251,9 @@ export function evaluateMeasurement(
   // A word broken across lines, text painted in nothing, text left at opacity 0
   // with the reveal off (#574): the e2e's checks, before the money is spent.
   findings.push(...renderHealthFindings(m, ownerForSurface(m.route)))
+  // Running copy set wider than a reader can follow, counted on the rendered
+  // lines and not read off a `ch` value (#569).
+  findings.push(...lineLengthFindings(m, ownerForSurface(m.route)))
   // The words (#504). Same shape as the geometry findings, so an em dash on
   // `/` forces a revision through the same path a clipped hero does.
   findings.push(...copyFindings(m, exemptions))
@@ -850,10 +856,13 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
       ([src, thresholds]) => new Function(`return ${src}`)()(window.innerWidth, thresholds),
       [findClippedElements.toString(), { overflowTolerancePx: OVERFLOW_TOLERANCE_PX }]
     )
-    // The tablet asks whether the document overflows and whether anything is
-    // cut, and nothing else (#565): the rest is measured at the other rungs.
+    // The tablet asks whether the document overflows, whether anything is cut
+    // and how long its lines are, and nothing else (#565, #569): the rest is
+    // measured at the other rungs. 820 is where a single column is widest
+    // against its type, so line length is asked here too.
     if (viewport.name === TABLET_RUNG) {
-      return tabletMeasurement(base, { status: resp?.status() ?? null, box, clipped })
+      const { lineLength } = await measureLegibility(page, { viewport, scheme })
+      return tabletMeasurement(base, { status: resp?.status() ?? null, box, clipped, lineLength })
     }
     // Tap targets only matter where a thumb does the tapping (#488): measured
     // at the 360 rung only, so a desktop pass spends nothing on a question it
@@ -888,6 +897,8 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
       viewport,
       scheme,
     })
+    // Characters per line, and at the phone how much of each fold is text (#569).
+    const { lineLength, textDensity } = await measureLegibility(page, { viewport, scheme })
     return {
       ...base,
       status: resp?.status() ?? null,
@@ -896,6 +907,8 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
       brand,
       textContrast,
       renderHealth,
+      lineLength,
+      textDensity,
       tapTargets,
       visibleCopy,
       consoleErrors,
@@ -908,6 +921,26 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
 }
 
 /**
+ * The density of a route's phone folds (#569), or null when this measurement
+ * took none: only the phone rung in the light scheme does, and only routes an
+ * agent owns are told to the critic, since a sparse fold on an authored route
+ * is nobody's to fix.
+ *
+ * @param {object} m - raw measurement from {@link measureRoute}
+ * @returns {(ReturnType<typeof foldDensity> & { route: string })|null}
+ */
+export function phoneDensityRecord(m) {
+  if (!m.textDensity || ownerForSurface(m.route) !== 'react-engineer') return null
+  return { route: m.route, ...foldDensity(m.textDensity) }
+}
+
+/** Records in the order the routes were listed, which the workers' finishing order is not. */
+function inRouteOrder(records, surfaces) {
+  const at = (r) => surfaces.findIndex((s) => s.route === r.route)
+  return [...records].sort((a, b) => at(a) - at(b))
+}
+
+/**
  * Walk every route at every rung in both schemes and return what is wrong.
  *
  * Reuses a preview server when the caller already has one (`port`), which is
@@ -917,7 +950,10 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
  *          viewports?: typeof VIEWPORT_RUNGS, schemes?: string[],
  *          root?: string }} [opts] `root` is where the generated routes are
  *   listed from when `routes` is not given; defaults to the repo
- * @returns {Promise<{ findings: Array<object>, measured: number, errorCount: number }>}
+ * @returns {Promise<{ findings: Array<object>, measured: number, errorCount: number,
+ *   phoneDensity: Array<object>, facts: string }>} `phoneDensity` is one record per
+ *   engineer-owned route (`text-density.js`) and `facts` is those as the section the
+ *   screenshot critic is handed: measurements, not findings, so they never fail a build
  */
 export async function runSurfaceGate({
   port,
@@ -943,6 +979,7 @@ export async function runSurfaceGate({
     async (baseUrl) => {
       let browser = null
       const findings = []
+      const densities = []
       let measured = 0
       try {
         browser = await chromium.launch({ headless: true })
@@ -959,6 +996,8 @@ export async function runSurfaceGate({
             if (!job) return
             const m = await measureRoute(browser, baseUrl, job.surface, job.viewport, job.scheme)
             measured++
+            const density = phoneDensityRecord(m)
+            if (density) densities.push(density)
             for (const f of evaluateMeasurement(m, { exemptions })) {
               findings.push({
                 surface: job.surface.route,
@@ -980,12 +1019,17 @@ export async function runSurfaceGate({
         if (browser) await browser.close()
       }
       // The same label on the same colours turns up on every route that
-      // renders it; fold those into one finding and cap the rest (#566, #567, #574).
-      const folded = collapseRenderHealth(collapseSmallText(collapseTextContrast(findings)))
+      // renders it; fold those into one finding and cap the rest (#566, #567, #574, #569).
+      const folded = collapseLineLength(
+        collapseRenderHealth(collapseSmallText(collapseTextContrast(findings)))
+      )
+      const phoneDensity = inRouteOrder(densities, surfaces)
       return {
         findings: folded,
         measured,
         errorCount: folded.filter((f) => f.severity === 'error').length,
+        phoneDensity,
+        facts: formatDensityForCritic(phoneDensity),
       }
     },
     { port }
@@ -1039,6 +1083,19 @@ export function formatFindingsForCritic(findings) {
     '',
     ...lines,
   ].join('\n')
+}
+
+/**
+ * Everything the gate measured that the screenshot critic is told, as one text
+ * block: the faults, then the measurements that are not faults (the phone
+ * density, #569). Either half may be missing, and so may the gate, when it
+ * threw.
+ *
+ * @param {{ findings?: Array<object>, facts?: string }|null|undefined} gate
+ * @returns {string} empty when there is nothing to say
+ */
+export function formatMeasuredForCritic(gate) {
+  return [formatFindingsForCritic(gate?.findings), gate?.facts].filter(Boolean).join('\n\n')
 }
 
 /**

@@ -316,6 +316,11 @@ jobs:
       # with `vite preview` rather than building a second time.
       - name: Verify the night's output renders
         if: ${{ !inputs.dry_run }}
+        # Tells site-health.spec.ts it is running against a night, so the tests
+        # that measure the night's own Layout around a hand-written route skip
+        # themselves. PR CI does not set it and runs them.
+        env:
+          NIGHTLY_RUN: '1'
         run: |
           pnpm test
           pnpm test:e2e:site

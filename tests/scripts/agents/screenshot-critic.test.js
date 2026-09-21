@@ -156,6 +156,8 @@ describe('buildScreenshotCriticBlocks', () => {
         { label: 'two:', png: Buffer.from([0x02]) },
         { label: 'three:', png: Buffer.from([0x03]) },
         { label: 'four:', png: Buffer.from([0x04]) },
+        { label: 'five:', png: Buffer.from([0x05]) },
+        { label: 'six:', png: Buffer.from([0x06]) },
       ],
       bestReference: { buffer: Buffer.from([0x89, 0x50, 0x4e, 0x47]), description: 'ref' },
     })
@@ -167,7 +169,7 @@ describe('buildScreenshotCriticBlocks', () => {
     )
   })
 
-  it('fits mockup, both schemes, the phone, both header crops, one route and a reference exactly', () => {
+  it('fits mockup, both schemes, the phone, both header crops, one route and a reference', () => {
     const blocks = buildScreenshotCriticBlocks({
       ...baseCtx,
       screenshotBuffer: {
@@ -181,7 +183,7 @@ describe('buildScreenshotCriticBlocks', () => {
     })
     const images = blocks.filter((b) => b.type === 'image')
     expect(images).toHaveLength(8)
-    expect(MAX_SCREENSHOT_CRITIC_IMAGES).toBe(8)
+    expect(MAX_SCREENSHOT_CRITIC_IMAGES).toBe(9)
     // Crops come before route shots, route shots before the reference — the
     // drop order when the ceiling binds is the reverse of this.
     const labels = blocks.filter((b) => b.type === 'text').map((b) => b.text)
@@ -218,7 +220,7 @@ describe('buildScreenshotCriticBlocks', () => {
     expect(blocks.some((b) => b.type === 'text' && b.text.includes('phone filmstrip'))).toBe(false)
   })
 
-  it('carries phone filmstrips of other routes, prioritized over route shots and the reference', () => {
+  it('carries phone filmstrips of other routes ahead of route shots, and the reference takes the last slot', () => {
     const blocks = buildScreenshotCriticBlocks({
       ...baseCtx,
       screenshotBuffer: {
@@ -236,13 +238,13 @@ describe('buildScreenshotCriticBlocks', () => {
     })
     const images = blocks.filter((b) => b.type === 'image')
     // mockup + light + home phone + dark + 2 header crops + 2 phone
-    // filmstrips = 8, the ceiling. The 1440 route shot and the calibration
-    // reference are squeezed out entirely.
+    // filmstrips = 8. The 1440 route shot is squeezed out, the reference
+    // takes the ninth.
     expect(images).toHaveLength(MAX_SCREENSHOT_CRITIC_IMAGES)
     expect(blocks.some((b) => b.type === 'text' && b.text.includes('/about'))).toBe(true)
     expect(blocks.some((b) => b.type === 'text' && b.text.includes('/work/spaceman'))).toBe(true)
     expect(blocks.some((b) => b.type === 'text' && b.text.includes('Other surfaces'))).toBe(false)
-    expect(blocks.some((b) => b.type === 'text' && b.text.includes('highest-rated'))).toBe(false)
+    expect(blocks.some((b) => b.type === 'text' && b.text.includes('highest-rated'))).toBe(true)
   })
 
   it('drops a phone filmstrip capture failure without losing the rest', () => {
@@ -267,6 +269,9 @@ describe('buildScreenshotCriticBlocks', () => {
       phoneFilmstrips: [
         { label: 'A phone filmstrip of /about:', jpeg: Buffer.from([0x08]) },
         { label: 'A phone filmstrip of /work/spaceman:', jpeg: Buffer.from([0x09]) },
+      ],
+      desktopFilmstrips: [
+        { label: 'A desktop filmstrip of /work/spaceman:', jpeg: Buffer.from([0x0c]) },
       ],
       routeShots: [{ label: 'A project page (/work/spaceman):', png: Buffer.from([0x02]) }],
       bestReference: { buffer: Buffer.from([0x89, 0x50, 0x4e, 0x47]), description: 'ref' },
@@ -299,29 +304,30 @@ describe('buildScreenshotCriticBlocks', () => {
       expect(has(blocks, 'phone filmstrip of that SAME page')).toBe(true)
     })
 
-    it('costs a typical night its calibration reference and nothing else', () => {
+    it('costs a night with no dark capture and no motion strip its calibration reference and nothing else', () => {
       // Dark matched light, no motion: mockup, light, phone, tablet, two crops,
-      // and the two filmstrips fill the eight. The 1440 project page was
-      // already squeezed out at seven, so what the tablet displaces is the
-      // reference, the image the ceiling has always dropped first.
+      // the desktop filmstrip and both phone filmstrips fill the nine. The 1440
+      // project page was already squeezed out, so the reference goes.
       const blocks = buildScreenshotCriticBlocks(singleMode)
       expect(blocks.filter((b) => b.type === 'image')).toHaveLength(MAX_SCREENSHOT_CRITIC_IMAGES)
       expect(has(blocks, 'TABLET')).toBe(true)
-      expect(has(blocks, '/about')).toBe(true)
-      expect(has(blocks, '/work/spaceman')).toBe(true)
+      expect(has(blocks, 'A desktop filmstrip of /work/spaceman:')).toBe(true)
+      expect(has(blocks, 'A phone filmstrip of /about:')).toBe(true)
+      expect(has(blocks, 'A phone filmstrip of /work/spaceman:')).toBe(true)
       expect(has(blocks, 'Other surfaces')).toBe(false)
       expect(has(blocks, 'highest-rated')).toBe(false)
     })
 
-    it('costs a night with a dark capture the case-study filmstrip', () => {
+    it('costs a night with a dark capture the case-study phone filmstrip, and the desktop one stays', () => {
       const blocks = buildScreenshotCriticBlocks(full)
       expect(blocks.filter((b) => b.type === 'image')).toHaveLength(MAX_SCREENSHOT_CRITIC_IMAGES)
       expect(has(blocks, 'TABLET')).toBe(true)
+      expect(has(blocks, 'A desktop filmstrip of /work/spaceman:')).toBe(true)
       expect(has(blocks, 'A phone filmstrip of /about:')).toBe(true)
-      expect(has(blocks, '/work/spaceman')).toBe(false)
+      expect(has(blocks, 'A phone filmstrip of /work/spaceman:')).toBe(false)
     })
 
-    it('costs a night with a dark capture and a motion strip both filmstrips, never the tablet or a crop', () => {
+    it('costs a night with a dark capture and a motion strip both phone filmstrips, never the tablet, a crop or the desktop filmstrip', () => {
       const blocks = buildScreenshotCriticBlocks({
         ...full,
         screenshotBuffer: { ...full.screenshotBuffer, motionStripJpeg: Buffer.from([0x0b]) },
@@ -330,7 +336,132 @@ describe('buildScreenshotCriticBlocks', () => {
       expect(has(blocks, 'TABLET')).toBe(true)
       expect(has(blocks, 'RENDERED page')).toBe(true)
       expect(has(blocks, 'MOTION STRIP')).toBe(true)
+      expect(has(blocks, 'A desktop filmstrip of /work/spaceman:')).toBe(true)
       expect(has(blocks, 'phone filmstrip of /')).toBe(false)
+    })
+  })
+
+  describe('the desktop filmstrip of the case study (#569)', () => {
+    const desktop = { label: 'A desktop filmstrip of /work/spaceman:', jpeg: Buffer.from([0x0c]) }
+    const phone = [
+      { label: 'A phone filmstrip of /about:', jpeg: Buffer.from([0x08]) },
+      { label: 'A phone filmstrip of /work/spaceman:', jpeg: Buffer.from([0x09]) },
+    ]
+
+    it('comes ahead of the phone filmstrips, and is one image', () => {
+      const blocks = buildScreenshotCriticBlocks({
+        ...baseCtx,
+        phoneFilmstrips: phone,
+        desktopFilmstrips: [desktop],
+      })
+      const texts = blocks.filter((b) => b.type === 'text').map((b) => b.text)
+      const at = (needle) => texts.findIndex((t) => t.includes(needle))
+      expect(at('A desktop filmstrip')).toBeGreaterThan(-1)
+      expect(at('A desktop filmstrip')).toBeLessThan(at('A phone filmstrip of /about'))
+      const i = blocks.findIndex((b) => b.type === 'text' && b.text.includes('A desktop filmstrip'))
+      expect(blocks[i + 1].type).toBe('image')
+      expect(blocks[i + 1].source.data).toBe(desktop.jpeg.toString('base64'))
+    })
+
+    it('is dropped alone when the capture failed, with its label', () => {
+      const blocks = buildScreenshotCriticBlocks({
+        ...baseCtx,
+        phoneFilmstrips: phone,
+        desktopFilmstrips: [{ ...desktop, jpeg: null }],
+      })
+      expect(blocks.some((b) => b.type === 'text' && b.text.includes('A desktop filmstrip'))).toBe(
+        false
+      )
+      expect(blocks.filter((b) => b.type === 'image')).toHaveLength(4)
+    })
+
+    // Every shape a night can take, as flags: the head of the list, then what
+    // competes for the rest. The ceiling has to hold for all of them, and the
+    // drop order has to hold with it.
+    const FLAGS = [
+      'mockup',
+      'mockupHeader',
+      'header',
+      'phone',
+      'tablet',
+      'dark',
+      'motion',
+      'desktop',
+      'aboutPhone',
+      'casePhone',
+      'routeShot',
+      'reference',
+    ]
+    const shape = (mask) => Object.fromEntries(FLAGS.map((f, i) => [f, Boolean(mask & (1 << i))]))
+    const buf = (n) => Buffer.from([n])
+    const headOf = (f) => ({
+      jpeg: buf(1),
+      darkJpeg: f.dark ? buf(2) : null,
+      mobileJpeg: f.phone ? buf(3) : null,
+      tabletJpeg: f.tablet ? buf(4) : null,
+      headerJpeg: f.header ? buf(5) : null,
+      motionStripJpeg: f.motion ? buf(6) : null,
+    })
+    const mockupOf = (f) =>
+      f.mockup ? { jpeg: buf(7), headerJpeg: f.mockupHeader ? buf(8) : null } : null
+    const ctxFor = (f) => ({
+      ...baseCtx,
+      screenshotBuffer: headOf(f),
+      mockupScreenshot: mockupOf(f),
+      desktopFilmstrips: f.desktop ? [desktop] : [],
+      phoneFilmstrips: phone.filter((_, i) => f[i === 0 ? 'aboutPhone' : 'casePhone']),
+      routeShots: f.routeShot ? [{ label: 'A project page:', png: buf(9) }] : [],
+      bestReference: f.reference ? { buffer: buf(10), description: 'ref' } : null,
+    })
+    const imagesOf = (blocks) => blocks.filter((b) => b.type === 'image').length
+    const has = (blocks, needle) => blocks.some((b) => b.type === 'text' && b.text.includes(needle))
+    const shapes = Array.from({ length: 1 << FLAGS.length }, (_, mask) => ({
+      mask,
+      flags: shape(mask),
+    }))
+
+    it('never sends more images than the ceiling, for every shape of night', () => {
+      let worst = 0
+      for (const { mask, flags } of shapes) {
+        const n = imagesOf(buildScreenshotCriticBlocks(ctxFor(flags)))
+        worst = Math.max(worst, n)
+        expect(n, `shape ${mask.toString(2)}`).toBeLessThanOrEqual(MAX_SCREENSHOT_CRITIC_IMAGES)
+      }
+      // Some shape reaches the ceiling, so the check above is not vacuous.
+      expect(worst).toBe(MAX_SCREENSHOT_CRITIC_IMAGES)
+    })
+
+    it('keeps the desktop filmstrip whenever a phone filmstrip of a route survives', () => {
+      for (const { mask, flags } of shapes.filter((s) => s.flags.desktop)) {
+        const blocks = buildScreenshotCriticBlocks(ctxFor(flags))
+        if (has(blocks, 'A phone filmstrip of /')) {
+          expect(has(blocks, 'A desktop filmstrip'), `shape ${mask.toString(2)}`).toBe(true)
+        }
+      }
+    })
+
+    it('never drops a crop, the tablet or the motion strip to make room for it', () => {
+      for (const { mask, flags } of shapes.filter((s) => s.flags.desktop)) {
+        const withIt = buildScreenshotCriticBlocks(ctxFor(flags))
+        const without = buildScreenshotCriticBlocks(ctxFor({ ...flags, desktop: false }))
+        for (const needle of ['RENDERED page', 'APPROVED MOCKUP', 'TABLET', 'MOTION STRIP']) {
+          const lost = has(without, needle) && !has(withIt, needle)
+          expect(lost, `${needle} in shape ${mask.toString(2)}`).toBe(false)
+        }
+      }
+    })
+
+    it('fits a night with a dark capture and a motion strip only by dropping every phone filmstrip', () => {
+      const flags = {
+        ...Object.fromEntries(FLAGS.map((k) => [k, true])),
+        routeShot: false,
+        reference: false,
+      }
+      const blocks = buildScreenshotCriticBlocks(ctxFor(flags))
+      // mockup + light + phone + tablet + dark + 2 crops + motion = 8, then the one slot.
+      expect(imagesOf(blocks)).toBe(MAX_SCREENSHOT_CRITIC_IMAGES)
+      expect(has(blocks, 'A desktop filmstrip')).toBe(true)
+      expect(has(blocks, 'A phone filmstrip of /')).toBe(false)
     })
   })
 
@@ -342,6 +473,7 @@ describe('buildScreenshotCriticBlocks', () => {
       screenshotBuffer: {
         ...baseCtx.screenshotBuffer,
         mobileJpeg: Buffer.from([0x07]),
+        tabletJpeg: Buffer.from([0x0a]),
         headerJpeg: Buffer.from([0x05]),
       },
       mockupScreenshot: { jpeg: Buffer.from([0x01]), headerJpeg: Buffer.from([0x06]) },

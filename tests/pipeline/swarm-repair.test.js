@@ -792,6 +792,45 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     ])
   })
 
+  it('still runs the gate-driven revision when the round-1 critic call failed outright (#619)', async () => {
+    // 2026-09-21: the API account ran out of credits between the engineer
+    // and the critic. Both channels threw, the run shipped without review,
+    // and the 44 faults the gate had measured went out with it.
+    const run = await runSwarm({
+      gate: [{ findings: [OVERFLOW_AT_390], measured: 8, errorCount: 1 }, CLEAN_GATE],
+      agents: {
+        'screenshot-critic': [
+          new Error('Your credit balance is too low to access the Anthropic API.'),
+          fixtureFor('screenshot-critic'),
+        ],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.calls.map((c) => c.agent)).toEqual([
+      'art-director',
+      'mockup-designer',
+      'mockup-critic',
+      'react-engineer',
+      'screenshot-critic',
+      'react-engineer',
+      'screenshot-critic',
+    ])
+    const faults = formatFindingsForCritic([OVERFLOW_AT_390])
+    const revision = run.callsFor('react-engineer')[1]
+    expect(revision.userPrompt).toContain(faults)
+    expect(revision.userPrompt).not.toContain('credit balance')
+    expect(run.retries).toBe(1)
+    expect(
+      run.verdicts
+        .filter((v) => v.critic === 'screenshot-critic')
+        .map(({ round, verdict, channel }) => ({ round, verdict, channel }))
+    ).toEqual([
+      { round: undefined, verdict: 'UNVERIFIED', channel: 'call-failed' },
+      { round: 'final', verdict: 'SHIP', channel: 'sdk-vision' },
+    ])
+  })
+
   it('records a truncated final re-judge as UNVERIFIED with the reason, as before (#570)', async () => {
     const run = await runSwarm({
       agents: {
