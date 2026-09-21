@@ -10,7 +10,11 @@
 import { spawn } from 'node:child_process'
 import { mkdir, writeFile, readFile } from 'node:fs/promises'
 import path from 'node:path'
-import { NARROW_VIEWPORT, TABLET_VIEWPORT } from '../../elements/chassis/viewports.js'
+import {
+  NARROW_VIEWPORT,
+  TABLET_VIEWPORT,
+  WIDE_VIEWPORT,
+} from '../../elements/chassis/viewports.js'
 import { ROOT } from './file-manager.js'
 import { STEP_BUDGETS } from './budgets.js'
 import { FINGERPRINT_VIEWPORT, collectGeometry } from './geometry-fingerprint.js'
@@ -398,31 +402,35 @@ export function phoneFilmstripMoreLabel(moreFolds) {
 }
 
 /**
- * Crop a full-page screenshot into folds and lay them side by side into one
- * PNG, each fold labeled so the critic knows the labels are ours, not the
- * site's. Runs in the page's own <canvas>, the same trick `downscaleForCritic`
- * uses, so composing costs no image-processing dependency.
+ * Crop a full-page screenshot into folds and lay them into one PNG, each fold
+ * labeled so the critic knows the labels are ours, not the site's. Side by
+ * side in one row unless `columns` says otherwise, and then row by row, left
+ * to right. Runs in the page's own <canvas>, the same trick
+ * `downscaleForCritic` uses, so composing costs no image-processing
+ * dependency.
  *
  * @param {import('playwright').Page} page
  * @param {Buffer} pngBuffer - full-page screenshot at `dsf`
- * @param {{ totalFolds: number, shownFolds: number, moreFolds: number, foldHeightPx: number, gutterPx: number, dsf: number }} plan
+ * @param {{ totalFolds: number, shownFolds: number, moreFolds: number, foldHeightPx: number, gutterPx: number, dsf: number, columns?: number }} plan
  * @returns {Promise<Buffer>}
  */
-async function composePhoneFilmstrip(
+async function composeFilmstrip(
   page,
   pngBuffer,
-  { totalFolds, shownFolds, moreFolds, foldHeightPx, gutterPx, dsf }
+  { totalFolds, shownFolds, moreFolds, foldHeightPx, gutterPx, dsf, columns }
 ) {
   const dataUrl = await page.evaluate(
-    async ({ base64, totalFolds, shownFolds, moreFolds, foldHeightPx, gutterPx, dsf }) => {
+    async ({ base64, totalFolds, shownFolds, moreFolds, foldHeightPx, gutterPx, dsf, columns }) => {
       const img = new Image()
       img.src = `data:image/png;base64,${base64}`
       await img.decode()
       const foldWidth = img.naturalWidth
       const foldHeight = foldHeightPx * dsf
+      const across = Math.min(columns || shownFolds, shownFolds)
+      const down = Math.ceil(shownFolds / across)
       const canvas = document.createElement('canvas')
-      canvas.width = shownFolds * foldWidth + (shownFolds - 1) * gutterPx
-      canvas.height = foldHeight
+      canvas.width = across * foldWidth + (across - 1) * gutterPx
+      canvas.height = down * foldHeight + (down - 1) * gutterPx
       const ctx = canvas.getContext('2d')
       ctx.fillStyle = '#0a0a0a'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
@@ -431,20 +439,21 @@ async function composePhoneFilmstrip(
         const index = i + 1
         const srcY = i * foldHeight
         const srcHeight = Math.min(foldHeight, Math.max(0, img.naturalHeight - srcY))
-        const destX = i * (foldWidth + gutterPx)
+        const destX = (i % across) * (foldWidth + gutterPx)
+        const destY = Math.floor(i / across) * (foldHeight + gutterPx)
         if (srcHeight > 0) {
-          ctx.drawImage(img, 0, srcY, foldWidth, srcHeight, destX, 0, foldWidth, srcHeight)
+          ctx.drawImage(img, 0, srcY, foldWidth, srcHeight, destX, destY, foldWidth, srcHeight)
         }
         let label = `fold ${index} of ${totalFolds}`
         if (moreFolds > 0 && index === shownFolds) {
           label += ` — ${moreFolds} more fold${moreFolds === 1 ? '' : 's'} not shown`
         }
         ctx.fillStyle = 'rgba(0, 0, 0, 0.72)'
-        ctx.fillRect(destX, 0, foldWidth, barHeight)
+        ctx.fillRect(destX, destY, foldWidth, barHeight)
         ctx.fillStyle = '#ffffff'
         ctx.font = 'bold 32px -apple-system, sans-serif'
         ctx.textBaseline = 'middle'
-        ctx.fillText(label, destX + 16, barHeight / 2, foldWidth - 32)
+        ctx.fillText(label, destX + 16, destY + barHeight / 2, foldWidth - 32)
       }
       return canvas.toDataURL('image/png')
     },
@@ -456,6 +465,7 @@ async function composePhoneFilmstrip(
       foldHeightPx,
       gutterPx,
       dsf,
+      columns: columns ?? null,
     }
   )
   return Buffer.from(dataUrl.slice(dataUrl.indexOf(',') + 1), 'base64')
@@ -498,13 +508,80 @@ export async function capturePhoneFilmstrip(browser, url, { colorScheme } = {}) 
       maxFolds: PHONE_FILMSTRIP_MAX_FOLDS,
     })
     const png = await page.screenshot({ type: 'png', fullPage: true })
-    const composed = await composePhoneFilmstrip(page, png, {
+    const composed = await composeFilmstrip(page, png, {
       totalFolds,
       shownFolds,
       moreFolds,
       foldHeightPx: PHONE_FILMSTRIP_FOLD_HEIGHT,
       gutterPx: PHONE_FILMSTRIP_GUTTER,
       dsf: PHONE_FILMSTRIP_DSF,
+    })
+    return await downscaleForCritic(page, composed, {
+      targetWidth: PHONE_FILMSTRIP_WIDTH,
+      quality: PHONE_FILMSTRIP_QUALITY,
+    })
+  } catch {
+    return null
+  } finally {
+    if (page) await page.close().catch(() => {})
+  }
+}
+
+/**
+ * Desktop folds shown, laid two across and row by row: a fold is one 1440x900
+ * screen, and six is the same cap the phone filmstrip has. Two across keeps a
+ * tile at about half its size once the composed image is fitted to
+ * {@link PHONE_FILMSTRIP_WIDTH}, which is enough to read a column against the
+ * empty space beside it; one row of three would leave each at a third.
+ */
+const DESKTOP_FILMSTRIP_MAX_FOLDS = 6
+const DESKTOP_FILMSTRIP_COLUMNS = 2
+const DESKTOP_FILMSTRIP_GUTTER = 16
+
+/**
+ * A whole page at 1440 wide, as one filmstrip image: a full-page capture cut
+ * into 900-CSS-px folds and laid two across, each fold labeled, up to six
+ * shown, scaled to the critic's width. The critic used to see one 1440x900
+ * still of a case study, and a masthead fills that. What it could not see is
+ * what the page does below the fold: on 2026-09-20 `/work/spaceman` set its
+ * copy in a 568px column at the left and left 55% of the width empty from the
+ * masthead down (#569). Best-effort, like the phone filmstrip: a missing
+ * image costs a critic one block, never the run.
+ *
+ * Taken with reduced motion on. A full-page capture never scrolls, so a
+ * section that fades in by `animation-timeline: view()` is still at
+ * `opacity: 0` in every fold below the first, and the strip would show a
+ * page that is empty from the masthead down for a reason that is not the
+ * design. The `stranded-text` gate already requires everything to be visible
+ * with the preference on, so that is the resting page.
+ *
+ * @param {import('playwright').Browser} browser
+ * @param {string} url
+ * @returns {Promise<Buffer|null>}
+ */
+export async function captureDesktopFilmstrip(browser, url) {
+  let page = null
+  try {
+    page = await browser.newPage({ viewport: { ...WIDE_VIEWPORT }, reducedMotion: 'reduce' })
+    await page.goto(url, { waitUntil: 'networkidle' })
+    await page.waitForTimeout(1000) // fonts
+    const pageHeightPx = await page.evaluate(() =>
+      Math.max(
+        document.documentElement.scrollHeight,
+        document.body ? document.body.scrollHeight : 0
+      )
+    )
+    const plan = computePhoneFilmstripFolds(pageHeightPx, {
+      foldHeightPx: WIDE_VIEWPORT.height,
+      maxFolds: DESKTOP_FILMSTRIP_MAX_FOLDS,
+    })
+    const png = await page.screenshot({ type: 'png', fullPage: true })
+    const composed = await composeFilmstrip(page, png, {
+      ...plan,
+      foldHeightPx: WIDE_VIEWPORT.height,
+      gutterPx: DESKTOP_FILMSTRIP_GUTTER,
+      dsf: 1,
+      columns: DESKTOP_FILMSTRIP_COLUMNS,
     })
     return await downscaleForCritic(page, composed, {
       targetWidth: PHONE_FILMSTRIP_WIDTH,
@@ -596,7 +673,7 @@ export function computeMotionStripLayout(
 
 /**
  * Lay the captured frames side by side into one PNG, each labelled with its
- * offset, in the page's own <canvas>: the same trick `composePhoneFilmstrip`
+ * offset, in the page's own <canvas>: the same trick `composeFilmstrip`
  * uses, so the strip costs no image-processing dependency.
  *
  * @param {import('playwright').Page} page
@@ -752,6 +829,30 @@ export async function captureRoutePhoneFilmstrip(route, { port, colorScheme } = 
       try {
         browser = await chromium.launch({ headless: true })
         return await capturePhoneFilmstrip(browser, `${baseUrl}${route}`, { colorScheme })
+      } finally {
+        if (browser) await browser.close()
+      }
+    },
+    { port }
+  )
+}
+
+/**
+ * `captureDesktopFilmstrip` for a route on the served build, managing its own
+ * preview server and browser, the same shape as `captureRoutePhoneFilmstrip`.
+ *
+ * @param {string} route - e.g. "/work/spaceman"
+ * @param {{ port?: number }} [opts]
+ * @returns {Promise<Buffer|null>}
+ */
+export async function captureRouteDesktopFilmstrip(route, { port } = {}) {
+  const { chromium } = await import('playwright')
+  return await withPreviewServer(
+    async (baseUrl) => {
+      let browser = null
+      try {
+        browser = await chromium.launch({ headless: true })
+        return await captureDesktopFilmstrip(browser, `${baseUrl}${route}`)
       } finally {
         if (browser) await browser.close()
       }

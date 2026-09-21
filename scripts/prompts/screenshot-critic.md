@@ -107,6 +107,8 @@ A desktop render where active content occupies less than ~70% of the viewport wi
 
 Failures: A 40%-wide column of body text on the left half of the page with a 60% empty cream rail on the right. `density: sparse` but headline rendered at body-article scale. `density: dense` but only one list, narrow, in a single column. When this fails, owner is **react-engineer**.
 
+This applies below the first screen as well as in it. The case study arrives as a desktop filmstrip of the whole page at 1440, cut into 900px folds and laid two across, row by row; a masthead fills the first fold, and the failure shows in the folds after it. Body copy in a column at the left with the rest of the row empty, fold after fold, is a dead canvas even when the masthead is committed. The filmstrip is scaled down, so judge the layout and not the type. Name the fold.
+
 ### 7. Hero Phrase Execution
 
 The Art Director nominated a specific hero phrase and stated the intended scale (e.g., "marquee, ≥10vw," "specimen-scale, fills the hero zone"). The render must execute it at that scale.
@@ -183,7 +185,7 @@ of the home page. `/about` at 9361px tall had never been seen at all. On
 2026-09-04 a composition whose whole idea was a question on a dark panel
 facing its answer on a terracotta panel shipped with the split gone at 360:
 the answer panel faced nothing, so the concept was absent, not merely
-rearranged. No horizontal scroll, no running copy under {{SMALL_COPY_FLOOR_PX}}px, no text under {{SMALL_TEXT_FLOOR_PX}}px, no line over 75
+rearranged. No horizontal scroll, no running copy under {{SMALL_COPY_FLOOR_PX}}px, no text under {{SMALL_TEXT_FLOOR_PX}}px, no line over {{LINE_LENGTH_MAX_CHARS}}
 characters. Every automatic check passed. The phone is judged as a design
 here, not scanned for breakage, and across the whole page, not one fold, and
 against the mobile declaration: the Art Director named a `collapse`
@@ -228,6 +230,15 @@ present:
 
 Where the measured faults block above already names a clipped element, do not
 count it a second time. Say what it costs the design instead.
+
+The measured phone density block gives the share of each fold that text
+covers, and says which values are sparse. The filmstrip is scaled to about 0.7
+image pixels per CSS pixel, which is where slack between rows is hardest to
+see, so use the number to find the fold and then look at it. A sparse fold is
+not a fault by itself: a held pause, an image, a field of colour that is the
+idea all read as sparse. Say which it is. If it is the same row repeated with
+air around each one, or a fold with nothing in it that the declaration did
+not ask for, that is a REVISE.
 
 The home page arrives once more as a still of its first screen at {{TABLET_PX}}
 wide, a portrait tablet. Nothing in the mobile declaration or the mockup speaks

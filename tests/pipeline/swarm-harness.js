@@ -97,6 +97,7 @@ const state = {
     screenshot: [],
     routeCapture: [],
     phoneFilmstrip: [],
+    desktopFilmstrip: [],
     routes: [],
     archive: [],
   },
@@ -109,6 +110,7 @@ const state = {
     captureScreenshot: [],
     captureRouteScreenshot: [],
     captureRoutePhoneFilmstrip: [],
+    captureRouteDesktopFilmstrip: [],
     runSurfaceGate: [],
     runCopyGate: [],
     listGeneratedRoutes: [],
@@ -325,6 +327,14 @@ async function fakeCaptureRoutePhoneFilmstrip(route, opts) {
   return r ?? JPEG(`filmstrip:${route}`)
 }
 
+async function fakeCaptureRouteDesktopFilmstrip(route, opts) {
+  state.fakes.captureRouteDesktopFilmstrip.push({ route, ...opts })
+  const scripted = nextScript('desktopFilmstrip', null)
+  const r = typeof scripted === 'function' ? scripted(route) : scripted
+  if (r instanceof Error) throw r
+  return r ?? JPEG(`desktop-filmstrip:${route}`)
+}
+
 /** A gate with nothing to report. */
 export const CLEAN_GATE = { findings: [], measured: 8, errorCount: 0 }
 
@@ -468,6 +478,7 @@ export const mockFactories = {
     captureScreenshot: fakeCaptureScreenshot,
     captureRouteScreenshot: fakeCaptureRouteScreenshot,
     captureRoutePhoneFilmstrip: fakeCaptureRoutePhoneFilmstrip,
+    captureRouteDesktopFilmstrip: fakeCaptureRouteDesktopFilmstrip,
     captureSnapshot: async () => {},
   }),
   'scripts/utils/surface-gate.js': async (importOriginal) => ({
@@ -641,12 +652,13 @@ export function readTrace(root, date) {
  *   `spawnSync` results for `panda codegen`; status 0 after the list ends.
  * @param {Array<{findings: Array<object>, scanned: number, errorCount: number}|Error|Function>} [opts.copy]
  *   `runCopyGate` results per round; `CLEAN_COPY_GATE` after the list ends.
- * @param {Array<{findings: Array<object>, measured: number, errorCount: number}|Error|Function>} [opts.gate]
+ * @param {Array<{findings: Array<object>, measured: number, errorCount: number, facts?: string}|Error|Function>} [opts.gate]
  *   `runSurfaceGate` results per round; `CLEAN_GATE` after the list ends.
  * @param {Array<object|Error|Function>} [opts.mockupCapture] `captureHtmlFileScreenshot` results
  * @param {Array<object|Error|Function>} [opts.screenshot] `captureScreenshot` results
  * @param {Array<Buffer|Error|Function>} [opts.routeCapture] `captureRouteScreenshot` results
  * @param {Array<Buffer|null|Error|Function>} [opts.phoneFilmstrip] `captureRoutePhoneFilmstrip` results
+ * @param {Array<Buffer|null|Error|Function>} [opts.desktopFilmstrip] `captureRouteDesktopFilmstrip` results
  * @param {Array<Array<object>|Error|Function>} [opts.routes] `listGeneratedRoutes` results
  * @param {Array<Error|Function>} [opts.archive] `archive` outcomes; an `Error` is thrown
  *   after the call is recorded and before any file is written

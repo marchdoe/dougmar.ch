@@ -169,6 +169,19 @@ describe('the tablet finding, as the repair brief and the archive print it', () 
 })
 
 /**
+ * The in-page function an evaluate was handed: a serialised function's own
+ * name, or the entry a page kit runs, which is the last of its three arguments.
+ */
+function evaluatedName(arg) {
+  if (!Array.isArray(arg)) return null
+  if (typeof arg[0] === 'string') return arg[0].match(/^function (\w+)/)?.[1] ?? null
+  if (arg.length === 3 && typeof arg[2] === 'string') {
+    return arg[2] === 'collect' ? 'collectTextContrast' : arg[2]
+  }
+  return null
+}
+
+/**
  * A stand-in page that records which in-page function each evaluate was
  * handed, the way surface-gate.test.js does for the phone guard.
  */
@@ -184,10 +197,7 @@ function fakeBrowser() {
       return null
     },
     async evaluate(_fn, arg) {
-      const src = Array.isArray(arg) ? arg[0] : null
-      let name = null
-      if (typeof src === 'string') name = src.match(/^function (\w+)/)?.[1] ?? null
-      else if (src && typeof src === 'object' && 'collect' in src) name = 'collectTextContrast'
+      const name = evaluatedName(arg)
       if (name) ran.push(name)
       if (name === 'findClippedElements') return []
       return name ? null : { scrollWidth: 820, clientWidth: 820 }
@@ -204,10 +214,18 @@ describe('measureRoute on the tablet rung', () => {
     const { ran, browser } = fakeBrowser()
     const m = await measureRoute(browser, 'http://x', surface, tabletRung, 'light')
     expect(ran).toContain('findClippedElements')
-    for (const other of ['findTapTargetFailures', 'findBrandMark', 'collectTextContrast']) {
+    // Line length is the one probe of running copy it takes (#569).
+    expect(ran).toContain('collectLineLength')
+    for (const other of [
+      'findTapTargetFailures',
+      'findBrandMark',
+      'collectTextContrast',
+      'collectTextRects',
+    ]) {
       expect(ran).not.toContain(other)
     }
     expect(m.viewport).toBe(TABLET_RUNG)
+    expect(m.textDensity).toBeUndefined()
     expect(m.tapTargets).toBeUndefined()
     expect(m.brand).toBeUndefined()
     expect(m.textContrast).toBeUndefined()

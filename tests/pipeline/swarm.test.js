@@ -314,6 +314,31 @@ describe('runAgentSwarm on the recorded night', () => {
     })
   })
 
+  it('sends the critic the whole first case study at 1440, and the phone density the gate measured (#569)', async () => {
+    const facts = '## Measured phone density\n\n- / , 7 folds of 640px: 47% 26% 12%.'
+    const run = await runSwarm({ gate: [{ findings: [], measured: 8, errorCount: 0, facts }] })
+    expect(run.error).toBeNull()
+
+    // One capture, of the first case study route the build lists.
+    expect(run.fakes.captureRouteDesktopFilmstrip).toHaveLength(1)
+    expect(run.fakes.captureRouteDesktopFilmstrip[0].route.startsWith('/work/')).toBe(true)
+
+    const [critic] = run.callsFor('screenshot-critic')
+    expect(critic.userPrompt).toContain('A desktop filmstrip of /work/')
+    expect(critic.userPrompt).toContain('## Measured phone density')
+    // The 1440 still of the case study that used to be captured here is the
+    // filmstrip's first tile now; only the share card's capture is left.
+    expect(run.fakes.captureRouteScreenshot.map((c) => c.route)).toEqual(['/og'])
+    expect(critic.imageCount).toBeLessThanOrEqual(9)
+  })
+
+  it('still asks the critic when the desktop filmstrip cannot be captured (#569)', async () => {
+    const run = await runSwarm({ desktopFilmstrip: [new Error('chromium died')] })
+    expect(run.error).toBeNull()
+    const [critic] = run.callsFor('screenshot-critic')
+    expect(critic.userPrompt).not.toContain('A desktop filmstrip')
+  })
+
   it('records a gate that measured as having run', async () => {
     const run = await runSwarm()
     expect(JSON.parse(run.fakes.archive[0].artifacts['surface-gate.json'])).toEqual({
