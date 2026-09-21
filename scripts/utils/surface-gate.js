@@ -28,7 +28,8 @@ import { NARROW_VIEWPORT, WIDE_VIEWPORT } from '../../elements/chassis/viewports
 import { contrastRatio, rgbToHex } from './contrast.js'
 import { readCopyExemptions, readRenderedCopy, renderedCopyFindings } from './copy-gate.js'
 import { ROOT } from './file-manager.js'
-import { BODY_TEXT_MIN_PX, TAP_TARGET_MIN_PX } from './responsive-thresholds.js'
+import { TAP_TARGET_MIN_PX } from './responsive-thresholds.js'
+import { collapseSmallText, smallTextFindings } from './small-text.js'
 import { withPreviewServer } from './snapshot.js'
 import { collapseTextContrast, textContrastFindings } from './text-contrast.js'
 import { measureTextContrast } from './text-contrast-page.js'
@@ -224,7 +225,7 @@ export function evaluateMeasurement(
     })
   }
 
-  // Tap targets and running copy nobody can read at a thumb's width (#488).
+  // Tap targets nobody can hit with a thumb (#488).
   // Split into its own function — see advisory360Findings.
   findings.push(...advisory360Findings(m))
 
@@ -235,6 +236,8 @@ export function evaluateMeasurement(
   // Text under 4.5:1 against the ground it sits on, and text over a ground
   // that cannot be measured (#566). Owner-aware: see text-contrast.js.
   findings.push(...textContrastFindings(m, ownerForSurface(m.route)))
+  // Running copy and any visible text under the type-size floors (#567).
+  findings.push(...smallTextFindings(m, ownerForSurface(m.route)))
   // The words (#504). Same shape as the geometry findings, so an em dash on
   // `/` forces a revision through the same path a clipped hero does.
   findings.push(...copyFindings(m, exemptions))
@@ -262,36 +265,25 @@ export function evaluateMeasurement(
 }
 
 /**
- * The two advisory findings measured at the 360 rung only (#488): a tap
- * target too small for a thumb, and running copy under the reading floor.
- * Split out of `evaluateMeasurement` so that function stays one thing read
- * top to bottom rather than growing a branch per advisory kind.
+ * The advisory finding measured at the 360 rung only (#488): a tap target too
+ * small for a thumb. Split out of `evaluateMeasurement` so that function stays
+ * one thing read top to bottom rather than growing a branch per advisory kind.
  *
- * From the 2026-09-07 nightly: 12 tap-target failures on the small-caps nav
- * and running copy at 12.6px, both measured nightly by responsive-scorer.js
- * and read by nothing. Advisory, not disqualifying — a target smaller than a
- * thumb or a paragraph under the reading floor is not the geometry fault this
- * gate exists to block a build on, and `m.viewport === 'mobile'` is the
- * 360px rung: the only width a thumb operates at, and the only one
- * `measureRoute` bothers measuring these on.
+ * Running copy under the reading floor used to be the second advisory here,
+ * from the 2026-09-07 nightly's 12.6px paragraphs. It is an error now, at both
+ * rungs, and lives in `small-text.js` (#567). A tap target stays a warning: a
+ * target smaller than a thumb is not the fault this gate exists to block a
+ * build on, and `m.viewport === 'mobile'` is the phone rung: the only width a
+ * thumb operates at, and the only one `measureRoute` bothers measuring it on.
  *
  * @param {object} m - raw measurement from {@link measureRoute}
  * @returns {Array<{ kind: string, severity: 'warning', detail: string }>}
  */
 function advisory360Findings(m) {
   if (m.viewport !== 'mobile') return []
-  const findings = []
-  for (const t of (m.tapTargets ?? []).slice(0, MAX_TAP_TARGET_REPORTED)) {
-    findings.push({ kind: 'tap-target', severity: 'warning', detail: describeTapTarget(t) })
-  }
-  if (m.smallCopy) {
-    findings.push({
-      kind: 'small-copy',
-      severity: 'warning',
-      detail: describeSmallCopy(m.smallCopy),
-    })
-  }
-  return findings
+  return (m.tapTargets ?? [])
+    .slice(0, MAX_TAP_TARGET_REPORTED)
+    .map((t) => ({ kind: 'tap-target', severity: 'warning', detail: describeTapTarget(t) }))
 }
 
 /**
@@ -324,19 +316,6 @@ function describeTapTarget(t) {
   return (
     `'${t.text}'${times} is a ${t.w}x${t.h}px target; a thumb needs ${TAP_TARGET_MIN_PX}x${TAP_TARGET_MIN_PX}. ` +
     'Give it padding or a taller line box.'
-  )
-}
-
-/**
- * The words for the worst running-copy block under the reading floor (#488).
- *
- * @param {{ tag: string, fontSizePx: number, sample: string }} c
- * @returns {string}
- */
-function describeSmallCopy(c) {
-  return (
-    `<${c.tag}> runs at ${c.fontSizePx}px, under the ${BODY_TEXT_MIN_PX}px reading floor — ` +
-    `"${c.sample}...". Set it on the body step.`
   )
 }
 
@@ -533,37 +512,6 @@ export function findTapTargetFailures(_viewportWidth, thresholds) {
     }
   }
   return [...byText.values()].sort((a, b) => a.w * a.h - b.w * b.h)
-}
-
-/**
- * The worst running-copy block under the reading floor (#488), measured at
- * the 360 rung only — see `measureRoute`, which only calls this there.
- *
- * Runs inside the page; self-contained like {@link findClippedElements}.
- * Same tag set (`p, li, blockquote`) and the same 8-character floor as
- * responsive-scorer's `bodyTextSize`, so a caption set in a `<small>` is
- * excluded by tag exactly the way it already is there — not by size, which
- * is what let a caption at the chassis's 11.2px step fail the check as noise
- * (#469).
- *
- * @param {number} [_viewportWidth] unused; present for the shared signature
- * @param {{ bodyTextMinPx?: number }} [thresholds]
- * @returns {null | { tag: string, fontSizePx: number, sample: string }}
- */
-export function findSmallCopy(_viewportWidth, thresholds) {
-  const minPx = thresholds?.bodyTextMinPx ?? 16
-  const root = document.querySelector('main') || document.body
-  let worst = null
-  for (const el of root.querySelectorAll('p, li, blockquote')) {
-    const text = (el.textContent || '').trim()
-    if (text.length < 8) continue
-    const fs = Number.parseFloat(getComputedStyle(el).fontSize)
-    if (!Number.isFinite(fs) || fs >= minPx) continue
-    if (!worst || fs < worst.fontSizePx) {
-      worst = { tag: el.tagName, fontSizePx: Math.round(fs * 10) / 10, sample: text.slice(0, 60) }
-    }
-  }
-  return worst
 }
 
 /**
@@ -892,26 +840,21 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
       ([src, thresholds]) => new Function(`return ${src}`)()(window.innerWidth, thresholds),
       [findClippedElements.toString(), { overflowTolerancePx: OVERFLOW_TOLERANCE_PX }]
     )
-    // Tap targets and running copy at reading size only matter where a thumb
-    // does the tapping (#488): measured at the 360 rung only, so a desktop
-    // pass spends nothing on a question it cannot ask.
+    // Tap targets only matter where a thumb does the tapping (#488): measured
+    // at the 360 rung only, so a desktop pass spends nothing on a question it
+    // cannot ask.
     // The brand mark, at both rungs and in both schemes (#503).
     const brand = await page.evaluate(
       ([src, thresholds]) => new Function(`return ${src}`)()(window.innerWidth, thresholds),
       [findBrandMark.toString(), {}]
     )
     let tapTargets = []
-    let smallCopy = null
     // By name, not by width: a width compare goes quiet the day the phone
     // width moves, and nothing fails to say so.
     if (viewport.name === 'mobile') {
       tapTargets = await page.evaluate(
         ([src, thresholds]) => new Function(`return ${src}`)()(window.innerWidth, thresholds),
         [findTapTargetFailures.toString(), { tapTargetMinPx: TAP_TARGET_MIN_PX }]
-      )
-      smallCopy = await page.evaluate(
-        ([src, thresholds]) => new Function(`return ${src}`)()(window.innerWidth, thresholds),
-        [findSmallCopy.toString(), { bodyTextMinPx: BODY_TEXT_MIN_PX }]
       )
     }
     // The words, once per route (#504): at the 1440 rung in light, because
@@ -921,8 +864,9 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
     if (viewport.width === 1440 && scheme === 'light') {
       visibleCopy = await readRenderedCopy(page)
     }
-    // Text contrast, at both rungs in both schemes (#566). Last, because it
-    // resizes the viewport to reveal what fades in on scroll.
+    // Text contrast and the type-size floors, at both rungs in both schemes
+    // (#566, #567). Last, because it resizes the viewport to reveal what fades
+    // in on scroll.
     const textContrast = await measureTextContrast(page)
     return {
       ...base,
@@ -932,7 +876,6 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
       brand,
       textContrast,
       tapTargets,
-      smallCopy,
       visibleCopy,
       consoleErrors,
     }
@@ -1016,8 +959,8 @@ export async function runSurfaceGate({
         if (browser) await browser.close()
       }
       // The same label on the same colours turns up on every route that
-      // renders it; fold those into one finding and cap the rest (#566).
-      const folded = collapseTextContrast(findings)
+      // renders it; fold those into one finding and cap the rest (#566, #567).
+      const folded = collapseSmallText(collapseTextContrast(findings))
       return {
         findings: folded,
         measured,
@@ -1111,11 +1054,11 @@ export function findingLocation(f, { scheme = false } = {}) {
 }
 
 /**
- * The `tap-target` and `small-copy` warnings on a given owner's surfaces
- * (#488). These never force a revision — see `faultsForOwner`, which only
- * ever sees `error` severity — but when a revision runs for another reason,
- * the engineer is already about to touch the file, so it gets these for free
- * in the repair brief. See `formatAdvisoryForRepairBrief`.
+ * The `tap-target` warnings on a given owner's surfaces (#488). These never
+ * force a revision — see `faultsForOwner`, which only ever sees `error`
+ * severity — but when a revision runs for another reason, the engineer is
+ * already about to touch the file, so it gets these for free in the repair
+ * brief. See `formatAdvisoryForRepairBrief`.
  *
  * @param {Array<object>} findings
  * @param {'react-engineer'|'human'} owner
@@ -1123,8 +1066,7 @@ export function findingLocation(f, { scheme = false } = {}) {
  */
 export function advisoryFaultsForOwner(findings, owner) {
   return (findings ?? []).filter(
-    (f) =>
-      (f.kind === 'tap-target' || f.kind === 'small-copy') && ownerForSurface(f.surface) === owner
+    (f) => f.kind === 'tap-target' && ownerForSurface(f.surface) === owner
   )
 }
 

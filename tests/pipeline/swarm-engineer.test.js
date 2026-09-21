@@ -5,8 +5,10 @@
  * Eight rows of the Task 3 table: the engineer omits a required file (once,
  * twice, and Layout.tsx itself), stalls (once, and past the deadline), and the
  * three deadline checkpoints between phases. Each asserts the calls made, the
- * prompt that carried the reminder, the ledger's retries, the thrown message,
- * and the state left under the root.
+ * brief that carried the report, the ledger's retries, the thrown message,
+ * and the state left under the root. A reply that is incomplete or breaks the
+ * shell posture is answered with a patch request (#577); the rows after the
+ * table cover those.
  */
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import path from 'node:path'
@@ -36,6 +38,16 @@ vi.mock('node:child_process', (o) => m['node:child_process'](o))
 
 // site-context.js imports file-manager.js, so it loads after the mock block.
 const { MUTABLE_FILES } = await import('../../scripts/utils/site-context.js')
+const { parseDelimiterResponse } = await import('../../scripts/utils/delimiter-parser.js')
+
+/** What the recorded engineer reply holds for one file, as it is written to disk. */
+function fixtureContent(relPath) {
+  const file = parseDelimiterResponse(fixtureFor('react-engineer')).files.find(
+    (f) => f.path === relPath
+  )
+  if (!file) throw new Error(`fixture has no block for ${relPath}`)
+  return file.content
+}
 
 // The harness keeps `restore` and `cleanupOrphans` real and records each call
 // as `run.fakes.restore` / `run.fakes.cleanupOrphans`, with a `seq` that says
@@ -47,24 +59,67 @@ const SEEDED_PRESET = readFileSync(path.join(REPO, 'elements', 'preset.ts'), 'ut
 /** Everything the recorded engineer writes: the six required files plus its Ledger. */
 const ENGINEER_OUTPUT = ['app/components/generated/Ledger.tsx', ...REQUIRED_ENGINEER_FILES]
 
-const REQUIRED_FILES_REMINDER = '## REQUIRED FILES MISSING — RETRY'
+const REQUIRED_FILES_REPORT = '## REQUIRED FILES MISSING'
+const POSTURE_REPORT = '## SHELL POSTURE VIOLATION'
 const LAYOUT_GATE_MESSAGE =
   'React Engineer did not produce Layout.tsx — site cannot function without it'
 const STALL_MESSAGE =
   '[react-engineer] stalled — no output for 15 minutes (generated 0KB before stall)'
 
-/** The fixture with one `===FILE:<relPath>===` block removed. */
-function withoutBlock(text, relPath) {
+/** One `===FILE:<relPath>===` block of the fixture, delimiter to the next delimiter. */
+function blockOf(text, relPath) {
   const header = `===FILE:${relPath}===`
   const start = text.indexOf(header)
   if (start < 0) throw new Error(`fixture has no block for ${relPath}`)
   const next = text.indexOf('\n===', start + header.length)
   if (next < 0) throw new Error(`no block follows ${relPath}`)
-  return text.slice(0, start) + text.slice(next + 1)
+  return text.slice(start, next + 1)
+}
+
+/** The fixture with one `===FILE:<relPath>===` block removed. */
+function withoutBlock(text, relPath) {
+  return text.replace(blockOf(text, relPath), '')
+}
+
+/** A patch reply carrying only the fixture's blocks for `relPaths`. */
+function patchOf(text, relPaths, rationale = 'patched') {
+  return `${relPaths.map((p) => blockOf(text, p)).join('\n')}\n===RATIONALE===\n${rationale}\n`
+}
+
+/** A patch reply that rewrites one fixture file with a comment line on top. */
+function markedPatch(text, relPath, marker) {
+  const header = `===FILE:${relPath}===\n`
+  return `${header}// ${marker}\n${blockOf(text, relPath).slice(header.length)}\n===RATIONALE===\nmarked\n`
+}
+
+/** The fixture with every `<nav>` element turned into a `<div>`. */
+const withoutNav = (text) => text.replaceAll('<nav', '<div').replaceAll('</nav>', '</div>')
+
+/**
+ * The Art Director's reply with the composition and the header agreeing on
+ * `shell_posture: none`, so the swarm's own check has a rule to enforce. The
+ * recorded engineer reply carries a `<nav>` in Layout.tsx.
+ */
+function noNavArtDirector() {
+  return fixtureFor('art-director')
+    .replace('shell_posture: marginal', 'shell_posture: none')
+    .replace('placement: right-margin', 'placement: none')
+    .replace('height_px: 72', 'height_px: 0')
+}
+
+const isBrief = (call) => call.userPrompt.startsWith('# Repair brief')
+
+/** The block the brief prints a file on disk as. */
+function briefBlock(relPath, content) {
+  return `--- ${relPath} ---\n${content.replace(/\n$/, '')}\n--- end ${relPath} ---`
 }
 
 function under(root, rel) {
   return existsSync(path.join(root, rel))
+}
+
+function onDisk(root, rel) {
+  return readFileSync(path.join(root, rel), 'utf8')
 }
 
 function presetUnder(root) {
@@ -102,11 +157,12 @@ const PRE_MOCKUP_WRITES = [
 const ORIGINAL_BACKUP_KEYS = [...MUTABLE_FILES, 'app/components/generated/Ledger.tsx'].sort()
 
 describe('the React Engineer omits a required file', () => {
-  it('omits Sidebar once: the retry carries the reminder and ships six files', async () => {
+  it('omits Sidebar once: the retry is a patch request and the reply adds only Sidebar', async () => {
     const full = fixtureFor('react-engineer')
+    const patch = patchOf(full, ['app/components/Sidebar.tsx'], 'added Sidebar')
     const run = await runSwarm({
       agents: {
-        'react-engineer': [withoutBlock(full, 'app/components/Sidebar.tsx'), full],
+        'react-engineer': [withoutBlock(full, 'app/components/Sidebar.tsx'), patch],
       },
     })
 
@@ -120,26 +176,61 @@ describe('the React Engineer omits a required file', () => {
       'screenshot-critic',
     ])
     const [first, retry] = run.callsFor('react-engineer')
-    expect(first.userPrompt).not.toContain(REQUIRED_FILES_REMINDER)
-    expect(retry.userPrompt).toContain(REQUIRED_FILES_REMINDER)
-    expect(retry.userPrompt).toContain(
-      'Your previous response omitted these required files: app/components/Sidebar.tsx'
-    )
+    expect(isBrief(first)).toBe(false)
+    expect(first.userPrompt).toContain('## Approved Mockup')
+
+    // The retry is the repair brief, not the task again: no mockup, no
+    // declarations, the files on disk, and the problem named in the report.
+    expect(isBrief(retry)).toBe(true)
+    expect(retry.userPrompt).not.toContain('## Approved Mockup')
+    expect(retry.userPrompt).toContain(REQUIRED_FILES_REPORT)
+    expect(retry.userPrompt).not.toContain('Re-emit')
     expect(retry.systemPrompt).toBe(first.systemPrompt)
     expect(run.retries).toBe(1)
+
+    // What Sidebar must hold, named in the brief; the files that did arrive
+    // are printed as they are on disk, and the one that did not is absent.
+    expect(retry.userPrompt).toContain(
+      '- app/components/Sidebar.tsx: the navigation: `export function Sidebar`, taking the props Layout.tsx passes it'
+    )
+    for (const rel of ENGINEER_OUTPUT.filter((f) => f !== 'app/components/Sidebar.tsx')) {
+      expect(retry.userPrompt, rel).toContain(briefBlock(rel, onDisk(run.root, rel)))
+    }
+    expect(retry.userPrompt).not.toContain('--- app/components/Sidebar.tsx ---')
 
     for (const rel of ENGINEER_OUTPUT) {
       expect(under(run.root, rel), `${rel} under the root`).toBe(true)
     }
-    expect(run.result.files.map((f) => f.path)).toContain('app/components/Sidebar.tsx')
-    expect(run.fakes.archive).toHaveLength(1)
+    // The merged set is what the archive records, and it passes the same check.
+    const shipped = run.result.files.map((f) => f.path)
+    expect(shipped).toEqual(expect.arrayContaining(ENGINEER_OUTPUT))
+    expect(new Set(shipped).size).toBe(shipped.length)
+    expect(run.fakes.archive[0].changedFiles).toEqual(shipped)
+    expect(run.fakes.validateBuild).toHaveLength(1)
+    const step = run.trace.steps.find((s) => s.name === 'react-engineer')
+    expect(step.output.files).toContain('app/components/Sidebar.tsx')
+    // The sweep after the patch is a Phase 3 step, not a repair's.
+    expect(run.trace.steps.filter((s) => s.name === 'generated-sweep').map((s) => s.phase)).toEqual(
+      [3, 3]
+    )
     expect(run.trace.dir).toMatch(/^build-\d+$/)
     expect(run.fakes.restore).toEqual([])
   })
 
-  it('omits Sidebar three times: two retries, then the original ships without it', async () => {
-    const fiveFiles = withoutBlock(fixtureFor('react-engineer'), 'app/components/Sidebar.tsx')
-    const run = await runSwarm({ agents: { 'react-engineer': [fiveFiles] } })
+  it('omits Sidebar three times: two patch rounds, then the original ships without it', async () => {
+    const full = fixtureFor('react-engineer')
+    const fiveFiles = withoutBlock(full, 'app/components/Sidebar.tsx')
+    // Each reply is a patch that still leaves Sidebar out, so the merged set
+    // fails the check and nothing from it is written.
+    const run = await runSwarm({
+      agents: {
+        'react-engineer': [
+          fiveFiles,
+          markedPatch(full, 'app/routes/about.tsx', 'patch 1'),
+          markedPatch(full, 'app/routes/about.tsx', 'patch 2'),
+        ],
+      },
+    })
 
     expect(run.error).toBeNull()
     const engineer = run.callsFor('react-engineer')
@@ -153,13 +244,22 @@ describe('the React Engineer omits a required file', () => {
       'react-engineer',
       'screenshot-critic',
     ])
-    expect(engineer[0].userPrompt).not.toContain(REQUIRED_FILES_REMINDER)
-    expect(engineer[1].userPrompt).toContain(REQUIRED_FILES_REMINDER)
-    expect(engineer[2].userPrompt).toContain(REQUIRED_FILES_REMINDER)
-    expect(engineer[2].userPrompt).toBe(engineer[1].userPrompt)
+    expect(isBrief(engineer[0])).toBe(false)
+    expect(isBrief(engineer[1])).toBe(true)
+    expect(isBrief(engineer[2])).toBe(true)
+    expect(engineer[1].userPrompt).toContain(REQUIRED_FILES_REPORT)
+    // The second round says the first reply was not applied and why.
+    expect(engineer[1].userPrompt).not.toContain('was not applied')
+    expect(engineer[2].userPrompt).toContain(REQUIRED_FILES_REPORT)
+    expect(engineer[2].userPrompt).toContain('Your last reply to this was not applied')
+    expect(engineer[2].userPrompt).toContain(
+      'React Engineer omitted required files: app/components/Sidebar.tsx'
+    )
     expect(run.retries).toBe(2)
+    // Neither patch touched disk: the file it rewrote is as it first arrived.
+    expect(onDisk(run.root, 'app/routes/about.tsx')).not.toContain('// patch')
 
-    // MAX_OUTPUT_RETRIES spent: the original result is written and the
+    // The rounds are spent: the original result is written and the
     // build proceeds on five required files; Sidebar.tsx never reaches disk.
     const written = run.result.files.map((f) => f.path)
     expect(written).toEqual([
@@ -199,8 +299,9 @@ describe('the React Engineer omits a required file', () => {
       'react-engineer',
     ])
     const engineer = run.callsFor('react-engineer')
+    expect(engineer.slice(1).every(isBrief)).toBe(true)
     expect(engineer[1].userPrompt).toContain(
-      'Your previous response omitted these required files: app/components/Layout.tsx'
+      '- app/components/Layout.tsx: the site shell: `export function Layout`'
     )
     expect(run.retries).toBe(2)
 
@@ -233,6 +334,147 @@ describe('the React Engineer omits a required file', () => {
     expect(run.trace.dir).toMatch(/^build-failed-\d+$/)
     expect(errorTxt(run)).toMatch(new RegExp(`^${LAYOUT_GATE_MESSAGE}`))
     expect(run.trace.steps.map((s) => s.name)).toContain('react-engineer')
+  })
+})
+
+describe('a reply that is incomplete in other ways', () => {
+  it('omits two routes: one brief names both, one patch adds both', async () => {
+    const full = fixtureFor('react-engineer')
+    const two = ['app/routes/about.tsx', 'app/routes/work.$slug.tsx']
+    const run = await runSwarm({
+      agents: {
+        'react-engineer': [two.reduce(withoutBlock, full), patchOf(full, two)],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    const [, retry] = run.callsFor('react-engineer')
+    expect(isBrief(retry)).toBe(true)
+    expect(retry.userPrompt).toContain(
+      "- app/routes/about.tsx: the about page: `export const Route = createFileRoute('/about')"
+    )
+    expect(retry.userPrompt).toContain(
+      "- app/routes/work.$slug.tsx: the case study page: `export const Route = createFileRoute('/work/$slug')"
+    )
+    expect(run.retries).toBe(1)
+    for (const rel of two) expect(under(run.root, rel), rel).toBe(true)
+    expect(run.fakes.archive).toHaveLength(1)
+  })
+
+  it('has no engineer file on disk: the whole task is asked again, and that reply ships', async () => {
+    const full = fixtureFor('react-engineer')
+    // A block with nothing after its delimiter parses to no file at all.
+    const nothing = '===FILE:app/routes/index.tsx===\n\n===RATIONALE===\nempty\n'
+    const run = await runSwarm({ agents: { 'react-engineer': [nothing, full] } })
+
+    expect(run.error).toBeNull()
+    const [first, retry] = run.callsFor('react-engineer')
+    // There is nothing to patch, and the brief has no mockup, so the retry is
+    // the original task and a note.
+    expect(isBrief(retry)).toBe(false)
+    const task = first.userPrompt.split('\n\n---\n\nIMPORTANT:')[0]
+    expect(retry.userPrompt.startsWith(task)).toBe(true)
+    expect(retry.userPrompt).toContain('## NOTHING USABLE ARRIVED')
+    expect(retry.userPrompt).toContain('React Engineer omitted required files:')
+    expect(run.retries).toBe(1)
+    for (const rel of ENGINEER_OUTPUT) {
+      expect(under(run.root, rel), `${rel} under the root`).toBe(true)
+    }
+    expect(run.fakes.validateBuild).toHaveLength(1)
+    expect(run.fakes.restore).toEqual([])
+  })
+
+  it('has a patch request that fails: the round is spent and the next one is a patch', async () => {
+    const full = fixtureFor('react-engineer')
+    const run = await runSwarm({
+      agents: {
+        'react-engineer': [
+          withoutBlock(full, 'app/components/Sidebar.tsx'),
+          new Error(STALL_MESSAGE),
+          patchOf(full, ['app/components/Sidebar.tsx']),
+        ],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    const engineer = run.callsFor('react-engineer')
+    expect(engineer).toHaveLength(3)
+    expect(engineer.slice(1).every(isBrief)).toBe(true)
+    expect(run.retries).toBe(2)
+    expect(under(run.root, 'app/components/Sidebar.tsx')).toBe(true)
+  })
+
+  it('is past the run deadline: no patch is asked for and the original ships', async () => {
+    const full = fixtureFor('react-engineer')
+    const run = await runSwarm({
+      agents: {
+        'react-engineer': [
+          () => {
+            setRunDeadline(Date.now())
+            return withoutBlock(full, 'app/components/Sidebar.tsx')
+          },
+        ],
+      },
+    })
+
+    expect(run.callsFor('react-engineer')).toHaveLength(1)
+    expect(run.retries).toBe(0)
+    expect(under(run.root, 'app/components/Sidebar.tsx')).toBe(false)
+    expect(under(run.root, 'app/components/Layout.tsx')).toBe(true)
+  })
+})
+
+describe('the React Engineer breaks the shell posture', () => {
+  const full = fixtureFor('react-engineer')
+  const NAV_FILE = 'app/components/Layout.tsx'
+
+  it('leaves a <nav> under shell_posture none: the brief names the file and the patch removes it', async () => {
+    expect(full).toContain('<nav')
+    const run = await runSwarm({
+      agents: {
+        'art-director': [noNavArtDirector()],
+        'react-engineer': [full, patchOf(withoutNav(full), [NAV_FILE], 'nav removed')],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    const [, retry] = run.callsFor('react-engineer')
+    expect(isBrief(retry)).toBe(true)
+    expect(retry.userPrompt).toContain(POSTURE_REPORT)
+    expect(retry.userPrompt).toContain(`<nav> appears in: ${NAV_FILE}`)
+    expect(retry.userPrompt).toContain(`\n- ${NAV_FILE}`)
+    expect(retry.userPrompt).not.toContain('Re-emit')
+    // The offending file is printed as it stands, nav and all.
+    expect(retry.userPrompt).toContain('<nav')
+    expect(retry.userPrompt).toContain('--- app/components/Layout.tsx ---')
+    expect(run.retries).toBe(1)
+
+    // Only the one file was rewritten; the merged set has no nav anywhere.
+    expect(onDisk(run.root, NAV_FILE)).not.toContain('<nav')
+    for (const rel of ENGINEER_OUTPUT) {
+      expect(onDisk(run.root, rel), rel).not.toMatch(/<nav[\s>]/)
+    }
+    expect(onDisk(run.root, 'app/routes/index.tsx')).toBe(fixtureContent('app/routes/index.tsx'))
+    expect(run.fakes.validateBuild).toHaveLength(1)
+    expect(run.fakes.restore).toEqual([])
+  })
+
+  it('answers twice with the nav still there: the original ships, as the regeneration did', async () => {
+    const run = await runSwarm({
+      agents: {
+        'art-director': [noNavArtDirector()],
+        'react-engineer': [full],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    const engineer = run.callsFor('react-engineer')
+    expect(engineer).toHaveLength(3)
+    expect(engineer.slice(1).every(isBrief)).toBe(true)
+    expect(engineer[2].userPrompt).toContain('Your last reply to this was not applied')
+    expect(run.retries).toBe(2)
+    expect(onDisk(run.root, NAV_FILE)).toContain('<nav')
+    expect(run.fakes.archive).toHaveLength(1)
   })
 })
 

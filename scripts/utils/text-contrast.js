@@ -30,6 +30,7 @@
  */
 
 import { contrastRatio, rgbToHex } from './contrast.js'
+import { SMALL_TEXT_OPTIONS } from './small-text.js'
 
 /** Under this a piece of text is an error: the engineer must revise. */
 export const TEXT_CONTRAST_ERROR_BELOW = 3
@@ -91,6 +92,8 @@ export const TEXT_CONTRAST_OPTIONS = Object.freeze({
   maxPainters: MAX_PAINTERS,
   minOverlap: MIN_PAINTER_OVERLAP,
   parts: ORCHESTRATOR_PARTS,
+  // The same walk answers the type-size floors (small-text.js, #567).
+  smallText: SMALL_TEXT_OPTIONS,
 })
 
 /**

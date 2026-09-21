@@ -393,13 +393,15 @@ describe('Phase 5: the build fails', () => {
     expect(repair2.userPrompt).toContain(
       'React Engineer omitted required files: app/routes/about.tsx'
     )
-    expect(repair2.userPrompt).toContain('## REQUIRED FILES MISSING — RETRY')
+    expect(repair2.userPrompt).toContain('## REQUIRED FILES MISSING')
+    // The report tells a patch to put the file back, not to re-emit everything.
+    expect(repair2.userPrompt).not.toContain('Re-emit')
 
     const repairSteps = run.trace.steps.filter((s) => s.name === 'repair')
     expect(repairSteps).toHaveLength(2)
     const [rejected, succeeded] = repairSteps
     expect(rejected).toMatchObject({ input: { attempt: 1 }, output: { files: 1, success: false } })
-    expect(rejected.output.error).toContain('## REQUIRED FILES MISSING — RETRY')
+    expect(rejected.output.error).toContain('## REQUIRED FILES MISSING')
     expect(succeeded).toMatchObject({ input: { attempt: 2 }, output: { success: true } })
 
     expect(run.fakes.archive).toHaveLength(1)

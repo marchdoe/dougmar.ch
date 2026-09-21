@@ -14,10 +14,9 @@ import {
   collectSurfaceMetrics,
   findBrandMark,
   findClippedElements,
-  findSmallCopy,
   findTapTargetFailures,
 } from '../../scripts/utils/surface-gate.js'
-import { BODY_TEXT_MIN_PX, TAP_TARGET_MIN_PX } from '../../scripts/utils/responsive-thresholds.js'
+import { TAP_TARGET_MIN_PX } from '../../scripts/utils/responsive-thresholds.js'
 
 const LONG =
   'I work at the intersection of product and engineering, mostly on things that ship to people who did not ask for them and have to like them anyway. '.repeat(
@@ -286,10 +285,10 @@ describe('findClippedElements', () => {
 })
 
 /**
- * The tap-target and small-copy detectors, against real geometry (#488).
- * From the 2026-09-07 nightly: 12 tap-target failures on the small-caps nav
- * and running copy at 12.6px, both measured nightly by responsive-scorer.js
- * and read by nothing.
+ * The tap-target detector, against real geometry (#488). From the 2026-09-07
+ * nightly: 12 tap-target failures on the small-caps nav, measured nightly by
+ * responsive-scorer.js and read by nothing. The small-copy detector that sat
+ * beside it is `small-text-page.js` now, tested in small-text-dom.test.js.
  */
 describe('findTapTargetFailures', () => {
   let browser
@@ -354,56 +353,6 @@ describe('findTapTargetFailures', () => {
         `<div role="button" style="width:10px;height:10px">x</div>`
     )
     expect(found.map((f) => f.text)).toEqual(['x', 'go'])
-  })
-})
-
-describe('findSmallCopy', () => {
-  let browser
-  beforeAll(async () => {
-    browser = await chromium.launch({ headless: true })
-  })
-  afterAll(async () => {
-    await browser?.close()
-  })
-
-  async function smallCopy(html) {
-    const page = await browser.newPage({ viewport: { width: 360, height: 640 } })
-    try {
-      await page.setContent(`<!doctype html><html><body><main>${html}</main></body></html>`)
-      return await page.evaluate(
-        ([src, thresholds]) => new Function(`return ${src}`)()(window.innerWidth, thresholds),
-        [findSmallCopy.toString(), { bodyTextMinPx: BODY_TEXT_MIN_PX }]
-      )
-    } finally {
-      await page.close()
-    }
-  }
-
-  it('reports a 14px paragraph', async () => {
-    const found = await smallCopy(`<p style="font-size:14px">Design systems, mostly.</p>`)
-    expect(found).toMatchObject({ tag: 'P', fontSizePx: 14 })
-    expect(found.sample).toContain('Design systems')
-  })
-
-  it('leaves a 16px paragraph at the floor alone', async () => {
-    expect(await smallCopy(`<p style="font-size:16px">Design systems, mostly.</p>`)).toBeNull()
-  })
-
-  it('does not report a 12px caption set in a <small>', async () => {
-    // Excluded by tag, the way responsive-scorer's bodyTextSize already
-    // excludes it — not by size, which is what let a caption at the
-    // chassis's 11.2px step fail the check as noise (#469).
-    expect(
-      await smallCopy(`<small style="font-size:12px">A caption nobody reads twice.</small>`)
-    ).toBeNull()
-  })
-
-  it('reports the worst of several blocks', async () => {
-    const found = await smallCopy(
-      `<p style="font-size:15px">Fifteen pixels of running copy here.</p>` +
-        `<li style="font-size:12px">Twelve pixels of running copy here.</li>`
-    )
-    expect(found).toMatchObject({ tag: 'LI', fontSizePx: 12 })
   })
 })
 

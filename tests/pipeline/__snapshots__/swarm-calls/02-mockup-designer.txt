@@ -249,7 +249,7 @@ You are designing for three characters: phone (360px), tablet (768px), laptop/de
 - Fixed sidebars, multi-column grids, and persistent nav rails collapse below the tablet breakpoint the way the Mobile Declaration's `collapse` says.
 - Header chrome (logo + nav + signals) must not overlap at 360px. If everything can't fit, stack or hide behind a toggle.
 - Touch targets ≥ 44×44px on any viewport ≤ 768px.
-- Body text ≥ 16px at all viewports.
+- Running copy (`p`, `li`, `blockquote`) ≥ 14px and no visible text under 11px, at all viewports.
 - Line length ≤ 75 characters at all viewports.
 
 **What gets checked automatically:**
@@ -574,7 +574,7 @@ Beyond contrast ratios (which are well-documented), consider:
 
 - **Never disable zoom**: `user-scalable=no` breaks accessibility. If your layout breaks at 200% zoom, fix the layout.
 - **Use rem/em for font sizes**: This respects user browser settings. Never `px` for body text.
-- **Minimum 16px body text**: Smaller than this strains eyes and fails WCAG on mobile.
+- **Minimum 14px body text**: Smaller than this strains eyes and fails WCAG on mobile.
 - **Adequate touch targets**: Text links need padding or line-height that creates 44px+ tap targets.
 
 ---
@@ -1496,7 +1496,7 @@ Every interactive element needs all states:
 
 - **All breakpoints**: Test mobile, tablet, desktop
 - **Touch targets**: 44x44px minimum on touch devices
-- **Readable text**: No text smaller than 14px on mobile
+- **Readable text**: Running copy at least 14px on mobile, and no text under 11px anywhere
 - **No horizontal scroll**: Content fits viewport
 - **Appropriate reflow**: Content adapts logically
 

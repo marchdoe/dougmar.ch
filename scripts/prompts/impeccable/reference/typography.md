@@ -151,7 +151,7 @@ Beyond contrast ratios (which are well-documented), consider:
 
 - **Never disable zoom**: `user-scalable=no` breaks accessibility. If your layout breaks at 200% zoom, fix the layout.
 - **Use rem/em for font sizes**: This respects user browser settings. Never `px` for body text.
-- **Minimum 16px body text**: Smaller than this strains eyes and fails WCAG on mobile.
+- **Minimum {{SMALL_COPY_FLOOR_PX}}px body text**: Smaller than this strains eyes and fails WCAG on mobile.
 - **Adequate touch targets**: Text links need padding or line-height that creates 44px+ tap targets.
 
 ---
