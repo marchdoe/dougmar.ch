@@ -283,8 +283,8 @@ jobs:
             exit 1
           fi
           mkdir -p signals
-          cp "$handoff" signals/handoff.json
-          echo "handoff from run $RESUME_RUN_ID: $(wc -c < signals/handoff.json | tr -d ' ') bytes"
+          cp "$handoff" signals/resume-handoff.json
+          echo "handoff from run $RESUME_RUN_ID: $(wc -c < signals/resume-handoff.json | tr -d ' ') bytes"
 
       - name: Run daily redesign
         id: redesign
@@ -293,7 +293,7 @@ jobs:
           DRY_RUN: ${{ inputs.dry_run || 'false' }}
           # Only a manual dispatch that named a run to resume sets this, and
           # the pipeline refuses it again on the schedule event.
-          RESUME_HANDOFF: ${{ github.event_name == 'workflow_dispatch' && inputs.resume_run_id != '' && 'signals/handoff.json' || '' }}
+          RESUME_HANDOFF: ${{ github.event_name == 'workflow_dispatch' && inputs.resume_run_id != '' && 'signals/resume-handoff.json' || '' }}
         # Writes `date=<YYYY-MM-DD>` to GITHUB_OUTPUT: the day the run is FOR,
         # which is signals.date, the Eastern day every archive path is keyed
         # on. The steps below read it rather than deriving their own.
@@ -384,6 +384,12 @@ jobs:
       #
       # build-failed-*/ also holds cost.json (what the run spent, read by the
       # `notify` job) and handoff.json (the paid responses a resume reuses).
+      #
+      # A night can also fail after the swarm shipped it: 2026-09-21 built a
+      # complete night and then failed "Verify the night's output renders", and
+      # its artifact held neither the trace, the cost nor a handoff, because
+      # those sit in the shipped build directory and in signals/. The last
+      # three paths below carry them for that case.
       - name: Upload failure diagnostics
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -394,6 +400,9 @@ jobs:
             archive/*/build-failed-sources-*/
             archive/*/last-build-output.txt
             archive/*/last-static-checks.txt
+            archive/${{ steps.redesign.outputs.date }}/build-[0-9]*/trace.json
+            archive/${{ steps.redesign.outputs.date }}/build-[0-9]*/cost.json
+            signals/handoff.json
           retention-days: 30
           if-no-files-found: ignore
 

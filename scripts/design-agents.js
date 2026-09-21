@@ -47,7 +47,7 @@ import { validateBuild, formatGeneratedFile } from './utils/build-validator.js'
 import { archive } from './utils/archiver.js'
 import { resetLedger, noteRetry } from './utils/cost-ledger.js'
 import { startTape, traceReplay } from './utils/call-tape.js'
-import { writeFailureRecords } from './utils/failure-record.js'
+import { writeFailureRecords, writeShippedHandoff } from './utils/failure-record.js'
 import { clip, openStep } from './utils/trace-step.js'
 import { createTrace } from './utils/trace.js'
 import { selectLane } from './utils/select-lane.js'
@@ -776,6 +776,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
       const archiveDateDir = path.join(root, 'archive', today)
 
       if (archiveRan) {
+        await writeShippedHandoff({ root, date: today, signals })
         // Success path: find the build dir that archive() just created
         const builds = readdirSync(archiveDateDir, { withFileTypes: true })
           .filter(

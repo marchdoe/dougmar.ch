@@ -49,6 +49,20 @@ describe('the failure artifact', () => {
     expect(src).toMatch(/build-failed-\*\/ also holds cost\.json[\s\S]*handoff\.json/)
   })
 
+  // 2026-09-21: the swarm shipped a whole night and "Verify the night's output
+  // renders" then failed. The artifact (run 35585953176) held only
+  // last-build-output.txt and last-static-checks.txt: no trace, no cost, and no
+  // build-failed-*/ directory, because the swarm had not failed.
+  it('also carries what a night that shipped and then failed a later step left', () => {
+    const paths = upload.with.path.split('\n').map((p) => p.trim())
+    const date = ghExpr('steps.redesign.outputs.date')
+    expect(paths).toContain(`archive/${date}/build-[0-9]*/trace.json`)
+    expect(paths).toContain(`archive/${date}/build-[0-9]*/cost.json`)
+    // The handoff of a shipped night is written to signals/, which is never staged.
+    expect(paths).toContain('signals/handoff.json')
+    expect(stepNamed(redesign, 'Run daily redesign').id).toBe('redesign')
+  })
+
   it('keeps the failure directories out of main, as before', () => {
     const stage = stepNamed(redesign, "Stage the night's output").run
     expect(stage).toContain('build-failed-*')
@@ -84,7 +98,7 @@ describe('the resume input', () => {
 
   it('every step of the job that reads the input is guarded by the dispatch event', () => {
     for (const step of redesign.steps) {
-      const mentionsResume = /resume_run_id|RESUME_HANDOFF|handoff\.json/.test(text(step))
+      const mentionsResume = /resume_run_id|RESUME_HANDOFF|resume-handoff/.test(text(step))
       if (!mentionsResume || step.name === 'Run daily redesign') continue
       expect(step.if ?? '', step.name).toContain(DISPATCH_ONLY)
     }
@@ -94,7 +108,7 @@ describe('the resume input', () => {
     const run = stepNamed(redesign, 'Run daily redesign')
     expect(run.env.RESUME_HANDOFF).toContain(DISPATCH_ONLY)
     expect(run.env.RESUME_HANDOFF).toContain("inputs.resume_run_id != ''")
-    expect(run.env.RESUME_HANDOFF).toContain("'signals/handoff.json'")
+    expect(run.env.RESUME_HANDOFF).toContain("'signals/resume-handoff.json'")
     // Nothing else, on any job, sets it.
     expect(src.match(/RESUME_HANDOFF:/g)).toHaveLength(1)
   })
@@ -270,9 +284,12 @@ describe('the pipeline entry takes the resume in order', () => {
 describe('the files the workflow leaves for a run stay out of git', () => {
   const ignore = readFileSync(path.join(ROOT, '.gitignore'), 'utf8').split('\n')
 
-  it.each(['signals/handoff.json', 'signals/prior-attempts.json'])('%s', (file) => {
-    expect(ignore).toContain(file)
-  })
+  it.each(['signals/handoff.json', 'signals/resume-handoff.json', 'signals/prior-attempts.json'])(
+    '%s',
+    (file) => {
+      expect(ignore).toContain(file)
+    }
+  )
 
   it('is never staged by the nightly, which names its signals path', () => {
     const stage = stepNamed(redesign, "Stage the night's output").run

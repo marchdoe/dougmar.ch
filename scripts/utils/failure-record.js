@@ -14,6 +14,23 @@ import { writeHandoff } from './handoff.js'
 import { currentCost } from './prior-attempts.js'
 
 /**
+ * A night that shipped leaves its handoff in `signals/`, which nothing commits.
+ * The nightly can still fail after the swarm returns (the render checks that
+ * follow it did on 2026-09-21), and a re-run then has the same Art Director and
+ * mockup responses to start from. The workflow uploads the file with the rest
+ * of a failed run's diagnostics and discards it otherwise.
+ *
+ * @param {{ root: string, date: string, signals: object }} run
+ */
+export async function writeShippedHandoff({ root, date, signals }) {
+  try {
+    await writeHandoff(path.join(root, 'signals'), { root, date, signals })
+  } catch (err) {
+    console.warn(`  could not write signals/handoff.json: ${err.message}`)
+  }
+}
+
+/**
  * @param {string} dir the run's `build-failed-*` directory
  * @param {{ root: string, date: string, signals: object }} run
  */

@@ -84,6 +84,47 @@ describe('print-failed-run-cost', () => {
     expect(readFailedRunCost(root)).toBeNull()
   })
 
+  // Run 35585953176 (2026-09-21): the swarm shipped a night and a later step
+  // failed. Its artifact held `2026-09-21/last-build-output.txt`,
+  // `2026-09-21/last-static-checks.txt` and an old `2026-04-29/last-build-output.txt`,
+  // and no cost.json. With the shipped build's files uploaded too, the spend is there.
+  it("reads a shipped build's cost.json when the swarm did not fail", () => {
+    const root = path.join(dir, 'shipped')
+    const build = path.join(root, 'archive', '2026-09-21', 'build-1789000000000')
+    mkdirSync(build, { recursive: true })
+    writeFileSync(path.join(root, 'archive', '2026-09-21', 'last-build-output.txt'), 'x')
+    writeFileSync(path.join(build, 'cost.json'), JSON.stringify(COST))
+
+    const out = execFileSync(process.execPath, [PRINT, root, '35585953176', '1'], {
+      encoding: 'utf8',
+    })
+    expect(out).toContain('Spend before it failed: $4.18 across 10 calls (1 retry).')
+  })
+
+  it('says the spend is not recorded for the artifact as run 35585953176 actually uploaded it', () => {
+    const root = path.join(dir, 'real')
+    mkdirSync(path.join(root, '2026-09-21'), { recursive: true })
+    writeFileSync(path.join(root, '2026-09-21', 'last-build-output.txt'), 'x')
+    writeFileSync(path.join(root, '2026-09-21', 'last-static-checks.txt'), 'x')
+    expect(readFailedRunCost(root)).toBeNull()
+  })
+
+  it("prefers a failed swarm's cost.json over a shipped build's from earlier the same day", () => {
+    const root = path.join(dir, 'both')
+    const day = path.join(root, 'archive', '2026-09-21')
+    mkdirSync(path.join(day, 'build-1789000000000'), { recursive: true })
+    mkdirSync(path.join(day, 'build-failed-1789100000000'), { recursive: true })
+    writeFileSync(
+      path.join(day, 'build-1789000000000', 'cost.json'),
+      JSON.stringify({ total_usd: 1, calls: 1, byAgent: [] })
+    )
+    writeFileSync(
+      path.join(day, 'build-failed-1789100000000', 'cost.json'),
+      JSON.stringify({ total_usd: 2, calls: 2, byAgent: [] })
+    )
+    expect(readFailedRunCost(root).total_usd).toBe(2)
+  })
+
   it('reads the newest failure directory when there is more than one', () => {
     const root = artifact({ total_usd: 1, calls: 1, byAgent: [] }, 'build-failed-1788700000000')
     const later = path.join(root, '2026-09-20', 'build-failed-1788800000000')

@@ -42,12 +42,23 @@ export function findCostFiles(dir) {
 }
 
 /**
+ * The cost file that belongs to the failure. A swarm that failed left one in
+ * `build-failed-*`. A night that shipped and then failed a later step left the
+ * shipped build's. When both are present the failed swarm's is the run's own.
+ * @param {string[]} files from `findCostFiles`, oldest first
+ * @returns {string|undefined}
+ */
+function pickCostFile(files) {
+  return files.filter((f) => f.includes(`${path.sep}build-failed-`)).at(-1) ?? files.at(-1)
+}
+
+/**
  * The failed run's cost record, or null when the artifact has none or it is unreadable.
  * @param {string} dir
  * @returns {object|null}
  */
 export function readFailedRunCost(dir) {
-  const file = findCostFiles(dir).at(-1)
+  const file = pickCostFile(findCostFiles(dir))
   if (!file) return null
   try {
     return JSON.parse(readFileSync(file, 'utf8'))

@@ -408,6 +408,44 @@ describe('what a failed run leaves beside its trace (#578)', () => {
     expect(existsSync(path.join(failedDir(run), 'handoff.json'))).toBe(false)
   })
 
+  // 2026-09-21: the swarm shipped and a later workflow step failed. Its
+  // handoff sits in signals/, which nothing commits, for the failure artifact.
+  it('leaves a night that shipped its handoff in signals/, and no failure directory', async () => {
+    const run = await runSwarm({})
+
+    expect(run.error).toBeNull()
+    const handoff = parseHandoff(
+      readFileSync(path.join(run.root, 'signals', 'handoff.json'), 'utf8'),
+      {
+        date: run.date,
+      }
+    )
+    expect(handoff.tape.map((e) => e.agent)).toEqual([
+      'art-director',
+      'mockup-designer',
+      'mockup-critic',
+    ])
+    expect(handoff.signals.date).toBe(run.date)
+  })
+
+  it('lets a night that shipped and then failed a later step be resumed at the engineer', async () => {
+    const shipped = await runSwarm({})
+    const tape = parseHandoff(
+      readFileSync(path.join(shipped.root, 'signals', 'handoff.json'), 'utf8'),
+      {
+        date: shipped.date,
+      }
+    ).tape
+
+    const resumed = await runSwarm({ tape })
+
+    expect(resumed.error).toBeNull()
+    expect(resumed.calls.map((c) => c.agent)).toEqual(['react-engineer', 'screenshot-critic'])
+    expect(resumed.fakes.archive[0].artifacts['mockup.html']).toBe(
+      shipped.fakes.archive[0].artifacts['mockup.html']
+    )
+  })
+
   it('writes neither into a night that shipped', async () => {
     const run = await runSwarm({})
     const dateDir = path.join(run.root, 'archive', run.date)

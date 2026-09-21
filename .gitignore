@@ -31,6 +31,7 @@ signals/*-last-failed.txt
 # Left by the nightly workflow for the run about to start (#578): a failed run's
 # handoff to resume from, and what the night's earlier failed attempts spent.
 signals/handoff.json
+signals/resume-handoff.json
 signals/prior-attempts.json
 
 # Failed/interim build dirs from local pipeline runs — CI's push step already
