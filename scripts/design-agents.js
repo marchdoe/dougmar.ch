@@ -98,6 +98,7 @@ import { formatMotion, wantsMotionReference } from './utils/motion-grammar.js'
 import { NARROW_VIEWPORT } from '../elements/chassis/viewports.js'
 import { formatTuple } from './utils/composition-grammar.js'
 import { findEngineerOutputProblem } from './utils/engineer-output-check.js'
+import { patchOutputProblem } from './utils/engineer-output-patch.js'
 import {
   readOwnedFiles,
   loadRepairBriefTemplate,
@@ -2063,50 +2064,21 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     }
 
     // The response must be complete (every required file) and respect the
-    // declared shell posture. These were two retry blocks in sequence; the
-    // second rebuilt from the original prompt and was accepted for fixing its
-    // own problem alone, so it could re-omit the file the first had just
-    // restored (#298). One loop, one predicate, and a retry is kept only when
-    // it is clean on both counts.
-    const MAX_OUTPUT_RETRIES = 2
-    for (let outputRetry = 0; outputRetry < MAX_OUTPUT_RETRIES; outputRetry++) {
-      const problem = findEngineerOutputProblem(
-        engineerResult.files,
-        chosenComposition.shell_posture
-      )
-      if (!problem) break
-      if (pastDeadline()) {
-        console.warn(
-          `  ⚠ ${problem.message} — [deadline] run budget exhausted, skipping retry and proceeding with original output`
-        )
-        break
-      }
-      console.warn(`  ⚠ ${problem.message} — retrying with explicit reminder`)
-      noteRetry()
-      const reminderPrompt = `${engineerUserPrompt}\n\n---\n\n${problem.reminder}`
-      try {
-        const retry = await callAgent(
-          'react-engineer',
-          reactEngineerSystemPrompt,
-          reminderPrompt,
-          reactEngineerAgentConfig.options
-        )
-        const remaining = findEngineerOutputProblem(retry.files, chosenComposition.shell_posture)
-        if (!remaining) {
-          engineerResult = retry
-          console.log(`  ✓ retry resolved: ${problem.kind}`)
-        } else {
-          console.warn(`  ⚠ retry not accepted: ${remaining.message} — keeping original output`)
-        }
-      } catch (err) {
-        console.warn(`  ⚠ retry failed: ${err.message} — proceeding with original output`)
-      }
-    }
+    // declared shell posture. Judged as it arrived, before the write drops
+    // anything: the write discards a path the engineer may not write, and
+    // that is the problem to report. It is fixed below, once the reply is on
+    // disk, by a patch (#577).
+    const arrivedProblem = findEngineerOutputProblem(
+      engineerResult.files,
+      chosenComposition.shell_posture
+    )
 
     // The on-disk state that last passed a build, once there is one. The sweep
     // records what it removes here as well as in originalBackup, because a
     // failed revision restores this map, not the original.
     let passingSnapshot = null
+    // Loaded on the first repair brief, which the output patch below can be.
+    let repairBriefTemplate = null
 
     /**
      * Snapshot the exact on-disk passing state: every mutable file plus any
@@ -2158,6 +2130,27 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       backup: originalBackup,
     }))
       writtenPaths.add(p)
+
+    // A problem with what arrived is a repair brief and a patch reply, merged
+    // over the files just written (#577); only a reply that left nothing of the
+    // engineer's on disk is asked for again in full. `engineerResult` keeps
+    // its rationale and takes the merged files, so the archive records what
+    // shipped.
+    const { reply: outputPatch } = await patchOutputProblem({
+      problem: arrivedProblem,
+      taskPrompt: engineerUserPrompt,
+      buildBrief: buildRepairBrief,
+      askEngineer: (prompt) =>
+        callAgent('react-engineer', reactEngineerAgentConfig.prompt, prompt, {
+          ...reactEngineerAgentConfig.options,
+          patch: true,
+        }),
+      applyPatch: (owned, reply) =>
+        applyEngineerPatch(owned, reply, 'React Engineer output patch', 3),
+      pastDeadline,
+      noteRetry,
+    })
+    if (outputPatch) engineerResult = { ...engineerResult, files: outputPatch.files }
 
     trace.addStep({
       name: 'react-engineer',
@@ -2297,8 +2290,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // Phase 5 repair and the post-critic revision both go through these two.
     // -----------------------------------------------------------------------
 
-    let repairBriefTemplate = null
-
     /**
      * The user prompt for a repair or revision call: the engineer's files as
      * they stand on disk, and the report verbatim. The system prompt is the
@@ -2329,10 +2320,11 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
      * @param {Array<{path: string, content: string}>} owned from buildRepairBrief
      * @param {{ files: Array<{path: string, content: string}> }} reply
      * @param {string} label for the log lines
+     * @param {3|5} [phase] the phase the sweep after the write is traced under
      * @returns {Promise<{ problem: import('./utils/engineer-output-check.js').OutputProblem|null,
      *   replied: number, written: number, deleted: number }>}
      */
-    async function applyEngineerPatch(owned, reply, label) {
+    async function applyEngineerPatch(owned, reply, label, phase = 5) {
       // The error text has named __root.tsx before, which invites the agent to
       // "fix" a file it does not own.
       const files = dropUnwritableFiles(dropOrchestratorFiles(reply.files, label), label)
@@ -2357,7 +2349,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       )
       // The merged set may have stopped importing a generated file; the
       // build that follows must not see it.
-      await sweepAndTrace(5, label)
+      await sweepAndTrace(phase, label)
       return { problem: null, ...summary }
     }
 

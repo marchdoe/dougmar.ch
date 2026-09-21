@@ -174,10 +174,45 @@ describe('a hand-written component beside the directory', () => {
     expect(run.fakes.archive).toHaveLength(1)
 
     // The engineer was told which path was not its own before the block was
-    // dropped, so a willing agent fixes the import rather than losing it.
-    const prompts = run.callsFor('react-engineer').map((c) => c.userPrompt ?? '')
-    expect(prompts.length).toBeGreaterThan(1)
-    expect(prompts.some((t) => t.includes('FILE PATH NOT YOURS'))).toBe(true)
-    expect(prompts.some((t) => t.includes(HAND))).toBe(true)
+    // dropped, so a willing agent fixes the import rather than losing it. The
+    // ask is a patch request, and it carries the rejected file: nothing was
+    // written to the path, so the brief's listing of the disk cannot show it.
+    const asks = run.callsFor('react-engineer').slice(1)
+    expect(asks.length).toBeGreaterThan(0)
+    for (const ask of asks) {
+      expect(ask.userPrompt.startsWith('# Repair brief')).toBe(true)
+      expect(ask.userPrompt).toContain('FILE PATH NOT YOURS')
+      expect(ask.userPrompt).toContain(HAND)
+      expect(ask.userPrompt).toContain(`--- ${HAND} (not written) ---`)
+      expect(ask.userPrompt).toContain('export const FeaturedProject = () => null')
+    }
+  })
+
+  it('is moved under generated/ by a patch that also fixes the import', async () => {
+    const MOVED = 'app/components/generated/FeaturedProject.tsx'
+    const INDEX = 'app/routes/index.tsx'
+    const engineer = fixtureFor('react-engineer')
+    // The first reply imports the stray file from the home route.
+    const start = engineer.indexOf(`===FILE:${INDEX}===\n`) + `===FILE:${INDEX}===\n`.length
+    const strayImport = `import { FeaturedProject } from '../components/FeaturedProject'\n`
+    const firstReply = REWRITE + engineer.slice(0, start) + strayImport + engineer.slice(start)
+    const patch =
+      `===FILE:${MOVED}===\nexport const FeaturedProject = () => null\n\n` +
+      `===FILE:${INDEX}===\n${strayImport.replace('../components/', '../components/generated/')}` +
+      `${engineer.slice(start, engineer.indexOf('\n===', start) + 1)}\n===RATIONALE===\nmoved\n`
+
+    const run = await runSwarm({
+      agents: { 'react-engineer': [firstReply, patch] },
+      beforeRun: (root) => writeUnder(root, HAND, ORIGINAL),
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.callsFor('react-engineer')).toHaveLength(2)
+    expect(run.retries).toBe(1)
+    expect(onDisk(run.root, HAND)).toBe(ORIGINAL)
+    expect(onDisk(run.root, MOVED)).toContain('FeaturedProject')
+    expect(onDisk(run.root, INDEX)).toContain('../components/generated/FeaturedProject')
+    expect(onDisk(run.root, INDEX)).not.toContain("'../components/FeaturedProject'")
+    expect(run.fakes.archive[0].changedFiles).toContain(MOVED)
   })
 })

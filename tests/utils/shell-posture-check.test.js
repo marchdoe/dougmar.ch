@@ -1,5 +1,8 @@
 import { describe, it, expect } from 'vitest'
-import { findShellPostureViolation } from '../../scripts/utils/shell-posture-check.js'
+import {
+  findNavOffenders,
+  findShellPostureViolation,
+} from '../../scripts/utils/shell-posture-check.js'
 
 describe('findShellPostureViolation', () => {
   it('flags a <nav> element when shell_posture is none', () => {
@@ -61,5 +64,25 @@ describe('findShellPostureViolation', () => {
 
   it('handles an empty file list', () => {
     expect(findShellPostureViolation([], 'none')).toBeNull()
+  })
+})
+
+describe('findNavOffenders', () => {
+  const files = [
+    { path: 'app/components/Layout.tsx', content: '<nav className="top">' },
+    { path: 'app/components/Sidebar.tsx', content: '<nav>' },
+    { path: 'app/routes/index.tsx', content: 'return <main>hero</main>' },
+  ]
+
+  it('lists the offending paths in file order', () => {
+    expect(findNavOffenders(files, 'none')).toEqual([
+      'app/components/Layout.tsx',
+      'app/components/Sidebar.tsx',
+    ])
+  })
+
+  it('is empty for any posture but none, and for no files', () => {
+    expect(findNavOffenders(files, 'standard')).toEqual([])
+    expect(findNavOffenders(undefined, 'none')).toEqual([])
   })
 })

@@ -17,6 +17,8 @@ A repair is a patch. The engineer receives a repair brief instead of its origina
 
 The swarm merges the reply over the files on disk and checks the merged set, not the reply, for the required files and the shell posture. It writes the reply's files, deletes the emptied ones, and leaves the rest. The archive records the merged set, which is what shipped. The post-critic revision uses the same brief with the critic's feedback and the measured faults as the report, and merges the same way; its rollback to the passing state when the rebuild fails stays.
 
+A problem with the engineer's first reply takes the same path (#577): a required file missing, a `<nav>` under `shell_posture: none`, a path outside the allowlist. The reply is written as it arrived, the problem is the report, and the patch is merged and checked the same way, for up to two rounds. Until then the swarm resent the whole task and took a second complete generation, 52.8k output tokens on 2026-09-18 to restore one file. A reply that leaves no engineer file on disk is still asked for again in full: there is nothing to patch, and the brief carries no mockup.
+
 ## Consequences
 
 Each attempt sends and receives far fewer files, so there is less surface for a new slip and less to pay for. The error report is the whole task, so the engineer has to read it rather than rebuild around it.

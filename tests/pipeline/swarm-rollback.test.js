@@ -82,6 +82,13 @@ function expectRolledBack(run, changed) {
   expect(run.trace.dir).toMatch(/^build-failed-\d+$/)
 }
 
+/** One `===FILE:<relPath>===` block of a recorded reply, delimiter to the next delimiter. */
+function blockOf(text, relPath) {
+  const header = `===FILE:${relPath}===`
+  const start = text.indexOf(header)
+  return text.slice(start, text.indexOf('\n===', start + header.length) + 1)
+}
+
 const pastDeadlineAfter = (fixture) => () => {
   setRunDeadline(Date.now())
   return fixture
@@ -147,6 +154,46 @@ describe('every throw between the first write and archive() rolls the checkout b
     expect(run.fakes.restore[0].map.get('app/components/generated/Ledger.tsx')).toBeNull()
     expectRolledBack(run, changed)
     expect(existsSync(path.join(run.root, 'app/components/Layout.tsx'))).toBe(false)
+  })
+
+  it('Layout.tsx still missing after both patch rounds', async () => {
+    const engineer = fixtureFor('react-engineer')
+    const noLayout = engineer.replace(blockOf(engineer, 'app/components/Layout.tsx'), '')
+    expect(noLayout).not.toBe(engineer)
+
+    const { run, changed } = await runAndDiff({ agents: { 'react-engineer': [noLayout] } })
+
+    // The same throw as before the patches: the disk gate, then the rollback.
+    expect(run.error.message).toBe(
+      'React Engineer did not produce Layout.tsx — site cannot function without it'
+    )
+    // The first reply plus two patch requests, each a repair brief.
+    const asks = run.callsFor('react-engineer')
+    expect(asks).toHaveLength(3)
+    expect(asks.slice(1).every((c) => c.userPrompt.startsWith('# Repair brief'))).toBe(true)
+    expectRolledBack(run, changed)
+    expect(existsSync(path.join(run.root, 'app/routes/index.tsx'))).toBe(false)
+  })
+
+  it('a patch reply whose write throws part-way through', async () => {
+    const ZED = 'app/components/generated/Zed.tsx'
+    const engineer = fixtureFor('react-engineer')
+    const noSidebar = engineer.replace(blockOf(engineer, 'app/components/Sidebar.tsx'), '')
+    const patch = `${blockOf(engineer, 'app/components/Sidebar.tsx')}\n===FILE:${ZED}===\nexport const Zed = 1\n\n===RATIONALE===\nadded\n`
+
+    const { run, changed } = await runAndDiff({
+      agents: { 'react-engineer': [noSidebar, patch] },
+      // A directory where the last file should go: the merge writes Sidebar.tsx
+      // and then throws on this one, leaving a hybrid the rollback must clear.
+      beforeRun: (root) => mkdirSync(path.join(root, ZED), { recursive: true }),
+    })
+
+    expect(run.error.message).toMatch(/EISDIR/)
+    // Not swallowed as a failed patch request: the run stopped there.
+    expect(run.callsFor('react-engineer')).toHaveLength(2)
+    expect(run.fakes.validateBuild).toHaveLength(0)
+    expectRolledBack(run, changed)
+    expect(existsSync(path.join(run.root, 'app/components/Sidebar.tsx'))).toBe(false)
   })
 
   it('archive() that throws after the build passed', async () => {
