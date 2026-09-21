@@ -167,9 +167,9 @@ export function formatDensityForCritic(records, sparse = SPARSE_FOLD_RATIO) {
   return [
     '## Measured phone density',
     '',
-    `Text-box area over fold area at the phone (${records[0].widthPx}px wide), light scheme. A fold is one`,
-    `phone screen counted from the top of the page, and a value is the share of it covered by text. Under ${pct(sparse)} is sparse.`,
-    'This is a measurement and not a fault: a fold given to an image or a field of colour reads as sparse.',
+    `Text-box area over fold area at the phone (${records[0].widthPx}px wide), light scheme.`,
+    'A fold is one phone screen counted from the top of the page, and a value is the share of it covered by text.',
+    `Under ${pct(sparse)} is sparse. This is a measurement and not a fault: a fold given to an image or a field of colour reads as sparse.`,
     '',
     ...records.filter(seen).map(describeRoute),
     ...(rest.length ? [describeRest(rest)] : []),
