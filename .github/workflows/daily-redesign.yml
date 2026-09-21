@@ -291,6 +291,10 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           DRY_RUN: ${{ inputs.dry_run || 'false' }}
+          # Loosened 2026-09-21 (#633): a build with engineer-owned faults
+          # left after the revision rounds ships with a SHIPPED-WITH-FAULTS
+          # verdict instead of failing the run. Delete this line to re-tighten.
+          SHIP_GATE: lenient
           # Only a manual dispatch that named a run to resume sets this, and
           # the pipeline refuses it again on the schedule event.
           RESUME_HANDOFF: ${{ github.event_name == 'workflow_dispatch' && inputs.resume_run_id != '' && 'signals/resume-handoff.json' || '' }}

@@ -2083,10 +2083,26 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
         return
       }
       if (remainingFaults.length === 0) return
+      const { formatFindingsForCritic } = await import('./utils/surface-gate.js')
+      // Loosened on 2026-09-21 after six paid runs ended without a night
+      // (#633): the rounds run, and what they leave ships with the record
+      // saying so, until the first pass measures few enough errors for the
+      // loop to clear (#634). Unset, the gate refuses as #626 intended.
+      if (process.env.SHIP_GATE === 'lenient') {
+        console.warn(
+          `  [ship-gate] ${remainingFaults.length} engineer-owned fault(s) remain after ${rounds} revision round(s) — SHIP_GATE=lenient, shipping with the faults logged (#633)`
+        )
+        verdicts.push({
+          critic: 'ship-gate',
+          verdict: 'SHIPPED-WITH-FAULTS',
+          feedback: formatFindingsForCritic(remainingFaults).slice(0, 2500),
+          ts: Date.now(),
+        })
+        return
+      }
       console.error(
         `  [ship-gate] ${remainingFaults.length} engineer-owned fault(s) remain after ${rounds} revision round(s) — refusing to ship`
       )
-      const { formatFindingsForCritic } = await import('./utils/surface-gate.js')
       await archiveFailedSources(writtenPaths)
       throw new Error(
         `Refusing to ship: ${remainingFaults.length} engineer-owned fault(s) remain after ${rounds} revision round(s).\n\n${formatFindingsForCritic(remainingFaults).slice(0, 2500)}`

@@ -1260,6 +1260,27 @@ describe('known faults never ship (#625)', () => {
     expect(measuredRounds(run)).toEqual(['1:1', '2:1', '4:0'])
   })
 
+  it('ships with the faults logged instead of refusing when SHIP_GATE=lenient (#633)', async () => {
+    const before = process.env.SHIP_GATE
+    process.env.SHIP_GATE = 'lenient'
+    try {
+      const run = await runSwarm({
+        gate: [FAULTY, FAULTY, FAULTY, FAULTY],
+        agents: { 'react-engineer': engineer(3) },
+      })
+
+      expect(run.error).toBeNull()
+      expect(run.fakes.archive).toHaveLength(1)
+      expect(run.callsFor('react-engineer')).toHaveLength(4)
+      const shipGate = run.verdicts.find((v) => v.critic === 'ship-gate')
+      expect(shipGate).toMatchObject({ verdict: 'SHIPPED-WITH-FAULTS' })
+      expect(shipGate.feedback).toContain(formatFindingsForCritic([OVERFLOW_AT_390]))
+    } finally {
+      if (before === undefined) delete process.env.SHIP_GATE
+      else process.env.SHIP_GATE = before
+    }
+  })
+
   it('ships, and says so, when the gate cannot measure a rebuilt round (#631 review)', async () => {
     const run = await runSwarm({
       gate: [FAULTY, new Error('playwright fell over in round 2')],
