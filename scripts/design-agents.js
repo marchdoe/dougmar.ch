@@ -221,6 +221,40 @@ async function captureOgCard(date, { root = ROOT, writtenPaths } = {}) {
 }
 
 /**
+ * How many engineer revisions a night may spend after its first passing
+ * build. One was never enough on 2026-09-21 (#625): the revision fixed the
+ * overflow on /about by narrowing the column, round 2 measured twenty words
+ * broken across lines in it, the run shipped "with the record saying so",
+ * and the workflow's e2e gate failed the night on the same fault after every
+ * call had been paid for. A second round costs what the first did (about
+ * $0.50); the night it saves cost $4.73.
+ */
+export const MAX_REVISION_ROUNDS = 2
+
+/**
+ * Only the engineer has a revision path. A critic that names another agent
+ * (`**Responsible agent:** art-director`) used to fall through in silence:
+ * no call, no log, an open trace step, and the round-1 build shipped with the
+ * faults the critic had just named (#625).
+ * @param {string} responsibleAgent - what the critic wrote
+ * @returns {'react-engineer'}
+ */
+function engineerFor(responsibleAgent) {
+  if (responsibleAgent !== 'react-engineer') {
+    console.warn(
+      `  [screenshot-critic] named ${responsibleAgent}, which has no revision path — the engineer revises instead`
+    )
+  }
+  return 'react-engineer'
+}
+
+/** The log line for a revision that rebuilt and still left measured faults. */
+function describeLeftover(round, count) {
+  const next = round < MAX_REVISION_ROUNDS ? ' — revising again' : ''
+  return `  [surface-gate] revision ${round} left ${count} engineer-owned fault(s)${next}`
+}
+
+/**
  * Round-1 judgment, or a verdict with no vote when the critic could not be
  * reached at all.
  *
@@ -2016,6 +2050,42 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
     let repairBriefTemplate = null
 
     /**
+     * The decision between the gate and the archive. Until 2026-09-21 there
+     * was none: `runScreenshotCriticGate` returned nothing and `archive()`
+     * ran unconditionally, so a build the gate had measured and condemned
+     * shipped on nine different paths (#625) — after the one revision left
+     * faults, after a revision broke the build and the round-1 build was put
+     * back, after the patch was refused, after the deadline. The workflow's
+     * e2e gate then failed the night on the same faults, with every call
+     * already paid for.
+     *
+     * A build with engineer-owned errors still on it does not ship. The
+     * sources go to build-failed-sources-* and the run fails the way a build
+     * failure does, so the failure issue carries the faults and the handoff
+     * a resume can start from (#578). A run that could not measure at all
+     * still ships: that is a tooling failure, and the e2e gate is its
+     * backstop.
+     *
+     * @param {{ remainingFaults: Array<object>, measured: boolean, rounds: number }} decision
+     */
+    async function refuseKnownFaults(decision) {
+      const { remainingFaults, measured, rounds } = decision
+      if (remainingFaults.length === 0) return
+      if (!measured) {
+        console.warn('  [ship-gate] nothing measured this round — shipping unmeasured')
+        return
+      }
+      console.error(
+        `  [ship-gate] ${remainingFaults.length} engineer-owned fault(s) remain after ${rounds} revision round(s) — refusing to ship`
+      )
+      const { formatFindingsForCritic } = await import('./utils/surface-gate.js')
+      await archiveFailedSources(writtenPaths)
+      throw new Error(
+        `Refusing to ship: ${remainingFaults.length} engineer-owned fault(s) remain after ${rounds} revision round(s).\n\n${formatFindingsForCritic(remainingFaults).slice(0, 2500)}`
+      )
+    }
+
+    /**
      * Snapshot the exact on-disk passing state: every mutable file plus any
      * extra path the agents wrote.
      * @returns {Promise<Map<string, string|null>>}
@@ -2516,6 +2586,225 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
         })
       }
 
+      /**
+       * The repair brief's report: the critic's words (if any), then the
+       * measured errors on engineer-owned surfaces, then the tap-target
+       * warnings that ride along for free (#488).
+       * @param {Array<object>} findings - a gate round's findings
+       * @param {string} [criticFeedback]
+       * @returns {string}
+       */
+      function feedbackFor(findings, criticFeedback = '') {
+        return [
+          criticFeedback,
+          formatFindingsForCritic(faultsForOwner(findings, 'react-engineer')),
+          formatAdvisoryForRepairBrief(advisoryFaultsForOwner(findings, 'react-engineer')),
+        ]
+          .filter(Boolean)
+          .join('\n\n')
+      }
+
+      /**
+       * One engineer revision: brief, patch, build, re-measure. Leaves the
+       * passing state on disk on every path but `rebuilt` (#432), and says
+       * which path it took so the round loop can decide what to do next.
+       *
+       * @param {{ agent: string, feedback: string, round: number, verdict: string }} args
+       * @returns {Promise<{ outcome: string, regate?: object|null, error?: string }>}
+       */
+      async function attemptRevision({ agent, feedback, round, verdict }) {
+        const config = reactEngineerAgentConfig
+        // The revision is a stage with its own row in the trace (#578): what
+        // asked for it, and how it ended.
+        const traceRevision = openStep(trace, {
+          name: 'revision',
+          phase: 4,
+          input: {
+            round,
+            verdict,
+            responsibleAgent: agent,
+            gateForced: gateDemandsRevision,
+            engineerFaults: engineerFaults.length,
+            feedback: feedback.slice(0, 500),
+          },
+        })
+        console.log(
+          `  revision ${round}/${MAX_REVISION_ROUNDS}: retrying ${agent} with the report...`
+        )
+        noteRetry()
+        // The retry result replaces engineerResult so the archive records
+        // what's actually on disk; keep the passing result to fall back to.
+        const passingEngineerResult = engineerResult
+        try {
+          // A revision is a patch too (#432): the brief lists the files
+          // that passed, the feedback is the error report, and the reply
+          // is merged over the passing state rather than replacing it.
+          const { owned, brief } = await buildRepairBrief(
+            `The build passed. The screenshot critic and the surface gate found:\n\n${feedback}`
+          )
+          const retryResult = await callAgent(agent, config.prompt, brief, {
+            ...config.options,
+            patch: true,
+            purpose: 'revision',
+          })
+          const applied = await applyEngineerPatch(owned, retryResult, 'React Engineer revision')
+          if (applied.problem) {
+            // Nothing was written; the passing state is still on disk.
+            console.warn(`  ⚠ ${applied.problem.message} — revision not applied`)
+            traceRevision({ outcome: 'not-applied', problem: applied.problem.message })
+            return { outcome: 'not-applied', error: applied.problem.message }
+          }
+          engineerResult = retryResult
+
+          const retryBuild = validateBuild({ root, shell: shellDecl, date: today })
+          if (!retryBuild.success) {
+            console.warn('  post-critic revision broke the build — restoring known-passing state')
+            // Restore the snapshot taken right after the first passing
+            // build — NOT originalBackup. cleanupOrphans against the same
+            // snapshot deletes any paths the failed revision invented
+            // beyond it.
+            await cleanupOrphans(writtenPaths, passingBackup, { root })
+            await restore(passingBackup, { root })
+            engineerResult = passingEngineerResult
+
+            // Prove the restored state actually rebuilds — falling
+            // through to archive() on faith is how broken hybrids ship.
+            const restoredBuild = validateBuild({ root, shell: shellDecl, date: today })
+            if (!restoredBuild.success) {
+              const fatal = new Error(
+                `Restore of passing state failed to rebuild after post-critic revision. Error:\n${restoredBuild.error?.slice(0, 1000)}`
+              )
+              fatal.fatal = true
+              traceRevision({ outcome: 'restore-failed', error: fatal.message })
+              throw fatal
+            }
+            console.log('  known-passing state restored and re-validated')
+            traceRevision({
+              outcome: 'build-broke-restored',
+              replied: applied.replied,
+              written: applied.written,
+              deleted: applied.deleted,
+              error: clip(retryBuild.error, 2000),
+            })
+            return { outcome: 'build-broke-restored', error: clip(retryBuild.error, 2000) }
+          }
+
+          console.log('  post-critic revision build passed')
+          traceRevision({
+            outcome: 'rebuilt',
+            replied: applied.replied,
+            written: applied.written,
+            deleted: applied.deleted,
+            merged: retryResult.files.length,
+          })
+          return { outcome: 'rebuilt', regate: await measureSurfaces(round + 1) }
+        } catch (err) {
+          if (err.fatal) throw err
+          console.warn(`  ${agent} revision failed (non-blocking): ${err.message}`)
+          traceRevision({ outcome: 'failed', error: err.message.slice(0, 2000) })
+          // A mid-batch writeFiles abort can leave a partial hybrid on
+          // disk — put the known-passing state back before going on.
+          await cleanupOrphans(writtenPaths, passingBackup, { root })
+          await restore(passingBackup, { root })
+          engineerResult = passingEngineerResult
+          return { outcome: 'failed', error: err.message }
+        }
+      }
+
+      /**
+       * Up to MAX_REVISION_ROUNDS revisions, each on the faults the previous
+       * one left. A round that rebuilt is re-measured; a round that did not
+       * (patch refused, build broke, call failed) leaves the round-1 build on
+       * disk, so the next round gets the original report plus what went
+       * wrong. The final re-judge runs once, on whatever build is on disk.
+       *
+       * @param {{ responsibleAgent: string, feedback: string, verdict: string }} args
+       * @returns {Promise<{ remainingFaults: Array<object>, measured: boolean, rounds: number }>}
+       */
+      async function runRevisionRounds({ responsibleAgent, feedback, verdict }) {
+        // Only the engineer has a revision path. A critic that names another
+        // agent (`**Responsible agent:** art-director`) used to fall through
+        // here in silence: no call, no log, an open trace step, and the
+        // round-1 build shipped with the faults the critic had just named.
+        const agent = engineerFor(responsibleAgent)
+
+        let remaining = engineerFaults
+        let lastGate = firstGate
+        let rebuilt = false
+        let report = feedback
+        let rounds = 0
+        for (let round = 1; round <= MAX_REVISION_ROUNDS; round++) {
+          if (pastDeadline()) {
+            console.warn(`  [deadline] run budget exhausted — skipping revision ${round}`)
+            openStep(trace, { name: 'revision', phase: 4, input: { round } })({
+              outcome: 'skipped-deadline',
+            })
+            break
+          }
+          rounds = round
+          const attempt = await attemptRevision({ agent, feedback: report, round, verdict })
+          if (attempt.outcome !== 'rebuilt') {
+            // The round-1 build is back on disk with its round-1 faults. A
+            // critic-only revision (nothing measured wrong) ends here, as it
+            // always did: the passing build stands. A gate-forced one gets
+            // its next round, with what went wrong on the report.
+            remaining = engineerFaults
+            lastGate = firstGate
+            if (engineerFaults.length === 0) break
+            report = `${feedback}\n\nThe previous revision was not kept (${attempt.outcome}): ${clip(attempt.error, 1500)}`
+            continue
+          }
+          rebuilt = true
+          lastGate = attempt.regate
+          remaining = lastGate ? faultsForOwner(lastGate.findings, 'react-engineer') : []
+          if (remaining.length === 0) break
+          console.warn(describeLeftover(round, remaining.length))
+          report = feedbackFor(lastGate.findings)
+        }
+
+        if (rebuilt) await rejudgeFinal(lastGate, remaining)
+        return { remainingFaults: remaining, measured: lastGate != null, rounds }
+      }
+
+      /**
+       * The final critic pass after the revisions (#467), traced as its own
+       * step (#578). Non-blocking: a critic that cannot run must not stop a
+       * build that otherwise passed.
+       * @param {object|null} gate - the last measurement
+       * @param {Array<object>} remainingFaults
+       */
+      async function rejudgeFinal(gate, remainingFaults) {
+        const traceFinal = openStep(trace, {
+          name: 'screenshot-critic-final',
+          phase: 4,
+          input: { remainingFaults: remainingFaults.length },
+        })
+        try {
+          const final = await judgeScreenshot(gate, 'rejudge')
+          const finalVerdict = recordFinalJudgment(
+            verdicts,
+            final,
+            formatFindingsForCritic(remainingFaults)
+          )
+          traceFinal({
+            verdict: finalVerdict,
+            feedback: final.criticResponse.slice(0, 500),
+            channel: final.visionChannel,
+          })
+        } catch (finalErr) {
+          traceFinal({ verdict: 'ERROR', error: finalErr.message.slice(0, 500) })
+          console.warn(
+            `  [screenshot-critic] final re-judge failed (non-blocking): ${finalErr.message}`
+          )
+        }
+      }
+
+      // What ships, or does not: the engineer-owned errors the last
+      // measurement left, and whether anything was measured at all. Every
+      // path below leaves this honest, including the ones that put the
+      // round-1 build back on disk with its round-1 faults.
+      let decision = { remainingFaults: engineerFaults, measured: firstGate != null, rounds: 0 }
+
       try {
         const t0ScreenshotCritic = Date.now()
         // Only a critic that saw the build gets a vote: judgeScreenshot says
@@ -2563,178 +2852,16 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
           // along too, after the errors (#488): a revision is already
           // opening this file, which is the cheapest point there ever is to
           // also widen a link.
-          const advisoryFaults = advisoryFaultsForOwner(surfaceFindings, 'react-engineer')
-          const feedback = [
-            criticFeedback,
-            formatFindingsForCritic(engineerFaults),
-            formatAdvisoryForRepairBrief(advisoryFaults),
-          ]
-            .filter(Boolean)
-            .join('\n\n')
+          const feedback = feedbackFor(surfaceFindings, criticFeedback)
 
           console.log(describeRevision(screenshotVerdict, responsibleAgent, engineerFaults.length))
           console.log(`  feedback: ${feedback.slice(0, 200)}...`)
 
-          // The revision is a stage with its own row in the trace (#578): what
-          // asked for it, and how it ended.
-          const traceRevision = openStep(trace, {
-            name: 'revision',
-            phase: 4,
-            input: {
-              verdict: screenshotVerdict,
-              responsibleAgent,
-              gateForced: gateDemandsRevision,
-              engineerFaults: engineerFaults.length,
-              feedback: feedback.slice(0, 500),
-            },
+          decision = await runRevisionRounds({
+            responsibleAgent,
+            feedback,
+            verdict: screenshotVerdict,
           })
-
-          // Shared reactEngineerAgentConfig keeps this retry path in sync
-          // with the primary react-engineer invocation (Phase 2c).
-          const agentConfig = {
-            'react-engineer': reactEngineerAgentConfig,
-          }
-
-          const config = agentConfig[responsibleAgent]
-          if (config && pastDeadline()) {
-            console.warn(
-              `  [deadline] run budget exhausted — skipping ${responsibleAgent} revision, shipping as-is`
-            )
-            traceRevision({ outcome: 'skipped-deadline' })
-          } else if (config) {
-            console.log(`  retrying ${responsibleAgent} with critic feedback...`)
-            noteRetry()
-            // The retry result replaces engineerResult so the archive records
-            // what's actually on disk; keep the passing result to fall back to.
-            const passingEngineerResult = engineerResult
-            try {
-              // A revision is a patch too (#432): the brief lists the files
-              // that passed, the feedback is the error report, and the reply
-              // is merged over the passing state rather than replacing it.
-              const { owned, brief } = await buildRepairBrief(
-                `The build passed. The screenshot critic and the surface gate found:\n\n${feedback}`
-              )
-              const retryResult = await callAgent(responsibleAgent, config.prompt, brief, {
-                ...config.options,
-                patch: true,
-                purpose: 'revision',
-              })
-              const applied = await applyEngineerPatch(
-                owned,
-                retryResult,
-                'React Engineer revision'
-              )
-              if (applied.problem) {
-                // Nothing was written; the passing state is still on disk.
-                console.warn(
-                  `  ⚠ ${applied.problem.message} — revision not applied, shipping as-is`
-                )
-                traceRevision({ outcome: 'not-applied', problem: applied.problem.message })
-                return
-              }
-              engineerResult = retryResult
-
-              const retryBuild = validateBuild({ root, shell: shellDecl, date: today })
-              if (!retryBuild.success) {
-                console.warn(
-                  '  post-critic revision broke the build — restoring known-passing state'
-                )
-                // Restore the snapshot taken right after the first passing
-                // build — NOT originalBackup. cleanupOrphans against the same
-                // snapshot deletes any paths the failed revision invented
-                // beyond it.
-                await cleanupOrphans(writtenPaths, passingBackup, { root })
-                await restore(passingBackup, { root })
-                engineerResult = passingEngineerResult
-
-                // Prove the restored state actually rebuilds — falling
-                // through to archive() on faith is how broken hybrids ship.
-                const restoredBuild = validateBuild({ root, shell: shellDecl, date: today })
-                if (!restoredBuild.success) {
-                  const fatal = new Error(
-                    `Restore of passing state failed to rebuild after post-critic revision. Error:\n${restoredBuild.error?.slice(0, 1000)}`
-                  )
-                  fatal.fatal = true
-                  traceRevision({ outcome: 'restore-failed', error: fatal.message })
-                  throw fatal
-                }
-                console.log('  known-passing state restored and re-validated')
-                traceRevision({
-                  outcome: 'build-broke-restored',
-                  replied: applied.replied,
-                  written: applied.written,
-                  deleted: applied.deleted,
-                  error: clip(retryBuild.error, 2000),
-                })
-              } else {
-                console.log('  post-critic revision build passed')
-                traceRevision({
-                  outcome: 'rebuilt',
-                  replied: applied.replied,
-                  written: applied.written,
-                  deleted: applied.deleted,
-                  merged: retryResult.files.length,
-                })
-                // Measure again so the record says whether the revision
-                // fixed what round 1 found, rather than assuming it did.
-                const regate = await measureSurfaces(2)
-                const remainingFaults = regate
-                  ? faultsForOwner(regate.findings, 'react-engineer')
-                  : []
-                if (remainingFaults.length) {
-                  console.warn(
-                    '  [surface-gate] revision did not clear every engineer-owned fault — shipping with the record saying so'
-                  )
-                }
-
-                // The build that ships after a repair round was never seen by
-                // anyone (#467): round 1's critic judged the pre-repair
-                // build, and the round-2 measurement above only warns. Judge
-                // the build that will actually ship, one more time, through
-                // the same capture-and-critic path round 1 used — it also
-                // re-captures the screenshot, so no separate re-capture is
-                // needed here.
-                const traceFinal = openStep(trace, {
-                  name: 'screenshot-critic-final',
-                  phase: 4,
-                  input: { remainingFaults: remainingFaults.length },
-                })
-                try {
-                  const final = await judgeScreenshot(regate, 'rejudge')
-                  const finalVerdict = recordFinalJudgment(
-                    verdicts,
-                    final,
-                    formatFindingsForCritic(remainingFaults)
-                  )
-                  traceFinal({
-                    verdict: finalVerdict,
-                    feedback: final.criticResponse.slice(0, 500),
-                    channel: final.visionChannel,
-                  })
-                } catch (finalErr) {
-                  traceFinal({ verdict: 'ERROR', error: finalErr.message.slice(0, 500) })
-                  // Best-effort, exactly like round 1: a critic call that
-                  // cannot run must not stop a build that otherwise passed.
-                  // The recapture round 1 used to do alone here still ran —
-                  // judgeScreenshot captures before it asks the critic — so
-                  // finalScreenshot reflects the revision either way, unless
-                  // the capture itself is what failed.
-                  console.warn(
-                    `  [screenshot-critic] final re-judge failed (non-blocking): ${finalErr.message}`
-                  )
-                }
-              }
-            } catch (err) {
-              if (err.fatal) throw err
-              console.warn(`  ${responsibleAgent} revision failed (non-blocking): ${err.message}`)
-              traceRevision({ outcome: 'failed', error: err.message.slice(0, 2000) })
-              // A mid-batch writeFiles abort can leave a partial hybrid on
-              // disk — put the known-passing state back before shipping.
-              await cleanupOrphans(writtenPaths, passingBackup, { root })
-              await restore(passingBackup, { root })
-              engineerResult = passingEngineerResult
-            }
-          }
         } else {
           logNoRevision(screenshotVerdict, visionChannel)
         }
@@ -2743,6 +2870,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
         console.warn(`  [screenshot-critic] Failed (non-blocking): ${err.message}`)
         console.warn('  Shipping without screenshot review')
       }
+      return decision
     }
 
     if (buildResult.success) {
@@ -2753,7 +2881,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
       // restore THIS — originalBackup holds yesterday's files, incompatible
       // with today's preset.ts.
       const passingBackup = await snapshotPassingState()
-      await runScreenshotCriticGate(passingBackup)
+      await refuseKnownFaults(await runScreenshotCriticGate(passingBackup))
       // MUST await: a bare `return promise` inside this try/finally lets the
       // finally (saveTrace) run while archiveAndReturn is still archiving —
       // archiveRan is still false, so a successful run writes a phantom
@@ -2902,7 +3030,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
           durationMs: Date.now() - t0Repair,
         })
         const passingBackup = await snapshotPassingState()
-        await runScreenshotCriticGate(passingBackup)
+        await refuseKnownFaults(await runScreenshotCriticGate(passingBackup))
         // await required — see first-pass call site
         return await archiveAndReturn(engineerResult, ` (repair ${attempt})`)
       }

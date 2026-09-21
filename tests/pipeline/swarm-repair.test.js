@@ -19,6 +19,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it, vi } from 'vitest'
 import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
+import { setRunDeadline } from '../../scripts/utils/run-budget.js'
 import {
   CLEAN_GATE,
   CLEAN_COPY_GATE,
@@ -1112,6 +1113,149 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     // After the errors, as the issue asks.
     expect(revision.userPrompt.indexOf(errors)).toBeLessThan(advisoryIdx)
     expect(revision.userPrompt).toContain(TAP_TARGET_AT_360.detail)
+  })
+})
+
+describe('known faults never ship (#625)', () => {
+  const FAULTY = { findings: [OVERFLOW_AT_390], measured: 8, errorCount: 1 }
+  const engineer = (n) => [
+    ENGINEER_FIXTURE,
+    ...Array.from({ length: n }, (_, i) =>
+      patchReply([markedFile('app/components/Sidebar.tsx', `revision ${i + 1}`)])
+    ),
+  ]
+  const gateRounds = (run) =>
+    run.verdicts.filter((v) => v.critic === 'surface-gate').map((v) => `${v.round}:${v.verdict}`)
+  // A refused night never archives, so verdicts.json is not written; the
+  // trace carries the same rounds.
+  const measuredRounds = (run) =>
+    run.trace.steps
+      .filter((s) => s.name === 'surface-gate')
+      .map((s) => `${s.input.round}:${s.output.errorCount}`)
+
+  it('revises a second time when the first revision leaves measured faults, and ships once clean', async () => {
+    // 2026-09-21: the revision fixed the overflow on /about by narrowing the
+    // column, round 2 measured twenty words broken across it, and the run
+    // shipped "with the record saying so". The e2e gate then failed the night.
+    const run = await runSwarm({
+      gate: [FAULTY, FAULTY, CLEAN_GATE],
+      agents: { 'react-engineer': engineer(2) },
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.callsFor('react-engineer')).toHaveLength(3)
+    expect(run.retries).toBe(2)
+    expect(gateRounds(run)).toEqual(['1:REVISE', '2:REVISE', '3:SHIP'])
+    // The second round's brief carries what the second measurement found,
+    // not the critic's original words.
+    const second = run.callsFor('react-engineer')[2]
+    expect(second.userPrompt).toContain(formatFindingsForCritic([OVERFLOW_AT_390]))
+    expect(run.fakes.archive).toHaveLength(1)
+    expect(run.trace.steps.filter((s) => s.name === 'revision').map((s) => s.input.round)).toEqual([
+      1, 2,
+    ])
+  })
+
+  it('refuses to ship when two revisions still leave measured faults', async () => {
+    const run = await runSwarm({
+      gate: [FAULTY, FAULTY, FAULTY],
+      agents: { 'react-engineer': engineer(2) },
+    })
+
+    expect(run.error).not.toBeNull()
+    expect(run.error.message).toMatch(
+      /^Refusing to ship: 1 engineer-owned fault\(s\) remain after 2 revision round\(s\)/
+    )
+    expect(run.error.message).toContain(formatFindingsForCritic([OVERFLOW_AT_390]))
+    expect(run.callsFor('react-engineer')).toHaveLength(3)
+    expect(run.fakes.archive).toHaveLength(0)
+    expect(measuredRounds(run)).toEqual(['1:1', '2:1', '3:1'])
+  })
+
+  it('tries again when a gate-forced revision broke the build, and refuses when that fails too', async () => {
+    // Before, a revision that broke the build put the round-1 build back and
+    // shipped it: the very build the gate had just said required a revision.
+    const run = await runSwarm({
+      build: [true, false, true, false, true],
+      gate: [FAULTY],
+      agents: { 'react-engineer': engineer(2) },
+    })
+
+    expect(run.error).not.toBeNull()
+    expect(run.error.message).toMatch(
+      /^Refusing to ship: 1 engineer-owned fault\(s\) remain after 2 revision round\(s\)/
+    )
+    expect(run.callsFor('react-engineer')).toHaveLength(3)
+    // The second brief says the first attempt was not kept, and why.
+    expect(run.callsFor('react-engineer')[2].userPrompt).toContain(
+      'The previous revision was not kept (build-broke-restored)'
+    )
+    // Two revisions put the passing state back, then the refused run rolls
+    // the checkout back to yesterday's files.
+    expect(run.fakes.restore).toHaveLength(3)
+    expect(run.fakes.archive).toHaveLength(0)
+  })
+
+  it('ships when the retry after a broken revision rebuilds clean', async () => {
+    const run = await runSwarm({
+      build: [true, false, true, true],
+      gate: [FAULTY, CLEAN_GATE],
+      agents: { 'react-engineer': engineer(2) },
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.callsFor('react-engineer')).toHaveLength(3)
+    expect(gateRounds(run)).toEqual(['1:REVISE', '3:SHIP'])
+    expect(run.fakes.archive).toHaveLength(1)
+  })
+
+  it('refuses to ship when the deadline leaves a measured fault unrevised', async () => {
+    const run = await runSwarm({
+      gate: [FAULTY],
+      agents: {
+        'screenshot-critic': [
+          () => {
+            setRunDeadline(Date.now())
+            return fixtureFor('screenshot-critic')
+          },
+        ],
+      },
+    })
+
+    expect(run.error).not.toBeNull()
+    expect(run.error.message).toMatch(
+      /^Refusing to ship: 1 engineer-owned fault\(s\) remain after 0 revision round\(s\)/
+    )
+    expect(run.callsFor('react-engineer')).toHaveLength(1)
+    expect(run.fakes.archive).toHaveLength(0)
+  })
+
+  it('lets the engineer revise when the critic names an agent with no revision path', async () => {
+    // Used to be a silent no-op: no call, no log line, an open trace step, and
+    // the build shipped with the faults the critic had just named.
+    const namesTheDirector = REVISE_REPLY.replace(
+      '**Responsible agent:** react-engineer',
+      '**Responsible agent:** art-director'
+    )
+    const run = await runSwarm({
+      agents: {
+        'react-engineer': engineer(1),
+        'screenshot-critic': [namesTheDirector, fixtureFor('screenshot-critic')],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.callsFor('react-engineer')).toHaveLength(2)
+    expect(run.callsFor('react-engineer')[1].userPrompt).toContain(REVISE_FEEDBACK)
+    const [revision] = run.trace.steps.filter((s) => s.name === 'revision')
+    expect(revision.output.outcome).toBe('rebuilt')
+  })
+
+  it('still ships a build the gate could not measure', async () => {
+    const run = await runSwarm({ gate: [new Error('playwright fell over')] })
+
+    expect(run.error).toBeNull()
+    expect(run.fakes.archive).toHaveLength(1)
   })
 })
 
