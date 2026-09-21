@@ -117,6 +117,12 @@ function listComponentSources(root) {
  * passed the build; `pnpm test` then failed the run on the same two lines
  * (#614).
  *
+ * The routes are the other half of the engineer's write surface. MUTABLE_FILES
+ * names five of them; the engineer may write any file under app/routes/, and
+ * `tests/utils/token-gate.test.js` walks every source reachable from there.
+ * A spaced spacing string the night writes into work.index.tsx or
+ * experiments.tsx was a warning here and a failed night there (#625).
+ *
  * @param {string} root
  * @returns {string[]} repo-relative paths
  */
@@ -124,7 +130,24 @@ function nightlyOwnedFiles(root) {
   const generated = listComponentSources(root).filter((rel) =>
     rel.startsWith('app/components/generated/')
   )
-  return [...MUTABLE_FILES, ...generated]
+  return [...new Set([...MUTABLE_FILES, ...generated, ...listRouteSources(root)])]
+}
+
+/**
+ * Every `.ts`/`.tsx` directly under app/routes/, repo-relative.
+ * @param {string} root
+ * @returns {string[]}
+ */
+function listRouteSources(root) {
+  let entries
+  try {
+    entries = readdirSync(resolve(root, 'app/routes'), { withFileTypes: true })
+  } catch {
+    return []
+  }
+  return entries
+    .filter((entry) => entry.isFile() && /\.tsx?$/.test(entry.name))
+    .map((entry) => `app/routes/${entry.name}`)
 }
 
 /**

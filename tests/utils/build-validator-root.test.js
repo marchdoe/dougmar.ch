@@ -147,3 +147,31 @@ describe('validateBuildOutput blocks on a generated component the engineer wrote
     expect(errors).toContain("paddingBlock: '4', paddingInline: '0'")
   })
 })
+
+describe('validateBuildOutput blocks on a route the engineer may write (#625)', () => {
+  let root
+  beforeEach(() => {
+    root = seedBuild()
+    writeFileSync(
+      path.join(root, 'app', 'components', 'Sidebar.tsx'),
+      "export function Sidebar() { return <div className={css({ width: 'full' })} /> }\n"
+    )
+    // A route MUTABLE_FILES does not list. The engineer may write any file
+    // under app/routes/, and the unit suite walks every one of them.
+    writeFileSync(
+      path.join(root, 'app', 'routes', 'experiments.tsx'),
+      "export function Experiments() {\n  return <a className={css({ padding: '3 4' })} />\n}\n"
+    )
+  })
+  afterEach(() => {
+    rmSync(root, { recursive: true, force: true })
+  })
+
+  it('fails the build with the route, its line and the corrected form', () => {
+    const result = validateBuildOutput({ root })
+    expect(result.success).toBe(false)
+    const errors = result.errors.join('\n')
+    expect(errors).toContain('app/routes/experiments.tsx:2')
+    expect(errors).toContain("paddingBlock: '3', paddingInline: '4'")
+  })
+})
