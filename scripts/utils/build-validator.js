@@ -105,6 +105,29 @@ function listComponentSources(root) {
 }
 
 /**
+ * Every file the nightly agents write, for the gates that block on a finding
+ * in an owned file and warn on the rest. MUTABLE_FILES is the fixed part; the
+ * engineer's own components live under app/components/generated/ (the
+ * `ALLOWED_WRITE_PREFIXES` in file-manager.js) and are invented per night, so
+ * only the directory can say what is there.
+ *
+ * Passing MUTABLE_FILES alone filed every finding in a generated component as
+ * "not a file the nightly agents own". On 2026-09-21 the token gate found
+ * `padding: '4 0'` in two of them, printed the corrected form, warned, and
+ * passed the build; `pnpm test` then failed the run on the same two lines
+ * (#614).
+ *
+ * @param {string} root
+ * @returns {string[]} repo-relative paths
+ */
+function nightlyOwnedFiles(root) {
+  const generated = listComponentSources(root).filter((rel) =>
+    rel.startsWith('app/components/generated/')
+  )
+  return [...MUTABLE_FILES, ...generated]
+}
+
+/**
  * Source files under `app/` that no route can reach.
  *
  * The orphans #216 owns: roughly thirty components in `app/components/` that
@@ -1652,7 +1675,7 @@ function checkAssetBundles(distClient) {
  */
 function checkEmittedTokensResolve(root) {
   try {
-    const gate = checkTokenResolution({ root, ownedFiles: MUTABLE_FILES })
+    const gate = checkTokenResolution({ root, ownedFiles: nightlyOwnedFiles(root) })
     for (const w of gate.warnings) {
       const what =
         w.kind === 'numeric'
