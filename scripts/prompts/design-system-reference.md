@@ -60,7 +60,7 @@ export const experiments: Project[]      // depth === 'lightweight'
 
 ### `../content/timeline`
 ```typescript
-type TimelineEntry = { year: string; role: string; company: string; description: string; current?: boolean }
+type TimelineEntry = { year: string; role: string; company: string; description: string }
 export const timeline: TimelineEntry[]
 export const capabilities: string[]
 ```
