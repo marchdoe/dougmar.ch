@@ -71,13 +71,15 @@ describe('what the spec does with it', () => {
   })
 
   it('skips tests with it, each with one of the two stated reasons', () => {
-    const shell = SPEC.match(/test\.skip\(NIGHTLY, NIGHT_SHELL\)/g) ?? []
+    // The shell-clearance checks skip everywhere, not only at night: there is
+    // no known shell for PR CI to hold a hand-written route against (#640).
+    const shell = SPEC.match(/test\.skip\(SHELL_UNKNOWN, NIGHT_SHELL\)/g) ?? []
     // The render-health skips are the 2026-09-21 loosening (#633); they go
     // when that issue closes, and this count goes back to the shell's alone.
     const render = SPEC.match(/test\.skip\(NIGHTLY, NIGHT_RENDER\)/g) ?? []
-    expect(shell.length).toBeGreaterThan(0)
+    expect(shell.length).toBe(4)
     expect(render.length).toBe(3)
-    expect(SPEC).toContain("hand-written route: the night's Layout decides this; PR CI covers it")
+    expect(SPEC).toContain('no known shell to measure against (#640)')
     expect(SPEC).toContain('render health: the surface gate measured this during the run (#633)')
     // No skip written any other way: a bare `test.skip(` is a test that never runs anywhere.
     const all = SPEC.match(/test\.skip\(/g) ?? []

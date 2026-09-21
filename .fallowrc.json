@@ -39,7 +39,15 @@
   // api/panel/*.ts are Vercel functions. The platform calls their exported
   // GET, POST and PUT by path, so nothing imports them and `POST` in rate.ts
   // and run.ts is the convention, not a duplicate export.
+  //
+  // app/content/*.ts is the site's data. Its importers are the components the
+  // engineer writes each night under app/components/generated/, which this
+  // config ignores, so from fallow's seat the content is imported by nothing
+  // and timeline.ts read as an unused file. resume.ts is the canonical résumé
+  // (#638): timeline.ts reshapes part of it for /about, and its contact and
+  // summary exports wait for the /resume route and the PDF export.
   "entry": [
+    "app/content/*.ts",
     "scripts/*.js",
     "scripts/signals/*.js",
     "scripts/utils/*.js",

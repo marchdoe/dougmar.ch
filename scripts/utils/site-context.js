@@ -101,7 +101,7 @@ async function buildContentSummary() {
   }
 
   lines.push('')
-  lines.push('## Timeline (from app/content/timeline.ts)')
+  lines.push('## Timeline (from app/content/timeline.ts, reshaped from the résumé in resume.ts)')
   lines.push(
     'Exports: `timeline` (array of career entries), `capabilities` (array of skill strings)'
   )

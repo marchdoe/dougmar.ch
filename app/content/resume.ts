@@ -1,12 +1,10 @@
 // The canonical resume. A single source of truth independent of the
-// narrative site copy in about.ts / timeline.ts / projects.ts. Written in
-// resume voice (achievement-first, dense) rather than the site's story
-// voice. Consumers: a future /resume route, an on-demand PDF export, and a
-// future copy-paste export for LinkedIn.
+// narrative site copy in about.ts / projects.ts. Written in resume voice
+// (achievement-first, dense) rather than the site's story voice.
 //
-// Nothing imports this file yet. The copy is being settled before any
-// consumer is built. Drop the ignore below when the first one lands.
-// fallow-ignore-file unused-file
+// Consumers: timeline.ts reshapes the experience, education and skills into
+// the fields the About page binds (#638). Still to come: a /resume route, an
+// on-demand PDF export, a copy-paste export for LinkedIn.
 
 export type ResumeContact = {
   name: string
