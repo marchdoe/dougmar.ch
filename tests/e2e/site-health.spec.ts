@@ -93,7 +93,7 @@ test.describe('site health — the white paper holds its layout', () => {
       'References',
       'Built with',
     ])
-    await expect(paper.locator('ol > li')).toHaveCount(9)
+    await expect(paper.locator('ol > li')).toHaveCount(8)
     await expect(paper.locator('ol > li h3').first()).toHaveText('Signals')
     await expect(paper.locator('ol > li h3').last()).toHaveText('Archive')
     await expect(paper.locator('a[href^="https://chadfowler.com/"]')).toHaveCount(3)

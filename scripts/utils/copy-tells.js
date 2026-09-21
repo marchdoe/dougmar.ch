@@ -234,18 +234,3 @@ export function findTells(text) {
   }
   return kept
 }
-
-/**
- * The pattern section of the vendored skill file, for a prompt placeholder.
- * Drops the front matter, the process and the "adding soul" preamble; keeps
- * everything from the pattern list down.
- *
- * @param {string} vendored the content of scripts/prompts/unslop.md
- * @returns {string}
- */
-export function unslopPatternsSection(vendored) {
-  const marker = '## Patterns to detect and fix'
-  const at = vendored.indexOf(marker)
-  if (at === -1) throw new Error(`unslop.md has no "${marker}" section`)
-  return vendored.slice(at).trim()
-}

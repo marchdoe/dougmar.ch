@@ -1,7 +1,7 @@
 /**
  * The swarm's Phase 1 and Phase 2 retry paths, run for real against a temp
- * root (#221): the Art Director retry, the codegen retry, the spec-critic
- * gate and the mockup critic loop.
+ * root (#221): the Art Director retry, the codegen retry, the spec checks
+ * on the Art Director reply (#576) and the mockup critic loop.
  *
  * Same fakes as swarm.test.js. The harness records every `restore` and
  * `cleanupOrphans` the swarm makes as `run.fakes.restore` and
@@ -52,7 +52,6 @@ const CHASSIS_WRITES = [
 
 const HAPPY_CALLS = [
   'art-director',
-  'spec-critic',
   'mockup-designer',
   'mockup-critic',
   'react-engineer',
@@ -94,7 +93,6 @@ describe('the mockup critic loop', () => {
     expect(run.error).toBeNull()
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'mockup-designer',
@@ -470,7 +468,6 @@ describe('the mockup designer retry', () => {
     expect(run.error).toBeNull()
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-designer',
       'mockup-critic',
@@ -509,7 +506,6 @@ describe('the mockup designer retry', () => {
     expect(run.error.message).toBe(`Mockup Designer failed after retry: ${scriptTagError}`)
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-designer',
     ])
@@ -582,9 +578,7 @@ describe('the codegen retry', () => {
     expect(rootTsx).toContain('{ title: "Select a busier man." }')
     expect(rootTsx).not.toContain('"Select a busy man."')
     expect(existsSync(under(run.root, 'app/components/BrandLockup.tsx'))).toBe(true)
-    expect(run.callsFor('spec-critic')[0].userPrompt).toContain(
-      '## Hero Copy\n\nSelect a busier man.'
-    )
+    expect(run.callsFor('mockup-designer')[0].userPrompt).toContain('Select a busier man.')
 
     expect(run.fakes.archive).toHaveLength(1)
     expect(run.trace.dir).toMatch(/^build-\d+$/)
@@ -651,41 +645,73 @@ describe('the codegen retry', () => {
     expect(run.verdicts).toBeNull()
     expect(run.trace.dir).toMatch(/^build-failed-\d+$/)
     expect(run.trace.steps.map((s) => s.name)).toContain('art-director')
-    expect(run.trace.steps.map((s) => s.name)).not.toContain('spec-critic')
     expect(read(run.root, `archive/${run.date}/${run.trace.dir}/error.txt`)).toMatch(
       /^Codegen failed after Art Director retry: /
     )
   })
 })
 
-describe('the spec critic gate', () => {
-  it('logs a REVISE into verdicts and carries on unchanged', async () => {
-    const reason = 'The spec names gold #C9A227 but preset.ts declares gold.500 as #D4AF37.'
-    const run = await runSwarm({
-      agents: { 'spec-critic': [`===VERDICT===\nREVISE\n\n${reason}\n===END===`] },
-    })
+describe('the spec checks on the Art Director reply (#576)', () => {
+  const fixture = () => fixtureFor('art-director')
+  /** The fixture's spec names a colour the preset does not define. */
+  const withStrayHex = () => fixture().replace('50 `#FAF7EF`', '50 `#123456`')
+  /** The fixture declares a hero_scale far above what unbounded-figtree's ramp reaches. */
+  const withHugeHero = () =>
+    fixture().replace(
+      'hero_scale: clamp(64px, 8.5vw, 136px)',
+      'hero_scale: clamp(140px, 27vw, 400px)'
+    )
+
+  it('makes no spec critic call on a clean reply', async () => {
+    const run = await runSwarm()
 
     expect(run.error).toBeNull()
     expect(run.calls.map((c) => c.agent)).toEqual(HAPPY_CALLS)
     expect(run.retries).toBe(0)
+    expect(run.trace.steps.map((s) => s.name)).not.toContain('spec-critic')
+    expect(run.verdicts.map((v) => v.critic)).not.toContain('spec-critic')
+  })
+
+  it('retries once when the spec names a hex the preset does not define', async () => {
+    const run = await runSwarm({ agents: { 'art-director': [withStrayHex(), fixture()] } })
+
+    expect(run.error).toBeNull()
+    expect(run.calls.map((c) => c.agent)).toEqual(['art-director', ...HAPPY_CALLS])
+    expect(run.retries).toBe(1)
+
+    const director = run.callsFor('art-director')
+    expect(director[0].userPrompt).not.toContain('## Previous attempt was rejected')
+    expect(director[1].userPrompt).toContain(
+      'Your previous response failed validation: Art Director reply disagrees with its own chassis or preset:'
+    )
+    expect(director[1].userPrompt).toContain('#123456 (closest in the preset:')
+    // The clean reply is the one that shipped.
+    expect(run.fakes.archive).toHaveLength(1)
     expect(run.fakes.restore).toEqual([])
+  })
 
-    expect(run.verdicts[0]).toMatchObject({ critic: 'spec-critic', verdict: 'REVISE' })
-    expect(run.verdicts[0].feedback).toContain(reason)
-    expect(run.verdicts.map(({ critic, round, verdict }) => ({ critic, round, verdict }))).toEqual([
-      { critic: 'spec-critic', round: undefined, verdict: 'REVISE' },
-      { critic: 'mockup-critic', round: 0, verdict: 'APPROVE' },
-      { critic: 'surface-gate', round: 1, verdict: 'SHIP' },
-      { critic: 'screenshot-critic', round: undefined, verdict: 'SHIP' },
-    ])
-    const specStep = run.trace.steps.find((s) => s.name === 'spec-critic')
-    expect(specStep.output.verdict).toBe('REVISE')
-    expect(specStep.output.feedback).toContain(reason)
+  it('names the field, the value and the ramp when hero_scale is out of reach', async () => {
+    const run = await runSwarm({ agents: { 'art-director': [withHugeHero(), fixture()] } })
 
-    // The Art Director's preset ships as written; no second Art Director call.
-    expect(run.callsFor('art-director')).toHaveLength(1)
+    expect(run.error).toBeNull()
+    expect(run.retries).toBe(1)
+    const retryBrief = run.callsFor('art-director')[1].userPrompt
+    expect(retryBrief).toContain('MEASURABLES hero_scale "clamp(140px, 27vw, 400px)"')
+    expect(retryBrief).toContain('chassis unbounded-figtree tops out at 160px')
+    expect(retryBrief).toContain('no chassis in the catalog reaches 389px')
+  })
+
+  it('ships the retry as it is when it still disagrees with itself', async () => {
+    const run = await runSwarm({
+      agents: { 'art-director': [withStrayHex(), withHugeHero()] },
+    })
+
+    // A second failure ends the run for a missing block. A spec that still
+    // names a colour the preset lacks is not worth a night, so it ships.
+    expect(run.error).toBeNull()
+    expect(run.calls.map((c) => c.agent)).toEqual(['art-director', ...HAPPY_CALLS])
+    expect(run.retries).toBe(1)
     expect(run.fakes.archive).toHaveLength(1)
     expect(run.result.files.map((f) => f.path)).toContain('elements/preset.ts')
-    expect(run.trace.dir).toMatch(/^build-\d+$/)
   })
 })

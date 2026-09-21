@@ -46,10 +46,10 @@ describe('agent fixtures', () => {
   it('counts each agent separately', async () => {
     const m = await loadWithRoot(root)
     seed(root, 'art-director', 0, 'AD')
-    seed(root, 'spec-critic', 0, 'CRITIC')
+    seed(root, 'mockup-critic', 0, 'CRITIC')
 
     expect(m.nextFixture('art-director')).toBe('AD')
-    expect(m.nextFixture('spec-critic')).toBe('CRITIC')
+    expect(m.nextFixture('mockup-critic')).toBe('CRITIC')
   })
 
   it('replays the last recording when a run makes more calls than were recorded', async () => {

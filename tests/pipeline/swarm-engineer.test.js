@@ -169,7 +169,6 @@ describe('the React Engineer omits a required file', () => {
     expect(run.error).toBeNull()
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -238,7 +237,6 @@ describe('the React Engineer omits a required file', () => {
     expect(engineer).toHaveLength(3)
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -294,7 +292,6 @@ describe('the React Engineer omits a required file', () => {
     expect(run.error?.message).toBe(LAYOUT_GATE_MESSAGE)
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -492,7 +489,6 @@ describe('the React Engineer stalls', () => {
     expect(run.error).toBeNull()
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -530,7 +526,6 @@ describe('the React Engineer stalls', () => {
     expect(run.error?.message).toContain(STALL_MESSAGE)
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -557,10 +552,10 @@ describe('the run deadline between phases', () => {
   it('before the mockup: throws and rolls the Art Director back', async () => {
     const run = await runSwarm({
       agents: {
-        'spec-critic': [
+        'art-director': [
           () => {
             setRunDeadline(Date.now())
-            return fixtureFor('spec-critic')
+            return fixtureFor('art-director')
           },
         ],
       },
@@ -570,7 +565,7 @@ describe('the run deadline between phases', () => {
     expect(run.error?.message).toBe(
       'run budget exhausted before the Mockup Designer could start — nothing to ship'
     )
-    expect(run.calls.map((c) => c.agent)).toEqual(['art-director', 'spec-critic'])
+    expect(run.calls.map((c) => c.agent)).toEqual(['art-director'])
     expect(run.retries).toBe(0)
 
     // The Art Director's preset and the chassis files were on disk when the
@@ -590,9 +585,7 @@ describe('the run deadline between phases', () => {
     expect(run.fakes.archive).toHaveLength(0)
     expect(run.trace.dir).toMatch(/^build-failed-\d+$/)
     expect(errorTxt(run)).toMatch(/^run budget exhausted before the Mockup Designer/)
-    expect(run.trace.steps.map((s) => s.name)).toEqual(
-      expect.arrayContaining(['art-director', 'spec-critic'])
-    )
+    expect(run.trace.steps.map((s) => s.name)).toEqual(expect.arrayContaining(['art-director']))
     expect(run.trace.steps.map((s) => s.name)).not.toContain('mockup-critic')
   })
 
@@ -614,7 +607,6 @@ describe('the run deadline between phases', () => {
     )
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
     ])
@@ -657,7 +649,6 @@ describe('the run deadline between phases', () => {
     )
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',

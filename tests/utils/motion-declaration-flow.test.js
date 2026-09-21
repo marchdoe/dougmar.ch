@@ -36,7 +36,7 @@ spectral-albert
 
 ===MEASURABLES===
 canvas_utilization_min: 78
-hero_scale: clamp(96px, 13vw, 200px)
+hero_scale: clamp(64px, 8vw, 112px)
 color_coverage_min: 60
 
 ===SHELL===

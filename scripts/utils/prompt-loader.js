@@ -15,7 +15,7 @@
  *
  * `{{DATA_BOUNDARY_RULE}}` is filled here too, from `data-boundary-rule.md`.
  *
- * The other placeholders (`{{GATES}}`, `{{CHASSIS_RENDER_FACTS}}` and the
+ * The other placeholders (`{{GATES}}`, `{{CHASSIS_SELECTION_FACTS}}` and the
  * rest) are still filled by their own `.replace` where each prompt is
  * assembled. They are generated blocks with one owner each; this is a single
  * number that many files quote.

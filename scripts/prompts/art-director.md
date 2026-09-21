@@ -212,6 +212,8 @@ Write a structured visual spec with these five sections (the Unified Designer re
 - **Background**: exact hex for page bg, card bg, sidebar bg
 - **Text colors**: exact hex for primary text, secondary text, muted text
 
+Every hex in this section must be a value your `elements/preset.ts` block defines. Copy them from the preset rather than retyping them; a hex the preset lacks is rejected, and the engineer renders the preset, not the spec.
+
 ### 2. Typography (chassis-derived; you don't pick fonts here, but you DO specify use)
 - **Hero phrase rendering**: which chassis token (e.g., `display`), which ramp step (`hero` is a fluid clamp sized for marquee; `xl` through `5xl` are fluid clamps too, for display below the marquee; `lg` and down are fixed), how it composes with surroundings
 - **Type treatment**: the ramp steps double as `textStyle` tokens carrying size, leading and tracking together, tuned per chassis; name the steps for hero, headings, body and captions instead of inventing line-height or letter-spacing values
@@ -260,7 +262,7 @@ If any answer is No, revise before responding.
 Your visual spec is poetry; the MEASURABLES block is the contract. The Mockup
 Critic will measure the rendered mockup against these numbers. Declare floors
 you genuinely intend: "drenched" with color_coverage_min: 35 is a
-contradiction the spec critic will flag.
+contradiction.
 
 ## Shell Declaration (required)
 
@@ -490,7 +492,7 @@ Respond using the exact delimiter blocks below, in this order. Write the COMPLET
 
 ===MEASURABLES===
 canvas_utilization_min: <integer %>   # scale the floor to your composition: sparse/type-dominant days can justify ~65, dense/field-dominant/crowded days should clear 80
-hero_scale: <CSS size, e.g. clamp(96px, 13vw, 200px)>
+hero_scale: <CSS size, e.g. clamp(64px, 8vw, 112px); at 1440 it may not pass the largest step your chassis has, the higher of its hero and 5xl figures in the catalog table, or it is rejected>
 color_coverage_min: <integer %>       # >=60 when color strategy is Committed/Drenched, else >=35
 
 ===SHELL===

@@ -59,7 +59,6 @@ import {
   renderRootTemplate,
   renderChassisPresetFile,
   formatChassisCatalogForPrompt,
-  formatChassisRenderFactsForPrompt,
   formatChassisSelectionForPrompt,
 } from './utils/chassis.js'
 import {
@@ -69,10 +68,8 @@ import {
 import { formatPatternPropsForPrompt, readPatternProps } from './utils/pattern-props.js'
 import { collectGateRules, formatGateRulesForPrompt } from './utils/gate-rules.js'
 import { fillContentGaps } from './utils/content-gaps.js'
-import { unslopPatternsSection } from './utils/copy-tells.js'
 import { loadPrompt } from './utils/prompt-loader.js'
 import { parseDelimiterResponse } from './utils/delimiter-parser.js'
-import { parseCriticVerdict } from './utils/critic-verdict.js'
 import { modelFor, isDevModelTier } from './utils/models.js'
 import { STEP_BUDGETS, budgetFor } from './utils/budgets.js'
 import { runDate } from './utils/run-date.js'
@@ -605,7 +602,7 @@ async function callAgent(agentName, systemPrompt, userPrompt, options = {}) {
   let parsed
 
   if (result.includes('===VERDICT===')) {
-    // Critic response (spec-critic, screenshot-critic) — extract verdict and feedback.
+    // Critic response (mockup-critic, screenshot-critic) — extract verdict and feedback.
     // _fullResponse keeps the undelimited text: parseCriticVerdict anchors on the
     // ===VERDICT=== block, so it must see the full response, not the stripped body.
     const verdictMatch = result.match(/===VERDICT===([\s\S]*?)===END===/)
@@ -898,7 +895,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // Every prompt file comes through loadPrompt, which fills the phone
     // width; a bare readFile here would send `{{NARROW_PX}}` to a model.
     const [
-      specCriticPromptRaw,
       screenshotCriticPromptRaw,
       designSystemRef,
       refBrand,
@@ -907,9 +903,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       refSpatial,
       refCritique,
       brandContract,
-      unslopVendored,
     ] = await Promise.all([
-      loadPrompt('spec-critic.md', { root }),
       loadPrompt('screenshot-critic.md', { root }),
       loadPrompt('design-system-reference.md', { root }),
       loadPrompt('impeccable/reference/brand.md', { root }),
@@ -918,7 +912,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       loadPrompt('impeccable/reference/spatial-design.md', { root }),
       loadPrompt('impeccable/reference/critique.md', { root }),
       loadPrompt('brand-contract.md', { root }),
-      loadPrompt('unslop.md', { root }),
     ])
 
     // Brand-register declaration. dougmar.ch is BRAND register — a personal
@@ -928,23 +921,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // (dense dashboards, restrained palette, generic card grids).
     const brandRegisterDeclaration = `\n\n## Project Register: BRAND\n\nThis project is BRAND register — a personal portfolio where design IS the product. Apply brand-register conventions throughout. The detailed brand-register reference follows.\n\n${refBrand}`
 
-    // The spec critic's chassis render facts are generated from the catalog
-    // at assembly time, so adding a chassis never means editing a prompt.
-    if (!specCriticPromptRaw.includes('{{CHASSIS_RENDER_FACTS}}')) {
-      throw new Error('spec-critic.md is missing its {{CHASSIS_RENDER_FACTS}} placeholder')
-    }
-    // The copy check (#504) reads the owner's pattern list from the vendored
-    // copy at assembly time, so the critic judges against the same list the
-    // gate matches and the owner edits.
-    if (!specCriticPromptRaw.includes('{{UNSLOP_PATTERNS}}')) {
-      throw new Error('spec-critic.md is missing its {{UNSLOP_PATTERNS}} placeholder')
-    }
-    const specCriticPrompt = `${specCriticPromptRaw
-      .replace('{{CHASSIS_RENDER_FACTS}}', formatChassisRenderFactsForPrompt(CHASSIS_CATALOG))
-      .replace(
-        '{{UNSLOP_PATTERNS}}',
-        unslopPatternsSection(unslopVendored)
-      )}\n\n## Design Critique Heuristics\n\n${refCritique}`
     const screenshotCriticPrompt = `${screenshotCriticPromptRaw}\n\n## Design Critique Heuristics\n\n${refCritique}`
 
     // The semantic colour contract is generated from scripts/utils/semantic-contract.js
@@ -1108,7 +1084,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // assembled prompt <= ~50KB (iter-2 failed at 60KB).
     const artDirectorPromptRaw = await loadPrompt('art-director.md', { root })
     // The chassis-selection numbers are generated from the catalog at
-    // assembly time, same as the spec critic's render facts.
+    // assembly time.
     if (!artDirectorPromptRaw.includes('{{CHASSIS_SELECTION_FACTS}}')) {
       throw new Error('art-director.md is missing its {{CHASSIS_SELECTION_FACTS}} placeholder')
     }
@@ -1197,7 +1173,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
 
     const chosenArchetype = artDirectorResult.archetype
     // Reassigned below, after any codegen retry, so downstream consumers
-    // (spec-critic, lane selection, archive persistence) always see the
+    // (lane selection, archive persistence) always see the
     // composition tuple from the FINAL settled artDirectorResult — same
     // reasoning as shellDecl/measurablesDecl further down. This early value
     // only backs the log line and trace step right after this call.
@@ -1492,97 +1468,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       `  mobile: collapse=${chosenComposition.collapse} | hero_step_360=${mobileDecl.hero_step_360} | order=${mobileDecl.order} | carrier=${(mobileDecl.carrier || '').slice(0, 120)}`
     )
     console.log(`  hero-source: ${artDirectorResult.heroSource || '(none declared)'}`)
-
-    // -----------------------------------------------------------------------
-    // Spec Critic Gate — Art Director self-check
-    // -----------------------------------------------------------------------
-    try {
-      console.log('\n[spec-critic] Reviewing Art Director response...')
-      // Trimmed to what the five checks actually use (spec ↔ preset.ts
-      // consistency, hero quotability, archetype × chassis renderability,
-      // self-check honesty, measurable-spec consistency): the declaration
-      // blocks, the visual spec, preset.ts, and the deterministic mandates
-      // the Art Director was constrained by. The full signals YAML (~4KB)
-      // and last-5-days brief history (~13KB) never factored into a REVISE
-      // — every historical spec-critic REVISE has been a hex/token mismatch
-      // between the spec and preset.ts, not a signals- or history-driven call.
-      const mandatesBlock = [
-        colorMandateSection,
-        shellMandateSection,
-        paletteFormulaMandateSection,
-        heroSourceMandateSection,
-        compositionMandateSection,
-        chassisMandateSection,
-        typeTreatmentMandateSection,
-        motionMandateSection,
-      ]
-        .filter(Boolean)
-        .join('\n\n')
-
-      const criticUserPrompt = [
-        `## Hero Copy\n\n${artDirectorResult.heroCopy}`,
-        `## Archetype\n\n${chosenArchetype || '(none declared)'}`,
-        `## Composition\n\n${formatTuple(chosenComposition)}\n\n${artDirectorResult.compositionRationale || ''}`,
-        `## Chassis ID\n\n${chosenChassis.id}`,
-        `## Visual Specification\n\n${visualSpec}`,
-        `## Self-Check\n\n${artDirectorResult.selfCheck}`,
-        `## Measurables (declared floors)\n\n${artDirectorResult.measurables}`,
-        `## Shell Declaration\n\n${artDirectorResult.shell}`,
-        `## Type Treatment (execute exactly)\n\n${formatTypeTreatment(typeDecl)}`,
-        `## Mobile Declaration (what the composition becomes at ${NARROW_VIEWPORT.width})\n\n${formatMobile(mobileDecl)}`,
-        `## elements/preset.ts\n\n\`\`\`typescript\n${artDirectorResult.presetTs}\n\`\`\``,
-        mandatesBlock
-          ? `## Mandates (the Art Director was constrained by these)\n\n${mandatesBlock}`
-          : '',
-      ]
-        .filter(Boolean)
-        .join('\n\n---\n\n')
-
-      const t0Critic = Date.now()
-      const criticResult = await callAgent(
-        'spec-critic',
-        specCriticPrompt,
-        criticUserPrompt,
-        // Timeouts come from budgets.js, keyed by agent.
-        { model: modelFor('spec-critic') }
-      )
-      const rawResponse = criticResult._rawResponse || criticResult.rationale || ''
-      // Parse from the full response — _rawResponse has the ===VERDICT=== block
-      // stripped, which parseCriticVerdict anchors on (it would fail closed to
-      // REVISE on every response otherwise).
-      const { verdict: specVerdict } = parseCriticVerdict(
-        criticResult._fullResponse || rawResponse,
-        'APPROVED'
-      )
-
-      trace.addStep({
-        name: 'spec-critic',
-        phase: 1,
-        input: { specLength: visualSpec.length },
-        output: {
-          verdict: specVerdict,
-          feedback: rawResponse.slice(0, 500),
-        },
-        durationMs: Date.now() - t0Critic,
-      })
-
-      verdicts.push({
-        critic: 'spec-critic',
-        verdict: specVerdict,
-        feedback: rawResponse.slice(0, 2000),
-        ts: Date.now(),
-      })
-
-      if (specVerdict === 'REVISE') {
-        console.log(
-          `  [spec-critic] REVISE — accepting and continuing (single point of failure: a full Art Director re-run is expensive; let the screenshot critic catch render failures)`
-        )
-      } else {
-        console.log('  [spec-critic] APPROVED')
-      }
-    } catch (err) {
-      console.warn(`  [spec-critic] failed (non-blocking): ${err.message}`)
-    }
 
     // Color-scheme monitoring (warnings only)
     if (artDirectorResult.colorScheme && !artDirectorResult.colorScheme.__parse_error) {

@@ -38,7 +38,6 @@ export const AGENT_BUDGETS = {
   // 30 min hard cap — bounds long extended-thinking phases.
   'mockup-designer': { timeoutMs: 1_800_000, stallTimeoutMs: 480_000 },
   'react-engineer': { timeoutMs: 1_800_000, stallTimeoutMs: 480_000 },
-  'spec-critic': { timeoutMs: 600_000, stallTimeoutMs: 300_000 },
   'mockup-critic': { timeoutMs: 600_000, stallTimeoutMs: 300_000, maxTokens: 6000 },
   'screenshot-critic': { timeoutMs: 600_000, stallTimeoutMs: 300_000, maxTokens: 16_000 },
 }

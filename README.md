@@ -76,7 +76,7 @@ scripts/
   daily-redesign.js  the nightly, as CI runs it
   design-agents.js   the orchestrator: Art Director -> Mockup Designer -> critics -> React Engineer -> gates
   collect-signals.js runs scripts/signals/*.js in parallel
-  agents/            Art Director, Mockup Designer, Mockup Critic, Screenshot Critic; the React Engineer and Spec Critic run from design-agents.js
+  agents/            Art Director, Mockup Designer, Mockup Critic, Screenshot Critic; the React Engineer runs from design-agents.js
   prompts/           the agents' system prompts, lanes, and the brand contract
   pipeline/          shared phases (the variance mandates)
   utils/             validators, mandates, the surface gate, the archive record, models and budgets
@@ -103,7 +103,7 @@ The arrows mark the split that everything else is organised around. Files the pi
 1. `collect-ratings.js` harvests the owner's grade from yesterday's rating issue.
 2. `collect-signals.js` runs the providers. Ones without a key are skipped, not failed.
 3. `collect-references.js` picks design references for the brief.
-4. `daily-redesign.js` runs the agents. The Art Director decides the hero line, the composition, the chassis and the palette, and writes `preset.ts`. The Mockup Designer renders one HTML mockup; the Mockup Critic judges it from a screenshot. The React Engineer translates the approved mockup into the routes and components.
+4. `daily-redesign.js` runs the agents. The Art Director decides the hero line, the composition, the chassis and the palette, and writes `preset.ts`. Before anything renders, code checks the reply against itself (`scripts/utils/ad-spec-checks.js`): every hex in the spec's Color Specification must be one the preset defines, `hero_scale` may not pass the biggest step on the chassis ramp, and `hero_step_360` must be a step on it. A mismatch sends the Art Director back once with the finding in the brief. The Mockup Designer renders one HTML mockup; the Mockup Critic judges it from a screenshot. The React Engineer translates the approved mockup into the routes and components.
 5. Gates. The build must pass `pnpm build`, the token gate (no unresolved Panda tokens), the static checks (biome, tsc, and `fallow audit --base HEAD`, the same audit CI's architecture job runs), and the surface gate, which measures every route at 360 and 1440 in both colour schemes and fails on horizontal overflow. Then the Screenshot Critic sees the home page at 1440 in both schemes, phone renders of the home page, `/about` and a project page, and a project page at 1440.
 6. The result is archived, projected and sealed (the preserved pages get a frame with prev/next). Then `pnpm test` and `pnpm test:e2e:site` run against it, and a failure there means nothing reaches `main`. The `publish` job applies the night as a patch and pushes it over a deploy key. Vercel builds from there. A rating issue is opened for the owner.
 

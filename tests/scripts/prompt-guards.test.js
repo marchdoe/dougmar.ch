@@ -363,17 +363,14 @@ describe('logo-mono.svg', () => {
 })
 
 describe('the copy rules in the prompts (#504)', () => {
-  it('spec-critic.md carries the {{UNSLOP_PATTERNS}} placeholder inside a seventh check', () => {
-    const c = read('spec-critic.md')
-    expect(c).toContain('{{UNSLOP_PATTERNS}}')
-    expect(c).toContain('### 7. Copy')
-    expect(c).toContain('all seven checks pass')
-  })
-
-  it('spec-critic.md checks the type treatment against the chassis (#502)', () => {
-    const c = read('spec-critic.md')
-    expect(c).toContain('===TYPE_TREATMENT===')
-    expect(c).toMatch(/`lead: italic` needs a display face that loads italics/)
+  // The three spec checks in ad-spec-checks.js reject a reply, so the prompt
+  // has to tell the Art Director the rules before it breaks them (#576).
+  it('art-director.md states the two rules the spec checks enforce', () => {
+    const ad = read('art-director.md')
+    expect(ad).toContain(
+      'Every hex in this section must be a value your `elements/preset.ts` block defines'
+    )
+    expect(ad).toContain('it may not pass the largest step your chassis has')
   })
 
   it('art-director.md names the owner first and the rebuild only as a mechanism', () => {

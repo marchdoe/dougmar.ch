@@ -30,6 +30,7 @@ import { isValidHeader } from '../utils/header-grammar.js'
 import { isValidMobile } from '../utils/mobile-grammar.js'
 import { isValidTypeTreatment } from '../utils/type-grammar.js'
 import { isValidMotion } from '../utils/motion-grammar.js'
+import { specFindings } from '../utils/ad-spec-checks.js'
 import { CHASSIS_CATALOG } from '../../elements/chassis/index.js'
 import { LOCKUP_IDS } from '../utils/brand-lockup.js'
 import { MATERIAL_NAMES, isMaterialName } from '../utils/material.js'
@@ -113,8 +114,20 @@ export function buildArtDirectorUserPrompt({
  * `===COMPOSITION_RATIONALE===` is required alongside it — a tuple with no
  * stated reason is exactly the "invented archetype for its own sake"
  * failure mode a hard-fail-on-unknown-value coherence gate exists to catch.
+ *
+ * The last step compares the reply with itself (see ad-spec-checks.js): the
+ * spec's colours with the preset it ships, `hero_scale` and `hero_step_360`
+ * with the chassis ramp it picked. With `enforceSpec` those findings throw
+ * like any other, which is what sends the first attempt to its retry. The
+ * retry passes `enforceSpec: false` and gets the findings back as a list: a
+ * spec that still disagrees with its preset after being told how is not worth
+ * the night, and the second failure ends the run.
+ *
+ * @param {object} parsed
+ * @param {{ enforceSpec?: boolean }} [options]
+ * @returns {string[]} the spec findings that were tolerated, empty when none
  */
-export function validateArtDirectorResult(parsed) {
+export function validateArtDirectorResult(parsed, { enforceSpec = true } = {}) {
   if (!parsed.hero_copy || parsed.hero_copy.length < 3) {
     throw new Error('Art Director response missing or empty hero_copy (===HERO_COPY===)')
   }
@@ -218,6 +231,29 @@ export function validateArtDirectorResult(parsed) {
   }
   validateTypeTreatment(parsed)
   validateMotion(parsed)
+  return validateSpec(parsed, enforceSpec)
+}
+
+/**
+ * The reply checked against itself: colours, `hero_scale` and
+ * `hero_step_360`, the three complaints the spec critic made on twelve of
+ * seventeen September nights (#576). The finding text is what the retry
+ * brief carries, so it names the field, the value and the valid options.
+ */
+function validateSpec(parsed, enforce) {
+  const findings = specFindings({
+    visualSpec: parsed.visual_spec,
+    presetTs: parsed.files.find((f) => f.path === 'elements/preset.ts').content,
+    chassisId: parsed.chassis_id,
+    measurables: parseMeasurablesBlock(parsed.measurables),
+    mobile: parseMobileBlock(parsed.mobile),
+  })
+  if (enforce && findings.length > 0) {
+    throw new Error(
+      `Art Director reply disagrees with its own chassis or preset:\n- ${findings.join('\n- ')}`
+    )
+  }
+  return findings
 }
 
 /**
@@ -309,7 +345,10 @@ export async function runArtDirector(ctx) {
   }
 
   try {
-    validateArtDirectorResult(parsed)
+    // A retry tolerates spec findings and logs them; see validateArtDirectorResult.
+    for (const finding of validateArtDirectorResult(parsed, { enforceSpec: !ctx.retryContext })) {
+      console.warn(`  [AD] shipping a spec finding after the retry: ${finding}`)
+    }
   } catch (err) {
     const present = [
       'hero_copy',

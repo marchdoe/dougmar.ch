@@ -10,7 +10,6 @@ import {
   compileWordList,
   findOrphanSeparator,
   findTells,
-  unslopPatternsSection,
 } from '../../scripts/utils/copy-tells.js'
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
@@ -103,19 +102,6 @@ describe('findTells', () => {
 
   it('says nothing about plain copy', () => {
     expect(findTells('Select a busy man; the other kind has no time.')).toEqual([])
-  })
-})
-
-describe('unslopPatternsSection', () => {
-  it('keeps the pattern list and drops the front matter', () => {
-    const section = unslopPatternsSection(vendored)
-    expect(section.startsWith('## Patterns to detect and fix')).toBe(true)
-    expect(section).toContain('31. **Prefer the plain word.**')
-    expect(section).not.toContain('name: unslop')
-  })
-
-  it('throws when the marker is missing', () => {
-    expect(() => unslopPatternsSection('# nothing here')).toThrow(/Patterns to detect and fix/)
   })
 })
 

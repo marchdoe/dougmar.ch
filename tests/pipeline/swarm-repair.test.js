@@ -180,7 +180,6 @@ describe('Phase 5: the build fails', () => {
     expect(run.error).toBeNull()
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -317,7 +316,6 @@ describe('Phase 5: the build fails', () => {
     expect(run.error).toBeNull()
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -375,7 +373,6 @@ describe('Phase 5: the build fails', () => {
     expect(run.error).toBeNull()
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -423,7 +420,6 @@ describe('Phase 5: the build fails', () => {
     expect(run.error.message).toContain(DEFAULT_BUILD_ERROR)
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -552,7 +548,6 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     expect(run.error).toBeNull()
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -598,7 +593,6 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     })
 
     expect(run.verdicts.map(({ critic, round, verdict }) => ({ critic, round, verdict }))).toEqual([
-      { critic: 'spec-critic', round: undefined, verdict: 'APPROVED' },
       { critic: 'mockup-critic', round: 0, verdict: 'APPROVE' },
       { critic: 'surface-gate', round: 1, verdict: 'SHIP' },
       { critic: 'screenshot-critic', round: undefined, verdict: 'REVISE' },
@@ -629,7 +623,6 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     expect(run.error).toBeNull()
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -644,7 +637,6 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     expect(run.fakes.archive).toHaveLength(1)
 
     expect(run.verdicts.map(({ critic, round, verdict }) => ({ critic, round, verdict }))).toEqual([
-      { critic: 'spec-critic', round: undefined, verdict: 'APPROVED' },
       { critic: 'mockup-critic', round: 0, verdict: 'APPROVE' },
       { critic: 'surface-gate', round: 1, verdict: 'SHIP' },
       { critic: 'screenshot-critic', round: undefined, verdict: 'REVISE' },
@@ -676,7 +668,6 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     expect(run.error).toBeNull()
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -693,7 +684,6 @@ describe('after the build passes: the screenshot critic and the surface gate', (
         channel,
       }))
     ).toEqual([
-      { critic: 'spec-critic', round: undefined, verdict: 'APPROVED', channel: undefined },
       { critic: 'mockup-critic', round: 0, verdict: 'APPROVE', channel: 'sdk-vision' },
       { critic: 'surface-gate', round: 1, verdict: 'SHIP', channel: undefined },
       { critic: 'screenshot-critic', round: undefined, verdict: 'REVISE', channel: 'sdk-vision' },
@@ -731,7 +721,6 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     // revised, so there is no post-revision build to judge.
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -780,7 +769,6 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     expect(run.error).toBeNull()
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -853,7 +841,6 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     expect(run.error).toBeNull()
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -909,7 +896,6 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     ).toBe(true)
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -950,7 +936,6 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     expect(run.error).toBeNull()
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -982,7 +967,6 @@ describe('after the build passes: the screenshot critic and the surface gate', (
         feedback: critic === 'surface-gate' ? feedback : undefined,
       }))
     ).toEqual([
-      { critic: 'spec-critic', round: undefined, verdict: 'APPROVED', feedback: undefined },
       { critic: 'mockup-critic', round: 0, verdict: 'APPROVE', feedback: undefined },
       {
         critic: 'surface-gate',
@@ -1010,7 +994,6 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     expect(run.error).toBeNull()
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -1112,7 +1095,6 @@ describe('the copy gate (#504)', () => {
     expect(run.error).toBeNull()
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',
@@ -1191,7 +1173,6 @@ describe('the copy gate (#504)', () => {
     expect(run.error).toBeNull()
     expect(run.calls.map((c) => c.agent)).toEqual([
       'art-director',
-      'spec-critic',
       'mockup-designer',
       'mockup-critic',
       'react-engineer',

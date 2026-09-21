@@ -57,7 +57,6 @@ describe('model tier resolution', () => {
 
   it('leaves models already at or below the dev ceiling unchanged', () => {
     setEnv({}) // dev tier
-    expect(modelFor('spec-critic')).toBe(MODEL_IDS.haiku) // haiku stays haiku
     expect(modelFor('react-engineer')).toBe(MODEL_IDS.sonnet)
     expect(modelFor('mockup-critic')).toBe(MODEL_IDS.haiku)
     expect(modelFor('screenshot-critic')).toBe(MODEL_IDS.sonnet)

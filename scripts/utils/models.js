@@ -50,7 +50,6 @@ export const MODEL_IDS = {
 
 export const PROD_MODELS = {
   'art-director': 'opus',
-  'spec-critic': 'haiku',
   'mockup-designer': 'opus',
   // Haiku 4.5 has vision; this gate is a floors-check (canvas %, hero scale,
   // color coverage) against the measurables the Art Director already
