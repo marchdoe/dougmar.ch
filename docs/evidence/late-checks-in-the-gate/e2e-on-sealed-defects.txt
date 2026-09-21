@@ -1,0 +1,90 @@
+Running 6 tests using 6 workers
+  ✓  4 [site-health] › tests/e2e/site-health.spec.ts:209:7 › site health — no word breaks across lines › /archive/2026-09-18/work/spaceman.html at 360 keeps every word on one line (772ms)
+  ✓  6 [site-health] › tests/e2e/site-health.spec.ts:209:7 › site health — no word breaks across lines › /archive/2026-09-16/ at 360 keeps every word on one line (784ms)
+  ✘  5 [site-health] › tests/e2e/site-health.spec.ts:169:5 › site health — nothing renders invisible › /archive/2026-09-19/ paints every piece of text it renders (788ms)
+  ✘  2 [site-health] › tests/e2e/site-health.spec.ts:252:5 › site health — the reveal is not load-bearing › /archive/2026-09-18/ renders without the reveal running (788ms)
+  ✘  3 [site-health] › tests/e2e/site-health.spec.ts:209:7 › site health — no word breaks across lines › /archive/2026-09-18/work/spaceman.html at 1440 keeps every word on one line (811ms)
+  ✘  1 [site-health] › tests/e2e/site-health.spec.ts:209:7 › site health — no word breaks across lines › /archive/2026-09-16/ at 1440 keeps every word on one line (831ms)
+  1) [site-health] › tests/e2e/site-health.spec.ts:169:5 › site health — nothing renders invisible › /archive/2026-09-19/ paints every piece of text it renders 
+    Error: text painted in nothing at all. Set the colour in a token, add a WebkitTextStroke, or clip a background to the text. A value passed to css() from a variable extracts to no rule (self-check 8).
+    <h1.px_2.lg:px_3.anim-dly_0ms > div.d_flex.jc_space-between.w_100%.ov_hidden > span.ff_display.fw_bold.tt_uppercase.lh_tight> "G" (x3) at 32px is set in rgba(0, 0, 0, 0)
+    expect(received).toEqual(expected) // deep equality
+    - Expected  - 1
+    + Received  + 3
+    - Array []
+    + Array [
+    +   "<h1.px_2.lg:px_3.anim-dly_0ms > div.d_flex.jc_space-between.w_100%.ov_hidden > span.ff_display.fw_bold.tt_uppercase.lh_tight> \"G\" (x3) at 32px is set in rgba(0, 0, 0, 0)",
+    + ]
+      176 |         invisible,
+      177 |         `text painted in nothing at all. ${INVISIBLE_FIX}\n${invisible.join('\n')}`
+    > 178 |       ).toEqual([])
+          |         ^
+      179 |     })
+      180 |   }
+      181 | })
+        at tests/e2e/site-health.spec.ts:178:9
+    Error Context: test-results/site-health-site-health-—--5133a-ry-piece-of-text-it-renders-site-health/error-context.md
+  2) [site-health] › tests/e2e/site-health.spec.ts:209:7 › site health — no word breaks across lines › /archive/2026-09-18/work/spaceman.html at 1440 keeps every word on one line 
+    Error: /archive/2026-09-18/work/spaceman.html at 1440x900: a word is broken mid-word because its column is narrower than the word. Size the type to the column, or stack words with <br> or writing-mode. Drop to a ramp step that fits or give the type a wider track: overflow-wrap: anywhere and word-break: break-all only turn the overflow into a cut word.
+    <div.pos_relative.z_1.d_flex.flex-d_column > div.min-w_0 > h1.ff_display.fw_bold.fs_2xl.md:fs_3xl> "Spaceman" at 182px needs 929px, its box is 550px, broken over 2 lines
+    expect(received).toEqual(expected) // deep equality
+    - Expected  - 1
+    + Received  + 3
+    - Array []
+    + Array [
+    +   "<div.pos_relative.z_1.d_flex.flex-d_column > div.min-w_0 > h1.ff_display.fw_bold.fs_2xl.md:fs_3xl> \"Spaceman\" at 182px needs 929px, its box is 550px, broken over 2 lines",
+    + ]
+      225 |           `${path} at ${viewport.width}x${viewport.height}: a word is broken mid-word because its ` +
+      226 |             `column is narrower than the word. ${WORD_BREAK_FIX}\n${shredded.join('\n')}`
+    > 227 |         ).toEqual([])
+          |           ^
+      228 |       })
+      229 |     }
+      230 |   }
+        at tests/e2e/site-health.spec.ts:227:11
+    Error Context: test-results/site-health-site-health-—--6974b-eeps-every-word-on-one-line-site-health/error-context.md
+  3) [site-health] › tests/e2e/site-health.spec.ts:209:7 › site health — no word breaks across lines › /archive/2026-09-16/ at 1440 keeps every word on one line 
+    Error: /archive/2026-09-16/ at 1440x900: a word is broken mid-word because its column is narrower than the word. Size the type to the column, or stack words with <br> or writing-mode. Drop to a ramp step that fits or give the type a wider track: overflow-wrap: anywhere and word-break: break-all only turn the overflow into a cut word.
+    <header.pos_relative.ov_hidden.bg_bg.min-h_auto > div.pos_relative.z_1.ml_0.md:ml_auto > h1.ff_display.textStyle_xl.md:textStyle_3xl.c_text> "questions" at 177px needs 904px, its box is 640px, broken over 2 lines
+    expect(received).toEqual(expected) // deep equality
+    - Expected  - 1
+    + Received  + 3
+    - Array []
+    + Array [
+    +   "<header.pos_relative.ov_hidden.bg_bg.min-h_auto > div.pos_relative.z_1.ml_0.md:ml_auto > h1.ff_display.textStyle_xl.md:textStyle_3xl.c_text> \"questions\" at 177px needs 904px, its box is 640px, broken over 2 lines",
+    + ]
+      225 |           `${path} at ${viewport.width}x${viewport.height}: a word is broken mid-word because its ` +
+      226 |             `column is narrower than the word. ${WORD_BREAK_FIX}\n${shredded.join('\n')}`
+    > 227 |         ).toEqual([])
+          |           ^
+      228 |       })
+      229 |     }
+      230 |   }
+        at tests/e2e/site-health.spec.ts:227:11
+    Error Context: test-results/site-health-site-health-—--40902-eeps-every-word-on-one-line-site-health/error-context.md
+  4) [site-health] › tests/e2e/site-health.spec.ts:252:5 › site health — the reveal is not load-bearing › /archive/2026-09-18/ renders without the reveal running 
+    Error: left at opacity 0 with no animation to finish. Take opacity: 0 out of the base rule. The resting state is visible, and only the animation inside '@supports (animation-timeline: view())' starts an element hidden. A menu or panel that starts closed hides with visibility: hidden or display: none, which this check skips.
+    <div.d_flex.flex-d_column.lg:flex-d_row.min-h_100vh > div.flex_1.min-w_0 > section.bg_surface.c_text.p_6.md:p_8> "Selected Work & ExperimentsFou" is 1196x881px at opacity 0, animation-name rise
+    <div.d_flex.flex-d_column.lg:flex-d_row.min-h_100vh > div.flex_1.min-w_0 > footer.pos_relative.ov_hidden.bg_field.c_fieldInk> "The ScorecardThursday, Septemb" is 1196x677px at opacity 0, animation-name rise
+    expect(received).toEqual(expected) // deep equality
+    - Expected  - 1
+    + Received  + 4
+    - Array []
+    + Array [
+    +   "<div.d_flex.flex-d_column.lg:flex-d_row.min-h_100vh > div.flex_1.min-w_0 > section.bg_surface.c_text.p_6.md:p_8> \"Selected Work & ExperimentsFou\" is 1196x881px at opacity 0, animation-name rise",
+    +   "<div.d_flex.flex-d_column.lg:flex-d_row.min-h_100vh > div.flex_1.min-w_0 > footer.pos_relative.ov_hidden.bg_field.c_fieldInk> \"The ScorecardThursday, Septemb\" is 1196x677px at opacity 0, animation-name rise",
+    + ]
+      269 |         stranded,
+      270 |         `left at opacity 0 with no animation to finish. ${STRANDED_FIX}\n${stranded.join('\n')}`
+    > 271 |       ).toEqual([])
+          |         ^
+      272 |
+      273 |       // And the page is genuinely populated, not merely free of zeroes.
+      274 |       expect((await page.locator('body').innerText()).trim().length).toBeGreaterThan(200)
+        at tests/e2e/site-health.spec.ts:271:9
+    Error Context: test-results/site-health-site-health-—--10407--without-the-reveal-running-site-health/error-context.md
+  4 failed
+    [site-health] › tests/e2e/site-health.spec.ts:169:5 › site health — nothing renders invisible › /archive/2026-09-19/ paints every piece of text it renders 
+    [site-health] › tests/e2e/site-health.spec.ts:209:7 › site health — no word breaks across lines › /archive/2026-09-18/work/spaceman.html at 1440 keeps every word on one line 
+    [site-health] › tests/e2e/site-health.spec.ts:209:7 › site health — no word breaks across lines › /archive/2026-09-16/ at 1440 keeps every word on one line 
+    [site-health] › tests/e2e/site-health.spec.ts:252:5 › site health — the reveal is not load-bearing › /archive/2026-09-18/ renders without the reveal running 

@@ -3,6 +3,20 @@ import { readFile, stat } from 'node:fs/promises'
 import { createServer, type Server } from 'node:http'
 import { siteCallout } from '../../app/content/callout'
 import { NARROW_VIEWPORT, WIDE_VIEWPORT } from '../../elements/chassis/viewports.js'
+import {
+  collectBrokenWords,
+  collectInvisibleText,
+  collectStrandedText,
+} from '../../scripts/utils/render-health-page.js'
+import {
+  describeBrokenWord,
+  describeInvisibleText,
+  describeStrandedText,
+  INVISIBLE_FIX,
+  isKnownShred,
+  STRANDED_FIX,
+  WORD_BREAK_FIX,
+} from '../../scripts/utils/render-health.js'
 import { CANONICAL_ORIGIN, RECOGNIZED_ORIGINS } from '../../shared/site-origin.js'
 import { test, expect, type Locator, type Page } from '@playwright/test'
 
@@ -156,45 +170,12 @@ test.describe('site health — nothing renders invisible', () => {
       await page.goto(path)
       await page.waitForLoadState('networkidle')
 
-      const invisible = await page.evaluate(() => {
-        // Text the element holds itself, not what its children hold.
-        const ownText = (el: Element) =>
-          Array.from(el.childNodes)
-            .filter((n) => n.nodeType === Node.TEXT_NODE)
-            .map((n) => n.textContent ?? '')
-            .join('')
-            .trim()
+      const invisible = (await collectInvisibleText(page)).map(describeInvisibleText)
 
-        // sr-only, collapsed, and a reveal caught mid-flight are all fine.
-        const onScreen = (el: Element, cs: CSSStyleDeclaration) => {
-          const r = el.getBoundingClientRect()
-          if (r.width < 2 || r.height < 2) return false
-          if (cs.visibility === 'hidden' || cs.display === 'none') return false
-          return Number.parseFloat(cs.opacity) !== 0
-        }
-
-        // Transparent glyphs still count as painted if a stroke or a clipped
-        // background draws them.
-        const painted = (cs: CSSStyleDeclaration) => {
-          if (!/^rgba\(.*,\s*0\)$/.test(cs.color)) return true
-          if (Number.parseFloat(cs.webkitTextStrokeWidth || '0') > 0) return true
-          return (cs.webkitBackgroundClip || cs.backgroundClip) === 'text'
-        }
-
-        const bad: string[] = []
-        for (const el of Array.from(document.querySelectorAll('body *'))) {
-          const own = ownText(el)
-          if (!own) continue
-
-          const cs = getComputedStyle(el)
-          if (!onScreen(el, cs) || painted(cs)) continue
-
-          bad.push(`<${el.tagName.toLowerCase()}> "${own.slice(0, 30)}" color=${cs.color}`)
-        }
-        return bad
-      })
-
-      expect(invisible, `text painted in nothing at all:\n${invisible.join('\n')}`).toEqual([])
+      expect(
+        invisible,
+        `text painted in nothing at all. ${INVISIBLE_FIX}\n${invisible.join('\n')}`
+      ).toEqual([])
     })
   }
 })
@@ -220,13 +201,6 @@ test.describe('site health — nothing renders invisible', () => {
  */
 const SHRED_VIEWPORTS = [NARROW_VIEWPORT, WIDE_VIEWPORT]
 
-// Designs the owner chose to leave up with this defect, keyed by the date in
-// the page's og:image, with the routes it shows on. `test.fail` rather than a
-// skip: CI keeps proving the gate catches the day, and the entry stops
-// applying the night a new design replaces it. Delete entries once they are
-// history.
-const KNOWN_SHREDS: Record<string, string[]> = {}
-
 test.describe('site health — no word breaks across lines', () => {
   const paths = ['/', '/about', ...PROJECT_SLUGS.map((slug) => `/work/${slug}`)]
 
@@ -236,73 +210,20 @@ test.describe('site health — no word breaks across lines', () => {
         await page.setViewportSize(viewport)
         await page.goto(path)
         await page.waitForLoadState('networkidle')
-        // A fallback face has different widths; measure the one that ships.
-        await page.evaluate(() => document.fonts.ready)
-
-        const ogImage = await page.evaluate(
-          () => document.querySelector('meta[property="og:image"]')?.getAttribute('content') ?? ''
-        )
-        const designDate = ogImage.match(/\/og\/(\d{4}-\d{2}-\d{2})\.png$/)?.[1] ?? ''
+        // The probe waits for the fonts: a fallback face has different widths,
+        // and the one that ships is the one to measure. It is the surface
+        // gate's probe (scripts/utils/render-health-page.js), so the two agree.
+        const { designDate, words } = await collectBrokenWords(page)
         test.fail(
-          KNOWN_SHREDS[designDate]?.includes(path) ?? false,
+          isKnownShred(designDate, path),
           `${designDate} shipped with shredded titles and stays up (#530)`
         )
 
-        const shredded = await page.evaluate(() => {
-          // Vertical type is a deliberate stack, and a hyphenated break is
-          // ordinary typesetting. Neither is this defect.
-          const measurable = (cs: CSSStyleDeclaration) =>
-            cs.visibility !== 'hidden' &&
-            cs.hyphens !== 'auto' &&
-            cs.writingMode.startsWith('horizontal')
-
-          // The box that did the breaking is the nearest one that is not inline.
-          const boxWidth = (el: Element) => {
-            let block = el
-            while (block.parentElement && getComputedStyle(block).display.startsWith('inline')) {
-              block = block.parentElement
-            }
-            const cs = getComputedStyle(block)
-            return (
-              block.clientWidth -
-              Number.parseFloat(cs.paddingLeft) -
-              Number.parseFloat(cs.paddingRight)
-            )
-          }
-
-          // One rect per line the word touches; `display: none` gives none.
-          const range = document.createRange()
-          const brokenWords = (node: Node, el: Element, size: number) =>
-            Array.from((node.textContent ?? '').matchAll(/[\p{L}\p{N}'’]+/gu)).flatMap((word) => {
-              range.setStart(node, word.index)
-              range.setEnd(node, word.index + word[0].length)
-              const rects = Array.from(range.getClientRects()).filter((r) => r.width > 0)
-              const lines = new Set(rects.map((r) => Math.round(r.top / (size / 2))))
-              if (lines.size < 2) return []
-              const needs = rects.reduce((sum, r) => sum + r.width, 0)
-              return [
-                `<${el.tagName.toLowerCase()}> "${word[0]}" at ${Math.round(size)}px needs ` +
-                  `${Math.round(needs)}px, its box is ${Math.round(boxWidth(el))}px, ` +
-                  `broken over ${lines.size} lines`,
-              ]
-            })
-
-          const bad: string[] = []
-          const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
-          for (let node = walker.nextNode(); node; node = walker.nextNode()) {
-            const el = node.parentElement
-            if (!el) continue
-            const cs = getComputedStyle(el)
-            if (measurable(cs)) bad.push(...brokenWords(node, el, Number.parseFloat(cs.fontSize)))
-          }
-          return bad
-        })
-
+        const shredded = words.map(describeBrokenWord)
         expect(
           shredded,
           `${path} at ${viewport.width}x${viewport.height}: a word is broken mid-word because its ` +
-            `column is narrower than the word. Size the type to the column, or stack words ` +
-            `with <br> or writing-mode:\n${shredded.join('\n')}`
+            `column is narrower than the word. ${WORD_BREAK_FIX}\n${shredded.join('\n')}`
         ).toEqual([])
       })
     }
@@ -342,22 +263,11 @@ test.describe('site health — the reveal is not load-bearing', () => {
         'reduced motion was not emulated, so the rest of this test proves nothing'
       ).toBe(true)
 
-      const stranded = await page.evaluate(() =>
-        Array.from(document.querySelectorAll('body *'))
-          .filter((el) => (el.textContent ?? '').trim().length > 0)
-          .filter((el) => {
-            const cs = getComputedStyle(el)
-            if (cs.visibility === 'hidden' || cs.display === 'none') return false
-            return Number.parseFloat(cs.opacity) === 0
-          })
-          .map(
-            (el) => `<${el.tagName.toLowerCase()}> "${(el.textContent ?? '').trim().slice(0, 30)}"`
-          )
-      )
+      const stranded = (await collectStrandedText(page)).map(describeStrandedText)
 
       expect(
         stranded,
-        `left at opacity 0 with no animation to finish:\n${stranded.join('\n')}`
+        `left at opacity 0 with no animation to finish. ${STRANDED_FIX}\n${stranded.join('\n')}`
       ).toEqual([])
 
       // And the page is genuinely populated, not merely free of zeroes.
