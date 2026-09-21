@@ -483,10 +483,14 @@ export function findClippedElements(_viewportWidth, thresholds) {
   // The element chain, as text-contrast-page.js writes it: tag, id and up to
   // four Panda classes, three ancestors deep, conditions dropped. Inlined
   // because this function is serialised on its own.
+  // Attributes, not the reflected properties: a <form> with a control named
+  // `id` or `classList` shadows those, and SVG's `className` is an object.
   const describe = (el) => {
-    const id = el.id ? `#${el.id}` : ''
-    const classes = [...el.classList]
-      .filter((c) => !/[[(]/.test(c))
+    const idAttr = el.getAttribute('id')
+    const id = idAttr ? `#${idAttr}` : ''
+    const classes = (el.getAttribute('class') || '')
+      .split(/\s+/)
+      .filter((c) => c && !/[[(]/.test(c))
       .slice(0, 4)
       .map((c) => `.${c}`)
       .join('')
