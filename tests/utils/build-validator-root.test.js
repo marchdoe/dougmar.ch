@@ -109,3 +109,41 @@ describe('validateBuildOutput carries the spacing-string finding to the engineer
     expect(errors).toContain("paddingBlock: '3', paddingInline: '4'")
   })
 })
+
+describe('validateBuildOutput blocks on a generated component the engineer wrote (#614)', () => {
+  let root
+  beforeEach(() => {
+    root = seedBuild()
+    // The hand-listed file is clean; the fault is in a component the engineer
+    // invented under app/components/generated/, which MUTABLE_FILES cannot
+    // name. On 2026-09-21 the gate warned on exactly this and let the build
+    // through, and `pnpm test` failed the run on the same line.
+    writeFileSync(
+      path.join(root, 'app', 'components', 'Sidebar.tsx'),
+      "export function Sidebar() { return <div className={css({ width: 'full' })} /> }\n"
+    )
+    mkdirSync(path.join(root, 'app', 'components', 'generated'), { recursive: true })
+    writeFileSync(
+      path.join(root, 'app', 'components', 'generated', 'PersonalStrip.tsx'),
+      "export function PersonalStrip() {\n  return <div className={css({ padding: '4 0' })} />\n}\n"
+    )
+    writeFileSync(
+      path.join(root, 'app', 'routes', 'index.tsx'),
+      "import { Sidebar } from '../components/Sidebar'\n" +
+        "import { PersonalStrip } from '../components/generated/PersonalStrip'\n" +
+        'export function Index() { return <><Sidebar /><PersonalStrip /></> }\n'
+    )
+  })
+  afterEach(() => {
+    rmSync(root, { recursive: true, force: true })
+  })
+
+  it('fails the build with the generated file, its line and the corrected form', () => {
+    const result = validateBuildOutput({ root })
+    expect(result.success).toBe(false)
+    const errors = result.errors.join('\n')
+    expect(errors).toContain('app/components/generated/PersonalStrip.tsx:2')
+    expect(errors).toContain("padding: '4 0'")
+    expect(errors).toContain("paddingBlock: '4', paddingInline: '0'")
+  })
+})
