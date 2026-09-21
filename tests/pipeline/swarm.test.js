@@ -289,4 +289,37 @@ describe('runAgentSwarm on the recorded night', () => {
     expect(needsHuman.feedback).toContain('/work')
     expect(needsHuman.feedback).toContain('70px wider than the 360px viewport')
   })
+
+  it('leaves a trace of a surface gate that threw, and still ships the build (#565)', async () => {
+    const run = await runSwarm({ gate: [new Error('browser crashed')] })
+
+    // Non-blocking, as before: the critic still ran and the night archived.
+    expect(run.error).toBeNull()
+    expect(run.callsFor('screenshot-critic')).toHaveLength(1)
+    expect(run.fakes.archive).toHaveLength(1)
+
+    // But a gate that measured nothing no longer reads like one that found
+    // nothing: a verdict, a trace step and the record's artifact all say so.
+    expect(run.verdicts.find((v) => v.critic === 'surface-gate')).toMatchObject({
+      round: 1,
+      verdict: 'GATE-FAILED',
+      error: 'browser crashed',
+    })
+    const step = run.trace.steps.find((s) => s.name === 'surface-gate')
+    expect(step.output).toEqual({ ran: false, error: 'browser crashed' })
+    expect(JSON.parse(run.fakes.archive[0].artifacts['surface-gate.json'])).toEqual({
+      ran: false,
+      error: 'browser crashed',
+      round: 1,
+    })
+  })
+
+  it('records a gate that measured as having run', async () => {
+    const run = await runSwarm()
+    expect(JSON.parse(run.fakes.archive[0].artifacts['surface-gate.json'])).toEqual({
+      ran: true,
+      error: null,
+      round: null,
+    })
+  })
 })

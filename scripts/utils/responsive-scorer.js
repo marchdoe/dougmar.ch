@@ -1,4 +1,5 @@
 import { chromium } from '@playwright/test'
+import { TABLET_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { OVERFLOW_TOLERANCE_PX, findClippedElements } from './surface-gate.js'
 import { measureDesignFidelity } from './design-fidelity.js'
 import { BODY_TEXT_MIN_PX, TAP_TARGET_MIN_PX } from './responsive-thresholds.js'
@@ -14,8 +15,8 @@ export const RESPONSIVE_THRESHOLDS = {
   bodyTextMinPx: BODY_TEXT_MIN_PX,
   /** WCAG 2.5.5 target size, and Apple's HIG minimum. */
   tapTargetMinPx: TAP_TARGET_MIN_PX,
-  /** Tap targets are only judged at widths a thumb operates. */
-  tapTargetMaxViewportPx: 768,
+  /** Tap targets are only judged at widths a thumb operates: up to the tablet. */
+  tapTargetMaxViewportPx: TABLET_VIEWPORT.width,
   /** Average characters per rendered line before a paragraph reads as a wall. */
   lineLengthMaxChars: 75,
   /**

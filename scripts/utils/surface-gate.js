@@ -24,18 +24,23 @@
 
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
-import { NARROW_VIEWPORT, WIDE_VIEWPORT } from '../../elements/chassis/viewports.js'
+import {
+  NARROW_VIEWPORT,
+  TABLET_VIEWPORT,
+  WIDE_VIEWPORT,
+} from '../../elements/chassis/viewports.js'
 import { contrastRatio, rgbToHex } from './contrast.js'
 import { readCopyExemptions, readRenderedCopy, renderedCopyFindings } from './copy-gate.js'
 import { ROOT } from './file-manager.js'
 import { TAP_TARGET_MIN_PX } from './responsive-thresholds.js'
 import { collapseSmallText, smallTextFindings } from './small-text.js'
 import { withPreviewServer } from './snapshot.js'
+import { TABLET_RUNG, tabletMeasurement } from './tablet-rung.js'
 import { collapseTextContrast, textContrastFindings } from './text-contrast.js'
 import { measureTextContrast } from './text-contrast-page.js'
 
 /**
- * Viewport rungs. Both are already on the ladder `archiver.js:311` defines for
+ * Viewport rungs. All three are on the ladder `archiver.js` defines for
  * responsive measurement, so this introduces no new numbers to reason about.
  *
  * The critic used to capture at 1280x900, which is not a rung on that ladder
@@ -61,6 +66,8 @@ export const RUNNING_COPY_MAX_PX = 48
 
 export const VIEWPORT_RUNGS = [
   { name: 'mobile', ...NARROW_VIEWPORT },
+  // Overflow and clipping only; see tablet-rung.js (#565).
+  { name: TABLET_RUNG, ...TABLET_VIEWPORT },
   { name: 'desktop', ...WIDE_VIEWPORT },
 ]
 
@@ -840,10 +847,15 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
       ([src, thresholds]) => new Function(`return ${src}`)()(window.innerWidth, thresholds),
       [findClippedElements.toString(), { overflowTolerancePx: OVERFLOW_TOLERANCE_PX }]
     )
+    // The tablet asks whether the document overflows and whether anything is
+    // cut, and nothing else (#565): the rest is measured at the other rungs.
+    if (viewport.name === TABLET_RUNG) {
+      return tabletMeasurement(base, { status: resp?.status() ?? null, box, clipped })
+    }
     // Tap targets only matter where a thumb does the tapping (#488): measured
     // at the 360 rung only, so a desktop pass spends nothing on a question it
     // cannot ask.
-    // The brand mark, at both rungs and in both schemes (#503).
+    // The brand mark, at the phone and desktop rungs and in both schemes (#503).
     const brand = await page.evaluate(
       ([src, thresholds]) => new Function(`return ${src}`)()(window.innerWidth, thresholds),
       [findBrandMark.toString(), {}]
@@ -864,7 +876,7 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
     if (viewport.width === 1440 && scheme === 'light') {
       visibleCopy = await readRenderedCopy(page)
     }
-    // Text contrast and the type-size floors, at both rungs in both schemes
+    // Text contrast and the type-size floors, at the phone and desktop rungs in both schemes
     // (#566, #567). Last, because it resizes the viewport to reveal what fades
     // in on scroll.
     const textContrast = await measureTextContrast(page)

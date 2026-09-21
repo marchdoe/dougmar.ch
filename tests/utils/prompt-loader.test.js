@@ -2,12 +2,13 @@ import { readFileSync, readdirSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
-import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
+import { NARROW_VIEWPORT, TABLET_VIEWPORT } from '../../elements/chassis/viewports.js'
 import {
   DATA_BOUNDARY_RULE_TOKEN,
   NARROW_PX_TOKEN,
   SMALL_COPY_FLOOR_PX_TOKEN,
   SMALL_TEXT_FLOOR_PX_TOKEN,
+  TABLET_PX_TOKEN,
   fillDataBoundaryRule,
   fillViewportTokens,
   loadPrompt,
@@ -34,6 +35,14 @@ describe('fillViewportTokens', () => {
     expect(fillViewportTokens('the phone is {{NARROW_PX}} wide')).toBe(
       `the phone is ${NARROW_VIEWPORT.width} wide`
     )
+  })
+
+  it('fills the tablet width from TABLET_VIEWPORT, or from the width it is given (#565)', () => {
+    expect(fillViewportTokens('at {{TABLET_PX}} and {{TABLET_PX}}px')).toBe(
+      `at ${TABLET_VIEWPORT.width} and ${TABLET_VIEWPORT.width}px`
+    )
+    expect(fillViewportTokens('at {{TABLET_PX}}', { tabletPx: 700 })).toBe('at 700')
+    expect(TABLET_PX_TOKEN).toBe('{{TABLET_PX}}')
   })
 
   it('leaves every other placeholder for its owner', () => {
@@ -158,6 +167,56 @@ describe('prompt sources do not spell the phone width out', () => {
       expect(text.includes(a.line), `${a.file}: "${a.line}" (${a.why})`).toBe(true)
     }
   })
+})
+
+/**
+ * The tablet width is `{{TABLET_PX}}` in a prompt source (#565). The
+ * designer prompt used to say tablet was 768, which nothing measured, and
+ * every width it named beside it (1024) was equally unmeasured. The vendored
+ * `impeccable/` references quote breakpoints in their own examples and are
+ * left alone.
+ */
+describe('prompt sources do not spell the tablet width out', () => {
+  const walk = (dir) =>
+    readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
+      e.isDirectory()
+        ? e.name === 'impeccable'
+          ? []
+          : walk(path.join(dir, e.name))
+        : e.name.endsWith('.md')
+          ? [path.join(dir, e.name)]
+          : []
+    )
+
+  // Panda's `md` breakpoint is 768px (panda.config.ts). It is a token the
+  // engineer writes CSS against, not a width the gate measures.
+  const ALLOWED = [{ file: 'react-engineer.md', line: '`@media (min-width: 768px)` | `md`' }]
+
+  it('as 768 or the current tablet width', () => {
+    const literal = new RegExp(`(?<![0-9])(768|${TABLET_VIEWPORT.width})(?![0-9])`)
+    const strays = []
+    for (const abs of walk(PROMPTS)) {
+      const rel = path.relative(PROMPTS, abs)
+      readFileSync(abs, 'utf8')
+        .split('\n')
+        .forEach((text, i) => {
+          if (!literal.test(text)) return
+          if (ALLOWED.some((a) => a.file === rel && text.includes(a.line))) return
+          strays.push(`${rel}:${i + 1}: ${text.trim()}`)
+        })
+    }
+    expect(strays, strays.join('\n')).toEqual([])
+  })
+
+  it.each(['mockup-designer.md', 'screenshot-critic.md'])(
+    '%s names the tablet with the token, and the loader fills it',
+    async (file) => {
+      expect(readFileSync(path.join(PROMPTS, file), 'utf8')).toContain(TABLET_PX_TOKEN)
+      const loaded = await loadPrompt(file)
+      expect(loaded).not.toContain(TABLET_PX_TOKEN)
+      expect(loaded).toContain(`${TABLET_VIEWPORT.width}`)
+    }
+  )
 })
 
 describe('the type-size floors are tokens filled from responsive-thresholds.js (#567)', () => {

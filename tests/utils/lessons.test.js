@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { mkdtempSync, rmSync, mkdirSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
+import { NARROW_VIEWPORT, TABLET_VIEWPORT } from '../../elements/chassis/viewports.js'
 import {
   PHONE_WIDTHS,
   buildLessonsBlock,
@@ -403,6 +403,26 @@ describe('extractMobileSignals', () => {
     // With only 360 listed, the other width is not the phone.
     const only360 = extractMobileSignals('2026-06-10', verdicts, tuple, { phoneWidths: [360] })
     expect(only360.map((e) => e.text)).toEqual(['/ @360: old night', 'At 360 it was gone too.'])
+  })
+
+  it('keeps the tablet out of the phone block (#565)', () => {
+    // The gate labels a tablet finding @820. It is a real finding for the
+    // general lessons, and it is not a phone finding.
+    expect(PHONE_WIDTHS).not.toContain(TABLET_VIEWPORT.width)
+    const verdicts = [
+      {
+        critic: 'surface-gate',
+        verdict: 'REVISE',
+        feedback: `/ @360: phone overflow\n/ @${TABLET_VIEWPORT.width}: document is 180px wider than the ${TABLET_VIEWPORT.width}px viewport\n/about @1440: desktop`,
+      },
+      {
+        critic: 'screenshot-critic',
+        verdict: 'REVISE',
+        feedback: `At ${TABLET_VIEWPORT.width} the grid keeps its desktop columns. At 360 the split is gone.`,
+      },
+    ]
+    const out = extractMobileSignals('2026-06-10', verdicts, tuple)
+    expect(out.map((e) => e.text)).toEqual(['/ @360: phone overflow', 'At 360 the split is gone.'])
   })
 
   it('returns nothing for an empty or missing verdicts list', () => {

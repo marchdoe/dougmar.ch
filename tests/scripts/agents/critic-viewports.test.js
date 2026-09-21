@@ -10,9 +10,15 @@
  */
 import { describe, expect, it } from 'vitest'
 import { fluid } from '../../../elements/chassis/scale.js'
-import { NARROW_VIEWPORT, WIDE_VIEWPORT } from '../../../elements/chassis/viewports.js'
+import {
+  NARROW_VIEWPORT,
+  TABLET_VIEWPORT,
+  WIDE_VIEWPORT,
+} from '../../../elements/chassis/viewports.js'
 import { RESPONSIVE_VIEWPORTS } from '../../../scripts/utils/archiver.js'
-import { CRITIC_MOBILE_VIEWPORT } from '../../../scripts/utils/snapshot.js'
+import { fillViewportTokens } from '../../../scripts/utils/prompt-loader.js'
+import { RESPONSIVE_THRESHOLDS } from '../../../scripts/utils/responsive-scorer.js'
+import { CRITIC_MOBILE_VIEWPORT, CRITIC_TABLET_VIEWPORT } from '../../../scripts/utils/snapshot.js'
 import { VIEWPORT_RUNGS } from '../../../scripts/utils/surface-gate.js'
 
 const size = ({ width, height }) => ({ width, height })
@@ -57,5 +63,42 @@ describe('everything that measures a phone reads NARROW_VIEWPORT', () => {
     // `fluid()` rounds the intercept and slope to three places.
     expect(lineAt(NARROW_VIEWPORT.width)).toBeCloseTo(min, 2)
     expect(lineAt(WIDE_VIEWPORT.width)).toBeCloseTo(max, 2)
+  })
+})
+
+describe('everything that measures or shows a tablet reads TABLET_VIEWPORT (#565)', () => {
+  it('is a tablet: wider than the phone, narrower than the desktop', () => {
+    expect(TABLET_VIEWPORT.width).toBeGreaterThan(NARROW_VIEWPORT.width)
+    expect(TABLET_VIEWPORT.width).toBeLessThan(WIDE_VIEWPORT.width)
+  })
+
+  it("the surface gate's tablet rung", () => {
+    expect(size(VIEWPORT_RUNGS.find((v) => v.name === 'tablet'))).toEqual(size(TABLET_VIEWPORT))
+  })
+
+  it("the archiver's tablet, with the ladder still running phone to desktop", () => {
+    expect(size(RESPONSIVE_VIEWPORTS.find((v) => v.name === 'tablet'))).toEqual(
+      size(TABLET_VIEWPORT)
+    )
+    expect(RESPONSIVE_VIEWPORTS.map((v) => v.name)).toEqual([
+      'mobile',
+      'tablet',
+      'laptop',
+      'desktop',
+    ])
+  })
+
+  it('the tablet the critics are shown', () => {
+    expect(size(CRITIC_TABLET_VIEWPORT)).toEqual(size(TABLET_VIEWPORT))
+  })
+
+  it("the prompts' {{TABLET_PX}}", () => {
+    expect(fillViewportTokens('at {{TABLET_PX}}px')).toBe(`at ${TABLET_VIEWPORT.width}px`)
+  })
+
+  it('the scorer judges tap targets up to the tablet and no wider', () => {
+    // The scorer's own literal was 768, the old tablet. The limit is a touch
+    // device, so it follows the tablet.
+    expect(RESPONSIVE_THRESHOLDS.tapTargetMaxViewportPx).toBe(TABLET_VIEWPORT.width)
   })
 })

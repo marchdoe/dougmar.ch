@@ -4,7 +4,7 @@
  * guard, the best-rated reference wiring and the no-verdict rule are
  * unit-testable without the full orchestrator.
  */
-import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
+import { NARROW_VIEWPORT, TABLET_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { budgetFor } from '../utils/budgets.js'
 import { imageBlock, textBlock } from '../utils/claude-sdk.js'
 import { parseBarLine, parseCriticVerdict } from '../utils/critic-verdict.js'
@@ -15,9 +15,11 @@ import { VisionTruncatedError } from '../utils/vision-truncated-error.js'
 
 /**
  * Hard ceiling on image blocks per call: mockup + light at 1440 + a phone
- * filmstrip of the home page + dark at 1440 + the two header crops leaves two
- * slots for the /about and case-study phone filmstrips, a project page, and
- * one calibration reference to compete over.
+ * filmstrip of the home page + a tablet still of the home page + dark at 1440
+ * + the two header crops leaves one slot for the /about and case-study phone
+ * filmstrips, a project page, and one calibration reference to compete over.
+ * The dark capture is only sent when it differs from the light one, which is
+ * most nights not, and the motion strip only on a night that declared motion.
  *
  * The header crops cost about 1.2k image tokens each and are the only place
  * the critic can read a mark size off (#254). The project-page capture is the
@@ -26,14 +28,18 @@ import { VisionTruncatedError } from '../utils/vision-truncated-error.js'
  * schemes, and no critic had ever opened that route (#215).
  *
  * When the ceiling binds, the calibration reference drops first, then the
- * 1440 route captures — never a crop, and never a phone filmstrip. Until
+ * 1440 route captures — never a crop, and never a phone filmstrip. The tablet
+ * still (#565) took the eighth slot on a typical night, so that night loses
+ * the calibration reference; a night with a dark capture or a motion strip
+ * loses the case-study phone filmstrip, and one with both loses the /about
+ * filmstrip too. Until
  * #466 only the home page ever got a phone image at all, and it was a single
  * 640px crop rather than the whole page; `/about` at 9361px tall had never
  * been seen by a critic in any form. A phone filmstrip surviving the ceiling
  * squeeze that used to protect the calibration reference is the point of
  * that reordering.
  *
- * It stops at eight on purpose. The geometry of every route at both rungs is
+ * It stops at eight on purpose. The geometry of every route at every rung is
  * already covered by `surface-gate.js`, which measures rather than looks and
  * so costs nothing; images are reserved for the judgements measurement cannot
  * make. Raising this further buys re-litigation of facts the gate already
@@ -139,10 +145,11 @@ function routeShotBlocks(existing, routeShots) {
  * @param {string} [ctx.boundaryId] - the run's boundary suffix (data-boundary.js);
  *   a random one is drawn when the caller has none
  * @param {{ jpeg: Buffer, headerJpeg?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null } | null} [ctx.mockupScreenshot] - approved mockup, if any
- * @param {{ jpeg: Buffer, darkJpeg?: Buffer|null, headerJpeg?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null, mobileJpeg?: Buffer|null, motionStripJpeg?: Buffer|null }} ctx.screenshotBuffer -
+ * @param {{ jpeg: Buffer, darkJpeg?: Buffer|null, headerJpeg?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null, mobileJpeg?: Buffer|null, tabletJpeg?: Buffer|null, motionStripJpeg?: Buffer|null }} ctx.screenshotBuffer -
  *   rendered homepage: both schemes at 1440 (the dark one only when it
  *   differs from the light one), plus a phone filmstrip of the
- *   whole page in the light scheme, plus the motion frame strip on a night
+ *   whole page in the light scheme, plus the first screen at the tablet
+ *   width (#565), plus the motion frame strip on a night
  *   that declared an entrance or a drifting ground (#506)
  * @param {Array<{ label: string, jpeg: Buffer }>} [ctx.phoneFilmstrips] -
  *   phone filmstrips of other routes (/about, a case study); prioritized
@@ -195,6 +202,13 @@ export function buildScreenshotCriticBlocks(ctx) {
         "640px folds and laid side by side (the fold labels are ours, not the site's). Section " +
         '10 is judged on this against the image above it:',
       ctx.screenshotBuffer.mobileJpeg
+    ),
+    // One still of the home page's first screen at the tablet width (#565),
+    // in the protected group with the phone and the crops: it is the only
+    // image at a width between the other two. Section 10 says what it is for.
+    ...shot(
+      `The first screen of that SAME page at ${TABLET_VIEWPORT.width}×${TABLET_VIEWPORT.height} (TABLET), light scheme. Section 10 says what to look for:`,
+      ctx.screenshotBuffer.tabletJpeg
     ),
     ...shot('DARK scheme, 1440×900 (DESKTOP):', ctx.screenshotBuffer.darkJpeg),
     // Two 2x crops of the header region, mockup first, then render. Section 9

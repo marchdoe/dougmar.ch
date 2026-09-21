@@ -2,7 +2,11 @@ import { describe, it, expect } from 'vitest'
 import { mkdtemp, mkdir, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { NARROW_VIEWPORT, WIDE_VIEWPORT } from '../../elements/chassis/viewports.js'
+import {
+  NARROW_VIEWPORT,
+  TABLET_VIEWPORT,
+  WIDE_VIEWPORT,
+} from '../../elements/chassis/viewports.js'
 import {
   evaluateMeasurement,
   formatFindingsForCritic,
@@ -280,7 +284,11 @@ describe('faultsForOwner', () => {
 
 describe('VIEWPORT_RUNGS', () => {
   it('stays on the archiver ladder, and off the 1280 the critic used to capture at', () => {
-    expect(VIEWPORT_RUNGS.map((v) => v.width)).toEqual([NARROW_VIEWPORT.width, WIDE_VIEWPORT.width])
+    expect(VIEWPORT_RUNGS.map((v) => v.width)).toEqual([
+      NARROW_VIEWPORT.width,
+      TABLET_VIEWPORT.width,
+      WIDE_VIEWPORT.width,
+    ])
     expect(VIEWPORT_RUNGS.map((v) => v.width)).not.toContain(1280)
   })
 })

@@ -295,6 +295,37 @@ describe('buildRecord', () => {
     expect(anomaliesOf(record)).toEqual([])
   })
 
+  it('carries whether the surface gate measured, and reads null for every older night (#565)', () => {
+    writeBuild('2026-09-20', '200', {
+      'brief.md': BRIEF,
+      'surface-gate.json': JSON.stringify({ ran: false, error: 'browser crashed', round: 1 }),
+    })
+    writeDateFile('2026-09-20', 'brief.md', BRIEF)
+    expect(buildRecord('2026-09-20', { archiveDir }).surfaceGate).toEqual({
+      ran: false,
+      error: 'browser crashed',
+      round: 1,
+    })
+
+    writeBuild('2026-09-19', '100', { 'brief.md': BRIEF })
+    writeDateFile('2026-09-19', 'brief.md', BRIEF)
+    const old = buildRecord('2026-09-19', { archiveDir })
+    expect(old.surfaceGate).toBeNull()
+    // Not an artifact any era is expected to carry, so an older date is no anomaly.
+    expect(anomaliesOf(old).join('\n')).not.toContain('surface-gate')
+    // And it survives the JSON round trip record.json takes.
+    expect(JSON.parse(JSON.stringify(old)).surfaceGate).toBeNull()
+  })
+
+  it('reads a malformed surface-gate.json as unknown rather than as a gate that ran', () => {
+    for (const [i, raw] of ['{"ran":"yes"}', '[]', 'not json'].entries()) {
+      const date = `2026-09-0${i + 1}`
+      writeBuild(date, '1', { 'brief.md': BRIEF, 'surface-gate.json': raw })
+      writeDateFile(date, 'brief.md', BRIEF)
+      expect(buildRecord(date, { archiveDir }).surfaceGate, raw).toBeNull()
+    }
+  })
+
   it('degrades a prose-era day to what that stratum actually had', () => {
     writeDateFile('2026-03-12', 'brief.md', BRIEF)
     writeDateFile('2026-03-12', 'archetype.txt', 'Index')

@@ -74,6 +74,7 @@ import { modelFor, isDevModelTier } from './utils/models.js'
 import { STEP_BUDGETS, budgetFor } from './utils/budgets.js'
 import { runDate } from './utils/run-date.js'
 import { isMain } from './utils/cli.js'
+import { describeGateErrors, recordGateFailure, surfaceGateRecord } from './utils/gate-outcome.js'
 import { computeMandateSections } from './pipeline/mandates.js'
 import { runArtDirector } from './agents/art-director.js'
 import {
@@ -321,6 +322,9 @@ export function archiveArtifacts(run) {
     'mockup-screenshot.png': run.mockupScreenshot?.png ?? null,
     'mockup-screenshot-mobile.jpg': run.mockupScreenshot?.mobileJpeg ?? null,
     'verdicts.json': json(run.verdicts),
+    // Whether the surface gate measured at all (#565); a run whose gate threw
+    // is otherwise indistinguishable from one that found nothing.
+    'surface-gate.json': json(surfaceGateRecord(run.verdicts)),
     'shell.json': json(run.shellDecl),
     'header.json': json(run.headerDecl),
     // How the type is set (#502), beside the header it shares a page with.
@@ -2247,7 +2251,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
     // -----------------------------------------------------------------------
     async function runScreenshotCriticGate(passingBackup) {
       // Deterministic surface gate first. It walks every generated route at
-      // both rungs in both schemes and measures whether the document fits the
+      // three rungs in both schemes and measures whether the document fits the
       // screen — the class of defect that put `/experiments` 657px past a
       // 1440px viewport with its headline and nav off the edge (#215), which
       // the single-page critic could never have seen. Measurements cost no
@@ -2278,8 +2282,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
        * @returns {Promise<{findings: Array<object>, measured: number, errorCount: number}|null>}
        */
       async function measureSurfaces(round) {
+        const t0Gate = Date.now()
         try {
-          const t0Gate = Date.now()
           const measured = await runSurfaceGate({ root })
           const copy = await runCopyGate({ root })
           // A new object, not a push into the measured one: the caller's
@@ -2291,7 +2295,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
             errorCount: findings.filter((f) => f.severity === 'error').length,
           }
           console.log(
-            `  [surface-gate] round ${round}: ${gate.measured} measurements, ${copy.scanned} files read for copy, ${gate.errorCount} error(s) in ${((Date.now() - t0Gate) / 1000).toFixed(1)}s`
+            `  [surface-gate] round ${round}: ${gate.measured} measurements, ${copy.scanned} files read for copy, ${describeGateErrors(gate.errorCount, faultsForOwner(gate.findings, 'human').length)} in ${((Date.now() - t0Gate) / 1000).toFixed(1)}s`
           )
           for (const f of gate.findings) {
             console.log(`    [${f.severity}] ${findingLocation(f, { scheme: true })}: ${f.detail}`)
@@ -2321,6 +2325,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           // Non-blocking, exactly like the critic below: a gate that cannot run
           // must not stop a build that otherwise passed.
           console.warn(`  [surface-gate] failed (non-blocking): ${err.message}`)
+          // A gate that threw looks like one that passed unless it says so
+          // (#565): the verdict reaches verdicts.json and the rating issue,
+          // the step reaches the trace, surface-gate.json reaches record.json.
+          recordGateFailure({ verdicts, trace, round, err, durationMs: Date.now() - t0Gate })
           return null
         }
       }
