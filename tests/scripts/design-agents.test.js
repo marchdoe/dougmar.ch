@@ -143,6 +143,23 @@ describe('archiveArtifacts', () => {
     expect(out['hero-source.json']).toBe(JSON.stringify({ source: null }, null, 2))
   })
 
+  it('says whether the surface gate measured, from the verdicts it left (#565)', () => {
+    expect(JSON.parse(archiveArtifacts(base)['surface-gate.json'])).toEqual({
+      ran: true,
+      error: null,
+      round: null,
+    })
+    const failed = {
+      critic: 'surface-gate',
+      round: 1,
+      verdict: 'GATE-FAILED',
+      error: 'browser crashed',
+    }
+    expect(
+      JSON.parse(archiveArtifacts({ ...base, verdicts: [failed] })['surface-gate.json'])
+    ).toEqual({ ran: false, error: 'browser crashed', round: 1 })
+  })
+
   it('carries every capture through when it happened', () => {
     const png = Buffer.from([1])
     const jpeg = Buffer.from([2])

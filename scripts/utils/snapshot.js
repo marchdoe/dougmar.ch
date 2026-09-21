@@ -10,7 +10,7 @@
 import { spawn } from 'node:child_process'
 import { mkdir, writeFile, readFile } from 'node:fs/promises'
 import path from 'node:path'
-import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
+import { NARROW_VIEWPORT, TABLET_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { ROOT } from './file-manager.js'
 import { STEP_BUDGETS } from './budgets.js'
 import { FINGERPRINT_VIEWPORT, collectGeometry } from './geometry-fingerprint.js'
@@ -518,6 +518,39 @@ export async function capturePhoneFilmstrip(browser, url, { colorScheme } = {}) 
 }
 
 /**
+ * The tablet the critics are shown, and the one the surface gate's tablet rung
+ * measures. Both read `TABLET_VIEWPORT`.
+ */
+export const CRITIC_TABLET_VIEWPORT = TABLET_VIEWPORT
+
+/**
+ * The first screen of a page at the tablet width, light scheme, as a
+ * critic-bound JPEG (#565). One still and not a filmstrip: the question it
+ * answers is whether the 1440 composition was redesigned or only squeezed,
+ * and that shows in the first screen. At 820 it is already under the critic
+ * width, so it is sent at its own size. Best-effort, like the header crop: a
+ * missing still costs a critic one image, never the run.
+ *
+ * @param {import('playwright').Browser} browser
+ * @param {string} url
+ * @returns {Promise<Buffer|null>}
+ */
+export async function captureTabletStill(browser, url) {
+  let page = null
+  try {
+    page = await browser.newPage({ viewport: { ...CRITIC_TABLET_VIEWPORT } })
+    await page.goto(url, { waitUntil: 'networkidle' })
+    await page.waitForTimeout(1000) // fonts
+    const png = await page.screenshot({ type: 'png', fullPage: false })
+    return await downscaleForCritic(page, png)
+  } catch {
+    return null
+  } finally {
+    if (page) await page.close().catch(() => {})
+  }
+}
+
+/**
  * Offsets, in ms after `domcontentloaded`, at which the motion strip's frames
  * are taken (#506). The entrance keyframes run 500ms with up to 240ms of
  * stagger, so 0 and 200 catch the hero not yet arrived, 500 catches the h1
@@ -1007,7 +1040,7 @@ export async function captureSnapshot(date, buildId, { root = ROOT } = {}) {
  *   the day's HEADER declaration, which decides where the header crop is
  *   taken, and its MOTION declaration (#506), which decides whether the
  *   frame strip is taken at all
- * @returns {Promise<{png: Buffer, jpeg: Buffer, darkPng: Buffer|null, darkJpeg: Buffer|null, headerJpeg: Buffer|null, headerCropAnchor: 'mark'|'placement'|null, mobileJpeg: Buffer|null, motionStripJpeg: Buffer|null, fingerprint: object|null}>}
+ * @returns {Promise<{png: Buffer, jpeg: Buffer, darkPng: Buffer|null, darkJpeg: Buffer|null, headerJpeg: Buffer|null, headerCropAnchor: 'mark'|'placement'|null, mobileJpeg: Buffer|null, tabletJpeg: Buffer|null, motionStripJpeg: Buffer|null, fingerprint: object|null}>}
  *   `darkPng` and `darkJpeg` are null when the dark scheme renders
  *   byte-identical to the light one, which is every design that defines no
  *   `_light` tokens
@@ -1071,6 +1104,10 @@ export async function captureScreenshot(port, { headerCrop, motion } = {}) {
         // unseen (#466).
         const mobileJpeg = await capturePhoneFilmstrip(browser, `${baseUrl}/`)
 
+        // The first screen at the tablet width (#565), the one width between
+        // the two the critics used to be shown.
+        const tabletJpeg = await captureTabletStill(browser, `${baseUrl}/`)
+
         // The first second, as four frames (#506). Only on a night that
         // declared an entrance or a drifting ground: a still page has no
         // strip to judge, and the image slot goes back to the discretionary
@@ -1092,6 +1129,7 @@ export async function captureScreenshot(port, { headerCrop, motion } = {}) {
           headerJpeg,
           headerCropAnchor,
           mobileJpeg,
+          tabletJpeg,
           motionStripJpeg,
           fingerprint,
         }

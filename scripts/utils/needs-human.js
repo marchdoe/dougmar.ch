@@ -21,11 +21,18 @@
  * verdict: 'UNVERIFIED', channel, feedback }` for it, and this module prints
  * a plain one-line note instead of the faults section — the build was never
  * re-seen, so nothing about it was confirmed wrong.
+ *
+ * A surface gate that threw is the last case (#565): `design-agents.js` catches
+ * it so the build can ship, and writes `{ critic: 'surface-gate', round,
+ * verdict: 'GATE-FAILED', feedback }` for it. Nothing was measured, which
+ * reads the same as a clean pass unless someone says so, and the last section
+ * here does.
  */
 
 import { existsSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import { pickBuild } from './archive-record.js'
+import { GATE_FAILED } from './gate-outcome.js'
 
 /**
  * Verdict entries of one kind from the day's shipped build, or `[]` when
@@ -85,6 +92,17 @@ export function readFinalCheckUnverifiedEntry(archiveDir, date) {
     (v) => v?.round === 'final'
   )
   return entries.at(-1) ?? null
+}
+
+/**
+ * The GATE-FAILED verdicts from the day's shipped build: one per surface-gate
+ * round that threw.
+ * @param {string} archiveDir e.g. `archive`
+ * @param {string} date `YYYY-MM-DD`
+ * @returns {Array<{critic: string, verdict: string, feedback: string}>}
+ */
+export function readGateFailedEntries(archiveDir, date) {
+  return readVerdictEntries(archiveDir, date, GATE_FAILED)
 }
 
 /**
@@ -155,4 +173,24 @@ export function buildFinalCheckSection(entry) {
     `it answered through ${entry.channel ?? 'an unrecorded channel'} instead of seeing the build`
 
   return ['## Final check', '', `Final check could not see the build (${reason}).`].join('\n')
+}
+
+/**
+ * The "Surface gate did not run" section for the rating issue body, or `''`
+ * when every round measured. The gate is non-blocking, so a build whose gate
+ * threw still shipped; this is the only place that says it shipped unmeasured.
+ * @param {Array<{feedback: string}>} entries
+ * @returns {string}
+ */
+export function buildGateFailedSection(entries) {
+  const lines = (entries ?? []).map((e) => (e?.feedback ?? '').trim()).filter(Boolean)
+  if (!lines.length) return ''
+
+  return [
+    '## Surface gate did not run',
+    '',
+    'The gate threw, so this build shipped unmeasured. That reads the same as a clean pass, so it is listed here.',
+    '',
+    ...lines.map((line) => `- ${line}`),
+  ].join('\n')
 }

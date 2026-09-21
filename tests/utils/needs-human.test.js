@@ -4,9 +4,11 @@ import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import {
   buildFinalCheckSection,
+  buildGateFailedSection,
   buildNeedsHumanSection,
   buildShippedWithFaultsSection,
   readFinalCheckUnverifiedEntry,
+  readGateFailedEntries,
   readNeedsHumanEntries,
   readShippedWithFaultsEntries,
 } from '../../scripts/utils/needs-human.js'
@@ -241,5 +243,39 @@ describe('buildFinalCheckSection', () => {
 
   it('returns an empty string when there is no entry', () => {
     expect(buildFinalCheckSection(null)).toBe('')
+  })
+})
+
+describe('the surface gate that did not run (#565)', () => {
+  const failed = {
+    critic: 'surface-gate',
+    round: 1,
+    verdict: 'GATE-FAILED',
+    error: 'browser crashed',
+    feedback: 'The surface gate threw in round 1 and measured nothing: browser crashed.',
+  }
+
+  it('reads the GATE-FAILED entries and nothing else from verdicts.json', () => {
+    writeBuild('2026-09-20', '100', {
+      'verdicts.json': JSON.stringify([
+        { critic: 'surface-gate', round: 2, verdict: 'SHIP' },
+        failed,
+        { critic: 'surface-gate', verdict: 'NEEDS-HUMAN', feedback: '/work overflowed' },
+      ]),
+    })
+    expect(readGateFailedEntries(archiveDir, '2026-09-20')).toEqual([failed])
+    expect(readGateFailedEntries(archiveDir, '2026-09-19')).toEqual([])
+  })
+
+  it('renders one line per failed round under its own heading', () => {
+    const section = buildGateFailedSection([failed, { ...failed, round: 2 }])
+    expect(section.startsWith('## Surface gate did not run\n')).toBe(true)
+    expect(section).toContain('- The surface gate threw in round 1')
+    expect(section.match(/^- /gm)).toHaveLength(2)
+  })
+
+  it('prints nothing when every round measured', () => {
+    expect(buildGateFailedSection([])).toBe('')
+    expect(buildGateFailedSection(undefined)).toBe('')
   })
 })

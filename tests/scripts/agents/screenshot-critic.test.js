@@ -12,6 +12,7 @@ const {
   recordFinalJudgment,
   runScreenshotCritic,
 } = await import('../../../scripts/agents/screenshot-critic.js')
+const { TABLET_VIEWPORT } = await import('../../../elements/chassis/viewports.js')
 const { VisionTruncatedError } = await import('../../../scripts/utils/vision-truncated-error.js')
 const { ModelTransportError } = await import('../../../scripts/utils/model-transport-error.js')
 
@@ -251,6 +252,86 @@ describe('buildScreenshotCriticBlocks', () => {
     })
     expect(blocks.filter((b) => b.type === 'image')).toHaveLength(2)
     expect(blocks.some((b) => b.type === 'text' && b.text.includes('/about'))).toBe(false)
+  })
+
+  describe('the tablet still (#565)', () => {
+    const tablet = Buffer.from([0x0a])
+    const full = {
+      screenshotBuffer: {
+        ...baseCtx.screenshotBuffer,
+        mobileJpeg: Buffer.from([0x07]),
+        tabletJpeg: tablet,
+        headerJpeg: Buffer.from([0x05]),
+      },
+      mockupScreenshot: { jpeg: Buffer.from([0x01]), headerJpeg: Buffer.from([0x06]) },
+      phoneFilmstrips: [
+        { label: 'A phone filmstrip of /about:', jpeg: Buffer.from([0x08]) },
+        { label: 'A phone filmstrip of /work/spaceman:', jpeg: Buffer.from([0x09]) },
+      ],
+      routeShots: [{ label: 'A project page (/work/spaceman):', png: Buffer.from([0x02]) }],
+      bestReference: { buffer: Buffer.from([0x89, 0x50, 0x4e, 0x47]), description: 'ref' },
+    }
+    const textsOf = (blocks) => blocks.filter((b) => b.type === 'text').map((b) => b.text)
+    const has = (blocks, needle) => textsOf(blocks).some((t) => t.includes(needle))
+    const singleMode = {
+      ...full,
+      screenshotBuffer: { ...full.screenshotBuffer, darkJpeg: null },
+    }
+
+    it('follows the phone filmstrip and precedes the dark capture, labelled with its width', () => {
+      const blocks = buildScreenshotCriticBlocks(full)
+      const kinds = blocks.map((b) => (b.type === 'image' ? 'image' : b.text))
+      const phone = kinds.findIndex((k) => k.includes('phone filmstrip of that SAME page'))
+      const tabletAt = kinds.findIndex((k) => k.includes('TABLET'))
+      const dark = kinds.findIndex((k) => k.includes('DARK scheme, 1440×900'))
+      expect(tabletAt).toBe(phone + 2)
+      expect(dark).toBe(tabletAt + 2)
+      expect(kinds[tabletAt]).toContain(`${TABLET_VIEWPORT.width}×${TABLET_VIEWPORT.height}`)
+      expect(blocks[tabletAt + 1].source.data).toBe(tablet.toString('base64'))
+    })
+
+    it('is dropped alone when the capture failed', () => {
+      const blocks = buildScreenshotCriticBlocks({
+        ...full,
+        screenshotBuffer: { ...full.screenshotBuffer, tabletJpeg: null },
+      })
+      expect(has(blocks, 'TABLET')).toBe(false)
+      expect(has(blocks, 'phone filmstrip of that SAME page')).toBe(true)
+    })
+
+    it('costs a typical night its calibration reference and nothing else', () => {
+      // Dark matched light, no motion: mockup, light, phone, tablet, two crops,
+      // and the two filmstrips fill the eight. The 1440 project page was
+      // already squeezed out at seven, so what the tablet displaces is the
+      // reference, the image the ceiling has always dropped first.
+      const blocks = buildScreenshotCriticBlocks(singleMode)
+      expect(blocks.filter((b) => b.type === 'image')).toHaveLength(MAX_SCREENSHOT_CRITIC_IMAGES)
+      expect(has(blocks, 'TABLET')).toBe(true)
+      expect(has(blocks, '/about')).toBe(true)
+      expect(has(blocks, '/work/spaceman')).toBe(true)
+      expect(has(blocks, 'Other surfaces')).toBe(false)
+      expect(has(blocks, 'highest-rated')).toBe(false)
+    })
+
+    it('costs a night with a dark capture the case-study filmstrip', () => {
+      const blocks = buildScreenshotCriticBlocks(full)
+      expect(blocks.filter((b) => b.type === 'image')).toHaveLength(MAX_SCREENSHOT_CRITIC_IMAGES)
+      expect(has(blocks, 'TABLET')).toBe(true)
+      expect(has(blocks, 'A phone filmstrip of /about:')).toBe(true)
+      expect(has(blocks, '/work/spaceman')).toBe(false)
+    })
+
+    it('costs a night with a dark capture and a motion strip both filmstrips, never the tablet or a crop', () => {
+      const blocks = buildScreenshotCriticBlocks({
+        ...full,
+        screenshotBuffer: { ...full.screenshotBuffer, motionStripJpeg: Buffer.from([0x0b]) },
+      })
+      expect(blocks.filter((b) => b.type === 'image')).toHaveLength(MAX_SCREENSHOT_CRITIC_IMAGES)
+      expect(has(blocks, 'TABLET')).toBe(true)
+      expect(has(blocks, 'RENDERED page')).toBe(true)
+      expect(has(blocks, 'MOTION STRIP')).toBe(true)
+      expect(has(blocks, 'phone filmstrip of /')).toBe(false)
+    })
   })
 
   it('drops a share card before the phone when the ceiling binds', () => {

@@ -64,6 +64,10 @@ export interface ArchiveRecord {
   composition: Record<string, JsonValue> | null
   lane: Record<string, JsonValue> | null
   cost: ArchiveCost | null
+  /** Whether the surface gate's measurements all completed (#565). Absent or
+   * null on every record written before it existed; only `ran: false` is a
+   * fault. */
+  surfaceGate?: { ran: boolean; error: string | null; round: number | null } | null
 }
 
 /**

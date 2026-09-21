@@ -283,6 +283,23 @@ function normalizeCost(raw) {
 }
 
 /**
+ * Read `surface-gate.json` into the record's shape (#565): whether the surface
+ * gate's measurements all completed. `null` for every record built before the
+ * file existed, which means unknown, not that the gate ran; readers treat only
+ * `ran === false` as a fault.
+ * @param {object|null} raw
+ * @returns {{ ran: boolean, error: string|null, round: number|null }|null}
+ */
+function normalizeSurfaceGate(raw) {
+  if (!raw || typeof raw !== 'object' || typeof raw.ran !== 'boolean') return null
+  return {
+    ran: raw.ran,
+    error: typeof raw.error === 'string' ? raw.error : null,
+    round: typeof raw.round === 'number' ? raw.round : null,
+  }
+}
+
+/**
  * Build one date's record.
  *
  * @param {string} date `YYYY-MM-DD`
@@ -355,6 +372,9 @@ export function buildRecord(date, options = {}) {
     // Not added to ERAS/expectedArtifacts: it is new as of this build and an
     // absent file on every older date is expected, not an anomaly.
     measurables: readJsonSafe(inBuild('measurables.json')),
+    // Whether the surface gate measured the build at all (#565). Null on every
+    // date before it was written; also not an ERAS artifact, for the same reason.
+    surfaceGate: normalizeSurfaceGate(readJsonSafe(inBuild('surface-gate.json'))),
   }
 
   Object.defineProperty(record, '__anomalies', {

@@ -236,19 +236,21 @@ Layout, typography, color, spacing, and interaction of every element are entirel
 
 ## Responsive
 
-You are designing for three characters: phone ({{NARROW_PX}}px), tablet (768px), laptop/desktop (1024px / 1440px). Start your composition at {{NARROW_PX}}px and add to at larger widths. A design that looks great on desktop but overflows or clips on mobile is a failed build regardless of how striking the desktop view is.
+You are designing for three characters: phone ({{NARROW_PX}}px), tablet ({{TABLET_PX}}px), desktop (1440px). Start your composition at {{NARROW_PX}}px and add to at larger widths. A design that looks great on desktop but overflows or clips on mobile is a failed build regardless of how striking the desktop view is.
 
 **Mobile-first means:**
 - Default CSS targets {{NARROW_PX}}px. Use `@media (min-width: ...)` to add complexity at larger widths, never subtract at smaller.
 - Large type uses `clamp()` or `vw` with caps, not fixed px. A specimen-scale hero at 120px on desktop should collapse to ~48px on mobile.
 - Fixed sidebars, multi-column grids, and persistent nav rails collapse below the tablet breakpoint the way the Mobile Declaration's `collapse` says.
 - Header chrome (logo + nav + signals) must not overlap at {{NARROW_PX}}px. If everything can't fit, stack or hide behind a toggle.
-- Touch targets ≥ 44×44px on any viewport ≤ 768px.
+- Touch targets ≥ 44×44px on any viewport ≤ {{TABLET_PX}}px.
 - Running copy (`p`, `li`, `blockquote`) ≥ {{SMALL_COPY_FLOOR_PX}}px and no visible text under {{SMALL_TEXT_FLOOR_PX}}px, at all viewports.
 - Line length ≤ 75 characters at all viewports.
 
 **What gets checked automatically:**
-Every build runs at {{NARROW_PX}} / 768 / 1024 / 1440 and is scored on: horizontal scroll, content clipping, header overlap, body text size, tap-target size, line length. Horizontal scroll and clipped text are errors that force a revision on the spot. Note that they are different faults, and that a parent with `overflow: hidden` cuts content off while leaving the page measuring clean.
+The built page is measured at {{NARROW_PX}}, {{TABLET_PX}} and 1440, and at no other width. Horizontal scroll and clipped text are errors at all three, and they force a revision on the spot. Text contrast, the type-size floors and the brand mark are measured at {{NARROW_PX}} and 1440 only; tap-target size at {{NARROW_PX}} only. Note that scroll and clipping are different faults: a parent with `overflow: hidden` cuts content off while leaving the page measuring clean.
+
+The mockup critic sees the {{NARROW_PX}} and 1440 renders of this mockup and nothing at {{TABLET_PX}}; the screenshot critic sees one {{TABLET_PX}} still of the built home page. That width is where a desktop grid gets squeezed instead of redesigned: give it a breakpoint that changes the grid, not the 1440 grid with less room.
 
 **What gets looked at:**
 The measurements cannot tell whether the design is still a design at {{NARROW_PX}}, so both critics now see the phone render beside the 1440 render and judge it: whether the composition's idea survives at one column or only its parts do, whether the hierarchy still reads, whether the type scaled to the column or stacked into a wall. A mockup that only works at 1440 is a REVISE at the mockup gate, before an engineer ever builds it.
