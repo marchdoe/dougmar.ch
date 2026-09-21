@@ -605,3 +605,7 @@ case, loop) or a cognitive score past 15, it fails. A 321-line
    step that fits or give the type a wider track. A deliberate stack is one
    word per line, written as `display: 'block'` per word, a `<br>` between
    words, or `writingMode`, never a column left to break the word for you.
+
+The surface gate reads three of these off the rendered pages and names the element (a
+word on two lines, text painted in nothing, text left at `opacity: 0` with reduced motion
+on), so a miss costs a revision and not the night.

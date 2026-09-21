@@ -33,11 +33,11 @@ import { contrastRatio, rgbToHex } from './contrast.js'
 import { readCopyExemptions, readRenderedCopy, renderedCopyFindings } from './copy-gate.js'
 import { ROOT } from './file-manager.js'
 import { TAP_TARGET_MIN_PX } from './responsive-thresholds.js'
+import { collapseRenderHealth, measureRenderHealth, renderHealthFindings } from './render-health.js'
 import { collapseSmallText, smallTextFindings } from './small-text.js'
 import { withPreviewServer } from './snapshot.js'
 import { TABLET_RUNG, tabletMeasurement } from './tablet-rung.js'
 import { collapseTextContrast, textContrastFindings } from './text-contrast.js'
-import { measureTextContrast } from './text-contrast-page.js'
 
 /**
  * Viewport rungs. All three are on the ladder `archiver.js` defines for
@@ -245,6 +245,9 @@ export function evaluateMeasurement(
   findings.push(...textContrastFindings(m, ownerForSurface(m.route)))
   // Running copy and any visible text under the type-size floors (#567).
   findings.push(...smallTextFindings(m, ownerForSurface(m.route)))
+  // A word broken across lines, text painted in nothing, text left at opacity 0
+  // with the reveal off (#574): the e2e's checks, before the money is spent.
+  findings.push(...renderHealthFindings(m, ownerForSurface(m.route)))
   // The words (#504). Same shape as the geometry findings, so an em dash on
   // `/` forces a revision through the same path a clipped hero does.
   findings.push(...copyFindings(m, exemptions))
@@ -876,10 +879,15 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
     if (viewport.width === 1440 && scheme === 'light') {
       visibleCopy = await readRenderedCopy(page)
     }
-    // Text contrast and the type-size floors, at the phone and desktop rungs in both schemes
-    // (#566, #567). Last, because it resizes the viewport to reveal what fades
-    // in on scroll.
-    const textContrast = await measureTextContrast(page)
+    // Text contrast, the type-size floors and render health, at the phone and
+    // desktop rungs in both schemes (#566, #567, #574). Last, because it resizes
+    // the viewport to reveal what fades in on scroll.
+    const { textContrast, renderHealth } = await measureRenderHealth({
+      browser,
+      page,
+      viewport,
+      scheme,
+    })
     return {
       ...base,
       status: resp?.status() ?? null,
@@ -887,6 +895,7 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
       clipped,
       brand,
       textContrast,
+      renderHealth,
       tapTargets,
       visibleCopy,
       consoleErrors,
@@ -971,8 +980,8 @@ export async function runSurfaceGate({
         if (browser) await browser.close()
       }
       // The same label on the same colours turns up on every route that
-      // renders it; fold those into one finding and cap the rest (#566, #567).
-      const folded = collapseSmallText(collapseTextContrast(findings))
+      // renders it; fold those into one finding and cap the rest (#566, #567, #574).
+      const folded = collapseRenderHealth(collapseSmallText(collapseTextContrast(findings)))
       return {
         findings: folded,
         measured,

@@ -354,7 +354,8 @@ function pageCollect(kit) {
   return { candidates: [...found.values()], texts, large, smallText: kit.collectSmallText() }
 }
 
-const PAGE_FUNCTIONS = {
+/** The kit the contrast walk runs on. `render-health-page.js` adds its own functions to a copy. */
+export const TEXT_CONTRAST_PAGE_FUNCTIONS = {
   canvasColor: pageCanvasColor,
   parseColor: pageParseColor,
   describe: pageDescribe,
@@ -385,6 +386,42 @@ const PAGE_FUNCTIONS = {
 }
 
 /**
+ * Rebuild a kit in the page and call one of its functions.
+ *
+ * Every function in `functions` is serialised with `toString()` and rebuilt
+ * with the kit appended to its arguments, so they reach each other as
+ * `kit.name(...)`. `entry` names the one to run. The contrast walk and the
+ * probes in `render-health-page.js` both come through here, so a helper such
+ * as `selector` or `partOf` is one function for both.
+ *
+ * @param {import('playwright').Page} page
+ * @param {Record<string, Function>} functions
+ * @param {string} entry the kit function to call, with no arguments
+ * @param {object} options handed to the page as `kit.options`
+ * @returns {Promise<any>}
+ */
+export function runPageKit(page, functions, entry, options) {
+  const sources = Object.fromEntries(
+    Object.entries(functions).map(([name, fn]) => [name, fn.toString()])
+  )
+  return page.evaluate(
+    ([fnSources, opts, name]) => {
+      const fns = {}
+      const kit = {
+        options: opts,
+        cache: { ctx: undefined, pseudo: new Map(), roots: null, painters: null },
+      }
+      for (const [fnName, src] of Object.entries(fnSources)) {
+        fns[fnName] = new Function(`return ${src}`)()
+        kit[fnName] = (...args) => fns[fnName](...args, kit)
+      }
+      return kit[name]()
+    },
+    [sources, options, entry]
+  )
+}
+
+/**
  * Run the walk on a page as it stands.
  *
  * @param {import('playwright').Page} page
@@ -393,28 +430,11 @@ const PAGE_FUNCTIONS = {
  *   smallText: { entries: Array<object> } }>}
  */
 export function collectTextContrast(page, options = TEXT_CONTRAST_OPTIONS) {
-  const sources = Object.fromEntries(
-    Object.entries(PAGE_FUNCTIONS).map(([name, fn]) => [name, fn.toString()])
-  )
-  return page.evaluate(
-    ([fnSources, opts]) => {
-      const fns = {}
-      const kit = {
-        options: opts,
-        cache: { ctx: undefined, pseudo: new Map(), roots: null, painters: null },
-      }
-      for (const [name, src] of Object.entries(fnSources)) {
-        fns[name] = new Function(`return ${src}`)()
-        kit[name] = (...args) => fns[name](...args, kit)
-      }
-      return kit.collect()
-    },
-    [sources, options]
-  )
+  return runPageKit(page, TEXT_CONTRAST_PAGE_FUNCTIONS, 'collect', options)
 }
 
 /**
- * Run the walk with scroll-revealed text revealed.
+ * Run a measurement with scroll-revealed text revealed.
  *
  * A section set to fade in as it scrolls into view (`animation-timeline:
  * view()`, or an observer adding a class) is at `opacity: 0` until it is in
@@ -425,11 +445,12 @@ export function collectTextContrast(page, options = TEXT_CONTRAST_OPTIONS) {
  *
  * Run it last: it changes the height that `vh` units resolve against.
  *
+ * @template T
  * @param {import('playwright').Page} page
- * @returns {Promise<{ candidates: Array<object>, texts: number, large: number,
- *   smallText: { entries: Array<object> } }>}
+ * @param {() => Promise<T>} measure runs with the viewport sized to the document
+ * @returns {Promise<T>}
  */
-export async function measureTextContrast(page) {
+export async function withRevealedPage(page, measure) {
   const original = page.viewportSize()
   const tall = await page.evaluate(
     (cap) => Math.min(document.documentElement.scrollHeight, cap),
@@ -441,8 +462,19 @@ export async function measureTextContrast(page) {
     await page.waitForTimeout(REVEAL_SETTLE_MS)
   }
   try {
-    return await collectTextContrast(page)
+    return await measure()
   } finally {
     if (resized) await page.setViewportSize(original)
   }
+}
+
+/**
+ * Run the walk with scroll-revealed text revealed.
+ *
+ * @param {import('playwright').Page} page
+ * @returns {Promise<{ candidates: Array<object>, texts: number, large: number,
+ *   smallText: { entries: Array<object> } }>}
+ */
+export function measureTextContrast(page) {
+  return withRevealedPage(page, () => collectTextContrast(page))
 }

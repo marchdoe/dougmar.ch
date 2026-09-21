@@ -226,6 +226,59 @@ describe('the deploy key never shares a job with generated code', () => {
   })
 })
 
+describe('a red main stops the night before it is paid for (#574)', () => {
+  // `pnpm test` ran only after the run, so a red main cost the whole night's
+  // $4 to $5 and shipped nothing. One step ahead of the run makes it free.
+  const steps = yaml.load(src).jobs.redesign.steps
+  const at = (predicate) => steps.findIndex(predicate)
+  const runsUnitTests = (step) => /^\s*pnpm test\s*$/m.test(step.run ?? '')
+  const paid = at((step) => /node scripts\/daily-redesign\.js/.test(step.run ?? ''))
+  const guard = at(runsUnitTests)
+
+  it('runs the unit tests in a step of its own ahead of the paid run', () => {
+    expect(paid).toBeGreaterThan(-1)
+    expect(guard).toBeGreaterThan(-1)
+    expect(guard).toBeLessThan(paid)
+    expect(steps[guard].run.trim()).toBe('pnpm test')
+  })
+
+  it('runs no e2e there: those need the built night, so they stay after the run', () => {
+    expect(steps[guard].run).not.toContain('e2e')
+    const later = steps.slice(paid + 1).find((step) => /pnpm test:e2e:site/.test(step.run ?? ''))
+    expect(later).toBeDefined()
+  })
+
+  it('still runs the unit tests after the run as well', () => {
+    const after = steps.findIndex((step, i) => i > paid && runsUnitTests(step))
+    expect(after).toBeGreaterThan(paid)
+  })
+
+  it('keeps the Anthropic key out of that step, and out of the job', () => {
+    // The key is scoped to the run step. Tests do not need it, and generated
+    // code has no business seeing it before the run either.
+    expect(steps[guard].env).toBeUndefined()
+    expect(steps[guard]['working-directory']).toBeUndefined()
+    const jobEnv = yaml.load(src).jobs.redesign.env
+    expect(Object.keys(jobEnv)).not.toContain('ANTHROPIC_API_KEY')
+    expect(JSON.stringify(jobEnv)).not.toContain('secrets.')
+    expect(steps[paid].env.ANTHROPIC_API_KEY).toMatch(/secrets\.ANTHROPIC_API_KEY/)
+    const holders = steps.filter((step) => JSON.stringify(step).includes('ANTHROPIC_API_KEY'))
+    expect(holders).toEqual([steps[paid]])
+  })
+
+  it('has no credential in the checkout the tests run in, and runs on a dry run too', () => {
+    expect(steps[guard].if).toBeUndefined()
+    const checkout = steps.find((step) => /actions\/checkout@/.test(step.uses ?? ''))
+    expect(checkout.with['persist-credentials']).toBe(false)
+  })
+
+  it('comes after the toolchain it needs: dependencies and the browser', () => {
+    const named = (needle) => at((step) => (step.run ?? '').includes(needle))
+    expect(named('pnpm install --frozen-lockfile')).toBeLessThan(guard)
+    expect(named('playwright install')).toBeLessThan(guard)
+  })
+})
+
 describe('what the nightly links to', () => {
   it('points the rating issue at where the screenshot is actually committed', () => {
     // #154 moved the day's screenshot without moving this URL, so every rating

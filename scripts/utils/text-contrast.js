@@ -162,7 +162,7 @@ function describeText(c) {
   return `<${c.selector}> "${c.text}"${times} at ${c.sizePx}px${bold}`
 }
 
-function ownerNote(c) {
+export function ownerNote(c) {
   return c.part
     ? ` ${c.part[0].toUpperCase()}${c.part.slice(1)} is written by the orchestrator, so this is reported for the owner and is not a revision.`
     : ''

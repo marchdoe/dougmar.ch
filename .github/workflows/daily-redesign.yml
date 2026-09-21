@@ -195,6 +195,14 @@ jobs:
         # links the platform binary (#544).
         run: npm install -g @anthropic-ai/claude-code@2.1.207
 
+      # A red main used to be found after the paid run, by the same `pnpm test`
+      # further down, and the night's $4 to $5 went with it (#574). Unit tests
+      # only: the e2e run needs the night's build, so it stays after the run.
+      # No env on this step. ANTHROPIC_API_KEY is scoped to the run step
+      # below, and a test has no use for it.
+      - name: Stop here if main is red
+        run: pnpm test
+
       - name: Harvest ratings from GitHub issues
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
