@@ -45,7 +45,10 @@ import {
 } from './utils/file-manager.js'
 import { validateBuild, formatGeneratedFile } from './utils/build-validator.js'
 import { archive } from './utils/archiver.js'
-import { resetLedger, noteRetry, summarizeLedger } from './utils/cost-ledger.js'
+import { resetLedger, noteRetry } from './utils/cost-ledger.js'
+import { startTape, traceReplay } from './utils/call-tape.js'
+import { writeFailureRecords, writeShippedHandoff } from './utils/failure-record.js'
+import { clip, openStep } from './utils/trace-step.js'
 import { createTrace } from './utils/trace.js'
 import { selectLane } from './utils/select-lane.js'
 import {
@@ -107,7 +110,7 @@ import {
 import { sweepGenerated } from './utils/generated-sweep.js'
 import { countArchivedDesigns } from './utils/archive-count.js'
 import { archiveLinkInks } from './utils/archive-link-ink.js'
-import { settleMockupRound } from './utils/mockup-rounds.js'
+import { criticPurpose, designerPurpose, settleMockupRound } from './utils/mockup-rounds.js'
 import { newBoundaryId } from './utils/data-boundary.js'
 export { parseDelimiterResponse }
 
@@ -656,7 +659,7 @@ index.tsx is a single-composition canvas today, not a portfolio hub.`)
  * @param {string} agentName
  * @param {string} systemPrompt
  * @param {string} userPrompt
- * @param {{ timeoutMs?: number, stallTimeoutMs?: number, model?: string, patch?: boolean }} [options]
+ * @param {{ timeoutMs?: number, stallTimeoutMs?: number, model?: string, patch?: boolean, purpose?: string }} [options]
  * @returns {Promise<{ files: Array<{path: string, content: string}>, rationale?: string, design_brief?: string }>}
  */
 async function callAgent(agentName, systemPrompt, userPrompt, options = {}) {
@@ -672,6 +675,7 @@ async function callAgent(agentName, systemPrompt, userPrompt, options = {}) {
     timeoutMs: options.timeoutMs ?? budget.timeoutMs,
     stallTimeoutMs: options.stallTimeoutMs ?? budget.stallTimeoutMs,
     model: options.model,
+    purpose: options.purpose,
   })
 
   // Two response shapes remain: a critic verdict, or delimited files. The
@@ -767,18 +771,21 @@ function validateCodegen({ root = ROOT } = {}) {
  *   `boundaryId` is the run's data-boundary suffix (utils/data-boundary.js): a
  *   fresh random one by default, fixed by a test so a prompt snapshot stays
  *   byte for byte
- * @param {{ onTraceStep?: Function, root?: string }} [options] `root` is the
- *   checkout the swarm reads prompts from and writes generated files, signals
- *   and the archive under; defaults to the repo
+ * @param {{ onTraceStep?: Function, root?: string, tape?: Array<object> }} [options]
+ *   `root` is the checkout the swarm reads prompts from and writes generated
+ *   files, signals and the archive under; defaults to the repo. `tape` is the
+ *   paid responses an earlier run left (utils/call-tape.js): the Art Director
+ *   and the mockup loop are answered from it, and the engineer is asked live
  * @returns {Promise<{ rationale: string, design_brief: string, files: Array<{path: string, content: string}> }>}
  */
-export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) {
+export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } = {}) {
   const { signals, brief, contentSummary, boundaryId = newBoundaryId() } = context
 
   // Start this run's cost accounting from zero. The ledger is module-level,
   // so a second swarm in the same process (the dev panel's Run button) would
   // otherwise bill the previous run's calls to this one.
   resetLedger()
+  startTape(tape)
 
   // Read creative weights from environment. WEIGHT_RISK is the one dial
   // that varies by date rather than falling back to a constant: a fixed
@@ -837,6 +844,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       onTraceStep?.(step)
     },
   })
+  traceReplay(trace)
 
   // Track whether archive() succeeded in this run so saveTrace() knows
   // whether to write into the current build dir or create a failed-build dir.
@@ -847,6 +855,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       const archiveDateDir = path.join(root, 'archive', today)
 
       if (archiveRan) {
+        await writeShippedHandoff({ root, date: today, signals })
         // Success path: find the build dir that archive() just created
         const builds = readdirSync(archiveDateDir, { withFileTypes: true })
           .filter(
@@ -882,19 +891,9 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         )
       }
       // A failed night's spend used to vanish: archive()'s cost.json only
-      // exists on the success path, so a night that burned three repair
-      // attempts and still lost left no record of what it cost (#432). Same
-      // object, same shape as the archiver writes on success — non-blocking,
-      // like every other telemetry write.
-      try {
-        await writeFile(
-          path.join(failedDir, 'cost.json'),
-          JSON.stringify(summarizeLedger(), null, 2),
-          'utf8'
-        )
-      } catch (costErr) {
-        console.warn(`  could not write cost.json: ${costErr.message}`)
-      }
+      // exists on the success path (#432), and the paid responses of its first
+      // stages went with the runner (#578). Both are kept beside the trace.
+      await writeFailureRecords(failedDir, { root, date: today, signals })
       console.log(`  failure trace saved to ${path.basename(failedDir)}/trace.json`)
       // Also emit trace to stdout so it's captured in Actions logs even if
       // the filesystem write fails for some reason.
@@ -1177,10 +1176,11 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         formatSemanticContractForArtDirector()
       )}${brandRegisterDeclaration}\n\n${refTypography}\n\n${refColor}`
 
-    let artDirectorResult
-    const t0Director = Date.now()
-    try {
-      artDirectorResult = await runArtDirector({
+    // Everything the Art Director is asked with, once. The three asks below
+    // differ only in why they are made and what they were told about the last
+    // one, which is what `askArtDirector` takes.
+    const askArtDirector = (extra) =>
+      runArtDirector({
         boundaryId,
         signals,
         contentSummary,
@@ -1205,7 +1205,13 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         uniquenessBlock,
         failureDumpPath: path.join(root, 'signals', 'art-director-last-failed.txt'),
         systemPrompt: artDirectorSystemPrompt,
+        ...extra,
       })
+
+    let artDirectorResult
+    const t0Director = Date.now()
+    try {
+      artDirectorResult = await askArtDirector({ purpose: 'first' })
     } catch (firstErr) {
       if (firstErr.transport) {
         // A dead model (no credits, an outage) answers the retry the same way
@@ -1217,32 +1223,9 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       console.warn(`  Art Director failed (${firstErr.message}) — retrying once with error context`)
       noteRetry()
       try {
-        artDirectorResult = await runArtDirector({
-          boundaryId,
-          signals,
-          contentSummary,
-          chassisCatalog: CHASSIS_CATALOG,
-          chassisCatalogBlock,
-          recentBriefs,
-          recentRatings,
-          references,
-          colorMandateSection,
-          shellMandateSection,
-          paletteFormulaMandateSection,
-          heroSourceMandateSection,
-          compositionMandateSection,
-          chassisMandateSection,
-          typeTreatmentMandateSection,
-          motionMandateSection,
-          brandContract,
-          weightsBlock,
-          tasteMemoryBlock,
-          voiceBlock,
-          mobileLessonBlock,
-          uniquenessBlock,
+        artDirectorResult = await askArtDirector({
+          purpose: 'retry',
           retryContext: `## Previous attempt was rejected\n\nYour previous response failed validation: ${firstErr.message}\nEmit ALL required blocks with exact delimiters and exact field formats this time.`,
-          failureDumpPath: path.join(root, 'signals', 'art-director-last-failed.txt'),
-          systemPrompt: artDirectorSystemPrompt,
         })
       } catch (err) {
         console.error(`  Art Director failed after retry: ${err.message}`)
@@ -1420,32 +1403,9 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         // Re-invoke Art Director with codegen error appended to context.
         // The full Director re-run is expensive but rare — codegen failures
         // are uncommon now that the Art Director sees PandaCSS rules.
-        artDirectorResult = await runArtDirector({
-          boundaryId,
-          signals,
-          contentSummary,
-          chassisCatalog: CHASSIS_CATALOG,
-          chassisCatalogBlock,
-          recentBriefs,
-          recentRatings,
-          references,
-          colorMandateSection,
-          shellMandateSection,
-          paletteFormulaMandateSection,
-          heroSourceMandateSection,
-          compositionMandateSection,
-          chassisMandateSection,
-          typeTreatmentMandateSection,
-          motionMandateSection,
-          brandContract,
-          weightsBlock,
-          tasteMemoryBlock,
-          voiceBlock,
-          mobileLessonBlock,
-          uniquenessBlock,
+        artDirectorResult = await askArtDirector({
+          purpose: 'retry',
           retryContext: `## Previous attempt failed codegen\n\n${codegenResult.error?.slice(0, 1500) || ''}`,
-          failureDumpPath: path.join(root, 'signals', 'art-director-last-failed.txt'),
-          systemPrompt: artDirectorSystemPrompt,
         })
         const retryPresetFile = { path: 'elements/preset.ts', content: artDirectorResult.presetTs }
         for (const p of await writeFiles([retryPresetFile], { root, backup: originalBackup }))
@@ -1744,7 +1704,12 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
       }
       const t0Mockup = Date.now()
       try {
-        mockup = await runMockupDesigner({ ...mockupCtxBase, revisionFeedback, previousMockupHtml })
+        mockup = await runMockupDesigner({
+          ...mockupCtxBase,
+          revisionFeedback,
+          previousMockupHtml,
+          purpose: designerPurpose(round),
+        })
       } catch (firstErr) {
         if (firstErr.transport) {
           // A dead model answers the retry the same way it answered the
@@ -1775,6 +1740,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
             ...mockupCtxBase,
             revisionFeedback,
             previousMockupHtml,
+            purpose: 'retry',
             retryContext: `## Previous attempt was rejected\n\nYour previous mockup failed validation: ${firstErr.message}\nReturn a JS-free mockup.html and every required block this time.`,
           })
         } catch (err) {
@@ -1845,6 +1811,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           typeTreatment: formatTypeTreatment(typeDecl),
           mobile: formatMobile(mobileDecl),
           collapse: chosenComposition.collapse,
+          purpose: criticPurpose(round),
         })
       } catch (err) {
         console.warn(`  mockup critic failed (non-blocking — accepting mockup): ${err.message}`)
@@ -2003,7 +1970,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         'react-engineer',
         reactEngineerSystemPrompt,
         engineerUserPrompt,
-        reactEngineerAgentConfig.options
+        { ...reactEngineerAgentConfig.options, purpose: 'first' }
       )
     } catch (err) {
       // A 0KB stall is usually transient (a throttled account, a flaky CLI
@@ -2019,7 +1986,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
             'react-engineer',
             reactEngineerSystemPrompt,
             engineerUserPrompt,
-            reactEngineerAgentConfig.options
+            { ...reactEngineerAgentConfig.options, purpose: 'retry' }
           )
         } catch (retryErr) {
           console.error(`  React Engineer failed after stall retry: ${retryErr.message}`)
@@ -2112,11 +2079,13 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         callAgent('react-engineer', reactEngineerAgentConfig.prompt, prompt, {
           ...reactEngineerAgentConfig.options,
           patch: true,
+          purpose: 'output-patch',
         }),
       applyPatch: (owned, reply) =>
         applyEngineerPatch(owned, reply, 'React Engineer output patch', 3),
       pastDeadline,
       noteRetry,
+      trace,
     })
     if (outputPatch) engineerResult = { ...engineerResult, files: outputPatch.files }
 
@@ -2458,10 +2427,11 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
        * change to either (the phone filmstrip, say) reaches both for free.
        * @param {{ findings?: Array<object>, facts?: string }|null} gate - what the surface
        *   gate measured on this build: its findings, and the measurements that are not faults (#569)
+       * @param {'first'|'rejudge'} purpose - why the critic is asked, for the ledger
        * @returns {Promise<{verdict: string, criticResponse: string, visionChannel: string, bar: object|null}>}
        *   `verdict` is 'UNVERIFIED' unless the critic saw the build (#570).
        */
-      async function judgeScreenshot(gate) {
+      async function judgeScreenshot(gate, purpose) {
         console.log('\n[screenshot-critic] Capturing screenshot...')
         const { captureScreenshot } = await import('./utils/snapshot.js')
         const screenshotBuffer = await captureScreenshot(undefined, {
@@ -2542,6 +2512,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           systemPrompt: screenshotCriticPrompt,
           contentBlocks: criticBlocks,
           wantsBar: Boolean(bestReference),
+          purpose,
         })
       }
 
@@ -2559,7 +2530,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           criticResponse,
           visionChannel,
           bar,
-        } = await judgeOrNoVerdict(judgeScreenshot, firstGate)
+        } = await judgeOrNoVerdict((gate) => judgeScreenshot(gate, 'first'), firstGate)
 
         verdicts.push({
           critic: 'screenshot-critic',
@@ -2604,6 +2575,20 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
           console.log(describeRevision(screenshotVerdict, responsibleAgent, engineerFaults.length))
           console.log(`  feedback: ${feedback.slice(0, 200)}...`)
 
+          // The revision is a stage with its own row in the trace (#578): what
+          // asked for it, and how it ended.
+          const traceRevision = openStep(trace, {
+            name: 'revision',
+            phase: 4,
+            input: {
+              verdict: screenshotVerdict,
+              responsibleAgent,
+              gateForced: gateDemandsRevision,
+              engineerFaults: engineerFaults.length,
+              feedback: feedback.slice(0, 500),
+            },
+          })
+
           // Shared reactEngineerAgentConfig keeps this retry path in sync
           // with the primary react-engineer invocation (Phase 2c).
           const agentConfig = {
@@ -2615,6 +2600,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
             console.warn(
               `  [deadline] run budget exhausted — skipping ${responsibleAgent} revision, shipping as-is`
             )
+            traceRevision({ outcome: 'skipped-deadline' })
           } else if (config) {
             console.log(`  retrying ${responsibleAgent} with critic feedback...`)
             noteRetry()
@@ -2631,6 +2617,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
               const retryResult = await callAgent(responsibleAgent, config.prompt, brief, {
                 ...config.options,
                 patch: true,
+                purpose: 'revision',
               })
               const applied = await applyEngineerPatch(
                 owned,
@@ -2642,6 +2629,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
                 console.warn(
                   `  ⚠ ${applied.problem.message} — revision not applied, shipping as-is`
                 )
+                traceRevision({ outcome: 'not-applied', problem: applied.problem.message })
                 return
               }
               engineerResult = retryResult
@@ -2667,11 +2655,26 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
                     `Restore of passing state failed to rebuild after post-critic revision. Error:\n${restoredBuild.error?.slice(0, 1000)}`
                   )
                   fatal.fatal = true
+                  traceRevision({ outcome: 'restore-failed', error: fatal.message })
                   throw fatal
                 }
                 console.log('  known-passing state restored and re-validated')
+                traceRevision({
+                  outcome: 'build-broke-restored',
+                  replied: applied.replied,
+                  written: applied.written,
+                  deleted: applied.deleted,
+                  error: clip(retryBuild.error, 2000),
+                })
               } else {
                 console.log('  post-critic revision build passed')
+                traceRevision({
+                  outcome: 'rebuilt',
+                  replied: applied.replied,
+                  written: applied.written,
+                  deleted: applied.deleted,
+                  merged: retryResult.files.length,
+                })
                 // Measure again so the record says whether the revision
                 // fixed what round 1 found, rather than assuming it did.
                 const regate = await measureSurfaces(2)
@@ -2691,10 +2694,25 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
                 // the same capture-and-critic path round 1 used — it also
                 // re-captures the screenshot, so no separate re-capture is
                 // needed here.
+                const traceFinal = openStep(trace, {
+                  name: 'screenshot-critic-final',
+                  phase: 4,
+                  input: { remainingFaults: remainingFaults.length },
+                })
                 try {
-                  const final = await judgeScreenshot(regate)
-                  recordFinalJudgment(verdicts, final, formatFindingsForCritic(remainingFaults))
+                  const final = await judgeScreenshot(regate, 'rejudge')
+                  const finalVerdict = recordFinalJudgment(
+                    verdicts,
+                    final,
+                    formatFindingsForCritic(remainingFaults)
+                  )
+                  traceFinal({
+                    verdict: finalVerdict,
+                    feedback: final.criticResponse.slice(0, 500),
+                    channel: final.visionChannel,
+                  })
                 } catch (finalErr) {
+                  traceFinal({ verdict: 'ERROR', error: finalErr.message.slice(0, 500) })
                   // Best-effort, exactly like round 1: a critic call that
                   // cannot run must not stop a build that otherwise passed.
                   // The recapture round 1 used to do alone here still ran —
@@ -2709,6 +2727,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
             } catch (err) {
               if (err.fatal) throw err
               console.warn(`  ${responsibleAgent} revision failed (non-blocking): ${err.message}`)
+              traceRevision({ outcome: 'failed', error: err.message.slice(0, 2000) })
               // A mid-batch writeFiles abort can leave a partial hybrid on
               // disk — put the known-passing state back before shipping.
               await cleanupOrphans(writtenPaths, passingBackup, { root })
@@ -2820,6 +2839,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         retryResult = await callAgent('react-engineer', engineerConfig.prompt, briefed.brief, {
           ...engineerConfig.options,
           patch: true,
+          purpose: 'repair',
         })
       } catch (err) {
         console.error(`  react-engineer repair failed: ${err.message}`)

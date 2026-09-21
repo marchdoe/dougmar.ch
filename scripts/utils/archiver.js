@@ -8,7 +8,7 @@ import {
 } from '../../elements/chassis/viewports.js'
 import { ROOT } from './file-manager.js'
 import { captureSnapshot } from './snapshot.js'
-import { summarizeLedger } from './cost-ledger.js'
+import { currentCost, logPriorAttempts } from './prior-attempts.js'
 import { anomaliesOf, buildRecord } from './archive-record.js'
 import { computeUniqueness } from './uniqueness-index.js'
 import { readUniquenessHistory } from './read-uniqueness-history.js'
@@ -225,12 +225,13 @@ export async function archive(
 
   // What the run cost, per agent. Non-blocking: telemetry never fails a build.
   try {
-    const cost = summarizeLedger()
+    const cost = await currentCost(root)
     await writeFile(path.join(buildDir, 'cost.json'), JSON.stringify(cost, null, 2), 'utf8')
     const shown = cost.total_usd === null ? 'unpriced' : `$${cost.total_usd.toFixed(4)}`
     console.log(
       `  run cost: ${shown} across ${cost.calls} call(s)${cost.retries ? `, ${cost.retries} retr${cost.retries === 1 ? 'y' : 'ies'}` : ''}${cost.estimated ? ' (partly estimated)' : ''}`
     )
+    logPriorAttempts(cost)
   } catch (err) {
     console.warn(`  warning: could not write cost.json: ${err.message}`)
   }

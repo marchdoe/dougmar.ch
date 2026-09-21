@@ -29,6 +29,8 @@ vi.mock('../../scripts/seal-archive.js', (o) => m['scripts/seal-archive.js'](o))
 vi.mock('../../scripts/utils/file-manager.js', (o) => m['scripts/utils/file-manager.js'](o))
 vi.mock('node:child_process', (o) => m['node:child_process'](o))
 
+const { parseHandoff } = await import('../../scripts/utils/handoff.js')
+
 const SKIPPED_DIRS = new Set(['archive', 'signals'])
 
 /** Every file under `root` as relative path -> content, minus the skipped directories. */
@@ -206,6 +208,32 @@ describe('every throw between the first write and archive() rolls the checkout b
     expect(run.fakes.cleanupOrphans[0].written).toEqual(
       expect.arrayContaining(['app/routes/index.tsx', `public/og/${run.date}.png`])
     )
+    expectRolledBack(run, changed)
+  })
+
+  it('a run resumed from a failed run, failing in the engineer as that run did (#578)', async () => {
+    const engineer = fixtureFor('react-engineer')
+    const noLayout = engineer.replace(blockOf(engineer, 'app/components/Layout.tsx'), '')
+    const failed = await runSwarm({ agents: { 'react-engineer': [noLayout] } })
+    const handoff = readFileSync(
+      path.join(failed.root, 'archive', failed.date, failed.trace.dir, 'handoff.json'),
+      'utf8'
+    )
+    const { tape } = parseHandoff(handoff, { date: failed.date })
+
+    const { run, changed } = await runAndDiff({ tape, agents: { 'react-engineer': [noLayout] } })
+
+    expect(run.error.message).toBe(
+      'React Engineer did not produce Layout.tsx — site cannot function without it'
+    )
+    // The paid stages were answered from the tape; the engineer is what was asked.
+    expect(run.calls.map((c) => c.agent)).toEqual([
+      'react-engineer',
+      'react-engineer',
+      'react-engineer',
+    ])
+    // The same rollback as the run that was not resumed: the preset and the
+    // chassis files the tape's Art Director produced are put back.
     expectRolledBack(run, changed)
   })
 

@@ -171,4 +171,64 @@ describe('patchOutputProblem', () => {
     await expect(patchOutputProblem(params)).rejects.toThrow('EISDIR')
     expect(params.askEngineer).toHaveBeenCalledTimes(1)
   })
+
+  // #578: the rounds were paid for and left no row in trace.json.
+  describe('the trace', () => {
+    const traced = () => {
+      const steps = []
+      return { steps, trace: { addStep: (step) => steps.push(step) } }
+    }
+
+    it('records a round that was applied', async () => {
+      const { steps, trace } = traced()
+      await patchOutputProblem({ ...wiring().params, trace })
+
+      expect(steps).toHaveLength(1)
+      expect(steps[0]).toMatchObject({
+        name: 'output-patch',
+        phase: 3,
+        input: { round: 1, kind: 'missing-files', problem: problem.message },
+        output: { outcome: 'applied', files: 1 },
+      })
+      expect(typeof steps[0].durationMs).toBe('number')
+    })
+
+    it('records a rejected round and then the one that resolved it', async () => {
+      const { steps, trace } = traced()
+      const applyPatch = vi
+        .fn()
+        .mockResolvedValueOnce({ problem: rejectedProblem })
+        .mockResolvedValueOnce({ problem: null })
+      await patchOutputProblem({ ...wiring({ applyPatch }).params, trace })
+
+      expect(steps.map((s) => [s.input.round, s.output.outcome])).toEqual([
+        [1, 'not-applied'],
+        [2, 'applied'],
+      ])
+      expect(steps[0].output.problem).toBe(rejectedProblem.message)
+    })
+
+    it('records a request that failed and a run that was out of time', async () => {
+      const failed = traced()
+      const askEngineer = vi
+        .fn()
+        .mockRejectedValueOnce(new Error('stalled'))
+        .mockResolvedValueOnce({ files: [] })
+      await patchOutputProblem({ ...wiring({ askEngineer }).params, trace: failed.trace })
+      expect(failed.steps[0].output).toEqual({ outcome: 'request-failed', error: 'stalled' })
+
+      const late = traced()
+      await patchOutputProblem({
+        ...wiring({ pastDeadline: vi.fn(() => true) }).params,
+        trace: late.trace,
+      })
+      expect(late.steps.map((s) => s.output.outcome)).toEqual(['skipped-deadline'])
+    })
+
+    it('writes nothing for a reply that arrived clean', async () => {
+      const { steps, trace } = traced()
+      await patchOutputProblem({ ...wiring({ problem: null }).params, trace })
+      expect(steps).toEqual([])
+    })
+  })
 })

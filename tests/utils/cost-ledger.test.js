@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import {
+  PURPOSES,
   resetLedger,
   recordUsage,
   noteRetry,
@@ -94,6 +95,25 @@ describe('recordUsage', () => {
     expect(rec.agent).toBe('unknown')
     expect(rec.model).toBeNull()
     expect(rec.cost_usd).toBeNull()
+  })
+
+  // #578: the ledger could not say why a call was made; whether the second
+  // engineer entry was a retry, a patch, a revision or a repair had to be
+  // read off the call order.
+  it.each(PURPOSES)('records the purpose %s', (purpose) => {
+    const rec = recordUsage({ agent: 'react-engineer', model: 'claude-sonnet-5', purpose })
+    expect(rec.purpose).toBe(purpose)
+    expect(getUsageRecords()[0].purpose).toBe(purpose)
+    expect(summarizeLedger().byAgent[0].purpose).toBe(purpose)
+  })
+
+  it('says unknown for a caller that gave no purpose, so old callers do not break', () => {
+    expect(recordUsage({ agent: 'a', model: 'claude-sonnet-5' }).purpose).toBe('unknown')
+  })
+
+  it('says unknown for a purpose it does not know, rather than storing a typo', () => {
+    expect(recordUsage({ agent: 'a', purpose: 'repiar' }).purpose).toBe('unknown')
+    expect(recordUsage({ agent: 'a', purpose: 3 }).purpose).toBe('unknown')
   })
 })
 

@@ -144,6 +144,21 @@ describe('liftRun', () => {
     })
   })
 
+  it('lifts the same fields from an entry that carries a purpose and a night with earlier attempts (#578)', () => {
+    const withPurposes = {
+      ...cost,
+      byAgent: [{ ...cost.byAgent[0], purpose: 'first' }],
+      priorAttempts: [{ runId: '111', total_usd: 4.18, calls: 10 }],
+      night_usd: 4.98,
+    }
+    writeDay('2026-08-20', { trace, cost })
+    writeDay('2026-08-21', { trace, cost: withPurposes })
+    // The page's run view reads exactly what it read before: the new fields
+    // stay in cost.json and record.json.
+    expect(liftRun('2026-08-21', archiveDir).calls).toEqual(liftRun('2026-08-20', archiveDir).calls)
+    expect(liftRun('2026-08-21', archiveDir).totalUsd).toBe(0.8)
+  })
+
   it('is time only when the day has a trace and no cost file', () => {
     writeDay('2026-08-20', { trace })
     const run = liftRun('2026-08-20', archiveDir)

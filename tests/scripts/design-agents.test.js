@@ -642,7 +642,7 @@ describe('the swarm takes a root', () => {
   const end = SOURCE.indexOf('\nif (isMain(', bodyStart)
 
   it('defaults the root option to the module constant', () => {
-    expect(SOURCE.slice(start, bodyStart)).toMatch(/\{ onTraceStep, root = ROOT \} = \{\}/)
+    expect(SOURCE.slice(start, bodyStart)).toMatch(/\{ onTraceStep, root = ROOT, tape \} = \{\}/)
   })
 
   it('never reads the module constant inside the body', () => {

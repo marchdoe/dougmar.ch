@@ -172,3 +172,20 @@ export async function settleMockupRound({
   })
   return chosen
 }
+
+/**
+ * Why the designer is called in a round: round 0 is the task, every later
+ * round answers the critic's feedback. Named here so the loop in
+ * design-agents.js stays free of the branch.
+ * @param {number} round
+ * @returns {'first'|'revision'}
+ */
+export const designerPurpose = (round) => (round === 0 ? 'first' : 'revision')
+
+/**
+ * Why the mockup critic is called in a round: round 0 is its first look, every
+ * later round judges a page it already judged once.
+ * @param {number} round
+ * @returns {'first'|'rejudge'}
+ */
+export const criticPurpose = (round) => (round === 0 ? 'first' : 'rejudge')

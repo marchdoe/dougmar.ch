@@ -5,7 +5,7 @@
  */
 import { writeFile } from 'node:fs/promises'
 import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
-import { callClaudeCLI } from '../utils/claude-cli.js'
+import { callTapedCLI } from '../utils/call-tape.js'
 import { parseDelimiterResponse } from '../utils/delimiter-parser.js'
 import { modelFor } from '../utils/models.js'
 import { budgetFor } from '../utils/budgets.js'
@@ -119,9 +119,10 @@ export function validateMockupResult(parsed) {
  */
 export async function runMockupDesigner(ctx) {
   const userPrompt = buildMockupDesignerUserPrompt(ctx)
-  const result = await callClaudeCLI('mockup-designer', ctx.systemPrompt, userPrompt, {
+  const result = await callTapedCLI('mockup-designer', ctx.systemPrompt, userPrompt, {
     ...budgetFor('mockup-designer'),
     model: modelFor('mockup-designer'), // opus in prod, sonnet in dev
+    purpose: ctx.purpose,
   })
   let parsed
   try {

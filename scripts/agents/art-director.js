@@ -14,7 +14,7 @@
  * Phase 2 (Unified Designer), build validation, and archive.
  */
 import { writeFile } from 'node:fs/promises'
-import { callClaudeCLI } from '../utils/claude-cli.js'
+import { callTapedCLI } from '../utils/call-tape.js'
 import { parseDelimiterResponse } from '../utils/delimiter-parser.js'
 import {
   parseMeasurablesBlock,
@@ -318,6 +318,7 @@ function validateMotion(parsed) {
  *   mobileLessonBlock?: string,
  *   uniquenessBlock?: string,
  *   retryContext?: string,
+ *   purpose?: string,
  *   systemPrompt: string,
  *   designReferenceImages?: Array<{ data: string, media_type: string, title?: string }>,
  * }} ctx
@@ -332,9 +333,10 @@ export async function runArtDirector(ctx) {
   // run 3 past the original 10-minute hard cap. Match the shape of the
   // unified-designer config (30 min total / 25 min stall) one register
   // tighter — the AD prompt is smaller and shouldn't need that much.
-  const result = await callClaudeCLI('art-director', ctx.systemPrompt, userPrompt, {
+  const result = await callTapedCLI('art-director', ctx.systemPrompt, userPrompt, {
     ...budgetFor('art-director'),
     model: modelFor('art-director'),
+    purpose: ctx.purpose,
   })
 
   let parsed

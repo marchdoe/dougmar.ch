@@ -361,6 +361,16 @@ describe('callClaudeSDK', () => {
       expect(record.cost_usd).toBeCloseTo(5000 / 1e6 + (400 * 5) / 1e6, 9)
     })
 
+    it('books the purpose the caller gave, and unknown when it gave none (#578)', async () => {
+      const { client } = stubClient(OK)
+      await callClaudeSDK('screenshot-critic', 'sys', [textBlock('x')], {
+        client,
+        purpose: 'rejudge',
+      })
+      await callClaudeSDK('screenshot-critic', 'sys', [textBlock('x')], { client })
+      expect(getUsageRecords().map((r) => r.purpose)).toEqual(['rejudge', 'unknown'])
+    })
+
     it('books nothing when the call throws', async () => {
       const client = { messages: { create: vi.fn().mockRejectedValue(new Error('boom')) } }
       await expect(

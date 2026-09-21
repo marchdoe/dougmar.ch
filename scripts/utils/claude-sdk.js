@@ -116,10 +116,11 @@ function assertSdkInputs(agentName, apiKey, contentBlocks) {
  * @param {string} model
  * @param {object} usage
  * @param {number} ms
+ * @param {string} [purpose] why the call was made (`PURPOSES` in cost-ledger.js)
  */
-function bookUsage(agentName, model, usage, ms) {
+function bookUsage(agentName, model, usage, ms, purpose) {
   try {
-    recordUsage({ agent: agentName, model, source: 'sdk', usage, ms })
+    recordUsage({ agent: agentName, purpose, model, source: 'sdk', usage, ms })
   } catch {}
 }
 
@@ -216,6 +217,7 @@ async function createWithRetries(client, params, { agentName, retries, deadline 
  * @param {number} [opts.timeoutMs=600000] - hard cap for ALL attempts together
  * @param {number} [opts.retries=2] - extra attempts on a transient failure
  * @param {object|null} [opts.thinking] - null disables; defaults to adaptive where supported
+ * @param {string} [opts.purpose] - why the call is made, for the ledger (`PURPOSES` in cost-ledger.js)
  * @param {object} [opts.client] - injectable Anthropic client (tests)
  * @returns {Promise<string>} concatenated assistant text blocks
  */
@@ -267,7 +269,7 @@ export async function callClaudeSDK(agentName, systemPrompt, contentBlocks, opts
 
   const usage = response.usage ?? {}
   const elapsedMs = Date.now() - started
-  bookUsage(agentName, model, usage, elapsedMs)
+  bookUsage(agentName, model, usage, elapsedMs, opts.purpose)
   assertNotTruncated(agentName, response, maxTokens)
   console.log(
     `  [${agentName}] SDK finished in ${Math.round(elapsedMs / 1000)}s ` +

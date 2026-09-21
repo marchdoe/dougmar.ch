@@ -288,11 +288,13 @@ export function buildScreenshotCriticBlocks(ctx) {
  * @param {Array<{type: string, text?: string, source?: object}>} args.contentBlocks
  * @param {boolean} args.wantsBar - a calibration reference was attached, so a
  *   BAR line is expected in the reply
+ * @param {string} [args.purpose] - why the call is made, for the ledger: 'first'
+ *   for the build's first judgment, 'rejudge' for the re-judge after a revision
  * @returns {Promise<{ verdict: string, criticResponse: string, visionChannel: string,
  *   bar: { position: string, reason: string } | null }>} `criticResponse` is
  *   the reason, not critique, when the reply was truncated
  */
-export async function runScreenshotCritic({ systemPrompt, contentBlocks, wantsBar }) {
+export async function runScreenshotCritic({ systemPrompt, contentBlocks, wantsBar, purpose }) {
   // Which channel answered. A SHIP reached without pixels is a different
   // claim from one reached with them, so verdicts.json says which it was.
   let visionChannel = 'unknown'
@@ -302,6 +304,7 @@ export async function runScreenshotCritic({ systemPrompt, contentBlocks, wantsBa
       agentName: 'screenshot-critic',
       systemPrompt,
       contentBlocks,
+      purpose,
       // The SDK path uses timeoutMs only; the CLI fallback uses both.
       ...budgetFor('screenshot-critic'),
       onChannel: (c) => {

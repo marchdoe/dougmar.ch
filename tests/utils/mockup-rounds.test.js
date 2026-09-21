@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { heroPxAt, pickShippedRound, roundShortfall } from '../../scripts/utils/mockup-rounds.js'
+import {
+  criticPurpose,
+  designerPurpose,
+  heroPxAt,
+  pickShippedRound,
+  roundShortfall,
+} from '../../scripts/utils/mockup-rounds.js'
 
 const measured = (canvas_utilization, color_coverage, hero_px) => ({
   canvas_utilization,
@@ -189,5 +195,15 @@ describe('pickShippedRound', () => {
       expect(r1).toMatchObject({ canvas: 0, colour: 0, hero: 52.9 })
       expect(r2).toMatchObject({ canvas: 43.4, colour: 0, hero: 0 })
     })
+  })
+})
+
+describe('the purposes of a round (#578)', () => {
+  it("is a first pass at round 0 and a revision of the critic's feedback after", () => {
+    expect([0, 1, 2].map(designerPurpose)).toEqual(['first', 'revision', 'revision'])
+  })
+
+  it('has the critic look first, then rejudge a page it already judged', () => {
+    expect([0, 1, 2].map(criticPurpose)).toEqual(['first', 'rejudge', 'rejudge'])
   })
 })
