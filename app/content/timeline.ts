@@ -10,6 +10,10 @@ export type TimelineEntry = {
   role: string
   company: string
   description: string
+  // Never set. `year` already says "to present" for an open range, and a
+  // component written against the old data (`'2025 —'` plus `current`) appends
+  // "to present" itself when this is true, which printed it twice on
+  // 2026-09-21 (#638). The field stays so those components still type-check.
   current?: boolean
   bullets?: string[]
   technologies?: string[]
@@ -36,7 +40,6 @@ export const timeline: TimelineEntry[] = resumeExperience.map((entry) => ({
   role: entry.title,
   company: entry.company,
   description: entry.note ?? '',
-  ...(entry.current ? { current: true } : {}),
   bullets: entry.bullets,
   ...(entry.technologies ? { technologies: entry.technologies } : {}),
 }))
