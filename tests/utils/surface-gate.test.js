@@ -446,13 +446,19 @@ describe('measureRoute runs the tap-target check on the mobile rung', () => {
   const RESULTS = {
     findTapTargetFailures: [{ label: 'work', width: 34, height: 22 }],
     findClippedElements: [],
+    // The render-health probes (#574), which come through the same kit.
+    collectBrokenWords: { ogImage: '', words: [] },
+    collectInvisible: [],
+    collectStranded: [],
   }
   // Which in-page function an evaluate call was handed. Most ship one source
-  // string; the text-contrast walk ships a table of function sources.
+  // string; the kit walks ship a table of function sources and the name of
+  // the one to call.
   function pageFunctionName(arg) {
     const src = Array.isArray(arg) ? arg[0] : null
     if (typeof src === 'string') return src.match(/^function (\w+)/)?.[1] ?? null
-    return src && typeof src === 'object' && 'collect' in src ? 'collectTextContrast' : null
+    if (!(src && typeof src === 'object' && 'collect' in src)) return null
+    return arg[2] === 'collect' ? 'collectTextContrast' : arg[2]
   }
   function fakeBrowser() {
     const ran = []
@@ -462,6 +468,9 @@ describe('measureRoute runs the tap-target check on the mobile rung', () => {
         return { status: () => 200 }
       },
       async waitForTimeout() {},
+      url() {
+        return 'http://x/'
+      },
       viewportSize() {
         return null
       },
@@ -506,6 +515,33 @@ describe('measureRoute runs the tap-target check on the mobile rung', () => {
     // measured at both rungs.
     expect(ran).toContain('collectTextContrast')
     expect(m.tapTargets).toEqual([])
+  })
+
+  it('makes the reduced-motion visit at the desktop rung in the light scheme, and nowhere else (#574)', async () => {
+    const visits = async (viewport, scheme) => {
+      const { browser } = fakeBrowser()
+      const opened = []
+      const spy = {
+        newPage: async (opts) => {
+          opened.push(opts.reducedMotion ?? null)
+          return browser.newPage(opts)
+        },
+      }
+      const m = await measureRoute(spy, 'http://x', surface, viewport, scheme)
+      return { opened, m }
+    }
+    const desktop = { name: 'desktop', ...WIDE_VIEWPORT }
+    const light = await visits(desktop, 'light')
+    expect(light.opened).toEqual([null, 'reduce'])
+    expect(light.m.renderHealth.stranded).toEqual([])
+    for (const [viewport, scheme] of [
+      [desktop, 'dark'],
+      [{ name: 'mobile', width: 320, height: 640 }, 'light'],
+    ]) {
+      const other = await visits(viewport, scheme)
+      expect(other.opened).toEqual([null])
+      expect(other.m.renderHealth.stranded).toBeNull()
+    }
   })
 })
 
