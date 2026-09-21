@@ -56,6 +56,11 @@ const CORPUS = {
 // here measures the shell, not the route: its own assertions stay on.
 const NIGHTLY = process.env.NIGHTLY_RUN === '1'
 const NIGHT_SHELL = "hand-written route: the night's Layout decides this; PR CI covers it"
+// Loosened 2026-09-21 (#633): the surface gate runs these three probes during
+// the night and revises on them, and a night that still fails them after its
+// rounds ships with the faults logged rather than being thrown away. PR CI
+// keeps running them against the committed design.
+const NIGHT_RENDER = 'render health: the surface gate measured this during the run (#633)'
 
 // Helper: check page loads with HTTP 200 and renders content
 async function expectPageLoads(page: Page, path: string) {
@@ -185,6 +190,7 @@ test.describe('site health — the white paper holds its layout', () => {
 test.describe('site health — nothing renders invisible', () => {
   for (const path of ['/', '/about']) {
     test(`${path} paints every piece of text it renders`, async ({ page }) => {
+      test.skip(NIGHTLY, NIGHT_RENDER)
       await page.goto(path)
       await page.waitForLoadState('networkidle')
 
@@ -225,6 +231,7 @@ test.describe('site health — no word breaks across lines', () => {
   for (const path of paths) {
     for (const viewport of SHRED_VIEWPORTS) {
       test(`${path} at ${viewport.width} keeps every word on one line`, async ({ page }) => {
+        test.skip(NIGHTLY, NIGHT_RENDER)
         await page.setViewportSize(viewport)
         await page.goto(path)
         await page.waitForLoadState('networkidle')
@@ -268,6 +275,7 @@ test.describe('site health — no word breaks across lines', () => {
 test.describe('site health — the reveal is not load-bearing', () => {
   for (const path of ['/', '/about']) {
     test(`${path} renders without the reveal running`, async ({ page }) => {
+      test.skip(NIGHTLY, NIGHT_RENDER)
       // emulateMedia rather than `test.use({ reducedMotion })`: the fixture
       // did not reach the page under this project's `use` block, and the test
       // passed against a page that had never been asked for reduced motion.

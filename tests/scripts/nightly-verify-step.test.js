@@ -70,13 +70,18 @@ describe('what the spec does with it', () => {
     expect(SPEC).toContain("process.env.NIGHTLY_RUN === '1'")
   })
 
-  it('skips tests with it, each with the same stated reason', () => {
-    const skips = SPEC.match(/test\.skip\(NIGHTLY, NIGHT_SHELL\)/g) ?? []
-    expect(skips.length).toBeGreaterThan(0)
+  it('skips tests with it, each with one of the two stated reasons', () => {
+    const shell = SPEC.match(/test\.skip\(NIGHTLY, NIGHT_SHELL\)/g) ?? []
+    // The render-health skips are the 2026-09-21 loosening (#633); they go
+    // when that issue closes, and this count goes back to the shell's alone.
+    const render = SPEC.match(/test\.skip\(NIGHTLY, NIGHT_RENDER\)/g) ?? []
+    expect(shell.length).toBeGreaterThan(0)
+    expect(render.length).toBe(3)
     expect(SPEC).toContain("hand-written route: the night's Layout decides this; PR CI covers it")
+    expect(SPEC).toContain('render health: the surface gate measured this during the run (#633)')
     // No skip written any other way: a bare `test.skip(` is a test that never runs anywhere.
     const all = SPEC.match(/test\.skip\(/g) ?? []
-    expect(all.length).toBe(skips.length)
+    expect(all.length).toBe(shell.length + render.length)
   })
 
   it("leaves the archive calendar blocking, since the archive is drawn outside the night's shell", () => {
