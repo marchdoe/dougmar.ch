@@ -1,0 +1,272 @@
+===HERO_COPY===
+Twenty-six under. Two shots clear.
+
+===HERO_RATIONALE===
+Composed from today's golf signal: Jacob Bridgeman finished the Biltmore Championship at −26, two clear of Ben James at −24. The score is the object, so −26 leads at poster scale and this line is its caption. Today's quote (Confucius on revenge) passed for two reasons. It carries the word "journey", which the copy gate rejects, and a revenge proverb over a Lions loss is not something Doug would say. Yesterday's lane was content-lifted, so composed is a fresh lane.
+Owner's voice: Doug has four holes in one and reads a leaderboard like a box score, number first, margin second, no adjectives.
+
+===HERO_SOURCE===
+composed
+
+===ARCHETYPE===
+a scoreboard poster with a raspberry riso flood
+
+===CHASSIS_ID===
+dm-serif-public
+
+===COLOR_SCHEME===
+{
+  "primary_hue": { "h": 332, "s": 78, "l": 39, "name": "raspberry" },
+  "secondary_accent": { "h": 150, "s": 85, "l": 70, "name": "fairway mint" },
+  "neutral_family": { "tinted_toward": "plum", "name": "plum-tinted ivory to aubergine" },
+  "mood_word": "triumphant",
+  "color_story": "A two-shot win gets one saturated raspberry flood with ivory ink and a single fairway-mint spark on the under-par figures; 332° sits in the open gap of the hue map (58° from 272° and 28°, 152° from yesterday's 178°), outside the 140–180° target only because that whole band is forbidden by the recent window, and the mint spark at 150° keeps the golf green inside it."
+}
+
+===VISUAL_SPEC===
+### 1. Color Specification
+- **Ground strategy**: drench. Raspberry IS the page. Nothing near-black, no pale sheet.
+- **Primary hue**: 332° (raspberry). It sits in the open gap between recent hues 272° and 28°, and 152° from yesterday's 178°.
+- **Primary scale** (all in the preset as `primary.*`): 50 #FFF7FA, 100 #FFE8F1, 200 #FBD3E5, 300 #F6A9CB, 400 #EC6FA5, 500 #D42A75, 550 #C01C6C, 600 #B0165F, 700 #8C114C, 800 #690C39, 900 #470726.
+- **Neutral palette** (plum-tinted, `neutral.*`): 50 #FBF4F7, 100 #F3E6EC, 200 #E4CCD8, 300 #CEA9BC, 400 #B07F98, 500 #8A5A73, 600 #6A4157, 700 #4C2C3E, 800 #30192A, 900 #1E0D19.
+- **Accent (fairway mint, `mint.*`)**: light #A9F9D2 (200), default #7BF2B6 (300), dark #16A265 (600), glow #D2FCE7 (100). It appears only on under-par figures, the mark, the 15th Club row and focus rings. It is a spark, never a fill larger than a row.
+- **Secondary accent**: none.
+- **Background**: page bg #B0165F. bgAlt #8C114C (callout band, work-index hover row). Surface #C01C6C (the chase-list panel, if the engineer boxes it). Field #470726 (footer band).
+- **Text colors**: text #FFF7FA. textMuted #FFE8F1. textFaint #FBD3E5 (labels, metadata only, never a sentence).
+- **Rules**: border #EC6FA5. borderStrong #F6A9CB. Inside the field band, fieldBorder #B0165F, fieldInk #FFF7FA, fieldInkMuted #FBD3E5.
+- **Contrast checked**: text on bg 6.4:1, on bgAlt 8:1+, on surface 5.5:1. accent on bg 4.8:1. accentText (#470726) on accent 11:1. fieldInkMuted on field 11:1.
+- **Material**: grain, film grain in the ivory ink at low opacity over the hero field only. It reads as a riso-printed poster.
+
+### 2. Typography
+- **Chassis**: dm-serif-public, high-contrast didone display with Public Sans body. The didone numerals are the reason for the pick: −26 is the loudest object on the page and a didone 2 and 6 at 160px is a specimen in itself.
+- **Figure**: "−26" (U+2212 minus) at ramp step `hero`, the fluid clamp that runs 110px at 360 to 160px at 1440. Roman, regular (the only loaded weight), line-height 0.9, centred inside its zone. It is the largest element and it is not the h1.
+- **Hero phrase (the one h1)**: "Twenty-six under. Two shots clear." at step `3xl`, small-caps, roman, regular, stacked two lines flush and centred, one sentence per line. Line one "Twenty-six under.", line two "Two shots clear." Use the ramp textStyle; do not invent leading or tracking.
+- **Case**: small-caps for the display register (phrase, project titles, footer nav). Figures and numerals are unaffected. Body and deck are mixed case.
+- **Alignment**: centred for the hero block only. The deck, chase list, work index and footer all hang off the single left rail at 6vw.
+- **Deck**: Public Sans at step `md`, textMuted, max 40ch.
+- **Middle of the scale**: chase-list names at `xl`, chase-list scores at `2xl` in mint, project titles at `3xl` small-caps, eyebrow at `sm` small-caps in textMuted with 0.09em tracking. Labels and metadata never go under `xs` (≥12px).
+- **Body measure**: 60–68ch, using the chassis leading.
+
+### 3. Layout Specification
+- **Composition**: irregular-twelve × diagonal × right-weighted × full-bleed × sparse × accelerating × footer-only × drenched × hero-only × figure. The score sits upper right, the field that finished behind it steps down to the lower left, and the eye travels that diagonal against the reading direction. The 12-column grid changes its spans block by block.
+- **Page shell**: `display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; padding-inline: 6vw; max-width: none`.
+- **Hero section**: `min-height: 100vh` (never under 760px). Rows: `88px 1fr`. Background is bg #B0165F with the grain material.
+- **Header strip (row 1, columns 1–5)**: height 88px, holding the horizontal lockup. It is a strip inside the hero, not a bar. No background, no border.
+- **Hero phrase grid zone**: the figure and phrase share one block, columns 5–12, row 2, `align-self: start; padding-top: 32px; text-align: center`. Stack top to bottom: eyebrow, then figure "−26" at ~158px (~150px tall at 1440), then the h1 at `3xl` (~48px), two lines. The block runs roughly y=120 to y=420 at 1440.
+- **Chase list (columns 1–7, row 2, `align-self: end; padding-bottom: 64px`)**: deck first ("Jacob Bridgeman took the Biltmore Championship at 26 under, two clear of Ben James."), then four rows with a 1px `border` rule above each. Rows are 56px tall on a 12-col sub-grid: rank (col 1), name (cols 2–5, `xl`), score (cols 6–7, `2xl`, mint, right-aligned, tabular). Rows: 2 Ben James −24, 3 Ricky Castillo −23, 3 Neal Shipley −23, 5 J.T. Poston −21. The block ends about 64px above the fold, so both zones sit in the 1440×900 fold.
+- **Work index (below the hero, full width)**: padding `96px 6vw 120px`. Seven rows, each on the 12-col grid: number (col 1, textFaint), title (cols 2–8, `3xl` small-caps), category (cols 9–11, `sm`, textMuted), year (col 12, right, tabular). Order: 15th Club 2025 (row title and year in mint, it is the golf project), Spaceman 2018, FishSticks 2025, dougmar.ch 2026, TeeTurn 2020, Politweets 2008, Twittertale 2008. Accelerating rhythm: row heights step 152, 128, 108, 92, 80, 72, 64px, each with a 1px `border` rule above. Each title links to `/work/<slug>`.
+- **Home callout slot**: on `/`, `<SiteCallout />` sits full width between the work index and the footer band. It is never inside the hero. No copy or styling from me.
+- **Footer band (field #470726)**: full width, padding `72px 6vw 56px`. Top row is the nav (three labels). Below it, hairline `fieldBorder`, then the signal columns.
+- **Nav placement**: none in the header. Work, About and Contact are set in the footer band (see HEADER).
+
+### 4. Component Character
+- **Border radius**: 0 on rows, panels and links (radii.none). The mark is circular by its own geometry. Nothing else rounds.
+- **Border treatment**: borderless planes. 1px `border` hairlines separate rows only. No card outlines.
+- **Shadow**: none.
+- **Density**: spacious. The page is mostly field; whitespace is raspberry.
+- **Interactive states**: work-index rows swap to bgAlt and the title to accent over 120ms. Text links thicken the underline on hover and shift to accent. Focus ring is 2px `accent` with a 3px offset, visible on every link.
+- **Grain**: static, never animated.
+
+### 5. Signal Integration
+- **Golf (Biltmore Championship, final)**: this is the hero. Eyebrow "Biltmore Championship · Asheville · Final". Figure −26, phrase as caption, and the top five as the deck plus chase list. Under-par scores are mint.
+- **Quote**: not placed. Confucius carries the word "journey", which the copy gate rejects, and revenge is not Doug's register.
+- **Sports (Lions)**: one flat footer cell, "Lions 31–41, loss." No color, no adjective. Pistons, Red Wings and Tigers are in the off-season, so they are absent.
+- **Market**: footer cell "SPY 761.69, up 0.98 (0.13%)" in tabular figures.
+- **Weather (Aldie, Virginia)**: footer cell "Cloudy, 70°F, wind NNE 7 mph, humidity 62%", plus "Sunrise 07:03, sunset 19:02" on the same cell's second line. Air quality good.
+- **Moon**: "Waxing gibbous, 82%".
+- **Music**: `signals.music` is a rotation, taste and not an event. Set it as "On rotation: Guided by Voices, Tobin Sprout, My Morning Jacket" in one cell, labeled "Listening". It never sits beside a score as if it happened today.
+- **Holiday**: none today. **Books**: none currently.
+- **Footer cells** are tabular columns in fieldInkMuted with a small-caps label in textFaint-on-field style (fieldInkMuted), values in fieldInk. There is no quote footnote.
+
+===SELF_CHECK===
+1. Hero quotability: Yes. "Twenty-six under. Two shots clear." is a screenshot-able scoreline in Doug's own register with the number in the words.
+2. Because-of chain: Yes. A golf score wins the day, so a figure leads, so a diagonal cascade from the winner to the chasers carries it, so didone numerals at 160px, so a saturated raspberry drench with a mint spark.
+3. Render feasibility: Yes. DM Serif's hero step tops out at 160px, and "−26" at that size is about 330px wide, well inside columns 5–12 without overflow.
+4. Canvas floor feasible: Yes. The drench and grain cover the whole field and the figure block plus chase list occupy both diagonal corners of the fold, so a 60% floor is honest.
+5. Phone: Yes. hero-only keeps the mark, "−26" at the 110px hero step and the phrase at 2xl (about 240px per line in a 312px column) inside the first 640px with no word cut.
+
+===MEASURABLES===
+canvas_utilization_min: 60
+hero_scale: clamp(110px, 11vw, 160px)
+color_coverage_min: 65
+
+===SHELL===
+footer: field band in #470726: nav labels as a row on top, then the day's signals as tabular columns (Lions, SPY, Aldie weather, moon, music rotation), scores stated flat, no quote footnote
+brand_lockup: horizontal-md
+brand_color_mode: single-color
+ground_strategy: drench
+ground_material: grain
+
+===HEADER===
+placement: footer-only
+height_px: 88
+mark_px: 40
+wordmark_step: lg
+wordmark_weight: 400
+role_line: absent
+nav_step: xl
+nav_case: small-caps
+nav_form: labels
+nav: nav lives in the footer band as three labels in a row (Work, About, Contact) set in small-caps at xl; the single-color mark, in accent mint, sits top-left of the hero field beside the "Doug March" wordmark inside the first fold at 1440 and 360, checked 4.8:1 against the raspberry ground
+
+===TYPE_TREATMENT===
+case: small-caps
+lead: roman
+weight: regular
+alignment: centred
+texture: stacked
+
+===MOBILE===
+carrier: The −26 figure at the hero step over the two-line phrase carries the whole idea on one screen, and the chase list turns into full-width rows after it.
+first_fold: The mark and wordmark strip, then the hero alone: the −26 figure with "Twenty-six under. Two shots clear." stacked beneath it; deck and list fall below the fold.
+order: lockup strip, figure and phrase, deck, chase list, work index, callout, footer band
+hero_step_360: hero
+nav_360: header is the mark and wordmark only; Work, About and Contact stay in the footer band as a row at lg that wraps to a stacked list if it must.
+
+===MOTION===
+entrance: none
+ground: static
+reveal: on-scroll
+
+===COMPOSITION===
+columns: irregular-twelve
+axis: diagonal
+symmetry: right-weighted
+hero_zone: full-bleed
+density: sparse
+rhythm: accelerating
+shell_posture: footer-only
+field_ratio: drenched
+collapse: hero-only
+hero_object: figure
+
+===COMPOSITION_RATIONALE===
+A score wants a figure, so −26 leads and the phrase is its caption, with the field that finished behind the winner stepping down the diagonal to the lower left. I kept the mandate's starting tuple on every axis but one, because each of those values fits: full-bleed drench, sparse, accelerating row heights in the work index, footer-only. I moved `collapse` from reorder to hero-only because the figure and its caption are complete on one phone screen, and the leaderboard is evidence that belongs after it.
+
+===FILE:elements/preset.ts===
+import { definePreset } from '@pandacss/dev'
+
+export const elementsPreset = definePreset({
+  name: 'elements',
+  conditions: {
+    extend: {
+      light: '[data-theme=light] &',
+      dark: '[data-theme=dark] &',
+      hover: '&:hover',
+    },
+  },
+  globalCss: {
+    html: {
+      textSizeAdjust: '100%',
+    },
+    body: {
+      background: 'bg',
+      color: 'text',
+      margin: 0,
+      fontKerning: 'normal',
+      fontOpticalSizing: 'auto',
+      fontVariantNumeric: 'lining-nums tabular-nums',
+      WebkitFontSmoothing: 'antialiased',
+    },
+    a: {
+      color: 'inherit',
+      textDecorationThickness: '1px',
+      textUnderlineOffset: '0.22em',
+      _hover: {
+        color: 'accent',
+        textDecorationThickness: '2px',
+      },
+    },
+    'h1, h2, h3, h4': {
+      margin: 0,
+      fontWeight: 400,
+      textWrap: 'balance',
+    },
+    'p, li': {
+      textWrap: 'pretty',
+    },
+    '::selection': {
+      background: 'accent',
+      color: 'accentText',
+    },
+  },
+  theme: {
+    tokens: {
+      colors: {
+        primary: {
+          50: { value: '#FFF7FA' },
+          100: { value: '#FFE8F1' },
+          200: { value: '#FBD3E5' },
+          300: { value: '#F6A9CB' },
+          400: { value: '#EC6FA5' },
+          500: { value: '#D42A75' },
+          550: { value: '#C01C6C' },
+          600: { value: '#B0165F' },
+          700: { value: '#8C114C' },
+          800: { value: '#690C39' },
+          900: { value: '#470726' },
+        },
+        mint: {
+          50: { value: '#F0FFF8' },
+          100: { value: '#D2FCE7' },
+          200: { value: '#A9F9D2' },
+          300: { value: '#7BF2B6' },
+          400: { value: '#4DE39A' },
+          500: { value: '#26C97E' },
+          600: { value: '#16A265' },
+          700: { value: '#127E51' },
+          800: { value: '#0F5D3D' },
+          900: { value: '#0A3D28' },
+        },
+        neutral: {
+          50: { value: '#FBF4F7' },
+          100: { value: '#F3E6EC' },
+          200: { value: '#E4CCD8' },
+          300: { value: '#CEA9BC' },
+          400: { value: '#B07F98' },
+          500: { value: '#8A5A73' },
+          600: { value: '#6A4157' },
+          700: { value: '#4C2C3E' },
+          800: { value: '#30192A' },
+          900: { value: '#1E0D19' },
+        },
+      },
+      radii: {
+        none: { value: '0' },
+        sm: { value: '2px' },
+        md: { value: '4px' },
+        lg: { value: '8px' },
+        full: { value: '9999px' },
+      },
+    },
+    semanticTokens: {
+      colors: {
+        bg: { value: '{colors.primary.600}' },
+        bgAlt: { value: '{colors.primary.700}' },
+        surface: { value: '{colors.primary.550}' },
+        text: { value: '{colors.primary.50}' },
+        textMuted: { value: '{colors.primary.100}' },
+        textFaint: { value: '{colors.primary.200}' },
+        accent: { value: '{colors.mint.300}' },
+        accentText: { value: '{colors.primary.900}' },
+        accentAlt: { value: '{colors.mint.100}' },
+        border: { value: '{colors.primary.400}' },
+        borderStrong: { value: '{colors.primary.300}' },
+        field: { value: '{colors.primary.900}' },
+        fieldInk: { value: '{colors.primary.50}' },
+        fieldInkMuted: { value: '{colors.primary.200}' },
+        fieldBorder: { value: '{colors.primary.600}' },
+      },
+    },
+  },
+})
+
+===RATIONALE===
+The phrase comes from the day's one hard fact that is Doug's kind of fact. Bridgeman won the Biltmore Championship at −26, two ahead of Ben James, and Doug reads a leaderboard the way he reads a box score. The quote lane lost on its own words: "journey" is on the copy gate's list and a revenge proverb is not something he says. That makes the object a figure. −26 takes the poster slot, the phrase becomes its caption, and the five names that finished behind the winner give the page its diagonal, from the score at upper right down to the chasers at lower left.
+
+DM Serif Display is the chassis because the object is numerals. A didone 2 and 6 at 160px is the loudest, most specific thing the catalog can put on a page, and Public Sans keeps the deck and the chase list plain. The type is set small-caps, regular weight, centred, with the phrase stacked one sentence per line. All of that moves off the last week, which ran lower, caps and mixed, left and justified. The work index below steps its row heights down from 152px to 64px, which gives the accelerating rhythm. Fifteen of the seventeen recent shells put a top bar or a rail somewhere; this one keeps its header to a 40px mark beside the wordmark and sends the nav to the footer band.
+
+The palette is a single raspberry flood at 332°, the open gap in the recent hue map, with ivory ink and one fairway-mint spark reserved for under-par figures and the 15th Club row. The 140–180° target sits entirely inside the recent window's forbidden zones, so I took the golf green as the accent instead and put the ground where nothing has been. Drench is a formula the last seven days avoided. Because raspberry and the original green-and-blue mark would vibrate, the mark runs single-color in mint and clears 4.8:1. Grain gives the flood a riso-print surface. The entrance is none: a scoreboard arrives whole, and only the rows below the fold rise on scroll.
+
+===DESIGN_BRIEF===
+Raspberry-drenched scoreboard poster: −26 in didone numerals as the figure, "Twenty-six under. Two shots clear." as its caption, and the chasing field stepping down the diagonal in mint.

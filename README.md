@@ -43,7 +43,7 @@ Without `ANTHROPIC_API_KEY` the agents run through the Claude CLI on a Max plan,
 
 `pnpm pipeline:canary` worktrees HEAD, installs, and runs the full pipeline there with `MOCK_MODE=false DRY_RUN=true`, so it reproduces exactly what a paid run would do without spending anything, and files the log, trace, cost and any build errors under `docs/evidence/canary/<date>-<time>/`. Run it before merging a change to `scripts/prompts/**`, `scripts/design-agents.js` or `scripts/utils/build-validator.js`, and weekly otherwise — it's the only check that catches what only shows up against the real Claude CLI.
 
-`pnpm pipeline:canary --mock` replays the recorded fixtures through the real loop and gates in under a minute on a warm pnpm store, with no model call, and is the quick check after a gate or loop change.
+`pnpm pipeline:canary --mock` replays the recorded night under `fixtures/canary/` through the real loop and gates in under a minute on a warm pnpm store, with no model call, and is the quick check after a gate or loop change. `RECORD_FIXTURES=true pnpm pipeline:canary` re-records that night from a real $0 run; do it after a gate or prompt change the old recording cannot pass.
 
 ## What is where
 
@@ -85,7 +85,8 @@ public/archive/      the preserved sites, one directory per date, served as stat
 public/archive-data/ the archive projected to JSON for the calendar, plus each day's screenshot and viewport captures copied from archive/ (generated at build)
 signals/             profile.yml (yours), today.* (the last collection)
 references/          design references the Art Director is shown
-fixtures/agents/     recorded agent replies that MOCK_MODE and `pipeline:canary --mock` replay
+fixtures/agents/     the recorded night the swarm tests assert against (frozen)
+fixtures/canary/     the recorded night `pipeline:canary --mock` replays; `FIXTURE_DIR` picks either
 docs/
   adr/               decisions that are hard to reverse
   research/          dated analyses

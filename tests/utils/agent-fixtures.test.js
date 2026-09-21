@@ -34,6 +34,21 @@ describe('agent fixtures', () => {
     vi.doUnmock('../../scripts/utils/file-manager.js')
   })
 
+  it('reads and records under FIXTURE_DIR when it is set, relative to the root (#625)', async () => {
+    vi.stubEnv('FIXTURE_DIR', 'fixtures/canary')
+    const m = await loadWithRoot(root)
+    expect(m.FIXTURE_DIR).toBe(path.join(root, 'fixtures', 'canary'))
+    const dir = path.join(root, 'fixtures', 'canary', 'art-director')
+    mkdirSync(dir, { recursive: true })
+    writeFileSync(path.join(dir, '00.txt'), 'the canary night', 'utf8')
+    expect(m.nextFixture('art-director')).toBe('the canary night')
+    m.recordFixture('mockup-designer', 'recorded here')
+    expect(
+      readFileSync(path.join(root, 'fixtures', 'canary', 'mockup-designer', '00.txt'), 'utf8')
+    ).toBe('recorded here')
+    expect(existsSync(path.join(root, 'fixtures', 'agents'))).toBe(false)
+  })
+
   it('serves recorded responses in call order, not the same one twice', async () => {
     const m = await loadWithRoot(root)
     seed(root, 'react-engineer', 0, 'first attempt')

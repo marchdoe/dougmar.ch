@@ -254,6 +254,31 @@ describe('runCanary — the pipeline call', () => {
       expect(pipelineCall.options.env.DRY_RUN).toBe('true')
     }))
 
+  it('--mock replays fixtures/canary, and a recording run writes there too (#625)', async () =>
+    withEnv({ ...clearGuardEnv, FIXTURE_DIR: '' }, async () => {
+      const pipelineEnv = async (opts, extraEnv = {}) => {
+        const calls = []
+        const exec = (command, options) => {
+          calls.push({ command, options })
+          return { status: 0, stdout: '', stderr: '' }
+        }
+        await withEnv({ ...clearGuardEnv, FIXTURE_DIR: '', ...extraEnv }, () =>
+          runCanary({ exec, root, worktreePath: worktree, ...opts })
+        )
+        return calls.find((c) => c.command.includes('run-pipeline.js')).options.env
+      }
+      expect((await pipelineEnv({ mock: true })).FIXTURE_DIR).toBe('fixtures/canary')
+      expect((await pipelineEnv({}, { RECORD_FIXTURES: 'true' })).FIXTURE_DIR).toBe(
+        'fixtures/canary'
+      )
+      // A plain dry run replays nothing and records nothing, so it names no corpus.
+      expect((await pipelineEnv({})).FIXTURE_DIR).toBeFalsy()
+      // An explicit FIXTURE_DIR wins.
+      expect(
+        (await pipelineEnv({ mock: true }, { FIXTURE_DIR: 'fixtures/other' })).FIXTURE_DIR
+      ).toBe('fixtures/other')
+    }))
+
   it('creates the evidence log before the pipeline runs, and prints its path first (#449)', async () =>
     withEnv(clearGuardEnv, async () => {
       const printed = []

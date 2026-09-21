@@ -1,0 +1,278 @@
+===HERO_COPY===
+Twenty-six under. Two clear.
+
+===HERO_RATIONALE===
+The Biltmore Championship finished today's feed. Jacob Bridgeman closed at -26 and Ben James was second at -24. Doug plays golf and has four holes in one, so a final leaderboard is his kind of fact, and it gives the page a number to lead with. The Confucius quote lost. "Journey" is a banned word, so the line can't reach the page, and a revenge proverb isn't something Doug says. The Lions' 31–41 loss is three days old and belongs in the footer, flat. Yesterday's lane was content-lifted, so this composed line also breaks that streak.
+Owner's voice: A score is a score. Bridgeman shot 26 under and won by two. I say the number, then the margin.
+
+===HERO_SOURCE===
+composed
+
+===ARCHETYPE===
+an azalea-pink scoreboard, one green figure on a flooded field
+
+===CHASSIS_ID===
+big-shoulders-atkinson
+
+===COLOR_SCHEME===
+{
+  "primary_hue": { "h": 328, "s": 82, "l": 31, "name": "azalea berry" },
+  "secondary_accent": { "h": 111, "s": 85, "l": 67, "name": "fairway green" },
+  "neutral_family": { "tinted_toward": "magenta-wine", "name": "wine ivory" },
+  "mood_word": "triumphant",
+  "color_story": "Azalea pink is the flower that lines the Augusta fairways, so the drenched field is golf without a green scorecard cliché, and the one fairway-green figure on it is the under-par number that won."
+}
+
+===VISUAL_SPEC===
+### 1. Color Specification
+- **Primary hue**: 328°, azalea berry, drenching the whole page. The mandate's 140–180° target sits entirely inside the forbidden 132–235° zone (the last two days were 178° and 162°) and the repetition check asks for 60° or more from 162°. So the primary deviates on purpose. 328° is 58° or more from every recent hue (272°, 28°, 44°, 68°, 162°, 178°, 205°). It is also the color of Augusta's azaleas, which makes it a golf color without being fairway green.
+- **Secondary accent**: fairway green #7FF06B (hue 111°, inside the open 98–132° gap). It appears only on under-par figures and the marks that carry the win: the -26, the leaderboard scores, link underlines. It is the accent token.
+- **Neutral palette (wine ivory, tinted toward the primary)**: 50 #FFF6F2, 100 #F8E9E6, 200 #EBD3D3, 300 #D6B4BC, 400 #B98C9B, 500 #93677A, 600 #6F4A5C, 700 #4E3243, 800 #34202D, 900 #201119.
+- **Magenta scale**: 50 #FFF0F6, 100 #FFDCEB, 200 #FFB8D6, 300 #FF8AB9, 400 #F0509A, 500 #D21F7B, 600 #B0125F, 700 #8C0E4B, 800 #660A38, 900 #430624.
+- **Accent color**: light #D9FFCB, default #7FF06B, dark #23901F, glow #B4FA9C.
+- **Background** (dark drench, the default scheme): page bg #8C0E4B; hero field #B0125F; band and callout ground #430624; surface (inset panels) #660A38.
+- **Light scheme**: bg #FFF6F2, bgAlt #F8E9E6, surface #FFF0F6, accent #B0125F.
+- **Text colors**: primary #FFF6F2 (8.6:1 on bg, 6.3:1 on the field); secondary #FFDCEB; muted #FFB8D6 (5.7:1 or better on bg, bgAlt and surface).
+- **Ink on accent**: #430624 (about 11:1 on green).
+- **Rules**: border #D21F7B; strong rule #FFB8D6; rules inside the field #FF8AB9.
+
+### 2. Typography
+- **Hero object**: the figure "-26" at the `hero` ramp step, `display` face (Big Shoulders Display), heavy weight, set in accent green #7FF06B. It is the largest element on the page, at clamp(112px, 11vw, 160px), and it is not the h1. It is decorative to screen readers only through an aria-hidden duplicate; the h1 carries the meaning.
+- **Hero phrase (the one h1)**: "Twenty-six under. Two clear." at `3xl` at 1440 and 360, display face, small-caps, stacked one sentence per line ("Twenty-six under." / "Two clear."), centred under the figure in #FFF6F2. It reads as the figure's caption.
+- **Deck**: "Jacob Bridgeman, Biltmore Championship, Asheville. Ben James finished second at 24 under." Body face (Atkinson Hyperlegible), `md`, #FFDCEB, max-width 34ch.
+- **Leaderboard**: names in the body face at `sm`, #FFDCEB. Scores in the display face at `3xl`, green. Ranks in the display face at `md`, #FFB8D6.
+- **Work index titles**: display face at `4xl`, small-caps, #FFF6F2. Year and role at `sm`, body face, #FFB8D6.
+- **Type treatment**: use the ramp `textStyle` tokens, and don't invent leading or tracking. The mid-register is spent on the leaderboard scores (`3xl`) and the index titles (`4xl`). No page jumps from 160px to 16px.
+- **Measure**: body copy holds at 34–65ch.
+
+### 3. Layout Specification
+- **Composition**: `irregular-twelve`, `diagonal`, `right-weighted`, `full-bleed`, `measured`, `accelerating`, `footer-only`, `drenched`, `reorder`, `figure`. The mass gathers right and the eye travels from the mark (top-left) to the -26 (centre-right) to the leaderboard's last cell (bottom-right). Density is `measured` rather than `sparse` because five leaders earn rows in the first fold.
+- **Hero**: `display: grid; grid-template-columns: repeat(12, 1fr); grid-template-rows: 88px 1fr auto; min-height: 100svh; padding: 0 6vw; background: field (#B0125F)`. Grain sits on this field only.
+- **Max content width**: `max-width: none`, with the `6vw` side padding.
+- **Header zone** (row 1, cols 1–6): the horizontal-md lockup. The mark is 40px, single-color, ivory (`text`), with the "Doug March" wordmark beside it at `lg`, weight 700. There is no role line and no top bar.
+- **Deck** (row 2, cols 1–4): `align-self: end; padding-bottom: 48px`. It is the lower-left counterweight to the figure.
+- **Figure block** (row 2, cols 5–12): `display: grid; place-items: center; text-align: center`. The figure "-26" is on top, about 150px tall at 1440. The h1 sits under it with 16px between. The block's vertical centre lands near y=400 at 1440.
+- **Hero phrase grid zone**: rows 2, cols 5–12, `3xl`, about 60px per line, two lines.
+- **Leaderboard** (row 3, cols 1–12): a five-cell ruled row, `display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid borderStrong; padding: 24px 0 32px`. It sits inside the first fold (rank, name, score per cell): 1 Jacob Bridgeman -26, 2 Ben James -24, 3 Ricky Castillo -23, 3 Neal Shipley -23, 5 J.T. Poston -21.
+- **Work index** (below the hero, on bg): the seven projects as ruled rows with irregular twelve-column spans (title spans 7, then 6, then 5, then 4). Row height steps 168px, 144px, 120px, 108px, 96px, 84px, 72px, so intervals shrink as the page descends (accelerating). Each row carries title, role, year, and links to `/work/<slug>`.
+- **Home callout slot**: `<SiteCallout />` sits on `/` between the work index and the footer, full width of the page column, never inside the hero. No copy or styling is specified here.
+- **Footer** (`bgAlt` #430624, `padding: 96px 6vw 64px`): a two-part dot-leader stub. The left half holds the nav as a vertical list. The right half is centred signal rows with dot leaders between label and value.
+- **Nav placement**: footer only. The list is Work / About / Contact at `xl`, title case, one hairline rule per row in `border`, 56px row height.
+
+### 4. Component Character
+- **Border radius**: 0 everywhere. Cards, buttons and tags are square (`radii.none`).
+- **Border treatment**: hairline rules only, in `border`. Cell dividers in the leaderboard use `fieldBorder`. There are no boxed cards.
+- **Shadow**: none.
+- **Density**: measured. The hero is loose around the figure; the leaderboard and index rows are compact.
+- **Interactive states**: on hover, index rows shift their title colour to accent green and the rule below goes to `borderStrong`, with a 120ms transition. Links underline in accent. Focus rings are 2px accent with 3px offset.
+
+### 5. Signal Integration
+- **Golf** (Biltmore Championship, Final): the hero. -26 is the figure, the phrase captions it, and the top five sit in the ruled leaderboard row. Under-par scores are green, and green is used nowhere else except links and hover.
+- **Lions**: in the footer signal stub: "Lions 31–41. A loss." Flat, ivory, no colour. The Red Wings, Pistons and Tigers are off season, in one line.
+- **Market**: "SPY 761.69, up 0.13%".
+- **Weather**: "Aldie, Virginia. Cloudy, 70°F. Wind NNE 7 mph."
+- **Sky**: "Waxing gibbous, 82% lit. Sunrise 07:03, sunset 19:02." Air quality Good.
+- **Music**: a taste line in the stub, "In rotation: Guided by Voices, Tobin Sprout, My Morning Jacket", set apart from the score and market rows and never presented as something that happened today.
+- **Quote**: not used. Signals not shown are the Hacker News list, the Awwwards picks and the sidebar links.
+- **Holidays**: none today.
+
+===SELF_CHECK===
+1. Hero quotability: Yes. "Twenty-six under. Two clear." is a short, exact score line that can be screenshotted on its own, beside a poster-scale -26.
+2. Because-of chain: Yes. A golf score leads, so the object is a figure, so a Chicago-scoreboard condensed face carries the numerals, so the palette is azalea drench with green only on under-par, so the layout puts the figure at the diagonal's end.
+3. Render feasibility: Yes. The figure is 160px at 1440, which is the chassis maximum, and the phrase is two short stacked lines at `3xl`, with nothing wider than its column.
+4. Canvas floor feasible: Yes. The hero is a full-bleed flood of the field with figure, deck and a five-cell leaderboard in one fold; 62% holds.
+5. Phone: Yes. At 360 the figure at `hero` is about 110px tall and the phrase is at `3xl` on two lines, and both sit above the deck and the leaderboard rows within 640px.
+
+===MEASURABLES===
+canvas_utilization_min: 62
+hero_scale: clamp(112px, 11vw, 160px)
+color_coverage_min: 70
+
+===SHELL===
+footer: dot-leader stub. The nav sits as a vertical list on the left. The day's signals are centred rows on the right, with leader dots between label and value and scores stated flat. No quote, no band of cards.
+brand_lockup: horizontal-md
+brand_color_mode: single-color
+ground_strategy: drench
+ground_material: grain
+
+===HEADER===
+placement: footer-only
+height_px: 88
+mark_px: 40
+wordmark_step: lg
+wordmark_weight: 700
+role_line: absent
+nav_step: xl
+nav_case: title
+nav_form: list
+nav: nav lives in the footer as a vertical list, Work / About / Contact, with one hairline rule per row and no top bar; the single-color mark and the "Doug March" wordmark sit top-left of the hero field in ivory on #B0125F, inside the first fold at 1440 and 360.
+
+===TYPE_TREATMENT===
+case: small-caps
+lead: roman
+weight: heavy
+alignment: centred
+texture: stacked
+
+===MOBILE===
+carrier: The -26 leads the phone, then the phrase and the leaderboard as stacked full-width rows, so the win reads as number, margin, then names.
+first_fold: mark and wordmark, the -26 figure at hero size, the phrase "Twenty-six under. Two clear." on two lines at 3xl, the deck, and the top of the leaderboard rows.
+order: lockup, figure, phrase, deck, leaderboard, work index, callout, footer
+hero_step_360: hero
+nav_360: the lockup stays top-left at 40px; nav is deferred to the footer as the same vertical list.
+
+===MOTION===
+entrance: none
+ground: drift
+reveal: on-scroll
+
+===COMPOSITION===
+columns: irregular-twelve
+axis: diagonal
+symmetry: right-weighted
+hero_zone: full-bleed
+density: measured
+rhythm: accelerating
+shell_posture: footer-only
+field_ratio: drenched
+collapse: reorder
+hero_object: figure
+
+===COMPOSITION_RATIONALE===
+A number leads, so the figure sits at the diagonal's far end (lower right) and the mass gathers right, with the deck as the lower-left counterweight. I moved `density` off the suggested `sparse` to `measured`: five leaders in a ruled row earn their place in the first fold, and the row keeps 1440 from being a void. At 360 the figure and phrase move ahead of the deck so the number lands first.
+
+===FILE:elements/preset.ts===
+import { definePreset } from '@pandacss/dev'
+
+export const elementsPreset = definePreset({
+  name: 'elements',
+  conditions: {
+    extend: {
+      light: '.light &, [data-theme=light] &',
+      dark: '.dark &, [data-theme=dark] &',
+      hover: '&:is(:hover, [data-hover])',
+    },
+  },
+  globalCss: {
+    html: {
+      background: 'bg',
+      colorScheme: 'dark',
+    },
+    body: {
+      background: 'bg',
+      color: 'text',
+      margin: '0',
+      minHeight: '100svh',
+      fontKerning: 'normal',
+      textRendering: 'optimizeLegibility',
+      WebkitFontSmoothing: 'antialiased',
+    },
+    a: {
+      color: 'inherit',
+      textDecorationColor: 'accent',
+      textUnderlineOffset: '0.18em',
+      textDecorationThickness: '1px',
+      transition: 'color 120ms ease, text-decoration-color 120ms ease',
+    },
+    'a:hover': {
+      color: 'accent',
+    },
+    'a:focus-visible, button:focus-visible': {
+      outline: '2px solid',
+      outlineColor: 'accent',
+      outlineOffset: '3px',
+    },
+    'h1, h2, h3, h4, h5, h6': {
+      margin: '0',
+      fontWeight: 'inherit',
+      textWrap: 'balance',
+    },
+    'p, li, blockquote': {
+      textWrap: 'pretty',
+    },
+    '::selection': {
+      background: 'accent',
+      color: 'accentText',
+    },
+  },
+  theme: {
+    extend: {
+      tokens: {
+        colors: {
+          magenta: {
+            50: { value: '#FFF0F6' },
+            100: { value: '#FFDCEB' },
+            200: { value: '#FFB8D6' },
+            300: { value: '#FF8AB9' },
+            400: { value: '#F0509A' },
+            500: { value: '#D21F7B' },
+            600: { value: '#B0125F' },
+            700: { value: '#8C0E4B' },
+            800: { value: '#660A38' },
+            900: { value: '#430624' },
+          },
+          fairway: {
+            50: { value: '#F0FFE9' },
+            100: { value: '#D9FFCB' },
+            200: { value: '#B4FA9C' },
+            300: { value: '#7FF06B' },
+            400: { value: '#55DA45' },
+            500: { value: '#34B92C' },
+            600: { value: '#23901F' },
+            700: { value: '#196B18' },
+            800: { value: '#124A13' },
+            900: { value: '#0B300C' },
+          },
+          wine: {
+            50: { value: '#FFF6F2' },
+            100: { value: '#F8E9E6' },
+            200: { value: '#EBD3D3' },
+            300: { value: '#D6B4BC' },
+            400: { value: '#B98C9B' },
+            500: { value: '#93677A' },
+            600: { value: '#6F4A5C' },
+            700: { value: '#4E3243' },
+            800: { value: '#34202D' },
+            900: { value: '#201119' },
+          },
+        },
+        radii: {
+          none: { value: '0px' },
+          sm: { value: '2px' },
+          md: { value: '4px' },
+          lg: { value: '8px' },
+          full: { value: '9999px' },
+        },
+      },
+      semanticTokens: {
+        colors: {
+          bg: { value: { base: '{colors.magenta.700}', _light: '{colors.wine.50}' } },
+          bgAlt: { value: { base: '{colors.magenta.900}', _light: '{colors.wine.100}' } },
+          surface: { value: { base: '{colors.magenta.800}', _light: '{colors.magenta.50}' } },
+          text: { value: { base: '{colors.wine.50}', _light: '{colors.wine.900}' } },
+          textMuted: { value: { base: '{colors.magenta.100}', _light: '{colors.wine.700}' } },
+          textFaint: { value: { base: '{colors.magenta.200}', _light: '{colors.wine.600}' } },
+          accent: { value: { base: '{colors.fairway.300}', _light: '{colors.magenta.600}' } },
+          accentText: { value: { base: '{colors.magenta.900}', _light: '{colors.wine.50}' } },
+          accentAlt: { value: { base: '{colors.fairway.100}', _light: '{colors.magenta.700}' } },
+          border: { value: { base: '{colors.magenta.500}', _light: '{colors.wine.200}' } },
+          borderStrong: { value: { base: '{colors.magenta.200}', _light: '{colors.wine.700}' } },
+          field: { value: { base: '{colors.magenta.600}', _light: '{colors.magenta.600}' } },
+          fieldInk: { value: { base: '{colors.wine.50}', _light: '{colors.wine.50}' } },
+          fieldInkMuted: { value: { base: '{colors.magenta.100}', _light: '{colors.magenta.100}' } },
+          fieldBorder: { value: { base: '{colors.magenta.300}', _light: '{colors.magenta.300}' } },
+        },
+      },
+    },
+  },
+})
+
+===RATIONALE===
+The phrase is a golf score, so a number has to lead. Bridgeman finished the Biltmore Championship at 26 under, two clear of Ben James. That makes the object a figure: "-26" at the largest size the chassis allows, with "Twenty-six under. Two clear." as its caption and the one h1. Doug says the number, then the margin, and a leaderboard of five names proves it in the same fold. The Confucius quote lost on two counts. "Journey" can't reach the page, and a revenge proverb isn't Doug's line.
+
+Big Shoulders Display carries it. It is the Chicago scoreboard face, condensed and heavy, its numerals read as a leaderboard, and it is off the last three chassis. Atkinson answers as the body face for names and deck. The type treatment moves off the recent run: small-caps, centred, stacked one sentence per line. The header moves off the recent left-rail, none and folded-into-hero placements to footer-only with a horizontal 40px mark, so the brand sits top-left of the hero at both rungs.
+
+The palette is azalea drench at 328°, chosen for two reasons. The mandate's 140–180° target is inside the forbidden zone after two days of teal and pine, and the repetition check wants at least 60° from 162°. Azalea is also the flower on Augusta's fairways, so it says golf without the green scorecard cliché. The one fairway-green figure floats on it as the under-par mark and nothing else. Drench is fresh against the recent dark-void, light-ground and split-field run, and grain gives the flooded field a printed-scorecard texture that drifts slowly. The mark goes single-color in ivory, which clears 6.3:1 on the field. The entrance is `none`, since a score that arrives fully formed is the right poster gesture, and the index below rises on scroll.
+
+===DESIGN_BRIEF===
+Azalea-pink drench, one fairway-green -26 in scoreboard condensed caps, "Twenty-six under. Two clear." set as its caption over a five-name leaderboard.

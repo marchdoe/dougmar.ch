@@ -1,0 +1,542 @@
+===FILE:app/components/generated/Figure.tsx===
+import type { ReactNode } from 'react'
+import { css } from '../../../styled-system/css'
+
+// The flanking rules are real siblings of the figure, so nothing overflows the figure's own box.
+const wrap = css({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  columnGap: '14px',
+  maxWidth: '100%',
+})
+
+const ruleLeft = css({
+  flex: '0 1 22vw',
+  minWidth: '0',
+  height: '1px',
+  bg: 'fieldBorder',
+  transformOrigin: 'right center',
+  transform: 'rotate(28deg)',
+})
+
+const ruleRight = css({
+  flex: '0 1 22vw',
+  minWidth: '0',
+  height: '1px',
+  bg: 'fieldBorder',
+  transformOrigin: 'left center',
+  transform: 'rotate(28deg)',
+})
+
+const figureClass = css({
+  flex: '0 0 auto',
+  margin: '0',
+  textStyle: 'hero',
+  fontFamily: 'display',
+  fontWeight: 'bold',
+  lineHeight: '0.86',
+  letterSpacing: '-0.01em',
+  color: 'accent',
+  fontVariantNumeric: 'lining-nums',
+  // accent equals the field in the light scheme, so the figure takes the field ink there
+  _light: { color: 'fieldInk' },
+})
+
+export function Figure({ children, decorative }: { children: ReactNode; decorative?: boolean }) {
+  return (
+    <div className={wrap}>
+      <span aria-hidden="true" className={ruleLeft} />
+      <p aria-hidden={decorative ? true : undefined} className={figureClass}>
+        {children}
+      </p>
+      <span aria-hidden="true" className={ruleRight} />
+    </div>
+  )
+}
+===FILE:app/components/generated/HeroStatement.tsx===
+import { Fragment } from 'react'
+import { css } from '../../../styled-system/css'
+import { Figure } from './Figure'
+
+type Props = {
+  figure: string
+  lines: string[]
+  rest?: string
+  caption?: string
+  home?: boolean
+  decorative?: boolean
+}
+
+const homeStatement = css({
+  display: 'grid',
+  placeItems: 'center',
+  alignContent: 'center',
+  rowGap: '16px',
+  textAlign: 'center',
+  gridRow: '1',
+  gridColumn: { md: '3 / 13', xl: '5 / 13' },
+  alignSelf: { xl: 'center' },
+  paddingTop: { base: '24px', md: '40px', xl: '0' },
+  paddingBottom: { base: '32px', md: '48px', xl: '0' },
+})
+
+const pageStatement = css({
+  display: 'grid',
+  placeItems: 'center',
+  alignContent: 'center',
+  rowGap: '16px',
+  textAlign: 'center',
+  gridRow: '1',
+  gridColumn: { md: '3 / 13' },
+  paddingTop: { base: '24px', md: '40px' },
+  paddingBottom: { base: '32px', md: '48px' },
+})
+
+const shortPhrase = css({
+  margin: '0',
+  textStyle: '3xl',
+  fontFamily: 'display',
+  fontWeight: 'bold',
+  fontVariant: 'small-caps',
+  letterSpacing: 'wide',
+  lineHeight: '1',
+  color: 'fieldInk',
+})
+
+// A full sentence stays at or under 48px so it reads as a line, not a wall.
+const sentencePhrase = css({
+  margin: '0',
+  fontFamily: 'display',
+  fontWeight: 'bold',
+  fontSize: 'clamp(28px, 3.6vw, 48px)',
+  fontVariant: 'small-caps',
+  letterSpacing: 'wide',
+  lineHeight: '1.1',
+  color: 'fieldInk',
+})
+
+const block = css({ display: 'block' })
+
+const captionClass = css({ margin: '0', textStyle: 'md', color: 'fieldInk' })
+
+const restClass = css({
+  margin: '0',
+  textStyle: 'md',
+  lineHeight: '1.5',
+  maxWidth: '46ch',
+  color: 'fieldInk',
+})
+
+export function HeroStatement({ figure, lines, rest, caption, home, decorative }: Props) {
+  const long = lines.join(' ').length > 60
+  return (
+    <div className={home ? homeStatement : pageStatement}>
+      <Figure decorative={decorative}>{figure}</Figure>
+      {caption ? <p className={captionClass}>{caption}</p> : null}
+      <h1 className={long ? sentencePhrase : shortPhrase}>
+        {lines.map((line) => (
+          <Fragment key={line}>
+            <span className={block}>{line}</span>{' '}
+          </Fragment>
+        ))}
+      </h1>
+      {rest ? <p className={restClass}>{rest}</p> : null}
+    </div>
+  )
+}
+===FILE:app/components/generated/PageHero.tsx===
+import { css } from '../../../styled-system/css'
+import { HeroField } from './HeroField'
+import { HeroStatement } from './HeroStatement'
+
+type Props = {
+  figure: string
+  lines: string[]
+  rest?: string
+  caption?: string
+  decorative?: boolean
+}
+
+export function PageHero({ figure, lines, rest, caption, decorative }: Props) {
+  return (
+    <HeroField>
+      <div
+        className={css({
+          flex: '1',
+          display: 'grid',
+          gridTemplateColumns: { base: 'minmax(0, 1fr)', md: 'repeat(12, minmax(0, 1fr))' },
+          gridTemplateRows: 'minmax(0, 1fr)',
+        })}
+      >
+        <HeroStatement
+          figure={figure}
+          lines={lines}
+          rest={rest}
+          caption={caption}
+          decorative={decorative}
+        />
+      </div>
+    </HeroField>
+  )
+}
+===FILE:app/components/generated/IndexRow.tsx===
+import { css, cx } from '../../../styled-system/css'
+import { stepStyle } from './rowSteps'
+
+type Props = {
+  slug: string
+  title: string
+  label: string
+  year: number
+  step: number
+  note?: string
+}
+
+const row = css({
+  display: 'grid',
+  gridTemplateColumns: { base: 'minmax(0, 1fr) auto', md: 'repeat(12, minmax(0, 1fr))' },
+  alignItems: 'center',
+  columnGap: { base: '16px', md: '0' },
+  rowGap: { base: '4px', md: '0' },
+  minHeight: { base: 'var(--hm)', md: 'var(--h)' },
+  paddingBlock: { base: '16px', md: '0' },
+  borderBottomWidth: '1px',
+  borderBottomStyle: 'solid',
+  borderBottomColor: 'border',
+  color: 'text',
+  textDecoration: 'none',
+  transition: 'border-color 120ms ease',
+  _hover: { color: 'text', borderBottomColor: 'borderStrong' },
+  _focusVisible: { outlineOffset: '-3px' },
+})
+
+// The title takes eight of twelve columns so the longest project name fits on one line.
+const tcell = css({
+  gridRow: '1',
+  gridColumn: { base: '1', md: '1 / span 8' },
+  paddingRight: { base: '0', md: '16px' },
+  minWidth: '0',
+})
+
+const heading = css({
+  margin: '0',
+  textStyle: '4xl',
+  fontFamily: 'display',
+  fontWeight: 'bold',
+  fontVariant: 'small-caps',
+  letterSpacing: 'wide',
+  lineHeight: '0.95',
+  color: 'text',
+  transition: 'color 120ms ease',
+  _groupHover: { color: 'accent' },
+  _groupFocusVisible: { color: 'accent' },
+})
+
+const noteClass = css({
+  margin: '0',
+  marginTop: '8px',
+  maxWidth: '34ch',
+  textStyle: 'sm',
+  lineHeight: '1.4',
+  color: 'textMuted',
+})
+
+const role = css({
+  gridRow: { base: '2', md: '1' },
+  gridColumn: { base: '1', md: '9 / span 2' },
+  textStyle: 'sm',
+  color: 'textFaint',
+})
+
+const yr = css({
+  gridRow: '1',
+  gridColumn: { base: '2', md: '11 / span 1' },
+  textStyle: 'sm',
+  color: 'textFaint',
+  fontVariantNumeric: 'tabular-nums',
+  textAlign: { base: 'right', md: 'left' },
+})
+
+const go = css({
+  gridRow: { base: '2', md: '1' },
+  gridColumn: { base: '2', md: '12 / span 1' },
+  justifySelf: 'end',
+  textStyle: 'sm',
+  fontWeight: 'bold',
+  color: 'text',
+  textDecoration: 'underline',
+  textDecorationColor: 'accent',
+  textDecorationThickness: '2px',
+  textUnderlineOffset: '0.25em',
+})
+
+export function IndexRow({ slug, title, label, year, step, note }: Props) {
+  return (
+    <a href={`/work/${slug}`} style={stepStyle(step)} className={cx('group', row)}>
+      <div className={tcell}>
+        <h3 className={heading}>{title}</h3>
+        {note ? <p className={noteClass}>{note}</p> : null}
+      </div>
+      <span className={role}>{label}</span>
+      <span className={yr}>{year}</span>
+      <span className={go}>View</span>
+    </a>
+  )
+}
+===FILE:app/components/generated/AboutTimeline.tsx===
+import { css } from '../../../styled-system/css'
+import { timeline } from '../../content/timeline'
+import { GroupHead } from './GroupHead'
+import { stepStyle } from './rowSteps'
+
+const row = css({
+  display: 'grid',
+  gridTemplateColumns: { base: 'minmax(0, 1fr)', md: 'repeat(12, minmax(0, 1fr))' },
+  alignItems: 'center',
+  paddingBlock: '24px',
+  minHeight: { md: 'var(--h)' },
+  borderBottomWidth: '1px',
+  borderBottomStyle: 'solid',
+  borderBottomColor: 'border',
+})
+
+const year = css({
+  margin: '0',
+  gridColumn: { md: '1 / span 3' },
+  paddingRight: { base: '0', md: '16px' },
+  marginBottom: { base: '8px', md: '0' },
+  textStyle: '3xl',
+  fontFamily: 'display',
+  fontWeight: 'bold',
+  lineHeight: '1',
+  color: 'accent',
+  fontVariantNumeric: 'tabular-nums lining-nums',
+})
+
+const cellClass = css({ gridColumn: { md: '4 / span 9' }, minWidth: '0' })
+
+const headClass = css({
+  margin: '0',
+  textStyle: '4xl',
+  fontFamily: 'display',
+  fontWeight: 'bold',
+  fontVariant: 'small-caps',
+  letterSpacing: 'wide',
+  lineHeight: '0.95',
+  color: 'text',
+})
+
+const companyClass = css({
+  margin: '0',
+  marginTop: '4px',
+  textStyle: '2xl',
+  fontFamily: 'display',
+  fontWeight: 'bold',
+  fontVariant: 'small-caps',
+  letterSpacing: 'wide',
+  lineHeight: '1',
+  color: 'textMuted',
+})
+
+const descClass = css({
+  margin: '0',
+  marginTop: '8px',
+  maxWidth: '34ch',
+  textStyle: 'md',
+  lineHeight: '1.4',
+  color: 'text',
+})
+
+// Ranges print with an en dash and no spaces. An open range ("2025 —") prints as "2025 to present",
+// so no separator is left dangling.
+function formatYear(raw: string): string {
+  const trimmed = raw.trim()
+  const open = /[\u2014\u2013-]\s*$/.test(trimmed)
+  const base = trimmed.replace(/\s*[\u2014\u2013-]\s*$/, '')
+  if (open) return `${base} to present`
+  return base.replace(/\s*[\u2014\u2013]\s*/g, '\u2013')
+}
+
+function Line({ text, company }: { text: string; company?: boolean }) {
+  if (!text) return null
+  return <p className={company ? companyClass : descClass}>{text}</p>
+}
+
+function TimelineRow(props: {
+  year: string
+  role: string
+  company: string
+  description: string
+  step: number
+}) {
+  return (
+    <div className={row} style={stepStyle(props.step)}>
+      <p className={year}>{formatYear(props.year)}</p>
+      <div className={cellClass}>
+        <h3 className={headClass}>{props.role || props.company}</h3>
+        <Line text={props.role ? props.company : ''} company />
+        <Line text={props.description} />
+      </div>
+    </div>
+  )
+}
+
+export function AboutTimeline() {
+  return (
+    <section
+      aria-label="Experience"
+      className={css({
+        bg: 'bg',
+        paddingBlock: { base: '64px', md: '96px' },
+        paddingInline: '6vw',
+      })}
+    >
+      <GroupHead title="Experience" aside={`${timeline.length} roles`} />
+      <ol className={css({ listStyle: 'none', margin: '0', padding: '0' })}>
+        {timeline.map((entry, i) => (
+          <li key={`${entry.year}-${entry.company}-${entry.role}`}>
+            <TimelineRow
+              year={entry.year}
+              role={entry.role}
+              company={entry.company}
+              description={entry.description}
+              step={i}
+            />
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}
+===FILE:app/components/Sidebar.tsx===
+import { css } from '../../styled-system/css'
+import { identity } from '../content/about'
+import { BrandLockup } from './BrandLockup'
+
+export function Sidebar() {
+  return (
+    <header
+      className={css({
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        right: '0',
+        height: '88px',
+        display: 'flex',
+        alignItems: 'center',
+        paddingInline: '6vw',
+        zIndex: 5,
+        // the header sits over the hero, so it carries the hero's own ground
+        bg: 'field',
+        color: 'fieldInk',
+      })}
+    >
+      <a
+        href="/"
+        aria-label={`${identity.name}, home`}
+        className={css({
+          display: 'inline-flex',
+          alignItems: 'center',
+          minHeight: '48px',
+          color: 'fieldInk',
+          textDecoration: 'none',
+          _hover: { color: 'fieldInk' },
+        })}
+      >
+        <BrandLockup variant="horizontal-md" mode="single-color" />
+      </a>
+    </header>
+  )
+}
+===FILE:app/components/generated/CaseStudy.tsx===
+import { CaseMeta } from './CaseMeta'
+import { CaseNarrative } from './CaseNarrative'
+import { CaseNext } from './CaseNext'
+import { Reveal } from './Reveal'
+
+type Client = { name: string; url?: string }
+
+type CaseProject = {
+  slug: string
+  type: string
+  role?: string
+  timeline?: string
+  status?: string
+  problem?: string
+  approach?: string
+  outcome?: string
+  description?: string
+  stack?: string[]
+  liveUrl?: string
+  githubUrl?: string
+  clients?: Client[]
+}
+
+export function CaseStudy({ project }: { project: CaseProject }) {
+  return (
+    <>
+      <Reveal>
+        <CaseMeta
+          role={project.role}
+          type={project.type}
+          timeline={project.timeline}
+          status={project.status}
+          stack={project.stack}
+          liveUrl={project.liveUrl}
+          githubUrl={project.githubUrl}
+          clients={project.clients}
+        />
+      </Reveal>
+      <Reveal>
+        <CaseNarrative
+          description={project.description}
+          problem={project.problem}
+          approach={project.approach}
+          outcome={project.outcome}
+        />
+      </Reveal>
+      <CaseNext slug={project.slug} />
+    </>
+  )
+}
+===FILE:app/routes/about.tsx===
+import { createFileRoute } from '@tanstack/react-router'
+import { AboutCapabilities } from '../components/generated/AboutCapabilities'
+import { AboutEducation } from '../components/generated/AboutEducation'
+import { AboutPersonal } from '../components/generated/AboutPersonal'
+import { AboutTimeline } from '../components/generated/AboutTimeline'
+import { PageHero } from '../components/generated/PageHero'
+import { Reveal } from '../components/generated/Reveal'
+import { identity, personal } from '../content/about'
+
+export const Route = createFileRoute('/about')({ component: AboutPage })
+
+const sentences = identity.statement.split(/(?<=[.!?])\s+/).filter(Boolean)
+const leadLines = sentences.slice(0, 1)
+const restText = sentences.slice(1).join(' ')
+
+function AboutPage() {
+  return (
+    <>
+      <PageHero
+        figure={String(personal.holesInOne)}
+        caption="Holes in one"
+        lines={leadLines}
+        rest={restText}
+      />
+      <Reveal>
+        <AboutTimeline />
+      </Reveal>
+      <Reveal>
+        <AboutCapabilities />
+      </Reveal>
+      <Reveal>
+        <AboutEducation />
+      </Reveal>
+      <Reveal>
+        <AboutPersonal />
+      </Reveal>
+    </>
+  )
+}

@@ -1,0 +1,267 @@
+===FILE:app/components/generated/AboutTimeline.tsx===
+import { css } from '../../../styled-system/css'
+import { timeline } from '../../content/timeline'
+import { GroupHead } from './GroupHead'
+import { stepStyle } from './rowSteps'
+
+const row = css({
+  display: 'grid',
+  gridTemplateColumns: { base: 'minmax(0, 1fr)', md: 'repeat(12, minmax(0, 1fr))' },
+  alignItems: 'center',
+  paddingBlock: '24px',
+  minHeight: { md: 'var(--h)' },
+  borderBottomWidth: '1px',
+  borderBottomStyle: 'solid',
+  borderBottomColor: 'border',
+})
+
+// Sized so the longest label ("2025 to present", "2009–2010") fits the three-column track
+// at 820 and 1440; a longer label wraps at its spaces instead of being clipped.
+const year = css({
+  margin: '0',
+  gridColumn: { md: '1 / span 3' },
+  paddingRight: { base: '0', md: '16px' },
+  marginBottom: { base: '8px', md: '0' },
+  fontSize: '30px',
+  fontFamily: 'display',
+  fontWeight: 'bold',
+  lineHeight: '1.05',
+  color: 'accent',
+  fontVariantNumeric: 'tabular-nums lining-nums',
+})
+
+const cellClass = css({ gridColumn: { md: '4 / span 9' }, minWidth: '0' })
+
+const headClass = css({
+  margin: '0',
+  textStyle: '4xl',
+  fontFamily: 'display',
+  fontWeight: 'bold',
+  fontVariant: 'small-caps',
+  letterSpacing: 'wide',
+  lineHeight: '0.95',
+  color: 'text',
+})
+
+const companyClass = css({
+  margin: '0',
+  marginTop: '4px',
+  textStyle: '2xl',
+  fontFamily: 'display',
+  fontWeight: 'bold',
+  fontVariant: 'small-caps',
+  letterSpacing: 'wide',
+  lineHeight: '1',
+  color: 'textMuted',
+})
+
+const descClass = css({
+  margin: '0',
+  marginTop: '8px',
+  maxWidth: '34ch',
+  textStyle: 'md',
+  lineHeight: '1.4',
+  color: 'text',
+})
+
+// Ranges print with an en dash and no spaces. An open range ("2025 —") prints as "2025 to present",
+// so no separator is left dangling.
+function formatYear(raw: string): string {
+  const trimmed = raw.trim()
+  const open = /[\u2014\u2013-]\s*$/.test(trimmed)
+  const base = trimmed.replace(/\s*[\u2014\u2013-]\s*$/, '')
+  if (open) return `${base} to present`
+  return base.replace(/\s*[\u2014\u2013]\s*/g, '\u2013')
+}
+
+function Line({ text, company }: { text: string; company?: boolean }) {
+  if (!text) return null
+  return <p className={company ? companyClass : descClass}>{text}</p>
+}
+
+function TimelineRow(props: {
+  year: string
+  role: string
+  company: string
+  description: string
+  step: number
+}) {
+  return (
+    <div className={row} style={stepStyle(props.step)}>
+      <p className={year}>{formatYear(props.year)}</p>
+      <div className={cellClass}>
+        <h3 className={headClass}>{props.role || props.company}</h3>
+        <Line text={props.role ? props.company : ''} company />
+        <Line text={props.description} />
+      </div>
+    </div>
+  )
+}
+
+export function AboutTimeline() {
+  return (
+    <section
+      aria-label="Experience"
+      className={css({
+        bg: 'bg',
+        paddingBlock: { base: '64px', md: '96px' },
+        paddingInline: '6vw',
+      })}
+    >
+      <GroupHead title="Experience" aside={`${timeline.length} roles`} />
+      <ol className={css({ listStyle: 'none', margin: '0', padding: '0' })}>
+        {timeline.map((entry, i) => (
+          <li key={`${entry.year}-${entry.company}-${entry.role}`}>
+            <TimelineRow
+              year={entry.year}
+              role={entry.role}
+              company={entry.company}
+              description={entry.description}
+              step={i}
+            />
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}
+===FILE:app/components/generated/CaseMeta.tsx===
+import type { ReactNode } from 'react'
+import { css } from '../../../styled-system/css'
+
+type Client = { name: string; url?: string }
+
+type Props = {
+  role?: string
+  type: string
+  timeline?: string
+  status?: string
+  stack?: string[]
+  liveUrl?: string
+  githubUrl?: string
+  clients?: Client[]
+}
+
+// minHeight gives every outbound link a 44px touch target.
+const link = css({
+  display: 'inline-flex',
+  alignItems: 'center',
+  minHeight: '44px',
+  color: 'text',
+  textDecoration: 'underline',
+  textDecorationColor: 'accent',
+  textDecorationThickness: '2px',
+  textUnderlineOffset: '0.25em',
+})
+
+function MetaRow({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div
+      className={css({
+        display: 'grid',
+        gridTemplateColumns: { base: 'minmax(0, 1fr)', md: 'repeat(12, minmax(0, 1fr))' },
+        rowGap: '4px',
+        paddingBlock: '16px',
+        borderBottomWidth: '1px',
+        borderBottomStyle: 'solid',
+        borderBottomColor: 'border',
+      })}
+    >
+      <dt
+        className={css({ gridColumn: { md: '1 / span 3' }, textStyle: 'sm', color: 'textFaint' })}
+      >
+        {label}
+      </dt>
+      <dd
+        className={css({
+          margin: '0',
+          gridColumn: { md: '4 / span 9' },
+          textStyle: 'md',
+          color: 'text',
+        })}
+      >
+        {children}
+      </dd>
+    </div>
+  )
+}
+
+function LinkRow({ label, href }: { label: string; href?: string }) {
+  if (!href) return null
+  return (
+    <MetaRow label={label}>
+      <a href={href} className={link}>
+        {href.replace(/^https?:\/\//, '')}
+      </a>
+    </MetaRow>
+  )
+}
+
+function ClientsRow({ clients }: { clients?: Client[] }) {
+  if (!clients || clients.length === 0) return null
+  return (
+    <MetaRow label="Clients">
+      <ul
+        className={css({
+          listStyle: 'none',
+          margin: '0',
+          padding: '0',
+          display: 'flex',
+          flexWrap: 'wrap',
+          columnGap: '24px',
+          rowGap: '4px',
+        })}
+      >
+        {clients.map((c) => (
+          <li key={c.name}>
+            {c.url ? (
+              <a href={c.url} className={link}>
+                {c.name}
+              </a>
+            ) : (
+              c.name
+            )}
+          </li>
+        ))}
+      </ul>
+    </MetaRow>
+  )
+}
+
+export function CaseMeta(props: Props) {
+  const rows = [
+    { label: 'Role', value: props.role },
+    { label: 'Type', value: props.type },
+    { label: 'Timeline', value: props.timeline },
+    { label: 'Status', value: props.status },
+    { label: 'Stack', value: props.stack?.join(', ') },
+  ].filter((r) => Boolean(r.value))
+  return (
+    <section
+      aria-label="Project details"
+      className={css({
+        bg: 'bg',
+        paddingBlock: { base: '64px', md: '96px' },
+        paddingInline: '6vw',
+      })}
+    >
+      <dl
+        className={css({
+          margin: '0',
+          borderTopWidth: '1px',
+          borderTopStyle: 'solid',
+          borderTopColor: 'borderStrong',
+        })}
+      >
+        {rows.map((r) => (
+          <MetaRow key={r.label} label={r.label}>
+            {r.value}
+          </MetaRow>
+        ))}
+        <ClientsRow clients={props.clients} />
+        <LinkRow label="Live" href={props.liveUrl} />
+        <LinkRow label="Source" href={props.githubUrl} />
+      </dl>
+    </section>
+  )
+}

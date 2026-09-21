@@ -1,0 +1,10 @@
+===VERDICT===
+REVISE
+
+**Issues:**
+- Section 10 — react-engineer: The phone density for `/` reads 2% at fold 1, 0% at fold 2 and 25% at fold 3. That is about one wordmark of text in the first 1280px. The mobile declaration puts the "-26" figure, the two-line phrase, the deck and the top of the leaderboard in fold 1, ahead of the deck, so the hero content appears to start in fold 3. Build the hero so its content sits in fold 1 in the declared `order` (lockup, figure, phrase, deck, leaderboard), with no empty fold between the lockup and the figure.
+- Section 10 — react-engineer: The last fold of `/` (241px) and fold 10 both measure 0%, and fold 9 measures 0%. The footer should hold the vertical Work / About / Contact list and the centred signal rows, so the footer is either missing or invisible at capture. If it hides behind the `on-scroll` reveal, the footer must render visible without scrolling. The reveal is declared for the work index only.
+- Section 5 — react-engineer: The absolutely positioned field layer (`div.pos_absolute.inset_-4%.bg_field`) sticks out past the viewport on every route. It reaches 1529px at 1440, 870px at 820 and 382px at 360. Clip it with `overflow: clip` on the hero or field wrapper, or mark it `data-allow-x-overflow`, so the bleed stays deliberate. The 820px overflow also counts against the tablet view in section 10.
+- Section 3 — react-engineer: The five leaderboard names ("Jacob Bridgeman" x5, 16px) sit over the grain and field layer, so their contrast is unmeasured. Set the leaderboard names and other small text on a flat ground, or confine grain to the hero field behind the figure. This keeps the #FFDCEB names on a measurable ground.
+- Sanity gate and Sections 1, 2, 7, 9, 11, 12: No screenshots reached this review, so the sanity gate, hero scale, header mark size against `mark_px: 40`, mockup fidelity and dark/light adaptation are unverified. Do not archive on this verdict. Re-run the critic with the images once the fixes above land.
+===END===

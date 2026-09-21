@@ -22,7 +22,18 @@ import { existsSync, readdirSync, mkdirSync, readFileSync, writeFileSync } from 
 import path from 'node:path'
 import { ROOT } from './file-manager.js'
 
-export const FIXTURE_DIR = path.join(ROOT, 'fixtures', 'agents')
+/**
+ * Where the fixtures live. `fixtures/agents/` is the night the swarm tests are
+ * written against: they assert on its hero line, its file list and its one
+ * invented component, so it is frozen. `FIXTURE_DIR` points a run at another
+ * corpus; `pipeline:canary --mock` uses `fixtures/canary/`, a night recorded
+ * against the current prompts and gates, and re-records there. The two moved
+ * apart on 2026-09-21, when the test night failed the spacing and white-paper
+ * gates that had been added since it was recorded (#625).
+ */
+export const FIXTURE_DIR = process.env.FIXTURE_DIR
+  ? path.resolve(ROOT, process.env.FIXTURE_DIR)
+  : path.join(ROOT, 'fixtures', 'agents')
 
 /** Calls made per agent in this process, so replay follows call order. */
 const callCounts = new Map()
@@ -84,8 +95,8 @@ export function nextFixture(agentName) {
   if (indexes.length === 0) {
     throw new Error(
       `MOCK_MODE=true but no fixtures for "${agentName}". Expected ${fixturePath(agentName, 0)}. ` +
-        `Record a real run with RECORD_FIXTURES=true, or rebuild from an archived build: ` +
-        `node scripts/build-fixtures-from-archive.js <date>`
+        `Record a real run with RECORD_FIXTURES=true (FIXTURE_DIR picks the corpus), or rebuild ` +
+        `from an archived build: node scripts/build-fixtures-from-archive.js <date>`
     )
   }
 
