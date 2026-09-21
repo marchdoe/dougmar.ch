@@ -53,9 +53,10 @@ Layout.tsx must use a named export (`export function Layout`), import and render
   `fontFamily` tokens. The mockup may contain a `<link>`/`<style>` for fonts;
   drop it. That concern is already handled in the production shell.
 - Write ONLY these file types: `.tsx` at `app/components/Layout.tsx` and
-  `app/components/Sidebar.tsx`, under `app/components/generated/` and under
-  `app/routes/`. No `.css`, no other directories, nothing under `app/styles/`
-  or `elements/`.
+  `app/components/Sidebar.tsx`, under `app/components/generated/`, and the
+  four routes listed above (`index`, `about`, `work.$slug`, `og`). Every other
+  route is hand-written and the write will be rejected. No `.css`, no other
+  directories, nothing under `app/styles/` or `elements/`.
 - The mockup's home page maps to index.tsx + Layout.tsx + Sidebar.tsx.
   The ===INTERIOR_NOTES=== block specifies how about.tsx and work.$slug.tsx
   adapt the system. Follow it.

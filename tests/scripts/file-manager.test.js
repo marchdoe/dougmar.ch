@@ -69,8 +69,33 @@ describe('validateWritePath', () => {
       )
     })
 
-    it('allows app/routes/ paths', () => {
-      expect(validateWritePath('app/routes/index.tsx')).toBe('app/routes/index.tsx')
+    it("allows the engineer's four routes and the orchestrator's root", () => {
+      for (const f of [
+        'app/routes/index.tsx',
+        'app/routes/about.tsx',
+        'app/routes/work.$slug.tsx',
+        'app/routes/og.tsx',
+        'app/routes/__root.tsx',
+      ]) {
+        expect(validateWritePath(f)).toBe(f)
+      }
+    })
+
+    it('rejects the hand-written routes (#625)', () => {
+      // The surface gate never walks /elements, /archive or /how, and the
+      // nightly e2e suite measures every one of these. Until 2026-09-21 the
+      // whole directory was writable.
+      for (const f of [
+        'app/routes/archive.tsx',
+        'app/routes/elements.tsx',
+        'app/routes/how.$date.tsx',
+        'app/routes/experiments.tsx',
+        'app/routes/work.index.tsx',
+        'app/routes/panel.tsx',
+        'app/routes/new-route.tsx',
+      ]) {
+        expect(() => validateWritePath(f), f).toThrow(/allowlist/)
+      }
     })
 
     it('allows elements/preset.ts', () => {

@@ -58,9 +58,10 @@ Layout.tsx must use a named export (`export function Layout`), import and render
   `fontFamily` tokens. The mockup may contain a `<link>`/`<style>` for fonts;
   drop it. That concern is already handled in the production shell.
 - Write ONLY these file types: `.tsx` at `app/components/Layout.tsx` and
-  `app/components/Sidebar.tsx`, under `app/components/generated/` and under
-  `app/routes/`. No `.css`, no other directories, nothing under `app/styles/`
-  or `elements/`.
+  `app/components/Sidebar.tsx`, under `app/components/generated/`, and the
+  four routes listed above (`index`, `about`, `work.$slug`, `og`). Every other
+  route is hand-written and the write will be rejected. No `.css`, no other
+  directories, nothing under `app/styles/` or `elements/`.
 - The mockup's home page maps to index.tsx + Layout.tsx + Sidebar.tsx.
   The ===INTERIOR_NOTES=== block specifies how about.tsx and work.$slug.tsx
   adapt the system. Follow it.
@@ -305,7 +306,7 @@ Each of these can fail your response outright — not a style preference, a hard
 - The security scan rejects any of these in a file you write, however it is spelled — fetch() call, XMLHttpRequest, sendBeacon, WebSocket, EventSource, eval(), new Function(), dynamic import(), dangerouslySetInnerHTML, document.write, innerHTML assignment, script tag, javascript: URL, inline onerror attribute, inline onclick attribute, atob/btoa. There is no exception for a comment or a string that merely mentions one.
 - A URL in a string literal may point only at one of these hosts — 15th.club, doug-march.com, dougmar.ch, fonts.googleapis.com, fonts.gstatic.com, getfishsticks.com, github.com, spaceman.llc, www.w3.org — every other host fails the build, including a host that merely looks like one of these (a subdomain, a lookalike, a longer domain that starts with one).
 - Every response must include every one of: app/components/Layout.tsx, app/components/Sidebar.tsx, app/routes/index.tsx, app/routes/about.tsx, app/routes/work.$slug.tsx, app/routes/og.tsx — omitting any one of them triggers an automatic retry.
-- A file may be written only under app/components/generated/, app/routes/, or at the exact path app/components/Layout.tsx or app/components/Sidebar.tsx; every component you invent goes under app/components/generated/, and any other path under app/components/ is rejected. elements/chassis-preset.ts and elements/preset.ts are the Art Director's and the orchestrator's — never write them yourself. app/routeTree.gen.ts and anything under app/content/, app/server/, app/styles/, app/assets/ are rejected outright, even though the prefix would otherwise match.
+- A file may be written only under app/components/generated/, or at the exact path app/components/Layout.tsx or app/components/Sidebar.tsx; every component you invent goes under app/components/generated/, and any other path under app/components/ is rejected. app/routes/__root.tsx and app/routes/about.tsx and app/routes/index.tsx and app/routes/og.tsx and app/routes/work.$slug.tsx and elements/chassis-preset.ts and elements/preset.ts are the Art Director's and the orchestrator's — never write them yourself. app/routeTree.gen.ts and anything under app/content/, app/server/, app/styles/, app/assets/ are rejected outright, even though the prefix would otherwise match.
 - A value in a colour position must be exactly one of the frozen semantic names — bg, bgAlt, surface, text, textMuted, textFaint, accent, accentText, accentAlt, border, borderStrong, field, fieldInk, fieldInkMuted, fieldBorder — nothing else resolves, not even a real palette token such as `sand.300`.
 
 ### Content imports

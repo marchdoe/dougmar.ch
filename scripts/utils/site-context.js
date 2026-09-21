@@ -23,7 +23,7 @@ export const MUTABLE_FILES = [
   // them (#216). SectionHead, ProjectRow and FeaturedProject followed on
   // 2026-09-03 (#448): hand-written, rendered only by /elements, and one run
   // had overwritten FeaturedProject. The engineer's write surface is now
-  // Layout, Sidebar, the routes and app/components/generated/ (see
+  // Layout, Sidebar, its four routes and app/components/generated/ (see
   // file-manager.js), so a file off this list is a file it cannot touch.
   'app/routes/__root.tsx',
   'app/routes/index.tsx',

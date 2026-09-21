@@ -17,13 +17,28 @@ export const ROOT = path.resolve(__dirname, '../..')
 // (ArchiveMarkdown, RunStages, MobileFooter, SectionHead, ProjectRow,
 // FeaturedProject, the panel) are out of the engineer's reach. One run
 // overwrote FeaturedProject.tsx, which only /elements renders (#432).
-export const ALLOWED_WRITE_PREFIXES = ['app/components/generated/', 'app/routes/']
+//
+// app/routes/ is not a prefix either (#625). The engineer owns four routes,
+// named below; the rest (/work, /experiments, /elements, /archive, /how, the
+// panel) are hand-written, the surface gate never walks three of them, and
+// the nightly e2e suite measures all of them. A route the engineer cannot
+// write is a route it cannot break.
+export const ALLOWED_WRITE_PREFIXES = ['app/components/generated/']
 
 // The two components under app/components/ the engineer still writes: the
 // required shell files, on MUTABLE_FILES and REQUIRED_FILES. Listed here by
 // hand because site-context.js imports this module; the file-manager tests
 // check every engineer-owned component on MUTABLE_FILES is one of these.
 export const ENGINEER_COMPONENT_FILES = ['app/components/Layout.tsx', 'app/components/Sidebar.tsx']
+// The routes the engineer writes, as react-engineer.md lists them. __root.tsx
+// is the orchestrator's (rendered from a template, on MUTABLE_FILES so a
+// rollback restores it) and is allowed on the same terms as the presets.
+export const ENGINEER_ROUTE_FILES = [
+  'app/routes/index.tsx',
+  'app/routes/about.tsx',
+  'app/routes/work.$slug.tsx',
+  'app/routes/og.tsx',
+]
 
 // Exact paths allowed for writes outside the prefix list. elements/ is
 // deliberately NOT a prefix: elements/chassis/index.js
@@ -34,7 +49,9 @@ export const ENGINEER_COMPONENT_FILES = ['app/components/Layout.tsx', 'app/compo
 export const ALLOWED_EXACT = new Set([
   'elements/preset.ts',
   'elements/chassis-preset.ts',
+  'app/routes/__root.tsx',
   ...ENGINEER_COMPONENT_FILES,
+  ...ENGINEER_ROUTE_FILES,
 ])
 
 // Within allowed prefixes, these exact files are still forbidden.
