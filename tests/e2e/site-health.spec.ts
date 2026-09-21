@@ -1309,13 +1309,22 @@ test.describe('site health — the archive calendar reads on a phone (#563)', ()
       fetch('/archive-data/index.json').then(
         (r) =>
           r.json() as Promise<
-            { date: string; moodWord: string | null; legacyArchetype: string | null }[]
+            {
+              date: string
+              pages: number
+              moodWord: string | null
+              legacyArchetype: string | null
+            }[]
           >
       )
     )
     const newest = index.sort((a, b) => a.date.localeCompare(b.date)).at(-1)
     if (!newest) throw new Error('the archive index is empty')
-    const label = newest.moodWord ?? newest.legacyArchetype ?? ''
+    // A day with no preserved pages is a record-only cell, and its label is
+    // the word "record", not a mood. That is today's cell whenever the nightly
+    // verifies: the pipeline builds dist/ before it archives the day, so the
+    // index it serves knows the date and none of its pages (#619).
+    const label = newest.pages > 0 ? (newest.moodWord ?? newest.legacyArchetype ?? '') : 'record'
     const name = new RegExp(`^${Number(newest.date.slice(8))}\\s*${label}$`, 'i')
     return { current, name, word: current.locator('span').nth(1) }
   }
