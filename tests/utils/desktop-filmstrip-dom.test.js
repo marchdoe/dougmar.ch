@@ -7,6 +7,7 @@
  * and that the phone filmstrip, which shares the composer, still lays its
  * folds in one row.
  */
+import { createServer } from 'node:http'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { chromium } from '@playwright/test'
@@ -62,6 +63,50 @@ describe('captureDesktopFilmstrip', () => {
     // A single 1440x900 screen, fitted to 1568 wide: never upscaled.
     expect(width).toBeLessThanOrEqual(1440)
     expect(height / width).toBeCloseTo(900 / 1440, 1)
+  }, 30_000)
+
+  it('shows a section that fades in on scroll at rest, not at opacity 0 (reduced motion is on)', async () => {
+    // The second fold is a black block that only the no-preference branch hides.
+    // A full-page capture never scrolls, so without the preference on it would
+    // be white.
+    const html =
+      '<!doctype html><body style="margin:0;background:#fff"><div style="height:900px"></div>' +
+      '<div class="late" style="height:900px;background:#000"></div>' +
+      '<style>@media (prefers-reduced-motion: no-preference){.late{opacity:0}}</style>'
+    const page = await browser.newPage()
+    let jpeg
+    let server
+    try {
+      server = createServer((_req, res) => {
+        res.setHeader('content-type', 'text/html')
+        res.end(html)
+      })
+      await new Promise((resolve) => server.listen(0, resolve))
+      jpeg = await captureDesktopFilmstrip(browser, `http://localhost:${server.address().port}/`)
+      expect(jpeg).not.toBeNull()
+      // The second fold sits in the right-hand tile, below its label bar.
+      const luma = await page.evaluate(async (base64) => {
+        const img = new Image()
+        img.src = `data:image/jpeg;base64,${base64}`
+        await img.decode()
+        const canvas = document.createElement('canvas')
+        canvas.width = img.naturalWidth
+        canvas.height = img.naturalHeight
+        const ctx = canvas.getContext('2d')
+        ctx.drawImage(img, 0, 0)
+        const [r, g, b] = ctx.getImageData(
+          Math.round(img.naturalWidth * 0.75),
+          Math.round(img.naturalHeight * 0.6),
+          1,
+          1
+        ).data
+        return (r + g + b) / 3
+      }, jpeg.toString('base64'))
+      expect(luma).toBeLessThan(60)
+    } finally {
+      server?.close()
+      await page.close()
+    }
   }, 30_000)
 
   it('returns null rather than throwing when the capture fails', async () => {

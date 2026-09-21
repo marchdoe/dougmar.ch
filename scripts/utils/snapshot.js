@@ -548,6 +548,13 @@ const DESKTOP_FILMSTRIP_GUTTER = 16
  * masthead down (#569). Best-effort, like the phone filmstrip: a missing
  * image costs a critic one block, never the run.
  *
+ * Taken with reduced motion on. A full-page capture never scrolls, so a
+ * section that fades in by `animation-timeline: view()` is still at
+ * `opacity: 0` in every fold below the first, and the strip would show a
+ * page that is empty from the masthead down for a reason that is not the
+ * design. The `stranded-text` gate already requires everything to be visible
+ * with the preference on, so that is the resting page.
+ *
  * @param {import('playwright').Browser} browser
  * @param {string} url
  * @returns {Promise<Buffer|null>}
@@ -555,7 +562,7 @@ const DESKTOP_FILMSTRIP_GUTTER = 16
 export async function captureDesktopFilmstrip(browser, url) {
   let page = null
   try {
-    page = await browser.newPage({ viewport: { ...WIDE_VIEWPORT } })
+    page = await browser.newPage({ viewport: { ...WIDE_VIEWPORT }, reducedMotion: 'reduce' })
     await page.goto(url, { waitUntil: 'networkidle' })
     await page.waitForTimeout(1000) // fonts
     const pageHeightPx = await page.evaluate(() =>
