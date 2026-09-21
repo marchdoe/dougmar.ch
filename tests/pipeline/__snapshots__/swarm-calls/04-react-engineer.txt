@@ -516,7 +516,7 @@ A name outside this set is a build failure, whether it resolves or not. That inc
 
 **Text styles.** The same step names are textStyle tokens: `textStyle: 'hero'` sets size, line-height and letter-spacing together, tuned per chassis. This is the preferred way to set type; it cannot drift from the ramp.
 
-**Spacing.** `1` through `9`, derived from the chassis rhythm and landing close to 4px, 8px, 16px, 24px, 32px, 48px, 64px, 96px, 128px on every chassis. There is no `10` or above. A bare number is always read as a spacing token: `width: '11'` asks for a token that does not exist and renders as 11px. When you want a literal size, write the unit (`width: '44px'`).
+**Spacing.** `1` through `9`, derived from the chassis rhythm and landing close to 4px, 8px, 16px, 24px, 32px, 48px, 64px, 96px, 128px on every chassis. There is no `10` or above. A bare number is always read as a spacing token: `width: '11'` asks for a token that does not exist and renders as 11px. When you want a literal size, write the unit (`width: '44px'`). Never put two values in one string: Panda does not resolve tokens inside `padding: '4 0'`, so it compiles to `4px 0px` and the token gate fails the build. Write `paddingBlock: '4'` and `paddingInline: '0'`; `margin` takes the same pair and `gap` takes `rowGap` and `columnGap`.
 
 **Line heights.** `tight`, `snug`, `normal`, `loose`
 
