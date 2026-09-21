@@ -373,6 +373,17 @@ const PHONE_FILMSTRIP_WIDTH = 1568
 const PHONE_FILMSTRIP_QUALITY = 75
 
 /**
+ * Page options for a full-page capture: reduced motion on. A full-page capture
+ * never scrolls, so a section that fades in by `animation-timeline: view()` is
+ * still at `opacity: 0` in every fold below the first, and the image shows a
+ * page that is empty from the masthead down for a reason that is not the
+ * design (#569). The chassis preset sets `animation-name: none` under the
+ * preference, and the `stranded-text` gate requires every section to be
+ * visible with it on, so that is the resting page.
+ */
+const FULL_PAGE_CAPTURE = Object.freeze({ reducedMotion: 'reduce' })
+
+/**
  * How a full page height splits into filmstrip folds. Pure and
  * side-effect-free so the arithmetic is testable without a browser.
  *
@@ -482,6 +493,8 @@ async function composeFilmstrip(
  * hero phrase one fold further down was never seen, and `/about` at 9361px
  * tall was never seen at all.
  *
+ * Taken at rest, see {@link FULL_PAGE_CAPTURE}.
+ *
  * @param {import('playwright').Browser} browser
  * @param {string} url
  * @param {{ colorScheme?: 'light'|'dark' }} [opts]
@@ -493,6 +506,7 @@ export async function capturePhoneFilmstrip(browser, url, { colorScheme } = {}) 
     page = await browser.newPage({
       viewport: { width: CRITIC_MOBILE_VIEWPORT.width, height: PHONE_FILMSTRIP_FOLD_HEIGHT },
       deviceScaleFactor: PHONE_FILMSTRIP_DSF,
+      ...FULL_PAGE_CAPTURE,
       ...(colorScheme ? { colorScheme } : {}),
     })
     await page.goto(url, { waitUntil: 'networkidle' })
@@ -548,12 +562,7 @@ const DESKTOP_FILMSTRIP_GUTTER = 16
  * masthead down (#569). Best-effort, like the phone filmstrip: a missing
  * image costs a critic one block, never the run.
  *
- * Taken with reduced motion on. A full-page capture never scrolls, so a
- * section that fades in by `animation-timeline: view()` is still at
- * `opacity: 0` in every fold below the first, and the strip would show a
- * page that is empty from the masthead down for a reason that is not the
- * design. The `stranded-text` gate already requires everything to be visible
- * with the preference on, so that is the resting page.
+ * Taken at rest, see {@link FULL_PAGE_CAPTURE}.
  *
  * @param {import('playwright').Browser} browser
  * @param {string} url
@@ -562,7 +571,7 @@ const DESKTOP_FILMSTRIP_GUTTER = 16
 export async function captureDesktopFilmstrip(browser, url) {
   let page = null
   try {
-    page = await browser.newPage({ viewport: { ...WIDE_VIEWPORT }, reducedMotion: 'reduce' })
+    page = await browser.newPage({ viewport: { ...WIDE_VIEWPORT }, ...FULL_PAGE_CAPTURE })
     await page.goto(url, { waitUntil: 'networkidle' })
     await page.waitForTimeout(1000) // fonts
     const pageHeightPx = await page.evaluate(() =>
