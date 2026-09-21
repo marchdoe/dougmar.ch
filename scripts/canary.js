@@ -33,9 +33,11 @@
  *      on a failed one, 2 on refusal.
  *
  * `--mock` runs the other seam instead: `MOCK_MODE=true` replays the
- * recorded fixtures (`fixtures/agents/<agent>/00.txt`, see
+ * canary's recorded night (`fixtures/canary/<agent>/NN.txt`, see
  * `scripts/utils/agent-fixtures.js`) through the same loop and gates, no
  * model called, evidence under `docs/evidence/canary/<date>-<HHMM>-mock/`.
+ * `RECORD_FIXTURES=true node scripts/canary.js` re-records that corpus from
+ * a real $0 run; `fixtures/agents/` is the swarm tests' night and stays put.
  * It skips the `ANTHROPIC_API_KEY` refusal — no model is called, so a key
  * being set doesn't matter — but still refuses under `GITHUB_ACTIONS`. It's
  * the one-minute smoke test after a change to a gate or the loop itself,
@@ -82,6 +84,9 @@ const EVIDENCE_FILENAMES = new Set([
   'last-build-output.txt',
   'last-static-checks.txt',
 ])
+
+/** The corpus `--mock` replays and `RECORD_FIXTURES=true` writes, relative to the worktree. */
+export const CANARY_FIXTURE_DIR = 'fixtures/canary'
 
 /**
  * Does `.env` in `root` declare a non-empty ANTHROPIC_API_KEY?
@@ -520,8 +525,22 @@ function copyEnvFile({ root, worktree }) {
  */
 async function runPipeline({ exec, worktree, mock = false, logPath }) {
   const mockModeValue = mock ? 'true' : 'false'
-  console.log(`  MOCK_MODE=${mockModeValue} DRY_RUN=true node scripts/run-pipeline.js`)
-  const env = { ...process.env, MOCK_MODE: mockModeValue, DRY_RUN: 'true' }
+  // The canary's own corpus, replayed under --mock and written under
+  // RECORD_FIXTURES=true. fixtures/agents/ is the swarm tests' frozen night
+  // and neither is touched here (see agent-fixtures.js).
+  const fixtureDir =
+    process.env.FIXTURE_DIR ||
+    (mock || process.env.RECORD_FIXTURES === 'true' ? CANARY_FIXTURE_DIR : undefined)
+  const fixtureNote = fixtureDir ? ` FIXTURE_DIR=${fixtureDir}` : ''
+  console.log(
+    `  MOCK_MODE=${mockModeValue} DRY_RUN=true${fixtureNote} node scripts/run-pipeline.js`
+  )
+  const env = {
+    ...process.env,
+    MOCK_MODE: mockModeValue,
+    DRY_RUN: 'true',
+    ...(fixtureDir ? { FIXTURE_DIR: fixtureDir } : {}),
+  }
   const onChunk = (text) => appendFileSync(logPath, text)
   return exec('node scripts/run-pipeline.js', { cwd: worktree, env, onChunk })
 }
