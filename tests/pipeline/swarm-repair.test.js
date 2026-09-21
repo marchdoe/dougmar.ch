@@ -1156,43 +1156,49 @@ describe('known faults never ship (#625)', () => {
     ])
   })
 
-  it('refuses to ship when two revisions still leave measured faults', async () => {
+  it('refuses to ship when every revision round still leaves measured faults', async () => {
     const run = await runSwarm({
-      gate: [FAULTY, FAULTY, FAULTY],
-      agents: { 'react-engineer': engineer(2) },
+      gate: [FAULTY, FAULTY, FAULTY, FAULTY],
+      agents: { 'react-engineer': engineer(3) },
     })
 
     expect(run.error).not.toBeNull()
     expect(run.error.message).toMatch(
-      /^Refusing to ship: 1 engineer-owned fault\(s\) remain after 2 revision round\(s\)/
+      /^Refusing to ship: 1 engineer-owned fault\(s\) remain after 3 revision round\(s\)/
     )
     expect(run.error.message).toContain(formatFindingsForCritic([OVERFLOW_AT_390]))
-    expect(run.callsFor('react-engineer')).toHaveLength(3)
+    expect(run.callsFor('react-engineer')).toHaveLength(4)
     expect(run.fakes.archive).toHaveLength(0)
-    expect(measuredRounds(run)).toEqual(['1:1', '2:1', '3:1'])
+    expect(measuredRounds(run)).toEqual(['1:1', '2:1', '3:1', '4:1'])
+    // From the second round on, the brief says the fault was there last time
+    // too (#630); the first revision's brief cannot know that.
+    const [, first, second, third] = run.callsFor('react-engineer')
+    expect(first.userPrompt).not.toContain('STILL PRESENT after the last revision')
+    expect(second.userPrompt).toContain('STILL PRESENT after the last revision')
+    expect(third.userPrompt).toContain('STILL PRESENT after the last revision')
   })
 
   it('tries again when a gate-forced revision broke the build, and refuses when that fails too', async () => {
     // Before, a revision that broke the build put the round-1 build back and
     // shipped it: the very build the gate had just said required a revision.
     const run = await runSwarm({
-      build: [true, false, true, false, true],
+      build: [true, false, true, false, true, false, true],
       gate: [FAULTY],
-      agents: { 'react-engineer': engineer(2) },
+      agents: { 'react-engineer': engineer(3) },
     })
 
     expect(run.error).not.toBeNull()
     expect(run.error.message).toMatch(
-      /^Refusing to ship: 1 engineer-owned fault\(s\) remain after 2 revision round\(s\)/
+      /^Refusing to ship: 1 engineer-owned fault\(s\) remain after 3 revision round\(s\)/
     )
-    expect(run.callsFor('react-engineer')).toHaveLength(3)
+    expect(run.callsFor('react-engineer')).toHaveLength(4)
     // The second brief says the first attempt was not kept, and why.
     expect(run.callsFor('react-engineer')[2].userPrompt).toContain(
       'The previous revision was not kept (build-broke-restored)'
     )
-    // Two revisions put the passing state back, then the refused run rolls
+    // Three revisions put the passing state back, then the refused run rolls
     // the checkout back to yesterday's files.
-    expect(run.fakes.restore).toHaveLength(3)
+    expect(run.fakes.restore).toHaveLength(4)
     expect(run.fakes.archive).toHaveLength(0)
   })
 

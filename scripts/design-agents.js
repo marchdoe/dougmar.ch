@@ -226,10 +226,11 @@ async function captureOgCard(date, { root = ROOT, writtenPaths } = {}) {
  * overflow on /about by narrowing the column, round 2 measured twenty words
  * broken across lines in it, the run shipped "with the record saying so",
  * and the workflow's e2e gate failed the night on the same fault after every
- * call had been paid for. A second round costs what the first did (about
- * $0.50); the night it saves cost $4.73.
+ * call had been paid for. A round costs what the first did (about $0.50); the
+ * night it saves cost $4.73. Two was the edge, not the margin: the first two
+ * nights through this loop went 124 → 10 → 0 and 101 → 73 → 9 (#630).
  */
-export const MAX_REVISION_ROUNDS = 2
+export const MAX_REVISION_ROUNDS = 3
 
 /**
  * Only the engineer has a revision path. A critic that names another agent
@@ -246,6 +247,11 @@ function engineerFor(responsibleAgent) {
     )
   }
   return 'react-engineer'
+}
+
+/** A gate round's findings, or null for a round that did not measure. */
+function findingsOf(gate) {
+  return gate ? gate.findings : null
 }
 
 /** The log line for a revision that rebuilt and still left measured faults. */
@@ -2592,12 +2598,14 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
        * warnings that ride along for free (#488).
        * @param {Array<object>} findings - a gate round's findings
        * @param {string} [criticFeedback]
+       * @param {{ previous?: Array<object>|null }} [opts] the round before, so a fault
+       *   still there is marked as such in the brief
        * @returns {string}
        */
-      function feedbackFor(findings, criticFeedback = '') {
+      function feedbackFor(findings, criticFeedback = '', { previous = null } = {}) {
         return [
           criticFeedback,
-          formatFindingsForCritic(faultsForOwner(findings, 'react-engineer')),
+          formatFindingsForCritic(faultsForOwner(findings, 'react-engineer'), { previous }),
           formatAdvisoryForRepairBrief(advisoryFaultsForOwner(findings, 'react-engineer')),
         ]
           .filter(Boolean)
@@ -2755,11 +2763,12 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
             continue
           }
           rebuilt = true
+          const previous = lastGate
           lastGate = attempt.regate
           remaining = lastGate ? faultsForOwner(lastGate.findings, 'react-engineer') : []
           if (remaining.length === 0) break
           console.warn(describeLeftover(round, remaining.length))
-          report = feedbackFor(lastGate.findings)
+          report = feedbackFor(lastGate.findings, '', { previous: findingsOf(previous) })
         }
 
         if (rebuilt) await rejudgeFinal(lastGate, remaining)

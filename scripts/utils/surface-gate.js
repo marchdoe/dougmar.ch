@@ -345,7 +345,7 @@ function describeTapTarget(t) {
  */
 function describeBoxPastViewport(c, m) {
   return (
-    `<${c.tag}> is cut off: its right edge lands at ${c.right}px, ${c.over}px past the ` +
+    `${clippedWhere(c)} is cut off: its right edge lands at ${c.right}px, ${c.over}px past the ` +
     `${m.clientWidth}px viewport` +
     (c.text
       ? `, severing "${c.text}...". The document does not scroll here, so that content is ` +
@@ -354,6 +354,20 @@ function describeBoxPastViewport(c, m) {
       : '. Nothing readable is lost, but the element is being severed rather than fitted. ' +
         'Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.')
   )
+}
+
+/**
+ * Where a clipped element is, for the brief. The chain the probe recorded
+ * (tag, id and Panda classes, three ancestors deep) names the component the
+ * way a word-break finding does; a bare tag names nothing. On 2026-09-21 two
+ * spans on /about were reported as `<SPAN>` through three gate rounds and two
+ * revisions, and the engineer, holding eighteen files, fixed everything else
+ * (#630).
+ * @param {{ tag: string, selector?: string }} c
+ * @returns {string}
+ */
+function clippedWhere(c) {
+  return `<${c.selector || c.tag}>`
 }
 
 /**
@@ -367,7 +381,7 @@ function describeBoxPastViewport(c, m) {
  */
 function describeTextWiderThanBox(c) {
   return (
-    `<${c.tag}> holds text wider than its own box: "${c.text}..." needs ${c.boxWidth + c.over}px ` +
+    `${clippedWhere(c)} holds text wider than its own box: "${c.text}..." needs ${c.boxWidth + c.over}px ` +
     `and the box is ${c.boxWidth}px, so ${c.over}px of it is cut off. The box does not scroll, ` +
     'and nothing moved to make room, so the end of the word is gone. The column is the right ' +
     'width; the type is not. Set it at a size that fits this column at this width, or let it ' +
@@ -417,7 +431,7 @@ function describeTextWiderThanBox(c) {
  *
  * @param {number} [_viewportWidth] unused; present for the CHECKS signature
  * @param {{ overflowTolerancePx?: number }} [thresholds]
- * @returns {Array<{ tag: string, text: string, cause: 'viewport'|'text',
+ * @returns {Array<{ tag: string, selector: string, text: string, cause: 'viewport'|'text',
  *   right: number, over: number, boxWidth: number }>} `over` is px past the
  *   viewport for `viewport`, px wider than the box for `text`
  */
@@ -466,6 +480,25 @@ export function findClippedElements(_viewportWidth, thresholds) {
     }
   }
 
+  // The element chain, as text-contrast-page.js writes it: tag, id and up to
+  // four Panda classes, three ancestors deep, conditions dropped. Inlined
+  // because this function is serialised on its own.
+  const describe = (el) => {
+    const id = el.id ? `#${el.id}` : ''
+    const classes = [...el.classList]
+      .filter((c) => !/[[(]/.test(c))
+      .slice(0, 4)
+      .map((c) => `.${c}`)
+      .join('')
+    return `${el.tagName.toLowerCase()}${id}${classes}`
+  }
+  const selectorOf = (el) => {
+    const chain = []
+    for (let p = el; p && chain.length < 3 && p !== document.body; p = p.parentElement) {
+      chain.unshift(describe(p))
+    }
+    return chain.join(' > ').slice(0, 160)
+  }
   const outermost = []
   const found = []
   for (const { el, r, cause, over } of past) {
@@ -474,6 +507,7 @@ export function findClippedElements(_viewportWidth, thresholds) {
     outermost.push(el)
     found.push({
       tag: el.tagName,
+      selector: selectorOf(el),
       // Whitespace collapsed: formatFindingsForCritic renders one finding as
       // one bullet, and a newline out of the DOM would split it into two.
       text: (el.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 50),
@@ -1051,13 +1085,18 @@ export async function runSurfaceGate({
  * @param {Array<object>} findings
  * @returns {string} empty string when there is nothing to report
  */
-export function formatFindingsForCritic(findings) {
+export function formatFindingsForCritic(findings, { previous = null } = {}) {
   if (!findings?.length) return ''
 
+  const keyOf = (f) => `${f.surface}|${f.viewport}|${f.line}|${f.kind}|${f.detail}`
+  // A fault the last round already reported. The engineer that skipped it
+  // once, with eighteen files in the brief, skipped it again on 2026-09-21
+  // because nothing in the second brief said it was the same fault (#630).
+  const seen = previous ? new Set(previous.map(keyOf)) : null
   const byKey = new Map()
   for (const f of findings) {
-    const key = `${f.surface}|${f.viewport}|${f.line}|${f.kind}|${f.detail}`
-    if (!byKey.has(key)) byKey.set(key, { ...f, schemes: [] })
+    const key = keyOf(f)
+    if (!byKey.has(key)) byKey.set(key, { ...f, schemes: [], repeated: Boolean(seen?.has(key)) })
     byKey.get(key).schemes.push(f.scheme)
   }
 
@@ -1071,7 +1110,10 @@ export function formatFindingsForCritic(findings) {
       // A static copy finding (#504) names a file and a line, not a viewport.
       const where =
         f.line != null ? `${f.surface}:${f.line}` : `${f.surface} at ${f.width}px (${schemes})`
-      return `- [${f.severity}] ${where}: ${f.detail}`
+      const again = f.repeated
+        ? ' STILL PRESENT after the last revision: the patch did not touch this element; find the file that renders it.'
+        : ''
+      return `- [${f.severity}] ${where}: ${f.detail}${again}`
     })
 
   return [

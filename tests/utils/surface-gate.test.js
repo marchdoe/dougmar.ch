@@ -146,6 +146,29 @@ describe('evaluateMeasurement', () => {
     expect(findings[0].detail).not.toContain('past the 360px viewport')
   })
 
+  it('names the element chain when the probe recorded one, so the engineer can find the file (#630)', () => {
+    const findings = evaluateMeasurement({
+      ...ok,
+      clientWidth: 360,
+      scrollWidth: 360,
+      clipped: [
+        {
+          tag: 'SPAN',
+          selector: 'div.d_grid.grid-tc_84px_1fr > div.min-w_0 > span.ff_display.fs_xl',
+          text: 'Director of Engineering · Interfolio',
+          cause: 'text',
+          right: 300,
+          over: 38,
+          boxWidth: 216,
+        },
+      ],
+    })
+    expect(findings[0].detail).toMatch(
+      /^<div\.d_grid\.grid-tc_84px_1fr > div\.min-w_0 > span\.ff_display\.fs_xl> holds text wider/
+    )
+    expect(findings[0].detail).not.toContain('<SPAN>')
+  })
+
   it('stops after a few clipped elements rather than filling the prompt', () => {
     const clipped = Array.from({ length: 14 }, (_, i) => ({
       tag: 'DIV',
@@ -915,5 +938,37 @@ describe('the hero-fold finding (#501)', () => {
     expect(
       evaluateMeasurement({ ...inFold, route: '/experiments', h1Top: 1200, h1Bottom: 1380 })
     ).toEqual([])
+  })
+})
+
+describe('formatFindingsForCritic marks a fault the last round already reported (#630)', () => {
+  const fault = (detail) => ({
+    surface: '/about',
+    viewport: 'mobile',
+    width: 360,
+    scheme: 'light',
+    kind: 'clipped',
+    severity: 'error',
+    detail,
+  })
+
+  it('says so on the repeated line and on no other', () => {
+    const previous = [fault('<SPAN> holds text wider than its own box: "Director..."')]
+    const now = [
+      fault('<SPAN> holds text wider than its own box: "Director..."'),
+      fault('<H2> holds text wider than its own box: "Capabilities..."'),
+    ]
+    const text = formatFindingsForCritic(now, { previous })
+    const lines = text.split('\n').filter((l) => l.startsWith('- '))
+    expect(lines).toHaveLength(2)
+    expect(lines[0]).toContain('"Director..."')
+    expect(lines[0]).toContain('STILL PRESENT after the last revision')
+    expect(lines[1]).toContain('"Capabilities..."')
+    expect(lines[1]).not.toContain('STILL PRESENT')
+  })
+
+  it('marks nothing without a previous round', () => {
+    const text = formatFindingsForCritic([fault('<SPAN> holds text wider than its own box')])
+    expect(text).not.toContain('STILL PRESENT')
   })
 })
