@@ -155,6 +155,7 @@ const UNVERIFIED_CHANNEL_REASONS = {
   'cli-text-no-key': 'no API key was available for image input',
   'cli-text-no-images': 'no screenshot reached the critic',
   'fixture-replay': 'a recorded fixture answered instead of a live critique',
+  'call-failed': 'the critic could not be reached on any channel',
 }
 
 /**

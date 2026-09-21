@@ -218,6 +218,36 @@ async function captureOgCard(date, { root = ROOT, writtenPaths } = {}) {
 }
 
 /**
+ * Round-1 judgment, or a verdict with no vote when the critic could not be
+ * reached at all.
+ *
+ * On 2026-09-21 the API account ran out of credits between the engineer and
+ * the critic: the SDK call and the CLI fallback both failed, the throw landed
+ * in the gate's outer catch, and the run shipped 44 measured faults the
+ * surface gate had already said required a revision (#619). Recording the
+ * failure as UNVERIFIED keeps the gate-driven revision on the same path a
+ * truncated or text-only reply takes (#570). A fatal error still propagates.
+ *
+ * @param {(gate: object) => Promise<object>} judge
+ * @param {object} gate the round's surface-gate result
+ * @returns {Promise<{ verdict: string, criticResponse: string, visionChannel: string, bar: object|null }>}
+ */
+async function judgeOrNoVerdict(judge, gate) {
+  try {
+    return await judge(gate)
+  } catch (err) {
+    if (err.fatal) throw err
+    console.warn(`  [screenshot-critic] Failed (non-blocking): ${err.message}`)
+    return {
+      verdict: 'UNVERIFIED',
+      criticResponse: err.message,
+      visionChannel: 'call-failed',
+      bar: null,
+    }
+  }
+}
+
+/**
  * Phone filmstrips of `/about` and a case study route for the screenshot
  * critic — the pages the phone gate never covered before #466, when only the
  * home page ever got a mobile image, and only its first 640px at that.
@@ -2523,12 +2553,13 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT } = {}) 
         // revise against a sentence about token counts, #570). No verdict
         // skips the critic-driven revision and keeps the gate-driven one,
         // as the mockup-critic loop does for a malformed reply.
+        // A critic that cannot be reached at all is the same case (#619).
         const {
           verdict: screenshotVerdict,
           criticResponse,
           visionChannel,
           bar,
-        } = await judgeScreenshot(firstGate)
+        } = await judgeOrNoVerdict(judgeScreenshot, firstGate)
 
         verdicts.push({
           critic: 'screenshot-critic',
