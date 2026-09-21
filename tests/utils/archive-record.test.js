@@ -295,6 +295,54 @@ describe('buildRecord', () => {
     expect(anomaliesOf(record)).toEqual([])
   })
 
+  it('keeps the purpose of each call, and reads a night from before purposes as it always did (#578)', () => {
+    writeBuild('2026-09-21', '300', {
+      'brief.md': BRIEF,
+      'cost.json': JSON.stringify({
+        total_usd: 4.82,
+        calls: 2,
+        retries: 0,
+        byAgent: [
+          { agent: 'art-director', purpose: 'first', cost_usd: 1 },
+          { agent: 'react-engineer', purpose: 'repair', cost_usd: 3.82 },
+        ],
+      }),
+    })
+    writeDateFile('2026-09-21', 'brief.md', BRIEF)
+    const record = buildRecord('2026-09-21', { archiveDir })
+    expect(record.cost.byAgent.map((c) => c.purpose)).toEqual(['first', 'repair'])
+    // One attempt: no field for the others.
+    expect(record.cost).not.toHaveProperty('priorAttempts')
+    expect(record.cost).not.toHaveProperty('night_usd')
+
+    writeBuild('2026-08-20', '100', {
+      'brief.md': BRIEF,
+      'cost.json': JSON.stringify({ total_usd: 1, calls: 1, byAgent: [{ agent: 'art-director' }] }),
+    })
+    writeDateFile('2026-08-20', 'brief.md', BRIEF)
+    const old = buildRecord('2026-08-20', { archiveDir })
+    expect(old.cost.byAgent).toEqual([{ agent: 'art-director' }])
+  })
+
+  it("carries the night's earlier attempts when the run that shipped it recorded them (#578)", () => {
+    writeBuild('2026-09-20', '200', {
+      'brief.md': BRIEF,
+      'cost.json': JSON.stringify({
+        total_usd: 4.82,
+        calls: 12,
+        retries: 1,
+        byAgent: [],
+        priorAttempts: [{ runId: '111', total_usd: 4.18, calls: 10 }],
+        night_usd: 9,
+      }),
+    })
+    writeDateFile('2026-09-20', 'brief.md', BRIEF)
+    const { cost } = buildRecord('2026-09-20', { archiveDir })
+    expect(cost.total_usd).toBe(4.82)
+    expect(cost.night_usd).toBe(9)
+    expect(cost.priorAttempts).toEqual([{ runId: '111', total_usd: 4.18, calls: 10 }])
+  })
+
   it('carries whether the surface gate measured, and reads null for every older night (#565)', () => {
     writeBuild('2026-09-20', '200', {
       'brief.md': BRIEF,

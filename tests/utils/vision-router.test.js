@@ -59,6 +59,28 @@ describe('callVisionAgent', () => {
     vi.stubEnv('PIPELINE_TIER', 'prod')
   })
 
+  it('hands the purpose to the SDK path and to the text-only CLI path (#578)', async () => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'sk-test')
+    sdkMock.mockResolvedValue('===VERDICT===\nSHIP\n===END===')
+    await callVisionAgent({
+      agentName: 'screenshot-critic',
+      systemPrompt: 'sys',
+      contentBlocks: BLOCKS,
+      purpose: 'rejudge',
+    })
+    expect(sdkMock.mock.calls[0][3].purpose).toBe('rejudge')
+
+    vi.stubEnv('ANTHROPIC_API_KEY', '')
+    cliMock.mockResolvedValue('===VERDICT===\nSHIP\n===END===')
+    await callVisionAgent({
+      agentName: 'screenshot-critic',
+      systemPrompt: 'sys',
+      contentBlocks: BLOCKS,
+      purpose: 'first',
+    })
+    expect(cliMock.mock.calls[0][3].purpose).toBe('first')
+  })
+
   it('routes to the SDK with image blocks when an API key is present', async () => {
     vi.stubEnv('ANTHROPIC_API_KEY', 'sk-test')
     sdkMock.mockResolvedValue('===VERDICT===\nSHIP\n===END===')

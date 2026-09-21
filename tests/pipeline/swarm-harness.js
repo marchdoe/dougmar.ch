@@ -40,7 +40,7 @@ import * as yaml from 'js-yaml'
 import { afterEach, vi } from 'vitest'
 import { tempRepoRoot, writeUnder } from '../helpers/tmp.js'
 import { clearRunDeadline } from '../../scripts/utils/run-budget.js'
-import { summarizeLedger } from '../../scripts/utils/cost-ledger.js'
+import { getUsageRecords, recordUsage, summarizeLedger } from '../../scripts/utils/cost-ledger.js'
 import { modelFor } from '../../scripts/utils/models.js'
 import { VisionTruncatedError } from '../../scripts/utils/vision-truncated-error.js'
 
@@ -176,6 +176,18 @@ function takeResponse(agent, call) {
   return realize(entry.last, call)
 }
 
+/** What a fake model call costs in the ledger, so a run's `cost.json` has a total to read. */
+export const FAKE_CALL_USD = 0.25
+
+/**
+ * The real transports book every call they make, with the purpose the caller
+ * gave. The fakes stand in for the transports, so they book the same way:
+ * what the ledger holds after a swarm run is what the swarm asked for and why.
+ */
+function bookFakeCall(agent, model, purpose) {
+  recordUsage({ agent, purpose, model, source: 'cli', costUsd: FAKE_CALL_USD, ms: 1 })
+}
+
 /** The `callClaudeCLI(agentName, systemPrompt, promptText, options)` fake. */
 async function fakeCallClaudeCLI(agentName, systemPrompt, promptText, options = {}) {
   const call = {
@@ -187,6 +199,7 @@ async function fakeCallClaudeCLI(agentName, systemPrompt, promptText, options = 
     options: { ...options },
   }
   state.calls.push(call)
+  bookFakeCall(agentName, options.model, options.purpose)
   return takeResponse(agentName, call)
 }
 
@@ -221,7 +234,8 @@ export function withChannel(text, channel) {
 
 /** The `callVisionAgent({ agentName, ... })` fake. Answers as `sdk-vision` unless the queued entry was wrapped with `withChannel`. */
 async function fakeCallVisionAgent(args) {
-  const { agentName, systemPrompt, contentBlocks, maxTokens, timeoutMs, stallTimeoutMs } = args
+  const { agentName, systemPrompt, contentBlocks, maxTokens, timeoutMs, stallTimeoutMs, purpose } =
+    args
   const call = {
     agent: agentName,
     channel: 'vision',
@@ -229,9 +243,10 @@ async function fakeCallVisionAgent(args) {
     systemPrompt,
     userPrompt: renderBlocks(contentBlocks),
     imageCount: contentBlocks.filter((b) => b.type === 'image').length,
-    options: { maxTokens, timeoutMs, stallTimeoutMs },
+    options: { maxTokens, timeoutMs, stallTimeoutMs, purpose },
   }
   state.calls.push(call)
+  bookFakeCall(agentName, modelFor(agentName), purpose)
   const response = takeResponse(agentName, call)
   if (response && typeof response === 'object' && '__visionChannel' in response) {
     args.onChannel?.(response.__visionChannel)
@@ -656,10 +671,13 @@ export function readTrace(root, date) {
  * @param {Function} [opts.onTraceStep]
  * @param {(root: string) => void|Promise<void>} [opts.beforeRun] runs after
  *   seeding and before the swarm, for a scenario that needs to edit the root
+ * @param {Array<{agent: string, text: string, channel: string}>} [opts.tape] the
+ *   responses an earlier run left, as `parseHandoff` returns them: a resume
  * @returns {Promise<{
  *   result: object|null, error: Error|null, calls: Array<object>,
  *   fakes: typeof state.fakes, root: string, trace: object|null,
  *   verdicts: Array<object>|null, retries: number, date: string,
+ *   ledger: Array<object>, cost: object,
  *   callsFor: (agent: string) => Array<object>,
  * }>}
  */
@@ -688,7 +706,7 @@ export async function runSwarm(opts = {}) {
   let result = null
   let error = null
   try {
-    result = await runAgentSwarm(context, { root, onTraceStep: opts.onTraceStep })
+    result = await runAgentSwarm(context, { root, onTraceStep: opts.onTraceStep, tape: opts.tape })
   } catch (err) {
     error = err
   } finally {
@@ -708,6 +726,8 @@ export async function runSwarm(opts = {}) {
     trace: readTrace(root, date),
     verdicts: verdictsJson ? JSON.parse(verdictsJson) : null,
     retries: summarizeLedger().retries,
+    ledger: getUsageRecords(),
+    cost: summarizeLedger(),
     callsFor: (agent) => state.calls.filter((c) => c.agent === agent),
   }
 }

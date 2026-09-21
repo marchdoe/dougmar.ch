@@ -18,6 +18,8 @@
  * inside `runAgentSwarm`, because they share its root, backup and write list.
  */
 
+import { NO_TRACE, openStep } from './trace-step.js'
+
 /** Patch rounds before the swarm goes on with what arrived. */
 export const MAX_OUTPUT_PATCH_ROUNDS = 2
 
@@ -75,6 +77,8 @@ export function regenerationPrompt(taskPrompt, problem, rejected) {
  *   and sets `reply.files` to the merged set
  * @param {() => boolean} params.pastDeadline
  * @param {() => void} params.noteRetry
+ * @param {{ addStep: (step: object) => void }} [params.trace] each round is a
+ *   step: what was wrong, and whether the reply was applied
  * @param {number} [params.rounds]
  * @returns {Promise<{ reply: { files: Array<{path: string, content: string}> }|null }>}
  *   the reply that resolved the problem, its files the merged set; null when
@@ -88,14 +92,21 @@ export async function patchOutputProblem({
   applyPatch,
   pastDeadline,
   noteRetry,
+  trace = NO_TRACE,
   rounds = MAX_OUTPUT_PATCH_ROUNDS,
 }) {
   let rejected = null
   for (let round = 1; problem && round <= rounds; round++) {
+    const step = openStep(trace, {
+      name: 'output-patch',
+      phase: 3,
+      input: { round, kind: problem.kind, problem: problem.message },
+    })
     if (pastDeadline()) {
       console.warn(
         `  ⚠ ${problem.message} — [deadline] run budget exhausted, skipping patch and proceeding with original output`
       )
+      step({ outcome: 'skipped-deadline' })
       return { reply: null }
     }
     noteRetry()
@@ -111,14 +122,17 @@ export async function patchOutputProblem({
       )
     } catch (err) {
       console.warn(`  ⚠ patch request failed: ${err.message} — proceeding with original output`)
+      step({ outcome: 'request-failed', error: err.message.slice(0, 500) })
       continue
     }
     const applied = await applyPatch(owned, reply)
     if (!applied.problem) {
       console.log(`  ✓ patch resolved: ${problem.kind}`)
+      step({ outcome: 'applied', files: reply.files.length })
       return { reply }
     }
     rejected = applied.problem
+    step({ outcome: 'not-applied', problem: rejected.message })
     console.warn(`  ⚠ patch not applied: ${rejected.message} — keeping original output`)
   }
   return { reply: null }

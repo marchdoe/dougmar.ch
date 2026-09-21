@@ -30,6 +30,32 @@ import { pricingFor } from './models.js'
 const CACHE_READ_MULTIPLIER = 0.1
 const CACHE_WRITE_MULTIPLIER = 1.25
 
+/**
+ * Why a call was made. The order of calls in the ledger cannot say: a second
+ * `react-engineer` entry is a stall retry, an output patch, a critic-driven
+ * revision or a build repair, and every cost figure in the 2026-09-20 review
+ * had to be derived by reading the trace beside the ledger.
+ *
+ *   first        the agent's first answer to its task
+ *   retry        the same task asked again after the first answer failed
+ *   revision     the engineer or the designer answering a critic's feedback
+ *   repair       the engineer answering a build failure
+ *   output-patch the engineer answering an incomplete or posture-breaking reply
+ *   rejudge      a critic judging a page it already judged once
+ *   replay       an earlier run's paid response, served at no cost on a resume
+ *   unknown      a caller that did not say
+ */
+export const PURPOSES = Object.freeze([
+  'first',
+  'retry',
+  'revision',
+  'repair',
+  'output-patch',
+  'rejudge',
+  'replay',
+  'unknown',
+])
+
 /** @type {{ records: Array<object>, retries: number }} */
 let ledger = { records: [], retries: 0 }
 
@@ -79,6 +105,7 @@ export function estimateCostUsd(model, usage = {}) {
  * @param {number} [entry.costUsd] - authoritative cost, when the caller has one
  * @param {number} [entry.ms] - wall-clock duration
  * @param {number} [entry.numTurns] - CLI turn count
+ * @param {string} [entry.purpose] - one of PURPOSES; anything else is stored as 'unknown'
  * @returns {object} the stored record
  */
 export function recordUsage(entry = {}) {
@@ -98,6 +125,7 @@ export function recordUsage(entry = {}) {
 
   const record = {
     agent: String(entry.agent ?? 'unknown'),
+    purpose: PURPOSES.includes(entry.purpose) ? entry.purpose : 'unknown',
     model: entry.model ?? null,
     source: entry.source === 'sdk' ? 'sdk' : 'cli',
     input: num(usage.input_tokens),

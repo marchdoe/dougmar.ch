@@ -91,6 +91,8 @@ export function describeCliFailure(code, resultEvent, fullText, stderr) {
  * @param {string[]} [options.extraCliArgs] - Additional CLI args (e.g. ['--fallback-model', 'haiku'])
  * @param {function} [options.onTimeout] - Async callback invoked just before rejecting on timeout.
  *   Receives { charCount: number } and should return a string to append to the error message (or '').
+ * @param {string} [options.purpose] - Why the call is made (`PURPOSES` in cost-ledger.js); goes to the
+ *   ledger's record of the call. Left out, the record says 'unknown'.
  * @param {'cli'|'cli-text-fallback'} [options.channel='cli'] - Attributed to a ModelTransportError
  *   thrown from this call, if any. vision-router.js passes 'cli-text-fallback' when this call is the
  *   text-only fallback after the SDK vision path failed, so the channel names which path went dead.
@@ -119,6 +121,7 @@ export async function callClaudeCLI(agentName, systemPrompt, promptText, options
     extraCliArgs = [],
     onTimeout,
     channel = 'cli',
+    purpose,
   } = options
 
   // An explicit model ID is required. The 'sonnet' alias this defaulted to is
@@ -343,6 +346,7 @@ export async function callClaudeCLI(agentName, systemPrompt, promptText, options
       try {
         recordUsage({
           agent: agentName,
+          purpose,
           model,
           source: 'cli',
           usage: resultUsage?.usage,

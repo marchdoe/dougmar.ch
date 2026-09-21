@@ -498,7 +498,9 @@ describe('the React Engineer stalls', () => {
     const [first, retry] = run.callsFor('react-engineer')
     expect(retry.userPrompt).toBe(first.userPrompt)
     expect(retry.systemPrompt).toBe(first.systemPrompt)
-    expect(retry.options).toEqual(first.options)
+    // The same model and budget; only the ledger's reason for the call differs.
+    expect(first.options.purpose).toBe('first')
+    expect(retry.options).toEqual({ ...first.options, purpose: 'retry' })
     expect(run.retries).toBe(1)
 
     for (const rel of ENGINEER_OUTPUT) {

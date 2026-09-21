@@ -143,6 +143,23 @@ describe('claude-cli stall detection', () => {
     expect(err.message).toMatch(/stalled/)
   })
 
+  it('books the purpose of a call the stall check killed (#578)', async () => {
+    const { callClaudeCLI } = await import('../../scripts/utils/claude-cli.js')
+    const { getUsageRecords } = await import('../../scripts/utils/cost-ledger.js')
+
+    const rejected = callClaudeCLI('test-agent', 'system', 'user prompt', {
+      model: 'claude-sonnet-5',
+      timeoutMs: 60 * 60 * 1000,
+      stallTimeoutMs: 1000,
+      purpose: 'repair',
+    }).catch((err) => err)
+    await vi.advanceTimersByTimeAsync(35000)
+    await vi.advanceTimersByTimeAsync(6000)
+    await rejected
+
+    expect(getUsageRecords().map((r) => r.purpose)).toEqual(['repair'])
+  })
+
   it('books an unpriceable call when the hard timeout fires', async () => {
     const { callClaudeCLI } = await import('../../scripts/utils/claude-cli.js')
     const { getUsageRecords } = await import('../../scripts/utils/cost-ledger.js')

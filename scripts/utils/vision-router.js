@@ -67,11 +67,19 @@ export function blocksToText(contentBlocks) {
  * @param {Array<object>} opts.contentBlocks
  * @param {number} [opts.maxTokens]
  * @param {number} [opts.timeoutMs]
+ * @param {string} [opts.purpose]
  * @returns {Promise<{ channel: 'sdk-vision', text: string } |
  *   { channel: 'sdk-vision-truncated', error: VisionTruncatedError } |
  *   { channel: 'cli-text-fallback', fallback: true }>}
  */
-async function attemptSdkVision({ agentName, systemPrompt, contentBlocks, maxTokens, timeoutMs }) {
+async function attemptSdkVision({
+  agentName,
+  systemPrompt,
+  contentBlocks,
+  maxTokens,
+  timeoutMs,
+  purpose,
+}) {
   try {
     // Throws ModelTransportError on an empty reply, or the `truncated: true`
     // error from claude-sdk.js's assertNotTruncated on a max_tokens stop —
@@ -79,6 +87,7 @@ async function attemptSdkVision({ agentName, systemPrompt, contentBlocks, maxTok
     const text = await callClaudeSDK(agentName, systemPrompt, contentBlocks, {
       maxTokens,
       timeoutMs,
+      purpose,
     })
     if (!text?.trim()) {
       throw new ModelTransportError({ agent: agentName, channel: 'sdk-vision', emptyReply: true })
@@ -115,6 +124,7 @@ async function attemptSdkVision({ agentName, systemPrompt, contentBlocks, maxTok
  * @param {number} [args.maxTokens]
  * @param {number} [args.timeoutMs]
  * @param {number} [args.stallTimeoutMs] - CLI path only
+ * @param {string} [args.purpose] - why the call is made, for the ledger (`PURPOSES` in cost-ledger.js)
  * @param {(channel: string) => void} [args.onChannel] - told which channel
  *   actually answered: 'sdk-vision', 'sdk-vision-truncated' (the SDK saw the
  *   images but stopped at max_tokens; the call then throws), 'cli-text-fallback'
@@ -128,7 +138,8 @@ async function attemptSdkVision({ agentName, systemPrompt, contentBlocks, maxTok
  *   is thrown, never returned as text, so no caller can parse it as a verdict.
  */
 export async function callVisionAgent(args) {
-  const { agentName, systemPrompt, contentBlocks, maxTokens, timeoutMs, stallTimeoutMs } = args
+  const { agentName, systemPrompt, contentBlocks, maxTokens, timeoutMs, stallTimeoutMs, purpose } =
+    args
   const onChannel = args.onChannel ?? (() => {})
   const imageCount = contentBlocks.filter((block) => block.type === 'image').length
 
@@ -157,6 +168,7 @@ export async function callVisionAgent(args) {
       contentBlocks,
       maxTokens,
       timeoutMs,
+      purpose,
     })
     onChannel(result.channel)
     if (result.error) throw result.error
@@ -177,5 +189,6 @@ export async function callVisionAgent(args) {
     timeoutMs,
     stallTimeoutMs,
     channel: cliChannel,
+    purpose,
   })
 }

@@ -279,6 +279,14 @@ function normalizeCost(raw) {
     calls: typeof raw.calls === 'number' ? raw.calls : 0,
     retries: typeof raw.retries === 'number' ? raw.retries : 0,
     byAgent: Array.isArray(raw.byAgent) ? raw.byAgent : [],
+    // A night that took more than one attempt (#578). Absent, not empty, on a
+    // night that took one, so a record from before the field reads as before.
+    ...(Array.isArray(raw.priorAttempts)
+      ? {
+          priorAttempts: raw.priorAttempts,
+          night_usd: typeof raw.night_usd === 'number' ? raw.night_usd : null,
+        }
+      : {}),
   }
 }
 

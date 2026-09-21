@@ -27,6 +27,10 @@ on:
         description: 'Dry run — generate and verify build but do not commit'
         type: boolean
         default: false
+      resume_run_id:
+        description: "Resume a failed run: id of that run. Its paid Art Director and mockup responses are reused, so only the engineer onward is paid for again. Leave empty for a normal run."
+        type: string
+        default: ''
 
 # Prevent overlapping runs (cron + manual trigger) that would race on
 # git push to main. Queue instead of cancelling — we never want to
@@ -111,6 +115,7 @@ jobs:
     permissions:
       contents: read
       issues: write  # collect-ratings.js closes the harvested rating issue
+      actions: read  # a resume downloads another run's failure artifact (#578)
     outputs:
       date: ${{ steps.redesign.outputs.date }}
     env:
@@ -225,11 +230,70 @@ jobs:
         # logged internally, same non-blocking contract as collect-signals.js.
         run: node scripts/collect-references.js
 
+      # A night that took two attempts recorded half its cost: each run reads
+      # only its own ledger (#578). Every failed run opens an issue that says
+      # what it spent, and this reads them for today so the run that ships the
+      # night can record the rest. It is a step of its own because the pipeline
+      # step below gets no GitHub token. Never fails the run.
+      - name: Read the night's earlier failed attempts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TODAY="$(TZ=America/New_York date +%Y-%m-%d)"
+          gh issue list --label pipeline-failure --state all --limit 30 \
+            --search "Daily redesign failed in:title" --json number,title,body \
+            | node scripts/write-prior-attempts.js "$TODAY" \
+            || echo "::warning::could not read earlier failed attempts; this run prices itself alone"
+
+      # Resuming a failed night (#578). A manual dispatch that names the failed
+      # run downloads its failure artifact, which carries handoff.json: the paid
+      # responses of the Art Director and the mockup loop. The pipeline answers
+      # those stages from it and pays only for the engineer onward. The file is
+      # model output and is read as such: it is copied to a path, never run,
+      # and the pipeline sends its contents back through the parsers and gates
+      # a fresh reply meets. A scheduled run never takes this path: the three
+      # steps and the RESUME_HANDOFF variable all require the dispatch event.
+      - name: Check the run to resume
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.resume_run_id != '' }}
+        env:
+          RESUME_RUN_ID: ${{ inputs.resume_run_id }}
+        run: |
+          if ! [[ "$RESUME_RUN_ID" =~ ^[0-9]+$ ]]; then
+            echo "::error::resume_run_id must be a workflow run id (digits only)"
+            exit 1
+          fi
+
+      - name: Download the failed run's handoff
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.resume_run_id != '' }}
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: build-failed-${{ inputs.resume_run_id }}
+          path: ${{ runner.temp }}/resume
+          run-id: ${{ inputs.resume_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Stage the handoff for the pipeline
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.resume_run_id != '' }}
+        env:
+          RESUME_RUN_ID: ${{ inputs.resume_run_id }}
+        run: |
+          handoff="$(find "$RUNNER_TEMP/resume" -name handoff.json | sort | tail -n 1)"
+          if [ -z "$handoff" ]; then
+            echo "::error::run $RESUME_RUN_ID left no handoff.json: it failed before its first paid stage answered, so there is nothing to resume"
+            exit 1
+          fi
+          mkdir -p signals
+          cp "$handoff" signals/handoff.json
+          echo "handoff from run $RESUME_RUN_ID: $(wc -c < signals/handoff.json | tr -d ' ') bytes"
+
       - name: Run daily redesign
         id: redesign
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           DRY_RUN: ${{ inputs.dry_run || 'false' }}
+          # Only a manual dispatch that named a run to resume sets this, and
+          # the pipeline refuses it again on the schedule event.
+          RESUME_HANDOFF: ${{ github.event_name == 'workflow_dispatch' && inputs.resume_run_id != '' && 'signals/handoff.json' || '' }}
         # Writes `date=<YYYY-MM-DD>` to GITHUB_OUTPUT: the day the run is FOR,
         # which is signals.date, the Eastern day every archive path is keyed
         # on. The steps below read it rather than deriving their own.
@@ -317,6 +381,9 @@ jobs:
       # since the workflow was written has pointed at a path that does not
       # exist. Thirty days is long enough to debug a bad night and short
       # enough that failed builds do not accumulate.
+      #
+      # build-failed-*/ also holds cost.json (what the run spent, read by the
+      # `notify` job) and handoff.json (the paid responses a resume reuses).
       - name: Upload failure diagnostics
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -524,16 +591,48 @@ jobs:
     if: ${{ always() && (needs.redesign.result == 'failure' || needs.publish.result == 'failure') }}
     runs-on: ubuntu-latest
     permissions:
+      contents: read  # a sparse checkout of scripts/, to read the failed run's cost
       issues: write
     steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+          sparse-checkout: scripts
+
+      # What the failed run spent used to live only in the artifact, which
+      # expires, and in a directory that stays out of main (#578). It goes into
+      # the issue instead, where the run that ships the night reads it back.
+      # Only a failed `redesign` leaves the artifact; a failed push has none.
+      - name: Download the failure diagnostics
+        if: ${{ needs.redesign.result == 'failure' }}
+        continue-on-error: true
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: build-failed-${{ github.run_id }}
+          path: ${{ runner.temp }}/failed
+
+      - name: Read what the failed run spent
+        if: ${{ needs.redesign.result == 'failure' }}
+        env:
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: node scripts/print-failed-run-cost.js "$RUNNER_TEMP/failed" "$RUN_ID" "$RUN_ATTEMPT" > "$RUNNER_TEMP/failed-cost.md"
+
       - name: Notify on failure
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
+            const fs = require('fs')
             // The run may have died before it published its date; the
             // Eastern calendar day is the same clock the pipeline keys on.
             const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' })
             const title = `Daily redesign failed — ${today}`
+            // Written by the step above; absent when the push failed.
+            let spend = ''
+            try {
+              spend = fs.readFileSync(process.env.RUNNER_TEMP + '/failed-cost.md', 'utf8').trim()
+            } catch {}
+            const redesignFailed = '${{ needs.redesign.result }}' === 'failure'
             const body = [
               `The daily redesign pipeline failed.`,
               ``,
@@ -543,6 +642,13 @@ jobs:
               `**Commit:** ${context.sha.slice(0, 7)}`,
               ``,
               `The trace, the failing sources and the full build output are attached to that run as the \`build-failed-${context.runId}\` artifact (kept 30 days). Download it and start at \`trace.json\`; the run log has the same story in line order.`,
+              ...(spend ? [``, spend] : []),
+              ...(redesignFailed
+                ? [
+                    ``,
+                    `To try again without paying for the Art Director and the mockups a second time, dispatch Daily Redesign with \`resume_run_id\` set to \`${context.runId}\`. The artifact's \`handoff.json\` carries those responses; only the engineer onward is paid for.`,
+                  ]
+                : []),
             ].join('\n')
             await github.rest.issues.create({
               owner: context.repo.owner,

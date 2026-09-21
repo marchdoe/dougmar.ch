@@ -8,7 +8,7 @@ import { imageBlock, textBlock } from '../utils/claude-sdk.js'
 import { parseCriticVerdict } from '../utils/critic-verdict.js'
 import { DESIGN_FIDELITY_METHOD } from '../utils/design-fidelity.js'
 import { describeHeaderCropAnchor } from '../utils/snapshot.js'
-import { callVisionAgent } from '../utils/vision-router.js'
+import { callTapedVision } from '../utils/call-tape.js'
 
 /**
  * Render the numbers `measureDesignFidelity` measured on the rendered mockup
@@ -58,7 +58,7 @@ export function parseMockupCriticResponse(raw) {
 }
 
 /**
- * @param {{ systemPrompt: string, screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null, enrichedBrief: string, measurables: string, measured?: {canvas_utilization: number, color_coverage: number, hero_px: number}|null, measurablesDecl?: object|null, shell: string, header?: string, typeTreatment?: string, mobile?: string, collapse?: string|null }} ctx
+ * @param {{ systemPrompt: string, screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null, enrichedBrief: string, measurables: string, measured?: {canvas_utilization: number, color_coverage: number, hero_px: number}|null, measurablesDecl?: object|null, shell: string, header?: string, typeTreatment?: string, mobile?: string, collapse?: string|null, purpose?: string }} ctx
  * @returns {Promise<{ verdict: 'APPROVE'|'REVISE', feedback: string }>}
  */
 export async function runMockupCritic(ctx) {
@@ -66,10 +66,11 @@ export async function runMockupCritic(ctx) {
   // different thing from one reached with them, and verdicts.json is where
   // that has to be visible after the fact.
   let channel = 'unknown'
-  const raw = await callVisionAgent({
+  const raw = await callTapedVision({
     agentName: 'mockup-critic',
     systemPrompt: ctx.systemPrompt,
     contentBlocks: buildMockupCriticBlocks(ctx),
+    purpose: ctx.purpose,
     ...budgetFor('mockup-critic'),
     onChannel: (c) => {
       channel = c

@@ -9,6 +9,10 @@
  *
  * Environment variables:
  *   ANTHROPIC_API_KEY - required in production
+ *   RESUME_HANDOFF    - optional path to a failed run's handoff.json. The Art Director
+ *                       and the mockup loop are then answered from its tape, and
+ *                       only the engineer onward is paid for. The workflow sets it
+ *                       from a manual dispatch input only; a scheduled run refuses it.
  *   DRY_RUN=true      - optional; the workflow's dry_run input and the canary set
  *                       it. It only changes the closing log line. It does not
  *                       skip a model call or the archive, and nothing in this
@@ -29,6 +33,8 @@ import { execSync } from 'node:child_process'
 import { appendFileSync } from 'node:fs'
 import { readContext } from './utils/site-context.js'
 import { runAgentSwarm } from './design-agents.js'
+import { loadResume, restoreInputs } from './utils/handoff.js'
+import { ROOT } from './utils/file-manager.js'
 import { isMain } from './utils/cli.js'
 import { runDate } from './utils/run-date.js'
 
@@ -77,11 +83,24 @@ async function main() {
   publishRunDate(context.signals)
   console.log(`  mutable files found: ${context.currentFiles.length}`)
 
+  // A resume takes the inputs the failed run designed from (the signals and the
+  // references), so the record of the night and the copy gate's read of the
+  // day's quote match what the Art Director answered to. Refuses another day's
+  // handoff.
+  const resume = await loadResume(process.env, context.signals)
+  if (resume) {
+    console.log(
+      `  resuming from a failed run's handoff: ${resume.tape.length} response(s) on the tape`
+    )
+    await restoreInputs(resume, ROOT)
+    context.signals = resume.signals
+  }
+
   // Step 2: Run agent swarm (handles its own backup/restore/retry/archive)
   console.log('[2/3] Running agent swarm...')
   let result
   try {
-    result = await runAgentSwarm(context)
+    result = await runAgentSwarm(context, { tape: resume?.tape })
   } catch (err) {
     console.error(`\nAgent swarm failed: ${err.message}`)
     process.exit(1)
