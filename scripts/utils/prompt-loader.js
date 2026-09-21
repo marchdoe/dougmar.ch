@@ -4,7 +4,8 @@
  * The markdown under `scripts/prompts/` names the phone width as
  * `{{NARROW_PX}}`, and the number is filled in here from
  * `elements/chassis/viewports.js`, the same constant the ramp, the gates and
- * the captures read. The type-size floors the surface gate enforces are
+ * the captures read. The tablet is `{{TABLET_PX}}`, filled from the same file
+ * (#565). The type-size floors the surface gate enforces are
  * `{{SMALL_COPY_FLOOR_PX}}` and `{{SMALL_TEXT_FLOOR_PX}}`, filled from
  * `responsive-thresholds.js` at the same point (#567). A prompt read with
  * a bare `readFile` would send the token to the model unfilled, so every
@@ -26,7 +27,7 @@ import { readFileSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
+import { NARROW_VIEWPORT, TABLET_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { SMALL_COPY_FLOOR_PX, SMALL_TEXT_FLOOR_PX } from './responsive-thresholds.js'
 
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
@@ -34,6 +35,9 @@ const PROMPTS_REL = path.join('scripts', 'prompts')
 
 /** The token a prompt writes where it means the phone width in CSS pixels. */
 export const NARROW_PX_TOKEN = '{{NARROW_PX}}'
+
+/** The token a prompt writes where it means the tablet width in CSS pixels. */
+export const TABLET_PX_TOKEN = '{{TABLET_PX}}'
 
 /**
  * The tokens a prompt writes where it means a type-size floor the surface gate
@@ -44,10 +48,11 @@ export const SMALL_COPY_FLOOR_PX_TOKEN = '{{SMALL_COPY_FLOOR_PX}}'
 export const SMALL_TEXT_FLOOR_PX_TOKEN = '{{SMALL_TEXT_FLOOR_PX}}'
 
 /**
- * Replace every `{{NARROW_PX}}` with the phone width and every type-floor
- * token with its number. Any other `{{TOKEN}}` is left for whoever owns it.
+ * Replace every `{{NARROW_PX}}` with the phone width, every `{{TABLET_PX}}`
+ * with the tablet width and every type-floor token with its number. Any other
+ * `{{TOKEN}}` is left for whoever owns it.
  * @param {string} text
- * @param {{ narrowPx?: number, smallCopyPx?: number, smallTextPx?: number }} [options]
+ * @param {{ narrowPx?: number, tabletPx?: number, smallCopyPx?: number, smallTextPx?: number }} [options]
  *   each defaults to the constant it quotes
  * @returns {string}
  */
@@ -55,12 +60,14 @@ export function fillViewportTokens(
   text,
   {
     narrowPx = NARROW_VIEWPORT.width,
+    tabletPx = TABLET_VIEWPORT.width,
     smallCopyPx = SMALL_COPY_FLOOR_PX,
     smallTextPx = SMALL_TEXT_FLOOR_PX,
   } = {}
 ) {
   return text
     .replaceAll(NARROW_PX_TOKEN, String(narrowPx))
+    .replaceAll(TABLET_PX_TOKEN, String(tabletPx))
     .replaceAll(SMALL_COPY_FLOOR_PX_TOKEN, String(smallCopyPx))
     .replaceAll(SMALL_TEXT_FLOOR_PX_TOKEN, String(smallTextPx))
 }

@@ -1,5 +1,7 @@
 /**
- * Print the day's "Needs a human" section for the rating issue, or nothing.
+ * Print the day's "Needs a human" section for the rating issue, followed by
+ * the "Surface gate did not run" section when the gate threw (#565), or
+ * nothing.
  *
  * Run from the nightly workflow's `publish` job, after `Push changes` has
  * committed `archive/<date>/build-<id>/verdicts.json` into the local checkout —
@@ -14,7 +16,12 @@
  */
 
 import { isMain } from './utils/cli.js'
-import { buildNeedsHumanSection, readNeedsHumanEntries } from './utils/needs-human.js'
+import {
+  buildGateFailedSection,
+  buildNeedsHumanSection,
+  readGateFailedEntries,
+  readNeedsHumanEntries,
+} from './utils/needs-human.js'
 
 function main() {
   const date = process.argv[2]
@@ -22,7 +29,11 @@ function main() {
     console.error('usage: node scripts/print-needs-human-section.js <YYYY-MM-DD>')
     process.exit(1)
   }
-  process.stdout.write(buildNeedsHumanSection(readNeedsHumanEntries('archive', date)))
+  const sections = [
+    buildNeedsHumanSection(readNeedsHumanEntries('archive', date)),
+    buildGateFailedSection(readGateFailedEntries('archive', date)),
+  ].filter(Boolean)
+  process.stdout.write(sections.join('\n\n'))
 }
 
 if (isMain(import.meta.url)) {

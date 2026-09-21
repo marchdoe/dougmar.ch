@@ -1,7 +1,11 @@
 import { mkdir, writeFile, readFile, copyFile, readdir } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
-import { NARROW_VIEWPORT, WIDE_VIEWPORT } from '../../elements/chassis/viewports.js'
+import {
+  NARROW_VIEWPORT,
+  TABLET_VIEWPORT,
+  WIDE_VIEWPORT,
+} from '../../elements/chassis/viewports.js'
 import { ROOT } from './file-manager.js'
 import { captureSnapshot } from './snapshot.js'
 import { summarizeLedger } from './cost-ledger.js'
@@ -11,13 +15,16 @@ import { readUniquenessHistory } from './read-uniqueness-history.js'
 import { DESIGN_FIDELITY_METHOD } from './design-fidelity.js'
 
 /**
- * The ladder the responsive measurement walks. Its two ends are the pipeline's
- * own viewports; tablet and laptop are measured here and nowhere else.
- * Exported so a test can hold the narrow end to `NARROW_VIEWPORT`.
+ * The ladder the responsive measurement walks, after the night has shipped.
+ * The phone, the tablet and the desktop are the pipeline's own viewports, so
+ * they follow `elements/chassis/viewports.js`; the laptop is measured here and
+ * nowhere else. The tablet was 768x1024 until #565 put the gate's tablet rung
+ * at 820, and its `responsive-metrics.json` entries before that date are 768
+ * wide. Exported so a test can hold each rung to its constant.
  */
 export const RESPONSIVE_VIEWPORTS = [
   { name: 'mobile', ...NARROW_VIEWPORT },
-  { name: 'tablet', width: 768, height: 1024 },
+  { name: 'tablet', ...TABLET_VIEWPORT },
   { name: 'laptop', width: 1024, height: 768 },
   { name: 'desktop', ...WIDE_VIEWPORT },
 ]
