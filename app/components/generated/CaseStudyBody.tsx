@@ -1,119 +1,32 @@
 import { css } from '../../../styled-system/css'
+import type { projects } from '../../content/projects'
 
-type CaseProject = {
-  type: string
-  year: number
-  role?: string
-  timeline?: string
-  status?: string
-  problem?: string
-  approach?: string
-  outcome?: string
-  stack?: string[]
-  liveUrl?: string
-}
-
-export function CaseStudyBody({ project }: { project: CaseProject }) {
-  return (
-    <section
-      className={css({
-        position: 'relative',
-        bg: 'bg',
-        '@supports (animation-timeline: view())': {
-          animationName: 'rise',
-          animationTimeline: 'view()',
-          animationRange: 'entry 0% entry 40%',
-          animationFillMode: 'both',
-        },
-      })}
-    >
-      <div className={metaRowClass}>
-        <Meta k="type" v={project.type} />
-        <Meta k="year" v={String(project.year)} />
-        {project.role && <Meta k="role" v={project.role} />}
-        {project.timeline && <Meta k="timeline" v={project.timeline.replace(/\s*—\s*/g, ', ')} />}
-        {project.status && <Meta k="status" v={project.status} />}
-      </div>
-      {project.problem && <Block label="problem" text={project.problem} />}
-      {project.approach && <Block label="approach" text={project.approach} />}
-      {project.outcome && <Block label="outcome" text={project.outcome} />}
-      {project.stack && project.stack.length > 0 && (
-        <div className={blockWrapClass}>
-          <div className={labelClass}>stack</div>
-          <div className={css({ display: 'flex', flexWrap: 'wrap', gap: '2', marginTop: '3' })}>
-            {project.stack.map((s) => (
-              <span key={s} className={tagClass}>
-                {s}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-      {project.liveUrl && (
-        <div className={blockWrapClass}>
-          <a
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener"
-            className={css({
-              display: 'inline-flex',
-              alignItems: 'center',
-              minHeight: '44px',
-              paddingTop: '2',
-              paddingBottom: '2',
-              fontFamily: 'display',
-              fontSize: 'sm',
-              color: 'accent',
-              textDecoration: 'underline',
-            })}
-          >
-            visit live site
-          </a>
-        </div>
-      )}
-    </section>
-  )
-}
-
-function Meta({ k, v }: { k: string; v: string }) {
-  return (
-    <div>
-      <div
-        className={css({
-          fontFamily: 'body',
-          fontSize: '2xs',
-          textTransform: 'uppercase',
-          letterSpacing: 'wide',
-          color: 'textFaint',
-        })}
-      >
-        {k}
-      </div>
-      <div
-        className={css({
-          fontFamily: 'display',
-          fontSize: 'sm',
-          color: 'text',
-          textTransform: 'lowercase',
-        })}
-      >
-        {v}
-      </div>
-    </div>
-  )
-}
+type Project = (typeof projects)[number]
 
 function Block({ label, text }: { label: string; text: string }) {
   return (
-    <div className={blockWrapClass}>
-      <div className={labelClass}>{label}</div>
+    <div>
+      <span
+        className={css({
+          display: 'block',
+          fontFamily: 'body',
+          fontWeight: 'bold',
+          fontSize: 'xs',
+          letterSpacing: 'wide',
+          textTransform: 'uppercase',
+          color: 'textFaint',
+          marginBottom: '4',
+        })}
+      >
+        {label}
+      </span>
       <p
         className={css({
           fontFamily: 'body',
-          fontSize: 'base',
-          color: 'textMuted',
-          maxWidth: '62ch',
-          marginTop: '4',
+          fontSize: 'sm',
+          lineHeight: 'loose',
+          color: 'text',
+          maxWidth: '46ch',
         })}
       >
         {text}
@@ -122,46 +35,60 @@ function Block({ label, text }: { label: string; text: string }) {
   )
 }
 
-const metaRowClass = css({
-  display: 'flex',
-  flexWrap: 'wrap',
-  gap: '8',
-  paddingTop: { base: '6', md: '8' },
-  paddingBottom: { base: '6', md: '8' },
-  paddingLeft: { base: '5', md: '6vw' },
-  paddingRight: { base: '5', md: '6vw' },
-  borderBottom: '1px solid',
-  borderColor: 'borderStrong',
-})
-
-const blockWrapClass = css({
-  paddingTop: { base: '6', md: '8' },
-  paddingBottom: { base: '6', md: '8' },
-  paddingLeft: { base: '5', md: '6vw' },
-  paddingRight: { base: '5', md: '6vw' },
-  borderBottom: '1px solid',
-  borderColor: 'border',
-})
-
-const labelClass = css({
-  fontFamily: 'body',
-  fontWeight: 'bold',
-  fontSize: '2xs',
-  textTransform: 'uppercase',
-  letterSpacing: 'wide',
-  color: 'accent',
-})
-
-const tagClass = css({
-  fontFamily: 'display',
-  fontSize: 'xs',
-  color: 'text',
-  border: '1px solid',
-  borderColor: 'border',
-  borderRadius: 'sm',
-  paddingTop: '2',
-  paddingBottom: '2',
-  paddingLeft: '3',
-  paddingRight: '3',
-  textTransform: 'lowercase',
-})
+export function CaseStudyBody({ project }: { project: Project }) {
+  return (
+    <section
+      className={css({
+        bg: 'bg',
+        paddingInline: { base: '6vw', lg: '5vw' },
+        paddingBlock: '9',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '8',
+      })}
+    >
+      {project.problem ? <Block label="Problem" text={project.problem} /> : null}
+      {project.approach ? <Block label="Approach" text={project.approach} /> : null}
+      {project.outcome ? <Block label="Outcome" text={project.outcome} /> : null}
+      {project.stack && project.stack.length > 0 ? (
+        <div className={css({ display: 'flex', flexWrap: 'wrap', gap: '3' })}>
+          {project.stack.map((tech) => (
+            <span
+              key={tech}
+              className={css({
+                fontFamily: 'body',
+                fontWeight: 'bold',
+                fontSize: 'xs',
+                letterSpacing: 'wide',
+                textTransform: 'uppercase',
+                color: 'textFaint',
+                border: '1px solid',
+                borderColor: 'border',
+                borderRadius: 'sm',
+                paddingInline: '3',
+                paddingBlock: '1',
+              })}
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+      ) : null}
+      {project.liveUrl ? (
+        <a
+          href={project.liveUrl}
+          className={css({
+            display: 'inline-block',
+            fontFamily: 'body',
+            fontWeight: 'bold',
+            fontSize: 'sm',
+            color: 'accent',
+            paddingBlock: '2',
+          })}
+        >
+          Visit the live project.
+        </a>
+      ) : null}
+    </section>
+  )
+}

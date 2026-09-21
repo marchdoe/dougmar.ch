@@ -1,0 +1,115 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.2,
+          "passing": false
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "work",
+            "w": 35,
+            "h": 32
+          },
+          {
+            "tag": "A",
+            "text": "about",
+            "w": 40,
+            "h": 32
+          },
+          {
+            "tag": "A",
+            "text": "touch",
+            "w": 40,
+            "h": 32
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "tablet": {
+      "width": 820,
+      "height": 1180,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.2,
+          "passing": false
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "work",
+            "w": 35,
+            "h": 32
+          },
+          {
+            "tag": "A",
+            "text": "about",
+            "w": 40,
+            "h": 32
+          },
+          {
+            "tag": "A",
+            "text": "touch",
+            "w": 40,
+            "h": 32
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.2,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.2,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    }
+  },
+  "overallScore": 3,
+  "worstFailure": {
+    "viewport": "mobile",
+    "check": "bodyTextSize",
+    "detail": "body text min 14.2px (floor 16px)"
+  },
+  "buildId": "1790030223331",
+  "date": "2026-09-21",
+  "archetype": "a scoreboard made a fall poster"
+}

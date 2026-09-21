@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — Twenty-six under wins the Biltmore.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Libre+Franklin:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#7E3218; --bgAlt:#632512; --surface:#97401F;
+    --text:#FBEEE2; --textMuted:#F7D9C7; --textFaint:#ECB093;
+    --accent:#F0A03C; --accentText:#481A0D; --accentAlt:#F7BE6A;
+    --border:#B4512C; --borderStrong:#DD8862;
+    --field:#481A0D; --fieldInk:#FBEEE2; --fieldInkMuted:#ECB093; --fieldBorder:#97401F;
+    --display:'Anybody',system-ui,sans-serif;
+    --body:'Libre Franklin',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{margin:0;font-weight:inherit;text-wrap:balance;}
+  p{margin:0;text-wrap:pretty;}
+  a{color:var(--accent);text-decoration:none;transition:color 120ms ease;}
+  a:hover,a:focus-visible{color:var(--accentAlt);text-decoration:underline;text-underline-offset:2px;}
+  ::selection{background:var(--accent);color:var(--accentText);}
+  th,td{font-variant-numeric:tabular-nums;}
+
+  /* ---------- HERO / FIGURE FIELD ---------- */
+  .hero{
+    position:relative;
+    background:var(--field);
+    min-height:100vh;
+    overflow:hidden;
+    padding:24px 6vw 44px;
+    display:flex;
+    flex-direction:column;
+  }
+  .grain{
+    position:absolute;inset:0;pointer-events:none;z-index:0;
+    color:var(--text);opacity:0.2;
+  }
+  .grain svg{width:100%;height:100%;display:block;}
+
+  /* Brand lockup, top-left, single-color cream mark */
+  .lockup{
+    position:relative;z-index:5;
+    display:flex;align-items:center;gap:14px;
+    color:var(--fieldInk);
+    flex:0 0 auto;
+  }
+  .lockup .mark{
+    display:block;
+    width:53px;height:44px;
+    color:var(--fieldInk);
+    flex:0 0 auto;
+  }
+  .lockup .mark svg{
+    display:block;
+    width:53px;height:44px;
+    color:inherit;
+  }
+  .lockup .wordmark{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:26px;
+    line-height:1;
+    letter-spacing:-0.015em;
+    color:var(--fieldInk);
+  }
+
+  /* Ghost chase — type-as-texture leaderboard behind everything */
+  .chase{
+    position:absolute;inset:0;z-index:1;pointer-events:none;
+    display:flex;flex-direction:column;justify-content:center;
+    padding:0 4vw;
+    overflow:hidden;
+  }
+  .chase span{
+    font-family:var(--display);
+    font-style:italic;
+    font-weight:900;
+    font-size:clamp(58px,15vw,180px);
+    line-height:0.94;
+    color:var(--fieldInkMuted);
+    opacity:0.08;
+    white-space:nowrap;
+    letter-spacing:-0.02em;
+  }
+
+  /* field grid: figure + leaderboard within one full-bleed drench */
+  .field-grid{
+    position:relative;z-index:2;
+    flex:1 1 auto;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    gap:40px;
+    padding-top:32px;
+  }
+
+  .figblock{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:14px;
+  }
+  .figure{
+    font-family:var(--display);
+    font-style:italic;
+    font-weight:900;
+    font-size:clamp(96px,20vw,160px);
+    line-height:0.84;
+    letter-spacing:-0.03em;
+    color:var(--fieldInk);
+  }
+  .figure .par{
+    display:block;
+    font-family:var(--body);
+    font-style:normal;
+    font-weight:700;
+    font-size:12px;
+    letter-spacing:0.09em;
+    text-transform:uppercase;
+    color:var(--fieldInkMuted);
+    margin-top:12px;
+  }
+  h1.caption{
+    font-family:var(--display);
+    font-style:italic;
+    font-weight:700;
+    font-variant-caps:small-caps;
+    letter-spacing:0.02em;
+    font-size:clamp(22px,3vw,32px);
+    line-height:1.06;
+    color:var(--textMuted);
+    max-width:22ch;
+  }
+  .deck{
+    font-family:var(--body);
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(16px,2vw,20px);
+    line-height:1.4;
+    color:var(--textFaint);
+    max-width:42ch;
+  }
+
+  /* ---------- LEADERBOARD (clean tabular rows) ---------- */
+  .board{width:100%;}
+  .board-head{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:baseline;
+    gap:8px 18px;
+    border-bottom:1px solid var(--borderStrong);
+    padding-bottom:12px;
+    margin-bottom:4px;
+  }
+  .board-head h2{
+    font-family:var(--display);
+    font-weight:700;
+    font-variant-caps:small-caps;
+    letter-spacing:0.02em;
+    font-size:clamp(18px,2.2vw,24px);
+    color:var(--fieldInk);
+  }
+  .micro{
+    font-family:var(--body);
+    font-weight:500;
+    font-size:12px;
+    letter-spacing:0.09em;
+    text-transform:uppercase;
+    font-variant-caps:small-caps;
+    color:var(--fieldInkMuted);
+  }
+  .row{
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    align-items:baseline;
+    gap:10px 14px;
+    border-bottom:1px solid var(--fieldBorder);
+  }
+  /* accelerating rhythm: gaps tighten down the page */
+  .row:nth-of-type(1){padding:22px 0;}
+  .row:nth-of-type(2){padding:17px 0;}
+  .row:nth-of-type(3){padding:13px 0;}
+  .row:nth-of-type(4){padding:10px 0;}
+  .row:nth-of-type(5){padding:8px 0;}
+  .pos{
+    font-family:var(--body);
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:0.06em;
+    color:var(--fieldInkMuted);
+    min-width:2.4ch;
+  }
+  .who{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:clamp(19px,2.4vw,26px);
+    line-height:1.02;
+    color:var(--fieldInk);
+  }
+  .who small{
+    display:block;
+    font-family:var(--body);
+    font-weight:500;
+    font-size:12px;
+    letter-spacing:0.04em;
+    color:var(--fieldInkMuted);
+    margin-top:2px;
+  }
+  .score{
+    font-family:var(--display);
+    font-style:italic;
+    font-weight:900;
+    font-size:clamp(28px,3.6vw,44px);
+    line-height:1;
+    color:var(--accent);
+    font-variant-numeric:tabular-nums;
+  }
+  .row.win .who{color:var(--accentAlt);}
+  .row.win .score{
+    color:var(--accentAlt);
+    font-size:clamp(34px,4.6vw,56px);
+  }
+  .row.win .pos{color:var(--accentAlt);}
+
+  /* ---------- FOOTER DATA STRIP ---------- */
+  footer{
+    background:var(--bgAlt);
+    border-top:2px solid var(--borderStrong);
+    padding:40px 6vw 48px;
+  }
+  .nav-sentence{
+    font-family:var(--body);
+    font-weight:500;
+    font-size:15px;
+    font-variant-caps:small-caps;
+    letter-spacing:0.04em;
+    color:var(--textFaint);
+    line-height:1.6;
+    max-width:62ch;
+    margin-bottom:32px;
+  }
+  .nav-sentence a{
+    font-weight:700;
+    padding:2px 0;
+  }
+  .strip{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px 24px;
+    border-top:1px solid var(--border);
+    padding-top:28px;
+  }
+  .cell .label{
+    font-family:var(--body);
+    font-weight:700;
+    font-size:11px;
+    letter-spacing:0.09em;
+    text-transform:uppercase;
+    color:var(--textFaint);
+    margin-bottom:6px;
+  }
+  .cell .val{
+    font-family:var(--body);
+    font-weight:500;
+    font-size:15px;
+    color:var(--textMuted);
+    line-height:1.4;
+    font-variant-numeric:tabular-nums;
+  }
+  .cell .val b{font-weight:700;color:var(--text);}
+  .colophon{
+    grid-column:1/-1;
+    margin-top:8px;
+    padding-top:20px;
+    border-top:1px solid var(--border);
+    font-family:var(--body);
+    font-size:12px;
+    letter-spacing:0.04em;
+    color:var(--textFaint);
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px 16px;
+    justify-content:space-between;
+  }
+
+  /* ---------- TABLET ---------- */
+  @media (min-width:720px){
+    .strip{grid-template-columns:repeat(3,1fr);}
+  }
+
+  /* ---------- DESKTOP: radial / right-weighted, both zones in first fold ---------- */
+  @media (min-width:1000px){
+    .hero{padding:30px 5vw 56px;}
+    .field-grid{
+      display:grid;
+      grid-template-columns:42% 1fr;
+      grid-template-rows:1fr;
+      align-items:end;
+      gap:0 6vw;
+      padding-top:0;
+    }
+    .board{
+      grid-column:1;
+      grid-row:1;
+      align-self:end;
+    }
+    .figblock{
+      grid-column:2;
+      grid-row:1;
+      align-items:flex-end;
+      text-align:right;
+      align-self:center;
+      gap:18px;
+    }
+    h1.caption{max-width:24ch;}
+    .deck{max-width:44ch;}
+    .chase{align-items:flex-start;justify-content:flex-start;padding-top:12vh;}
+    .strip{grid-template-columns:repeat(5,1fr);}
+  }
+</style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="grain" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg">
+        <filter id="grainf">
+          <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/>
+          <feColorMatrix type="luminanceToAlpha"/>
+          <feFlood flood-color="currentColor"/>
+          <feComposite operator="in" in2="SourceGraphic"/>
+        </filter>
+        <rect width="100%" height="100%" filter="url(#grainf)"/>
+      </svg>
+    </div>
+
+    <!-- ghost chase: the field the winner beat, oversized and faint -->
+    <div class="chase" aria-hidden="true">
+      <span>JAMES −24</span>
+      <span>CASTILLO −23</span>
+      <span>SHIPLEY −23</span>
+      <span>POSTON −21</span>
+    </div>
+
+    <!-- brand lockup: single-color cream mark + wordmark, horizontal-md -->
+    <div class="lockup">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <title>Doug March logo</title>
+          <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="currentColor"/>
+          <circle cx="30.0829" cy="29.3002" r="0.98668" fill="currentColor"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="currentColor" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="currentColor" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3416" r="20.033" stroke="currentColor" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="currentColor" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3416" r="22.114" stroke="currentColor" stroke-width="0.25"/>
+          <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="wordmark">Doug March</span>
+    </div>
+
+    <div class="field-grid">
+      <div class="figblock">
+        <div class="figure">
+          −26
+          <span class="par">Winning score · four rounds · Asheville, N.C.</span>
+        </div>
+        <h1 class="caption">Twenty-six under wins the Biltmore.</h1>
+        <p class="deck">Jacob Bridgeman, two clear of the field at Asheville — the golf story of the day, stated plainly.</p>
+      </div>
+
+      <div class="board" aria-label="Final leaderboard">
+        <div class="board-head">
+          <h2>Final · The Biltmore Championship</h2>
+          <span class="micro">Monday finish · to par</span>
+        </div>
+        <div class="row win">
+          <span class="pos">1</span>
+          <span class="who">Jacob Bridgeman<small>Winner · led wire to wire</small></span>
+          <span class="score">−26</span>
+        </div>
+        <div class="row">
+          <span class="pos">2</span>
+          <span class="who">Ben James<small>Solo second, two back</small></span>
+          <span class="score">−24</span>
+        </div>
+        <div class="row">
+          <span class="pos">T3</span>
+          <span class="who">Ricky Castillo<small>Tied third</small></span>
+          <span class="score">−23</span>
+        </div>
+        <div class="row">
+          <span class="pos">T3</span>
+          <span class="who">Adam Shipley<small>Tied third</small></span>
+          <span class="score">−23</span>
+        </div>
+        <div class="row">
+          <span class="pos">5</span>
+          <span class="who">J.T. Poston<small>Fifth</small></span>
+          <span class="score">−21</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="nav-sentence">
+      See the <a href="#work">work</a>, read <a href="#about">about</a> Doug, or get in <a href="#contact">touch</a> — a designer and builder in Aldie, following golf, Detroit and the shape of good type.
+    </p>
+    <div class="strip">
+      <div class="cell">
+        <div class="label">Lions</div>
+        <div class="val">Lost <b>31–41</b></div>
+      </div>
+      <div class="cell">
+        <div class="label">SPY</div>
+        <div class="val"><b>773.51</b> · +1.55%</div>
+      </div>
+      <div class="cell">
+        <div class="label">Aldie, VA</div>
+        <div class="val">Patchy rain · <b>68°F</b></div>
+      </div>
+      <div class="cell">
+        <div class="label">Moon</div>
+        <div class="val">Waxing gibbous · <b>83%</b></div>
+      </div>
+      <div class="cell">
+        <div class="label">In rotation</div>
+        <div class="val">Guided by Voices · Tobin Sprout · My Morning Jacket</div>
+      </div>
+      <div class="colophon">
+        <span>Doug March — design &amp; engineering.</span>
+        <span>Sunday, September 21, 2026.</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,24 +1,44 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { css } from '../../styled-system/css'
 import { projects } from '../content/projects'
-import { Masthead } from '../components/generated/Masthead'
-import { CaseStudyBody } from '../components/generated/CaseStudyBody'
 import { WhitePaper } from '../components/WhitePaper'
-import { WorkFoot } from '../components/generated/WorkFoot'
+import { CaseStudyHero } from '../components/generated/CaseStudyHero'
+import { CaseStudyBody } from '../components/generated/CaseStudyBody'
 
-export const Route = createFileRoute('/work/$slug')({ component: WorkDetailPage })
+export const Route = createFileRoute('/work/$slug')({ component: WorkPage })
 
-function WorkDetailPage() {
+function WorkPage() {
   const { slug } = Route.useParams()
-  const index = projects.findIndex((p) => p.slug === slug)
-  const project = projects[index] ?? projects[0]
-  const prev = projects[index - 1]
-  const next = projects[index + 1]
+  const project = projects.find((item) => item.slug === slug)
+
+  if (!project) {
+    return (
+      <section
+        className={css({
+          bg: 'field',
+          paddingBlock: '9',
+          paddingInline: { base: '6vw', lg: '5vw' },
+        })}
+      >
+        <h1
+          className={css({
+            fontFamily: 'display',
+            fontStyle: 'italic',
+            fontWeight: 'bold',
+            fontSize: '3xl',
+            color: 'fieldInk',
+          })}
+        >
+          Project not found.
+        </h1>
+      </section>
+    )
+  }
 
   return (
     <>
-      <Masthead heroContent={<>{project.title}</>} heroVariant="title" />
+      <CaseStudyHero project={project} />
       {project.slug === 'dougmar-ch' ? <WhitePaper /> : <CaseStudyBody project={project} />}
-      <WorkFoot prev={prev} next={next} />
     </>
   )
 }

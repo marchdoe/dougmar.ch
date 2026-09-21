@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { css } from '../../styled-system/css'
 import { BrandLockup } from '../components/BrandLockup'
-import { Ground } from '../components/Material'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
@@ -23,50 +22,42 @@ function OgCard() {
           position: 'relative',
           width: '1200px',
           height: '630px',
-          overflow: 'hidden',
           bg: 'field',
-          color: 'fieldInk',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
           padding: '9',
         })}
       >
-        <Ground material="mesh" seed={1975965606} />
-        <div
+        <div className={css({ display: 'flex', alignItems: 'center', color: 'fieldInk' })}>
+          <BrandLockup variant="horizontal-md" mode="single-color" roleLine={false} />
+        </div>
+        <h1
           className={css({
-            position: 'relative',
-            zIndex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            height: '100%',
+            fontFamily: 'display',
+            fontStyle: 'italic',
+            fontWeight: 'bold',
+            fontSize: 'hero',
+            lineHeight: 'tight',
+            letterSpacing: 'tight',
+            color: 'fieldInk',
           })}
         >
-          <BrandLockup variant="stacked-lg" mode="original" />
-          <h1
-            className={css({
-              fontFamily: 'display',
-              fontWeight: 'normal',
-              textTransform: 'lowercase',
-              color: 'fieldInk',
-              fontSize: 'hero',
-              lineHeight: 'tight',
-              letterSpacing: 'tight',
-              maxWidth: '18ch',
-            })}
-          >
-            <span className={css({ color: 'accent' })}>ten years independent.</span> still the
-            vehicle for the next experiment.
-          </h1>
-          <div
-            className={css({
-              fontFamily: 'display',
-              fontSize: 'sm',
-              color: 'fieldInkMuted',
-              textTransform: 'lowercase',
-            })}
-          >
-            doug march, design and engineering
-          </div>
-        </div>
+          Twenty-six under wins the Biltmore.
+        </h1>
+        <span
+          className={css({
+            fontFamily: 'body',
+            fontWeight: 'bold',
+            fontSize: 'sm',
+            letterSpacing: 'wide',
+            textTransform: 'uppercase',
+            color: 'fieldInkMuted',
+          })}
+        >
+          Doug March, design and engineering.
+        </span>
       </div>
     </div>
   )

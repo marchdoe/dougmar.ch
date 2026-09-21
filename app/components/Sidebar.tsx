@@ -1,32 +1,18 @@
 import { css } from '../../styled-system/css'
+import { BrandLockup } from './BrandLockup'
 
-// The Type Treatment's "vertical" texture: a decorative locator line, rotated
-// and set in vertical writing mode. Purely decorative, hidden from the a11y tree.
 export function Sidebar() {
   return (
     <div
-      aria-hidden="true"
       className={css({
-        display: { base: 'none', md: 'flex' },
         position: 'absolute',
-        top: 0,
-        left: '10px',
-        bottom: 0,
-        alignItems: 'flex-end',
-        paddingBottom: '9',
-        writingMode: 'vertical-rl',
-        transform: 'rotate(180deg)',
-        transformOrigin: 'center',
-        fontFamily: 'display',
-        fontSize: '2xs',
-        letterSpacing: 'widest',
-        textTransform: 'lowercase',
-        color: 'fieldInkMuted',
-        pointerEvents: 'none',
-        zIndex: 2,
+        top: { base: '6', lg: '8' },
+        left: { base: '6vw', lg: '5vw' },
+        zIndex: 5,
+        color: 'fieldInk',
       })}
     >
-      ashburn, virginia, est. 2016, spaceman llc
+      <BrandLockup variant="horizontal-md" mode="single-color" roleLine={false} />
     </div>
   )
 }

@@ -12,15 +12,17 @@
 [data-archive-frame] .af-date{font-variant-numeric:tabular-nums;white-space:nowrap}
 [data-archive-frame] .af-note{color:rgba(244,244,245,.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 [data-archive-frame] .af-how{margin-left:auto;padding:5px 10px;white-space:nowrap;border:1px solid rgba(255,255,255,.24)}
-@media (max-width:640px){[data-archive-frame]{gap:10px;font-size:12px}[data-archive-frame] .af-note{display:none}}
+[data-archive-frame] .af-short{display:none}
+@media (max-width:640px){[data-archive-frame]{gap:10px;padding:0 8px;font-size:12px;border-bottom:0;box-shadow:inset 0 -1px 0 rgba(255,255,255,.14)}[data-archive-frame] .af-note{display:none}[data-archive-frame] .af-home{display:flex;align-items:center;align-self:stretch;min-width:44px;margin-left:0;padding:0 10px}[data-archive-frame] .af-x{width:44px;height:44px}[data-archive-frame] .af-how{position:relative;display:flex;align-items:center;justify-content:center;align-self:stretch;min-width:44px;padding:0 10px;border:0}[data-archive-frame] .af-how::before{content:"";position:absolute;top:8px;right:0;bottom:8px;left:0;border:1px solid rgba(255,255,255,.24);border-radius:5px}}
+@media (max-width:479px){[data-archive-frame] .af-long{display:none}[data-archive-frame] .af-short{display:inline}}
 html{scroll-padding-top:52px}
 body{padding-top:44px!important}
 </style>
 <a class="af-home" href="/archive" rel="nofollow">&larr; Archive</a>
 <span class="af-nav"><a class="af-x" href="/archive/2026-03-17/" rel="nofollow" title="Previous build — 2026-03-17">&lsaquo;</a><a class="af-x" href="/archive/2026-03-19/" rel="nofollow" title="Next build — 2026-03-19">&rsaquo;</a></span>
-<span class="af-date">March 18, 2026</span>
+<span class="af-date"><span class="af-long">March 18, 2026</span><span class="af-short">Mar 18</span></span>
 <span class="af-note">Archived design &mdash; not the current site</span>
-<a class="af-how" href="/how/2026-03-18" rel="nofollow">How it was made</a>
+<a class="af-how" href="/how/2026-03-18" rel="nofollow" aria-label="How it was made"><span class="af-long">How it was made</span><span class="af-short">How</span></a>
 </div><link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&amp;family=Work+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/><div class="min-h_100vh bg_bg c_text ff_body"><header style="height:64px" class="bd-b_1px_solid bd-c_borderNav"><div class="d_flex ai_center jc_space-between h_100% max-w_1280px m_0_auto pl_12 pr_12"><a href="index.html" class="td_none"><div class="ff_heading fw_bold fs_sm c_text ls_wide">Doug March</div></a><div class="d_flex ai_center gap_6"><a href="index.html" class="td_none"><div class="ff_body fw_medium fs_2xs c_textMuted ls_widest tt_uppercase trs_color_200ms_ease hover:c_text">Work</div></a><a href="about.html" class="td_none"><div class="ff_body fw_medium fs_2xs c_textMuted ls_widest tt_uppercase trs_color_200ms_ease hover:c_text">About</div></a></div></div></header><main class=""><!--$--><style>
         .proj-back:hover { color: #D4841E !important; }
         .proj-cta:hover { color: #9E5E0D !important; }

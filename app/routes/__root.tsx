@@ -57,34 +57,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Ten years independent. Still the vehicle for the next experiment.' },
-      {
-        property: 'og:title',
-        content: 'Ten years independent. Still the vehicle for the next experiment.',
-      },
+      { title: 'Twenty-six under wins the Biltmore.' },
+      { property: 'og:title', content: 'Twenty-six under wins the Biltmore.' },
       {
         property: 'og:description',
         content:
-          'Teal-void register: a decade of experiments cataloged in lowercase monospace, one standfirst above seven numbered rows, fog-teal blooms on near-black, the real mark glowing top-left.',
+          "Terracotta drench for a mountain championship: −26 leaning italic at poster scale over a ghosted chase, cream mark in the corner, the field's scores in marigold, Detroit's loss stated flat below.",
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-20.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-21.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      {
-        name: 'twitter:title',
-        content: 'Ten years independent. Still the vehicle for the next experiment.',
-      },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-20.png' },
+      { name: 'twitter:title', content: 'Twenty-six under wins the Biltmore.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-21.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Libre+Franklin:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -253,7 +247,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 141 designs
+            Archive · 142 designs
           </a>
         )}
         <ScrollRestoration />
