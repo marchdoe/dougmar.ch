@@ -29,6 +29,25 @@ export const projects: Project[] = [
 export const featured = projects.filter((p) => p.slug === 'a')
 `
 
+/** The shape timeline.ts has since #638: derived from a sibling content file. */
+const RESUME = `
+export type Role = { company: string; title: string; startDate: string; endDate: string }
+export const resumeExperience: Role[] = [
+  { company: 'Acme', title: 'Vice President', startDate: '2025', endDate: 'Present' },
+  { company: 'Globex', title: '', startDate: '2020', endDate: '2022' },
+]
+`
+
+const TIMELINE_FROM_RESUME = `
+import { resumeExperience } from './resume'
+export type Entry = { year: string; role: string; company: string }
+export const timeline: Entry[] = resumeExperience.map((r) => ({
+  year: r.endDate === 'Present' ? r.startDate + ' to present' : r.startDate + ' to ' + r.endDate,
+  role: r.title,
+  company: r.company,
+}))
+`
+
 /** A root with content files written under app/content. */
 async function rootWith(files) {
   const root = await tempRepoRoot('dm-content-gaps-')
@@ -159,5 +178,33 @@ describe('fillContentGaps', () => {
     await expect(fillContentGaps('no token here', { root: '/nowhere' })).rejects.toThrow(
       /react-engineer\.md is missing its \{\{CONTENT_GAPS\}\} placeholder/
     )
+  })
+})
+
+describe('readContentExports resolves a sibling content import (#638)', () => {
+  it('reads timeline.ts derived from resume.ts, with no problem reported', async () => {
+    const root = await rootWith({ 'resume.ts': RESUME, 'timeline.ts': TIMELINE_FROM_RESUME })
+    const { exports, problems } = await readContentExports({ root })
+    expect(problems).toEqual([])
+    expect(exports.timeline).toEqual([
+      { year: '2025 to present', role: 'Vice President', company: 'Acme' },
+      { year: '2020 to 2022', role: '', company: 'Globex' },
+    ])
+    // The gap check sees through to the derived rows.
+    expect(findContentGaps(exports)).toContainEqual({
+      field: 'timeline[].role',
+      empty: 1,
+      absent: 0,
+      total: 2,
+    })
+  })
+
+  it('names a cycle instead of recursing forever', async () => {
+    const root = await rootWith({
+      'a.ts': "import { b } from './b'\nexport const a = b",
+      'b.ts': "import { a } from './a'\nexport const b = a",
+    })
+    const { problems } = await readContentExports({ root })
+    expect(problems.some((p) => p.includes('import each other'))).toBe(true)
   })
 })

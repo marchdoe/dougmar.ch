@@ -341,11 +341,11 @@ type TimelineEntry = {
   current?: boolean; bullets?: string[]; technologies?: string[];
 }
 type Education = { school: string; degree: string; concentration: string; years: string }
-const timeline: TimelineEntry[]   // 11 entries from 2006 to present
-// LAYOUT: The `year` field is years only — ranges like "2014 — 2017" or single years
-// like "2017". The year column MUST have a fixed width (e.g. min-width: 120px or fixed
-// flex-basis) so that single-year entries ("2017") align identically to ranges
-// ("2014 — 2017"). The role/company columns must start at the same horizontal position
+const timeline: TimelineEntry[]   // 12 entries from 2006 to present, from the résumé (resume.ts)
+// LAYOUT: The `year` field is years only, written out: "2018", "2014 to 2017",
+// "2025 to present". Never a dash. The year column MUST have a fixed width (e.g.
+// min-width: 120px or fixed flex-basis) so that single-year entries align identically
+// to ranges. The role/company columns must start at the same horizontal position
 // for every row regardless of year string length.
 const education: Education
 const capabilities: string[]

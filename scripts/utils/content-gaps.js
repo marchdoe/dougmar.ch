@@ -13,8 +13,10 @@
  * cannot tell an empty `role` from one that holds a value on the next line, so
  * this strips the types with Node's own `stripTypeScriptTypes` and reads the
  * exports as data. The files are hand-written data in this repo, which is why
- * running them is safe here; a file that needs an import at runtime is
- * reported as unreadable rather than guessed at.
+ * running them is safe here. A file that imports a sibling content file
+ * (timeline.ts reads resume.ts, #638) gets that sibling the same way; a file
+ * that needs anything else at runtime is reported as unreadable rather than
+ * guessed at.
  *
  * @module
  */
@@ -120,11 +122,14 @@ export async function readContentExports({ root = ROOT } = {}) {
   const merged = {}
   const problems = []
   if (!existsSync(dir)) return { exports: merged, problems: [`${CONTENT_DIR} does not exist`] }
-  for (const file of readdirSync(dir)
+  const files = readdirSync(dir)
     .filter((f) => f.endsWith('.ts'))
-    .sort()) {
+    .sort()
+  const sources = new Map(files.map((f) => [f, readFileSync(path.join(dir, f), 'utf8')]))
+  const urls = new Map()
+  for (const file of files) {
     try {
-      Object.assign(merged, await importTypeScript(readFileSync(path.join(dir, file), 'utf8')))
+      Object.assign(merged, await import(moduleUrl(file, sources, urls)))
     } catch (err) {
       problems.push(`${CONTENT_DIR}/${file}: ${String(err?.message ?? err).split('\n')[0]}`)
     }
@@ -133,19 +138,36 @@ export async function readContentExports({ root = ROOT } = {}) {
 }
 
 /**
- * Evaluate a data-only TypeScript module. Node warns once that
- * `stripTypeScriptTypes` is experimental; the warning goes to stderr and the
- * night's log, and nothing else.
+ * A data: URL for one content file, its types stripped and its relative
+ * imports of sibling content files rewritten to their own data: URLs first.
+ * A data: module cannot resolve `./resume`, and timeline.ts reads from it
+ * (#638). Node warns once that `stripTypeScriptTypes` is experimental; the
+ * warning goes to stderr and the night's log, and nothing else.
  *
- * @param {string} source
- * @returns {Promise<Record<string, unknown>>}
+ * @param {string} file the content file's name
+ * @param {Map<string, string>} sources every content file's source, by name
+ * @param {Map<string, string>} urls the URLs built so far, by name
+ * @param {string[]} [chain] the files being built, for a cycle
+ * @returns {string}
  */
-async function importTypeScript(source) {
+function moduleUrl(file, sources, urls, chain = []) {
+  const built = urls.get(file)
+  if (built) return built
+  if (chain.includes(file))
+    throw new Error(`content files import each other: ${[...chain, file].join(' -> ')}`)
   if (typeof nodeModule.stripTypeScriptTypes !== 'function') {
     throw new Error('this Node has no module.stripTypeScriptTypes')
   }
-  const js = nodeModule.stripTypeScriptTypes(source)
-  return { ...(await import(`data:text/javascript;base64,${Buffer.from(js).toString('base64')}`)) }
+  const source = sources.get(file)
+  if (source == null) throw new Error(`${CONTENT_DIR}/${file} is not a content file`)
+  const js = nodeModule
+    .stripTypeScriptTypes(source)
+    .replace(/(from\s+)(['"])\.\/([\w.-]+?)(?:\.ts)?\2/g, (_, from, quote, name) => {
+      return `${from}${quote}${moduleUrl(`${name}.ts`, sources, urls, [...chain, file])}${quote}`
+    })
+  const url = `data:text/javascript;base64,${Buffer.from(js).toString('base64')}`
+  urls.set(file, url)
+  return url
 }
 
 /**
