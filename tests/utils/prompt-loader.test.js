@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest'
 import { NARROW_VIEWPORT, TABLET_VIEWPORT } from '../../elements/chassis/viewports.js'
 import {
   DATA_BOUNDARY_RULE_TOKEN,
+  LINE_LENGTH_MAX_CHARS_TOKEN,
   NARROW_PX_TOKEN,
   SMALL_COPY_FLOOR_PX_TOKEN,
   SMALL_TEXT_FLOOR_PX_TOKEN,
@@ -15,6 +16,7 @@ import {
   loadPromptSync,
 } from '../../scripts/utils/prompt-loader.js'
 import {
+  LINE_LENGTH_MAX_CHARS,
   SMALL_COPY_FLOOR_PX,
   SMALL_TEXT_FLOOR_PX,
 } from '../../scripts/utils/responsive-thresholds.js'
@@ -340,5 +342,46 @@ describe('prompt sources do not state a type-size floor as a number', () => {
       '- Body text ≥ 16px at all viewports.',
     ]
     for (const line of before) expect(SIZE.test(line) && FLOOR_WORDS.test(line), line).toBe(true)
+  })
+})
+
+describe('the line-length limit is a token filled from responsive-thresholds.js (#569)', () => {
+  it('fillViewportTokens fills it, and defaults to the constant it quotes', () => {
+    const text = 'under {{LINE_LENGTH_MAX_CHARS}} characters, {{LINE_LENGTH_MAX_CHARS}} again'
+    expect(fillViewportTokens(text)).toBe(
+      `under ${LINE_LENGTH_MAX_CHARS} characters, ${LINE_LENGTH_MAX_CHARS} again`
+    )
+    expect(fillViewportTokens(text, { lineLengthChars: 72 })).toBe('under 72 characters, 72 again')
+    expect(LINE_LENGTH_MAX_CHARS_TOKEN).toBe('{{LINE_LENGTH_MAX_CHARS}}')
+  })
+
+  it('leaves near-miss spellings for their owner', () => {
+    const text = '{{ LINE_LENGTH_MAX_CHARS }} {{line_length_max_chars}} {{LINE_LENGTH_MAX_CHARS_}}'
+    expect(fillViewportTokens(text)).toBe(text)
+  })
+
+  it('is the number the gate is calibrated on', () => {
+    expect(LINE_LENGTH_MAX_CHARS).toBe(80)
+  })
+
+  // Every prompt that states the limit. A prompt that loses its token has gone
+  // back to quoting a number nothing checks against the gate.
+  it.each(['react-engineer.md', 'screenshot-critic.md'])(
+    '%s states the limit with the token, and the loader fills it',
+    async (file) => {
+      const raw = readFileSync(path.join(PROMPTS, file), 'utf8')
+      const loaded = await loadPrompt(file)
+      expect(raw, `${file} lost ${LINE_LENGTH_MAX_CHARS_TOKEN}`).toContain(
+        LINE_LENGTH_MAX_CHARS_TOKEN
+      )
+      expect(loaded).not.toContain(LINE_LENGTH_MAX_CHARS_TOKEN)
+      expect(loaded).toMatch(new RegExp(`${LINE_LENGTH_MAX_CHARS}\\s+characters`))
+    }
+  )
+
+  it('tells the engineer that ch overshoots in a narrow face, and to work to 45 to 50ch', async () => {
+    const loaded = await loadPrompt('react-engineer.md')
+    expect(loaded).toContain('`ch` is the width of a `0`')
+    expect(loaded).toContain('Work to 45 to 50ch')
   })
 })

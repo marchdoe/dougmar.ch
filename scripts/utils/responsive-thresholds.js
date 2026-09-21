@@ -39,3 +39,13 @@ export const SMALL_COPY_FLOOR_PX = 14
  * small-text.test.js fails if this ever passes the smallest step.
  */
 export const SMALL_TEXT_FLOOR_PX = 11
+
+/**
+ * The most characters a line of running copy may hold (#569). Measured on the
+ * rendered lines, not read off a `max-width`: `62ch` set 2026-09-20's `/about`
+ * role descriptions at 75 characters a line in Archivo, because `ch` is the
+ * width of a zero and Archivo's letters are narrower than its zero. The prompts
+ * quote it as `{{LINE_LENGTH_MAX_CHARS}}`. Calibrated in
+ * docs/evidence/legibility-measurements/.
+ */
+export const LINE_LENGTH_MAX_CHARS = 80
