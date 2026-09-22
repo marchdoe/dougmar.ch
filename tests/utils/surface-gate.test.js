@@ -8,6 +8,7 @@ import {
   WIDE_VIEWPORT,
 } from '../../elements/chassis/viewports.js'
 import {
+  allFindingsFresh,
   evaluateMeasurement,
   formatFindingsForCritic,
   formatAdvisoryForRepairBrief,
@@ -970,5 +971,38 @@ describe('formatFindingsForCritic marks a fault the last round already reported 
   it('marks nothing without a previous round', () => {
     const text = formatFindingsForCritic([fault('<SPAN> holds text wider than its own box')])
     expect(text).not.toContain('STILL PRESENT')
+  })
+})
+
+describe('allFindingsFresh (#635)', () => {
+  const fault = (detail) => ({
+    surface: '/about',
+    viewport: 'mobile',
+    width: 360,
+    scheme: 'light',
+    kind: 'clipped',
+    severity: 'error',
+    detail,
+  })
+
+  it('is true when none of the current faults were in the round before', () => {
+    const previous = [fault('<SPAN> holds text wider than its own box: "Director..."')]
+    const now = [fault('<H2> holds text wider than its own box: "Capabilities..."')]
+    expect(allFindingsFresh(now, previous)).toBe(true)
+  })
+
+  it('is false when any current fault matches one from the round before', () => {
+    const previous = [fault('<SPAN> holds text wider than its own box: "Director..."')]
+    const now = [
+      fault('<SPAN> holds text wider than its own box: "Director..."'),
+      fault('<H2> holds text wider than its own box: "Capabilities..."'),
+    ]
+    expect(allFindingsFresh(now, previous)).toBe(false)
+  })
+
+  it('is false with no round before to compare against', () => {
+    const now = [fault('<H2> holds text wider than its own box: "Capabilities..."')]
+    expect(allFindingsFresh(now, null)).toBe(false)
+    expect(allFindingsFresh(now, undefined)).toBe(false)
   })
 })

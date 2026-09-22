@@ -130,6 +130,46 @@ describe('buildScreenshotCriticBlocks', () => {
     )
   })
 
+  // #635: the final re-judge hit its 16,000-token output cap twice on
+  // 2026-09-21. The measured faults block is exact and already final by the
+  // time a rejudge runs — nothing the critic adds to it is new — so a
+  // rejudge is told not to restate it as an Issue, where a first pass gets
+  // no such instruction: it still needs the critic driving that round's
+  // revision.
+  it('tells a rejudge not to re-list the measured faults it was given (#635)', () => {
+    const ctx = {
+      ...baseCtx,
+      measuredFaults: '## Measured layout faults\n\n- [error] /experiments at 1440px: 657px wider',
+    }
+    const rejudgeText = buildScreenshotCriticBlocks({ ...ctx, purpose: 'rejudge' })
+      .filter((b) => b.type === 'text')
+      .map((b) => b.text)
+      .join('\n')
+    expect(rejudgeText).toMatch(/final re-judge/i)
+    expect(rejudgeText).toMatch(/do not list a measured fault/i)
+
+    const firstPassText = buildScreenshotCriticBlocks({ ...ctx, purpose: 'first' })
+      .filter((b) => b.type === 'text')
+      .map((b) => b.text)
+      .join('\n')
+    expect(firstPassText).not.toMatch(/final re-judge/i)
+
+    const noPurposeText = buildScreenshotCriticBlocks(ctx)
+      .filter((b) => b.type === 'text')
+      .map((b) => b.text)
+      .join('\n')
+    expect(noPurposeText).not.toMatch(/final re-judge/i)
+  })
+
+  it('adds no rejudge instruction when nothing was measured wrong', () => {
+    const blocks = buildScreenshotCriticBlocks({
+      ...baseCtx,
+      measuredFaults: '',
+      purpose: 'rejudge',
+    })
+    expect(blocks.some((b) => b.type === 'text' && /final re-judge/i.test(b.text))).toBe(false)
+  })
+
   it('adds route captures as PNG, announced once', () => {
     const blocks = buildScreenshotCriticBlocks({
       ...baseCtx,

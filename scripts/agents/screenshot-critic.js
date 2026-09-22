@@ -152,6 +152,11 @@ function routeShotBlocks(existing, routeShots) {
  * @param {string|null} [ctx.collapse] - the composition's collapse axis value
  * @param {string} [ctx.measuredFaults] - rendered output of
  *   `surface-gate.formatFindingsForCritic`; empty string when nothing is wrong
+ * @param {'first'|'rejudge'} [ctx.purpose] - why the critic is asked (#635):
+ *   'rejudge' adds an instruction not to re-list `ctx.measuredFaults` as an
+ *   Issue of its own, the cause found for the final re-judge writing enough
+ *   output (measured faults restated across sections 5 and 10 as well as its
+ *   own words) to hit the 16k cap twice on 2026-09-21 and return UNVERIFIED
  * @param {string} [ctx.references] - design reference block, if any; it carries
  *   awwwards and sidebar titles a stranger wrote, so it goes inside a boundary tag
  * @param {string} [ctx.boundaryId] - the run's boundary suffix (data-boundary.js);
@@ -193,6 +198,19 @@ export function buildScreenshotCriticBlocks(ctx) {
       ctx.motion && `## Motion Declaration (section 12 is judged against this)\n\n${ctx.motion}`
     ),
     ...prose(ctx.measuredFaults),
+    ...prose(
+      ctx.purpose === 'rejudge' &&
+        ctx.measuredFaults &&
+        'This is the final re-judge, after every revision round the run had time for. The ' +
+          'Measured layout faults block above is exact and already final — the engineer either ' +
+          'fixed each one or ran out of rounds trying, and repeating it in your own words adds ' +
+          'nothing. Do not list a measured fault as one of your Issues, in this section or any ' +
+          'other (overflow and clipping show up under Polish and the phone sections too, not ' +
+          'only under the block itself). List an Issue only for a failure your own reading of the ' +
+          'images finds that measurement cannot: composition, hierarchy, typography, spec and ' +
+          'mockup fidelity, motion. If the images show nothing beyond what the block already ' +
+          'says, write no Issues for it.'
+    ),
     ...prose(
       ctx.references &&
         `## Design References\n\n${wrapAsData('references', ctx.references, boundaryId)}`

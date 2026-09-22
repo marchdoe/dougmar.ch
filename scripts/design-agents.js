@@ -233,6 +233,17 @@ async function captureOgCard(date, { root = ROOT, writtenPaths } = {}) {
 export const MAX_REVISION_ROUNDS = 3
 
 /**
+ * The hard ceiling on revisions once #635's extra round is spent. Run 6 on
+ * 2026-09-21 went 46 → 6 → (build broke, restored) → 3 errors, one
+ * engineer-owned and freshly introduced by round 3's own fix; the round-3
+ * cap left it no chance to try again, and the night was refused $5.31 in
+ * over a fault a $0.50 round might have cleared. `earnsExtraRound` below
+ * decides when that fourth round is worth spending; this constant is the
+ * most it may ever spend.
+ */
+export const EXTRA_REVISION_ROUND_CAP = 4
+
+/**
  * Only the engineer has a revision path. A critic that names another agent
  * (`**Responsible agent:** art-director`) used to fall through in silence:
  * no call, no log, an open trace step, and the round-1 build shipped with the
@@ -254,9 +265,55 @@ function findingsOf(gate) {
   return gate ? gate.findings : null
 }
 
+/**
+ * Whether the round that just used up the loop's cap earns one more (#635):
+ * one or two engineer-owned faults left, and every one of them fresh —
+ * absent from the round before, so the fix that just ran moved a fault
+ * rather than leaving it in place. A fault already STILL PRESENT once has
+ * had its try; three faults or more is not a near miss worth a fourth round.
+ * @param {Array<object>} remaining - this round's engineer-owned faults
+ * @param {Array<object>|null} previousFindings - the round before's findings
+ * @param {(findings: Array<object>, previousFindings: Array<object>|null) => boolean} allFindingsFresh
+ *   `surface-gate.js`'s freshness check, passed in rather than imported at
+ *   module scope: `runAgentSwarm` loads `surface-gate.js` dynamically.
+ * @returns {boolean}
+ */
+function earnsExtraRound(remaining, previousFindings, allFindingsFresh) {
+  return (
+    (remaining.length === 1 || remaining.length === 2) &&
+    allFindingsFresh(remaining, previousFindings)
+  )
+}
+
+/**
+ * The revision loop's cap, extended by one (#635) when the round that just
+ * used it up earns it, or left unchanged. Logs the grant; a cap that does not
+ * change logs nothing, since `describeLeftover` right after already says the
+ * round is spent. Pulled out of `runRevisionRounds` so the loop reads as one
+ * decision per iteration rather than inlining the four conditions this needs.
+ * @param {number} round
+ * @param {number} cap
+ * @param {Array<object>} remaining - this round's engineer-owned faults
+ * @param {Array<object>|null} previousFindings - the round before's findings
+ * @param {(findings: Array<object>, previousFindings: Array<object>|null) => boolean} allFindingsFresh
+ * @returns {number}
+ */
+function grantExtraRoundIfEarned(round, cap, remaining, previousFindings, allFindingsFresh) {
+  const earned =
+    round === cap &&
+    cap < EXTRA_REVISION_ROUND_CAP &&
+    !pastDeadline() &&
+    earnsExtraRound(remaining, previousFindings, allFindingsFresh)
+  if (!earned) return cap
+  console.warn(
+    `  [surface-gate] round ${round} left ${remaining.length} fresh engineer-owned fault(s), none present before the last revision — spending one more round (#635)`
+  )
+  return cap + 1
+}
+
 /** The log line for a revision that rebuilt and still left measured faults. */
-function describeLeftover(round, count) {
-  const next = round < MAX_REVISION_ROUNDS ? ' — revising again' : ''
+function describeLeftover(round, count, cap) {
+  const next = round < cap ? ' — revising again' : ''
   return `  [surface-gate] revision ${round} left ${count} engineer-owned fault(s)${next}`
 }
 
@@ -2408,6 +2465,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
         advisoryFaultsForOwner,
         formatAdvisoryForRepairBrief,
         findingLocation,
+        allFindingsFresh,
       } = await import('./utils/surface-gate.js')
       const { runCopyGate } = await import('./utils/copy-gate.js')
       const { readRevisionRequest, describeRevision, logNoRevision, recordFinalJudgment } =
@@ -2601,6 +2659,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
           phoneFilmstrips,
           desktopFilmstrips,
           measuredFaults: formatMeasuredForCritic(gate),
+          purpose,
         })
 
         return await runScreenshotCritic({
@@ -2636,10 +2695,18 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
        * passing state on disk on every path but `rebuilt` (#432), and says
        * which path it took so the round loop can decide what to do next.
        *
-       * @param {{ agent: string, feedback: string, round: number, verdict: string }} args
+       * @param {{ agent: string, feedback: string, round: number, verdict: string, cap?: number }} args
+       *   `cap` is the round count this attempt is logged against — MAX_REVISION_ROUNDS
+       *   unless #635's extra round has already been granted
        * @returns {Promise<{ outcome: string, regate?: object|null, error?: string }>}
        */
-      async function attemptRevision({ agent, feedback, round, verdict }) {
+      async function attemptRevision({
+        agent,
+        feedback,
+        round,
+        verdict,
+        cap = MAX_REVISION_ROUNDS,
+      }) {
         const config = reactEngineerAgentConfig
         // The revision is a stage with its own row in the trace (#578): what
         // asked for it, and how it ended.
@@ -2655,9 +2722,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
             feedback: feedback.slice(0, 500),
           },
         })
-        console.log(
-          `  revision ${round}/${MAX_REVISION_ROUNDS}: retrying ${agent} with the report...`
-        )
+        console.log(`  revision ${round}/${cap}: retrying ${agent} with the report...`)
         noteRetry()
         // The retry result replaces engineerResult so the archive records
         // what's actually on disk; keep the passing result to fall back to.
@@ -2740,9 +2805,12 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
 
       /**
        * Up to MAX_REVISION_ROUNDS revisions, each on the faults the previous
-       * one left. A round that rebuilt is re-measured; a round that did not
-       * (patch refused, build broke, call failed) leaves the round-1 build on
-       * disk, so the next round gets the original report plus what went
+       * one left, plus one more (#635) when the round that hit that cap left
+       * one or two engineer-owned faults and every one of them is fresh — the
+       * fix moved the fault rather than leaving it in place, EXTRA_REVISION_
+       * ROUND_CAP total. A round that rebuilt is re-measured; a round that did
+       * not (patch refused, build broke, call failed) leaves the round-1 build
+       * on disk, so the next round gets the original report plus what went
        * wrong. The final re-judge runs once, on whatever build is on disk.
        *
        * @param {{ responsibleAgent: string, feedback: string, verdict: string }} args
@@ -2770,7 +2838,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
         let rebuilt = false
         let report = feedback
         let rounds = 0
-        for (let round = 1; round <= MAX_REVISION_ROUNDS; round++) {
+        // Extended to EXTRA_REVISION_ROUND_CAP, once, when the round that hit
+        // this cap earns the extra round below.
+        let cap = MAX_REVISION_ROUNDS
+        for (let round = 1; round <= cap; round++) {
           if (pastDeadline()) {
             console.warn(`  [deadline] run budget exhausted — skipping revision ${round}`)
             openStep(trace, { name: 'revision', phase: 4, input: { round } })({
@@ -2779,7 +2850,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
             break
           }
           rounds = round
-          const attempt = await attemptRevision({ agent, feedback: report, round, verdict })
+          const attempt = await attemptRevision({ agent, feedback: report, round, verdict, cap })
           if (attempt.outcome !== 'rebuilt') {
             // A critic-only revision (nothing measured wrong on disk) ends
             // here, as it always did: the passing build stands.
@@ -2804,7 +2875,15 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
           }
           remaining = faultsForOwner(lastGate.findings, 'react-engineer')
           if (remaining.length === 0) break
-          console.warn(describeLeftover(round, remaining.length))
+
+          cap = grantExtraRoundIfEarned(
+            round,
+            cap,
+            remaining,
+            findingsOf(previous),
+            allFindingsFresh
+          )
+          console.warn(describeLeftover(round, remaining.length, cap))
           report = feedbackFor(lastGate.findings, '', { previous: findingsOf(previous) })
         }
 
