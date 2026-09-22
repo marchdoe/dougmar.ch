@@ -20,7 +20,10 @@ import { Route } from '../../app/routes/elements'
 const read = (file: string) => readFileSync(path.join(process.cwd(), file), 'utf8')
 
 type Parsed = Record<string, Record<string, unknown>> & {
-  colors: { ramps: Record<string, Record<string, string> | string>; semantic: Record<string, string> }
+  colors: {
+    ramps: Record<string, Record<string, string> | string>
+    semantic: Record<string, string>
+  }
 }
 
 /**
