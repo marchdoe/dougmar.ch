@@ -111,6 +111,7 @@ import { sweepGenerated } from './utils/generated-sweep.js'
 import { countArchivedDesigns } from './utils/archive-count.js'
 import { archiveLinkInks } from './utils/archive-link-ink.js'
 import { criticPurpose, designerPurpose, settleMockupRound } from './utils/mockup-rounds.js'
+import { mockupDriftRecord } from './utils/mockup-advisory.js'
 import { newBoundaryId } from './utils/data-boundary.js'
 export { parseDelimiterResponse }
 
@@ -484,6 +485,9 @@ async function writeArchetype(date, archetype, { root = ROOT } = {}) {
  *   revision round the critic saw (#487) — the mockup-side counterpart to
  *   `measurablesDecl`/measurables.json, which only ever measured the built
  *   page.
+ * @param {Array<{round: number, findings: Array<object>, briefed: Array<string>}>|null|undefined} run.mockupFidelityRounds
+ *   where each surface-gate round's `/` drifted from the approved mockup, and
+ *   what of it reached the engineer's brief (mockup-advisory.js)
  * @returns {Record<string, Buffer|string|null>}
  */
 export function archiveArtifacts(run) {
@@ -537,6 +541,11 @@ export function archiveArtifacts(run) {
     // mockup the critic actually approved).
     'mockup-measurables.json': run.mockupMeasurableRounds?.length
       ? json({ rounds: run.mockupMeasurableRounds, declared: run.measurablesDecl ?? null })
+      : null,
+    // The build's `/` against the approved mockup's text, per gate round.
+    // Nothing when no round had a mockup to compare against.
+    'mockup-fidelity.json': run.mockupFidelityRounds?.length
+      ? json({ rounds: run.mockupFidelityRounds })
       : null,
   }
 }
@@ -1785,6 +1794,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
     // so the mockup-versus-build gap is visible for every round the critic
     // saw, not only the last — archived as mockup-measurables.json.
     const mockupMeasurableRounds = []
+    // Where each surface-gate round's build drifted from the approved mockup,
+    // archived as mockup-fidelity.json. Only rounds that had a mockup to
+    // compare against are recorded.
+    const mockupFidelityRounds = []
     // Every round's mockup and screenshot, so the loop can ship an earlier
     // round when the critic never approves one and a later round measured
     // worse (#573).
@@ -2366,6 +2379,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
           chosenLane,
           measurablesDecl,
           mockupMeasurableRounds,
+          mockupFidelityRounds,
         }),
         { root }
       )
@@ -2486,7 +2500,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
       async function measureSurfaces(round) {
         const t0Gate = Date.now()
         try {
-          const measured = await runSurfaceGate({ root })
+          const measured = await runSurfaceGate({
+            root,
+            mockupLayout: mockupScreenshot?.layout ?? null,
+          })
           const copy = await runCopyGate({ root })
           // A new object, not a push into the measured one: the caller's
           // result is its own to keep.
@@ -2496,6 +2513,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
             findings,
             errorCount: findings.filter((f) => f.severity === 'error').length,
           }
+          const drift = recordMockupDrift(round, gate.mockupFindings)
           console.log(
             `  [surface-gate] round ${round}: ${gate.measured} measurements, ${copy.scanned} files read for copy, ${describeGateErrors(gate.errorCount, faultsForOwner(gate.findings, 'human').length)} in ${((Date.now() - t0Gate) / 1000).toFixed(1)}s`
           )
@@ -2510,6 +2528,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
               measured: gate.measured,
               errorCount: gate.errorCount,
               findings: gate.findings,
+              mockupDrift: drift,
             },
             durationMs: Date.now() - t0Gate,
           })
@@ -2533,6 +2552,24 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
           recordGateFailure({ verdicts, trace, round, err, durationMs: Date.now() - t0Gate })
           return null
         }
+      }
+
+      /**
+       * Log one round's mockup comparison and keep it for mockup-fidelity.json.
+       * Advisory only: nothing here feeds `errorCount` or a verdict.
+       * @param {number} round
+       * @param {Array<object>|null|undefined} findings - null when nothing was compared
+       * @returns {object|null} the archived record, or null
+       */
+      function recordMockupDrift(round, findings) {
+        if (!findings) return null
+        const record = mockupDriftRecord(round, findings)
+        mockupFidelityRounds.push(record)
+        console.log(
+          `  [mockup-fidelity] round ${round}: ${findings.length} finding(s), ${record.briefed.length} for the brief`
+        )
+        for (const line of record.briefed) console.log(`    ${line}`)
+        return record
       }
 
       const firstGate = await measureSurfaces(1)
@@ -2672,19 +2709,23 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
 
       /**
        * The repair brief's report: the critic's words (if any), then the
-       * measured errors on engineer-owned surfaces, then the tap-target
-       * warnings that ride along for free (#488).
-       * @param {Array<object>} findings - a gate round's findings
+       * measured errors on engineer-owned surfaces, then the warnings that
+       * ride along for free: tap targets (#488) and where the build drifts
+       * from the approved mockup.
+       * @param {{ findings: Array<object>, mockupFindings?: Array<object>|null }|null} gate
+       *   a gate round, or null when it did not measure
        * @param {string} [criticFeedback]
        * @param {{ previous?: Array<object>|null }} [opts] the round before, so a fault
        *   still there is marked as such in the brief
        * @returns {string}
        */
-      function feedbackFor(findings, criticFeedback = '', { previous = null } = {}) {
+      function feedbackFor(gate, criticFeedback = '', { previous = null } = {}) {
+        const findings = findingsOf(gate) ?? []
+        const advisories = [...findings, ...(gate?.mockupFindings ?? [])]
         return [
           criticFeedback,
           formatFindingsForCritic(faultsForOwner(findings, 'react-engineer'), { previous }),
-          formatAdvisoryForRepairBrief(advisoryFaultsForOwner(findings, 'react-engineer')),
+          formatAdvisoryForRepairBrief(advisoryFaultsForOwner(advisories, 'react-engineer')),
         ]
           .filter(Boolean)
           .join('\n\n')
@@ -2884,7 +2925,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
             allFindingsFresh
           )
           console.warn(describeLeftover(round, remaining.length, cap))
-          report = feedbackFor(lastGate.findings, '', { previous: findingsOf(previous) })
+          report = feedbackFor(lastGate, '', { previous: findingsOf(previous) })
         }
 
         if (rebuilt) await rejudgeFinal(lastGate, remaining)
@@ -2977,7 +3018,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
           // along too, after the errors (#488): a revision is already
           // opening this file, which is the cheapest point there ever is to
           // also widen a link.
-          const feedback = feedbackFor(surfaceFindings, criticFeedback)
+          const feedback = feedbackFor(firstGate, criticFeedback)
 
           console.log(describeRevision(screenshotVerdict, responsibleAgent, engineerFaults.length))
           console.log(`  feedback: ${feedback.slice(0, 200)}...`)

@@ -27,6 +27,7 @@ import {
   BRAND_MARK_MIN_PX,
   BRAND_CONTRAST_MIN,
 } from '../../scripts/utils/surface-gate.js'
+import { MOCKUP_ADVISORY_HEADING } from '../../scripts/utils/mockup-advisory.js'
 
 const ok = {
   id: 'home',
@@ -463,6 +464,22 @@ describe('advisoryFaultsForOwner', () => {
     expect(advisoryFaultsForOwner([], 'react-engineer')).toEqual([])
     expect(advisoryFaultsForOwner(undefined, 'react-engineer')).toEqual([])
   })
+
+  it('carries the mockup findings the brief lists, and not mockup-shift', () => {
+    const findings = [
+      finding('/', 'mockup-hierarchy'),
+      finding('/', 'mockup-missing'),
+      finding('/', 'mockup-scale'),
+      finding('/', 'text-cut'),
+      finding('/', 'mockup-shift'),
+    ]
+    expect(advisoryFaultsForOwner(findings, 'react-engineer').map((f) => f.kind)).toEqual([
+      'mockup-hierarchy',
+      'mockup-missing',
+      'mockup-scale',
+      'text-cut',
+    ])
+  })
 })
 
 describe('measureRoute runs the tap-target check on the mobile rung', () => {
@@ -594,6 +611,35 @@ describe('formatAdvisoryForRepairBrief', () => {
 
   it('does not block the build in its own words', () => {
     expect(formatAdvisoryForRepairBrief([tapTarget])).toContain('do not block the build')
+  })
+
+  const hierarchy = {
+    surface: '/',
+    width: 1440,
+    kind: 'mockup-hierarchy',
+    severity: 'warning',
+    detail: "largest text in mockup is 'both' (158px); in build it is 'deep in' (122px)",
+    facts: {
+      shape: 'replaced',
+      dropped: [],
+      leader: { text: 'both', mockupPx: 158 },
+      buildLeader: { text: 'deep in', buildPx: 122, mockupPx: 44 },
+    },
+  }
+
+  it('gives the mockup findings their own heading, after the tap targets', () => {
+    const out = formatAdvisoryForRepairBrief([hierarchy, tapTarget])
+    const tapAt = out.indexOf(`## Advisory at ${NARROW_VIEWPORT.width}`)
+    const mockupAt = out.indexOf(MOCKUP_ADVISORY_HEADING)
+    expect(tapAt).toBeGreaterThan(-1)
+    expect(mockupAt).toBeGreaterThan(tapAt)
+    expect(out).toContain("'deep in' is 44px in the mockup.")
+  })
+
+  it('leaves out the tap-target heading when only mockup findings came', () => {
+    const out = formatAdvisoryForRepairBrief([hierarchy])
+    expect(out.startsWith(MOCKUP_ADVISORY_HEADING)).toBe(true)
+    expect(out).not.toContain('## Advisory at')
   })
 })
 

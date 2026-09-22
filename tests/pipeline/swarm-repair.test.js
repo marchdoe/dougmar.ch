@@ -47,6 +47,7 @@ const { MUTABLE_FILES } = await import('../../scripts/utils/site-context.js')
 const { parseDelimiterResponse } = await import('../../scripts/utils/delimiter-parser.js')
 const { formatFindingsForCritic } = await import('../../scripts/utils/surface-gate.js')
 const { renderedCopyFindings } = await import('../../scripts/utils/copy-gate.js')
+const { MOCKUP_ADVISORY_HEADING } = await import('../../scripts/utils/mockup-advisory.js')
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
@@ -1113,6 +1114,113 @@ describe('after the build passes: the screenshot critic and the surface gate', (
     // After the errors, as the issue asks.
     expect(revision.userPrompt.indexOf(errors)).toBeLessThan(advisoryIdx)
     expect(revision.userPrompt).toContain(TAP_TARGET_AT_360.detail)
+  })
+})
+
+describe('mockup drift in the repair brief', () => {
+  // The local canary that prompted this: the build set the mockup's 44px
+  // caption at 122px, over the 158px hero, and nothing told the engineer.
+  const HIERARCHY = {
+    surface: '/',
+    route: '/',
+    scheme: 'light',
+    viewport: 'desktop',
+    width: 1440,
+    kind: 'mockup-hierarchy',
+    severity: 'warning',
+    detail: "largest text in mockup is 'both' (158px); in build it is 'deep in' (122px)",
+    facts: {
+      shape: 'replaced',
+      dropped: [],
+      leader: { text: 'both', mockupPx: 158 },
+      buildLeader: { text: 'deep in', buildPx: 122, mockupPx: 44 },
+    },
+  }
+  const SHIFT = {
+    ...HIERARCHY,
+    viewport: 'phone',
+    width: 360,
+    kind: 'mockup-shift',
+    detail: "'work' moved from (40, 600) in the mockup to (40, 700) in the build; crossed the fold",
+    facts: undefined,
+  }
+  const LAYOUT = { desktop: [{ text: 'BOTH' }], phone: [{ text: 'BOTH' }] }
+  const MOCKUP_CAPTURE = {
+    png: Buffer.from('mockup'),
+    jpeg: Buffer.from('mockup'),
+    mobileJpeg: Buffer.from('mockup-360'),
+    layout: LAYOUT,
+  }
+  const gateWith = (findings, mockupFindings) => ({
+    findings,
+    measured: 8,
+    errorCount: findings.filter((f) => f.severity === 'error').length,
+    mockupFindings,
+  })
+
+  it('hands the approved mockup layout to every gate round', async () => {
+    const run = await runSwarm({ mockupCapture: [MOCKUP_CAPTURE] })
+    expect(run.error).toBeNull()
+    expect(run.fakes.runSurfaceGate.map((c) => c.mockupLayout)).toEqual([LAYOUT])
+  })
+
+  it('does not revise for mockup drift alone', async () => {
+    const run = await runSwarm({ gate: [gateWith([], [HIERARCHY])] })
+    expect(run.error).toBeNull()
+    expect(run.callsFor('react-engineer')).toHaveLength(1)
+  })
+
+  it('carries hierarchy into the revision brief after the errors, and leaves shift out', async () => {
+    const run = await runSwarm({
+      gate: [gateWith([OVERFLOW_AT_390], [HIERARCHY, SHIFT]), CLEAN_GATE],
+    })
+    expect(run.error).toBeNull()
+    const [first, revision] = run.callsFor('react-engineer')
+    expect(first.userPrompt).not.toContain(MOCKUP_ADVISORY_HEADING)
+
+    const advisoryIdx = revision.userPrompt.indexOf(MOCKUP_ADVISORY_HEADING)
+    expect(advisoryIdx).toBeGreaterThan(-1)
+    expect(revision.userPrompt.indexOf(formatFindingsForCritic([OVERFLOW_AT_390]))).toBeLessThan(
+      advisoryIdx
+    )
+    expect(revision.userPrompt).toContain(
+      "The mockup's largest text is 'both' at 158px; the build sets 'deep in' at 122px. " +
+        "Restore the mockup's hierarchy: 'deep in' is 44px in the mockup."
+    )
+    expect(revision.userPrompt).not.toContain(SHIFT.detail)
+    // The critic is not handed the drift: it was never in the gate's findings.
+    const critic = run.calls.find((c) => c.agent === 'screenshot-critic')
+    expect(JSON.stringify(critic)).not.toContain('deep in')
+  })
+
+  it('leaves the section out of the brief when the build matched the mockup', async () => {
+    const run = await runSwarm({ gate: [gateWith([OVERFLOW_AT_390], []), CLEAN_GATE] })
+    expect(run.error).toBeNull()
+    const [, revision] = run.callsFor('react-engineer')
+    expect(revision.userPrompt).not.toContain(MOCKUP_ADVISORY_HEADING)
+  })
+
+  it('archives every round it compared as mockup-fidelity.json, shift included', async () => {
+    const run = await runSwarm({
+      gate: [gateWith([OVERFLOW_AT_390], [HIERARCHY, SHIFT]), gateWith([], [SHIFT])],
+    })
+    expect(run.error).toBeNull()
+    const { buildDir } = run.fakes.archive[0]
+    const written = JSON.parse(readFileSync(path.join(buildDir, 'mockup-fidelity.json'), 'utf8'))
+    expect(written.rounds.map((r) => r.round)).toEqual([1, 2])
+    expect(written.rounds[0].findings.map((f) => f.kind)).toEqual([
+      'mockup-hierarchy',
+      'mockup-shift',
+    ])
+    expect(written.rounds[0].briefed).toHaveLength(1)
+    expect(written.rounds[1].briefed).toEqual([])
+  })
+
+  it('archives no mockup-fidelity.json when no round had a mockup to compare', async () => {
+    const run = await runSwarm({})
+    expect(run.error).toBeNull()
+    const { buildDir } = run.fakes.archive[0]
+    expect(existsSync(path.join(buildDir, 'mockup-fidelity.json'))).toBe(false)
   })
 })
 

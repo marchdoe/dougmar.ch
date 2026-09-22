@@ -137,6 +137,7 @@ describe('archiveArtifacts', () => {
       'motion-strip.jpg',
       'fingerprint.json',
       'mockup-measurables.json',
+      'mockup-fidelity.json',
     ]) {
       expect(out[name], name).toBeNull()
     }
@@ -245,6 +246,23 @@ describe('archiveArtifacts', () => {
     const written = JSON.parse(out['mockup-measurables.json'])
     expect(written.rounds).toEqual(mockupMeasurableRounds)
     expect(written.declared).toEqual(measurablesDecl)
+  })
+
+  it('archives where each gate round drifted from the mockup as mockup-fidelity.json', () => {
+    const mockupFidelityRounds = [
+      {
+        round: 1,
+        findings: [{ kind: 'mockup-shift', width: 360, detail: 'moved' }],
+        briefed: [],
+      },
+      {
+        round: 2,
+        findings: [{ kind: 'text-cut', width: 1440, detail: 'cut' }],
+        briefed: ['- / at 1440px: cut'],
+      },
+    ]
+    const out = archiveArtifacts({ ...base, mockupFidelityRounds })
+    expect(JSON.parse(out['mockup-fidelity.json'])).toEqual({ rounds: mockupFidelityRounds })
   })
 })
 

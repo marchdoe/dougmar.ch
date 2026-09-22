@@ -19,6 +19,7 @@ import { ROOT } from './file-manager.js'
 import { STEP_BUDGETS } from './budgets.js'
 import { FINGERPRINT_VIEWPORT, collectGeometry } from './geometry-fingerprint.js'
 import { measureDesignFidelity } from './design-fidelity.js'
+import { readPageLayout } from './mockup-fidelity.js'
 import { hasFirstPaintMotion } from './motion-grammar.js'
 
 /** MIME type per client-mark extension, for the data: URI the snapshot inlines (#505). */
@@ -1261,14 +1262,16 @@ export async function captureScreenshot(port, { headerCrop, motion } = {}) {
  *
  * @param {string} filePath - absolute path to the HTML file
  * @param {{ width?: number, height?: number, headerCrop?: { placement?: string|null, heightPx?: number|null } }} [opts]
- * @returns {Promise<{png: Buffer, jpeg: Buffer, headerJpeg: Buffer|null, headerCropAnchor: 'mark'|'placement'|null, mobileJpeg: Buffer|null, measured: {canvas_utilization: number, color_coverage: number, hero_px: number}}>}
+ * @returns {Promise<{png: Buffer, jpeg: Buffer, headerJpeg: Buffer|null, headerCropAnchor: 'mark'|'placement'|null, mobileJpeg: Buffer|null, measured: {canvas_utilization: number, color_coverage: number, hero_px: number}, layout: Record<string, Array<object>>|null}>}
  *   image buffers — PNG for archives, JPEG (downscaled, q70) for critic
  *   prompts (see captureScreenshot), plus a 2x crop of the declared header
  *   region, the same mockup rendered at the phone rung, and the
  *   design-fidelity numbers (#487) measured on this same page at the
  *   viewport size above — the achieved-side counterpart the built page
  *   already gets from `scoreResponsive`'s desktop rung, so the Mockup
- *   Critic stops estimating them by eye.
+ *   Critic stops estimating them by eye. `layout` is the mockup's text at
+ *   1440 and 360 (`readPageLayout`), which the surface gate holds the
+ *   build's `/` against; null when it could not be read.
  */
 export async function captureHtmlFileScreenshot(
   filePath,
@@ -1298,9 +1301,28 @@ export async function captureHtmlFileScreenshot(
     // and engineering, and until now it had never seen anything past 640px
     // of the phone (#466).
     const mobileJpeg = await capturePhoneFilmstrip(browser, `file://${filePath}`)
-    return { png, jpeg, headerJpeg, headerCropAnchor, mobileJpeg, measured }
+    const layout = await readMockupLayout(browser, `file://${filePath}`)
+    return { png, jpeg, headerJpeg, headerCropAnchor, mobileJpeg, measured, layout }
   } finally {
     await browser.close()
+  }
+}
+
+/**
+ * The mockup's text layout, or null when it could not be read: the capture
+ * above feeds the critic that blocks the run, and a comparison that only
+ * produces advisories must not take it down with it.
+ *
+ * @param {import('playwright').Browser} browser
+ * @param {string} url
+ * @returns {Promise<Record<string, Array<object>>|null>}
+ */
+async function readMockupLayout(browser, url) {
+  try {
+    return await readPageLayout(browser, url)
+  } catch (err) {
+    console.warn(`  [mockup-fidelity] mockup layout not read (non-blocking): ${err.message}`)
+    return null
   }
 }
 

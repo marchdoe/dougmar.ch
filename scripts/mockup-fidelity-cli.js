@@ -12,8 +12,9 @@
  * every archived date that has both.
  *
  * Prints each date's findings as JSON, plus a one-line summary of counts per
- * finding kind. Phase 1-2 only: this is not wired into the nightly pipeline
- * or any gate — see mockup-fidelity.js's module doc.
+ * finding kind. The nightly runs the same comparison inside the surface gate
+ * and archives it per build as mockup-fidelity.json; this replays it over
+ * nights already shipped.
  */
 
 import { parseArgs } from 'node:util'
@@ -22,12 +23,7 @@ import path from 'node:path'
 import { archivedDates } from './utils/archive-fs.js'
 import { pickBuild } from './utils/archive-record.js'
 import { ROOT } from './utils/file-manager.js'
-import { compareLayouts, extractTextSegments } from './utils/mockup-fidelity.js'
-
-const VIEWPORTS = [
-  { name: 'desktop', width: 1440, height: 900 },
-  { name: 'phone', width: 360, height: 640 },
-]
+import { compareMockupLayout, readPageLayout } from './utils/mockup-fidelity.js'
 
 const { values } = parseArgs({
   options: {
@@ -60,53 +56,20 @@ function pathsForDate(date) {
 }
 
 /**
- * Extract text segments from a local HTML file at one viewport. Reduced
- * motion, like `measureStranded` (render-health.js): a capture that never
- * scrolls should see whatever a `prefers-reduced-motion` visitor sees,
- * rather than the mid-animation state of a scroll-linked reveal.
+ * Read both pages at both widths and compare them, the same readers and the
+ * same comparison the nightly runs (`readPageLayout`, `compareMockupLayout`).
  *
- * @param {import('playwright').Browser} browser
- * @param {string} filePath
- * @param {{ width: number, height: number }} viewport
- * @returns {Promise<Array<object>>}
- */
-async function extract(browser, filePath, viewport) {
-  const page = await browser.newPage({ viewport, reducedMotion: 'reduce' })
-  try {
-    await page.goto(`file://${filePath}`, { waitUntil: 'networkidle' })
-    try {
-      await page.evaluate(() => document.fonts.ready)
-    } catch {
-      // fonts API unavailable in this context — proceed with whatever loaded
-    }
-    await page.waitForTimeout(300)
-    return await page.evaluate(extractTextSegments)
-  } finally {
-    await page.close()
-  }
-}
-
-/**
  * @param {import('playwright').Browser} browser
  * @param {string} date
  * @param {{ mockupPath: string, buildPath: string }} paths
  * @returns {Promise<Array<object>>}
  */
 async function runDate(browser, date, { mockupPath, buildPath }) {
-  const findings = []
-  for (const viewport of VIEWPORTS) {
-    const [mockupSegs, buildSegs] = await Promise.all([
-      extract(browser, mockupPath, viewport),
-      extract(browser, buildPath, viewport),
-    ])
-    findings.push(
-      ...compareLayouts(mockupSegs, buildSegs, {
-        width: viewport.width,
-        viewportHeight: viewport.height,
-      })
-    )
-  }
-  return findings.map((f) => ({ date, ...f }))
+  const [mockupLayout, buildLayout] = await Promise.all([
+    readPageLayout(browser, `file://${mockupPath}`),
+    readPageLayout(browser, `file://${buildPath}`),
+  ])
+  return compareMockupLayout(mockupLayout, buildLayout).map((f) => ({ date, ...f }))
 }
 
 function summarize(date, findings) {

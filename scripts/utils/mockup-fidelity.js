@@ -9,11 +9,13 @@
  * critics read a downscaled JPEG of one and, on a different pass, the other;
  * neither is shown both, and a JPEG cannot report font-size in px anyway.
  *
- * This module is the comparison, pure and offline: no pipeline wiring (that
- * is a later phase), no live server, just two rendered documents' text
- * geometry against each other.
+ * This module is the comparison: two rendered documents' text geometry
+ * against each other. The nightly reads the mockup's layout when it captures
+ * the mockup (snapshot.js) and the build's in the surface gate, and the
+ * findings reach the engineer as advisories (mockup-advisory.js). The same
+ * readers drive `scripts/mockup-fidelity-cli.js` over archived nights.
  *
- * Two halves:
+ * Two halves, plus the page readers both callers share:
  *
  * - `extractTextSegments`, a self-contained function serialised into the page
  *   with `page.evaluate` (see `findClippedElements` in surface-gate.js for the
@@ -25,6 +27,8 @@
  *
  * @module
  */
+
+import { NARROW_VIEWPORT, WIDE_VIEWPORT } from '../../elements/chassis/viewports.js'
 
 /**
  * Below this, a run of text does not compete for hierarchy — a caption, a
@@ -142,6 +146,17 @@ export const SHORT_TEXT_MAX_CHARS = 3
  * though absent), rather than lowering its opacity. `<br>` between two
  * members of the same run is folded into a literal space.
  *
+ * Scroll-driven animations are cancelled before the walk. Panda's reveal
+ * (`anim-n_rise` on an `animation-timeline: view()` timeline, fill-mode
+ * both) holds every section below the fold at `opacity: 0` in a capture
+ * that never scrolls, reduced motion or not, and scrolling down and back
+ * does not help: the timeline runs in reverse on the way up. Cancelling
+ * leaves each element at its own resting style, which is what a visitor
+ * sees once the section scrolls into view. Time-based animations
+ * (`DocumentTimeline`) are left alone, so a stuck entrance still reads as
+ * the opacity it is stuck at. This mutates the page: run it last, or on a
+ * page opened for it.
+ *
  * @returns {Array<{ text: string, fontSize: number, fontWeight: string,
  *   fontFamily: string, rect: { x: number, y: number, w: number, h: number },
  *   opacity: number, visibleFraction: number }>}
@@ -153,6 +168,10 @@ export const SHORT_TEXT_MAX_CHARS = 3
 // are split would break that.
 // fallow-ignore-next-line complexity
 export function extractTextSegments() {
+  for (const anim of document.getAnimations()) {
+    if (anim.timeline && !(anim.timeline instanceof DocumentTimeline)) anim.cancel()
+  }
+
   const BLOCK = new Set([
     'block',
     'flex',
@@ -510,24 +529,30 @@ function findMatches(mockupSeg, pool) {
   return sizeOk.filter((b) => bigramMatch(mockupSeg, b))
 }
 
-function detailForMissing(mockupSeg, allBuildSegs) {
+/** True when the build has the mockup segment's text but does not show it:
+ * near-zero opacity, clipped away, or carried off the document. */
+function presentButHidden(mockupSeg, allBuildSegs) {
   const candidate = allBuildSegs.find(
     (b) => textsMatch(mockupSeg, b) || containmentMatch(mockupSeg, b)
   )
-  const px = Math.round(mockupSeg.fontSize)
-  if (candidate) {
-    const nearZero = candidate.opacity < OPACITY_VISIBLE_MIN
-    const clipped = candidate.visibleFraction < VISIBLE_FRACTION_MIN
-    const offDocument =
-      candidate.rect.x + candidate.rect.w <= 0 || candidate.rect.y + candidate.rect.h <= 0
-    if (nearZero || clipped || offDocument) {
-      return (
-        `'${mockupSeg.normText}' (${px}px in the mockup) is present but not rendered ` +
+  if (!candidate) return false
+  const nearZero = candidate.opacity < OPACITY_VISIBLE_MIN
+  const clipped = candidate.visibleFraction < VISIBLE_FRACTION_MIN
+  const offDocument =
+    candidate.rect.x + candidate.rect.w <= 0 || candidate.rect.y + candidate.rect.h <= 0
+  return nearZero || clipped || offDocument
+}
+
+function pushMissingFindings(unmatched, build, push) {
+  for (const m of unmatched) {
+    const px = Math.round(m.fontSize)
+    const hidden = presentButHidden(m, build)
+    const detail = hidden
+      ? `'${m.normText}' (${px}px in the mockup) is present but not rendered ` +
         '(opacity/clipped/offscreen) in the build'
-      )
-    }
+      : `'${m.normText}' (${px}px in the mockup) has no match in the build`
+    push('mockup-missing', detail, { text: m.normText, mockupPx: px, hidden })
   }
-  return `'${mockupSeg.normText}' (${px}px in the mockup) has no match in the build`
 }
 
 /**
@@ -567,18 +592,15 @@ function matchCandidates(candidates, buildEligible) {
   return { pairs, unmatched }
 }
 
-function pushMissingFindings(unmatched, build, push) {
-  for (const m of unmatched) push('mockup-missing', detailForMissing(m, build))
-}
-
 /**
  * A mockup #1 that leads its #2 by `HIERARCHY_DOMINANCE_RATIO` or more, but
  * whose matched build pair leads by under `HIERARCHY_TIE_RATIO`, has had its
  * dominance flattened even when the same texts still occupy the top ranks
  * (2026-09-21: the same "-26" leads by 2.9x in the mockup, 1.1x in the
- * build). Returns the finding detail, or null when the lead survived.
+ * build). Returns the finding's detail and facts, or null when the lead
+ * survived.
  */
-function dominanceCollapseDetail(mockupTop, pairs) {
+function dominanceCollapse(mockupTop, pairs) {
   if (mockupTop.length < 2) return null
   const p1 = pairs.find((p) => p.mockup === mockupTop[0])
   const p2 = pairs.find((p) => p.mockup === mockupTop[1])
@@ -588,16 +610,63 @@ function dominanceCollapseDetail(mockupTop, pairs) {
   const buildGap = p1.build.fontSize / p2.build.fontSize
   if (mockupGap < HIERARCHY_DOMINANCE_RATIO || buildGap >= HIERARCHY_TIE_RATIO) return null
 
-  return (
-    `mockup's largest ('${mockupTop[0].normText}', ${Math.round(mockupTop[0].fontSize)}px) leads its ` +
-    `runner-up ('${mockupTop[1].normText}', ${Math.round(mockupTop[1].fontSize)}px) by ${mockupGap.toFixed(1)}x; ` +
+  const facts = {
+    shape: 'flattened',
+    leader: {
+      text: mockupTop[0].normText,
+      mockupPx: Math.round(mockupTop[0].fontSize),
+      buildPx: Math.round(p1.build.fontSize),
+    },
+    runnerUp: {
+      text: mockupTop[1].normText,
+      mockupPx: Math.round(mockupTop[1].fontSize),
+      buildPx: Math.round(p2.build.fontSize),
+    },
+    mockupGap: Number(mockupGap.toFixed(1)),
+    buildGap: Number(buildGap.toFixed(1)),
+  }
+  const detail =
+    `mockup's largest ('${facts.leader.text}', ${facts.leader.mockupPx}px) leads its ` +
+    `runner-up ('${facts.runnerUp.text}', ${facts.runnerUp.mockupPx}px) by ${mockupGap.toFixed(1)}x; ` +
     `in the build the same two lead by only ${buildGap.toFixed(1)}x`
-  )
+  return { detail, facts }
+}
+
+/** What the build's largest text is set at in the mockup, or null when the
+ * mockup has no segment with that text. */
+function mockupPxOf(buildSeg, mockup) {
+  const twin = mockup.find((m) => textsMatch(m, buildSeg) || containmentMatch(m, buildSeg))
+  return twin ? Math.round(twin.fontSize) : null
+}
+
+/**
+ * The mockup's #1 lost its place, or kept it while one of the mockup's
+ * top three fell out of the build's (`shape: 'reordered'`). `dropped` names
+ * those, for the brief to say which.
+ */
+function replacedLeaderFinding(mockupTop, buildTop, mockup) {
+  const inBuildTop = (m) => buildTop.some((b) => textsMatch(m, b) || containmentMatch(m, b))
+  const facts = {
+    shape: textsMatch(mockupTop[0], buildTop[0]) ? 'reordered' : 'replaced',
+    dropped: mockupTop
+      .filter((m) => !inBuildTop(m))
+      .map((m) => ({ text: m.normText, mockupPx: Math.round(m.fontSize) })),
+    leader: { text: mockupTop[0].normText, mockupPx: Math.round(mockupTop[0].fontSize) },
+    buildLeader: {
+      text: buildTop[0].normText,
+      buildPx: Math.round(buildTop[0].fontSize),
+      mockupPx: mockupPxOf(buildTop[0], mockup),
+    },
+  }
+  const detail =
+    `largest text in mockup is '${facts.leader.text}' (${facts.leader.mockupPx}px); ` +
+    `in build it is '${facts.buildLeader.text}' (${facts.buildLeader.buildPx}px)`
+  return { detail, facts }
 }
 
 /** The largest thing on the page, and the top-3 set, should be recognisably
  * the same content on both sides. */
-function pushHierarchyFinding(candidates, buildEligible, pairs, push) {
+function pushHierarchyFinding(candidates, buildEligible, pairs, mockup, push) {
   const mockupTop = candidates.slice(0, HIERARCHY_TOP_N)
   const buildTop = [...buildEligible]
     .sort((a, b) => b.fontSize - a.fontSize)
@@ -608,15 +677,11 @@ function pushHierarchyFinding(candidates, buildEligible, pairs, push) {
   const missingFromBuildTop3 = mockupTop.some(
     (m) => !buildTop.some((b) => textsMatch(m, b) || containmentMatch(m, b))
   )
-  const dominanceDetail = dominanceCollapseDetail(mockupTop, pairs)
+  const flattened = dominanceCollapse(mockupTop, pairs)
 
-  if (!(top1Differs || missingFromBuildTop3 || dominanceDetail)) return
-  push(
-    'mockup-hierarchy',
-    dominanceDetail ??
-      `largest text in mockup is '${mockupTop[0].normText}' (${Math.round(mockupTop[0].fontSize)}px); ` +
-        `in build it is '${buildTop[0].normText}' (${Math.round(buildTop[0].fontSize)}px)`
-  )
+  if (!(top1Differs || missingFromBuildTop3 || flattened)) return
+  const { detail, facts } = flattened ?? replacedLeaderFinding(mockupTop, buildTop, mockup)
+  push('mockup-hierarchy', detail, facts)
 }
 
 function pushScaleFindings(candidates, pairs, push) {
@@ -625,10 +690,17 @@ function pushScaleFindings(candidates, pairs, push) {
     if (!scaleEligible.has(m)) continue
     const ratio = b.fontSize / m.fontSize
     if (ratio >= SCALE_RATIO_MIN && ratio <= SCALE_RATIO_MAX) continue
+    const facts = {
+      text: m.normText,
+      mockupPx: Math.round(m.fontSize),
+      buildPx: Math.round(b.fontSize),
+      ratio: Number(ratio.toFixed(2)),
+    }
     push(
       'mockup-scale',
-      `'${m.normText}' is ${Math.round(m.fontSize)}px in the mockup and ${Math.round(b.fontSize)}px ` +
-        `in the build (${ratio.toFixed(2)}x)`
+      `'${m.normText}' is ${facts.mockupPx}px in the mockup and ${facts.buildPx}px ` +
+        `in the build (${ratio.toFixed(2)}x)`,
+      facts
     )
   }
 }
@@ -656,10 +728,12 @@ function pushTextCutFindings(build, push) {
     if (b.fontSize < MIN_SEGMENT_PX) continue
     if (b.opacity < OPACITY_VISIBLE_MIN) continue
     if (b.visibleFraction >= TEXT_CUT_VISIBLE_FRACTION) continue
-    push(
-      'text-cut',
-      `'${b.normText}' shows ${Math.round(b.visibleFraction * 100)}% of itself in the build`
-    )
+    const visiblePct = Math.round(b.visibleFraction * 100)
+    push('text-cut', `'${b.normText}' shows ${visiblePct}% of itself in the build`, {
+      text: b.normText,
+      buildPx: Math.round(b.fontSize),
+      visiblePct,
+    })
   }
 }
 
@@ -685,14 +759,91 @@ export function compareLayouts(mockupRaw, buildRaw, { width, viewportHeight }) {
 
   const findings = []
   const viewportName = width <= 480 ? 'phone' : 'desktop'
-  const push = (kind, detail) =>
-    findings.push({ kind, severity: 'warning', route: '/', viewport: viewportName, width, detail })
+  const push = (kind, detail, facts = null) =>
+    findings.push({
+      kind,
+      severity: 'warning',
+      route: '/',
+      viewport: viewportName,
+      width,
+      detail,
+      ...(facts ? { facts } : {}),
+    })
 
   pushMissingFindings(unmatched, build, push)
-  pushHierarchyFinding(candidates, buildEligible, pairs, push)
+  pushHierarchyFinding(candidates, buildEligible, pairs, mockup, push)
   pushScaleFindings(candidates, pairs, push)
   pushShiftFindings(pairs, width, viewportHeight, push)
   pushTextCutFindings(build, push)
 
   return findings
+}
+
+/** The two widths the mockup is compared at: the desktop it is drawn at and
+ * the phone. The tablet is left out; the mockup has no tablet design to
+ * hold the build to. */
+export const LAYOUT_VIEWPORTS = Object.freeze([
+  { name: 'desktop', ...WIDE_VIEWPORT },
+  { name: 'phone', ...NARROW_VIEWPORT },
+])
+
+/**
+ * Open `url` on a page of its own and read its text segments. Reduced motion,
+ * like `measureStranded` (render-health.js): a capture should see what a
+ * `prefers-reduced-motion` visitor sees rather than an entrance mid-fade. A
+ * page of its own because `extractTextSegments` cancels scroll-driven
+ * animations, and no other measurement should inherit that.
+ *
+ * @param {import('playwright').Browser} browser
+ * @param {string} url
+ * @param {{ width: number, height: number }} viewport
+ * @returns {Promise<Array<object>>}
+ */
+export async function readTextLayout(browser, url, { width, height }) {
+  const page = await browser.newPage({ viewport: { width, height }, reducedMotion: 'reduce' })
+  try {
+    await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 })
+    try {
+      await page.evaluate(() => document.fonts.ready)
+    } catch {
+      // fonts API unavailable in this context; proceed with whatever loaded
+    }
+    await page.waitForTimeout(300)
+    return await page.evaluate(extractTextSegments)
+  } finally {
+    await page.close()
+  }
+}
+
+/**
+ * A page's text segments at every width in `LAYOUT_VIEWPORTS`, keyed by
+ * viewport name.
+ *
+ * @param {import('playwright').Browser} browser
+ * @param {string} url
+ * @returns {Promise<Record<string, Array<object>>>}
+ */
+export async function readPageLayout(browser, url) {
+  const layout = {}
+  for (const viewport of LAYOUT_VIEWPORTS) {
+    layout[viewport.name] = await readTextLayout(browser, url, viewport)
+  }
+  return layout
+}
+
+/**
+ * `compareLayouts` at every width both layouts were read at.
+ *
+ * @param {Record<string, Array<object>>} mockupLayout from `readPageLayout`
+ * @param {Record<string, Array<object>>} buildLayout from `readPageLayout`
+ * @returns {Array<object>} findings, desktop first
+ */
+export function compareMockupLayout(mockupLayout, buildLayout) {
+  return LAYOUT_VIEWPORTS.filter((v) => mockupLayout?.[v.name] && buildLayout?.[v.name]).flatMap(
+    (v) =>
+      compareLayouts(mockupLayout[v.name], buildLayout[v.name], {
+        width: v.width,
+        viewportHeight: v.height,
+      })
+  )
 }

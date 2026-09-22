@@ -33,6 +33,8 @@ import { contrastRatio, rgbToHex } from './contrast.js'
 import { readCopyExemptions, readRenderedCopy, renderedCopyFindings } from './copy-gate.js'
 import { ROOT } from './file-manager.js'
 import { measureLegibility } from './legibility.js'
+import { formatMockupAdvisory, isMockupAdvisory } from './mockup-advisory.js'
+import { compareMockupLayout, readPageLayout } from './mockup-fidelity.js'
 import { collapseLineLength, lineLengthFindings } from './line-length.js'
 import { TAP_TARGET_MIN_PX } from './responsive-thresholds.js'
 import { collapseRenderHealth, measureRenderHealth, renderHealthFindings } from './render-health.js'
@@ -1023,6 +1025,34 @@ export function phoneDensityRecord(m) {
   return { route: m.route, ...foldDensity(m.textDensity) }
 }
 
+/**
+ * The build's `/` against the approved mockup (mockup-fidelity.js), at the
+ * desktop and the phone, on pages of its own. Findings are warnings placed
+ * like any other gate finding, so `advisoryFaultsForOwner` routes them.
+ * Returns null when there is no mockup to compare against or the read threw:
+ * a comparison that could not run is not a clean one, and must never stop
+ * the gate that carries it.
+ *
+ * @param {import('playwright').Browser} browser
+ * @param {string} baseUrl
+ * @param {Record<string, Array<object>>|null|undefined} mockupLayout
+ * @returns {Promise<Array<object>|null>}
+ */
+async function measureMockupDrift(browser, baseUrl, mockupLayout) {
+  if (!mockupLayout) return null
+  try {
+    const buildLayout = await readPageLayout(browser, `${baseUrl}/`)
+    return compareMockupLayout(mockupLayout, buildLayout).map((f) => ({
+      surface: f.route,
+      scheme: 'light',
+      ...f,
+    }))
+  } catch (err) {
+    console.warn(`  [mockup-fidelity] could not compare (non-blocking): ${err.message}`)
+    return null
+  }
+}
+
 /** Records in the order the routes were listed, which the workers' finishing order is not. */
 function inRouteOrder(records, surfaces) {
   const at = (r) => surfaces.findIndex((s) => s.route === r.route)
@@ -1037,12 +1067,16 @@ function inRouteOrder(records, surfaces) {
  *
  * @param {{ port?: number, routes?: Array<{id:string,route:string}>,
  *          viewports?: typeof VIEWPORT_RUNGS, schemes?: string[],
- *          root?: string }} [opts] `root` is where the generated routes are
- *   listed from when `routes` is not given; defaults to the repo
+ *          root?: string, mockupLayout?: Record<string, Array<object>>|null }} [opts]
+ *   `root` is where the generated routes are listed from when `routes` is not
+ *   given; defaults to the repo. `mockupLayout` is the approved mockup's text
+ *   layout (`readPageLayout`), which `/` is compared against when given
  * @returns {Promise<{ findings: Array<object>, measured: number, errorCount: number,
- *   phoneDensity: Array<object>, facts: string }>} `phoneDensity` is one record per
- *   engineer-owned route (`text-density.js`) and `facts` is those as the section the
- *   screenshot critic is handed: measurements, not findings, so they never fail a build
+ *   phoneDensity: Array<object>, facts: string, mockupFindings: Array<object>|null }>}
+ *   `phoneDensity` is one record per engineer-owned route (`text-density.js`) and
+ *   `facts` is those as the section the screenshot critic is handed: measurements,
+ *   not findings, so they never fail a build. `mockupFindings` are kept out of
+ *   `findings` so the critic is not handed them; null when nothing was compared
  */
 export async function runSurfaceGate({
   port,
@@ -1051,6 +1085,7 @@ export async function runSurfaceGate({
   schemes = COLOR_SCHEMES,
   concurrency = GATE_CONCURRENCY,
   root = ROOT,
+  mockupLayout = null,
 } = {}) {
   const { chromium } = await import('playwright')
   const surfaces = routes ?? (await listGeneratedRoutes(root))
@@ -1070,6 +1105,7 @@ export async function runSurfaceGate({
       const findings = []
       const densities = []
       let measured = 0
+      let mockupFindings = null
       try {
         browser = await chromium.launch({ headless: true })
 
@@ -1101,6 +1137,7 @@ export async function runSurfaceGate({
         await Promise.all(
           Array.from({ length: Math.min(concurrency, jobs.length) }, () => worker())
         )
+        mockupFindings = await measureMockupDrift(browser, baseUrl, mockupLayout)
       } finally {
         // Same reasoning as captureScreenshot: a throw mid-walk must not
         // orphan a headless Chromium, because the gate can run more than once
@@ -1119,6 +1156,7 @@ export async function runSurfaceGate({
         errorCount: folded.filter((f) => f.severity === 'error').length,
         phoneDensity,
         facts: formatDensityForCritic(phoneDensity),
+        mockupFindings,
       }
     },
     { port }
@@ -1257,8 +1295,9 @@ export function findingLocation(f, { scheme = false } = {}) {
 }
 
 /**
- * The `tap-target` warnings on a given owner's surfaces (#488). These never
- * force a revision — see `faultsForOwner`, which only ever sees `error`
+ * The `tap-target` warnings on a given owner's surfaces (#488), and the
+ * mockup-fidelity warnings the brief carries (mockup-advisory.js). These
+ * never force a revision — see `faultsForOwner`, which only ever sees `error`
  * severity — but when a revision runs for another reason, the engineer is
  * already about to touch the file, so it gets these for free in the repair
  * brief. See `formatAdvisoryForRepairBrief`.
@@ -1269,22 +1308,34 @@ export function findingLocation(f, { scheme = false } = {}) {
  */
 export function advisoryFaultsForOwner(findings, owner) {
   return (findings ?? []).filter(
-    (f) => f.kind === 'tap-target' && ownerForSurface(f.surface) === owner
+    (f) => (f.kind === 'tap-target' || isMockupAdvisory(f)) && ownerForSurface(f.surface) === owner
   )
 }
 
 /**
- * Render advisory findings as a section for the react-engineer repair brief
- * (#488), appended after the errors. Distinct from `formatFindingsForCritic`:
- * that block is exact measurements handed to the critic as facts not up for
- * debate; this one is handed to the engineer as things worth fixing while the
- * file is already open, not things that put it there.
+ * Render advisory findings as sections for the react-engineer repair brief
+ * (#488), appended after the errors: the tap targets at 360, then where the
+ * build drifts from the mockup (mockup-advisory.js), each under its own
+ * heading. Distinct from `formatFindingsForCritic`: that block is exact
+ * measurements handed to the critic as facts not up for debate; this one is
+ * handed to the engineer as things worth fixing while the file is already
+ * open, not things that put it there.
  *
  * @param {Array<object>} findings - from {@link advisoryFaultsForOwner}
  * @returns {string} empty string when there is nothing to report
  */
 export function formatAdvisoryForRepairBrief(findings) {
-  if (!findings?.length) return ''
+  return [
+    formatTapTargetAdvisory((findings ?? []).filter((f) => f.kind === 'tap-target')),
+    formatMockupAdvisory((findings ?? []).filter(isMockupAdvisory)),
+  ]
+    .filter(Boolean)
+    .join('\n\n')
+}
+
+/** The tap-target half of {@link formatAdvisoryForRepairBrief}. */
+function formatTapTargetAdvisory(findings) {
+  if (!findings.length) return ''
 
   const byKey = new Map()
   for (const f of findings) {
