@@ -1,45 +1,55 @@
 import { css } from '../../../styled-system/css'
-import { identity } from '../../content/about'
 
-export function AboutHero() {
+export function AboutHero({ role, statement }: { role: string; statement: string }) {
   return (
     <section
       className={css({
-        position: 'relative',
-        bg: 'field',
-        paddingTop: { base: '10', lg: '12' },
-        paddingInline: { base: '6vw', lg: '5vw' },
-        paddingBottom: '9',
+        bg: 'bg',
+        minHeight: '36vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        paddingInline: '6vw',
+        paddingBlock: '9',
+        textAlign: 'right',
       })}
     >
       <span
         className={css({
           display: 'block',
-          fontFamily: 'body',
-          fontWeight: 'bold',
           fontSize: 'xs',
+          fontWeight: 'bold',
           letterSpacing: 'wide',
           textTransform: 'uppercase',
-          color: 'fieldInkMuted',
-          marginBottom: '4',
+          color: 'accentAlt',
+          marginBottom: '3',
+          animationName: 'settle',
+          animationDuration: '500ms',
+          animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          animationFillMode: 'both',
+          animationDelay: '80ms',
         })}
       >
-        {identity.name}, {identity.role}
+        {role}
       </span>
       <h1
         className={css({
-          fontFamily: 'display',
-          fontStyle: 'italic',
-          fontWeight: 'bold',
-          letterSpacing: 'wide',
-          fontSize: { base: 'md', lg: 'lg' },
-          lineHeight: 'loose',
-          color: 'fieldInk',
+          fontFamily: 'body',
+          fontWeight: 'normal',
+          textStyle: 'lg',
+          color: 'text',
           maxWidth: '48ch',
-          overflowWrap: 'break-word',
+          textAlign: 'right',
+          fontSize: 'lg',
+          animationName: 'settle',
+          animationDuration: '500ms',
+          animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          animationFillMode: 'both',
+          animationDelay: '0ms',
         })}
       >
-        {identity.statement}
+        {statement}
       </h1>
     </section>
   )

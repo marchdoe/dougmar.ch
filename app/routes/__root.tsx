@@ -57,28 +57,34 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Twenty-six under wins the Biltmore.' },
-      { property: 'og:title', content: 'Twenty-six under wins the Biltmore.' },
+      { title: 'Buildable before the first line of code. Faithful after the last.' },
+      {
+        property: 'og:title',
+        content: 'Buildable before the first line of code. Faithful after the last.',
+      },
       {
         property: 'og:description',
         content:
-          "Terracotta drench for a mountain championship: −26 leaning italic at poster scale over a ghosted chase, cream mark in the corner, the field's scores in marigold, Detroit's loss stated flat below.",
+          "Honey-gold-to-raspberry duotone split on a diagonal seam: a builder's two-part promise bracketing the work, heavy slab clauses hung flush-right off a cream-marked rose spine, the Tigers win the one bright note in the colophon.",
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-21.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-22.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Twenty-six under wins the Biltmore.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-21.png' },
+      {
+        name: 'twitter:title',
+        content: 'Buildable before the first line of code. Faithful after the last.',
+      },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-22.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Libre+Franklin:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Bitter:wght@500;700;900&family=Mulish:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -247,7 +253,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 142 designs
+            Archive · 143 designs
           </a>
         )}
         <ScrollRestoration />

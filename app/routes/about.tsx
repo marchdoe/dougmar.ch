@@ -1,35 +1,20 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { css } from '../../styled-system/css'
+import { identity, personal } from '../content/about'
+import { timeline, capabilities, education } from '../content/timeline'
 import { AboutHero } from '../components/generated/AboutHero'
-import { TimelineRows } from '../components/generated/TimelineRows'
-import { CapabilityTags } from '../components/generated/CapabilityTags'
-import { PersonalStats } from '../components/generated/PersonalStats'
+import { TimelineSection } from '../components/generated/TimelineSection'
+import { CapabilitiesEducation } from '../components/generated/CapabilitiesEducation'
+import { PersonalLedger } from '../components/generated/PersonalLedger'
 
 export const Route = createFileRoute('/about')({ component: AboutPage })
 
 function AboutPage() {
   return (
     <>
-      <AboutHero />
-      <section
-        className={css({
-          bg: 'bg',
-          paddingInline: { base: '6vw', lg: '5vw' },
-          paddingBlock: '9',
-        })}
-      >
-        <TimelineRows />
-      </section>
-      <section
-        className={css({
-          bg: 'bg',
-          paddingInline: { base: '6vw', lg: '5vw' },
-          paddingBlock: '7',
-        })}
-      >
-        <CapabilityTags />
-      </section>
-      <PersonalStats />
+      <AboutHero role={identity.role} statement={identity.statement} />
+      <TimelineSection entries={timeline} />
+      <CapabilitiesEducation capabilities={capabilities} education={education} />
+      <PersonalLedger personal={personal} />
     </>
   )
 }

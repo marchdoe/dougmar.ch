@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — Buildable before the first line of code. Faithful after the last.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;700;900&family=Mulish:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --rose50:#FCEDF1; --rose100:#F9D9E2; --rose200:#F0B0C4; --rose300:#E483A2;
+    --rose400:#D25680; --rose500:#B93764; --rose600:#9C2A53; --rose700:#7C2140;
+    --rose800:#5A1730; --rose900:#380E1E;
+    --gold50:#FCF6E7; --gold100:#F9ECC7; --gold200:#F2DA95; --gold300:#EAC868;
+    --gold400:#DFB13B; --gold500:#C8942A; --gold600:#A5771E; --gold700:#7E5A18;
+    --warm600:#5C4A4C;
+    --bg:var(--gold200); --bgAlt:var(--gold300); --surface:var(--gold50);
+    --text:var(--rose900); --textMuted:var(--rose800); --textFaint:var(--warm600);
+    --accent:var(--rose500); --accentText:var(--rose50); --accentAlt:var(--rose600);
+    --border:var(--gold500); --borderStrong:var(--rose700);
+    --field:var(--rose700); --fieldInk:var(--rose50); --fieldInkMuted:var(--gold300);
+    --fieldBorder:var(--rose600);
+
+    --hero:clamp(48px,6.5vw,96px);
+    --f4xl:clamp(40px,5vw,56px);
+    --f2xl:clamp(28px,3.2vw,40px);
+    --fxl:clamp(20px,2vw,26px);
+    --base:16px; --sm:14px; --xs:12px;
+    --u:24px;
+    --display:"Bitter",Georgia,serif;
+    --body:"Mulish",-apple-system,system-ui,sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:var(--body); font-size:var(--base); line-height:1.55;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility; overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none;}
+  h1,h2,h3,p,figure{margin:0;}
+  ::selection{background:var(--accent); color:var(--accentText);}
+
+  .micro{
+    font-family:var(--body); font-size:var(--xs); font-weight:700;
+    letter-spacing:0.09em; text-transform:uppercase;
+  }
+  .tnum{font-variant-numeric:tabular-nums;}
+
+  /* ============ LAYOUT ============ */
+  .layout{display:block;}
+
+  /* ---- Spine / nav (mobile: top band) ---- */
+  .spine{
+    background:var(--field); color:var(--fieldInk);
+    padding:20px 6vw 22px;
+    display:flex; flex-direction:column; gap:16px;
+  }
+  .lockup{display:flex; flex-direction:column; align-items:flex-start; gap:8px;}
+  .mark{display:block; color:var(--fieldInk);}
+  .mark svg{display:block; height:52px; width:auto;}
+  .wordmark{
+    font-family:var(--display); font-weight:700; font-size:20px;
+    letter-spacing:-0.015em; line-height:1; color:var(--fieldInk);
+  }
+  .roleline{
+    font-family:var(--body); font-size:13px; font-weight:700;
+    letter-spacing:0.09em; text-transform:uppercase; color:var(--fieldInkMuted);
+    line-height:1.3;
+  }
+  .nav{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:0 22px;}
+  .nav li{border-top:1px solid var(--fieldBorder);}
+  .nav a{
+    display:flex; align-items:center; min-height:44px; padding:2px 0;
+    font-family:var(--body); font-size:var(--sm); font-weight:700;
+    color:var(--fieldInk); transition:color .12s ease;
+  }
+  .nav a:hover{color:var(--rose200);}
+
+  /* ---- Main ---- */
+  .main{display:flex; flex-direction:column;}
+
+  .zone{padding:calc(var(--u)*2) 6vw;}
+
+  /* Clause 1 — honey */
+  .clause1{
+    background:var(--bg);
+    min-height:58vh;
+    display:flex; flex-direction:column; justify-content:flex-end;
+    align-items:flex-end;
+  }
+  .clause1 .eyebrow{color:var(--accentAlt); margin-bottom:14px; align-self:flex-end;}
+  .clause{
+    font-family:var(--display); font-weight:900; line-height:1.0;
+    letter-spacing:-0.01em; text-align:right;
+  }
+  .clause1 .clause{color:var(--text); font-size:var(--f4xl); max-width:16ch;}
+
+  /* Content band */
+  .band{background:var(--bg); display:flex; flex-direction:column; gap:calc(var(--u)*1.5);}
+  .standfirst{
+    font-family:var(--display); font-weight:500; font-size:var(--f2xl);
+    line-height:1.15; color:var(--textMuted); text-align:right;
+    max-width:22ch; margin-left:auto;
+  }
+
+  .sechead{
+    font-family:var(--display); font-weight:900; font-size:var(--fxl);
+    color:var(--text); margin-bottom:12px; line-height:1;
+  }
+
+  .index-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:4px;
+    padding:calc(var(--u)*1.2) 24px;
+  }
+  .featured{
+    border-bottom:2px solid var(--borderStrong);
+    padding-bottom:var(--u); margin-bottom:var(--u);
+  }
+  .featured .flag{color:var(--accent); display:block; margin-bottom:10px;}
+  .featured h3{
+    font-family:var(--display); font-weight:900; font-size:var(--f2xl);
+    line-height:1; color:var(--text);
+  }
+  .featured .meta{color:var(--textFaint); font-size:var(--sm); margin:6px 0 12px;}
+  .featured p{color:var(--textMuted); font-size:var(--base); max-width:62ch; line-height:1.55;}
+  .featured .ext{
+    display:inline-flex; align-items:center; gap:6px; min-height:44px;
+    color:var(--accentAlt); font-weight:700; font-size:var(--sm);
+  }
+  .featured .ext:hover{color:var(--accent);}
+
+  .idx{list-style:none; margin:0; padding:0;}
+  .idx li{border-top:1px solid var(--border);}
+  .idx li:last-child{border-bottom:1px solid var(--border);}
+  .idx a{
+    display:flex; align-items:baseline; justify-content:space-between; gap:16px;
+    min-height:44px; padding:12px 0; transition:color .12s ease;
+  }
+  .idx a:hover{color:var(--accent);}
+  .idx .t{font-family:var(--display); font-weight:700; font-size:var(--f2xl); line-height:1;}
+  .idx .rt{font-size:var(--sm); color:var(--textFaint); white-space:nowrap; text-align:right;}
+  .idx a:hover .rt{color:var(--accentAlt);}
+
+  .exp .t{font-size:var(--fxl);}
+
+  /* Signals ledger — rose field card */
+  .ledger{
+    background:var(--field); color:var(--fieldInk);
+    border:1px solid var(--fieldBorder); border-radius:4px;
+    padding:calc(var(--u)*1.2) 24px;
+  }
+  .ledger .sechead{color:var(--fieldInk);}
+  .led-list{list-style:none; margin:0; padding:0;}
+  .led-list li{
+    display:flex; align-items:baseline; justify-content:space-between; gap:14px;
+    padding:11px 0; border-top:1px solid var(--fieldBorder); flex-wrap:wrap;
+  }
+  .led-list li:first-child{border-top:none;}
+  .led-k{color:var(--fieldInkMuted); font-size:var(--sm); font-weight:700;}
+  .led-v{font-family:var(--display); font-weight:700; font-size:var(--base); color:var(--fieldInk); text-align:right;}
+  .led-v.under{color:var(--fieldInkMuted);}
+  .win{
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .chip{
+    background:var(--accent); color:var(--accentText);
+    font-family:var(--body); font-weight:700; font-size:var(--sm);
+    padding:3px 9px; border-radius:2px;
+  }
+  .taste{
+    margin-top:16px; padding-top:14px; border-top:1px solid var(--fieldBorder);
+    font-size:var(--sm); color:var(--rose200); font-style:italic;
+  }
+  .today{margin-top:var(--u);}
+  .today .sechead{color:var(--fieldInk);}
+  .today ul{list-style:none; margin:0; padding:0;}
+  .today li{border-top:1px solid var(--fieldBorder);}
+  .today a{
+    display:flex; align-items:center; min-height:44px; gap:8px;
+    color:var(--fieldInk); font-size:var(--sm); transition:color .12s ease;
+  }
+  .today a:hover{color:var(--rose200);}
+
+  /* Callout slot */
+  .callout{
+    background:var(--surface);
+    border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+    min-height:120px; display:flex; align-items:center;
+  }
+  .callout .slot{
+    width:100%; border:1px dashed var(--border); border-radius:4px;
+    min-height:76px; display:flex; align-items:center; justify-content:flex-end;
+    padding:0 20px;
+  }
+  .callout .slot .micro{color:var(--textFaint);}
+
+  /* Clause 2 — rose field */
+  .clause2{
+    background:var(--field); color:var(--fieldInk);
+    min-height:46vh;
+    display:flex; flex-direction:column; justify-content:center; align-items:flex-end;
+  }
+  .clause2 .eyebrow{color:var(--fieldInkMuted); margin-bottom:14px;}
+  .clause2 .clause{color:var(--fieldInk); font-size:var(--f4xl); max-width:14ch;}
+
+  /* Colophon */
+  .colophon{
+    background:var(--rose800); color:var(--fieldInk);
+    padding:calc(var(--u)*1.6) 6vw;
+    display:flex; flex-direction:column; gap:18px;
+  }
+  .colophon .cname{font-family:var(--display); font-weight:900; font-size:var(--fxl); color:var(--fieldInk);}
+  .colophon .crole{font-size:var(--sm); color:var(--rose200); margin-top:4px;}
+  .colophon nav{display:flex; gap:22px; flex-wrap:wrap;}
+  .colophon nav a{min-height:44px; display:flex; align-items:center; font-weight:700; font-size:var(--sm);}
+  .colophon nav a:hover{color:var(--rose200);}
+  .colophon .fine{font-size:var(--xs); color:var(--rose300); border-top:1px solid var(--fieldBorder); padding-top:14px;}
+
+  /* ============ TABLET ============ */
+  @media (min-width:768px){
+    .band{display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start;}
+    .band .index-wrap{grid-column:1 / 2;}
+    .band .ledger-wrap{grid-column:2 / 3;}
+    .band .standfirst{grid-column:1 / -1;}
+    .clause1 .clause{font-size:clamp(56px,7vw,84px);}
+    .clause2 .clause{font-size:clamp(48px,6vw,72px);}
+  }
+
+  /* ============ DESKTOP ============ */
+  @media (min-width:1200px){
+    .layout{
+      display:grid; grid-template-columns:88px 1fr; align-items:stretch;
+    }
+    .spine{
+      position:sticky; top:0; align-self:start; height:100vh;
+      width:88px; padding:22px 12px 26px; gap:20px;
+      justify-content:flex-start;
+    }
+    .lockup{align-items:center; text-align:center; width:100%;}
+    .wordmark{text-align:center; line-height:1.05;}
+    .roleline{text-align:center; font-size:13px;}
+    .nav{flex-direction:column; gap:0; width:100%;}
+    .nav li{width:100%;}
+    .nav a{justify-content:center; padding:6px 0;}
+    .nav-top-rule{border-top:1px solid var(--fieldBorder); margin-top:8px;}
+
+    .main{
+      position:relative;
+      background:linear-gradient(118deg,var(--gold200) 0 41%,var(--field) 41% 100%);
+    }
+    .zone{padding:72px 6vw;}
+    .clause1{background:transparent;}
+    .clause1 .clause{font-size:var(--hero); max-width:14ch;}
+    .band{background:transparent;}
+    .clause2{background:transparent; min-height:46vh; padding-top:0;}
+    .clause2 .clause{font-size:var(--hero); max-width:12ch;}
+    .callout{background:transparent; border-color:var(--fieldBorder);}
+    .callout .slot{border-color:var(--fieldBorder);}
+    .callout .slot .micro{color:var(--fieldInkMuted);}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- LEFT SPINE / NAV -->
+  <header class="spine">
+    <div class="lockup">
+      <a href="#" class="mark" aria-label="Doug March — home">
+        <svg viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+          <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="currentColor"/>
+          <circle cx="30.0829" cy="29.3002" r="0.98668" fill="currentColor"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="currentColor" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="currentColor" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3416" r="20.033" stroke="currentColor" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="currentColor" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3416" r="22.114" stroke="currentColor" stroke-width="0.25"/>
+          <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="currentColor"/>
+        </svg>
+      </a>
+      <div class="wordmark">Doug<br>March</div>
+      <div class="roleline">Designer&nbsp;/ Engineer</div>
+    </div>
+    <ul class="nav nav-top-rule">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- CLAUSE 1 — honey (before / designed) -->
+    <section class="zone clause1">
+      <span class="micro eyebrow">Before the first line</span>
+      <h1 class="clause">Buildable before the first line of code.</h1>
+    </section>
+
+    <!-- CONTENT BAND -->
+    <section class="zone band" id="work">
+      <p class="standfirst">The work, bracketed by the promise made before it and the promise kept after it.</p>
+
+      <div class="index-wrap">
+        <div class="index-card">
+          <div class="featured">
+            <span class="micro flag">Featured</span>
+            <h3>dougmar.ch</h3>
+            <p class="meta tnum">AI &middot; 2026</p>
+            <p>A portfolio that redesigns itself every night and is measured against its own brief before it ships — buildable first, faithful after.</p>
+            <a class="ext" href="https://dougmar.ch">Visit the live site &rarr;</a>
+          </div>
+
+          <h2 class="sechead">Selected Work</h2>
+          <ul class="idx">
+            <li><a href="#spaceman"><span class="t">Spaceman</span><span class="rt tnum">Founder&nbsp;· 2018</span></a></li>
+            <li><a href="#fishsticks"><span class="t">FishSticks</span><span class="rt tnum">SaaS&nbsp;· 2025</span></a></li>
+            <li><a href="#15th-club"><span class="t">15th Club</span><span class="rt tnum">AI&nbsp;· 2025</span></a></li>
+            <li><a href="#dougmar-ch"><span class="t">dougmar.ch</span><span class="rt tnum">AI&nbsp;· 2026</span></a></li>
+          </ul>
+
+          <h2 class="sechead" style="margin-top:var(--u)">Experiments</h2>
+          <ul class="idx exp">
+            <li><a href="#teeturn"><span class="t">TeeTurn</span><span class="rt tnum">Experiment&nbsp;· 2020</span></a></li>
+            <li><a href="#politweets"><span class="t">Politweets</span><span class="rt tnum">Experiment&nbsp;· 2008</span></a></li>
+            <li><a href="#twittertale"><span class="t">Twittertale</span><span class="rt tnum">Experiment&nbsp;· 2008</span></a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ledger-wrap">
+        <div class="ledger">
+          <h2 class="sechead">Ledger — 22 Sep 2026</h2>
+          <ul class="led-list">
+            <li>
+              <span class="led-k">Tigers</span>
+              <span class="win"><span class="chip">Win</span><span class="led-v tnum">9&ndash;2</span></span>
+            </li>
+            <li><span class="led-k">Lions</span><span class="led-v tnum">31, 41</span></li>
+            <li><span class="led-k">Red Wings</span><span class="led-v tnum">0, 1</span></li>
+            <li><span class="led-k">Biltmore, final</span><span class="led-v under tnum">Bridgeman &minus;26</span></li>
+            <li><span class="led-k">SPY</span><span class="led-v tnum">773.50 &nbsp;+1.55%</span></li>
+            <li><span class="led-k">Aldie</span><span class="led-v tnum">Light rain, 59&deg;F</span></li>
+            <li><span class="led-k">Moon</span><span class="led-v tnum">Waxing gibbous, 87%</span></li>
+            <li><span class="led-k">Air</span><span class="led-v tnum">Good, AQI 1</span></li>
+          </ul>
+          <p class="taste">On rotation: The War on Drugs, Radiohead.</p>
+
+          <div class="today">
+            <h2 class="sechead">Today in Design</h2>
+            <ul>
+              <li><a href="#">Type specimens as living documents &rarr;</a></li>
+              <li><a href="#">The case for two committed hues &rarr;</a></li>
+              <li><a href="#">Building the brief before the build &rarr;</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SITE CALLOUT SLOT -->
+    <section class="zone callout" aria-label="Site callout">
+      <div class="slot"><span class="micro">Site callout</span></div>
+    </section>
+
+    <!-- CLAUSE 2 — plum-rose field (after / shipped) -->
+    <section class="zone clause2">
+      <span class="micro eyebrow">After the last line</span>
+      <p class="clause">Faithful after the last.</p>
+    </section>
+
+    <!-- COLOPHON -->
+    <footer class="colophon" id="contact">
+      <div>
+        <div class="cname">Doug March</div>
+        <div class="crole">Designer &amp; engineer &middot; Aldie, Virginia</div>
+      </div>
+      <nav>
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="mailto:hello@dougmar.ch">Contact</a>
+        <a href="https://dougmar.ch">dougmar.ch</a>
+      </nav>
+      <p class="fine">Designed and built nightly, measured against its own brief. &copy; 2026 Doug March. Set in Bitter &amp; Mulish.</p>
+    </footer>
+
+  </main>
+</div>
+</body>
+</html>

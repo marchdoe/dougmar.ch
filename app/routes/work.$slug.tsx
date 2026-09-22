@@ -2,34 +2,37 @@ import { createFileRoute } from '@tanstack/react-router'
 import { css } from '../../styled-system/css'
 import { projects } from '../content/projects'
 import { WhitePaper } from '../components/WhitePaper'
-import { CaseStudyHero } from '../components/generated/CaseStudyHero'
+import { WorkHero } from '../components/generated/WorkHero'
 import { CaseStudyBody } from '../components/generated/CaseStudyBody'
 
 export const Route = createFileRoute('/work/$slug')({ component: WorkPage })
 
 function WorkPage() {
   const { slug } = Route.useParams()
-  const project = projects.find((item) => item.slug === slug)
+  const project = projects.find((p) => p.slug === slug)
 
   if (!project) {
     return (
       <section
         className={css({
-          bg: 'field',
+          bg: 'bg',
+          paddingInline: '6vw',
           paddingBlock: '9',
-          paddingInline: { base: '6vw', lg: '5vw' },
+          minHeight: '46vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
         })}
       >
         <h1
           className={css({
             fontFamily: 'display',
-            fontStyle: 'italic',
             fontWeight: 'bold',
             fontSize: '3xl',
-            color: 'fieldInk',
+            color: 'text',
           })}
         >
-          Project not found.
+          Not found.
         </h1>
       </section>
     )
@@ -37,8 +40,29 @@ function WorkPage() {
 
   return (
     <>
-      <CaseStudyHero project={project} />
-      {project.slug === 'dougmar-ch' ? <WhitePaper /> : <CaseStudyBody project={project} />}
+      <WorkHero
+        title={project.title}
+        meta={{
+          type: project.type,
+          year: project.year,
+          role: project.role,
+          timeline: undefined,
+          status: undefined,
+        }}
+      />
+      {project.slug === 'dougmar-ch' ? (
+        <WhitePaper />
+      ) : (
+        <CaseStudyBody
+          study={{
+            problem: project.problem,
+            approach: project.approach,
+            outcome: project.outcome,
+            stack: project.stack,
+            liveUrl: project.liveUrl,
+          }}
+        />
+      )}
     </>
   )
 }

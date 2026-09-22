@@ -19,45 +19,37 @@ function OgCard() {
     >
       <div
         className={css({
-          position: 'relative',
           width: '1200px',
           height: '630px',
+          position: 'relative',
           bg: 'field',
+          color: 'fieldInk',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          padding: '9',
+          paddingInline: '64px',
+          paddingBlock: '56px',
         })}
       >
-        <div className={css({ display: 'flex', alignItems: 'center', color: 'fieldInk' })}>
-          <BrandLockup variant="horizontal-md" mode="single-color" roleLine={false} />
+        <div className={css({ color: 'fieldInk' })}>
+          <BrandLockup variant="stacked-md" mode="single-color" roleLine />
         </div>
         <h1
           className={css({
             fontFamily: 'display',
-            fontStyle: 'italic',
             fontWeight: 'bold',
-            fontSize: 'hero',
-            lineHeight: 'tight',
+            lineHeight: '1',
             letterSpacing: 'tight',
             color: 'fieldInk',
+            fontSize: 'hero',
+            maxWidth: '18ch',
+            textAlign: 'right',
+            alignSelf: 'flex-end',
           })}
         >
-          Twenty-six under wins the Biltmore.
+          Buildable before the first line of code.
         </h1>
-        <span
-          className={css({
-            fontFamily: 'body',
-            fontWeight: 'bold',
-            fontSize: 'sm',
-            letterSpacing: 'wide',
-            textTransform: 'uppercase',
-            color: 'fieldInkMuted',
-          })}
-        >
-          Doug March, design and engineering.
-        </span>
       </div>
     </div>
   )
