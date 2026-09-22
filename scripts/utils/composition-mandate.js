@@ -5,6 +5,7 @@ import { hashToRange } from './deterministic-hash.js'
 import {
   AXIS_NAMES,
   COMPOSITION_AXES,
+  densityForbidsHeroObject,
   describeAxisValue,
   isValidTuple,
 } from './composition-grammar.js'
@@ -94,6 +95,16 @@ export function suggestTupleForDate(date) {
     const values = COMPOSITION_AXES[axis]
     tuple[axis] = values[hashToRange(`composition:${axis}:${date}`, 0, values.length - 1)]
   }
+  // Each axis is seeded independently, so the two draws can land on the one
+  // pair the grammar forbids — `density: sparse` with a `hero_object` that
+  // needs room sparse doesn't have (#514). Re-seed hero_object off a
+  // different salt rather than let a suggestion isValidTuple would reject
+  // through the door it's supposed to guard.
+  if (densityForbidsHeroObject(tuple.density, tuple.hero_object)) {
+    const open = COMPOSITION_AXES.hero_object.filter((v) => v !== 'list' && v !== 'artifact')
+    tuple.hero_object =
+      open[hashToRange(`composition:hero_object:sparse-safe:${date}`, 0, open.length - 1)]
+  }
   return tuple
 }
 
@@ -130,6 +141,35 @@ export function computeCompositionMandate({ archiveDir, date, lookbackDays = 7 }
     // the suggestion alone rather than inventing one outside the vocabulary.
     if (open.length) {
       suggestion[axis] = open[hashToRange(`composition-nudge:${axis}:${date}`, 0, open.length - 1)]
+    }
+  }
+
+  // The per-axis nudge above moves density and hero_object independently,
+  // so it can reintroduce the density/hero_object pair suggestTupleForDate
+  // already avoided (#514) — one axis nudges onto the forbidden combination
+  // while the other sits still. Prefer moving hero_object; if the recency
+  // window has already claimed every non-list/artifact value, fall back to
+  // moving density off sparse instead.
+  if (densityForbidsHeroObject(suggestion.density, suggestion.hero_object)) {
+    const heroForbidden = new Set([...softForbidden.hero_object, 'list', 'artifact'])
+    const openHero = COMPOSITION_AXES.hero_object.filter((v) => !heroForbidden.has(v))
+    if (openHero.length) {
+      suggestion.hero_object =
+        openHero[
+          hashToRange(`composition-nudge:hero_object:sparse-safe:${date}`, 0, openHero.length - 1)
+        ]
+    } else {
+      const densityForbidden = new Set([...softForbidden.density, 'sparse'])
+      const openDensity = COMPOSITION_AXES.density.filter((v) => !densityForbidden.has(v))
+      if (openDensity.length) {
+        suggestion.density =
+          openDensity[
+            hashToRange(`composition-nudge:density:sparse-safe:${date}`, 0, openDensity.length - 1)
+          ]
+      }
+      // Both axes exhausted by the recency window plus this rule: leave the
+      // pair as seeded rather than invent a value outside either vocabulary,
+      // the same call the per-axis nudge above makes.
     }
   }
 

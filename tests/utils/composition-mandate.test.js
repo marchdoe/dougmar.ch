@@ -11,6 +11,7 @@ import {
 import {
   AXIS_NAMES,
   COMPOSITION_AXES,
+  densityForbidsHeroObject,
   describeAxisValue,
   isValidTuple,
 } from '../../scripts/utils/composition-grammar.js'
@@ -124,6 +125,25 @@ describe('suggestTupleForDate', () => {
       expect(values.size, `${axis} never varies across 40 dates`).toBeGreaterThan(1)
     }
   })
+
+  it('never suggests density: sparse with hero_object: list or artifact (#514)', () => {
+    // Each axis is seeded off its own salted hash, so the two independent
+    // draws can otherwise land on the one pair the grammar forbids. Walk a
+    // wide date range rather than a single date to catch it.
+    const dates = Array.from({ length: 400 }, (_, i) => {
+      const day = i + 1
+      const month = String((Math.floor((day - 1) / 28) % 12) + 1).padStart(2, '0')
+      const date = String(((day - 1) % 28) + 1).padStart(2, '0')
+      return `2026-${month}-${date}`
+    })
+    for (const date of dates) {
+      const tuple = suggestTupleForDate(date)
+      expect(
+        densityForbidsHeroObject(tuple.density, tuple.hero_object),
+        `${date} suggested density: ${tuple.density}, hero_object: ${tuple.hero_object}`
+      ).toBe(false)
+    }
+  })
 })
 
 describe('computeCompositionMandate', () => {
@@ -189,6 +209,29 @@ describe('computeCompositionMandate', () => {
     expect(m.softForbidden.axis).toHaveLength(3)
     expect(COMPOSITION_AXES.axis).toContain(m.suggestion.axis)
     expect(m.softForbidden.axis).not.toContain(m.suggestion.axis)
+  })
+
+  it('does not let the per-axis nudge reintroduce density: sparse / hero_object: list|artifact (#514)', () => {
+    const date = '2026-01-03'
+    const naive = suggestTupleForDate(date)
+    // This date's naive suggestion already pairs a non-sparse density with a
+    // list/artifact hero_object (fine on its own). Forbid every other
+    // density value so the per-axis nudge below has nowhere to go but
+    // "sparse" — which, paired with the untouched hero_object, would
+    // recreate the pair suggestTupleForDate avoids.
+    expect(densityForbidsHeroObject(naive.density, naive.hero_object)).toBe(false)
+    expect(['list', 'artifact']).toContain(naive.hero_object)
+    const others = COMPOSITION_AXES.density.filter((v) => v !== naive.density && v !== 'sparse')
+    writeBuild('2026-01-02', { density: others[0] })
+    writeBuild('2026-01-01', { density: others[1] })
+    writeBuild('2025-12-31', { density: naive.density })
+
+    const m = computeCompositionMandate({ archiveDir, date })
+    expect(m.softForbidden.density.sort()).toEqual([...others, naive.density].sort())
+    // The forced nudge landed on sparse; confirm the fixture provokes it.
+    expect(m.suggestion.density).toBe('sparse')
+    expect(densityForbidsHeroObject(m.suggestion.density, m.suggestion.hero_object)).toBe(false)
+    expect(isValidTuple(m.suggestion).valid).toBe(true)
   })
 
   it('is reproducible for the same date and archive', () => {
