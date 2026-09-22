@@ -628,6 +628,7 @@ The surface gate renders every route at 360, 820 and 1440 in both colour schemes
 - No line of text opens or closes on a separator (a comma, a middle dot, a bar, a dash, a spaced slash). A field can be empty; render the separator only when both sides exist.
 - One spacing token per property: `padding: '4 0'` ships as 4px 0px and fails the token gate. Panda resolves a token only when it is the whole value. Write paddingBlock: '4', paddingInline: '0'.
 - Every route renders an h1, and at 1440 its top sits inside the first 900px. Every route shows a visible link to /about at 360 and 1440.
+- At 360, 820 and 1440, no text in Layout or Sidebar at opacity 0.05 or more lands on the text of a hand-written route (/work, /experiments, /elements). Fix: move the shell's text off the page's content, or give the route the room the shell takes.
 - The brand mark sits inside the first fold at 360 and 1440, at least 32px tall at 1440; a single-color mark reaches 3:1 on its ground.
 
 ## Self-check before responding

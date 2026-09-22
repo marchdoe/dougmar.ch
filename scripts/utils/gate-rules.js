@@ -39,6 +39,7 @@ import {
   SMALL_TEXT_FLOOR_PX,
 } from './responsive-thresholds.js'
 import { SEMANTIC_COLOR_NAMES } from './semantic-contract.js'
+import { SHELL_OVERLAP_FIX, SHELL_OVERLAP_MIN_OPACITY } from './shell-overlap.js'
 import { SMALL_COPY_FIX, SMALL_TEXT_FIX } from './small-text.js'
 import {
   BOX_PAST_VIEWPORT_FIX,
@@ -325,6 +326,14 @@ export function collectSurfaceRules() {
       rule:
         `Every route renders an h1, and at ${desktop} its top sits inside the first ${fold}px. ` +
         `Every route shows a visible link to /about at ${both}.`,
+    },
+    {
+      gate: 'shell-overlap',
+      kinds: ['shell-overlap'],
+      rule:
+        `At ${all}, no text in Layout or Sidebar at opacity ${SHELL_OVERLAP_MIN_OPACITY} or ` +
+        'more lands on the text of a hand-written route (/work, /experiments, /elements). ' +
+        `Fix: ${SHELL_OVERLAP_FIX}`,
     },
     {
       gate: 'brand-mark',

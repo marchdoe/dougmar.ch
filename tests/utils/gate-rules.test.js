@@ -15,6 +15,7 @@ import {
   SMALL_COPY_FLOOR_PX,
   SMALL_TEXT_FLOOR_PX,
 } from '../../scripts/utils/responsive-thresholds.js'
+import { SHELL_OVERLAP_FIX } from '../../scripts/utils/shell-overlap.js'
 import { SMALL_COPY_FIX, SMALL_TEXT_FIX } from '../../scripts/utils/small-text.js'
 import {
   BOX_PAST_VIEWPORT_FIX,
@@ -142,25 +143,24 @@ describe('collectSurfaceRules', () => {
     expect(bullets).toHaveLength(surfaceRules.length)
   })
 
-  // Every error kind the gate can raise against the engineer's pages. The
-  // kinds are read off the modules' source, so a new finding kind with no
-  // checklist line fails here. Exempt: a page that did not load, a bad HTTP
-  // status, a console message and a small tap target, which are either not
-  // the engineer's to prevent in the prompt or warnings only.
+  // Every error kind the gate can raise. The kinds are read off the source of
+  // surface-gate.js and every module it imports, so a new finding kind, or a
+  // new module that raises one, with no checklist line fails here. Exempt: a
+  // page that did not load, a bad HTTP status, a console message and a small
+  // tap target, which are either not the engineer's to prevent in the prompt
+  // or warnings only.
   const EXEMPT = new Set(['unreachable', 'status', 'console', 'tap-target'])
-  const GATE_MODULES = [
-    'surface-gate',
-    'render-health',
-    'text-contrast',
-    'small-text',
-    'line-length',
-    'copy-gate',
+  const utilsDir = path.join(repoRoot, 'scripts', 'utils')
+  const surfaceGateSource = readFileSync(path.join(utilsDir, 'surface-gate.js'), 'utf8')
+  const gateModules = [
+    'surface-gate.js',
+    ...[...surfaceGateSource.matchAll(/from '\.\/([a-z-]+\.js)'/g)].map((m) => m[1]),
   ]
 
   it('has a line for every finding kind the surface gate raises', () => {
     const kinds = new Set()
-    for (const mod of GATE_MODULES) {
-      const src = readFileSync(path.join(repoRoot, 'scripts', 'utils', `${mod}.js`), 'utf8')
+    for (const file of gateModules) {
+      const src = readFileSync(path.join(utilsDir, file), 'utf8')
       for (const m of src.matchAll(/kind: '([a-z-]+)'/g)) kinds.add(m[1])
     }
     expect(kinds.size).toBeGreaterThan(10)
@@ -184,6 +184,7 @@ describe('collectSurfaceRules', () => {
       STRANDED_FIX,
       ORPHAN_SEPARATOR_FIX,
       SPACED_SPACING_WHY,
+      SHELL_OVERLAP_FIX,
     ]) {
       expect(checklist, fix).toContain(fix)
     }
