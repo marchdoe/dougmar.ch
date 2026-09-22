@@ -1,5 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useMemo, useState } from 'react'
+import { Toggle } from '@base-ui/react/toggle'
+import { ToggleGroup } from '@base-ui/react/toggle-group'
 
 import {
   WEEKDAY_KEYS,
@@ -153,7 +155,10 @@ const btn = css({
   // The pressed state lives inside this recipe on purpose. As a second class
   // it lost the cascade: Panda emits `bg_transparent` after `bg_archive.text`,
   // so the active button rendered dark text on the page ground (#423).
-  '&[aria-pressed="true"]': {
+  // `data-pressed` is the state attribute Base UI's Toggle sets — the styling
+  // hook, per the base-ui skill, not `aria-pressed` (Toggle still sets that
+  // for accessibility; prev/next below are plain buttons and set neither).
+  '&[data-pressed]': {
     borderColor: 'archive.text',
     color: 'archive.bg',
     background: 'archive.text',
@@ -408,22 +413,25 @@ function ArchivePage() {
                 </button>
               </>
             ) : null}
-            <button
-              type="button"
-              className={btn}
-              aria-pressed={view === 'month'}
-              onClick={() => setView('month')}
+            <ToggleGroup
+              aria-label="Calendar view"
+              value={[view]}
+              // A ToggleGroup can deselect down to an empty array by
+              // re-clicking the pressed item; the calendar always shows one
+              // view, so an empty change is ignored rather than applied.
+              onValueChange={(next) => {
+                if (next.length > 0) setView(next[0] as 'month' | 'all')
+              }}
+              className={css({ display: 'flex', gap: '8px' })}
             >
-              Month
-            </button>
-            <button
-              type="button"
-              className={btn}
-              aria-pressed={view === 'all'}
-              onClick={() => setView('all')}
-            >
-              All
-            </button>
+              {/* No aria-label: the visible text is the accessible name, same as the plain buttons this replaced. */}
+              <Toggle value="month" className={btn}>
+                Month
+              </Toggle>
+              <Toggle value="all" className={btn}>
+                All
+              </Toggle>
+            </ToggleGroup>
           </div>
 
           <div className={wrap}>

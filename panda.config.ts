@@ -66,6 +66,50 @@ export default defineConfig({
             // floor for small text. Faint text sits on archive.bg only.
             faint: { value: '#7a7a87' },
           },
+          /**
+           * The dev-only responsive report — #554.
+           *
+           * `/dev/responsive` and its two components (ResponsiveCard,
+           * ResponsiveTrend) each declared this same five-colour dark palette
+           * inline. Neither renders in production (see the note in
+           * dev-responsive-page.tsx on why they cannot even be reached from a
+           * route), so nothing here competes with the nightly redesign the way
+           * `archive.*` has to — it exists so three files stop repeating the
+           * same five hex codes, not to survive a redesign.
+           */
+          dev: {
+            bg: { value: '#0e1014' },
+            border: { value: '#2a2f36' },
+            muted: { value: '#8a8f97' },
+            text: { value: '#dce0e6' },
+            cyan: { value: '#00e5ff' },
+            fail: { value: '#ff6b6b' },
+          },
+          /**
+           * The dev panel's permanent mini design system — #554, alongside
+           * `app/components/panel/styles.ts`'s own header comment.
+           *
+           * Raw values, not the day's theme: the panel is tooling, rendered
+           * whether or not the nightly pipeline succeeded, and pointing it at
+           * `colors.*` would make it just another exhibit the redesign can
+           * break. This group exists so the 54 literals `styles.ts` used to
+           * repeat inline live in one place instead.
+           */
+          panel: {
+            ink: { value: '#18181b' },
+            surface: { value: '#ffffff' },
+            muted: { value: '#71717a' },
+            subtle: { value: '#3f3f46' },
+            border: { value: '#e4e4e7' },
+            borderStrong: { value: '#d4d4d8' },
+            bg: { value: '#fafafa' },
+            bgMuted: { value: '#f4f4f5' },
+            success: { value: '#16a34a' },
+            successBg: { value: '#f0fdf4' },
+            successBorder: { value: '#bbf7d0' },
+            danger: { value: '#dc2626' },
+            warning: { value: '#f59e0b' },
+          },
         },
         fonts: {
           archive: {
@@ -80,6 +124,9 @@ export default defineConfig({
               value: "'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif",
             },
           },
+          dev: {
+            mono: { value: 'JetBrains Mono, monospace' },
+          },
         },
         fontSizes: {
           archive: {
@@ -92,6 +139,13 @@ export default defineConfig({
             lead: { value: '1.0625rem' },
             title: { value: '1.5rem' },
             display: { value: '2.25rem' },
+          },
+        },
+        shadows: {
+          panel: {
+            sm: { value: '0 1px 3px rgba(0,0,0,.06)' },
+            md: { value: '0 1px 2px rgba(0,0,0,.08)' },
+            lg: { value: '0 1px 3px rgba(0,0,0,.15)' },
           },
         },
         /**

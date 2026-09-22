@@ -1,5 +1,8 @@
 import { useState } from 'react'
+import { css } from '../../styled-system/css'
 import type { ResponsiveMetrics } from '../server/archive'
+
+const viewportImg = css({ width: '100%', height: 'auto', display: 'block' })
 
 /**
  * One viewport capture. Nights since #549 store WebP; every earlier night
@@ -14,11 +17,42 @@ function ViewportImage({ base, name }: { base: string; name: string }) {
         src={src}
         alt={`${name} viewport screenshot`}
         onError={() => setExt('png')}
-        style={{ width: '100%', height: 'auto', display: 'block' }}
+        className={viewportImg}
       />
     </a>
   )
 }
+
+const card = css({
+  border: '1px solid',
+  borderColor: 'dev.border',
+  padding: '12px',
+  marginBottom: '12px',
+  fontFamily: 'dev.mono',
+  fontSize: '11px',
+  color: 'dev.text',
+  background: 'dev.bg',
+})
+
+const scoreRow = css({ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' })
+const scoreValue = css({ color: 'dev.cyan', fontWeight: '700' })
+const viewportGrid = css({ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' })
+const viewportCell = css({ border: '1px solid', borderColor: 'dev.border', padding: '6px' })
+const viewportLabel = css({
+  display: 'flex',
+  justifyContent: 'space-between',
+  fontSize: '10px',
+  color: 'dev.muted',
+  marginBottom: '4px',
+})
+const failure = css({
+  marginTop: '8px',
+  padding: '8px',
+  border: '1px solid',
+  borderColor: 'dev.border',
+  color: 'dev.muted',
+})
+const failureViewport = css({ color: 'dev.text' })
 
 export function ResponsiveCard({
   metrics,
@@ -29,48 +63,22 @@ export function ResponsiveCard({
 }) {
   if (!metrics) return null
 
-  const c = {
-    bg: '#0e1014',
-    border: '#2a2f36',
-    muted: '#8a8f97',
-    text: '#dce0e6',
-    cyan: '#00e5ff',
-    font: 'JetBrains Mono, monospace',
-  }
   const order = ['mobile', 'tablet', 'laptop', 'desktop'] as const
   const base = `/archive-data/${date}/viewports`
 
   return (
-    <div
-      style={{
-        border: `1px solid ${c.border}`,
-        padding: 12,
-        marginBottom: 12,
-        fontFamily: c.font,
-        fontSize: 11,
-        color: c.text,
-        background: c.bg,
-      }}
-    >
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+    <div className={card}>
+      <div className={scoreRow}>
         <strong>Responsive Score</strong>
-        <span style={{ color: c.cyan, fontWeight: 700 }}>{metrics.overallScore} / 5</span>
+        <span className={scoreValue}>{metrics.overallScore} / 5</span>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
+      <div className={viewportGrid}>
         {order.map((name) => {
           const v = metrics.viewports[name]
           if (!v) return null
           return (
-            <div key={name} style={{ border: `1px solid ${c.border}`, padding: 6 }}>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  fontSize: 10,
-                  color: c.muted,
-                  marginBottom: 4,
-                }}
-              >
+            <div key={name} className={viewportCell}>
+              <div className={viewportLabel}>
                 <span>
                   {name} {v.width}
                 </span>
@@ -82,8 +90,8 @@ export function ResponsiveCard({
         })}
       </div>
       {metrics.worstFailure && (
-        <div style={{ marginTop: 8, padding: 8, border: `1px solid ${c.border}`, color: c.muted }}>
-          <strong style={{ color: c.text }}>{metrics.worstFailure.viewport}</strong> —{' '}
+        <div className={failure}>
+          <strong className={failureViewport}>{metrics.worstFailure.viewport}</strong> —{' '}
           {metrics.worstFailure.check}: {metrics.worstFailure.detail}
         </div>
       )}

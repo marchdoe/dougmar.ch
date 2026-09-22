@@ -20,7 +20,7 @@ describe('RateTab', () => {
 
   it('submits the selected grade and notes for the newest unrated day', async () => {
     render(<RateTab unrated={unrated} onRated={() => {}} />)
-    fireEvent.click(screen.getByRole('button', { name: 'B' }))
+    fireEvent.click(screen.getByRole('radio', { name: 'B' }))
     fireEvent.change(screen.getByLabelText(/worked/i), { target: { value: 'amber drench' } })
     fireEvent.click(screen.getByRole('button', { name: /submit rating/i }))
     await waitFor(() =>
@@ -43,7 +43,7 @@ describe('RateTab', () => {
 
   it('clears the form and moves to the next day after a save, so a second click cannot duplicate (#330)', async () => {
     const { rerender } = render(<RateTab unrated={unrated} onRated={() => {}} />)
-    fireEvent.click(screen.getByRole('button', { name: 'B' }))
+    fireEvent.click(screen.getByRole('radio', { name: 'B' }))
     fireEvent.change(screen.getByLabelText(/worked/i), { target: { value: 'amber drench' } })
     fireEvent.click(screen.getByRole('button', { name: /submit rating/i }))
     await waitFor(() => expect(screen.getByText(/view issue/i)).toBeTruthy())
@@ -59,7 +59,7 @@ describe('RateTab', () => {
 
   it('keeps the saved link when the last unrated day was just rated', async () => {
     const { rerender } = render(<RateTab unrated={unrated.slice(0, 1)} onRated={() => {}} />)
-    fireEvent.click(screen.getByRole('button', { name: 'A' }))
+    fireEvent.click(screen.getByRole('radio', { name: 'A' }))
     fireEvent.click(screen.getByRole('button', { name: /submit rating/i }))
     await waitFor(() => expect(screen.getByText(/view issue/i)).toBeTruthy())
     rerender(<RateTab unrated={[]} onRated={() => {}} />)
