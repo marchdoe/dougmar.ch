@@ -26,7 +26,8 @@
     "pipeline:collect": "node scripts/collect-signals.js",
     "pipeline:canary": "node scripts/canary.js",
     "taste": "node scripts/taste-note.js",
-    "unslop:sync": "node scripts/sync-unslop.js"
+    "unslop:sync": "node scripts/sync-unslop.js",
+    "mockup:fidelity": "node scripts/mockup-fidelity-cli.js"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
