@@ -48,20 +48,15 @@ const CORPUS = {
 // NIGHTLY_RUN=1 to say so (.github/workflows/daily-redesign.yml). PR CI runs it
 // against the committed design and does not.
 //
-// A few routes here are hand-written: the engineer does not write them, no gate
-// hands a failure on them back to it, and the Layout and Sidebar the engineer
-// does write sit around them. What a night's shell does to those routes was
-// meant to be measured in PR CI against a known shell. There is no known
-// shell: the design PR CI sees is whatever the last night committed, and on
-// 2026-09-21 the published night's texture ran behind /elements and
-// /experiments and turned main and every PR after it red (#640). Until the
-// check lives in the surface gate, where a night can still act on it, the four
-// tests that measure the shell skip everywhere; their routes' own assertions
-// stay on.
+// A few routes here are hand-written: the engineer does not write them, and
+// the Layout and Sidebar the engineer does write sit around them. What a
+// night's shell does to those routes cannot be measured here: the design PR CI
+// sees is whatever the last night committed, and on 2026-09-21 the published
+// night's lockup sat on /elements and /experiments and turned main and every
+// PR after it red. The surface gate measures it during the night instead and
+// reports it for a human (`shell-overlap`, #640); the routes' own assertions
+// stay here.
 const NIGHTLY = process.env.NIGHTLY_RUN === '1'
-const SHELL_UNKNOWN = true
-const NIGHT_SHELL =
-  "hand-written route under the night's shell: no known shell to measure against (#640)"
 // Loosened 2026-09-21 (#633): the surface gate runs these three probes during
 // the night and revises on them, and a night that still fails them after its
 // rounds ships with the faults logged rather than being thrown away. PR CI
@@ -111,9 +106,10 @@ test.describe('site health — project pages', () => {
  * /work/dougmar-ch is the one page whose layout does not change nightly. The
  * engineer still rewrites the route around it, so the build validator reads
  * the route's source and this reads what the route rendered: the fixed
- * component is on the page, it carries the whole paper, and its column is the
- * measure it was drawn with. The palette and the faces are the day's, so none
- * of this names a colour or a font. See #533.
+ * component is on the page and it carries the whole paper. The palette and the
+ * faces are the day's, so none of this names a colour or a font. See #533.
+ * How wide the night's Layout lets its column run is not held here: PR CI has
+ * no known shell to hold it against (#640).
  */
 test.describe('site health — the white paper holds its layout', () => {
   test('/work/dougmar-ch renders the fixed page and no other slug does', async ({ page }) => {
@@ -144,39 +140,6 @@ test.describe('site health — the white paper holds its layout', () => {
     await expect(page.locator('h1')).toHaveCount(1)
     await expect(page.locator('[data-white-paper]')).toHaveCount(0)
   })
-
-  for (const [width, measure] of [
-    [WIDE_VIEWPORT.width, 640],
-    [NARROW_VIEWPORT.width, 0],
-  ] as const) {
-    // The paper's column is the room the night's Layout leaves it: a shell that
-    // pads or narrows its content made it 463px at 1440 and 6px wider than the
-    // phone at 360, on two of seventeen replayed nights. The paper is fixed and
-    // its structure is checked above, whatever the night wraps it in.
-    test(`the text column holds at ${width}`, async ({ page }) => {
-      test.skip(SHELL_UNKNOWN, NIGHT_SHELL)
-      await page.setViewportSize({ width, height: 900 })
-      await page.goto('/work/dougmar-ch')
-      const box = await page.evaluate(() => {
-        const paper = document.querySelector('[data-white-paper]')
-        const prose = paper?.querySelector('section p')
-        if (!paper || !prose) return null
-        const cs = getComputedStyle(prose)
-        return {
-          paper: paper.getBoundingClientRect().width,
-          prose: prose.getBoundingClientRect().width,
-          fontSize: cs.fontSize,
-          scroll: document.documentElement.scrollWidth,
-        }
-      })
-      expect(box).not.toBeNull()
-      if (!box) return
-      expect(box.fontSize).toBe('18px')
-      expect(box.scroll).toBeLessThanOrEqual(width)
-      // 40rem from `lg` up; below it, the article's width less 1.25rem a side.
-      expect(Math.round(box.prose)).toBe(measure || Math.round(box.paper) - 40)
-    })
-  }
 })
 
 /**
@@ -880,15 +843,12 @@ test.describe('site health — navigation', () => {
 /**
  * /elements reads the presets, so the browser is where it gets held to them
  * (#552). Every colour it prints must be the colour its swatch paints from the
- * built stylesheet, no text may sit under the type ramp's floor, nothing
- * scrolls sideways, and the nightly Sidebar, which runs down the left edge of
- * the Layout wrapper, must not sit on the content. None of it names a token or
- * a size: the preset changes every night.
+ * built stylesheet, and no text may sit under the type ramp's floor. None of
+ * it names a token or a size: the preset changes every night.
  *
- * The Sidebar is the engineer's and it has been a rotated decorative strip, a
- * real navigation rail and nothing at all, so nothing here looks for one. The
- * route's text is told apart from the shell's by `data-page`, and the shell is
- * whatever text the night put around it.
+ * The route's text is told apart from the shell's by `data-page`. Whether the
+ * shell sits on it is the surface gate's question, asked during the night
+ * (#640).
  *
  * The page callbacks only gather numbers and strings; the comparing happens
  * here, so each stays a few lines long.
@@ -929,19 +889,6 @@ function textLines(page: Page, root: string): Promise<TextLine[]> {
     }
     return out
   }, root)
-}
-
-/** The route's lines that a line of the shell's text sits on. */
-function coveredByShell(lines: TextLine[]): string[] {
-  const shell = lines.filter((l) => !l.own)
-  return lines
-    .filter((l) => l.own)
-    .filter((o) =>
-      shell.some(
-        (s) => o.left < s.right && o.right > s.left && o.top < s.bottom && o.bottom > s.top
-      )
-    )
-    .map((l) => l.text)
 }
 
 test.describe('site health — /elements reads the preset', () => {
@@ -1014,34 +961,15 @@ test.describe('site health — /elements reads the preset', () => {
         `text under the ${floor}px floor`
       ).toEqual([])
     })
-
-    // The Sidebar shows from the md breakpoint up, when the night wrote one, and
-    // the Layout wrapper hides what runs off its edge. The route owns a gutter
-    // for the strip it has been given, not for every shell a night can draw.
-    test(`scrolls nowhere and keeps clear of the night's shell at ${width}`, async ({ page }) => {
-      test.skip(SHELL_UNKNOWN, NIGHT_SHELL)
-      await page.setViewportSize({ width, height: 900 })
-      await page.reload()
-      await page.waitForLoadState('networkidle')
-
-      const overflow = await page.evaluate(
-        () => document.documentElement.scrollWidth - document.documentElement.clientWidth
-      )
-      expect(overflow).toBeLessThanOrEqual(0)
-      expect(
-        coveredByShell(await textLines(page, '[data-page="elements"]')),
-        "text under the night's shell"
-      ).toEqual([])
-    })
   }
 })
 
 /**
  * The work index is hand-written and takes only the day's colours and type
  * (#561). Until then it was styled like a different site and clipped at 320:
- * a 208px column under a 54px title, so "Spaceman" read "Spacemar". The Layout
- * wrapper hides horizontal overflow, so `scrollWidth` says nothing is wrong
- * while text runs off the screen. Text is measured against the viewport too.
+ * a 208px column under a 54px title, so "Spaceman" read "Spacemar". What the
+ * night's Layout leaves it room for (targets, clipping, broken words, the
+ * shell's text on its own) the surface gate measures during the night (#640).
  */
 test.describe('site health — the work index fits every width (#561)', () => {
   for (const width of [320, 768, 1440]) {
@@ -1062,95 +990,6 @@ test.describe('site health — the work index fits every width (#561)', () => {
       for (const slug of PROJECT_SLUGS) {
         await expect(page.locator(`[data-page="work"] a[href="/work/${slug}"]`)).toBeVisible()
       }
-    })
-
-    // The route sets every size as a literal, so what it measures here is the
-    // room the night's Layout leaves it. One that narrows or pads the column
-    // squeezes the page (39px rows, on 2026-08-30), and the engineer never sees
-    // the page. PR CI holds it against a known shell.
-    test(`/work at ${width} draws 44px targets, clips nothing and breaks no word`, async ({
-      page,
-    }) => {
-      test.skip(SHELL_UNKNOWN, NIGHT_SHELL)
-      await open(page)
-
-      // The page callbacks only gather numbers; the comparing happens here.
-      const text = await page.evaluate(() => {
-        const range = document.createRange()
-        const linesOf = (node: Text, start: number, end: number, size: number) => {
-          range.setStart(node, start)
-          range.setEnd(node, end)
-          const rects = Array.from(range.getClientRects()).filter((r) => r.width > 0)
-          return new Set(rects.map((r) => Math.round(r.top / (size / 2)))).size
-        }
-        const wordsOf = (node: Text, size: number) =>
-          Array.from(node.data.matchAll(/[\p{L}\p{N}'’]+/gu), (w) => ({
-            word: w[0],
-            size: Math.round(size),
-            lines: linesOf(node, w.index, w.index + w[0].length, size),
-          }))
-        const edgesOf = (node: Text) => {
-          range.selectNodeContents(node)
-          return Array.from(range.getClientRects())
-            .filter((r) => r.width > 0)
-            .map((r) => ({ left: Math.round(r.left), right: Math.round(r.right) }))
-        }
-        const shown = (el: Element) => {
-          const cs = getComputedStyle(el)
-          return cs.visibility !== 'hidden' && cs.writingMode.startsWith('horizontal')
-        }
-
-        const out: {
-          text: string
-          edges: ReturnType<typeof edgesOf>
-          words: ReturnType<typeof wordsOf>
-        }[] = []
-        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
-        for (let n = walker.nextNode(); n; n = walker.nextNode()) {
-          const el = n.parentElement
-          if (!el || el.closest('[aria-hidden="true"]') || !shown(el)) continue
-          if (!el.closest('[data-page="work"]')) continue
-          const size = Number.parseFloat(getComputedStyle(el).fontSize)
-          const node = n as Text
-          out.push({
-            text: node.data.trim().slice(0, 24),
-            edges: edgesOf(node),
-            words: wordsOf(node, size),
-          })
-        }
-        return out
-      })
-
-      const links = await page.evaluate(() =>
-        Array.from(document.querySelectorAll('[data-page="work"] a[href]'), (a) => {
-          const r = a.getBoundingClientRect()
-          return { text: (a.textContent ?? '').trim().slice(0, 24), w: r.width, h: r.height }
-        })
-      )
-      const overflow = await page.evaluate(
-        () => document.documentElement.scrollWidth - document.documentElement.clientWidth
-      )
-
-      const clipped = text.flatMap((t) =>
-        t.edges
-          .filter((e) => e.left < 0 || e.right > width + 0.5)
-          .map((e) => `"${t.text}" ${e.left}..${e.right}`)
-      )
-      // A word whose glyphs sit on more than one line was cut in half.
-      const broken = text.flatMap((t) =>
-        t.words
-          .filter((w) => w.lines > 1)
-          .map((w) => `"${w.word}" at ${w.size}px on ${w.lines} lines`)
-      )
-      const small = links
-        .filter((l) => l.w > 0 && l.h > 0 && (l.w < 44 || l.h < 44))
-        .map((l) => `"${l.text}" ${Math.round(l.w)}x${Math.round(l.h)}`)
-
-      expect(overflow, 'the page scrolls sideways').toBeLessThanOrEqual(0)
-      expect(clipped, 'text runs past the viewport').toEqual([])
-      expect(broken, 'a word is broken across lines').toEqual([])
-      expect(links.length, 'the route drew no links').toBeGreaterThan(0)
-      expect(small, 'link targets under 44px').toEqual([])
     })
   }
 })
@@ -1203,20 +1042,6 @@ test.describe('site health — /experiments spacing', () => {
         expect(row.inline).toEqual([inline, inline])
         expect(row.height).toBeGreaterThanOrEqual(44)
       }
-    })
-
-    // The Sidebar is absolute from top to bottom of the Layout wrapper, when the
-    // night wrote one, and the route only keeps its wrapper tall enough for the
-    // strip it has been given. Any other shell is the night's own doing.
-    test(`rows clear the night's shell at ${width}`, async ({ page }) => {
-      test.skip(SHELL_UNKNOWN, NIGHT_SHELL)
-      await page.setViewportSize({ width, height: 900 })
-      await page.goto('/experiments')
-      await page.waitForLoadState('networkidle')
-
-      const lines = await textLines(page, '[data-page="experiments"]')
-      expect(lines.filter((l) => l.own).length, 'the page rendered no text').toBeGreaterThan(0)
-      expect(coveredByShell(lines), "text under the night's shell").toEqual([])
     })
   }
 })

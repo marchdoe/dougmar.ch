@@ -6,9 +6,11 @@
  * and no gate hands a failure on them back to it. Their pages sit inside the
  * Layout and Sidebar the engineer does write, so what a night's shell does to
  * them was failing a night that nothing could then repair (2026-09-21: ten
- * failures after a whole night had shipped). The tests that measure the shell
- * skip themselves when the variable is set. PR CI runs the same file against
- * the committed design and must not set it, or nothing would ever run them.
+ * failures after a whole night had shipped). The tests that measured the shell
+ * are now the surface gate's `shell-overlap` probe (#640), and the render-health
+ * checks skip themselves when the variable is set. PR CI runs the same file
+ * against the committed design and must not set it, or nothing would ever run
+ * them.
  */
 
 import { readdirSync, readFileSync } from 'node:fs'
@@ -70,20 +72,18 @@ describe('what the spec does with it', () => {
     expect(SPEC).toContain("process.env.NIGHTLY_RUN === '1'")
   })
 
-  it('skips tests with it, each with one of the two stated reasons', () => {
-    // The shell-clearance checks skip everywhere, not only at night: there is
-    // no known shell for PR CI to hold a hand-written route against (#640).
-    const shell = SPEC.match(/test\.skip\(SHELL_UNKNOWN, NIGHT_SHELL\)/g) ?? []
+  it('skips tests with it, each with the stated reason', () => {
     // The render-health skips are the 2026-09-21 loosening (#633); they go
-    // when that issue closes, and this count goes back to the shell's alone.
+    // when that issue closes. The shell-clearance checks that skipped
+    // everywhere are gone: the surface gate asks their question during the
+    // night (#640).
     const render = SPEC.match(/test\.skip\(NIGHTLY, NIGHT_RENDER\)/g) ?? []
-    expect(shell.length).toBe(4)
     expect(render.length).toBe(3)
-    expect(SPEC).toContain('no known shell to measure against (#640)')
     expect(SPEC).toContain('render health: the surface gate measured this during the run (#633)')
+    expect(SPEC).not.toContain('SHELL_UNKNOWN')
     // No skip written any other way: a bare `test.skip(` is a test that never runs anywhere.
     const all = SPEC.match(/test\.skip\(/g) ?? []
-    expect(all.length).toBe(shell.length + render.length)
+    expect(all.length).toBe(render.length)
   })
 
   it("leaves the archive calendar blocking, since the archive is drawn outside the night's shell", () => {
