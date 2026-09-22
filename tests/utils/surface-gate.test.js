@@ -253,8 +253,11 @@ describe('listGeneratedRoutes', () => {
     const paths = routes.map((r) => r.route)
     expect(paths).toContain('/work/alpha')
     expect(paths).toContain('/work/beta')
-    // The four fixed surfaces plus one per slug.
-    expect(routes).toHaveLength(6)
+    // The five fixed surfaces plus one per slug. /elements is hand-written
+    // and walked for what the night's shell does to it (#640).
+    expect(paths).toContain('/elements')
+    expect(ownerForSurface('/elements')).toBe('human')
+    expect(routes).toHaveLength(7)
   })
 })
 

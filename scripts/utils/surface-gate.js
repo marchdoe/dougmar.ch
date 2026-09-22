@@ -36,6 +36,7 @@ import { measureLegibility } from './legibility.js'
 import { collapseLineLength, lineLengthFindings } from './line-length.js'
 import { TAP_TARGET_MIN_PX } from './responsive-thresholds.js'
 import { collapseRenderHealth, measureRenderHealth, renderHealthFindings } from './render-health.js'
+import { measureShellOverlap, shellOverlapFindings } from './shell-overlap.js'
 import { collapseSmallText, smallTextFindings } from './small-text.js'
 import { withPreviewServer } from './snapshot.js'
 import { TABLET_RUNG, tabletMeasurement } from './tablet-rung.js'
@@ -133,7 +134,9 @@ export const BRAND_CONTRAST_MIN = 3
  *
  * `/work/<slug>` is expanded from the project list at call time rather than
  * hardcoded, so a project added to `projects.ts` is covered without anyone
- * remembering to add it here.
+ * remembering to add it here. `/elements` is hand-written and is walked for
+ * what the night's shell does to it (#640), and only that; see
+ * {@link SHELL_ONLY_ROUTES}. Its findings go to a human.
  *
  * @param {string} [root] - repo root, injectable for tests
  * @returns {Promise<Array<{ id: string, route: string }>>}
@@ -146,6 +149,7 @@ export async function listGeneratedRoutes(root = ROOT) {
     { id: 'about', route: '/about' },
     { id: 'work-index', route: '/work' },
     { id: 'experiments', route: '/experiments' },
+    { id: 'elements', route: '/elements' },
     ...slugs.map((s) => ({ id: `work-${s}`, route: `/work/${s}` })),
   ]
 }
@@ -268,6 +272,8 @@ export function evaluateMeasurement(
   findings.push(...navReachFindings(m))
   // And that h1 inside the first fold at 1440 (#501).
   findings.push(...heroFoldFindings(m))
+  // The night's shell drawing text over a hand-written route's own (#640).
+  findings.push(...shellOverlapFindings(m))
 
   if (m.consoleErrors?.length) {
     findings.push({
@@ -277,7 +283,32 @@ export function evaluateMeasurement(
     })
   }
 
-  return findings
+  return shellQuestionsOnly(findings, m.route)
+}
+
+/**
+ * Routes walked for what the night's shell does to them and nothing else
+ * (#640). `/elements` is a specimen sheet: it sets the ramp's smallest step
+ * and prints every swatch on purpose, and the e2e spec holds those against
+ * the preset. Walked in full, it put the same small-text and line-length
+ * errors in the rating issue on five of six nights, none of them the shell's.
+ */
+export const SHELL_ONLY_ROUTES = ['/elements']
+
+/** What a shell-only route is asked: did it load, does it fit, does the shell sit on it. */
+const SHELL_QUESTIONS = ['unreachable', 'status', 'overflow', 'shell-overlap']
+
+/**
+ * A shell-only route's findings, cut to the shell's questions; any other
+ * route's, unchanged.
+ *
+ * @param {Array<object>} findings
+ * @param {string} route
+ * @returns {Array<object>}
+ */
+function shellQuestionsOnly(findings, route) {
+  if (!SHELL_ONLY_ROUTES.includes(route)) return findings
+  return findings.filter((f) => SHELL_QUESTIONS.includes(f.kind))
 }
 
 /**
@@ -894,13 +925,23 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
       ([src, thresholds]) => new Function(`return ${src}`)()(window.innerWidth, thresholds),
       [findClippedElements.toString(), { overflowTolerancePx: OVERFLOW_TOLERANCE_PX }]
     )
+    // The shell's text over a hand-written route's (#640), at every rung, in
+    // the light scheme only: where a line lands is the same in both. Before
+    // the render-health walk, which resizes the viewport.
+    const shellOverlap = scheme === 'light' ? await measureShellOverlap(page) : null
     // The tablet asks whether the document overflows, whether anything is cut
     // and how long its lines are, and nothing else (#565, #569): the rest is
     // measured at the other rungs. 820 is where a single column is widest
     // against its type, so line length is asked here too.
     if (viewport.name === TABLET_RUNG) {
       const { lineLength } = await measureLegibility(page, { viewport, scheme })
-      return tabletMeasurement(base, { status: resp?.status() ?? null, box, clipped, lineLength })
+      return tabletMeasurement(base, {
+        status: resp?.status() ?? null,
+        box,
+        clipped,
+        lineLength,
+        shellOverlap,
+      })
     }
     // Tap targets only matter where a thumb does the tapping (#488): measured
     // at the 360 rung only, so a desktop pass spends nothing on a question it
@@ -942,6 +983,7 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
       status: resp?.status() ?? null,
       ...box,
       clipped,
+      shellOverlap,
       brand,
       textContrast,
       renderHealth,
@@ -1256,10 +1298,10 @@ export function formatAdvisoryForRepairBrief(findings) {
  *
  * The revision loop routes every REVISE to `react-engineer`
  * (`design-agents.js`), which is right for the nightly components and wrong
- * for everything else. `/experiments` and `/work` are authored route files no
- * agent owns: feedback about them is a ticket for a human, not a prompt for a
- * model, and sending it to the engineer produces a confident edit to a file it
- * was never given.
+ * for everything else. `/experiments`, `/work` and `/elements` are authored
+ * route files no agent owns: feedback about them is a ticket for a human, not
+ * a prompt for a model, and sending it to the engineer produces a confident
+ * edit to a file it was never given.
  *
  * @param {string} surface - route path
  * @returns {'react-engineer'|'human'}
