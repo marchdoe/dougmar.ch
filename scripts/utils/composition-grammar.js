@@ -172,9 +172,28 @@ export function describeAxisValue(axis, value) {
 }
 
 /**
- * Validate a composition tuple: every axis present, every value permitted.
- * Deliberately has no name check — accepting a novel composition is the
- * entire point of this module.
+ * `density: sparse` (see AXIS_VALUE_DESCRIPTIONS above) admits only a hero
+ * phrase, nav and an optional signal annotation — there is no room left for
+ * `hero_object: list` or `hero_object: artifact`, both of which put a
+ * project block on the page as its largest element (#514). Exported so
+ * `composition-mandate.js` can steer its date-seeded tuple away from the
+ * pair at construction time, the same rule `isValidTuple` rejects it by.
+ *
+ * @param {string|null|undefined} density
+ * @param {string|null|undefined} heroObject
+ * @returns {boolean}
+ */
+export function densityForbidsHeroObject(density, heroObject) {
+  return density === 'sparse' && (heroObject === 'list' || heroObject === 'artifact')
+}
+
+/**
+ * Validate a composition tuple: every axis present, every value permitted,
+ * and the one cross-axis contradiction the grammar admits — `density:
+ * sparse` with a `hero_object` that needs room `sparse` doesn't have —
+ * rejected the way `header-grammar.js` rejects a `placement` that
+ * contradicts `shell_posture`. Otherwise deliberately has no name check —
+ * accepting a novel composition is the entire point of this module.
  *
  * @param {object} tuple
  * @returns {{ valid: boolean, errors: string[] }}
@@ -196,6 +215,11 @@ export function isValidTuple(tuple) {
   }
   for (const key of Object.keys(tuple)) {
     if (!AXIS_NAMES.includes(key)) errors.push(`unknown axis: ${key}`)
+  }
+  if (densityForbidsHeroObject(tuple.density, tuple.hero_object)) {
+    errors.push(
+      `density: "sparse" contradicts hero_object: "${tuple.hero_object}" — sparse admits only the hero phrase, nav and an optional signal annotation, no room for a project block as the largest element`
+    )
   }
   return { valid: errors.length === 0, errors }
 }
