@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { parseOnly, runCollector, selectProviders } from '../scripts/collect-signals.js'
+import { parseOnly, runCollector, selectProviders } from '../../scripts/collect-signals.js'
 
 describe('collect-signals orchestrator', () => {
   // No cleanup hook here on purpose.
