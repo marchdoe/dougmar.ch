@@ -9,6 +9,10 @@
  * of moved labels would bury the one line about a hero set at a third of its
  * size.
  *
+ * Two of them can be errors instead (mockup-drift-gate.js): the lost leader
+ * and a top-three text resized past 2x at 1440. Those go to the engineer
+ * with the measured faults and are left out of this section.
+ *
  * Every line is phrased as something to do, and is built only from the
  * finding's own numbers, so the same fault reads the same way round to round.
  *
@@ -35,12 +39,13 @@ export const MOCKUP_ADVISORY_HEADING =
   '## Advisory: where the build drifts from the approved mockup'
 
 /**
- * True for a finding the brief carries.
- * @param {{ kind: string }} f
+ * True for a finding this section carries: a briefable kind, and not one
+ * already raised to an error.
+ * @param {{ kind: string, severity?: string }} f
  * @returns {boolean}
  */
 export function isMockupAdvisory(f) {
-  return MOCKUP_BRIEF_KINDS.includes(f.kind)
+  return MOCKUP_BRIEF_KINDS.includes(f.kind) && f.severity !== 'error'
 }
 
 /** How far a scale finding is from 1x, either way: 0.5x and 2x rank alike. */
@@ -125,17 +130,25 @@ const LINE_FOR = {
 }
 
 /**
- * One finding as an instruction, prefixed with where it was measured. A
- * finding without `facts` (one from before they were recorded) falls back to
- * its `detail`.
+ * One finding as an instruction. A finding without `facts` (one from before
+ * they were recorded) falls back to its `detail`.
+ *
+ * @param {{ kind: string, detail: string, facts?: object }} f
+ * @returns {string}
+ */
+export function mockupInstruction(f) {
+  const line = LINE_FOR[f.kind]
+  return f.facts && line ? line(f.facts) : f.detail
+}
+
+/**
+ * One finding as a brief line, prefixed with where it was measured.
  *
  * @param {{ kind: string, width: number, detail: string, facts?: object }} f
  * @returns {string}
  */
 export function mockupAdvisoryLine(f) {
-  const line = LINE_FOR[f.kind]
-  const text = f.facts && line ? line(f.facts) : f.detail
-  return `- / at ${f.width}px: ${text}`
+  return `- / at ${f.width}px: ${mockupInstruction(f)}`
 }
 
 /**

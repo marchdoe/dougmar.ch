@@ -50,6 +50,21 @@ describe('extractTextSegments', () => {
     expect(segs.filter((s) => /^[GAP]$/.test(s.text))).toHaveLength(0)
   })
 
+  it('keeps the stacked lines of a flex-column headline apart (2026-09-22 canary)', async () => {
+    // The canary's h1: three spans in a flex column, the second and third
+    // both at 122px. They read as one segment, 'bothnot a generalist'.
+    const segs = await measure(
+      browser,
+      `<h1 style="display:flex;flex-direction:column;margin:0">` +
+        `<span style="display:block;font-size:40px">Deep in</span>` +
+        `<span style="display:block;font-size:122px">Both</span>` +
+        `<span style="display:block;font-size:122px">Not a generalist.</span></h1>`
+    )
+    const texts = segs.map((s) => s.text.trim())
+    expect(texts).toContain('Both')
+    expect(texts).toContain('Not a generalist.')
+  })
+
   it('does not merge two real paragraphs that happen to share a font-size', async () => {
     const segs = await measure(
       browser,
@@ -189,7 +204,7 @@ describe('mockup drift through runSurfaceGate', () => {
     return server
   }
 
-  it('returns the comparison beside the findings, placed on / and kept out of them', async () => {
+  it('returns the comparison beside the findings, with only the lost leader at 1440 in them', async () => {
     const server = await serve()
     const browser = await chromium.launch({ headless: true })
     try {
@@ -206,11 +221,16 @@ describe('mockup drift through runSurfaceGate', () => {
       const hierarchy = gate.mockupFindings.find(
         (f) => f.kind === 'mockup-hierarchy' && f.width === 1440
       )
-      expect(hierarchy).toMatchObject({ surface: '/', severity: 'warning', scheme: 'light' })
-      expect(hierarchy.facts.buildLeader).toMatchObject({ text: 'deep in', mockupPx: 44 })
+      // The build's largest text is not the mockup's: an error at 1440, with
+      // the instruction as its detail (mockup-drift-gate.js).
+      expect(hierarchy).toMatchObject({ surface: '/', severity: 'error', scheme: 'light' })
+      expect(hierarchy.detail).toContain("'deep in' is 44px in the mockup.")
       expect(gate.mockupFindings.some((f) => f.width === 360)).toBe(true)
-      // The critic is handed `findings`; the mockup comparison is not in it.
-      expect(gate.findings.some((f) => f.kind.startsWith('mockup-'))).toBe(false)
+      // Errors join `findings`, so they force a revision; nothing at 360 does.
+      const inFindings = gate.findings.filter((f) => f.kind.startsWith('mockup-'))
+      expect(inFindings).toContainEqual(hierarchy)
+      expect(inFindings.every((f) => f.severity === 'error' && f.width === 1440)).toBe(true)
+      expect(gate.errorCount).toBe(gate.findings.filter((f) => f.severity === 'error').length)
 
       const without = await runSurfaceGate(opts)
       expect(without.mockupFindings).toBeNull()

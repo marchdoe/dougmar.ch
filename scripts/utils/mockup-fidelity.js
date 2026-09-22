@@ -212,18 +212,38 @@ export function extractTextSegments() {
     'LABEL',
   ])
 
-  function isBoundary(el) {
+  // A leaf that is only block because it is a flex/grid item:
+  // blockification, not an authored boundary.
+  function isBlockifiedLeaf(el) {
     const parent = el.parentElement
-    if (parent) {
-      const parentDisplay = getComputedStyle(parent).display
-      const isFlexOrGridItem = parentDisplay === 'flex' || parentDisplay === 'grid'
-      if (isFlexOrGridItem && INLINE_TAGS.has(el.tagName) && el.childElementCount === 0) {
-        // A leaf that is only block because it is a flex/grid item —
-        // blockification, not an authored boundary.
-        return false
-      }
-    }
+    if (!parent || !INLINE_TAGS.has(el.tagName) || el.childElementCount !== 0) return false
+    const parentDisplay = getComputedStyle(parent).display
+    return parentDisplay === 'flex' || parentDisplay === 'grid'
+  }
+
+  function isBoundary(el) {
+    if (isBlockifiedLeaf(el)) return false
     return BLOCK.has(getComputedStyle(el).display)
+  }
+
+  // Two boxes share a line when they overlap vertically by more than half
+  // the shorter one's height.
+  function onOneLine(a, b) {
+    const ra = a.getBoundingClientRect()
+    const rb = b.getBoundingClientRect()
+    const overlap = Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top)
+    return overlap > 0.5 * Math.min(ra.height, rb.height)
+  }
+
+  // Blockified leaves join one run only while they sit on one line: the
+  // letters of a flex-row hero word do, and the stacked lines of a
+  // flex-column headline do not (2026-09-22's canary set 'Both' and 'Not a
+  // generalist.' as two spans in a column h1, both at 122px, and they read
+  // as one segment, 'bothnot a generalist').
+  function continuesLine(lastEl, el) {
+    if (lastEl === el) return true
+    if (!isBlockifiedLeaf(lastEl) && !isBlockifiedLeaf(el)) return true
+    return onOneLine(lastEl, el)
   }
 
   function nearestBlockAncestor(startEl) {
@@ -338,7 +358,8 @@ export function extractTextSegments() {
       current &&
       current.blockAncestor === blockAncestor &&
       Math.abs(fontSize - current.fontSize) <= 0.5 &&
-      fontFamily === current.fontFamily
+      fontFamily === current.fontFamily &&
+      continuesLine(current.members.at(-1).el, el)
 
     if (sameRun) {
       current.raw += pendingBreak ? ` ${node.nodeValue}` : node.nodeValue
@@ -505,8 +526,11 @@ function sizeRatio(a, b) {
   return a.fontSize >= b.fontSize ? a.fontSize / b.fontSize : b.fontSize / a.fontSize
 }
 
+/** A segment that is only punctuation (a lone '·' between two flex items)
+ * normalizes to nothing and has nothing to match on. */
 function isEligible(seg) {
   return (
+    seg.normText.length > 0 &&
     seg.fontSize >= MIN_SEGMENT_PX &&
     seg.opacity >= OPACITY_VISIBLE_MIN &&
     seg.visibleFraction >= VISIBLE_FRACTION_MIN
@@ -681,7 +705,10 @@ function pushHierarchyFinding(candidates, buildEligible, pairs, mockup, push) {
 
   if (!(top1Differs || missingFromBuildTop3 || flattened)) return
   const { detail, facts } = flattened ?? replacedLeaderFinding(mockupTop, buildTop, mockup)
-  push('mockup-hierarchy', detail, facts)
+  // Whether the build's largest text is a different text from the mockup's,
+  // whatever shape the finding took: the one hierarchy fault that forces a
+  // revision (mockup-advisory.js).
+  push('mockup-hierarchy', detail, { ...facts, leaderLost: top1Differs })
 }
 
 function pushScaleFindings(candidates, pairs, push) {
@@ -695,6 +722,8 @@ function pushScaleFindings(candidates, pairs, push) {
       mockupPx: Math.round(m.fontSize),
       buildPx: Math.round(b.fontSize),
       ratio: Number(ratio.toFixed(2)),
+      // 0 for the mockup's largest text, 1 for the next, and so on.
+      mockupRank: candidates.indexOf(m),
     }
     push(
       'mockup-scale',
@@ -725,7 +754,7 @@ function pushShiftFindings(pairs, width, viewportHeight, push) {
 
 function pushTextCutFindings(build, push) {
   for (const b of build) {
-    if (b.fontSize < MIN_SEGMENT_PX) continue
+    if (!b.normText || b.fontSize < MIN_SEGMENT_PX) continue
     if (b.opacity < OPACITY_VISIBLE_MIN) continue
     if (b.visibleFraction >= TEXT_CUT_VISIBLE_FRACTION) continue
     const visiblePct = Math.round(b.visibleFraction * 100)
