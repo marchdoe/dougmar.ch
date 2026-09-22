@@ -20,7 +20,18 @@ import { Route } from '../../app/routes/elements'
 const read = (file: string) => readFileSync(path.join(process.cwd(), file), 'utf8')
 
 type Parsed = Record<string, Record<string, unknown>> & {
-  colors: { ramps: Record<string, Record<string, string>>; semantic: Record<string, string> }
+  colors: { ramps: Record<string, Record<string, string> | string>; semantic: Record<string, string> }
+}
+
+/**
+ * A scale's steps as [path, hex] pairs. A preset may also declare a single
+ * colour (`white: { value: '#FFFFFF' }`), which the parser returns as a bare
+ * hex; walking that string as an object read it as steps `white.0` to
+ * `white.6`, and the night of 2026-09-22 would have failed its verify step.
+ */
+function colourPaths(scale: string, steps: Record<string, string> | string): [string, string][] {
+  if (typeof steps === 'string') return [[scale, steps]]
+  return Object.entries(steps).map(([step, hex]) => [`${scale}.${step}`, hex])
 }
 
 // Chassis is listed last in panda.config.ts, so it wins per name.
@@ -31,7 +42,7 @@ function definedTokens() {
   const primitive = new Set<string>()
   for (const src of [elements, chassis]) {
     for (const [scale, steps] of Object.entries(src.colors.ramps)) {
-      for (const step of Object.keys(steps)) primitive.add(`${scale}.${step}`)
+      for (const [tokenPath] of colourPaths(scale, steps)) primitive.add(tokenPath)
     }
   }
   return {
@@ -74,8 +85,8 @@ describe('/elements token tables', () => {
       container.querySelector(`[data-token-path="${path}"] [data-token-value]`)?.textContent
 
     for (const [scale, steps] of Object.entries(elements.colors.ramps)) {
-      for (const [step, hex] of Object.entries(steps)) {
-        expect(hexOf(`colors.${scale}.${step}`)).toBe(hex)
+      for (const [tokenPath, hex] of colourPaths(scale, steps)) {
+        expect(hexOf(`colors.${tokenPath}`)).toBe(hex)
       }
     }
     // A semantic colour written as `{colors.scale.step}` shows that step's hex.
@@ -83,7 +94,8 @@ describe('/elements token tables', () => {
     // this loop is what checks them on the nights that do.
     for (const [name, value] of Object.entries(elements.colors.semantic)) {
       const ref = /^\{colors\.([^.]+)\.([^}]+)\}$/.exec(value)
-      if (ref) expect(hexOf(`semantic.${name}`)).toBe(elements.colors.ramps[ref[1]]?.[ref[2]])
+      const scale = ref ? elements.colors.ramps[ref[1]] : undefined
+      if (ref && typeof scale !== 'string') expect(hexOf(`semantic.${name}`)).toBe(scale?.[ref[2]])
       else if (/^#[0-9a-f]{6}$/i.test(value)) expect(hexOf(`semantic.${name}`)).toBe(value)
     }
   })
