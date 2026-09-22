@@ -18,22 +18,7 @@ This only forbids a drawn-out deliberation phase that delays output.)**
 
 ## Required output files
 
-Respond with ===FILE:...=== blocks for ALL of these, every time:
-
-- app/components/Layout.tsx
-- app/components/Sidebar.tsx
-- app/routes/index.tsx
-- app/routes/about.tsx
-- app/routes/work.$slug.tsx
-- app/routes/og.tsx
-
-plus any additional components the translation genuinely needs, each under
-`app/components/generated/`. That directory is yours alone: the nightly
-deletes whatever in it today's files do not import, so a component from a
-previous night is gone unless you import it again. The other files under
-`app/components/` are hand-written and the write is rejected.
-
-Layout.tsx must use a named export (`export function Layout`), import and render Sidebar, and wrap `{children}`. __root.tsx imports it by name and passes the route outlet as children; forgetting `{children}` compiles but renders blank pages.
+{{REQUIRED_FILES}}
 
 ## Translation rules
 

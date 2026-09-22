@@ -59,7 +59,7 @@ export async function readOwnedFiles(writtenPaths, fileOwnership, { root = ROOT 
  */
 export async function loadRepairBriefTemplate({ root = ROOT } = {}) {
   const template = await loadPrompt(TEMPLATE_NAME, { root })
-  for (const placeholder of ['{{FILES}}', '{{ERRORS}}']) {
+  for (const placeholder of ['{{FILES}}', '{{ERRORS}}', '{{PRESET}}']) {
     if (!template.includes(placeholder)) {
       throw new Error(`${TEMPLATE_REL} is missing its ${placeholder} placeholder`)
     }
@@ -70,12 +70,15 @@ export async function loadRepairBriefTemplate({ root = ROOT } = {}) {
 /**
  * The user prompt for a repair or revision call.
  * @param {string} template from {@link loadRepairBriefTemplate}
- * @param {{ owned: Array<{ path: string, content: string }>, errors: string }} params
+ * @param {{ owned: Array<{ path: string, content: string }>, errors: string, preset?: string }} params
  *   `errors` is the report verbatim: a build error, or the critic's feedback
- *   with the measured faults
+ *   with the measured faults. `preset` is `elements/preset.ts` as written
+ *   this run, printed read-only (#447) — the critic's feedback is often
+ *   about fidelity to tokens the owned-files listing never carries, since
+ *   the engineer does not own that file.
  * @returns {string}
  */
-export function renderRepairBrief(template, { owned, errors }) {
+export function renderRepairBrief(template, { owned, errors, preset }) {
   // The engineer runs with no tools and one turn, so the brief is the only
   // way it can see a file it is not rewriting. Sizes alone left it guessing
   // the props of sibling components three attempts running (#460).
@@ -84,7 +87,10 @@ export function renderRepairBrief(template, { owned, errors }) {
         .map((f) => `--- ${f.path} ---\n${f.content.replace(/\n$/, '')}\n--- end ${f.path} ---`)
         .join('\n\n')
     : '(none written yet)'
-  return template.replace('{{FILES}}', files).replace('{{ERRORS}}', errors.trim())
+  return template
+    .replace('{{FILES}}', files)
+    .replace('{{PRESET}}', (preset ?? '').trim() || '(not available)')
+    .replace('{{ERRORS}}', errors.trim())
 }
 
 /**

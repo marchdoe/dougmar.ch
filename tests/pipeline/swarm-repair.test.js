@@ -191,12 +191,16 @@ describe('Phase 5: the build fails', () => {
     expect(run.retries).toBe(1)
     expect(run.fakes.validateBuild).toHaveLength(2)
 
-    // The repair call: the engineer's own system prompt, model and budget,
-    // and a brief as the user prompt in place of the original task plus the
-    // error. The brief prints every file on disk in full and carries the
-    // build error verbatim.
+    // The repair call: the engineer's own system prompt in its patch variant
+    // (#447 — the required-files section and gate line state the patch
+    // contract instead of the full-generation one), the same model and
+    // budget, and a brief as the user prompt in place of the original task
+    // plus the error. The brief prints every file on disk in full and
+    // carries the build error verbatim.
     const [first, repair] = run.callsFor('react-engineer')
-    expect(repair.systemPrompt).toBe(first.systemPrompt)
+    expect(repair.systemPrompt).not.toBe(first.systemPrompt)
+    expect(repair.systemPrompt).toContain('This is a patch call')
+    expect(first.systemPrompt).not.toContain('This is a patch call')
     expect(repair.model).toBe(first.model)
     expect(first.options.purpose).toBe('first')
     expect(repair.options).toEqual({ ...first.options, purpose: 'repair' })
@@ -560,10 +564,12 @@ describe('after the build passes: the screenshot critic and the surface gate', (
       // is judged one more time, against the same fixture queue's second entry.
       'screenshot-critic',
     ])
-    // The same brief as a repair, with the critic's feedback as the report.
+    // The same brief as a repair, with the critic's feedback as the report,
+    // and the same patch system prompt variant (#447).
     const [first, revision] = run.callsFor('react-engineer')
     expect(first.userPrompt).not.toContain(REVISE_FEEDBACK)
-    expect(revision.systemPrompt).toBe(first.systemPrompt)
+    expect(revision.systemPrompt).not.toBe(first.systemPrompt)
+    expect(revision.systemPrompt).toContain('This is a patch call')
     expect(revision.userPrompt.startsWith('# Repair brief')).toBe(true)
     expect(revision.userPrompt).toContain(
       `The build passed. The screenshot critic and the surface gate found:\n\n${REVISE_FEEDBACK}`

@@ -69,7 +69,11 @@ import {
   formatSemanticContractForPrompt,
 } from './utils/semantic-contract.js'
 import { formatPatternPropsForPrompt, readPatternProps } from './utils/pattern-props.js'
-import { collectGateRules, formatGateRulesForPrompt } from './utils/gate-rules.js'
+import {
+  collectGateRules,
+  formatGateRulesForPrompt,
+  formatRequiredFilesSection,
+} from './utils/gate-rules.js'
 import { fillContentGaps } from './utils/content-gaps.js'
 import { loadPrompt } from './utils/prompt-loader.js'
 import { parseDelimiterResponse } from './utils/delimiter-parser.js'
@@ -775,7 +779,12 @@ index.tsx is a single-composition canvas today, not a portfolio hub.`)
 async function callAgent(agentName, systemPrompt, userPrompt, options = {}) {
   let fullPrompt = userPrompt
 
-  fullPrompt += `\n\n---\n\nIMPORTANT: Use the ===FILE:path=== delimiter format described in your instructions. Write complete file contents after each delimiter. No JSON, no markdown code fences, no explanation — just the delimiters and raw file content.`
+  // A patch reply sends only the files that changed — "write complete file
+  // contents after each delimiter" reads as "regenerate everything" and
+  // contradicted the brief's "return ONLY the files that must change" (#447).
+  fullPrompt += options.patch
+    ? `\n\n---\n\nIMPORTANT: Use the ===FILE:path=== delimiter format described in your instructions. No JSON, no markdown code fences, no explanation — just the delimiters and raw file content.`
+    : `\n\n---\n\nIMPORTANT: Use the ===FILE:path=== delimiter format described in your instructions. Write complete file contents after each delimiter. No JSON, no markdown code fences, no explanation — just the delimiters and raw file content.`
 
   // Explicit IDs only — the 'sonnet' alias this used to fall back to is what
   // models.js exists to prevent (a pinned CLI freezes what the alias means).
@@ -2016,15 +2025,32 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
     if (!reactEngineerPromptRaw.includes('{{GATES}}')) {
       throw new Error('react-engineer.md is missing its {{GATES}} placeholder')
     }
+    // The required-files section states one contract for a full generation
+    // and the opposite one for a patch (a repair or a revision) — #447 found
+    // the two calls sharing the full-generation wording, which told a patch
+    // reply to resend every required file while the brief in the same call
+    // asked for only what changed.
+    if (!reactEngineerPromptRaw.includes('{{REQUIRED_FILES}}')) {
+      throw new Error('react-engineer.md is missing its {{REQUIRED_FILES}} placeholder')
+    }
     // Which content fields are empty today, read from app/content (#568), so
     // the engineer does not print a separator beside a field that has no text.
-    const reactEngineerPrompt = await fillContentGaps(
-      reactEngineerPromptRaw
-        .replace('{{SEMANTIC_COLOR_CONTRACT}}', formatSemanticContractForPrompt())
-        .replace('{{GATES}}', formatGateRulesForPrompt(collectGateRules({ root }))),
-      { root }
-    )
+    const semanticColorContractBlock = formatSemanticContractForPrompt()
+    const buildReactEngineerPrompt = (patch) =>
+      fillContentGaps(
+        reactEngineerPromptRaw
+          .replace('{{SEMANTIC_COLOR_CONTRACT}}', semanticColorContractBlock)
+          .replace('{{REQUIRED_FILES}}', formatRequiredFilesSection({ patch }))
+          .replace('{{GATES}}', formatGateRulesForPrompt(collectGateRules({ root, patch }))),
+        { root }
+      )
+    const reactEngineerPrompt = await buildReactEngineerPrompt(false)
+    const reactEngineerPatchPrompt = await buildReactEngineerPrompt(true)
     const reactEngineerSystemPrompt = `${reactEngineerPrompt}\n\n${designSystemReference}${brandRegisterDeclaration}`
+    // Used for every patch call — a repair or a revision (`patch: true`) —
+    // so its required-files wording matches the repair brief's "return only
+    // what changed" instead of contradicting it (#447).
+    const reactEngineerPatchSystemPrompt = `${reactEngineerPatchPrompt}\n\n${designSystemReference}${brandRegisterDeclaration}`
 
     // The motion-design reference (#506) rides in the engineer's user prompt
     // on a night with an entrance or a scroll reveal to time. The engineer
@@ -2067,6 +2093,9 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
     // model/timeout choices can't drift out of sync with each other.
     const reactEngineerAgentConfig = {
       prompt: reactEngineerSystemPrompt,
+      // Every repair and revision call (`patch: true`) uses this instead —
+      // see reactEngineerPatchSystemPrompt above (#447).
+      patchPrompt: reactEngineerPatchSystemPrompt,
       user: buildEngineerUserPrompt,
       options: { model: modelFor('react-engineer'), ...budgetFor('react-engineer') },
     }
@@ -2255,7 +2284,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
       taskPrompt: engineerUserPrompt,
       buildBrief: buildRepairBrief,
       askEngineer: (prompt) =>
-        callAgent('react-engineer', reactEngineerAgentConfig.prompt, prompt, {
+        callAgent('react-engineer', reactEngineerAgentConfig.patchPrompt, prompt, {
           ...reactEngineerAgentConfig.options,
           patch: true,
           purpose: 'output-patch',
@@ -2409,8 +2438,11 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
 
     /**
      * The user prompt for a repair or revision call: the engineer's files as
-     * they stand on disk, and the report verbatim. The system prompt is the
-     * engineer's own, unchanged, so it keeps every rule it was given.
+     * they stand on disk, the Art Director's preset read-only, and the
+     * report verbatim. The system prompt is the engineer's own patch
+     * variant (#447): every rule it was given, with the required-files
+     * section and gate line stating the patch contract instead of the
+     * full-generation one.
      * @param {string} errors a build error, or the critic's feedback plus the
      *   measured faults
      * @returns {Promise<{ owned: Array<{path: string, content: string}>, brief: string }>}
@@ -2418,7 +2450,10 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
     async function buildRepairBrief(errors) {
       repairBriefTemplate ??= await loadRepairBriefTemplate({ root })
       const owned = await readOwnedFiles(writtenPaths, FILE_OWNERSHIP, { root })
-      return { owned, brief: renderRepairBrief(repairBriefTemplate, { owned, errors }) }
+      return {
+        owned,
+        brief: renderRepairBrief(repairBriefTemplate, { owned, errors, preset: tokenContext }),
+      }
     }
 
     /**
@@ -2789,7 +2824,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
           const { owned, brief } = await buildRepairBrief(
             `The build passed. The screenshot critic and the surface gate found:\n\n${feedback}`
           )
-          const retryResult = await callAgent(agent, config.prompt, brief, {
+          const retryResult = await callAgent(agent, config.patchPrompt, brief, {
             ...config.options,
             patch: true,
             purpose: 'revision',
@@ -3148,7 +3183,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
       try {
         const briefed = await buildRepairBrief(repairError)
         owned = briefed.owned
-        retryResult = await callAgent('react-engineer', engineerConfig.prompt, briefed.brief, {
+        retryResult = await callAgent('react-engineer', engineerConfig.patchPrompt, briefed.brief, {
           ...engineerConfig.options,
           patch: true,
           purpose: 'repair',

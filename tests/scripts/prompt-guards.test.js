@@ -4,7 +4,11 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { formatPatternPropsForPrompt, readPatternProps } from '../../scripts/utils/pattern-props.js'
-import { collectGateRules, formatGateRulesForPrompt } from '../../scripts/utils/gate-rules.js'
+import {
+  collectGateRules,
+  formatGateRulesForPrompt,
+  formatRequiredFilesSection,
+} from '../../scripts/utils/gate-rules.js'
 import { loadPromptSync } from '../../scripts/utils/prompt-loader.js'
 import { NARROW_VIEWPORT, WIDE_VIEWPORT } from '../../elements/chassis/viewports.js'
 
@@ -155,18 +159,36 @@ describe('react-engineer.md load-bearing directives', () => {
     expect(re()).toMatch(/fidelity/i)
     expect(re()).toContain('mockup.html')
   })
-  it('requires all six files including og.tsx', () => {
-    const c = re()
-    for (const f of [
-      'app/components/Layout.tsx',
-      'app/components/Sidebar.tsx',
-      'app/routes/index.tsx',
-      'app/routes/about.tsx',
-      'app/routes/work.$slug.tsx',
-      'app/routes/og.tsx',
-    ]) {
-      expect(c).toContain(f)
+  it('requires all six files including og.tsx, for a full generation and for a patch', () => {
+    for (const patch of [false, true]) {
+      const c = re().replace('{{REQUIRED_FILES}}', formatRequiredFilesSection({ patch }))
+      for (const f of [
+        'app/components/Layout.tsx',
+        'app/components/Sidebar.tsx',
+        'app/routes/index.tsx',
+        'app/routes/about.tsx',
+        'app/routes/work.$slug.tsx',
+        'app/routes/og.tsx',
+      ]) {
+        expect(c).toContain(f)
+      }
     }
+  })
+
+  // #447: the patch contract (a repair or a revision) used to reuse this
+  // section's full-generation wording unchanged, which told the engineer to
+  // resend every required file in the same reply the brief asked it to
+  // return only what changed.
+  it('carries the {{REQUIRED_FILES}} placeholder rather than one hard-coded contract', () => {
+    expect(re()).toContain('{{REQUIRED_FILES}}')
+  })
+
+  it('states the opposite required-files contract for a full generation and a patch', () => {
+    const full = formatRequiredFilesSection({ patch: false })
+    const patch = formatRequiredFilesSection({ patch: true })
+    expect(full).toMatch(/ALL of these, every time/)
+    expect(patch).toMatch(/return ONLY the files/)
+    expect(patch).not.toMatch(/ALL of these, every time/)
   })
   it('renders the lockup inside the first fold on every route (#503)', () => {
     const c = re()

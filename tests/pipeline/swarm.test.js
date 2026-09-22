@@ -219,7 +219,8 @@ describe('runAgentSwarm on the recorded night', () => {
   it('tells the engineer which content fields are empty, read from app/content under the root (#568)', async () => {
     // The seeded root carries a two-entry timeline with one empty role and
     // one empty description, so the list is the fixture's, not the owner's.
-    // A repair call reuses the same system prompt.
+    // A repair call gets the patch variant of the same system prompt (#447);
+    // both go through the same content-gaps fill.
     const run = await runSwarm({ build: [false, true] })
     expect(run.error).toBeNull()
     const [first, repair] = run.callsFor('react-engineer')
