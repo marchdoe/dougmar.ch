@@ -490,6 +490,124 @@ describe('runCanary — a lost night', () => {
     }))
 })
 
+// A `build-<ts>/` dir already sitting under this date's archive can be one
+// an earlier night already published and got committed into HEAD — `git
+// worktree add HEAD` copies it straight into this run's fresh worktree.
+// Seen twice: 2026-09-21 (a run that died on `error_max_turns`) and
+// 2026-09-22 (a ship-gate refusal). Both reported "PASS — shipped" off that
+// stale dir, because the old code never looked at the pipeline's own exit
+// status at all, and picked "shipped" purely by scanning the worktree's
+// filesystem for anything matching `build-<digits>`.
+describe('runCanary — a committed same-date build must not paper over a refused run', () => {
+  const fixedNow = () => new Date(2026, 8, 22, 16, 50, 0)
+
+  it('reports FAIL, not PASS, when an earlier night already shipped under the same date', async () =>
+    withEnv(clearGuardEnv, async () => {
+      // An earlier, already-published night — present the instant this
+      // run's worktree is created, before the pipeline runs at all.
+      writeArchiveFixture({
+        date: '2026-09-22',
+        buildName: 'build-100',
+        trace: { steps: [{ name: 'art-director', phase: 1, durationMs: 100, timestamp: 't0' }] },
+        cost: { total_usd: 3.5, calls: 6, retries: 0 },
+      })
+      // This run's own output: the ship-gate refused it, so all it left
+      // behind is the dedicated failure dir.
+      writeArchiveFixture({
+        date: '2026-09-22',
+        buildName: 'build-failed-999999999999',
+        trace: { steps: [{ name: 'repair', phase: 5, durationMs: 200, timestamp: 't1' }] },
+        cost: { total_usd: 4.02, calls: 8, retries: 2 },
+        extraFiles: {
+          'error.txt':
+            '[ship-gate] 3 engineer-owned fault(s) remain after 3 revision round(s) — refusing to ship',
+        },
+      })
+      const log =
+        '  [ship-gate] 3 engineer-owned fault(s) remain after 3 revision round(s) — refusing to ship\n' +
+        '  failure trace saved to build-failed-999999999999/trace.json\n' +
+        'Pipeline failed: Command failed: node scripts/daily-redesign.js\n'
+      const exec = () => ({ status: 1, stdout: log, stderr: '' })
+      const result = await runCanary({ exec, now: fixedNow, root, worktreePath: worktree })
+
+      expect(result.exitCode).toBe(1)
+      expect(result.shipped).toBe(false)
+      const summary = readFileSync(path.join(result.evidenceDir, 'summary.md'), 'utf8')
+      expect(summary).toContain('**Result:** FAIL')
+      expect(summary).toContain('refusing to ship')
+      // The cost/trace reported must be this run's own build-failed dir,
+      // never the committed build-100 an earlier night already shipped.
+      expect(summary).toContain('$4.0200')
+      expect(summary).not.toContain('$3.5000')
+      expect(summary).not.toContain('art-director')
+    }))
+})
+
+describe('runCanary — trusts the pipeline exit status and its own log over raw disk state', () => {
+  const fixedNow = () => new Date(2026, 8, 22, 16, 50, 0)
+
+  it('a fresh, successfully shipped build reports PASS', async () =>
+    withEnv(clearGuardEnv, async () => {
+      writeArchiveFixture({
+        date: '2026-09-22',
+        buildName: 'build-100',
+        trace: { steps: [{ name: 'art-director', phase: 1, durationMs: 100, timestamp: 't0' }] },
+        cost: { total_usd: 1.23, calls: 4, retries: 0 },
+      })
+      const log = '  archived to archive/2026-09-22/build-100/\n=== Pipeline complete ===\n'
+      const exec = () => ({ status: 0, stdout: log, stderr: '' })
+      const result = await runCanary({ exec, now: fixedNow, root, worktreePath: worktree })
+      expect(result.exitCode).toBe(0)
+      expect(result.shipped).toBe(true)
+      expect(result.date).toBe('2026-09-22')
+      const summary = readFileSync(path.join(result.evidenceDir, 'summary.md'), 'utf8')
+      expect(summary).toContain('PASS — shipped')
+    }))
+
+  it('trusts the archived-to line over which build-* dir sorts newest', async () =>
+    withEnv(clearGuardEnv, async () => {
+      // A dir name that would win a plain lexical/numeric "pick the
+      // newest" scan of the date dir...
+      writeArchiveFixture({
+        date: '2026-09-22',
+        buildName: 'build-999999999999',
+        trace: { steps: [] },
+        cost: { total_usd: 9.99, calls: 1, retries: 0 },
+      })
+      // ...but this run's own log names a different dir as what it shipped.
+      writeArchiveFixture({
+        date: '2026-09-22',
+        buildName: 'build-100',
+        trace: {
+          steps: [{ name: 'react-engineer', phase: 3, durationMs: 300, timestamp: 't1' }],
+        },
+        cost: { total_usd: 0.5, calls: 2, retries: 0 },
+      })
+      const log = '  archived to archive/2026-09-22/build-100/\n'
+      const exec = () => ({ status: 0, stdout: log, stderr: '' })
+      const result = await runCanary({ exec, now: fixedNow, root, worktreePath: worktree })
+      expect(result.shipped).toBe(true)
+      const summary = readFileSync(path.join(result.evidenceDir, 'summary.md'), 'utf8')
+      expect(summary).toContain('react-engineer')
+      expect(summary).toContain('$0.5000')
+      expect(summary).not.toContain('$9.9900')
+    }))
+
+  it('does not trust a status-0 run whose archived-to line names a build that was never written', async () =>
+    withEnv(clearGuardEnv, async () => {
+      writeArchiveFixture({
+        date: '2026-09-22',
+        buildName: 'build-100',
+        trace: { steps: [] },
+        cost: { total_usd: 1, calls: 1, retries: 0 },
+      })
+      const log = '  archived to archive/2026-09-22/build-777/\n'
+      const exec = () => ({ status: 0, stdout: log, stderr: '' })
+      const result = await runCanary({ exec, now: fixedNow, root, worktreePath: worktree })
+      expect(result.shipped).toBe(false)
+    }))
+})
+
 describe('runCanary — "Ended in" reads the failing agent off the error, not the last step', () => {
   const fixedNow = () => new Date(2026, 8, 2, 14, 5, 0)
 
