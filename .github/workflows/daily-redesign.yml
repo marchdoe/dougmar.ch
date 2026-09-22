@@ -189,16 +189,20 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Install Claude CLI
-        # Pinned to 2.1.207. The old 2.1.92 pin (0KB-output regression in
+        # Pinned to 2.1.280. 2.1.207 refuses claude-opus-5-5, the react-engineer's
+        # model since #646, with a 400 ("version 2.1.280 or newer is required");
+        # 2.1.280 is the version the local A/B of that change ran on (#645).
+        #
+        # Before that, 2.1.207. The old 2.1.92 pin (0KB-output regression in
         # 2.1.94+, PR #40) sent the legacy thinking.type=enabled param, which
         # claude-opus-4-8 rejects with a 400 — this broke every scheduled run
         # after the explicit-model-ID change (066e703) merged. Current CLIs
         # send adaptive thinking. Verify bumps with a workflow_dispatch dry run.
         #
-        # No --ignore-scripts: 2.1.207 installs, then `claude --version` exits 1
+        # No --ignore-scripts: 2.1.207 and later install, then `claude --version` exits 1
         # with "native binary not installed". The package's postinstall is what
         # links the platform binary (#544).
-        run: npm install -g @anthropic-ai/claude-code@2.1.207
+        run: npm install -g @anthropic-ai/claude-code@2.1.280
 
       # A red main used to be found after the paid run, by the same `pnpm test`
       # further down, and the night's $4 to $5 went with it (#574). Unit tests
