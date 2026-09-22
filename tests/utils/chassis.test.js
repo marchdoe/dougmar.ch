@@ -80,6 +80,7 @@ describe('scaleSteps — the generated table', () => {
       'xs',
       'sm',
       'base',
+      'lede',
       'md',
       'lg',
       'xl',
@@ -96,15 +97,39 @@ describe('scaleSteps — the generated table', () => {
     expect(scaleSteps(1.5, '1.125rem').base.size).toBe('1.125rem')
   })
 
-  it('runs the ratio up to the desktop ceiling and the fixed minor second down to 2xs', () => {
+  it('runs the ratio up to the desktop ceiling and three equal steps down to a 12px 2xs', () => {
     expect(steps.md.size).toBe('1.5rem')
     expect(steps.lg.size).toBe('2.25rem')
     expect(stepPxAt(steps.xl, 1440)).toBe(54)
     expect(stepPxAt(steps['2xl'], 1440)).toBe(81)
     expect(stepPxAt(steps['5xl'], 1440)).toBe(160)
-    expect(steps.sm.size).toBe('0.889rem')
-    expect(steps.xs.size).toBe('0.79rem')
-    expect(steps['2xs'].size).toBe('0.702rem')
+    expect(steps.sm.size).toBe('0.909rem')
+    expect(steps.xs.size).toBe('0.825rem')
+    expect(steps['2xs'].size).toBe('0.75rem')
+  })
+
+  it('floors 2xs at 12px on every chassis, with each small step 1.1 over the next (#564)', () => {
+    for (const c of CHASSIS_CATALOG) {
+      const t = c.type.steps
+      expect(stepPxAt(t['2xs'], 360), c.id).toBe(12)
+      const small = ['2xs', 'xs', 'sm', 'base'].map((s) => parseFloat(t[s].size))
+      for (let i = 1; i < small.length; i++) {
+        expect(small[i] / small[i - 1], `${c.id} ${i}`).toBeGreaterThanOrEqual(1.0999)
+      }
+    }
+  })
+
+  it('sets lede between base and md at 18 to 20px on every chassis (#564)', () => {
+    expect(steps.lede.size).toBe('1.225rem')
+    expect(stepPxAt(scaleSteps(1.333, '1rem').lede, 1440)).toBe(18.5)
+    expect(stepPxAt(scaleSteps(1.618, '1rem').lede, 1440)).toBe(20)
+    for (const c of CHASSIS_CATALOG) {
+      const px = stepPxAt(c.type.steps.lede, 1440)
+      expect(px, c.id).toBeGreaterThanOrEqual(18)
+      expect(px, c.id).toBeLessThanOrEqual(20)
+      expect(px / stepPxAt(c.type.steps.base, 1440), c.id).toBeGreaterThan(1.1)
+      expect(stepPxAt(c.type.steps.md, 1440) / px, c.id).toBeGreaterThan(1.1)
+    }
   })
 
   it('tightens leading as size grows and opens tracking below base', () => {
@@ -115,15 +140,36 @@ describe('scaleSteps — the generated table', () => {
     expect(steps['2xl'].tracking).toBe('-0.015em')
   })
 
-  it('generates the same hero clamp the pre-table ramp shipped at ratio 1.5', () => {
-    expect(steps.hero.size).toBe('clamp(5.063rem, 4.219rem + 3.75vw, 7.594rem)')
+  it('starts the hero where the pre-table ramp did at ratio 1.5 and tops it out at 4xl', () => {
+    // 5.063rem at 360 is the pre-table hero; its 1440 end used to be 3xl's
+    // 7.594rem, under 4xl's 10rem (#564).
+    expect(steps.hero.size).toBe('clamp(5.063rem, 3.417rem + 7.314vw, 10rem)')
+  })
+
+  it('never lets 4xl out-size the hero, at any width, on any chassis (#564)', () => {
+    for (const c of CHASSIS_CATALOG) {
+      const t = c.type.steps
+      for (const width of [320, 360, 600, 820, 1024, 1440, 1920]) {
+        expect(stepPxAt(t.hero, width), `${c.id} @${width}`).toBeGreaterThanOrEqual(
+          stepPxAt(t['4xl'], width)
+        )
+      }
+    }
+  })
+
+  it('raises a declared hero that 4xl would out-size, and leaves one that clears it', () => {
+    // anybody-franklin declares fluid('4.5rem', '7.5rem'); its 4xl tops out at 7.993rem.
+    const anybody = CHASSIS_CATALOG.find((c) => c.id === 'anybody-franklin')
+    expect(anybody.type.steps.hero.size).toBe(fluid('4.5rem', '7.993rem'))
+    const clear = scaleSteps(1.333, '1rem', { hero: { size: fluid('4.5rem', '7.5rem') } })
+    expect(clear.hero.size).toBe(fluid('4.5rem', '7.5rem'))
   })
 
   it('runs xl through 5xl as clamps and leaves lg and below fixed', () => {
     for (const step of ['xl', '2xl', '3xl', '4xl', '5xl']) {
       expect(steps[step].size, step).toMatch(/^clamp\(/)
     }
-    for (const step of ['2xs', 'xs', 'sm', 'base', 'md', 'lg']) {
+    for (const step of ['2xs', 'xs', 'sm', 'base', 'lede', 'md', 'lg']) {
       expect(steps[step].size, step).toMatch(/^[\d.]+rem$/)
     }
   })
@@ -144,10 +190,11 @@ describe('scaleSteps — the generated table', () => {
     // Pinned as strings, not recomputed: the ceiling must not disturb a clamp
     // it has no reason to touch, including the 360px end of the ones it does.
     expect(Object.fromEntries(RAMP_STEPS.map((s) => [s, steps[s].size]))).toEqual({
-      '2xs': '0.702rem',
-      xs: '0.79rem',
-      sm: '0.889rem',
+      '2xs': '0.75rem',
+      xs: '0.825rem',
+      sm: '0.909rem',
       base: '1rem',
+      lede: '1.225rem',
       md: '1.5rem',
       lg: '2.25rem',
       xl: 'clamp(2.585rem, 2.322rem + 1.17vw, 3.375rem)',
@@ -155,7 +202,7 @@ describe('scaleSteps — the generated table', () => {
       '3xl': 'clamp(3.41rem, 2.015rem + 6.199vw, 7.594rem)',
       '4xl': 'clamp(3.917rem, 1.889rem + 9.012vw, 10rem)',
       '5xl': 'clamp(4.5rem, 2.667rem + 8.148vw, 10rem)',
-      hero: 'clamp(5.063rem, 4.219rem + 3.75vw, 7.594rem)',
+      hero: 'clamp(5.063rem, 3.417rem + 7.314vw, 10rem)',
     })
   })
 
@@ -175,8 +222,10 @@ describe('scaleSteps — the generated table', () => {
       '5xl': { size: fluid('10.5rem', '14rem') },
       '3xl': { size: fluid('4rem', '9rem') },
     })
-    expect(over.hero.size).toBe(fluid('5rem', '10rem'))
     expect(over['4xl'].size).toBe('10rem')
+    // Capped to fluid('5rem', '10rem'), then raised to the flat 4xl it may not
+    // fall under (#564).
+    expect(over.hero.size).toBe('10rem')
     // A minimum already at the ceiling has nothing left to interpolate.
     expect(over['5xl'].size).toBe('10rem')
     expect(over['3xl'].size).toBe(fluid('4rem', '9rem'))
@@ -255,7 +304,7 @@ describe('buildFontSizes', () => {
     const sizes = buildFontSizes(TEST_CHASSIS)
     expect(Object.keys(sizes)).toEqual(RAMP_STEPS)
     expect(sizes['2xl'].value).toBe('clamp(2.969rem, 2.271rem + 3.102vw, 5.063rem)')
-    expect(sizes.hero.value).toBe('clamp(5.063rem, 4.219rem + 3.75vw, 7.594rem)')
+    expect(sizes.hero.value).toBe('clamp(5.063rem, 3.417rem + 7.314vw, 10rem)')
   })
 
   it('refuses a table with a missing step rather than shipping a gap', () => {
@@ -533,9 +582,10 @@ describe('renderChassisPresetFile', () => {
   })
 
   it('emits the full ramp, quoting the keys that need it', () => {
-    expect(source).toContain(`'2xs': { value: "0.702rem" }`)
+    expect(source).toContain(`'2xs': { value: "0.75rem" }`)
+    expect(source).toContain(`lede: { value: "1.225rem" }`)
     expect(source).toContain(`'5xl': { value: "clamp(4.5rem, 2.667rem + 8.148vw, 10rem)" }`)
-    expect(source).toContain(`hero: { value: "clamp(5.063rem, 4.219rem + 3.75vw, 7.594rem)" }`)
+    expect(source).toContain(`hero: { value: "clamp(5.063rem, 3.417rem + 7.314vw, 10rem)" }`)
   })
 
   it('emits every group the chassis now owns', () => {

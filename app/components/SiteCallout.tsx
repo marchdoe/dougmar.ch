@@ -65,7 +65,9 @@ const line = css({
   fontFamily: 'body',
   fontSize: { base: 'base', md: 'md' },
   fontWeight: 'normal',
-  lineHeight: { base: 'normal', md: 'snug' },
+  // `snug` is the headline leading, 1.1, and at `md` this line runs to three
+  // lines of 24px copy (#564).
+  lineHeight: 'normal',
   letterSpacing: 'normal',
   textWrap: 'pretty',
 })

@@ -483,7 +483,7 @@ Panda does not fail on a token it has never heard of. It passes the name through
 
 {{SEMANTIC_COLOR_CONTRACT}}
 
-**Font sizes.** `2xs`, `xs`, `sm`, `base`, `md`, `lg`, `xl`, `2xl`, `3xl`, `4xl`, `5xl`, `hero`. That is the whole ramp. `6xl`, `7xl`, `8xl` and anything past them do not exist and never have. `hero` and every step from `xl` up are already fluid clamps sized off the chassis, so reach for one on a headline rather than hand-writing `clamp(4rem,8.5vw,8.5rem)` or setting a smaller step at `base` and a larger one at `lg`. `lg` and below are fixed.
+**Font sizes.** `2xs`, `xs`, `sm`, `base`, `lede`, `md`, `lg`, `xl`, `2xl`, `3xl`, `4xl`, `5xl`, `hero`. That is the whole ramp. `2xs` sits on the {{SMALL_TEXT_FLOOR_PX}}px floor for any text, and `lede` sits halfway between `base` and `md`, for a lead paragraph. `6xl`, `7xl`, `8xl` and anything past them do not exist and never have. `hero` and every step from `xl` up are already fluid clamps sized off the chassis, so reach for one on a headline rather than hand-writing `clamp(4rem,8.5vw,8.5rem)` or setting a smaller step at `base` and a larger one at `lg`. `lg` and below are fixed.
 
 **Text styles.** The same step names are textStyle tokens: `textStyle: 'hero'` sets size, line-height and letter-spacing together, tuned per chassis. This is the preferred way to set type; it cannot drift from the ramp.
 
