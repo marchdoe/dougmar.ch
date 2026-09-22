@@ -88,6 +88,8 @@ export function describeCliFailure(code, resultEvent, fullText, stderr) {
  * @param {number} [options.stallTimeoutMs=900000] - Kill if no output for this many ms (default 15 min)
  * @param {string} [options.cwd] - Working directory (default ROOT)
  * @param {string} [options.model='sonnet'] - Model to use (e.g. 'sonnet', 'haiku', 'opus')
+ * @param {string} [options.effort] - Passed straight through as `--effort <level>` (e.g. 'low',
+ *   'medium', 'high', 'xhigh', 'max') when set; omitted, the CLI uses its own default.
  * @param {string[]} [options.extraCliArgs] - Additional CLI args (e.g. ['--fallback-model', 'haiku'])
  * @param {function} [options.onTimeout] - Async callback invoked just before rejecting on timeout.
  *   Receives { charCount: number } and should return a string to append to the error message (or '').
@@ -118,6 +120,7 @@ export async function callClaudeCLI(agentName, systemPrompt, promptText, options
     stallTimeoutMs: requestedStallMs = 900000,
     cwd = ROOT,
     model,
+    effort,
     extraCliArgs = [],
     onTimeout,
     channel = 'cli',
@@ -193,6 +196,7 @@ export async function callClaudeCLI(agentName, systemPrompt, promptText, options
     '1',
     '--model',
     model,
+    ...(effort ? ['--effort', effort] : []),
     '--tools',
     '',
     '--disable-slash-commands',

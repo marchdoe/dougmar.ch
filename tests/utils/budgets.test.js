@@ -33,7 +33,21 @@ describe('AGENT_BUDGETS', () => {
   it('preserves the values each call site carried before they were gathered', () => {
     expect(budgetFor('art-director')).toEqual({ timeoutMs: 1_500_000, stallTimeoutMs: 480_000 })
     expect(budgetFor('mockup-designer')).toEqual({ timeoutMs: 1_800_000, stallTimeoutMs: 480_000 })
-    expect(budgetFor('react-engineer')).toEqual({ timeoutMs: 1_800_000, stallTimeoutMs: 480_000 })
+    expect(budgetFor('react-engineer')).toEqual({
+      timeoutMs: 1_800_000,
+      stallTimeoutMs: 480_000,
+      effort: 'high',
+    })
+  })
+
+  // 2026-09-22: one-week Opus 5.5 trial for react-engineer (see models.js).
+  // effort is the CLI's `--effort` lever, plumbed through callAgent() in
+  // design-agents.js — it must stay off every other agent's budget.
+  it('sets effort only on react-engineer', () => {
+    expect(budgetFor('react-engineer').effort).toBe('high')
+    for (const agent of Object.keys(AGENT_BUDGETS).filter((a) => a !== 'react-engineer')) {
+      expect(budgetFor(agent), agent).not.toHaveProperty('effort')
+    }
   })
 
   // #486 capped both vision critics at 6000. The mockup critic is Haiku with

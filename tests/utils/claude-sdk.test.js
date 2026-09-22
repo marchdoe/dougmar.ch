@@ -106,6 +106,20 @@ describe('callClaudeSDK', () => {
     expect(create.mock.calls[0][0].thinking).toEqual({ type: 'adaptive' })
   })
 
+  it('requests adaptive thinking for claude-opus-5-5, never disables it', async () => {
+    // Opus 5.5 (react-engineer's one-week trial model, models.js) rejects an
+    // explicit thinking:null/disabled with a 400 at every effort. react-
+    // engineer itself never calls the SDK path — it goes through the CLI's
+    // `--effort` flag (claude-cli.js) — but any SDK caller that resolves to
+    // this model must still get adaptive thinking by default.
+    const { client, create } = stubClient(OK)
+    await callClaudeSDK('mockup-critic', 'sys', [textBlock('x')], {
+      client,
+      model: 'claude-opus-5-5',
+    })
+    expect(create.mock.calls[0][0].thinking).toEqual({ type: 'adaptive' })
+  })
+
   it('omits thinking on mockup-critic (haiku tier) without an explicit model override', async () => {
     const { client, create } = stubClient(OK)
     await callClaudeSDK('mockup-critic', 'sys', [textBlock('x')], { client })

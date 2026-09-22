@@ -26,18 +26,23 @@
  * for the screenshot critic: Sonnet 5 runs adaptive thinking, thinking counts
  * against `max_tokens` and bills as output, and 28 of 50 recorded screenshot
  * critic calls stopped at exactly 6000 with no verdict (#570). The screenshot
- * critic goes back to 16000, the SDK default. `output_config.effort` is the
- * lever for bounding thinking on this model (`budget_tokens` is rejected on
- * Sonnet 5), and it is an owner call on judgment quality, so it is not set
- * here. Left off every other agent, react-engineer included: this key only
- * ever reaches callVisionAgent, which only the two vision critics call.
+ * critic goes back to 16000, the SDK default. `output_config.effort` would be
+ * the lever for bounding thinking on this model (`budget_tokens` is rejected
+ * on Sonnet 5), and it is an owner call on judgment quality, so it is not set
+ * here.
+ *
+ * react-engineer instead carries `effort` (2026-09-22, one-week Opus 5.5
+ * trial — see models.js). It does not reach callVisionAgent: the engineer
+ * runs the CLI path, and callAgent() in design-agents.js spreads this whole
+ * object into callClaudeCLI's options, which turns `effort` into a plain
+ * `--effort <level>` CLI flag. No other agent carries this key.
  */
 export const AGENT_BUDGETS = {
   // 25 min hard cap — the AD has run 8-17 min of extended thinking.
   'art-director': { timeoutMs: 1_500_000, stallTimeoutMs: 480_000 },
   // 30 min hard cap — bounds long extended-thinking phases.
   'mockup-designer': { timeoutMs: 1_800_000, stallTimeoutMs: 480_000 },
-  'react-engineer': { timeoutMs: 1_800_000, stallTimeoutMs: 480_000 },
+  'react-engineer': { timeoutMs: 1_800_000, stallTimeoutMs: 480_000, effort: 'high' },
   'mockup-critic': { timeoutMs: 600_000, stallTimeoutMs: 300_000, maxTokens: 6000 },
   'screenshot-critic': { timeoutMs: 600_000, stallTimeoutMs: 300_000, maxTokens: 16_000 },
 }
