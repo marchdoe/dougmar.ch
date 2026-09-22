@@ -212,6 +212,18 @@ describe('react-engineer.md load-bearing directives', () => {
     expect(re()).toContain('{{GATES}}')
   })
 
+  // #634: the generated checklist sits just above the self-check, which tells
+  // the engineer to walk it, and the two spots that failed three designs in a
+  // row carry hard rules of their own.
+  it('puts the gates above the self-check and fences the two chronic spots', () => {
+    const c = re()
+    expect(c.indexOf('{{GATES}}')).toBeLessThan(c.indexOf('## Self-check before responding'))
+    expect(c).toContain('Every line of the Surface gate checklist above')
+    expect(c).toMatch(/At `base` a row is\s+one column/)
+    expect(c).toMatch(/body size\s+\(`sm` or `base`, never a display step\)/)
+    expect(c).toMatch(/A column of names[\s\S]*?drop the step for the whole column/)
+  })
+
   it('the rendered prompt states the innerHTML rule and the allowed hosts', () => {
     const rendered = re().replace(
       '{{GATES}}',

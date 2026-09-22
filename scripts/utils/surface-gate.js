@@ -68,6 +68,18 @@ import { foldDensity, formatDensityForCritic } from './text-density.js'
 export const RUNNING_COPY_MIN_CHARS = 180
 export const RUNNING_COPY_MAX_PX = 48
 
+/**
+ * The fix lines three of this module's findings end with. Exported so the
+ * engineer prompt's checklist (`gate-rules.js`, #634) quotes the same words
+ * the gate sends back.
+ */
+export const RUNNING_COPY_FIX = 'Set prose on the body step and give the display step a phrase.'
+export const BOX_PAST_VIEWPORT_FIX =
+  'Scale the element to its column at this width instead of carrying a wider layout down.'
+export const TEXT_WIDER_THAN_BOX_FIX =
+  'The column is the right width; the type is not. Set it at a size that fits this column ' +
+  'at this width, or let it wrap.'
+
 export const VIEWPORT_RUNGS = [
   { name: 'mobile', ...NARROW_VIEWPORT },
   // Overflow, clipping and line length only; see tablet-rung.js (#565, #569).
@@ -212,7 +224,7 @@ export function evaluateMeasurement(
       detail:
         `${m.worstCopy.chars} characters of running copy set at ${m.worstCopy.fontSizePx}px ` +
         `(over ${RUNNING_COPY_MAX_PX}px) — "${m.worstCopy.sample}..." . A paragraph at display ` +
-        'size is a wall, not a hero. Set prose on the body step and give the display step a phrase.',
+        `size is a wall, not a hero. ${RUNNING_COPY_FIX}`,
     })
   }
 
@@ -380,8 +392,7 @@ function describeBoxPastViewport(c, m) {
     `${m.clientWidth}px viewport` +
     (c.text
       ? `, severing "${c.text}...". The document does not scroll here, so that content is ` +
-        'gone, not merely offscreen. Scale the element to its column at this width instead ' +
-        'of carrying a wider layout down.'
+        `gone, not merely offscreen. ${BOX_PAST_VIEWPORT_FIX}`
       : '. Nothing readable is lost, but the element is being severed rather than fitted. ' +
         'Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.')
   )
@@ -414,9 +425,7 @@ function describeTextWiderThanBox(c) {
   return (
     `${clippedWhere(c)} holds text wider than its own box: "${c.text}..." needs ${c.boxWidth + c.over}px ` +
     `and the box is ${c.boxWidth}px, so ${c.over}px of it is cut off. The box does not scroll, ` +
-    'and nothing moved to make room, so the end of the word is gone. The column is the right ' +
-    'width; the type is not. Set it at a size that fits this column at this width, or let it ' +
-    'wrap.'
+    `and nothing moved to make room, so the end of the word is gone. ${TEXT_WIDER_THAN_BOX_FIX}`
   )
 }
 

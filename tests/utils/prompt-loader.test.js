@@ -15,6 +15,7 @@ import {
   loadPrompt,
   loadPromptSync,
 } from '../../scripts/utils/prompt-loader.js'
+import { collectGateRules, formatGateRulesForPrompt } from '../../scripts/utils/gate-rules.js'
 import {
   LINE_LENGTH_MAX_CHARS,
   SMALL_COPY_FLOOR_PX,
@@ -245,7 +246,8 @@ describe('the type-size floors are tokens filled from responsive-thresholds.js (
     ['art-director.md', [SMALL_COPY_FLOOR_PX_TOKEN, SMALL_TEXT_FLOOR_PX_TOKEN]],
     ['mockup-designer.md', [SMALL_COPY_FLOOR_PX_TOKEN, SMALL_TEXT_FLOOR_PX_TOKEN]],
     ['screenshot-critic.md', [SMALL_COPY_FLOOR_PX_TOKEN, SMALL_TEXT_FLOOR_PX_TOKEN]],
-    ['react-engineer.md', [SMALL_COPY_FLOOR_PX_TOKEN, SMALL_TEXT_FLOOR_PX_TOKEN]],
+    // react-engineer.md gets both floors from its generated {{GATES}} block,
+    // written from the same constants (#634; tests/utils/gate-rules.test.js).
     ['impeccable/reference/polish.md', [SMALL_COPY_FLOOR_PX_TOKEN, SMALL_TEXT_FLOOR_PX_TOKEN]],
     ['impeccable/reference/typography.md', [SMALL_COPY_FLOOR_PX_TOKEN]],
   ]
@@ -288,11 +290,6 @@ describe('prompt sources do not state a type-size floor as a number', () => {
     {
       file: 'art-director.md',
       line: 'measures all text under 24px (18.66px bold)',
-      why: 'the same large-text size, in the contrast gate',
-    },
-    {
-      file: 'react-engineer.md',
-      line: 'every piece of visible text under 24px (under 18.66px when bold)',
       why: 'the same large-text size, in the contrast gate',
     },
     {
@@ -366,7 +363,8 @@ describe('the line-length limit is a token filled from responsive-thresholds.js 
 
   // Every prompt that states the limit. A prompt that loses its token has gone
   // back to quoting a number nothing checks against the gate.
-  it.each(['react-engineer.md', 'screenshot-critic.md'])(
+  // react-engineer.md states it in its generated {{GATES}} block (#634), below.
+  it.each(['screenshot-critic.md'])(
     '%s states the limit with the token, and the loader fills it',
     async (file) => {
       const raw = readFileSync(path.join(PROMPTS, file), 'utf8')
@@ -379,9 +377,13 @@ describe('the line-length limit is a token filled from responsive-thresholds.js 
     }
   )
 
-  it('tells the engineer that ch overshoots in a narrow face, and to work to 45 to 50ch', async () => {
-    const loaded = await loadPrompt('react-engineer.md')
-    expect(loaded).toContain('`ch` is the width of a `0`')
-    expect(loaded).toContain('Work to 45 to 50ch')
+  it('tells the engineer the limit, that ch overshoots in a narrow face, and to work to 45 to 50ch', async () => {
+    const loaded = (await loadPrompt('react-engineer.md')).replace(
+      '{{GATES}}',
+      formatGateRulesForPrompt(collectGateRules())
+    )
+    expect(loaded).toMatch(new RegExp(`${LINE_LENGTH_MAX_CHARS}\\s+characters`))
+    expect(loaded).toContain('ch overshoots in a narrow face')
+    expect(loaded).toContain('45 to 50ch')
   })
 })

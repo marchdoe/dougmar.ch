@@ -861,6 +861,9 @@ function isTokenReference(part) {
 
 const quoted = (s) => `'${s}'`
 
+/** Why a spaced spacing value fails, quoted by the engineer prompt's checklist (#634). */
+export const SPACED_SPACING_WHY = 'Panda resolves a token only when it is the whole value.'
+
 /**
  * The one-property-per-value spelling of a space-separated value, or a plain
  * instruction when the property has no such split.
@@ -1305,8 +1308,7 @@ export function formatFindings(findings) {
     for (const f of spaced) {
       lines.push(
         `  - ${f.files.join(', ')}:${f.line}: ${f.property}: '${f.value}' ships as written, ` +
-          'with px appended to each bare number. Panda resolves a token only when it is the ' +
-          `whole value. Write ${f.fix}.`,
+          `with px appended to each bare number. ${SPACED_SPACING_WHY} Write ${f.fix}.`,
         `      ${f.text}`
       )
     }

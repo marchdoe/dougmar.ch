@@ -50,6 +50,10 @@ export const SMALL_TEXT_OPTIONS = Object.freeze({
  */
 export const MAX_SMALL_TEXT_REPORTED = 6
 
+/** The fix lines the two findings end with, quoted by the engineer prompt's checklist (#634). */
+export const SMALL_COPY_FIX = 'Set it on the `sm` step or larger.'
+export const SMALL_TEXT_FIX = `Set it at ${SMALL_TEXT_FLOOR_PX}px or larger, or take it out.`
+
 const KINDS = ['small-copy', 'small-text']
 
 function describeEntry(e) {
@@ -72,7 +76,7 @@ function smallCopyFinding(e, owner) {
     key: `small-copy|${e.selector}|${e.sizePx}`,
     detail:
       `${describeEntry(e)} is running copy at ${e.sizePx}px, under the ${SMALL_COPY_FLOOR_PX}px floor.` +
-      (e.part ? ownerNote(e) : ' Set it on the `sm` step or larger.'),
+      (e.part ? ownerNote(e) : ` ${SMALL_COPY_FIX}`),
   }
 }
 
@@ -85,7 +89,7 @@ function smallTextFinding(e, owner) {
     key: `small-text|${e.selector}|${e.sizePx}`,
     detail:
       `${describeEntry(e)} is set at ${e.sizePx}px, under the ${SMALL_TEXT_FLOOR_PX}px floor for any visible text.` +
-      (e.part ? ownerNote(e) : ` Set it at ${SMALL_TEXT_FLOOR_PX}px or larger, or take it out.`),
+      (e.part ? ownerNote(e) : ` ${SMALL_TEXT_FIX}`),
   }
 }
 
