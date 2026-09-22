@@ -46,18 +46,25 @@ jobs:
   # Which of the two cron entries is correct depends on whether New York is
   # currently on EDT or EST, and GitHub expressions have no timezone functions
   # to decide it. So a tiny job decides, and `redesign` waits on its answer.
-  # A manual run is never dropped.
+  # A manual run is never dropped by this DST check.
+  #
+  # It also skips a day that already has its night on main. The backstop
+  # (nightly-backstop.yml) dispatches a run when the scheduled one has not
+  # arrived by mid-morning; a scheduled run that lands after that dispatch
+  # has published would otherwise pay to build the day twice. A manual dry
+  # run or a resume always runs: somebody asked for exactly that run.
   guard:
     runs-on: ubuntu-latest
-    permissions: {}  # reads the event and the clock, calls no API
+    permissions:
+      contents: read  # archive/<today>/record.json on main, and the script that reads it
     outputs:
-      run: ${{ steps.check.outputs.run }}
+      run: ${{ steps.night.outputs.run || steps.check.outputs.run }}
     steps:
       - id: check
         run: |
           if [ "${{ github.event_name }}" != 'schedule' ]; then
             echo 'run=true' >> "$GITHUB_OUTPUT"
-            echo "manual trigger (${{ github.event_name }}) — always runs"
+            echo "manual trigger (${{ github.event_name }}) — no DST entry to check"
             exit 0
           fi
           # Decide from WHICH cron entry fired, not from the clock when the job
@@ -93,6 +100,33 @@ jobs:
               echo "::warning::unrecognised schedule '$sched' in $zone — running rather than risk a missed day"
               ;;
           esac
+
+      # Only for a run that would pay for a whole night: the schedule, or a
+      # plain dispatch (the backstop's, or a manual one) that is neither a dry
+      # run nor a resume. No credential stays in the checkout.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        if: ${{ steps.check.outputs.run == 'true' && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && !inputs.dry_run && inputs.resume_run_id == '')) }}
+        with:
+          persist-credentials: false
+          sparse-checkout: scripts
+
+      - name: Skip a day that already has its night
+        id: night
+        if: ${{ steps.check.outputs.run == 'true' && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && !inputs.dry_run && inputs.resume_run_id == '')) }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # A failed read builds anyway, as the case above does: a missed
+          # morning is worse than a duplicate the concurrency group queues.
+          if ! node scripts/nightly-backstop.js --night-exists; then
+            echo "::warning::could not read whether today's night is on main; running"
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+          elif grep -qx 'exists=true' "$GITHUB_OUTPUT"; then
+            echo 'run=false' >> "$GITHUB_OUTPUT"
+            echo "today's night is already on main; skipping so it is not built twice"
+          else
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+          fi
 
   # Two jobs where there was one (#337). The agents job runs model-authored
   # code — `pnpm build` executes the TSX the React Engineer wrote from

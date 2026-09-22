@@ -143,8 +143,9 @@ describe('the workflows hold the least token they can (#544)', () => {
     }
   })
 
-  it('gives the guard job no token at all', () => {
-    expect(daily.jobs.guard.permissions).toEqual({})
+  it('gives the guard job read access to contents and nothing else', () => {
+    // It reads whether today's night is already on main (#193 follow-up).
+    expect(daily.jobs.guard.permissions).toEqual({ contents: 'read' })
   })
 
   it('lets only the jobs that open or close issues write them', () => {
