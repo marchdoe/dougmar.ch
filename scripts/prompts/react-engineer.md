@@ -338,12 +338,13 @@ const experiments: Project[]     // lightweight
 // Any string field can be ''; "Content fields that can be empty", below, lists which are today.
 type TimelineEntry = {
   year: string; role: string; company: string; description: string;
-  current?: boolean; bullets?: string[]; technologies?: string[];
+  bullets?: string[]; technologies?: string[];
 }
 type Education = { school: string; degree: string; concentration: string; years: string }
 const timeline: TimelineEntry[]   // 12 entries from 2006 to present, from the résumé (resume.ts)
-// LAYOUT: The `year` field is years only, written out: "2018", "2014 to 2017",
-// "2025 to present". Never a dash. The year column MUST have a fixed width (e.g.
+// LAYOUT: The `year` field is years only, written out and complete: "2018",
+// "2014 to 2017", "2025 to present". Print it as it is and add nothing to it: no
+// "to present", no dash. The year column MUST have a fixed width (e.g.
 // min-width: 120px or fixed flex-basis) so that single-year entries align identically
 // to ranges. The role/company columns must start at the same horizontal position
 // for every row regardless of year string length.
