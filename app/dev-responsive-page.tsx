@@ -1,6 +1,18 @@
 import { useEffect, useState } from 'react'
+import { css } from '../styled-system/css'
 import { ResponsiveTrend } from './components/responsive-trend'
 import { readResponsiveHistory, type ResponsiveMetrics } from './server/archive'
+
+const page = css({
+  padding: '16px',
+  fontFamily: 'dev.mono',
+  fontSize: '12px',
+  background: 'dev.bg',
+  color: 'dev.text',
+  minHeight: '100vh',
+})
+
+const heading = css({ fontSize: '14px', marginBottom: '16px' })
 
 /**
  * The /dev/responsive page.
@@ -21,17 +33,8 @@ export function DevResponsivePage() {
   }, [])
 
   return (
-    <div
-      style={{
-        padding: 16,
-        fontFamily: 'JetBrains Mono, monospace',
-        fontSize: 12,
-        background: '#0e1014',
-        color: '#dce0e6',
-        minHeight: '100vh',
-      }}
-    >
-      <h1 style={{ fontSize: 14, marginBottom: 16 }}>Responsive — last 30 builds</h1>
+    <div className={page}>
+      <h1 className={heading}>Responsive — last 30 builds</h1>
       <ResponsiveTrend history={history} />
     </div>
   )

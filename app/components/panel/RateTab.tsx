@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { Radio } from '@base-ui/react/radio'
+import { RadioGroup } from '@base-ui/react/radio-group'
 import { css, cx } from '../../../styled-system/css'
 import {
   sectionTitle,
@@ -93,30 +95,23 @@ export function RateTab({ unrated, onRated }: { unrated: RatingIssue[]; onRated:
       <p className={fieldLabel} id="grade-label">
         Grade
       </p>
-      <fieldset
+      <RadioGroup
         aria-labelledby="grade-label"
+        value={grade}
+        onValueChange={(value) => setGrade(value as Grade)}
         className={css({
           display: 'flex',
           gap: '8px',
           marginBottom: '14px',
-          border: 'none',
-          margin: 0,
-          padding: 0,
-          minWidth: 0,
         })}
       >
+        {/* No aria-label: the letter is the accessible name, same as the plain buttons this replaced. */}
         {(['A', 'B', 'C', 'D'] as const).map((g) => (
-          <button
-            key={g}
-            type="button"
-            onClick={() => setGrade(g)}
-            aria-pressed={grade === g}
-            className={gradeButton}
-          >
+          <Radio.Root key={g} value={g} className={gradeButton}>
             {g}
-          </button>
+          </Radio.Root>
         ))}
-      </fieldset>
+      </RadioGroup>
       <div className={field}>
         <label>
           <span className={fieldLabel}>What worked</span>

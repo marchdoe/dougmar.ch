@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Slider } from '@base-ui/react/slider'
+import { Checkbox } from '@base-ui/react/checkbox'
 import { css, cx } from '../../../styled-system/css'
 import {
   sliderRow,
@@ -14,8 +15,23 @@ import {
   successText,
   checkboxRow,
   checkboxBox,
+  checkboxIndicator,
 } from './styles'
 import { saveWeights, type Weights } from './api'
+
+function CheckIcon() {
+  return (
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+      <path
+        d="M1.5 5.2 3.8 7.5 8.5 2.5"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
 
 const ROWS: Array<{ key: keyof Weights; label: string; desc: string }> = [
   { key: 'signals', label: 'Signals', desc: 'How much daily signals steer content' },
@@ -86,15 +102,19 @@ export function WeightsTab({ initial }: { initial: Weights }) {
             </Slider.Root>
             <p className={mutedText}>{desc}</p>
             {key === 'risk' && (
+              // biome-ignore lint/a11y/noLabelWithoutControl: Checkbox.Root renders a hidden native <input> inside this label, which associates it; Biome can't see through the component.
               <label className={cx(checkboxRow, css({ marginTop: '6px' }))}>
-                <input
-                  type="checkbox"
+                <Checkbox.Root
                   className={checkboxBox}
                   checked={auto}
-                  onChange={(e) =>
-                    setWeights((w) => ({ ...w, risk: e.target.checked ? null : RISK_WHEN_SET }))
+                  onCheckedChange={(checked) =>
+                    setWeights((w) => ({ ...w, risk: checked ? null : RISK_WHEN_SET }))
                   }
-                />
+                >
+                  <Checkbox.Indicator className={checkboxIndicator}>
+                    <CheckIcon />
+                  </Checkbox.Indicator>
+                </Checkbox.Root>
                 Auto — derive 3-10 from the build date
               </label>
             )}

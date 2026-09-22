@@ -1,31 +1,36 @@
 import { css, cva } from '../../../styled-system/css'
 
-// The panel's permanent mini design system. Raw values only — the site's
-// theme tokens are redesigned daily by the pipeline and must never leak in.
+// The panel's permanent mini design system. Colors come from the `panel.*`
+// tokens in panda.config.ts, not the site's own theme — that is redesigned
+// daily by the pipeline and must never leak in here. See the token's comment
+// there for why this group exists as its own thing rather than reusing `colors.*`.
 
 const focusRing = {
-  outline: '2px solid #18181b',
+  outlineWidth: '2px',
+  outlineStyle: 'solid',
+  outlineColor: 'panel.ink',
   outlineOffset: '2px',
 } as const
 
 export const page = css({
   minHeight: '100vh',
-  backgroundColor: '#fafafa',
+  backgroundColor: 'panel.bg',
   fontFamily: 'system-ui, -apple-system, sans-serif',
   fontSize: '16px',
   lineHeight: '1.5',
-  color: '#18181b',
+  color: 'panel.ink',
   padding: '24px 16px',
 })
 
 export const sheet = css({
   maxWidth: '640px',
   margin: '0 auto',
-  backgroundColor: '#ffffff',
-  border: '1px solid #e4e4e7',
+  backgroundColor: 'panel.surface',
+  border: '1px solid',
+  borderColor: 'panel.border',
   borderRadius: '12px',
   padding: '20px',
-  boxShadow: '0 1px 3px rgba(0,0,0,.06)',
+  boxShadow: 'panel.sm',
 })
 
 export const pageTitle = css({
@@ -43,7 +48,7 @@ export const sectionTitle = css({
 export const segTabs = css({
   display: 'flex',
   gap: '4px',
-  backgroundColor: '#f4f4f5',
+  backgroundColor: 'panel.bgMuted',
   borderRadius: '8px',
   padding: '3px',
   marginBottom: '20px',
@@ -57,13 +62,13 @@ export const segTab = css({
   borderRadius: '6px',
   fontSize: '13px',
   fontFamily: 'inherit',
-  color: '#71717a',
+  color: 'panel.muted',
   cursor: 'pointer',
   '&[data-active]': {
-    backgroundColor: '#ffffff',
-    color: '#18181b',
+    backgroundColor: 'panel.surface',
+    color: 'panel.ink',
     fontWeight: '600',
-    boxShadow: '0 1px 2px rgba(0,0,0,.08)',
+    boxShadow: 'panel.md',
   },
   '&:focus-visible': focusRing,
 })
@@ -74,7 +79,7 @@ export const fieldLabel = css({
   fontWeight: '600',
   letterSpacing: '0.05em',
   textTransform: 'uppercase',
-  color: '#71717a',
+  color: 'panel.muted',
   marginBottom: '5px',
 })
 
@@ -83,14 +88,15 @@ export const field = css({ marginBottom: '14px' })
 export const textArea = css({
   display: 'block',
   width: '100%',
-  border: '1px solid #d4d4d8',
+  border: '1px solid',
+  borderColor: 'panel.borderStrong',
   borderRadius: '8px',
   padding: '10px',
   fontSize: '14px',
   fontFamily: 'inherit',
   lineHeight: '1.5',
-  color: '#18181b',
-  backgroundColor: '#ffffff',
+  color: 'panel.ink',
+  backgroundColor: 'panel.surface',
   resize: 'vertical',
   '&:focus-visible': focusRing,
 })
@@ -110,17 +116,21 @@ export const button = cva({
   },
   variants: {
     kind: {
-      primary: { backgroundColor: '#18181b', color: '#ffffff' },
+      primary: { backgroundColor: 'panel.ink', color: 'panel.surface' },
       secondary: {
-        backgroundColor: '#ffffff',
-        color: '#3f3f46',
-        borderColor: '#d4d4d8',
+        backgroundColor: 'panel.surface',
+        color: 'panel.subtle',
+        borderColor: 'panel.borderStrong',
       },
     },
   },
   defaultVariants: { kind: 'primary' },
 })
 
+// The grade picker (RateTab) is a Base UI RadioGroup of Radio.Root buttons —
+// a radio, not a ToggleGroup, because a grade cannot be deselected by
+// re-clicking it, and a RadioGroup's `data-checked` matches that exactly. See
+// the base-ui skill on data-attribute state hooks.
 export const gradeButton = css({
   width: '44px',
   height: '44px',
@@ -128,15 +138,16 @@ export const gradeButton = css({
   fontWeight: '600',
   fontFamily: 'inherit',
   lineHeight: '1',
-  border: '1px solid #d4d4d8',
+  border: '1px solid',
+  borderColor: 'panel.borderStrong',
   borderRadius: '8px',
-  backgroundColor: '#ffffff',
-  color: '#3f3f46',
+  backgroundColor: 'panel.surface',
+  color: 'panel.subtle',
   cursor: 'pointer',
-  '&[aria-pressed="true"]': {
-    backgroundColor: '#18181b',
-    borderColor: '#18181b',
-    color: '#ffffff',
+  '&[data-checked]': {
+    backgroundColor: 'panel.ink',
+    borderColor: 'panel.ink',
+    color: 'panel.surface',
   },
   '&:focus-visible': focusRing,
 })
@@ -152,14 +163,14 @@ export const badge = cva({
   variants: {
     kind: {
       graded: {
-        backgroundColor: '#f0fdf4',
-        color: '#16a34a',
-        borderColor: '#bbf7d0',
+        backgroundColor: 'panel.successBg',
+        color: 'panel.success',
+        borderColor: 'panel.successBorder',
       },
       none: {
-        backgroundColor: '#f4f4f5',
-        color: '#71717a',
-        borderColor: '#e4e4e7',
+        backgroundColor: 'panel.bgMuted',
+        color: 'panel.muted',
+        borderColor: 'panel.border',
       },
     },
   },
@@ -175,23 +186,23 @@ export const statusDot = cva({
   },
   variants: {
     tone: {
-      success: { backgroundColor: '#16a34a' },
-      failure: { backgroundColor: '#dc2626' },
-      pending: { backgroundColor: '#f59e0b' },
+      success: { backgroundColor: 'panel.success' },
+      failure: { backgroundColor: 'panel.danger' },
+      pending: { backgroundColor: 'panel.warning' },
     },
   },
 })
 
-export const mutedText = css({ fontSize: '12px', color: '#71717a' })
+export const mutedText = css({ fontSize: '12px', color: 'panel.muted' })
 
-export const dateMuted = css({ fontWeight: '400', color: '#71717a' })
+export const dateMuted = css({ fontWeight: '400', color: 'panel.muted' })
 
-export const errorText = css({ fontSize: '13px', color: '#dc2626' })
+export const errorText = css({ fontSize: '13px', color: 'panel.danger' })
 
-export const successText = css({ fontSize: '13px', color: '#16a34a' })
+export const successText = css({ fontSize: '13px', color: 'panel.success' })
 
 export const inlineLink = css({
-  color: '#18181b',
+  color: 'panel.ink',
   fontWeight: '600',
   textDecoration: 'underline',
   textUnderlineOffset: '2px',
@@ -199,7 +210,8 @@ export const inlineLink = css({
 })
 
 export const runBox = css({
-  border: '1px solid #e4e4e7',
+  border: '1px solid',
+  borderColor: 'panel.border',
   borderRadius: '8px',
   padding: '12px',
   marginBottom: '14px',
@@ -211,16 +223,38 @@ export const checkboxRow = css({
   alignItems: 'center',
   minHeight: '44px',
   fontSize: '13px',
-  color: '#3f3f46',
+  color: 'panel.subtle',
   marginBottom: '14px',
   cursor: 'pointer',
 })
 
+// RunTab and WeightsTab compose this with Base UI's Checkbox.Root (a span,
+// not a native input), so it styles the box itself rather than `accentColor`.
 export const checkboxBox = css({
   width: '16px',
   height: '16px',
-  accentColor: '#18181b',
+  flexShrink: '0',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  border: '1px solid',
+  borderColor: 'panel.borderStrong',
+  borderRadius: '4px',
+  backgroundColor: 'panel.surface',
+  color: 'panel.surface',
+  '&[data-checked]': {
+    backgroundColor: 'panel.ink',
+    borderColor: 'panel.ink',
+  },
   '&:focus-visible': focusRing,
+})
+
+export const checkboxIndicator = css({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%',
+  height: '100%',
 })
 
 export const sliderRow = css({ marginBottom: '18px' })
@@ -230,9 +264,9 @@ export const sliderLabelRow = css({
   justifyContent: 'space-between',
   fontSize: '13px',
   fontWeight: '600',
-  color: '#18181b',
+  color: 'panel.ink',
   marginBottom: '2px',
-  '& span': { fontVariantNumeric: 'tabular-nums', color: '#3f3f46' },
+  '& span': { fontVariantNumeric: 'tabular-nums', color: 'panel.subtle' },
 })
 
 export const sliderControl = css({
@@ -246,13 +280,13 @@ export const sliderControl = css({
 export const sliderTrack = css({
   height: '4px',
   width: '100%',
-  backgroundColor: '#e4e4e7',
+  backgroundColor: 'panel.border',
   borderRadius: '9999px',
   position: 'relative',
 })
 
 export const sliderIndicator = css({
-  backgroundColor: '#18181b',
+  backgroundColor: 'panel.ink',
   borderRadius: '9999px',
 })
 
@@ -260,24 +294,29 @@ export const sliderThumb = css({
   width: '16px',
   height: '16px',
   borderRadius: '9999px',
-  backgroundColor: '#ffffff',
-  border: '1px solid #d4d4d8',
-  boxShadow: '0 1px 3px rgba(0,0,0,.15)',
+  backgroundColor: 'panel.surface',
+  border: '1px solid',
+  borderColor: 'panel.borderStrong',
+  boxShadow: 'panel.lg',
   '&:has(input:focus-visible)': focusRing,
 })
 
 export const archiveLink = css({
   fontSize: '13px',
-  color: '#18181b',
+  color: 'panel.ink',
   fontWeight: '600',
   textDecoration: 'none',
   '&:hover': { textDecoration: 'underline' },
   '&:focus-visible': focusRing,
 })
 
-export const ratingNotes = css({ fontSize: '12px', color: '#3f3f46', marginTop: '2px' })
+export const ratingNotes = css({ fontSize: '12px', color: 'panel.subtle', marginTop: '2px' })
 
-export const archiveRow = css({ padding: '10px 0', borderBottom: '1px solid #f4f4f5' })
+export const archiveRow = css({
+  padding: '10px 0',
+  borderBottom: '1px solid',
+  borderColor: 'panel.bgMuted',
+})
 
 export const runStatusLine = css({
   display: 'flex',
@@ -285,11 +324,11 @@ export const runStatusLine = css({
   gap: '7px',
   fontSize: '13px',
   fontWeight: '600',
-  color: '#18181b',
+  color: 'panel.ink',
 })
 
 export const subtleLink = css({
-  color: '#18181b',
+  color: 'panel.ink',
   textDecoration: 'underline',
   textUnderlineOffset: '2px',
   '&:focus-visible': focusRing,
