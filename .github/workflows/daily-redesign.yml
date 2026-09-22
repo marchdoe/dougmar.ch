@@ -1,5 +1,12 @@
 name: Daily Redesign
 
+# The runs API does not return a dispatch's inputs, so the run's title carries
+# them: "Daily Redesign (dry run)", "Daily Redesign (resume <id>)". The
+# backstop reads it back (scripts/nightly-backstop.js, dispatchInputs), so a
+# dry run does not use up the day's one dispatch. A scheduled run has no
+# inputs and keeps the plain name.
+run-name: ${{ format('Daily Redesign{0}{1}', inputs.dry_run && ' (dry run)' || '', inputs.resume_run_id && format(' (resume {0})', inputs.resume_run_id) || '') }}
+
 on:
   schedule:
     # 00:15 America/New_York, year-round. The site is a new design every day,

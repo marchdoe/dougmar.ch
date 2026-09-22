@@ -6,7 +6,8 @@ name: Nightly Backstop
 # workflow looks for the night itself, archive/<today>/record.json on main,
 # and acts when it is missing.
 #
-# It dispatches Daily Redesign at most once per New York day. If that run also
+# It dispatches Daily Redesign at most once per New York day, as a resume of
+# today's failed scheduled run when that run left a handoff. If that run also
 # leaves no night, it opens one issue and stops. A run that is queued or
 # running, including a scheduled one arriving hours late, means wait.
 # scripts/nightly-backstop.js decides; the jobs below only carry out what it
@@ -43,10 +44,11 @@ jobs:
     timeout-minutes: 5
     permissions:
       contents: read  # checkout, and archive/<today>/record.json on main
-      actions: read   # today's Daily Redesign runs and this workflow's own
+      actions: read   # today's Daily Redesign runs, this workflow's own, and a failed run's artifact
       issues: read    # whether today's backstop issue is already open
     outputs:
       action: ${{ steps.decide.outputs.action }}
+      resume_run_id: ${{ steps.decide.outputs.resume_run_id }}
       title: ${{ steps.decide.outputs.title }}
       body: ${{ steps.decide.outputs.body }}
     steps:
@@ -73,10 +75,12 @@ jobs:
     permissions:
       actions: write
     steps:
+      # Empty resume_run_id is a full night; a run id resumes that failed run.
       - name: Dispatch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run daily-redesign.yml --repo "$GITHUB_REPOSITORY" --ref main
+          RESUME_RUN_ID: ${{ needs.check.outputs.resume_run_id }}
+        run: gh workflow run daily-redesign.yml --repo "$GITHUB_REPOSITORY" --ref main -f resume_run_id="$RESUME_RUN_ID"
 
   report:
     needs: check

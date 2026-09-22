@@ -17,18 +17,24 @@
  * With --night-exists it answers only rule 1, for Daily Redesign's guard job,
  * which skips a day that already has its night (see nightExistsCli below).
  *
- * The rules, in order:
+ * The rules, in order. A manual dry run is left out of all of them: it never
+ * makes a night, so it neither holds the day up nor spends its dispatch.
  *   1. archive/<today>/record.json is on main: the night exists. Nothing.
  *   2. A Daily Redesign run is queued or running: wait for it.
  *   3. Today already had a dispatch (this backstop's, or anyone's manual one)
  *      and there is still no night: open one issue, once.
- *   4. Otherwise: dispatch Daily Redesign, once.
+ *   4. Otherwise: dispatch Daily Redesign, once. When today's scheduled run
+ *      failed and left a handoff.json in its build-failed-<id> artifact, the
+ *      dispatch resumes that run (resume_run_id), so the Art Director and the
+ *      mockups are not paid for twice (#578).
  *
  * "Today" is New York's calendar day, the day every archive path is keyed on.
  */
 
 import { execFile } from 'node:child_process'
-import { appendFileSync } from 'node:fs'
+import { appendFileSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
 import { promisify } from 'node:util'
 
 import { isMain } from './utils/cli.js'
@@ -66,6 +72,80 @@ export function runsOn(runs, date) {
   return runs.filter((r) => siteDate(new Date(r.created_at)) === date)
 }
 
+/**
+ * The inputs a Daily Redesign run was dispatched with. The runs API does not
+ * return workflow_dispatch inputs, so daily-redesign.yml writes them into its
+ * `run-name`, which the API returns as `display_title`: "Daily Redesign (dry
+ * run)", "Daily Redesign (resume 123)". Runs from before that carry the plain
+ * name and read as a full, paid night.
+ *
+ * @param {{ display_title?: string }} run
+ * @returns {{ dryRun: boolean, resumeRunId: string }}
+ */
+export function dispatchInputs(run) {
+  const title = run.display_title ?? ''
+  return {
+    dryRun: /\(dry run\)/.test(title),
+    resumeRunId: /\(resume (\d+)\)/.exec(title)?.[1] ?? '',
+  }
+}
+
+/**
+ * Today's failed scheduled runs, newest first: the ones a dispatch could
+ * resume, in the order to try them.
+ *
+ * @template {{ id: number, event: string, status: string, conclusion?: string | null, created_at: string }} T
+ * @param {T[]} runs
+ * @param {string} date
+ * @returns {T[]}
+ */
+export function resumeCandidates(runs, date) {
+  return runsOn(runs, date)
+    .filter((r) => r.event === 'schedule' && r.status === 'completed' && r.conclusion === 'failure')
+    .sort((a, b) => b.created_at.localeCompare(a.created_at))
+}
+
+/**
+ * The file names inside a zip archive, read from its central directory.
+ * GitHub serves artifacts as zips, and this is all the backstop needs of one.
+ *
+ * @param {Buffer} zip
+ * @returns {string[]}
+ */
+export function zipEntryNames(zip) {
+  // End of central directory: signature, then the count at +10, offset at +16.
+  let eocd = -1
+  for (let i = zip.length - 22; i >= Math.max(0, zip.length - 22 - 0xffff); i--) {
+    if (zip.readUInt32LE(i) === 0x06054b50) {
+      eocd = i
+      break
+    }
+  }
+  if (eocd < 0) throw new Error('not a zip archive')
+  const count = zip.readUInt16LE(eocd + 10)
+  let at = zip.readUInt32LE(eocd + 16)
+  const names = []
+  for (let n = 0; n < count; n++) {
+    if (zip.readUInt32LE(at) !== 0x02014b50) throw new Error('corrupt zip central directory')
+    const nameLen = zip.readUInt16LE(at + 28)
+    const extraLen = zip.readUInt16LE(at + 30)
+    const commentLen = zip.readUInt16LE(at + 32)
+    names.push(zip.toString('utf8', at + 46, at + 46 + nameLen))
+    at += 46 + nameLen + extraLen + commentLen
+  }
+  return names
+}
+
+/**
+ * Does a failure artifact carry what a resume needs? The resume step takes
+ * any handoff.json in it (daily-redesign.yml, "Stage the handoff").
+ *
+ * @param {string[]} names
+ */
+export function hasHandoff(names) {
+  return names.some((n) => path.posix.basename(n) === 'handoff.json')
+}
+
 /** @param {string} date */
 export function backstopIssueTitle(date) {
   return `Nightly backstop: no night for ${date}`
@@ -91,14 +171,29 @@ export function backstopDispatched(jobs) {
  *   nightlyRuns: Array<{ id?: number, event: string, status: string, conclusion?: string | null, created_at: string }>,
  *   dispatchedByBackstop: boolean,
  *   issueExists: boolean,
- * }} facts nightlyRuns may include other days; only `date`'s are read
- * @returns {{ action: 'none' | 'wait' | 'dispatch' | 'issue', reason: string }}
+ *   resumable?: number | string | null,
+ * }} facts nightlyRuns may include other days; only `date`'s are read. resumable
+ *   is the id of today's failed scheduled run whose artifact holds a handoff.
+ * @returns {{ action: 'none' | 'wait' | 'dispatch' | 'issue', reason: string, resumeRunId: string }}
  */
-export function decide({ date, nightExists, nightlyRuns, dispatchedByBackstop, issueExists }) {
+export function decide(facts) {
+  return { resumeRunId: '', ...decideAction(facts) }
+}
+
+/** @param {Parameters<typeof decide>[0]} facts */
+function decideAction({
+  date,
+  nightExists,
+  nightlyRuns,
+  dispatchedByBackstop,
+  issueExists,
+  resumable,
+}) {
   if (nightExists) {
     return { action: 'none', reason: `archive/${date}/record.json is on main: the night exists` }
   }
-  const today = runsOn(nightlyRuns, date)
+  // A dry run makes no night: it neither holds the day up nor spends its dispatch.
+  const today = runsOn(nightlyRuns, date).filter((r) => !dispatchInputs(r).dryRun)
   const active = today.filter((r) => ACTIVE.has(r.status))
   if (active.length > 0) {
     const list = active.map((r) => `${r.id ?? '?'} (${r.event}, ${r.status})`).join(', ')
@@ -120,6 +215,13 @@ export function decide({ date, nightExists, nightlyRuns, dispatchedByBackstop, i
   const seen = today.length
     ? `today's runs (${today.map((r) => `${r.event}: ${r.conclusion}`).join(', ')}) produced none`
     : 'no Daily Redesign run was created today'
+  if (resumable) {
+    return {
+      action: 'dispatch',
+      reason: `no night on main and ${seen}; resuming run ${resumable}, whose artifact holds a handoff`,
+      resumeRunId: String(resumable),
+    }
+  }
   return { action: 'dispatch', reason: `no night on main and ${seen}` }
 }
 
@@ -146,9 +248,42 @@ async function gh(args) {
   return stdout
 }
 
-/** @param {string} path */
-async function ghJson(path) {
-  return JSON.parse(await gh(['api', path]))
+/** @param {string} endpoint */
+async function ghJson(endpoint) {
+  return JSON.parse(await gh(['api', endpoint]))
+}
+
+/**
+ * The newest of today's failed scheduled runs whose build-failed-<id> artifact
+ * holds a handoff.json, or null. Downloads each candidate's artifact to a
+ * temporary file to read its file list.
+ *
+ * @param {string} repo
+ * @param {Array<{ id: number, event: string, status: string, conclusion?: string | null, created_at: string }>} runs
+ * @param {string} date
+ */
+export async function findResumable(repo, runs, date) {
+  for (const r of resumeCandidates(runs, date)) {
+    const { artifacts = [] } = await ghJson(`repos/${repo}/actions/runs/${r.id}/artifacts`)
+    const artifact = artifacts.find((a) => a.name === `build-failed-${r.id}` && !a.expired)
+    if (!artifact) continue
+    const dir = mkdtempSync(path.join(tmpdir(), 'backstop-'))
+    try {
+      const file = path.join(dir, 'artifact.zip')
+      // gh writes the binary body to stdout; a shell redirect keeps it intact.
+      await run('sh', [
+        '-c',
+        'gh api "$1" > "$2"',
+        'sh',
+        `repos/${repo}/actions/artifacts/${artifact.id}/zip`,
+        file,
+      ])
+      if (hasHandoff(zipEntryNames(readFileSync(file)))) return r.id
+    } finally {
+      rmSync(dir, { recursive: true, force: true })
+    }
+  }
+  return null
 }
 
 /**
@@ -216,6 +351,8 @@ export async function gatherFacts(repo, date) {
     nightlyRuns,
     dispatchedByBackstop: backstopDispatched(jobs),
     issueExists: issues.some((i) => i.title === backstopIssueTitle(date)),
+    // Only worth the download when there is no night to find.
+    resumable: nightExists ? null : await findResumable(repo, nightlyRuns, date),
   }
 }
 
@@ -243,7 +380,7 @@ async function main() {
   const date = args.find((a) => /^\d{4}-\d{2}-\d{2}$/.test(a)) ?? siteDate()
   if (args.includes('--night-exists')) return nightExistsCli(repo, date)
   const facts = await gatherFacts(repo, date)
-  const { action, reason } = decide(facts)
+  const { action, reason, resumeRunId } = decide(facts)
   console.log(`${date} (${SITE_TIME_ZONE}): ${action} — ${reason}`)
 
   const out = process.env.GITHUB_OUTPUT
@@ -251,7 +388,7 @@ async function main() {
     const body = issueBody({ date, reason, repo })
     appendFileSync(
       out,
-      `action=${action}\ndate=${date}\ntitle=${backstopIssueTitle(date)}\nbody<<BACKSTOP_EOF\n${body}\nBACKSTOP_EOF\n`
+      `action=${action}\nresume_run_id=${resumeRunId}\ndate=${date}\ntitle=${backstopIssueTitle(date)}\nbody<<BACKSTOP_EOF\n${body}\nBACKSTOP_EOF\n`
     )
   }
 }

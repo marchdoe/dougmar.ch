@@ -21,10 +21,14 @@ import {
   backstopIssueTitle,
   DISPATCH_JOB_NAME,
   decide,
+  dispatchInputs,
+  hasHandoff,
   issueBody,
   NIGHTLY_WORKFLOW,
+  resumeCandidates,
   runsOn,
   siteDate,
+  zipEntryNames,
 } from '../../scripts/nightly-backstop.js'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
@@ -266,11 +270,16 @@ describe('the workflow', () => {
     expect(dispatch.if).toContain("needs.check.outputs.action == 'dispatch'")
     expect(dispatch.if).toContain('!inputs.dry_run')
     expect(workflow.on.workflow_dispatch.inputs.dry_run.default).toBe(true)
-    const run = dispatch.steps.map((s) => s.run ?? '').join('\n')
-    expect(run).toContain(`gh workflow run ${NIGHTLY_WORKFLOW}`)
-    expect(run).toContain('--ref main')
-    // No inputs: the dispatched run is a normal, paid, committing night.
-    expect(run).not.toMatch(/-f |--field|dry_run|resume_run_id/)
+    const step = dispatch.steps.find((s) => s.name === 'Dispatch')
+    expect(step.run).toContain(`gh workflow run ${NIGHTLY_WORKFLOW}`)
+    expect(step.run).toContain('--ref main')
+    // Never a dry run; resume_run_id is the check's, through env, and empty
+    // for a full night.
+    expect(step.run).not.toMatch(/dry_run/)
+    expect(step.run).toContain('-f resume_run_id="$RESUME_RUN_ID"')
+    expect(step.run).not.toContain(ghExpr('').slice(0, 3))
+    expect(step.env.RESUME_RUN_ID).toBe(ghExpr('needs.check.outputs.resume_run_id'))
+    expect(check.outputs.resume_run_id).toBe(ghExpr('steps.decide.outputs.resume_run_id'))
   })
 
   it('opens an issue only on an issue verdict', () => {
@@ -288,5 +297,163 @@ describe('the workflow', () => {
     const text = JSON.stringify(workflow)
     const secrets = [...text.matchAll(/secrets\.(\w+)/g)].map((m) => m[1])
     expect(new Set(secrets)).toEqual(new Set(['GITHUB_TOKEN']))
+  })
+})
+
+/**
+ * A zip holding the named files, stored uncompressed. Enough of the format
+ * for zipEntryNames, which reads only the central directory.
+ */
+function makeZip(names) {
+  const locals = []
+  const centrals = []
+  let offset = 0
+  for (const name of names) {
+    const n = Buffer.from(name)
+    const local = Buffer.alloc(30)
+    local.writeUInt32LE(0x04034b50, 0)
+    local.writeUInt16LE(n.length, 26)
+    const central = Buffer.alloc(46)
+    central.writeUInt32LE(0x02014b50, 0)
+    central.writeUInt16LE(n.length, 28)
+    central.writeUInt32LE(offset, 42)
+    locals.push(local, n)
+    centrals.push(central, n)
+    offset += local.length + n.length
+  }
+  const dir = Buffer.concat(centrals)
+  const end = Buffer.alloc(22)
+  end.writeUInt32LE(0x06054b50, 0)
+  end.writeUInt16LE(names.length, 8)
+  end.writeUInt16LE(names.length, 10)
+  end.writeUInt32LE(dir.length, 12)
+  end.writeUInt32LE(offset, 16)
+  return Buffer.concat([...locals, dir, end])
+}
+
+describe('a dry run does not spend the day', () => {
+  it("reads the dispatch inputs from the run's title", () => {
+    expect(dispatchInputs({ display_title: 'Daily Redesign' })).toEqual({
+      dryRun: false,
+      resumeRunId: '',
+    })
+    expect(dispatchInputs({ display_title: 'Daily Redesign (dry run)' }).dryRun).toBe(true)
+    expect(dispatchInputs({ display_title: 'Daily Redesign (resume 123)' })).toEqual({
+      dryRun: false,
+      resumeRunId: '123',
+    })
+    expect(dispatchInputs({ display_title: 'Daily Redesign (dry run) (resume 9)' })).toEqual({
+      dryRun: true,
+      resumeRunId: '9',
+    })
+    // Runs from before run-name existed read as a full night.
+    expect(dispatchInputs({})).toEqual({ dryRun: false, resumeRunId: '' })
+  })
+
+  it('titles each run the way dispatchInputs reads it', () => {
+    const daily = yaml.load(readFileSync(path.join(WORKFLOWS, NIGHTLY_WORKFLOW), 'utf8'))
+    expect(daily['run-name']).toBe(
+      ghExpr(
+        "format('Daily Redesign{0}{1}', inputs.dry_run && ' (dry run)' || '', inputs.resume_run_id && format(' (resume {0})', inputs.resume_run_id) || '')"
+      )
+    )
+    // What that expression renders for each dispatch, read back.
+    const render = (dry, resume) =>
+      `Daily Redesign${dry ? ' (dry run)' : ''}${resume ? ` (resume ${resume})` : ''}`
+    for (const [dry, resume] of [
+      [false, ''],
+      [true, ''],
+      [false, '42'],
+      [true, '42'],
+    ]) {
+      expect(dispatchInputs({ display_title: render(dry, resume) })).toEqual({
+        dryRun: dry,
+        resumeRunId: resume,
+      })
+    }
+  })
+
+  it('dispatches past a manual dry run, finished or running', () => {
+    const done = nightly({ event: 'workflow_dispatch', display_title: 'Daily Redesign (dry run)' })
+    const running = nightly({
+      id: 2,
+      event: 'workflow_dispatch',
+      status: 'in_progress',
+      conclusion: null,
+      display_title: 'Daily Redesign (dry run)',
+    })
+    expect(decide(facts({ nightlyRuns: [done, running] })).action).toBe('dispatch')
+  })
+
+  it('still counts a manual resume as the day spent', () => {
+    const resume = nightly({
+      event: 'workflow_dispatch',
+      conclusion: 'failure',
+      display_title: 'Daily Redesign (resume 7)',
+    })
+    expect(decide(facts({ nightlyRuns: [resume] })).action).toBe('issue')
+  })
+})
+
+describe('resuming a failed night', () => {
+  it("resumes today's failed scheduled run when it left a handoff", () => {
+    const failed = nightly({ id: 77, conclusion: 'failure' })
+    const d = decide(facts({ nightlyRuns: [failed], resumable: 77 }))
+    expect(d).toMatchObject({ action: 'dispatch', resumeRunId: '77' })
+    expect(d.reason).toContain('resuming run 77')
+  })
+
+  it('dispatches a full night when there is nothing to resume', () => {
+    const d = decide(facts({ nightlyRuns: [nightly({ conclusion: 'failure' })] }))
+    expect(d).toMatchObject({ action: 'dispatch', resumeRunId: '' })
+  })
+
+  it('is still the one dispatch: after it, a check waits or reports, never resumes again', () => {
+    const resumed = nightly({
+      id: 9,
+      event: 'workflow_dispatch',
+      display_title: 'Daily Redesign (resume 77)',
+    })
+    const base = { dispatchedByBackstop: true, resumable: 77 }
+    expect(
+      decide(facts({ ...base, nightlyRuns: [{ ...resumed, status: 'in_progress' }] })).action
+    ).toBe('wait')
+    expect(
+      decide(facts({ ...base, nightlyRuns: [{ ...resumed, conclusion: 'failure' }] })).action
+    ).toBe('issue')
+    expect(decide(facts({ ...base, issueExists: true })).action).toBe('none')
+  })
+
+  it('returns an empty resume id for every other verdict', () => {
+    expect(decide(facts({ nightExists: true, resumable: 1 })).resumeRunId).toBe('')
+    expect(decide(facts({ dispatchedByBackstop: true, resumable: 1 })).resumeRunId).toBe('')
+  })
+
+  it("takes only today's failed scheduled runs, newest first", () => {
+    const runs = [
+      nightly({ id: 1, conclusion: 'failure', created_at: '2026-09-22T09:00:00Z' }),
+      nightly({ id: 2, conclusion: 'failure', created_at: '2026-09-22T10:00:00Z' }),
+      nightly({ id: 3, conclusion: 'success' }),
+      nightly({ id: 4, conclusion: 'failure', event: 'workflow_dispatch' }),
+      nightly({ id: 5, conclusion: 'failure', created_at: '2026-09-21T10:00:00Z' }),
+      nightly({ id: 6, status: 'in_progress', conclusion: null }),
+    ]
+    expect(resumeCandidates(runs, DATE).map((r) => r.id)).toEqual([2, 1])
+  })
+
+  it('reads the file names out of an artifact zip', () => {
+    const names = [
+      'archive/2026-09-22/build-failed-1/handoff.json',
+      'archive/2026-09-22/build-failed-1/trace.json',
+      'signals/handoff.json',
+    ]
+    expect(zipEntryNames(makeZip(names))).toEqual(names)
+    expect(() => zipEntryNames(Buffer.from('not a zip'))).toThrow()
+  })
+
+  it('knows a handoff wherever the artifact put it', () => {
+    expect(hasHandoff(['archive/2026-09-22/build-failed-1/handoff.json'])).toBe(true)
+    expect(hasHandoff(['signals/handoff.json'])).toBe(true)
+    expect(hasHandoff(['2026-09-21/last-build-output.txt', 'x/handoff.json.bak'])).toBe(false)
   })
 })
