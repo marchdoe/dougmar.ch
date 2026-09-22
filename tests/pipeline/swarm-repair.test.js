@@ -1178,6 +1178,88 @@ describe('known faults never ship (#625)', () => {
     expect(third.userPrompt).toContain('STILL PRESENT after the last revision')
   })
 
+  describe('one extra round when the third revision leaves fresh faults (#635)', () => {
+    // Distinct `detail` text keeps each fault's key unique (surface-gate.js's
+    // findingKey does not include width), so freshness across rounds is
+    // exactly what the test wires it to be.
+    const faultNamed = (name) => ({
+      ...OVERFLOW_AT_390,
+      detail: `${OVERFLOW_AT_390.detail} (${name})`,
+    })
+    const FAULT_A = faultNamed('A')
+    const FAULT_B = faultNamed('B')
+    const FAULT_C = faultNamed('C')
+    const FAULT_D = faultNamed('D')
+    const FAULT_E = faultNamed('E')
+    const gateOf = (...findings) => ({ findings, measured: 8, errorCount: findings.length })
+
+    it('spends a fourth round when round 3 leaves one fault absent from round 2, and ships once it clears', async () => {
+      // Run 6, 2026-09-21 (#635): 46 → 6 → (build broke, restored) → 3
+      // errors, one engineer-owned and freshly introduced by round 3's own
+      // fix. MAX_REVISION_ROUNDS left it no chance to try again and the
+      // night was refused for $5.31 over a fault a $0.50 round might have
+      // cleared.
+      const run = await runSwarm({
+        gate: [
+          gateOf(OVERFLOW_AT_390), // round 1: forces the first revision
+          gateOf(FAULT_A, FAULT_B), // round 2: two faults, neither yet seen
+          gateOf(FAULT_A, FAULT_C), // round 3: A repeats, C is new
+          gateOf(FAULT_D), // round 4 (the extra round): fresh, absent from round 3
+          CLEAN_GATE, // round 5: the extra round's own fix clears it
+        ],
+        agents: { 'react-engineer': engineer(4) },
+      })
+
+      expect(run.error).toBeNull()
+      expect(run.callsFor('react-engineer')).toHaveLength(5)
+      expect(run.retries).toBe(4)
+      expect(gateRounds(run)).toEqual(['1:REVISE', '2:REVISE', '3:REVISE', '4:REVISE', '5:SHIP'])
+      expect(
+        run.trace.steps.filter((s) => s.name === 'revision').map((s) => s.input.round)
+      ).toEqual([1, 2, 3, 4])
+      expect(run.fakes.archive).toHaveLength(1)
+      // The fourth round's brief carries round 3's leftover, not round 2's.
+      const fourth = run.callsFor('react-engineer')[4]
+      expect(fourth.userPrompt).toContain(formatFindingsForCritic([FAULT_D]))
+    })
+
+    it('does not earn a fourth round when round 3 leaves three faults, however fresh', async () => {
+      const run = await runSwarm({
+        gate: [
+          gateOf(OVERFLOW_AT_390), // round 1
+          gateOf(FAULT_A, FAULT_B), // round 2 (after revision 1)
+          gateOf(FAULT_B, FAULT_C), // round 3 (after revision 2)
+          gateOf(FAULT_C, FAULT_D, FAULT_E), // round 4 (after revision 3) — three, all fresh
+        ],
+        agents: { 'react-engineer': engineer(3) },
+      })
+
+      expect(run.error).not.toBeNull()
+      expect(run.error.message).toMatch(
+        /^Refusing to ship: 3 engineer-owned fault\(s\) remain after 3 revision round\(s\)/
+      )
+      expect(run.callsFor('react-engineer')).toHaveLength(4)
+    })
+
+    it('does not earn a fourth round when round 3 leaves one fault already present in round 2', async () => {
+      const run = await runSwarm({
+        gate: [
+          gateOf(OVERFLOW_AT_390), // round 1
+          gateOf(FAULT_A, FAULT_B), // round 2 (after revision 1)
+          gateOf(FAULT_A), // round 3 (after revision 2)
+          gateOf(FAULT_A), // round 4 (after revision 3) — same fault, not fresh
+        ],
+        agents: { 'react-engineer': engineer(3) },
+      })
+
+      expect(run.error).not.toBeNull()
+      expect(run.error.message).toMatch(
+        /^Refusing to ship: 1 engineer-owned fault\(s\) remain after 3 revision round\(s\)/
+      )
+      expect(run.callsFor('react-engineer')).toHaveLength(4)
+    })
+  })
+
   it('tries again when a gate-forced revision broke the build, and refuses when that fails too', async () => {
     // Before, a revision that broke the build put the round-1 build back and
     // shipped it: the very build the gate had just said required a revision.

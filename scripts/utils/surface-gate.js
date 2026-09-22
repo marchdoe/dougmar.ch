@@ -1075,6 +1075,35 @@ export async function runSurfaceGate({
 }
 
 /**
+ * A fault's identity across gate rounds: two findings are "the same fault"
+ * when they share this key. `formatFindingsForCritic` uses it for the STILL
+ * PRESENT marker and `allFindingsFresh` (#635) uses it to tell "the fix moved
+ * the fault" from "the fix left it alone" — one key so the two can never
+ * disagree about what counts as a repeat.
+ * @param {object} f
+ * @returns {string}
+ */
+function findingKey(f) {
+  return `${f.surface}|${f.viewport}|${f.line}|${f.kind}|${f.detail}`
+}
+
+/**
+ * True when every fault in `findings` is new since `previousFindings` — none
+ * of them shares a `findingKey` with a fault the round before already had.
+ * `previousFindings` of `null` (no round before, or the gate never measured
+ * it) means freshness can't be established, so nothing counts as fresh.
+ *
+ * @param {Array<object>} findings
+ * @param {Array<object>|null|undefined} previousFindings
+ * @returns {boolean}
+ */
+export function allFindingsFresh(findings, previousFindings) {
+  if (!previousFindings) return false
+  const seen = new Set(previousFindings.map(findingKey))
+  return findings.every((f) => !seen.has(findingKey(f)))
+}
+
+/**
  * Render findings as a text block for the screenshot critic's prompt.
  *
  * Deliberately text, not more image blocks: the measurements are already
@@ -1092,14 +1121,13 @@ export async function runSurfaceGate({
 export function formatFindingsForCritic(findings, { previous = null } = {}) {
   if (!findings?.length) return ''
 
-  const keyOf = (f) => `${f.surface}|${f.viewport}|${f.line}|${f.kind}|${f.detail}`
   // A fault the last round already reported. The engineer that skipped it
   // once, with eighteen files in the brief, skipped it again on 2026-09-21
   // because nothing in the second brief said it was the same fault (#630).
-  const seen = previous ? new Set(previous.map(keyOf)) : null
+  const seen = previous ? new Set(previous.map(findingKey)) : null
   const byKey = new Map()
   for (const f of findings) {
-    const key = keyOf(f)
+    const key = findingKey(f)
     if (!byKey.has(key)) byKey.set(key, { ...f, schemes: [], repeated: Boolean(seen?.has(key)) })
     byKey.get(key).schemes.push(f.scheme)
   }
