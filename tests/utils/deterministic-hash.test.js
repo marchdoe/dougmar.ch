@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { hashString, hashToRange } from '../scripts/utils/deterministic-hash.js'
+import { hashString, hashToRange } from '../../scripts/utils/deterministic-hash.js'
 
 describe('hashString', () => {
   it('is deterministic — same input, same output', () => {

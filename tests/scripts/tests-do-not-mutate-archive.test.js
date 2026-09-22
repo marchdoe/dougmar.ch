@@ -102,7 +102,7 @@ describe('tests that call archive() write somewhere disposable', () => {
 
 describe('tests do not clean up files they never created', () => {
   it("nothing deletes the developer's collected signals", () => {
-    // tests/collect-signals.test.js had an afterEach that unlinked
+    // tests/scripts/collect-signals.test.js had an afterEach that unlinked
     // signals/today.yml and today.meta.yml after every test. runCollector()
     // does not write them — only the CLI branch does — so it was deleting a
     // real, uncommitted artifact of the day's pipeline run. The dev server
