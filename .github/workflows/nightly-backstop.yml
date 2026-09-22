@@ -1,0 +1,94 @@
+name: Nightly Backstop
+
+# Daily Redesign's `notify` job fires only on failure. A scheduled trigger that
+# GitHub never delivers, or one the guard job skips, is not a failure: there is
+# no run, or a run that did nothing, and nobody hears about it (#193). This
+# workflow looks for the night itself, archive/<today>/record.json on main,
+# and acts when it is missing.
+#
+# It dispatches Daily Redesign at most once per New York day. If that run also
+# leaves no night, it opens one issue and stops. A run that is queued or
+# running, including a scheduled one arriving hours late, means wait.
+# scripts/nightly-backstop.js decides; the jobs below only carry out what it
+# said, each with the one permission its action needs.
+
+on:
+  schedule:
+    # Three checks, because a single check cron is as unreliable as the one it
+    # checks. Every check is idempotent: the first one to find the night
+    # missing dispatches, a later one opens the issue if the dispatch left no
+    # night. Off the hour, as GitHub's docs ask. In New York these are
+    # 10:30, 13:30 and 16:30 EDT, or 09:30, 12:30 and 15:30 EST.
+    - cron: '30 14 * * *'
+    - cron: '30 17 * * *'
+    - cron: '30 20 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run: decide and print, dispatch nothing, open nothing'
+        type: boolean
+        default: true
+
+# Two checks never overlap, so the second one always sees the first's dispatch.
+concurrency:
+  group: nightly-backstop
+  cancel-in-progress: false
+
+# No job inherits a token. Each one below asks for what it uses (#544).
+permissions: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read  # checkout, and archive/<today>/record.json on main
+      actions: read   # today's Daily Redesign runs and this workflow's own
+      issues: read    # whether today's backstop issue is already open
+    outputs:
+      action: ${{ steps.decide.outputs.action }}
+      title: ${{ steps.decide.outputs.title }}
+      body: ${{ steps.decide.outputs.body }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+          sparse-checkout: scripts
+
+      - name: Decide
+        id: decide
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/nightly-backstop.js
+
+  # The one job that can start a paid run. Its success is also the day's
+  # record of the dispatch: the check reads it back so it never dispatches
+  # twice, even when the dispatched run never appears.
+  dispatch:
+    name: Dispatch Daily Redesign
+    needs: check
+    if: ${{ needs.check.outputs.action == 'dispatch' && !inputs.dry_run }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: write
+    steps:
+      - name: Dispatch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run daily-redesign.yml --repo "$GITHUB_REPOSITORY" --ref main
+
+  report:
+    needs: check
+    if: ${{ needs.check.outputs.action == 'issue' && !inputs.dry_run }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write
+    steps:
+      - name: Open the issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TITLE: ${{ needs.check.outputs.title }}
+          BODY: ${{ needs.check.outputs.body }}
+        run: gh issue create --repo "$GITHUB_REPOSITORY" --title "$TITLE" --body "$BODY" --label pipeline-failure
