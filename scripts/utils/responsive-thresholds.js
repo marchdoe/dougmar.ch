@@ -17,28 +17,30 @@ export const TAP_TARGET_MIN_PX = 44
 /**
  * Smallest body text that is comfortably readable on a phone. The responsive
  * scorer grades against it. The gate does not fail a page for it: the ramp's
- * own `sm` step is 14.22px, so a floor at 16 rejected the design system's
- * paragraphs on 8 of the last 10 nights (see `SMALL_COPY_FLOOR_PX`).
+ * own `sm` step was 14.22px (14.54px since #564), so a floor at 16 rejected
+ * the design system's paragraphs on 8 of the last 10 nights (see
+ * `SMALL_COPY_FLOOR_PX`).
  */
 export const BODY_TEXT_MIN_PX = 16
 
 /**
  * Running copy (`p`, `li`, `blockquote`) under this is an `error` at both
  * rungs (#567). One number for both: the same `sm` paragraph is set at
- * 14.22px at 360 and at 1440, and the desktop caption or sidebar note the
+ * 14.54px at 360 and at 1440, and the desktop caption or sidebar note the
  * issue expected under 16 is that same step. 14 clears `sm` and rejects `xs`
- * (12.64px) set as a sentence. Calibrated in docs/evidence/font-size-floor/.
+ * (13.21px) set as a sentence. Calibrated in docs/evidence/font-size-floor/,
+ * when the two steps were 14.22px and 12.64px.
  */
 export const SMALL_COPY_FLOOR_PX = 14
 
 /**
  * Any visible text, whatever its tag, under this is an `error` at both rungs
- * (#567). The ramp's `2xs` step is 11.23px on every chassis and 9 of the last
- * 10 nights set labels in it, so the floor sits just under it. #564 raises the
- * ramp to 12px; raise this to 12 in the same change. The type-ramp guard in
- * small-text.test.js fails if this ever passes the smallest step.
+ * (#567). The ramp's `2xs` step was 11.23px on every chassis and 9 of 10
+ * nights set labels in it, so the floor sat at 11 until #564 put `2xs` at
+ * 12px. The type-ramp guard in small-text.test.js fails if this ever passes
+ * the smallest step.
  */
-export const SMALL_TEXT_FLOOR_PX = 11
+export const SMALL_TEXT_FLOOR_PX = 12
 
 /**
  * The most characters a line of running copy may hold (#569). Measured on the

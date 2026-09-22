@@ -26,7 +26,10 @@
  *   chassis the floor is inert and the clamp is identical to the pre-table
  *   one; on a 1.333 chassis it lifts the hero from 50.5px to a real
  *   64px-to-96px range, which is the undershoot #257 found and left for
- *   #253.
+ *   #253. Last, the hero is raised to `4xl` wherever `4xl` is larger, so
+ *   the biggest step is never out-sized by one below it (#564).
+ * - Below `base` the ramp steps down to a 12px `2xs`, and `lede` sits between
+ *   `base` and `md` at 18-20px (#564).
  * - `xl` through `5xl` are clamps too (#457, then `xl` in #469). Each keeps
  *   its geometric value as the 1440px maximum, so desktop is untouched, and
  *   interpolates down to a compressed 360px minimum. See NARROW_MAX_REM
@@ -46,6 +49,7 @@ export const RAMP_STEPS = [
   'xs',
   'sm',
   'base',
+  'lede',
   'md',
   'lg',
   'xl',
@@ -59,9 +63,29 @@ export const RAMP_STEPS = [
 /** Steps above `base`, nearest first. Each is one chassis-ratio step out. */
 const UP_STEPS = ['md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl']
 
-/** Steps below `base`, nearest first, on a fixed minor second (#252). */
+/** Steps below `base`, nearest first. */
 const DOWN_STEPS = ['sm', 'xs', '2xs']
-const SMALL_RATIO = 1.125
+
+/**
+ * The smallest step, in rem: 12px, the floor the surface gate holds every
+ * visible text to (#564). The three steps below `base` used to sit on a fixed
+ * 1.125 (#252), which put `2xs` at 11.23px on every chassis and under that
+ * floor. Now the ratio below `base` is whatever lands `2xs` here in three
+ * steps: 1.1006 at a 1rem base, so `sm` is 14.54px and `xs` 13.21px, and each
+ * step still clears its neighbour by 1.1.
+ */
+const SMALL_FLOOR_REM = 0.75
+
+/**
+ * The step between `base` and `md` (#564). `md` is one chassis ratio above
+ * `base`, 21 to 26px across the catalog, so a lead paragraph had to choose
+ * between body size and a heading size. `lede` sits half a ratio up, the
+ * geometric middle of the two, held to 1.125-1.25 times `base` (18-20px at
+ * a 1rem base): 18.5px on a 1.333 chassis, 19.6px on a 1.5, and 20px on a
+ * 1.618, where half a ratio would be 20.4. Fixed, like every step below `xl`.
+ */
+const LEDE_MIN_RATIO = 1.125
+const LEDE_MAX_RATIO = 1.25
 
 /** The viewport window `fluid()` interpolates across, in rem at 16px each. */
 const FLUID_MIN_VW_REM = NARROW_VIEWPORT.width / 16
@@ -127,6 +151,7 @@ const DEFAULT_LINE_HEIGHTS = {
   xs: 1.4,
   sm: 1.45,
   base: 1.5,
+  lede: 1.45,
   md: 1.4,
   lg: 1.3,
   xl: 1.2,
@@ -142,6 +167,7 @@ const DEFAULT_TRACKING = {
   xs: '0.03em',
   sm: '0.01em',
   base: '0',
+  lede: '0',
   md: '0',
   lg: '-0.005em',
   xl: '-0.01em',
@@ -216,6 +242,33 @@ function capSize(size) {
   return fluid(`${minRem}rem`, `${DESKTOP_MAX_REM}rem`)
 }
 
+/** A finished size's two ends in rem: its 360px and 1440px values. */
+function sizeEnds(size) {
+  const clampMatch = /^clamp\(([\d.]+)rem,.*,\s*([\d.]+)rem\)$/.exec(size)
+  if (clampMatch) return [Number(clampMatch[1]), Number(clampMatch[2])]
+  const rem = parseRem(size)
+  return [rem, rem]
+}
+
+/**
+ * Raise `size` so it is never smaller than `floor` at either end of the
+ * fluid window. Both are straight lines between 360 and 1440 and flat
+ * outside it, so matching the two ends holds it at every width between.
+ *
+ * The hero is held to `4xl` this way (#564). It used to top out at the
+ * geometric `3xl`, 7.594rem on a 1.5 chassis against a `4xl` capped at 10rem:
+ * the step named for the biggest thing on the page was the third biggest.
+ * A chassis that declares its own hero is held to it too.
+ */
+function atLeast(size, floor) {
+  const [min, max] = sizeEnds(size)
+  const [floorMin, floorMax] = sizeEnds(floor)
+  if (min >= floorMin && max >= floorMax) return size
+  const lo = Math.max(min, floorMin)
+  const hi = Math.max(max, floorMax)
+  return lo >= hi ? `${roundRem(hi)}rem` : fluid(`${lo}rem`, `${hi}rem`)
+}
+
 /**
  * Generate a full step table from a ratio and a base size, then lay
  * per-step overrides on top.
@@ -230,12 +283,14 @@ export function scaleSteps(ratio, base, overrides = {}) {
   const baseRem = parseRem(base)
 
   const rems = { base: baseRem }
+  const smallRatio = (baseRem / SMALL_FLOOR_REM) ** (1 / DOWN_STEPS.length)
   DOWN_STEPS.forEach((step, i) => {
-    rems[step] = baseRem / SMALL_RATIO ** (i + 1)
+    rems[step] = Math.max(SMALL_FLOOR_REM, baseRem / smallRatio ** (i + 1))
   })
   UP_STEPS.forEach((step, i) => {
     rems[step] = baseRem * ratio ** (i + 1)
   })
+  rems.lede = baseRem * clamp(LEDE_MIN_RATIO, Math.sqrt(ratio), LEDE_MAX_RATIO)
 
   const heroMin = Math.max(rems['2xl'], HERO_MIN_REM)
   const heroMax = Math.max(rems['3xl'], heroMin * HERO_SPAN)
@@ -279,6 +334,7 @@ export function scaleSteps(ratio, base, overrides = {}) {
     }
     steps[step].size = capSize(steps[step].size)
   }
+  steps.hero.size = atLeast(steps.hero.size, steps['4xl'].size)
 
   for (const step of Object.keys(overrides)) {
     if (!RAMP_STEPS.includes(step)) {

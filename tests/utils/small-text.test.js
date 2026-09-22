@@ -54,10 +54,10 @@ const desktop = (entries, route) => measurement('desktop', entries, route)
 const under = (floor) => Math.round((floor - 0.1) * 100) / 100
 
 describe('the floors', () => {
-  it('are 14 for running copy and 11 for any text, today', () => {
+  it('are 14 for running copy and 12 for any text, today', () => {
     // Numbers, not references, so that moving one is a decision somebody sees.
     expect(SMALL_COPY_FLOOR_PX).toBe(14)
-    expect(SMALL_TEXT_FLOOR_PX).toBe(11)
+    expect(SMALL_TEXT_FLOOR_PX).toBe(12)
   })
 
   it('reach the page walk, so it collects what the rules will read', () => {
@@ -66,9 +66,8 @@ describe('the floors', () => {
   })
 
   // The gate must not reject the design system's own tokens: every chassis
-  // sets `2xs` at 0.702rem and `sm` at 0.889rem, and a night that follows the
-  // engineer prompt uses both. #564 raises the ramp to 12px; raise
-  // SMALL_TEXT_FLOOR_PX to 12 in the same change.
+  // sets `2xs` at 0.75rem and `sm` at 0.909rem since #564, and a night that
+  // follows the engineer prompt uses both.
   const REM = 16
   const stepPx = (chassis, step) => Number.parseFloat(chassis.type.steps[step].size) * REM
 

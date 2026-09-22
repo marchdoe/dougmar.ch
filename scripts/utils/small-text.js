@@ -13,10 +13,11 @@
  *
  * The issue asked for 16px at the phone, 14px at desktop and 12px for any
  * text. Measured over the last ten nights those floors send every night to a
- * revision, because the ramp's own steps sit under them: `sm` is 14.22px and
+ * revision, because the ramp's own steps sat under them: `sm` was 14.22px and
  * `2xs` 11.23px on all fifteen chassis. The floors here are the ones the ramp
  * clears; the numbers and the alternatives are in
- * docs/evidence/font-size-floor/.
+ * docs/evidence/font-size-floor/. Since #564 the ramp starts at a 12px `2xs`
+ * and the any-text floor is 12.
  *
  * `small-text-page.js` finds the elements in the same walk as the contrast
  * gate and hands back one record per element chain and size. This module

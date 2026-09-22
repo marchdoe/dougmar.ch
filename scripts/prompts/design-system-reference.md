@@ -114,7 +114,7 @@ export const elementsPreset = definePreset({
 Components reference token names, NOT raw color values. A name outside these sets ships as a bare identifier, the browser drops the declaration, and the element silently keeps its inherited value.
 
 - **Fonts:** `display` and `body` come from the chassis. Anything else exists only if the preset defines it.
-- **Font sizes:** `2xs`, `xs`, `sm`, `base`, `md`, `lg`, `xl`, `2xl`, `3xl`, `4xl`, `5xl`, `hero`. Nothing above `5xl` exists. `hero` and every step from `xl` up are fluid clamps that shrink to fit a {{NARROW_PX}}px column, so a heading set in one resizes on its own; `lg` and below are fixed.
+- **Font sizes:** `2xs`, `xs`, `sm`, `base`, `lede`, `md`, `lg`, `xl`, `2xl`, `3xl`, `4xl`, `5xl`, `hero`. Nothing above `5xl` exists. `2xs` sits on the {{SMALL_TEXT_FLOOR_PX}}px floor on every chassis; `lede` sits halfway between `base` and `md`, for a lead paragraph. `hero` and every step from `xl` up are fluid clamps that shrink to fit a {{NARROW_PX}}px column, so a heading set in one resizes on its own; `lg` and below are fixed.
 - **Text styles:** every ramp step is also a `textStyle` token (`textStyle: 'hero'`) carrying size, line-height and letter-spacing together, tuned per step by the day's chassis. Prefer `textStyle` over setting `fontSize` alone.
 - **Spacing:** `1`-`9`, derived from the chassis rhythm and landing close to 4, 8, 16, 24, 32, 48, 64, 96, 128px on every chassis. A bare number is a spacing token, so a literal size needs its unit (`width: '44px'`).
 - **Line heights:** `tight`, `snug`, `normal`, `loose`, derived from the chassis step table. A step's own leading comes free with `textStyle`.

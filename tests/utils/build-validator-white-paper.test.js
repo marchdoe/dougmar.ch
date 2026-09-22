@@ -216,7 +216,20 @@ describe('renderWhitePaperFile', () => {
 
   it('sets every size as a literal, so the chassis ramp cannot move the hierarchy', () => {
     const sizes = [...code.matchAll(/(?:fontSize|base|md|lg):\s*'([^']+)'/g)].map((m) => m[1])
-    for (const step of ['2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', 'hero']) {
+    for (const step of [
+      '2xs',
+      'xs',
+      'sm',
+      'lede',
+      'md',
+      'lg',
+      'xl',
+      '2xl',
+      '3xl',
+      '4xl',
+      '5xl',
+      'hero',
+    ]) {
       expect(sizes, step).not.toContain(step)
     }
     expect(code).not.toContain('textStyle')

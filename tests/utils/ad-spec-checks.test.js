@@ -136,7 +136,8 @@ describe('check 2: hero_scale above the chassis ramp', () => {
   const figtree = chassis('unbounded-figtree')
 
   it('resolves the clamp at 1440 and finds the biggest step on the ramp', () => {
-    expect(rampCeiling(figtree)).toEqual({ px: 160, step: '5xl' })
+    // hero and 5xl both reach 160px since #564; the later step names it.
+    expect(rampCeiling(figtree)).toEqual({ px: 160, step: 'hero' })
   })
 
   it('passes a declaration the ramp reaches', () => {
@@ -152,7 +153,7 @@ describe('check 2: hero_scale above the chassis ramp', () => {
     const [finding] = unrenderableHeroScale('clamp(140px, 27vw, 400px)', figtree)
     expect(finding).toContain('MEASURABLES hero_scale "clamp(140px, 27vw, 400px)"')
     expect(finding).toContain('resolves to 389px at 1440px')
-    expect(finding).toContain('chassis unbounded-figtree tops out at 160px there (its 5xl step)')
+    expect(finding).toContain('chassis unbounded-figtree tops out at 160px there (its hero step)')
   })
 
   it('says so when no chassis in the catalog reaches the size', () => {

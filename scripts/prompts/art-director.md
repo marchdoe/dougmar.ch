@@ -506,10 +506,10 @@ ground_material: none | grain | mesh | halftone | rule | dots
 placement: top-bar | left-rail | right-margin | corner | folded-into-hero | footer-only | none
 height_px: <integer, 32–800; exactly 0 when placement is none>
 mark_px: <integer, inside the band your brand_lockup publishes>
-wordmark_step: 2xs | xs | sm | base | md | lg | xl | 2xl | 3xl | 4xl | 5xl | none
+wordmark_step: 2xs | xs | sm | base | lede | md | lg | xl | 2xl | 3xl | 4xl | 5xl | none
 wordmark_weight: <integer 100–900>
 role_line: present | absent
-nav_step: 2xs | xs | sm | base | md | lg | xl | 2xl | 3xl | 4xl | 5xl
+nav_step: 2xs | xs | sm | base | lede | md | lg | xl | 2xl | 3xl | 4xl | 5xl
 nav_case: upper | lower | small-caps | title
 nav_form: labels | numbered | sentence | list | word
 nav: <treatment in prose, e.g. bottom rail / corner mark / floating pills / left spine / top bar / none — must be "none" when placement is "none"; for footer-only and none, also say where the mark sits in the hero>
