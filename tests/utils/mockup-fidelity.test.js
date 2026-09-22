@@ -4,7 +4,12 @@
  * lives in mockup-fidelity-dom.test.js, against real Chromium.
  */
 import { describe, expect, it } from 'vitest'
-import { compareLayouts, matchKey, normalizeText } from '../../scripts/utils/mockup-fidelity.js'
+import {
+  compareLayouts,
+  compareMockupLayout,
+  matchKey,
+  normalizeText,
+} from '../../scripts/utils/mockup-fidelity.js'
 
 /** A fixture segment, shaped like extractTextSegments()'s output. */
 function seg(text, fontSize, opts = {}) {
@@ -231,5 +236,104 @@ describe('compareLayouts: finding shape and determinism', () => {
     const first = compareLayouts(mockup, build, VIEWPORT)
     const second = compareLayouts(mockup, build, VIEWPORT)
     expect(JSON.stringify(second)).toBe(JSON.stringify(first))
+  })
+})
+
+describe('compareLayouts: facts for the repair brief', () => {
+  // The brief phrases each finding as an instruction from these numbers
+  // (mockup-advisory.js); `detail` stays as it was for the CLI and the archive.
+  it('names the build leader and its mockup size when the leader is replaced (the BOTH canary)', () => {
+    const mockup = [
+      seg('BOTH', 158, { y: 100 }),
+      seg('The work', 150, { y: 300 }),
+      seg('DEEP IN', 44, { y: 500 }),
+    ]
+    const build = [
+      seg('DEEP IN', 122, { y: 100 }),
+      seg('BOTH', 100, { y: 300 }),
+      seg('The work', 95, { y: 500 }),
+    ]
+    const f = compareLayouts(mockup, build, VIEWPORT).find((x) => x.kind === 'mockup-hierarchy')
+    expect(f.detail).toBe(
+      "largest text in mockup is 'both' (158px); in build it is 'deep in' (122px)"
+    )
+    expect(f.facts).toMatchObject({
+      shape: 'replaced',
+      leader: { text: 'both', mockupPx: 158 },
+      buildLeader: { text: 'deep in', buildPx: 122, mockupPx: 44 },
+    })
+  })
+
+  it('records the build sizes of a flattened lead (2026-09-21)', () => {
+    const mockup = [seg('-26', 160, { y: 100 }), seg('-26', 56, { y: 200 })]
+    const build = [seg('-26', 128, { y: 100 }), seg('-26', 120, { y: 200 })]
+    const f = compareLayouts(mockup, build, VIEWPORT).find((x) => x.kind === 'mockup-hierarchy')
+    expect(f.facts).toMatchObject({
+      shape: 'flattened',
+      leader: { mockupPx: 160, buildPx: 128 },
+      runnerUp: { mockupPx: 56, buildPx: 120 },
+      mockupGap: 2.9,
+      buildGap: 1.1,
+    })
+  })
+
+  it('names what fell out of the top three when the leader held (reordered)', () => {
+    const mockup = [
+      seg('Spaceman', 64, { y: 50 }),
+      seg('Selected Work', 28, { y: 300 }),
+      seg('Experiments', 28, { y: 500 }),
+    ]
+    const build = [
+      seg('Spaceman', 64, { y: 50 }),
+      seg('A caption', 40, { y: 200 }),
+      seg('Another caption', 36, { y: 250 }),
+      seg('A third caption', 32, { y: 280 }),
+      seg('Selected Work', 20, { y: 300 }),
+      seg('Experiments', 20, { y: 500 }),
+    ]
+    const f = compareLayouts(mockup, build, VIEWPORT).find((x) => x.kind === 'mockup-hierarchy')
+    expect(f.facts.shape).toBe('reordered')
+    expect(f.facts.dropped.map((d) => d.text)).toEqual(['selected work', 'experiments'])
+  })
+
+  it('carries sizes and ratio on a scale finding, and hidden on a missing one', () => {
+    const scale = compareLayouts(
+      [seg('Leaderboard score', 56, { y: 100 })],
+      [seg('Leaderboard score', 120, { y: 100 })],
+      VIEWPORT
+    ).find((x) => x.kind === 'mockup-scale')
+    expect(scale.facts).toEqual({
+      text: 'leaderboard score',
+      mockupPx: 56,
+      buildPx: 120,
+      ratio: 2.14,
+    })
+
+    const hidden = compareLayouts(
+      [seg('Selected Work', 28, { y: 100 })],
+      [seg('Selected Work', 28, { y: 100, opacity: 0 })],
+      VIEWPORT
+    ).find((x) => x.kind === 'mockup-missing')
+    expect(hidden.facts).toEqual({ text: 'selected work', mockupPx: 28, hidden: true })
+  })
+})
+
+describe('compareMockupLayout', () => {
+  it('compares at every width both layouts have, desktop first', () => {
+    const mockup = { desktop: [seg('Gap', 200, { y: 100 })], phone: [seg('Gap', 80, { y: 50 })] }
+    const findings = compareMockupLayout(mockup, { desktop: [], phone: [] })
+    const widths = findings.map((f) => f.width)
+    expect(widths).toContain(1440)
+    expect(widths).toContain(360)
+    expect(widths.indexOf(360)).toBeGreaterThan(widths.lastIndexOf(1440))
+  })
+
+  it('skips a width either side is missing', () => {
+    const findings = compareMockupLayout(
+      { desktop: [seg('Gap', 200, { y: 100 })] },
+      { desktop: [] }
+    )
+    expect(findings.every((f) => f.width === 1440)).toBe(true)
+    expect(compareMockupLayout(null, { desktop: [] })).toEqual([])
   })
 })

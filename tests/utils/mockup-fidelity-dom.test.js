@@ -6,7 +6,9 @@
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { chromium } from '@playwright/test'
-import { extractTextSegments } from '../../scripts/utils/mockup-fidelity.js'
+import { createServer } from 'node:http'
+import { extractTextSegments, readPageLayout } from '../../scripts/utils/mockup-fidelity.js'
+import { runSurfaceGate, VIEWPORT_RUNGS } from '../../scripts/utils/surface-gate.js'
 
 async function measure(browser, html, { width = 1440, height = 900 } = {}) {
   const page = await browser.newPage({ viewport: { width, height } })
@@ -117,6 +119,37 @@ describe('extractTextSegments', () => {
     expect(s.opacity).toBeCloseTo(0, 5)
   })
 
+  it('reads a section held back by a view() scroll reveal as rendered (2026-09-14)', async () => {
+    // Panda's `anim-n_rise` on `animation-timeline: view()`, fill-mode both:
+    // a section below the fold sits at opacity 0 until it is scrolled to, and
+    // an unscrolled capture used to report it as missing from the build.
+    const segs = await measure(
+      browser,
+      `<style>
+        @keyframes rise{0%{opacity:0}to{opacity:1}}
+        .reveal{animation-name:rise;animation-fill-mode:both;animation-timeline:view();
+          animation-range:entry 0% entry 40%}
+      </style>
+      <div style="height:1400px"></div>
+      <section class="reveal"><h2 style="font-size:28px">Selected Work</h2></section>`
+    )
+    const s = segs.find((s) => s.text.includes('Selected Work'))
+    expect(s.opacity).toBeCloseTo(1, 5)
+  })
+
+  it('leaves a time-based animation alone, so a stuck entrance still reads as stuck', async () => {
+    const segs = await measure(
+      browser,
+      `<style>
+        @keyframes stuck{0%,to{opacity:0}}
+        .stuck{animation:stuck 100s both paused}
+      </style>
+      <p class="stuck" style="font-size:28px">Held at zero</p>`
+    )
+    const s = segs.find((s) => s.text.includes('Held at zero'))
+    expect(s.opacity).toBeCloseTo(0, 5)
+  })
+
   it('breaks a run across two different block-level containers', async () => {
     const segs = await measure(
       browser,
@@ -127,4 +160,63 @@ describe('extractTextSegments', () => {
     expect(texts).toContain('Left column')
     expect(texts).toContain('Right column')
   })
+})
+
+/**
+ * The nightly's path: the mockup's layout read the way snapshot.js reads it,
+ * handed to `runSurfaceGate`, which reads the build's `/` and compares. The
+ * pages are the local canary that prompted this: BOTH at 158px over a 44px
+ * caption, built with the caption at 122px.
+ */
+describe('mockup drift through runSurfaceGate', () => {
+  const PAGES = {
+    '/mockup':
+      '<h1 style="font-size:158px;margin:0">BOTH</h1><h2 style="font-size:150px;margin:0">Work</h2>' +
+      '<p style="font-size:44px">Deep in</p>',
+    '/':
+      '<p style="font-size:122px;margin:0">Deep in</p><h1 style="font-size:100px;margin:0">BOTH</h1>' +
+      '<h2 style="font-size:95px;margin:0">Work</h2>',
+  }
+
+  async function serve() {
+    const server = createServer((req, res) => {
+      const html = PAGES[req.url ?? '']
+      res.statusCode = html ? 200 : 404
+      res.setHeader('content-type', 'text/html')
+      res.end(`<!doctype html><html><body style="margin:0">${html ?? ''}</body></html>`)
+    })
+    await new Promise((resolve) => server.listen(0, resolve))
+    return server
+  }
+
+  it('returns the comparison beside the findings, placed on / and kept out of them', async () => {
+    const server = await serve()
+    const browser = await chromium.launch({ headless: true })
+    try {
+      const { port } = server.address()
+      const mockupLayout = await readPageLayout(browser, `http://localhost:${port}/mockup`)
+      const opts = {
+        port,
+        routes: [{ id: 'home', route: '/' }],
+        viewports: VIEWPORT_RUNGS.filter((v) => v.name === 'desktop'),
+        schemes: ['light'],
+      }
+      const gate = await runSurfaceGate({ ...opts, mockupLayout })
+
+      const hierarchy = gate.mockupFindings.find(
+        (f) => f.kind === 'mockup-hierarchy' && f.width === 1440
+      )
+      expect(hierarchy).toMatchObject({ surface: '/', severity: 'warning', scheme: 'light' })
+      expect(hierarchy.facts.buildLeader).toMatchObject({ text: 'deep in', mockupPx: 44 })
+      expect(gate.mockupFindings.some((f) => f.width === 360)).toBe(true)
+      // The critic is handed `findings`; the mockup comparison is not in it.
+      expect(gate.findings.some((f) => f.kind.startsWith('mockup-'))).toBe(false)
+
+      const without = await runSurfaceGate(opts)
+      expect(without.mockupFindings).toBeNull()
+    } finally {
+      await browser.close()
+      server.close()
+    }
+  }, 90_000)
 })
