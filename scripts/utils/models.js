@@ -2,13 +2,19 @@
  * Per-agent model resolution with a dev/prod tier, and everything the
  * pipeline knows about each model in one table.
  *
- * Prod uses the best model per job — Opus for the art director and mockup
- * designer, where design taste matters most. Dev caps every agent at
- * DEV_CEILING (Sonnet) so local runs stay off the Max-plan Opus budget: on a
- * subscription, Opus usage is weighted heavily against the rolling rate
- * limit, so a single Opus call burns far more allowance than the same work
- * on Sonnet. Removing it is what lets a local run complete without
- * throttling.
+ * Prod uses the best model per job — Opus 4.8 for the art director and
+ * mockup designer, where design taste matters most, and (2026-09-22,
+ * one-week trial) Opus 5.5 at effort `high` for the react engineer: a local
+ * A/B on the 2026-09-21 tape had the Sonnet 5 engineer start at 37 gate
+ * errors and lose the mockup's hero hierarchy, against Opus 5.5 starting at
+ * 4 and matching the mockup in about half the wall time. `opus-5-5` is its
+ * own tier, separate from `opus`, so this does not touch the art director or
+ * mockup designer. Revert: change PROD_MODELS['react-engineer'] back to
+ * 'opus'. Dev caps every agent at DEV_CEILING (Sonnet) so local runs stay off
+ * the Max-plan Opus budget: on a subscription, Opus usage is weighted
+ * heavily against the rolling rate limit, so a single Opus call burns far
+ * more allowance than the same work on Sonnet. Removing it is what lets a
+ * local run complete without throttling.
  *
  * Tiers resolve to explicit model IDs rather than CLI aliases. CI pins the
  * claude CLI, whose 'opus'/'sonnet' alias mapping is frozen at whatever was
@@ -40,12 +46,16 @@ export const MODEL_CATALOG = {
   'claude-haiku-4-5': { pricing: { input: 1, output: 5 }, adaptiveThinking: false },
   'claude-sonnet-5': { pricing: { input: 3, output: 15 }, adaptiveThinking: true },
   'claude-opus-4-8': { pricing: { input: 5, output: 25 }, adaptiveThinking: true },
+  'claude-opus-5-5': { pricing: { input: 4, output: 20 }, adaptiveThinking: true },
 }
 
 export const MODEL_IDS = {
   haiku: 'claude-haiku-4-5',
   sonnet: 'claude-sonnet-5',
   opus: 'claude-opus-4-8',
+  // react-engineer's one-week trial tier (see the header comment). Kept apart
+  // from `opus` so art-director and mockup-designer are untouched.
+  'opus-5-5': 'claude-opus-5-5',
 }
 
 export const PROD_MODELS = {
@@ -55,11 +65,13 @@ export const PROD_MODELS = {
   // color coverage) against the measurables the Art Director already
   // declared, not a taste call — Sonnet's judgment was never the bottleneck.
   'mockup-critic': 'haiku',
-  'react-engineer': 'sonnet',
+  'react-engineer': 'opus-5-5',
   'screenshot-critic': 'sonnet',
 }
 
-const TIER_RANK = { haiku: 0, sonnet: 1, opus: 2 }
+// opus-5-5 ranks above opus so the dev-tier cap below still lands react-
+// engineer on Sonnet locally, same as every other agent above DEV_CEILING.
+const TIER_RANK = { haiku: 0, sonnet: 1, opus: 2, 'opus-5-5': 3 }
 const DEV_CEILING = 'sonnet'
 
 export function isDevModelTier() {

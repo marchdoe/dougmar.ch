@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { EventEmitter } from 'node:events'
 import path from 'node:path'
 import { Readable, Writable } from 'node:stream'
+import { spawn } from 'node:child_process'
 
 // We need to mock child_process.spawn before importing claude-cli.js
 // so the spawn call inside resolves to our fake child process. The source
@@ -457,5 +458,59 @@ describe('callClaudeCLI temp prompt file', () => {
     await Promise.all([first, second])
     const removed = unlink.mock.calls.map(([file]) => file)
     for (const { file } of written) expect(removed).toContain(file)
+  })
+})
+
+// 2026-09-22: one-week Opus 5.5 trial for react-engineer (see models.js and
+// budgets.js). effort reaches the CLI as a plain --effort flag; every other
+// caller must see cliArgs unchanged.
+describe('callClaudeCLI --effort flag', () => {
+  beforeEach(() => {
+    mockChildren.length = 0
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+    vi.clearAllMocks()
+  })
+
+  it('passes --effort <level> right after --model when options.effort is set', async () => {
+    const { callClaudeCLI } = await import('../../scripts/utils/claude-cli.js')
+    const promise = callClaudeCLI('react-engineer', 'system', 'user prompt', {
+      model: 'claude-opus-5-5',
+      effort: 'high',
+      timeoutMs: 60 * 60 * 1000,
+      stallTimeoutMs: 60 * 60 * 1000,
+    }).catch(() => {})
+
+    await vi.advanceTimersByTimeAsync(10)
+    const cliArgs = spawn.mock.calls.at(-1)[1]
+    const modelAt = cliArgs.indexOf('--model')
+    expect(cliArgs.slice(modelAt, modelAt + 4)).toEqual([
+      '--model',
+      'claude-opus-5-5',
+      '--effort',
+      'high',
+    ])
+
+    mockChildren.at(-1).emit('close', 0)
+    await promise
+  })
+
+  it('omits --effort entirely when the caller does not set it', async () => {
+    const { callClaudeCLI } = await import('../../scripts/utils/claude-cli.js')
+    const promise = callClaudeCLI('mockup-critic', 'system', 'user prompt', {
+      model: 'claude-haiku-4-5',
+      timeoutMs: 60 * 60 * 1000,
+      stallTimeoutMs: 60 * 60 * 1000,
+    }).catch(() => {})
+
+    await vi.advanceTimersByTimeAsync(10)
+    const cliArgs = spawn.mock.calls.at(-1)[1]
+    expect(cliArgs).not.toContain('--effort')
+
+    mockChildren.at(-1).emit('close', 0)
+    await promise
   })
 })

@@ -762,7 +762,9 @@ export function serializeCall(call, index, root) {
     `model: ${call.model}`,
     `timeoutMs: ${o.timeoutMs} | stallTimeoutMs: ${o.stallTimeoutMs}${
       o.maxTokens !== undefined ? ` | maxTokens: ${o.maxTokens}` : ''
-    }${call.imageCount !== undefined ? ` | images: ${call.imageCount}` : ''}`,
+    }${o.effort !== undefined ? ` | effort: ${o.effort}` : ''}${
+      call.imageCount !== undefined ? ` | images: ${call.imageCount}` : ''
+    }`,
     `${'-'.repeat(30)} system prompt ${'-'.repeat(33)}`,
     scrub(call.systemPrompt),
     `${'-'.repeat(30)} user prompt ${'-'.repeat(35)}`,

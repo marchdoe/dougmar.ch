@@ -699,7 +699,7 @@ index.tsx is a single-composition canvas today, not a portfolio hub.`)
  * @param {string} agentName
  * @param {string} systemPrompt
  * @param {string} userPrompt
- * @param {{ timeoutMs?: number, stallTimeoutMs?: number, model?: string, patch?: boolean, purpose?: string }} [options]
+ * @param {{ timeoutMs?: number, stallTimeoutMs?: number, model?: string, patch?: boolean, purpose?: string, effort?: string }} [options]
  * @returns {Promise<{ files: Array<{path: string, content: string}>, rationale?: string, design_brief?: string }>}
  */
 async function callAgent(agentName, systemPrompt, userPrompt, options = {}) {
@@ -716,6 +716,7 @@ async function callAgent(agentName, systemPrompt, userPrompt, options = {}) {
     stallTimeoutMs: options.stallTimeoutMs ?? budget.stallTimeoutMs,
     model: options.model,
     purpose: options.purpose,
+    effort: options.effort,
   })
 
   // Two response shapes remain: a critic verdict, or delimited files. The

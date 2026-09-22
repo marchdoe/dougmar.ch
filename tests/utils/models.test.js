@@ -38,6 +38,20 @@ describe('model tier resolution', () => {
     expect(modelFor('mockup-designer')).toBe(MODEL_IDS.opus) // full prod model
   })
 
+  it('resolves react-engineer to the opus-5-5 trial tier in prod, capped to sonnet in dev', () => {
+    setEnv({ PIPELINE_TIER: 'prod' })
+    expect(modelFor('react-engineer')).toBe(MODEL_IDS['opus-5-5'])
+    expect(modelFor('react-engineer')).toBe('claude-opus-5-5')
+    setEnv({ PIPELINE_TIER: 'dev' })
+    expect(modelFor('react-engineer')).toBe(MODEL_IDS.sonnet)
+  })
+
+  it('leaves art-director and mockup-designer on opus 4.8, not the react-engineer trial tier', () => {
+    setEnv({ PIPELINE_TIER: 'prod' })
+    expect(modelFor('art-director')).toBe('claude-opus-4-8')
+    expect(modelFor('mockup-designer')).toBe('claude-opus-4-8')
+  })
+
   it('PIPELINE_TIER=prod forces prod models even with no API key', () => {
     setEnv({ PIPELINE_TIER: 'prod' })
     expect(modelFor('mockup-designer')).toBe(MODEL_IDS.opus)
@@ -57,7 +71,6 @@ describe('model tier resolution', () => {
 
   it('leaves models already at or below the dev ceiling unchanged', () => {
     setEnv({}) // dev tier
-    expect(modelFor('react-engineer')).toBe(MODEL_IDS.sonnet)
     expect(modelFor('mockup-critic')).toBe(MODEL_IDS.haiku)
     expect(modelFor('screenshot-critic')).toBe(MODEL_IDS.sonnet)
   })
@@ -85,6 +98,7 @@ describe('model tier resolution', () => {
   it('exposes the prod model map for reference', () => {
     expect(PROD_MODELS['mockup-designer']).toBe('opus')
     expect(PROD_MODELS['art-director']).toBe('opus')
+    expect(PROD_MODELS['react-engineer']).toBe('opus-5-5')
   })
 })
 
@@ -107,6 +121,13 @@ describe('MODEL_CATALOG', () => {
     expect(supportsAdaptiveThinking('claude-haiku-4-5')).toBe(false)
     expect(supportsAdaptiveThinking('claude-sonnet-5')).toBe(true)
     expect(supportsAdaptiveThinking('claude-opus-4-8')).toBe(true)
+  })
+
+  it('prices Opus 5.5 and knows its thinking is always on', () => {
+    // Opus 5.5 rejects an explicit thinking:null/disabled with a 400 at every
+    // effort, so the flag it reports here must never be false.
+    expect(pricingFor('claude-opus-5-5')).toEqual({ input: 4, output: 20 })
+    expect(supportsAdaptiveThinking('claude-opus-5-5')).toBe(true)
   })
 
   it('prices an unknown model to null, never zero', () => {
