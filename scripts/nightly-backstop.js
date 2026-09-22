@@ -14,6 +14,9 @@
  *
  *   node scripts/nightly-backstop.js [YYYY-MM-DD]
  *
+ * With --night-exists it answers only rule 1, for Daily Redesign's guard job,
+ * which skips a day that already has its night (see nightExistsCli below).
+ *
  * The rules, in order:
  *   1. archive/<today>/record.json is on main: the night exists. Nothing.
  *   2. A Daily Redesign run is queued or running: wait for it.
@@ -164,7 +167,7 @@ function dayBefore(date) {
  * @param {string} repo owner/name
  * @param {string} date
  */
-async function nightOnMain(repo, date) {
+export async function nightOnMain(repo, date) {
   try {
     await gh(['api', `repos/${repo}/contents/archive/${date}/record.json?ref=main`, '--silent'])
     return true
@@ -216,10 +219,29 @@ export async function gatherFacts(repo, date) {
   }
 }
 
+/**
+ * Daily Redesign's guard asks this before a run that would pay for a night:
+ * is today's already on main? It prints the answer and writes `exists=` to
+ * GITHUB_OUTPUT. A late scheduled run that lands after the backstop's
+ * dispatch has published would otherwise build the day twice.
+ *
+ * @param {string} repo
+ * @param {string} date
+ */
+async function nightExistsCli(repo, date) {
+  const exists = await nightOnMain(repo, date)
+  console.log(
+    `${date} (${SITE_TIME_ZONE}): archive/${date}/record.json ${exists ? 'is' : 'is not'} on main`
+  )
+  if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `exists=${exists}\n`)
+}
+
 async function main() {
   const repo = process.env.GITHUB_REPOSITORY || 'marchdoe/dougmar.ch'
+  const args = process.argv.slice(2)
   // A date argument asks about another day, read-only, for trying it by hand.
-  const date = /^\d{4}-\d{2}-\d{2}$/.test(process.argv[2] ?? '') ? process.argv[2] : siteDate()
+  const date = args.find((a) => /^\d{4}-\d{2}-\d{2}$/.test(a)) ?? siteDate()
+  if (args.includes('--night-exists')) return nightExistsCli(repo, date)
   const facts = await gatherFacts(repo, date)
   const { action, reason } = decide(facts)
   console.log(`${date} (${SITE_TIME_ZONE}): ${action} — ${reason}`)
