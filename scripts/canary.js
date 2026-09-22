@@ -72,6 +72,21 @@ const ERROR_HEAD_CHARS = 1500
 const SHIPPED_BUILD_RE = /^build-\d+$/
 
 /**
+ * The line `archiver.js`'s `archive()` prints the instant it writes a
+ * shipped build dir — the only place in the pipeline's own output that
+ * names the exact build this run produced. Matched against the run's
+ * combined stdout/stderr, never against anything read off disk.
+ */
+const SHIPPED_LOG_RE = /archived to archive\/(\d{4}-\d{2}-\d{2})\/(build-\d+)\//g
+
+/**
+ * The line `design-agents.js`'s `saveTrace()` prints when it writes the
+ * dedicated failure dir for a lost night — the run's own name for the
+ * `build-failed-*` dir it just created.
+ */
+const FAILED_LOG_RE = /failure trace saved to (build-failed-\d+)\/trace\.json/g
+
+/**
  * Evidence worth keeping, wherever under archive/<date>/ it lands. Images
  * excluded on purpose — a routine canary run shouldn't accumulate binaries
  * in git. The one exception, the shipped render, is copied separately as
@@ -248,6 +263,60 @@ function findFailedBuildDir(archiveDateDir) {
     .sort()
     .at(-1)
   return name ? path.join(archiveDateDir, name) : null
+}
+
+/** The last `archived to archive/<date>/<build>/` line in the run's own output, or null. */
+function parseShippedBuildFromLog(log) {
+  const last = [...log.matchAll(SHIPPED_LOG_RE)].at(-1)
+  return last ? { date: last[1], build: last[2] } : null
+}
+
+/** The last `failure trace saved to <build-failed-id>/trace.json` line in the run's own output, or null. */
+function parseFailedBuildNameFromLog(log) {
+  return [...log.matchAll(FAILED_LOG_RE)].at(-1)?.[1] ?? null
+}
+
+/**
+ * The build dir this run actually shipped, or null. Never trusted from the
+ * filesystem alone: a `build-<ts>/` dir under `archiveDateDir` can be one an
+ * earlier night already published under the same date and committed into
+ * HEAD — still sitting there in this run's fresh worktree even though this
+ * run itself was refused or crashed (seen 2026-09-21 on `error_max_turns`,
+ * and 2026-09-22 on a ship-gate refusal: both reported "PASS — shipped" off
+ * that stale dir). So the pipeline's own exit status must say it completed,
+ * and the build dir itself is the one the run's own log named it archived
+ * to — never a sort-newest-build-* guess over the date dir's contents. Only
+ * a log with no archived-to line at all (an older pipeline, say) falls back
+ * to that guess.
+ * @param {{ archiveDateDir: string|null, date: string|null, pipelineStatus: number, log: string }} args
+ * @returns {string|null} the build dir's basename
+ */
+function resolveShippedBuild({ archiveDateDir, date, pipelineStatus, log }) {
+  if (pipelineStatus !== 0 || !archiveDateDir) return null
+  const named = parseShippedBuildFromLog(log)
+  if (named) {
+    if (named.date !== date) return null
+    return existsSync(path.join(archiveDateDir, named.build)) ? named.build : null
+  }
+  return findShippedBuild(archiveDateDir)
+}
+
+/**
+ * The dir this run's own failure trace landed in, preferring the exact name
+ * the run's log gave it over the sort-newest-build-failed-* heuristic below
+ * (which is only a fallback for logs that never reached `saveTrace`, e.g. a
+ * crash in `collect-signals.js` before `daily-redesign.js` ever started).
+ * @param {{ archiveDateDir: string|null, log: string }} args
+ * @returns {string|null} absolute path
+ */
+function resolveFailedDir({ archiveDateDir, log }) {
+  if (!archiveDateDir) return null
+  const named = parseFailedBuildNameFromLog(log)
+  if (named) {
+    const dir = path.join(archiveDateDir, named)
+    if (existsSync(dir)) return dir
+  }
+  return findFailedBuildDir(archiveDateDir)
 }
 
 function readJsonSafe(p) {
@@ -582,10 +651,10 @@ function prepareWorktree({ exec, root, now, worktreePath }) {
 }
 
 /** Read back the trace and cost the run left behind, wherever it filed them. */
-function readRunArtifacts({ archiveDateDir, shippedBuild }) {
+function readRunArtifacts({ archiveDateDir, shippedBuild, log }) {
   const traceDir = shippedBuild
     ? path.join(archiveDateDir, shippedBuild)
-    : findFailedBuildDir(archiveDateDir)
+    : resolveFailedDir({ archiveDateDir, log })
   if (!traceDir) return { trace: null, cost: null, failedDir: null }
   return {
     trace: readJsonSafe(path.join(traceDir, 'trace.json')),
@@ -603,10 +672,10 @@ function readRunArtifacts({ archiveDateDir, shippedBuild }) {
  * following the run live.
  * @returns {{ shipped: boolean, date: string|null }}
  */
-function collectEvidence({ worktree, root, evidenceDir, log, mock = false }) {
+function collectEvidence({ worktree, root, evidenceDir, log, mock = false, pipelineStatus }) {
   const date = findArchiveDate(worktree)
   const archiveDateDir = date ? path.join(worktree, 'archive', date) : null
-  const shippedBuild = archiveDateDir ? findShippedBuild(archiveDateDir) : null
+  const shippedBuild = resolveShippedBuild({ archiveDateDir, date, pipelineStatus, log })
   const shipped = Boolean(shippedBuild)
 
   writeFileSync(path.join(evidenceDir, 'canary.log'), log, 'utf8')
@@ -616,6 +685,7 @@ function collectEvidence({ worktree, root, evidenceDir, log, mock = false }) {
     shippedBuild,
     evidenceDir,
     date,
+    log,
   })
 
   const errorHead = shipped ? null : findErrorHead({ archiveDateDir, failedDir, trace, log })
@@ -637,9 +707,9 @@ function collectEvidence({ worktree, root, evidenceDir, log, mock = false }) {
  * own copies of the text evidence and the shipped render. All-null / no
  * copies when the run never wrote an archive dir at all.
  */
-function collectArchiveArtifacts({ archiveDateDir, shippedBuild, evidenceDir, date }) {
+function collectArchiveArtifacts({ archiveDateDir, shippedBuild, evidenceDir, date, log }) {
   if (!archiveDateDir) return { trace: null, cost: null, failedDir: null, renderPath: null }
-  const { trace, cost, failedDir } = readRunArtifacts({ archiveDateDir, shippedBuild })
+  const { trace, cost, failedDir } = readRunArtifacts({ archiveDateDir, shippedBuild, log })
   copyEvidenceFiles({ archiveDateDir, evidenceDir, date })
   const renderPath = copyRenderScreenshot({ archiveDateDir, shippedBuild, evidenceDir })
   return { trace, cost, failedDir, renderPath }
@@ -702,13 +772,18 @@ export async function runCanary({
       copyEnvFile({ root, worktree }) ? '  copied .env into worktree' : '  no .env to copy'
     )
 
-    const { stdout, stderr } = await runPipeline({ exec, worktree, mock, logPath })
+    const {
+      status: pipelineStatus,
+      stdout,
+      stderr,
+    } = await runPipeline({ exec, worktree, mock, logPath })
     const { shipped, date } = collectEvidence({
       worktree,
       root,
       evidenceDir,
       log: `${stdout}${stderr}`,
       mock,
+      pipelineStatus,
     })
 
     return { exitCode: shipped ? 0 : 1, shipped, date, evidenceDir }
