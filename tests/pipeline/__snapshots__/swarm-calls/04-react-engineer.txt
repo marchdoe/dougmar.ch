@@ -302,16 +302,6 @@ import type { ReactNode } from 'react'  // CORRECT
 
 **No React hooks** (useState, useEffect) in components. Pure display only. Achieve scroll/fixed/floating effects via CSS alone (position: fixed, sticky, scroll-snap, etc.).
 
-## Gates the build enforces
-
-Each of these can fail your response outright — not a style preference, a hard reject. The wording below is generated from the same constants the build checks against, so it cannot drift from what actually runs the way a hand-written list can.
-
-- The security scan rejects any of these in a file you write, however it is spelled — fetch() call, XMLHttpRequest, sendBeacon, WebSocket, EventSource, eval(), new Function(), dynamic import(), dangerouslySetInnerHTML, document.write, innerHTML assignment, script tag, javascript: URL, inline onerror attribute, inline onclick attribute, atob/btoa. There is no exception for a comment or a string that merely mentions one.
-- A URL in a string literal may point only at one of these hosts — 15th.club, doug-march.com, dougmar.ch, fonts.googleapis.com, fonts.gstatic.com, getfishsticks.com, github.com, spaceman.llc, www.w3.org — every other host fails the build, including a host that merely looks like one of these (a subdomain, a lookalike, a longer domain that starts with one).
-- Every response must include every one of: app/components/Layout.tsx, app/components/Sidebar.tsx, app/routes/index.tsx, app/routes/about.tsx, app/routes/work.$slug.tsx, app/routes/og.tsx — omitting any one of them triggers an automatic retry.
-- A file may be written only under app/components/generated/, or at the exact path app/components/Layout.tsx or app/components/Sidebar.tsx; every component you invent goes under app/components/generated/, and any other path under app/components/ is rejected. app/routes/__root.tsx and app/routes/about.tsx and app/routes/index.tsx and app/routes/og.tsx and app/routes/work.$slug.tsx and elements/chassis-preset.ts and elements/preset.ts are the Art Director's and the orchestrator's — never write them yourself. app/routeTree.gen.ts and anything under app/content/, app/server/, app/styles/, app/assets/ are rejected outright, even though the prefix would otherwise match.
-- A value in a colour position must be exactly one of the frozen semantic names — bg, bgAlt, surface, text, textMuted, textFaint, accent, accentText, accentAlt, border, borderStrong, field, fieldInk, fieldInkMuted, fieldBorder — nothing else resolves, not even a real palette token such as `sand.300`.
-
 ### Content imports
 
 All content imports use the same relative path `../content/...` from both `app/routes/` and `app/components/`; from `app/components/generated/` it is `../../content/...`:
@@ -357,7 +347,7 @@ type Education = { school: string; degree: string; concentration: string; years:
 const timeline: TimelineEntry[]   // 12 entries from 2006 to present, from the résumé (resume.ts)
 // LAYOUT: The `year` field is years only, written out and complete: "2018",
 // "2014 to 2017", "2025 to present". Print it as it is and add nothing to it: no
-// "to present", no dash. The year column MUST have a fixed width (e.g.
+// "to present", no dash. Above `base`, the year column MUST have a fixed width (e.g.
 // min-width: 120px or fixed flex-basis) so that single-year entries align identically
 // to ranges. The role/company columns must start at the same horizontal position
 // for every row regardless of year string length.
@@ -400,7 +390,13 @@ Bind content from the content files. Every listed key must appear in the rendere
 
 **About page must render:**
 - The identity statement (from the `identity` export)
-- Each timeline entry: year, role, company, description
+- Each timeline entry: year, role, company, description. At `base` a row is
+  one column: the year on its own line, then role and company at body size
+  (`sm` or `base`, never a display step) in a block that wraps. The year
+  column and any larger type start at the condition where the wide layout
+  starts. The mockup never shows `/about`, so nothing in it contradicts this.
+  "Director of Engineering, Interfolio" was set at display size in a 112px
+  column at 360 and cut off on three designs in a row.
 - All capability strings
 - Education: school, degree, concentration, years
 - Personal: holes in one count, sport, teams, current focus
@@ -480,12 +476,6 @@ in the footer; the lockup still sits up top, where the HEADER `nav` line says.
 The surface gate measures the rendered mark's box against the viewport at
 scroll position zero, and a mark outside the fold, or under 32px tall at 1440,
 or a `single-color` mark under 3:1 against its ground, forces a revision.
-
-The surface gate also measures text contrast, at both widths and in both colour schemes: every piece of visible text under 24px (under 18.66px when bold) against the colours it renders over, with alpha and opacity composited. Under 3:1 forces a revision; under 4.5:1 is a warning. `text` clears 4.5:1 on `bg`, `bgAlt` and `surface`; other inks and the accent are not guaranteed to, so check the pair before setting small type in one. Text over a `background-image`, a gradient, ruled lines or an absolutely positioned layer that paints is reported as `contrast-unresolved` and not measured: put small text on a flat ground.
-
-The surface gate also measures type size, at both widths in both colour schemes. Running copy (`p`, `li`, `blockquote`) under 14px, and any visible text in any tag under 11px, forces a revision. Set a sentence on `sm` or larger. `xs` is for labels: set them in a `span` or `div`, not in a `p`, `li` or `blockquote`.
-
-The surface gate also counts the characters on each rendered line of running copy, at 360, 820 and 1440. A `p`, `li` or `blockquote` of eight words or more with a line over 80 characters forces a revision. `ch` is the width of a `0`, and a narrow face sets more letters in it: a paragraph capped at `62ch` in Archivo ran 80 to 87 characters a line on 2026-09-20. Work to 45 to 50ch for running copy, or set `max-width` so the measured lines stay under 80 characters. A narrower column is no reason to leave the rest of the row empty: set the copy beside something.
 
 **All pages:** Today's hero phrase is the page's one `<h1>`, on `/` and on every other route (a case study's title, the about page's statement). The surface gate fails a route that renders no `h1`. The contact address renders on every page as a real `mailto:` link built from `identity.email`, never hardcoded, never a `/#contact` page anchor. Where it sits is yours (footer, nav, hero); that it is reachable and clickable is not. Name and role render on every page, in whatever form today's SHELL declaration and `shell_posture` call for. Nav links render alongside them. **Except when `shell_posture: none`: render zero `<nav>` elements anywhere in the output.** Projects and other routes stay reachable through in-content `<a>` links instead. `folded-into-hero` and `footer-only` move the nav out of its usual Sidebar slot (into the hero composition, or to the page foot). The mockup shows where; match it.
 
@@ -612,6 +602,35 @@ case, loop) or a cognitive score past 15, it fails. A 321-line
   missing, not a guard on every line.
 - Export only what another file imports. An export nothing uses is a finding.
 
+## Gates the build enforces
+
+Each of these can fail your response outright — not a style preference, a hard reject. The wording below is generated from the same constants the build checks against, so it cannot drift from what actually runs the way a hand-written list can.
+
+- The security scan rejects any of these in a file you write, however it is spelled — fetch() call, XMLHttpRequest, sendBeacon, WebSocket, EventSource, eval(), new Function(), dynamic import(), dangerouslySetInnerHTML, document.write, innerHTML assignment, script tag, javascript: URL, inline onerror attribute, inline onclick attribute, atob/btoa. There is no exception for a comment or a string that merely mentions one.
+- A URL in a string literal may point only at one of these hosts — 15th.club, doug-march.com, dougmar.ch, fonts.googleapis.com, fonts.gstatic.com, getfishsticks.com, github.com, spaceman.llc, www.w3.org — every other host fails the build, including a host that merely looks like one of these (a subdomain, a lookalike, a longer domain that starts with one).
+- Every response must include every one of: app/components/Layout.tsx, app/components/Sidebar.tsx, app/routes/index.tsx, app/routes/about.tsx, app/routes/work.$slug.tsx, app/routes/og.tsx — omitting any one of them triggers an automatic retry.
+- A file may be written only under app/components/generated/, or at the exact path app/components/Layout.tsx or app/components/Sidebar.tsx; every component you invent goes under app/components/generated/, and any other path under app/components/ is rejected. app/routes/__root.tsx and app/routes/about.tsx and app/routes/index.tsx and app/routes/og.tsx and app/routes/work.$slug.tsx and elements/chassis-preset.ts and elements/preset.ts are the Art Director's and the orchestrator's — never write them yourself. app/routeTree.gen.ts and anything under app/content/, app/server/, app/styles/, app/assets/ are rejected outright, even though the prefix would otherwise match.
+- A value in a colour position must be exactly one of the frozen semantic names — bg, bgAlt, surface, text, textMuted, textFaint, accent, accentText, accentAlt, border, borderStrong, field, fieldInk, fieldInkMuted, fieldBorder — nothing else resolves, not even a real palette token such as `sand.300`.
+
+## Surface gate checklist
+
+The surface gate renders every route at 360, 820 and 1440 in both colour schemes and measures each line below. A miss forces a revision. Each rule and the fix after it are generated from the gate, in the words its findings use. Check every line against your files before you answer.
+
+- At 360, 820 and 1440 the page is no wider than the viewport, no box ends past the viewport's right edge, and no text is wider than its own box. 820 is measured too: a layout that keeps its 1440 grid there runs out of room. A box past the edge: "Scale the element to its column at this width instead of carrying a wider layout down." Type wider than its box: "The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+- At 360 and 1440 no word sits on two lines. Size the type to the column, or stack words with <br> or writing-mode. Drop to a ramp step that fits or give the type a wider track: overflow-wrap: anywhere and word-break: break-all only turn the overflow into a cut word.
+- No block of 180 characters or more is set over 48px. Set prose on the body step and give the display step a phrase.
+- At 360, 820 and 1440 no rendered line of a p, li or blockquote of 8 words or more holds over 80 characters. Cap the block with max-width so its lines stay under 80 characters. ch overshoots in a narrow face, so 45 to 50ch is the working number. A narrower column is no reason to leave the rest of the row empty: set the copy beside something.
+- At 360 and 1440, running copy (p, li, blockquote) is 14px or larger. Set it on the `sm` step or larger. Any other visible text is 11px or larger. Set it at 11px or larger, or take it out. `xs` is for labels, set in a span or div.
+- At 360 and 1440 in both colour schemes, text under 24px (under 18.66px when bold) under 3:1 against what it renders over forces a revision, and under 4.5:1 is a warning. Set it in a token that clears 4.5:1 on its ground, or change the ground. `text` clears 4.5:1 on `bg`, `bgAlt` and `surface`; check any other ink or the accent before setting small type in it. Text over an image, a gradient, ruled lines or a painting layer is not measured. Keep small text on a flat ground.
+- No text is painted in nothing (a transparent colour with no stroke and no clipped background). Set the colour in a token, add a WebkitTextStroke, or clip a background to the text. A value passed to css() from a variable extracts to no rule (self-check 8).
+- With reduced motion on, no text is left at opacity: 0. Take opacity: 0 out of the base rule. The resting state is visible, and only the animation inside '@supports (animation-timeline: view())' starts an element hidden. A menu or panel that starts closed hides with visibility: hidden or display: none, which this check skips.
+- In the words you write, rendered and in your files: no em dash and no en dash set as a dash (Use a period or a comma.); nothing about the site rebuilding itself (The site is Doug March's portfolio; the rebuild is never the subject of the copy.); none of additionally, crucial, delve, enduring, enhance, fostering, garner, interplay, intricate, pivotal, showcase, tapestry, testament, underscore, vibrant, locus, vantage, nexus, modality, paradigm, gold-plating, endgame, north star, flywheel, utilize, leverage, facilitate, numerous, in the event that, seamless, robust, elevate, empower, unlock, journey, realm (Use the plain word.); none of not just X, but Y, serves as, stands as, boasts, in order to, it is important to note, it's worth noting (State the point directly.).
+- No line of text opens or closes on a separator (a comma, a middle dot, a bar, a dash, a spaced slash). A field can be empty; render the separator only when both sides exist.
+- One spacing token per property: `padding: '4 0'` ships as 4px 0px and fails the token gate. Panda resolves a token only when it is the whole value. Write paddingBlock: '4', paddingInline: '0'.
+- Every route renders an h1, and at 1440 its top sits inside the first 900px. Every route shows a visible link to /about at 360 and 1440.
+- At 360, 820 and 1440, no text in Layout or Sidebar at opacity 0.05 or more lands on the text of a hand-written route (/work, /experiments, /elements). Fix: move the shell's text off the page's content, or give the route the room the shell takes.
+- The brand mark sits inside the first fold at 360 and 1440, at least 32px tall at 1440; a single-color mark reaches 3:1 on its ground.
+
 ## Self-check before responding
 
 1. Every required file present, including og.tsx?
@@ -646,10 +665,13 @@ case, loop) or a cognitive score past 15, it fails. A 321-line
    step that fits or give the type a wider track. A deliberate stack is one
    word per line, written as `display: 'block'` per word, a `<br>` between
    words, or `writingMode`, never a column left to break the word for you.
-
-The surface gate reads three of these off the rendered pages and names the element (a
-word on two lines, text painted in nothing, text left at `opacity: 0` with reduced motion
-on), so a miss costs a revision and not the night.
+10. A column of names (a leaderboard, the work index, a project list) is sized
+   to its longest name at the step you chose. Take the longest string the data
+   can put there, from `projects` or from the signal you render, measure it at
+   0.6em a letter against the column at 360 and at 1440, and if it
+   does not fit, drop the step for the whole column. "Bridgeman" and
+   "Twittertale" overran their columns on three designs in a row.
+11. Every line of the Surface gate checklist above, checked against your files.
 
 
 # Design System API Reference

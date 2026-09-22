@@ -297,8 +297,6 @@ import type { ReactNode } from 'react'  // CORRECT
 
 **No React hooks** (useState, useEffect) in components. Pure display only. Achieve scroll/fixed/floating effects via CSS alone (position: fixed, sticky, scroll-snap, etc.).
 
-{{GATES}}
-
 ### Content imports
 
 All content imports use the same relative path `../content/...` from both `app/routes/` and `app/components/`; from `app/components/generated/` it is `../../content/...`:
@@ -344,7 +342,7 @@ type Education = { school: string; degree: string; concentration: string; years:
 const timeline: TimelineEntry[]   // 12 entries from 2006 to present, from the résumé (resume.ts)
 // LAYOUT: The `year` field is years only, written out and complete: "2018",
 // "2014 to 2017", "2025 to present". Print it as it is and add nothing to it: no
-// "to present", no dash. The year column MUST have a fixed width (e.g.
+// "to present", no dash. Above `base`, the year column MUST have a fixed width (e.g.
 // min-width: 120px or fixed flex-basis) so that single-year entries align identically
 // to ranges. The role/company columns must start at the same horizontal position
 // for every row regardless of year string length.
@@ -384,7 +382,13 @@ Bind content from the content files. Every listed key must appear in the rendere
 
 **About page must render:**
 - The identity statement (from the `identity` export)
-- Each timeline entry: year, role, company, description
+- Each timeline entry: year, role, company, description. At `base` a row is
+  one column: the year on its own line, then role and company at body size
+  (`sm` or `base`, never a display step) in a block that wraps. The year
+  column and any larger type start at the condition where the wide layout
+  starts. The mockup never shows `/about`, so nothing in it contradicts this.
+  "Director of Engineering, Interfolio" was set at display size in a 112px
+  column at {{NARROW_PX}} and cut off on three designs in a row.
 - All capability strings
 - Education: school, degree, concentration, years
 - Personal: holes in one count, sport, teams, current focus
@@ -464,12 +468,6 @@ in the footer; the lockup still sits up top, where the HEADER `nav` line says.
 The surface gate measures the rendered mark's box against the viewport at
 scroll position zero, and a mark outside the fold, or under 32px tall at 1440,
 or a `single-color` mark under 3:1 against its ground, forces a revision.
-
-The surface gate also measures text contrast, at both widths and in both colour schemes: every piece of visible text under 24px (under 18.66px when bold) against the colours it renders over, with alpha and opacity composited. Under 3:1 forces a revision; under 4.5:1 is a warning. `text` clears 4.5:1 on `bg`, `bgAlt` and `surface`; other inks and the accent are not guaranteed to, so check the pair before setting small type in one. Text over a `background-image`, a gradient, ruled lines or an absolutely positioned layer that paints is reported as `contrast-unresolved` and not measured: put small text on a flat ground.
-
-The surface gate also measures type size, at both widths in both colour schemes. Running copy (`p`, `li`, `blockquote`) under {{SMALL_COPY_FLOOR_PX}}px, and any visible text in any tag under {{SMALL_TEXT_FLOOR_PX}}px, forces a revision. Set a sentence on `sm` or larger. `xs` is for labels: set them in a `span` or `div`, not in a `p`, `li` or `blockquote`.
-
-The surface gate also counts the characters on each rendered line of running copy, at {{NARROW_PX}}, {{TABLET_PX}} and 1440. A `p`, `li` or `blockquote` of eight words or more with a line over {{LINE_LENGTH_MAX_CHARS}} characters forces a revision. `ch` is the width of a `0`, and a narrow face sets more letters in it: a paragraph capped at `62ch` in Archivo ran 80 to 87 characters a line on 2026-09-20. Work to 45 to 50ch for running copy, or set `max-width` so the measured lines stay under {{LINE_LENGTH_MAX_CHARS}} characters. A narrower column is no reason to leave the rest of the row empty: set the copy beside something.
 
 **All pages:** Today's hero phrase is the page's one `<h1>`, on `/` and on every other route (a case study's title, the about page's statement). The surface gate fails a route that renders no `h1`. The contact address renders on every page as a real `mailto:` link built from `identity.email`, never hardcoded, never a `/#contact` page anchor. Where it sits is yours (footer, nav, hero); that it is reachable and clickable is not. Name and role render on every page, in whatever form today's SHELL declaration and `shell_posture` call for. Nav links render alongside them. **Except when `shell_posture: none`: render zero `<nav>` elements anywhere in the output.** Projects and other routes stay reachable through in-content `<a>` links instead. `folded-into-hero` and `footer-only` move the nav out of its usual Sidebar slot (into the hero composition, or to the page foot). The mockup shows where; match it.
 
@@ -578,6 +576,8 @@ case, loop) or a cognitive score past 15, it fails. A 321-line
   missing, not a guard on every line.
 - Export only what another file imports. An export nothing uses is a finding.
 
+{{GATES}}
+
 ## Self-check before responding
 
 1. Every required file present, including og.tsx?
@@ -612,7 +612,10 @@ case, loop) or a cognitive score past 15, it fails. A 321-line
    step that fits or give the type a wider track. A deliberate stack is one
    word per line, written as `display: 'block'` per word, a `<br>` between
    words, or `writingMode`, never a column left to break the word for you.
-
-The surface gate reads three of these off the rendered pages and names the element (a
-word on two lines, text painted in nothing, text left at `opacity: 0` with reduced motion
-on), so a miss costs a revision and not the night.
+10. A column of names (a leaderboard, the work index, a project list) is sized
+   to its longest name at the step you chose. Take the longest string the data
+   can put there, from `projects` or from the signal you render, measure it at
+   0.6em a letter against the column at {{NARROW_PX}} and at 1440, and if it
+   does not fit, drop the step for the whole column. "Bridgeman" and
+   "Twittertale" overran their columns on three designs in a row.
+11. Every line of the Surface gate checklist above, checked against your files.

@@ -43,6 +43,10 @@ export const SHELL_OVERLAP_MIN_SHARE = 0.1
 
 /** Shell elements one measurement reports, and route lines named per element. */
 export const MAX_SHELL_OVERLAPS_REPORTED = 3
+
+/** The fix line a finding ends with, quoted by the engineer prompt's checklist (#634). */
+export const SHELL_OVERLAP_FIX =
+  "move the shell's text off the page's content, or give the route the room the shell takes."
 const MAX_OWN_LINES_NAMED = 3
 
 /*
@@ -194,8 +198,7 @@ export function describeShellOverlap(hit) {
   return (
     `the night's shell draws "${hit.text}"${faint} (<${hit.selector}>) over the route's own ` +
     `text: ${named.join(', ')}${more}. The route is hand-written and the shell is the ` +
-    "night's Layout or Sidebar; move the shell's text off the page's content, or give the " +
-    'route the room the shell takes.'
+    `night's Layout or Sidebar; ${SHELL_OVERLAP_FIX}`
   )
 }
 

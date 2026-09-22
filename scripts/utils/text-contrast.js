@@ -41,6 +41,11 @@ export const LARGE_TEXT_PX = 24
 export const LARGE_BOLD_TEXT_PX = 18.66
 export const BOLD_WEIGHT = 700
 
+/** The fix lines the two findings end with, quoted by the engineer prompt's checklist (#634). */
+export const CONTRAST_FIX =
+  'Set it in a token that clears 4.5:1 on its ground, or change the ground.'
+export const UNRESOLVED_FIX = 'Keep small text on a flat ground.'
+
 /**
  * Findings one owner sees from the whole run, after deduplication. Six names
  * the shape of a bad night without sending the engineer a page per label;
@@ -180,7 +185,7 @@ function contrastFinding(c, measured, owner) {
     key: `contrast|${c.selector}|${rgbToHex(fg)}|${rgbToHex(bg)}`,
     detail:
       `${describeText(c)}: ${rgbToHex(fg)} on ${rgbToHex(bg)} is ${shown(ratio)}:1, under ` +
-      `${floor}:1.${c.part ? ownerNote(c) : ' Set it in a token that clears 4.5:1 on its ground, or change the ground.'}`,
+      `${floor}:1.${c.part ? ownerNote(c) : ` ${CONTRAST_FIX}`}`,
   }
 }
 
@@ -192,7 +197,7 @@ function unresolvedFinding(c, owner) {
     key: `contrast-unresolved|${c.selector}|${c.unresolved}`,
     detail:
       `${describeText(c)} sits over ${c.unresolved}; contrast is not measured because the ` +
-      `ground is not a flat colour.${c.part ? ownerNote(c) : ' Keep small text on a flat ground.'}`,
+      `ground is not a flat colour.${c.part ? ownerNote(c) : ` ${UNRESOLVED_FIX}`}`,
   }
 }
 
