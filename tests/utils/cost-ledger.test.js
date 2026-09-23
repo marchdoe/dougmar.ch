@@ -17,12 +17,12 @@ beforeEach(() => {
 
 describe('estimateCostUsd', () => {
   it('prices input and output at the model rate', () => {
-    // 1M in + 1M out on Sonnet 5 = $3 + $15
+    // 1M in + 1M out on Sonnet 5 = $2 + $10
     const cost = estimateCostUsd('claude-sonnet-5', {
       input_tokens: 1_000_000,
       output_tokens: 1_000_000,
     })
-    expect(cost).toBeCloseTo(18, 6)
+    expect(cost).toBeCloseTo(12, 6)
   })
 
   it('discounts cache reads and surcharges cache writes', () => {

@@ -74,11 +74,32 @@ describe('callClaudeSDK', () => {
     expect(text).toBe(OK.content[0].text)
     expect(create).toHaveBeenCalledTimes(1)
     const args = create.mock.calls[0][0]
-    expect(args.system).toBe('you are a critic')
+    expect(args.system).toEqual([
+      { type: 'text', text: 'you are a critic', cache_control: { type: 'ephemeral' } },
+    ])
     expect(args.messages).toHaveLength(1)
     expect(args.messages[0].role).toBe('user')
     expect(args.messages[0].content).toEqual(blocks)
     expect(args.messages[0].content[1].source.type).toBe('base64')
+  })
+
+  it('marks the system prompt cacheable, the same shape on every call (#580)', async () => {
+    const { client, create } = stubClient(OK)
+    await callClaudeSDK('screenshot-critic', 'a stable system prompt', [textBlock('x')], {
+      client,
+    })
+    await callClaudeSDK('screenshot-critic', 'a stable system prompt', [textBlock('y')], {
+      client,
+    })
+    for (const call of create.mock.calls) {
+      expect(call[0].system).toEqual([
+        {
+          type: 'text',
+          text: 'a stable system prompt',
+          cache_control: { type: 'ephemeral' },
+        },
+      ])
+    }
   })
 
   it('resolves the model from modelFor(agentName)', async () => {
