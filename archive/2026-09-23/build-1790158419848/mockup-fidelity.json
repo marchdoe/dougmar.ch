@@ -1,0 +1,171 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'zeldman' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "zeldman",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'framebridge' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "framebridge",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "The mockup's largest text is 'deep in both' at 115px; the build sets 'spaceman' at 120px. Restore the mockup's hierarchy: 'spaceman' is 100px in the mockup.",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [],
+            "leader": {
+              "text": "deep in both",
+              "mockupPx": 115
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 120,
+              "mockupPx": 100
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'not a generalist' moved from (636, 762) in the mockup to (543, 946) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'deep in both' (56px); in build it is 'spaceman' (54px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [],
+            "leader": {
+              "text": "deep in both",
+              "mockupPx": 56
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 54,
+              "mockupPx": 40
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman' moved from (137, 162) in the mockup to (135, 1403) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'design and engineering as one job not two teams passing files' moved from (165, 623) in the mockup to (177, 669) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: The mockup's largest text is 'deep in both' at 56px; the build sets 'spaceman' at 54px. Restore the mockup's hierarchy: 'spaceman' is 40px in the mockup.",
+        "- / at 1440px: The mockup sets 'zeldman' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'framebridge' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'zeldman' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "zeldman",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'framebridge' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "framebridge",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'not a generalist' moved from (636, 762) in the mockup to (634, 954) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets 'zeldman' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'framebridge' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "selector": "section.pos_relative.ov_hidden.bg_field.c_fieldInk > div.pos_absolute.inset_0px.z_0.pointer-events_none > div.pos_absolute.inset_-100%.c_text.op_0.14",
+            "text": "",
+            "cause": "viewport",
+            "right": 766,
+            "over": 406,
+            "boxWidth": 1080
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "tablet": {
+      "width": 820,
+      "height": 1180,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "selector": "section.pos_relative.ov_hidden.bg_field.c_fieldInk > div.pos_absolute.inset_0px.z_0.pointer-events_none > div.pos_absolute.inset_-100%.c_text.op_0.14",
+            "text": "",
+            "cause": "viewport",
+            "right": 1671,
+            "over": 851,
+            "boxWidth": 2460
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "selector": "section.pos_relative.ov_hidden.bg_field.c_fieldInk > div.pos_absolute.inset_0px.z_0.pointer-events_none > div.pos_absolute.inset_-100%.c_text.op_0.14",
+            "text": "",
+            "cause": "viewport",
+            "right": 2106,
+            "over": 1082,
+            "boxWidth": 3072
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "selector": "section.pos_relative.ov_hidden.bg_field.c_fieldInk > div.pos_absolute.inset_0px.z_0.pointer-events_none > div.pos_absolute.inset_-100%.c_text.op_0.14",
+            "text": "",
+            "cause": "viewport",
+            "right": 2945,
+            "over": 1505,
+            "boxWidth": 4320
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    }
+  },
+  "overallScore": 3,
+  "worstFailure": {
+    "viewport": "mobile",
+    "check": "clippedElements",
+    "detail": "1 element(s) clipped (first: <DIV>)"
+  },
+  "buildId": "1790158419848",
+  "date": "2026-09-23",
+  "archetype": "a client-roster specimen with the claim set low"
+}

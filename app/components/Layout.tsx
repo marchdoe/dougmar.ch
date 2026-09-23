@@ -1,105 +1,77 @@
 import type { ReactNode } from 'react'
-import { Sidebar } from './Sidebar'
-import { identity } from '../content/about'
 import { css } from '../../styled-system/css'
+import { identity } from '../content/about'
+import { Sidebar } from './Sidebar'
+
+const linkClass = css({
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minHeight: '44px',
+  minWidth: '44px',
+  paddingInline: '1',
+  color: 'text',
+  fontWeight: 'bold',
+  borderBottomWidth: '2px',
+  borderBottomStyle: 'solid',
+  borderBottomColor: 'accent',
+  _hover: { color: 'accent' },
+})
+
+function ClosingLine() {
+  return (
+    <div
+      className={css({
+        paddingInline: 'clamp(28px, 6vw, 104px)',
+        paddingTop: 'clamp(22px, 4vw, 30px)',
+        paddingBottom: 'clamp(34px, 6vw, 52px)',
+        borderTopWidth: '3px',
+        borderTopStyle: 'solid',
+        borderTopColor: 'borderStrong',
+      })}
+    >
+      <p
+        className={css({
+          fontFamily: 'display',
+          textStyle: 'lg',
+          color: 'textMuted',
+          lineHeight: '1.6',
+          maxWidth: '44ch',
+        })}
+      >
+        {identity.name}
+        {identity.role ? `, ${identity.role}` : ''}. Elsewhere:{' '}
+        <a href="/work" className={linkClass}>
+          Work
+        </a>
+        ,{' '}
+        <a href="/about" className={linkClass}>
+          About
+        </a>
+        ,{' '}
+        <a href={`mailto:${identity.email}`} className={linkClass}>
+          Contact
+        </a>
+        .
+      </p>
+    </div>
+  )
+}
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
     <div
       className={css({
-        display: 'flex',
-        flexDirection: 'column',
         minHeight: '100vh',
-        xl: { display: 'grid', gridTemplateColumns: '88px 1fr' },
+        bg: 'bg',
+        color: 'text',
+        fontFamily: 'body',
+        overflowX: 'clip',
       })}
     >
       <Sidebar />
-      <div className={css({ display: 'flex', flexDirection: 'column', minWidth: '0' })}>
-        <main className={css({ display: 'flex', flexDirection: 'column' })}>{children}</main>
-        <footer
-          id="contact"
-          className={css({
-            bg: 'field',
-            color: 'fieldInk',
-            paddingInline: '6vw',
-            paddingBlock: '9',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '4',
-          })}
-        >
-          <div>
-            <div
-              className={css({
-                fontFamily: 'display',
-                fontWeight: 'bold',
-                fontSize: 'xl',
-                color: 'fieldInk',
-              })}
-            >
-              {identity.name}
-            </div>
-            <div className={css({ fontSize: 'sm', color: 'fieldInkMuted', marginTop: '1' })}>
-              {identity.role}
-            </div>
-          </div>
-          <nav className={css({ display: 'flex', flexWrap: 'wrap', columnGap: '5', rowGap: '2' })}>
-            <a
-              href="/"
-              className={css({
-                minHeight: '44px',
-                minWidth: '44px',
-                display: 'flex',
-                alignItems: 'center',
-                fontWeight: 'bold',
-                fontSize: 'sm',
-                color: 'fieldInk',
-              })}
-            >
-              Work
-            </a>
-            <a
-              href="/about"
-              className={css({
-                minHeight: '44px',
-                minWidth: '44px',
-                display: 'flex',
-                alignItems: 'center',
-                fontWeight: 'bold',
-                fontSize: 'sm',
-                color: 'fieldInk',
-              })}
-            >
-              About
-            </a>
-            <a
-              href={`mailto:${identity.email}`}
-              className={css({
-                minHeight: '44px',
-                minWidth: '44px',
-                display: 'flex',
-                alignItems: 'center',
-                fontWeight: 'bold',
-                fontSize: 'sm',
-                color: 'fieldInk',
-              })}
-            >
-              Contact
-            </a>
-          </nav>
-          <p
-            className={css({
-              fontSize: 'xs',
-              color: 'fieldInkMuted',
-              borderTop: '1px solid',
-              borderColor: 'fieldBorder',
-              paddingTop: '4',
-            })}
-          >
-            © 2026 {identity.name}. Set in Bitter and Mulish.
-          </p>
-        </footer>
-      </div>
+      <main>{children}</main>
+      <ClosingLine />
     </div>
   )
 }

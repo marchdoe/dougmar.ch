@@ -1,56 +1,77 @@
 import { css } from '../../../styled-system/css'
+import { identity } from '../../content/about'
+import { Band } from './Band'
 
-export function AboutHero({ role, statement }: { role: string; statement: string }) {
+function PullLabel() {
   return (
-    <section
+    <div
       className={css({
-        bg: 'bg',
-        minHeight: '36vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
-        paddingInline: '6vw',
-        paddingBlock: '9',
-        textAlign: 'right',
+        fontSize: 'xs',
+        letterSpacing: 'widest',
+        textTransform: 'uppercase',
+        color: 'fieldInkMuted',
+        fontWeight: 'bold',
+        marginBottom: '0.7em',
       })}
     >
-      <span
+      In his own words
+    </div>
+  )
+}
+
+export function AboutHero() {
+  const statement = identity.statement.replace(/\s*\u2014\s*/g, ', ')
+  return (
+    <div className={css({ display: 'flex', flexDirection: 'column', width: '100%' })}>
+      <div
         className={css({
-          display: 'block',
-          fontSize: 'xs',
-          fontWeight: 'bold',
-          letterSpacing: 'wide',
-          textTransform: 'uppercase',
-          color: 'accentAlt',
-          marginBottom: '3',
-          animationName: 'settle',
-          animationDuration: '500ms',
-          animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-          animationFillMode: 'both',
-          animationDelay: '80ms',
+          paddingInline: 'clamp(28px, 6vw, 104px)',
+          paddingTop: 'clamp(14px, 3vw, 24px)',
+          paddingBottom: 'clamp(24px, 4vw, 44px)',
         })}
       >
-        {role}
-      </span>
-      <h1
-        className={css({
-          fontFamily: 'body',
-          fontWeight: 'normal',
-          textStyle: 'lg',
-          color: 'text',
-          maxWidth: '48ch',
-          textAlign: 'right',
-          fontSize: 'lg',
-          animationName: 'settle',
-          animationDuration: '500ms',
-          animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-          animationFillMode: 'both',
-          animationDelay: '0ms',
-        })}
-      >
-        {statement}
-      </h1>
-    </section>
+        <div
+          className={css({
+            fontSize: 'xs',
+            letterSpacing: 'widest',
+            textTransform: 'uppercase',
+            color: 'accent',
+            fontWeight: 'bold',
+            marginBottom: '0.6em',
+          })}
+        >
+          About
+        </div>
+        <h1
+          className={css({
+            fontFamily: 'display',
+            fontWeight: 'normal',
+            textStyle: 'lg',
+            lineHeight: '1.4',
+            maxWidth: '46ch',
+            color: 'text',
+          })}
+        >
+          {statement}
+        </h1>
+      </div>
+      <div className={css({ display: 'flex' })}>
+        <Band label={<PullLabel />}>
+          <div
+            className={css({
+              fontFamily: 'display',
+              fontWeight: 'bold',
+              textTransform: 'uppercase',
+              textStyle: { base: '3xl', lg: '4xl' },
+              lineHeight: '0.95',
+              color: 'fieldInk',
+            })}
+          >
+            <span className={css({ display: 'block' })}>Deep in both.</span>
+            <span className={css({ display: 'block' })}>Not a generalist.</span>
+          </div>
+        </Band>
+      </div>
+    </div>
   )
 }
