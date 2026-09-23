@@ -65,6 +65,24 @@ describe('extractTextSegments', () => {
     expect(texts).toContain('Not a generalist.')
   })
 
+  it('spaces words set as separate spans with room between them (2026-09-22 canary)', async () => {
+    const segs = await measure(
+      browser,
+      `<h2 style="display:flex;gap:16px;font-size:58px;margin:0">` +
+        `<span>The</span><span>best</span><span>way</span></h2>` +
+        `<p style="font-size:40px"><span style="display:inline-block;margin-right:12px">To</span>` +
+        `<span style="display:inline-block">not feel</span></p>`
+    )
+    const texts = segs.map((s) => s.text.trim())
+    expect(texts).toContain('The best way')
+    expect(texts).toContain('To not feel')
+  })
+
+  it('keeps one word split across inline markup whole', async () => {
+    const segs = await measure(browser, `<p style="font-size:40px">un<em>believ</em>able</p>`)
+    expect(segs.map((s) => s.text.trim())).toContain('unbelievable')
+  })
+
   it('does not merge two real paragraphs that happen to share a font-size', async () => {
     const segs = await measure(
       browser,

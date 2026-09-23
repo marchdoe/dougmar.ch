@@ -262,6 +262,16 @@ describe('compareLayouts: facts for the repair brief', () => {
     expect(flattened.facts.leaderLost).toBe(false)
   })
 
+  it('does not let a lone decorative glyph take the lead (2026-09-13)', () => {
+    const mockup = [seg('11', 200, { y: 100 }), seg('Holes', 60, { y: 400 })]
+    const build = [
+      seg('-', 287, { y: 50 }),
+      seg('11', 190, { y: 100 }),
+      seg('Holes', 58, { y: 400 }),
+    ]
+    expect(kinds(compareLayouts(mockup, build, VIEWPORT))).not.toContain('mockup-hierarchy')
+  })
+
   it('skips a segment that is only punctuation (a lone separator between flex items)', () => {
     const findings = compareLayouts([seg('·', 16, { y: 100 })], [], VIEWPORT)
     expect(findings).toEqual([])

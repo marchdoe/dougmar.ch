@@ -320,6 +320,29 @@ export function extractTextSegments() {
     }
   )
 
+  function textRect(textNode) {
+    const range = document.createRange()
+    range.selectNodeContents(textNode)
+    return range.getBoundingClientRect()
+  }
+
+  // Two text nodes in different elements with no whitespace between them
+  // are two words when their boxes sit apart: on another line, or more than
+  // a quarter em along it (2026-09-22's canary set 'the', 'best' and 'way'
+  // as separate spans, and they read as 'thebestway'). Single letters are
+  // left joined, because that is how a per-letter hero spells 'gap'.
+  function separateWords(prev, textNode, fontSize) {
+    if (prev.el === textNode.parentElement) return false
+    if (/\s$/.test(prev.node.nodeValue) || /^\s/.test(textNode.nodeValue)) return false
+    if (prev.node.nodeValue.trim().length <= 1 && textNode.nodeValue.trim().length <= 1) {
+      return false
+    }
+    const a = textRect(prev.node)
+    const b = textRect(textNode)
+    const nextLine = b.top >= (a.top + a.bottom) / 2
+    return nextLine || b.left - a.right > 0.25 * fontSize
+  }
+
   const runs = []
   let current = null
   let pendingBreak = false
@@ -362,7 +385,8 @@ export function extractTextSegments() {
       continuesLine(current.members.at(-1).el, el)
 
     if (sameRun) {
-      current.raw += pendingBreak ? ` ${node.nodeValue}` : node.nodeValue
+      const spaced = pendingBreak || separateWords(current.members.at(-1), node, fontSize)
+      current.raw += spaced ? ` ${node.nodeValue}` : node.nodeValue
       current.members.push({ node, el, opacity })
       current.opacityMin = Math.min(current.opacityMin, opacity)
     } else {
@@ -526,11 +550,20 @@ function sizeRatio(a, b) {
   return a.fontSize >= b.fontSize ? a.fontSize / b.fontSize : b.fontSize / a.fontSize
 }
 
-/** A segment that is only punctuation (a lone '·' between two flex items)
- * normalizes to nothing and has nothing to match on. */
+/**
+ * Whether a segment has text worth matching. A lone separator between two
+ * flex items ('·') normalizes to nothing, and a single decorative glyph is
+ * not a text anyone reads as the page's leader (2026-09-13's build set a '-'
+ * at 287px, which outranked the mockup's '11').
+ */
+function hasMatchableText(seg) {
+  if (seg.normText.length === 0) return false
+  return seg.normText.length > 1 || /[\p{L}\p{N}]/u.test(seg.normText)
+}
+
 function isEligible(seg) {
   return (
-    seg.normText.length > 0 &&
+    hasMatchableText(seg) &&
     seg.fontSize >= MIN_SEGMENT_PX &&
     seg.opacity >= OPACITY_VISIBLE_MIN &&
     seg.visibleFraction >= VISIBLE_FRACTION_MIN
@@ -754,7 +787,7 @@ function pushShiftFindings(pairs, width, viewportHeight, push) {
 
 function pushTextCutFindings(build, push) {
   for (const b of build) {
-    if (!b.normText || b.fontSize < MIN_SEGMENT_PX) continue
+    if (!hasMatchableText(b) || b.fontSize < MIN_SEGMENT_PX) continue
     if (b.opacity < OPACITY_VISIBLE_MIN) continue
     if (b.visibleFraction >= TEXT_CUT_VISIBLE_FRACTION) continue
     const visiblePct = Math.round(b.visibleFraction * 100)
