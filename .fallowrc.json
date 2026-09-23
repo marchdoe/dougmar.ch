@@ -202,14 +202,6 @@
         "reason": "the function #221 splits into phase modules"
       },
       {
-        "files": ["scripts/design-agents.js"],
-        "functions": ["runScreenshotCriticGate"],
-        "maxCyclomatic": 23,
-        "maxCognitive": 45,
-        "maxCrap": 138,
-        "reason": "414 lines in one function; #221 splits it into phase modules"
-      },
-      {
         "files": ["app/lib/archive-signals.ts"],
         "functions": ["summarize"],
         "maxCyclomatic": 99,
