@@ -43,11 +43,11 @@ import { loadRunContext } from './pipeline/context.js'
 import { runArtDirectorPhase } from './pipeline/phase-art-director.js'
 import { runMockupPhase } from './pipeline/phase-mockup.js'
 import { runEngineerPhase } from './pipeline/phase-engineer.js'
+import { runBuildPhase } from './pipeline/phase-build.js'
 import { callAgent } from './pipeline/call-agent.js'
 import {
   applyEngineerPatch,
   buildRepairBrief,
-  FILE_OWNERSHIP,
   snapshotPassingState,
 } from './pipeline/engineer-tools.js'
 import {
@@ -75,6 +75,7 @@ export {
   dropUnwritableFiles,
   FILE_OWNERSHIP,
 } from './pipeline/engineer-tools.js'
+export { identifyFailingAgent, planRepairs } from './pipeline/phase-build.js'
 
 /**
  * Capture the runtime-generated /og card to public/og/<date>.png so it
@@ -433,59 +434,6 @@ export function archiveArtifacts(run) {
   }
 }
 
-/**
- * Identify which agent's files appear in a build error.
- *
- * @param {string} errorOutput
- * @returns {'art-director'|'react-engineer'|'both'}
- */
-export function identifyFailingAgent(errorOutput) {
-  const agents = new Set()
-
-  for (const [filePath, agent] of Object.entries(FILE_OWNERSHIP)) {
-    if (errorOutput.includes(filePath)) {
-      agents.add(agent)
-    }
-  }
-
-  if (agents.size === 0) return 'both'
-  if (agents.size === 2) return 'both'
-  return [...agents][0]
-}
-
-/**
- * How a failed build is repaired: how many attempts, and the error the first
- * one is given.
- *
- * Every repair goes to the React Engineer, and it has no way to fix a failure
- * that names only `elements/preset.ts`. Its repair brief lists just the files
- * it owns (`engineerOwnedPaths` leaves the preset out), so it never sees the
- * file, and its prompt says never to emit it. A reply block for the preset
- * would still be written, but it would be a blind rewrite of the Art
- * Director's palette. The failures that name only the preset are about the
- * preset itself, a semantic colour the frozen set is missing or has extra or
- * a token that references itself, and no edit to the engineer's files
- * touches them. Three attempts on such an error can only repeat it, so none
- * are made and the run fails with the reason.
- *
- * `identifyFailingAgent` answers 'both' whenever the error also names an
- * engineer file or names none, so those still get every attempt.
- *
- * @param {'art-director'|'react-engineer'|'both'} failingAgent
- * @param {string} error the build error
- * @param {number} maxAttempts the bound when a repair can help
- * @returns {{ attempts: number, error: string }}
- */
-export function planRepairs(failingAgent, error, maxAttempts) {
-  if (failingAgent !== 'art-director') return { attempts: maxAttempts, error }
-  return {
-    attempts: 0,
-    error:
-      "The failure is in elements/preset.ts, which the Art Director wrote. The React Engineer's repair brief does not include that file and its instructions forbid writing it, so no repair was attempted.\n\n" +
-      error,
-  }
-}
-
 // ---------------------------------------------------------------------------
 // Main orchestrator
 // ---------------------------------------------------------------------------
@@ -617,26 +565,6 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
         `Refusing to ship: ${remainingFaults.length} engineer-owned fault(s) remain after ${rounds} revision round(s).\n\n${formatFindingsForCritic(remainingFaults).slice(0, 2500)}`
       )
     }
-
-    // -----------------------------------------------------------------------
-    // Phase 4: Build validation
-    // -----------------------------------------------------------------------
-    console.log('\n[phase-4] Build validation')
-    const buildResult = validateBuild({ root, shell: shellDecl, date: today })
-
-    trace.addStep({
-      name: 'build-validation',
-      phase: 4,
-      input: {},
-      output: {
-        success: buildResult.success,
-        // 500 cut the token gate's message mid-filename, before the part that
-        // names the property and the value that did not resolve — so the one
-        // artifact left behind by a lost night could not say what broke.
-        error: buildResult.success ? undefined : (buildResult.error || '').slice(0, 4000),
-      },
-      durationMs: 0,
-    })
 
     // Shared success epilogue for the first-pass and Phase-5 retry paths:
     // archive artifacts, persist the archetype, shape the return value.
@@ -1322,192 +1250,20 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
       return decision
     }
 
-    if (buildResult.success) {
-      console.log('\n=== Build passed! ===')
+    await runBuildPhase(state)
+    engineerResult = state.engineer.result
 
-      // Snapshot the exact on-disk passing state (mutable files plus any extra
-      // paths the agents wrote). If a post-critic revision breaks the build we
-      // restore THIS — originalBackup holds yesterday's files, incompatible
-      // with today's preset.ts.
-      const passingBackup = await snapshotPassingState(state)
-      await refuseKnownFaults(await runScreenshotCriticGate(passingBackup))
-      // MUST await: a bare `return promise` inside this try/finally lets the
-      // finally (saveTrace) run while archiveAndReturn is still archiving —
-      // archiveRan is still false, so a successful run writes a phantom
-      // build-failed-* trace dir (observed 2026-07-10).
-      return await archiveAndReturn(engineerResult)
-    }
-
-    // -----------------------------------------------------------------------
-    // Phase 5: Build failed — identify failing agent and retry
-    // -----------------------------------------------------------------------
-    console.log('\n[phase-5] Build failed — retrying failing agent(s)')
-
-    const failingAgent = identifyFailingAgent(buildResult.error)
-    console.log(`  identified failing agent: ${failingAgent}`)
-
-    // Nothing is restored or reset before the repairs. Phase 3's files ARE
-    // the base a repair patches (#432): the engineer is told what is on disk
-    // and returns only what must change. The restore of the engineer's files
-    // from originalBackup that used to run here would put yesterday's
-    // Layout.tsx under today's patched og.tsx, and the slate reset #437 added
-    // for full regenerations (drop what the reply omits) would delete the
-    // very files a patch leaves alone on purpose, so both are gone. Art
-    // Director files were never restored here: a build failure involving
-    // preset.ts is handled by the engineer adapting to today's tokens, since
-    // codegen is not re-run in Phase 5.
-
-    // Build agent lookup for retry. Per-agent `options` carry the model +
-    // timeout overrides so new agents added later don't need re-wiring at the
-    // callAgent site. react-engineer shares reactEngineerAgentConfig with the
-    // primary Phase 2c invocation so the configs can't drift apart.
-    const agentConfig = {
-      'react-engineer': reactEngineerAgentConfig,
-    }
-
-    // Build failures are almost always in the React Engineer's TSX.
-    // The Art Director's preset.ts is validated by codegen earlier in
-    // the pipeline, so a build failure on preset.ts at this stage means
-    // a downstream typing problem — best handled by React Engineer
-    // retry rather than full Art Director re-run (which is more expensive).
-    // One attempt was never enough. The engineer averages about one small slip
-    // per generation, and while a repair regenerated every file it owned a
-    // single attempt reliably traded the error it was given for a different
-    // one and the night was lost. Observed three times in one day on 2026-09-01:
-    //
-    //   CI dry run   width: 'full'  -> repair -> bg: 'surfaceDeep'
-    //   local run 3  gap: '10'      -> repair -> Footer.tsx TS2769
-    //
-    // A repair is a patch now (#432), which shrinks the surface each attempt
-    // can break; the bound stays because a patch can still miss. A lost night
-    // costs the whole run, so the trade is worth making up to a bound. Attempts stop
-    // early when the run budget is spent — a repair that starts after the
-    // deadline cannot finish and archive.
-    const MAX_REPAIR_ATTEMPTS = 3
-    const engineerConfig = agentConfig['react-engineer']
-    const repairPlan = planRepairs(failingAgent, buildResult.error, MAX_REPAIR_ATTEMPTS)
-
-    let repairError = repairPlan.error
-    let attempt = 0
-
-    while (attempt < repairPlan.attempts) {
-      if (pastDeadline()) {
-        console.warn(
-          `  [deadline] run budget exhausted after ${attempt} repair attempt(s) — stopping`
-        )
-        break
-      }
-      attempt++
-
-      console.log(
-        `\n  repair attempt ${attempt}/${MAX_REPAIR_ATTEMPTS} — sending react-engineer a repair brief...`
-      )
-      noteRetry()
-      const t0Repair = Date.now()
-      // Snapshotted before this attempt can reassign `repairError` below —
-      // the trace step for this attempt must record what THIS attempt was
-      // given, not what the next one will be.
-      const errorGivenToAttempt = repairError
-      let retryResult
-      let owned
-      try {
-        const briefed = await buildRepairBrief(state, repairError)
-        owned = briefed.owned
-        retryResult = await callAgent('react-engineer', engineerConfig.patchPrompt, briefed.brief, {
-          ...engineerConfig.options,
-          patch: true,
-          purpose: 'repair',
-        })
-      } catch (err) {
-        console.error(`  react-engineer repair failed: ${err.message}`)
-        trace.addStep({
-          name: 'repair',
-          phase: 5,
-          input: { attempt, error: errorGivenToAttempt?.slice(0, 2000) },
-          output: { files: 0, success: false, error: err.message.slice(0, 2000) },
-          durationMs: Date.now() - t0Repair,
-        })
-        // If the repair agent itself crashed, don't silently continue to
-        // validateBuild — bail out with the real error so debugging points
-        // at the actual cause (code review #14).
-        await archiveFailedSources(state)
-        throw new Error(`react-engineer repair crashed: ${err.message}`)
-      }
-
-      // The merged set (disk plus the reply) must still hold every required
-      // file and respect the posture: a reply that empties Sidebar.tsx, or a
-      // nav the posture forbids, would otherwise ship as "repair N" (#297).
-      // applyEngineerPatch checks before it writes, so a reply that fails
-      // never touches disk; the attempt is spent on the problem, not a build.
-      const applied = await applyEngineerPatch(state, owned, retryResult, 'React Engineer repair')
-      if (applied.problem) {
-        console.warn(`  ⚠ ${applied.problem.message} — repair attempt ${attempt} not built`)
-        repairError = `${applied.problem.message}\n\n${applied.problem.reminder}`
-        trace.addStep({
-          name: 'repair',
-          phase: 5,
-          input: { attempt, error: errorGivenToAttempt?.slice(0, 2000) },
-          output: {
-            files: applied.replied,
-            success: false,
-            error: repairError.slice(0, 2000),
-          },
-          durationMs: Date.now() - t0Repair,
-        })
-        continue
-      }
-
-      // The merged set, so the archive records what is on disk after the
-      // patch rather than the files the reply happened to carry.
-      engineerResult = retryResult
-
-      const attemptBuild = validateBuild({ root, shell: shellDecl, date: today })
-      if (attemptBuild.success) {
-        console.log(`\n=== Repair build passed on attempt ${attempt}! ===`)
-        trace.addStep({
-          name: 'repair',
-          phase: 5,
-          input: { attempt, error: errorGivenToAttempt?.slice(0, 2000) },
-          output: {
-            files: applied.replied,
-            written: applied.written,
-            deleted: applied.deleted,
-            merged: retryResult.files.length,
-            success: true,
-            error: undefined,
-          },
-          durationMs: Date.now() - t0Repair,
-        })
-        const passingBackup = await snapshotPassingState(state)
-        await refuseKnownFaults(await runScreenshotCriticGate(passingBackup))
-        // await required — see first-pass call site
-        return await archiveAndReturn(engineerResult, ` (repair ${attempt})`)
-      }
-
-      repairError = attemptBuild.error
-      trace.addStep({
-        name: 'repair',
-        phase: 5,
-        input: { attempt, error: errorGivenToAttempt?.slice(0, 2000) },
-        output: {
-          files: applied.replied,
-          written: applied.written,
-          deleted: applied.deleted,
-          merged: retryResult.files.length,
-          success: false,
-          error: repairError?.slice(0, 2000),
-        },
-        durationMs: Date.now() - t0Repair,
-      })
-      console.warn(`  repair attempt ${attempt} did not pass — carrying the new error forward`)
-    }
-
-    // All attempts exhausted — snapshot the failing sources, then throw; the
-    // outer catch restores the checkout
-    await archiveFailedSources(state)
-    throw new Error(
-      `Build failed after ${attempt} repair attempt(s). Error:\n${repairError?.slice(0, 2500)}`
-    )
+    // Snapshot the exact on-disk passing state (mutable files plus any extra
+    // paths the agents wrote). If a post-critic revision breaks the build we
+    // restore THIS — originalBackup holds yesterday's files, incompatible
+    // with today's preset.ts.
+    const passingBackup = await snapshotPassingState(state)
+    await refuseKnownFaults(await runScreenshotCriticGate(passingBackup))
+    // MUST await: a bare `return promise` inside this try/finally lets the
+    // finally (saveTrace) run while archiveAndReturn is still archiving —
+    // archiveRan is still false, so a successful run writes a phantom
+    // build-failed-* trace dir (observed 2026-07-10).
+    return await archiveAndReturn(engineerResult, state.rationaleSuffix)
   } catch (err) {
     swarmError = err
     await rollBackCheckout(state)
