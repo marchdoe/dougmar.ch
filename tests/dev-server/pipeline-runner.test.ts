@@ -63,6 +63,32 @@ describe('eventsFromChunk', () => {
   it('treats a [TRACE] line that is not JSON as a log line rather than dropping it', () => {
     expect(eventsFromChunk('[TRACE] not json')).toEqual([{ type: 'log', line: '[TRACE] not json' }])
   })
+
+  it('turns [phase] lines into structured phase events', () => {
+    const chunk = [
+      '[phase] {"phase":"art-director","status":"start"}',
+      '[phase] {"phase":"art-director","status":"done"}',
+      '[phase] {"phase":"build","status":"error","error":"pnpm build failed"}',
+    ].join('\n')
+    expect(eventsFromChunk(chunk)).toEqual([
+      { type: 'phase', phase: 'art-director', status: 'start' },
+      { type: 'phase', phase: 'art-director', status: 'done' },
+      { type: 'phase', phase: 'build', status: 'error', error: 'pnpm build failed' },
+    ])
+  })
+
+  it('treats a [phase] line that is not JSON as a log line rather than dropping it', () => {
+    expect(eventsFromChunk('[phase] not json')).toEqual([{ type: 'log', line: '[phase] not json' }])
+  })
+
+  it('treats a [phase] line missing phase/status as a log line', () => {
+    expect(eventsFromChunk('[phase] {"status":"start"}')).toEqual([
+      { type: 'log', line: '[phase] {"status":"start"}' },
+    ])
+    expect(eventsFromChunk('[phase] {"phase":"build","status":"unknown"}')).toEqual([
+      { type: 'log', line: '[phase] {"phase":"build","status":"unknown"}' },
+    ])
+  })
 })
 
 describe('pipelineEnv', () => {

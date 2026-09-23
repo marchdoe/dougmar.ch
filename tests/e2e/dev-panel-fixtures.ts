@@ -160,6 +160,8 @@ function frame(event: unknown): string {
 export const log = (line: string) => frame({ type: 'log', line })
 export const trace = (step: Record<string, unknown>) => frame({ type: 'trace', step })
 export const done = (success: boolean, error?: string) => frame({ type: 'done', success, error })
+export const phase = (name: string, status: 'start' | 'done' | 'error', error?: string) =>
+  frame({ type: 'phase', phase: name, status, ...(error ? { error } : {}) })
 
 /** The first half of a run: through to the Claude phase, then the stream ends. */
 export const RUN_FIRST_HALF = [
@@ -188,6 +190,44 @@ export const RUN_SECOND_HALF = [
 
 /** A complete successful run in one response. */
 export const RUN_COMPLETE = RUN_FIRST_HALF + RUN_SECOND_HALF
+
+/**
+ * A run driven entirely by structured `[phase]` events (#227) instead of log
+ * prose. Held mid-run at the mockup phase so a test can assert the tracker
+ * before the run finishes, the same way RUN_FIRST_HALF does for the legacy
+ * prose stream.
+ */
+export const RUN_EVENTS_FIRST_HALF = [
+  phase('collect-signals', 'start'),
+  log('Stage 1: Collect signals'),
+  phase('collect-signals', 'done'),
+  phase('collect-references', 'start'),
+  phase('collect-references', 'done'),
+  phase('context', 'start'),
+  phase('context', 'done'),
+  phase('art-director', 'start'),
+  phase('art-director', 'done'),
+  phase('mockup', 'start'),
+  log('calling claude CLI'),
+].join('')
+
+/** The rest of an events-driven run. */
+export const RUN_EVENTS_SECOND_HALF = [
+  phase('mockup', 'done'),
+  phase('engineer', 'start'),
+  phase('engineer', 'done'),
+  phase('build', 'start'),
+  phase('build', 'done'),
+  phase('gate', 'start'),
+  phase('gate', 'done'),
+  phase('archive', 'start'),
+  phase('archive', 'done'),
+  log('design_brief: Fixture brief from events'),
+  done(true),
+].join('')
+
+/** A complete successful run streamed as phase events rather than log prose. */
+export const RUN_EVENTS_COMPLETE = RUN_EVENTS_FIRST_HALF + RUN_EVENTS_SECOND_HALF
 
 export interface StubState {
   signalsPath: string

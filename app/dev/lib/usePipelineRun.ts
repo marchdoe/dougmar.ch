@@ -1,3 +1,4 @@
+import type { Dispatch, MutableRefObject, SetStateAction } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { fetchDevData, startPipeline } from '../api'
 import type { ArchiveEntry } from '../../server/archive'
@@ -5,14 +6,17 @@ import {
   COOLDOWN_SECONDS,
   type PanelWeights,
   type Phase,
+  type PhaseEvent,
   type PipelineStatus,
   type RunResult,
   type TraceStep,
+  advanceFromEvent,
   advancePhases,
   attemptNumber,
   briefFrom,
   completePhases,
   isAttemptLine,
+  makeEventPhases,
   makePhases,
   restartAttempt,
 } from './pipeline'
@@ -23,6 +27,7 @@ const MAX_RECONNECT_ATTEMPTS = 5
 type StreamEvent =
   | { type: 'log'; line: string }
   | { type: 'trace'; step: TraceStep }
+  | ({ type: 'phase' } & PhaseEvent)
   | { type: 'done'; success: boolean; error?: string }
 
 function readStart(): string | null {
@@ -38,6 +43,45 @@ function writeStart(value: number | null) {
     if (value === null) sessionStorage.removeItem(START_KEY)
     else sessionStorage.setItem(START_KEY, String(value))
   } catch {}
+}
+
+type SetPhases = Dispatch<SetStateAction<Phase[]>>
+
+/**
+ * Apply one `[phase]` event to the tracker: on the first one a run's stream
+ * carries, swap from the legacy prose phase list to the event-driven one,
+ * then advance it. Pulled out of the SSE handler so that handler's own
+ * branching stays flat (#227).
+ */
+function applyPhaseEvent(
+  event: PhaseEvent,
+  usingEventsRef: MutableRefObject<boolean>,
+  setPhases: SetPhases
+) {
+  if (!usingEventsRef.current) {
+    usingEventsRef.current = true
+    setPhases(makeEventPhases())
+  }
+  setPhases((prev) => advanceFromEvent(prev, event, Date.now()))
+}
+
+/**
+ * Apply one log line to the legacy prose tracker — only called while no
+ * phase event has arrived yet for this run (see usingEventsRef).
+ */
+function applyProseLine(
+  line: string,
+  setPhases: SetPhases,
+  setAttemptNum: Dispatch<SetStateAction<number>>
+) {
+  const now = Date.now()
+  if (isAttemptLine(line)) {
+    const n = attemptNumber(line)
+    if (n !== null) setAttemptNum(n)
+    setPhases((prev) => restartAttempt(prev, now))
+    return
+  }
+  setPhases((prev) => advancePhases(prev, line, now))
 }
 
 /**
@@ -78,6 +122,14 @@ export function usePipelineRun(onArchive: (archive: ArchiveEntry[]) => void) {
 
   const reconnectAttemptsRef = useRef(0)
   const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Whether this run's stream has carried a `[phase]` event yet. Once it
+  // has, the tracker is driven by those events, not by matching log prose —
+  // the events say so directly, so there's nothing left to infer. Stays
+  // false for a stream that carries none at all (an old run's buffered log,
+  // from before the pipeline emitted them), which keeps the prose tracker
+  // running for the whole run instead of freezing partway through.
+  const usingEventsRef = useRef(false)
 
   const onArchiveRef = useRef(onArchive)
   onArchiveRef.current = onArchive
@@ -146,20 +198,18 @@ export function usePipelineRun(onArchive: (archive: ArchiveEntry[]) => void) {
         return
       }
 
+      if (event.type === 'phase') {
+        applyPhaseEvent(event, usingEventsRef, setPhases)
+        return
+      }
+
       if (event.type === 'log') {
-        const line = event.line
-        const now = Date.now()
-        logAccumRef.current.push(line)
+        logAccumRef.current.push(event.line)
         setLogLines([...logAccumRef.current])
-
-        if (isAttemptLine(line)) {
-          const n = attemptNumber(line)
-          if (n !== null) setAttemptNum(n)
-          setPhases((prev) => restartAttempt(prev, now))
-          return
-        }
-
-        setPhases((prev) => advancePhases(prev, line, now))
+        // Once phase events have arrived, they alone drive the tracker —
+        // log prose is still shown in the log pane, just no longer read for
+        // phase progress.
+        if (!usingEventsRef.current) applyProseLine(event.line, setPhases, setAttemptNum)
       }
 
       if (event.type === 'done') {
@@ -219,6 +269,7 @@ export function usePipelineRun(onArchive: (archive: ArchiveEntry[]) => void) {
       const startTime = Number(savedStart)
       setStatus('running')
       setPhases(makePhases())
+      usingEventsRef.current = false
       logAccumRef.current = []
       // The SSE stream replays the full buffered event log (trace included)
       // on reconnect, so start from empty to avoid duplicate steps.
@@ -234,6 +285,7 @@ export function usePipelineRun(onArchive: (archive: ArchiveEntry[]) => void) {
     const startTime = Date.now()
     setStatus('running')
     setPhases(makePhases())
+    usingEventsRef.current = false
     setLogLines([])
     logAccumRef.current = []
     setTraceSteps([])

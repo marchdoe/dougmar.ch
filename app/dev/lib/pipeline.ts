@@ -25,6 +25,8 @@ export interface Phase {
   startedAt?: number
   finishedAt?: number
   durationMs?: number
+  /** Whether this phase gets the Claude-progress estimate bar (ProgressSection). */
+  estimated?: boolean
 }
 
 export interface RunResult {
@@ -53,15 +55,24 @@ export function isPaneName(value: unknown): value is PaneName {
 export const COOLDOWN_SECONDS = 10
 
 /**
- * The tracker's six phases, each advanced by a line of pipeline log prose.
- * This is a hidden contract with scripts/run-pipeline.js's output (#227).
+ * The legacy tracker's six phases, each advanced by a line of pipeline log
+ * prose. Kept only as a fallback for a stream that carries no `[phase]`
+ * events at all — an old, already-finished run's buffered log, or a log from
+ * before the pipeline emitted them. A live run always emits phase events
+ * (see PHASE_ORDER / advanceFromEvent below), which drive the tracker
+ * instead once the first one arrives (#227).
  */
 export function makePhases(): Phase[] {
   return [
     { label: 'Collect signals', pattern: 'Stage 1: Collect', status: 'pending' },
     { label: 'Interpret signals', pattern: 'Stage 2: Interpret', status: 'pending' },
     { label: 'Read context', pattern: '[1/4] Reading site context', status: 'pending' },
-    { label: 'Claude designing', pattern: 'calling claude CLI', status: 'pending' },
+    {
+      label: 'Claude designing',
+      pattern: 'calling claude CLI',
+      status: 'pending',
+      estimated: true,
+    },
     { label: 'Write & build', pattern: 'writing files', status: 'pending' },
     { label: 'Archive & done', pattern: '=== Build passed!', status: 'pending' },
   ]
@@ -130,4 +141,68 @@ export function completePhases(prev: Phase[], now: number): Phase[] {
 export function briefFrom(lines: readonly string[]): string {
   const briefLine = [...lines].reverse().find((l) => l.includes('design_brief:'))
   return briefLine?.split('design_brief: ')[1] ?? 'Run complete'
+}
+
+// ── Structured phase events (#227) ──────────────────────────────────────────
+//
+// The pipeline prints one `[phase] {"phase":"...","status":"..."}` line per
+// phase transition (scripts/pipeline/phase-events.js), which
+// app/dev-server/pipeline-runner.ts forwards over SSE as `{ type: 'phase' }`
+// events. This is the real phase list, in run order, sourced from where each
+// name is actually emitted: `collect-signals` and `collect-references` from
+// scripts/run-pipeline.js's stage runner, the rest from design-agents.js's
+// runAgentSwarm as it runs each scripts/pipeline/*.js phase in turn.
+
+/** One `[phase]` line, as parsed by pipeline-runner.ts. */
+export interface PhaseEvent {
+  phase: string
+  status: 'start' | 'done' | 'error'
+  error?: string
+}
+
+/** id must match the `phase` string scripts/pipeline/phase-events.js emits. */
+const PHASE_ORDER: ReadonlyArray<{ id: string; label: string; estimated?: boolean }> = [
+  { id: 'collect-signals', label: 'Collect signals' },
+  { id: 'collect-references', label: 'Collect references' },
+  { id: 'context', label: 'Read context' },
+  { id: 'art-director', label: 'Art direction', estimated: true },
+  { id: 'mockup', label: 'Mockup design', estimated: true },
+  { id: 'engineer', label: 'Engineering', estimated: true },
+  { id: 'build', label: 'Build & validate' },
+  { id: 'gate', label: 'Gate & critique' },
+  { id: 'archive', label: 'Archive & done' },
+]
+
+/** The event-driven tracker's phases, all pending — swapped in on the first `[phase]` event a run's stream carries. */
+export function makeEventPhases(): Phase[] {
+  return PHASE_ORDER.map(({ label, estimated }) => ({
+    label,
+    pattern: '',
+    status: 'pending' as PhaseStatus,
+    ...(estimated ? { estimated: true } : {}),
+  }))
+}
+
+/**
+ * Advance the event-driven tracker on one `[phase]` event. `start` activates
+ * that phase and finishes every earlier one (a phase event array is never
+ * out of order, but collect-references can be skipped by a throw it
+ * recovers from, so this mirrors advancePhases's "finish anything earlier"
+ * rule rather than assuming the previous phase already reported done).
+ * `done` and `error` both finish the phase — `error` still finishes it so
+ * the tracker doesn't sit forever on a phase whose run just failed. A phase
+ * id this tracker doesn't recognise (pipeline code newer than this list) is
+ * ignored rather than thrown on.
+ */
+export function advanceFromEvent(prev: Phase[], event: PhaseEvent, now: number): Phase[] {
+  const idx = PHASE_ORDER.findIndex((p) => p.id === event.phase)
+  if (idx === -1) return prev
+  if (event.status === 'start') {
+    return prev.map((p, i) => {
+      if (i < idx) return p.status !== 'done' ? finish(p, now) : p
+      if (i === idx) return { ...p, status: 'active', startedAt: p.startedAt ?? now }
+      return p
+    })
+  }
+  return prev.map((p, i) => (i === idx ? finish(p, now) : p))
 }

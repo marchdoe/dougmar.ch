@@ -5,6 +5,8 @@ import {
   BUILD_ID,
   FULL_SIGNALS,
   RUN_COMPLETE,
+  RUN_EVENTS_FIRST_HALF,
+  RUN_EVENTS_SECOND_HALF,
   RUN_FIRST_HALF,
   RUN_SECOND_HALF,
   SPARSE_SIGNALS,
@@ -598,6 +600,43 @@ test.describe('/dev panel — run pane', () => {
     await expect(sidebar(page).getByRole('button', { name: 'Run Pipeline' })).toBeVisible()
     // A finished run leaves nothing for the next load to reconnect to.
     expect(await page.evaluate(() => sessionStorage.getItem('pipeline-start-time'))).toBeNull()
+  })
+
+  test('a run streamed as phase events drives the tracker from events, not prose (#227)', async ({
+    page,
+    context,
+  }) => {
+    const release = deferred<void>()
+    await stubbed(page, context, {
+      streams: [RUN_EVENTS_FIRST_HALF, () => release.promise.then(() => RUN_EVENTS_SECOND_HALF)],
+    })
+    await openPanel(page)
+    await openPane(page, 'Run Pipeline')
+    await page.getByTestId('run-pipeline-btn').click()
+    const pane = content(page)
+
+    await expect(page.getByTestId('run-pipeline-btn')).toHaveText(/RUNNING\.\.\. \d+:\d\d/)
+    await expect(pane.getByText('calling claude CLI')).toBeVisible()
+    // The events tracker's own phase list, not the legacy six-phase one:
+    // collect-signals/collect-references/context/art-director are all done,
+    // mockup is the active phase.
+    await expect(pane.getByText('Mockup design', { exact: true })).toBeVisible()
+    await expect(pane.getByText('Engineering', { exact: true })).toBeVisible()
+    // The legacy prose tracker's labels never appear once events are driving —
+    // proof the log lines above (which do contain "calling claude CLI") were
+    // not what advanced the tracker.
+    await expect(pane.getByText('Interpret signals')).toHaveCount(0)
+    await expect(pane.getByText('Claude designing')).toHaveCount(0)
+
+    release.resolve()
+
+    const status = pane.getByRole('status')
+    await expect(status).toContainText('Build passed -- committed', { timeout: 15000 })
+    await expect(status).toContainText('“Fixture brief from events”')
+    await expect(pane.getByText('Step Timings')).toBeVisible()
+    for (const word of ['Art', 'Mockup', 'Engineering', 'Build', 'Gate', 'Archive']) {
+      await expect(pane.getByText(word, { exact: true })).toBeVisible()
+    }
   })
 
   test('the success card opens the site in a new tab', async ({ page, context }) => {
