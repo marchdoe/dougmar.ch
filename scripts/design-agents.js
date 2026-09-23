@@ -777,6 +777,20 @@ function formatFileDelimiterReminder(patch) {
 }
 
 /**
+ * Throws when `raw` is missing `placeholder`. A tiny standalone check so a
+ * new one (like {{REQUIRED_FILES}}, #447) doesn't add another inline branch
+ * to runAgentSwarm's already-overridden complexity budget.
+ * @param {string} raw
+ * @param {string} placeholder
+ * @param {string} promptName for the error message
+ */
+function assertPromptPlaceholder(raw, placeholder, promptName) {
+  if (!raw.includes(placeholder)) {
+    throw new Error(`${promptName} is missing its ${placeholder} placeholder`)
+  }
+}
+
+/**
  * Spawn a `claude` CLI process for one agent.
  *
  * The build error used to be appended here, after the agent's whole original
@@ -2040,9 +2054,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
     // the two calls sharing the full-generation wording, which told a patch
     // reply to resend every required file while the brief in the same call
     // asked for only what changed.
-    if (!reactEngineerPromptRaw.includes('{{REQUIRED_FILES}}')) {
-      throw new Error('react-engineer.md is missing its {{REQUIRED_FILES}} placeholder')
-    }
+    assertPromptPlaceholder(reactEngineerPromptRaw, '{{REQUIRED_FILES}}', 'react-engineer.md')
     // Which content fields are empty today, read from app/content (#568), so
     // the engineer does not print a separator beside a field that has no text.
     const semanticColorContractBlock = formatSemanticContractForPrompt()
