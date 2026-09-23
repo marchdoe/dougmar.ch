@@ -132,9 +132,10 @@ function readWeights(today) {
  * @property {object} inputs - loaded by context.js: archive history, taste, mandates
  * @property {object} ad - the Art Director phase's settled result and declarations
  * @property {object} design - the mockup phase's brief, lane and approved mockup
- * @property {object} engineer - the engineer's prompts, config and latest result
- * @property {{ success: boolean, error?: string }|null} buildResult - the first build
+ * @property {object} engineer - the engineer's config, latest result and repair brief template
  * @property {string} rationaleSuffix - ` (repair N)` when a repair passed the build
+ * @property {{ rationale: string, design_brief: string, files: Array<object> }|null} result -
+ *   what runAgentSwarm returns, set by the archive phase
  */
 
 /**
@@ -211,8 +212,8 @@ export function createRunState(context, { root, tape, today, onTraceStep }) {
     ad: {},
     design: {},
     engineer: {},
-    buildResult: null,
     rationaleSuffix: '',
+    result: null,
   }
 }
 
