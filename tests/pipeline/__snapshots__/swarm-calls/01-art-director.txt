@@ -321,8 +321,9 @@ The header is a first-class design surface, and the owner has said so three
 ratings running. It used to be one line of prose inside SHELL, which meant
 nothing downstream could check it: a mark at a quarter of its intended size
 looked the same as one at full size in a full-page screenshot, and shipped.
-So the header is declared as numbers now, and both critics measure a 2x crop
-of it against what you write here.
+So the header is declared as numbers now. Code measures the mockup's mark
+against `mark_px` on the rendered page, and the critics judge a 2x crop of
+the header against the rest of what you write here.
 
 - `placement` must agree with the composition's `shell_posture`. `none` goes
   with `none`, `footer-only` with `footer-only`, `folded-into-hero` with
@@ -1310,8 +1311,10 @@ the honest answer. On a `light-ground` day, reach for `original` first.
 - The React Engineer renders `<BrandLockup />` and never draws the mark.
 - `scripts/utils/build-validator.js` fails the build on a direct logo import,
   on inline mark path data, and on a declared lockup that nothing renders.
-- Both critics receive a 2x crop of the header region and measure the rendered
-  mark against the declared `mark_px`.
+- The mockup's mark is measured in code against the declared `mark_px`, its
+  colour mode and its lockup (`scripts/utils/mockup-precheck.js`). The
+  screenshot critic receives a 2x crop of the built header and measures the
+  rendered mark against `mark_px`.
 
 
 ---

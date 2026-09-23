@@ -3,7 +3,11 @@
  *
  * Reads the tokens from disk, builds the enriched brief every later agent
  * reads, picks the lane, and runs up to MAX_MOCKUP_REVISIONS revision rounds
- * of designer and critic. Leaves on `state.design`: `tokenContext`,
+ * of designer, pre-check and critic. The pre-check (mockup-precheck.js)
+ * decides the measurable checks in code; the critic judges the rest; either
+ * sends the mockup back, and a revision is a patch (mockup-patch.js). A round
+ * whose measured faults did not move ends the loop early. Leaves on
+ * `state.design`: `tokenContext`,
  * `enrichedBrief`, `lessonsBlock`, `chosenLane`, and the settled `mockup` and
  * `mockupScreenshot`.
  */

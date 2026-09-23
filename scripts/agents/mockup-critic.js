@@ -1,6 +1,9 @@
 /**
- * Mockup Critic — blocking vision gate over the mockup screenshot.
- * Fail-closed: malformed responses count as REVISE.
+ * Mockup Critic — blocking vision gate over the mockup screenshot, for the
+ * checks a measurement cannot see (brief, polish, the header's shape, the
+ * phone's idea, type treatment). The measurable checks are decided in code
+ * first (utils/mockup-precheck.js). Fail-closed: malformed responses count
+ * as REVISE.
  */
 import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { budgetFor } from '../utils/budgets.js'

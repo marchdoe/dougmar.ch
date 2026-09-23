@@ -95,5 +95,7 @@ the honest answer. On a `light-ground` day, reach for `original` first.
 - The React Engineer renders `<BrandLockup />` and never draws the mark.
 - `scripts/utils/build-validator.js` fails the build on a direct logo import,
   on inline mark path data, and on a declared lockup that nothing renders.
-- Both critics receive a 2x crop of the header region and measure the rendered
-  mark against the declared `mark_px`.
+- The mockup's mark is measured in code against the declared `mark_px`, its
+  colour mode and its lockup (`scripts/utils/mockup-precheck.js`). The
+  screenshot critic receives a 2x crop of the built header and measures the
+  rendered mark against `mark_px`.
