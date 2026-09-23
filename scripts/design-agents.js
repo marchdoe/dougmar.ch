@@ -20,12 +20,12 @@
  */
 
 import { config } from 'dotenv'
-import { pastDeadline, setRunDeadline } from './utils/run-budget.js'
+import { pastDeadline } from './utils/run-budget.js'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 config({ path: path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../.env'), quiet: true })
 
-import { readFile, writeFile, mkdir, copyFile } from 'node:fs/promises'
+import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { spawnSync } from 'node:child_process'
 import { callClaudeCLI } from './utils/claude-cli.js'
@@ -46,16 +46,13 @@ import {
 import { validateBuild, formatGeneratedFile } from './utils/build-validator.js'
 import { archive } from './utils/archiver.js'
 import { resetLedger, noteRetry } from './utils/cost-ledger.js'
-import { startTape, traceReplay } from './utils/call-tape.js'
-import { writeFailureRecords, writeShippedHandoff } from './utils/failure-record.js'
+import { startTape } from './utils/call-tape.js'
 import { clip, openStep } from './utils/trace-step.js'
-import { createTrace } from './utils/trace.js'
 import { selectLane } from './utils/select-lane.js'
 import {
   assembleMockupDesignerSystemPrompt,
   MOCKUP_DESIGNER_PROMPT_MAX,
 } from './utils/mockup-designer-prompt.js'
-import { hashToRange } from './utils/deterministic-hash.js'
 import { CHASSIS_CATALOG } from '../elements/chassis/index.js'
 import {
   buildGoogleFontsUrl,
@@ -77,12 +74,18 @@ import {
 import { fillContentGaps } from './utils/content-gaps.js'
 import { loadPrompt } from './utils/prompt-loader.js'
 import { parseDelimiterResponse } from './utils/delimiter-parser.js'
-import { modelFor, isDevModelTier } from './utils/models.js'
+import { modelFor } from './utils/models.js'
 import { STEP_BUDGETS, budgetFor } from './utils/budgets.js'
 import { runDate } from './utils/run-date.js'
 import { isMain } from './utils/cli.js'
 import { describeGateErrors, recordGateFailure, surfaceGateRecord } from './utils/gate-outcome.js'
 import { computeMandateSections } from './pipeline/mandates.js'
+import {
+  archiveFailedSources,
+  createRunState,
+  rollBackCheckout,
+  saveTrace,
+} from './pipeline/run-state.js'
 import { runArtDirector } from './agents/art-director.js'
 import {
   parseCompositionBlock,
@@ -119,6 +122,7 @@ import { mockupDriftRecord } from './utils/mockup-advisory.js'
 import { blockingFaults, driftedVerdict } from './utils/mockup-drift-gate.js'
 import { newBoundaryId } from './utils/data-boundary.js'
 export { parseDelimiterResponse }
+export { resolveRiskWeight } from './pipeline/run-state.js'
 
 /**
  * Drop any orchestrator-owned file from an agent's output.
@@ -576,41 +580,6 @@ export const FILE_OWNERSHIP = Object.fromEntries([
 ])
 
 /**
- * Resolve the WEIGHT_RISK creative weight. An explicitly-set env value
- * (anything other than undefined or the empty string — including '0',
- * which is falsy in JS but not "unset") always wins. Otherwise risk is
- * derived deterministically from the build date via {@link hashToRange},
- * range 3-10 inclusive — same date always derives the same risk (a
- * re-run of today's build doesn't change today's risk), different dates
- * spread across the range instead of a fixed constant.
- *
- * Before this, the fallback was a constant '8', which meant every day the
- * owner panel left WEIGHT_RISK unset produced the exact same risk value
- * and therefore the exact same Creative Weights prompt sentence.
- *
- * @param {string|undefined} envValue - raw process.env.WEIGHT_RISK
- * @param {string} date - build date, 'YYYY-MM-DD'
- * @returns {{ risk: number, explicitlySet: boolean }}
- */
-export function resolveRiskWeight(envValue, date) {
-  const derived = () => ({ risk: hashToRange(`risk:${date}`, 3, 10), explicitlySet: false })
-  if (envValue === undefined || envValue === '') return derived()
-  const risk = Number.parseInt(envValue, 10)
-  // The other three dials fall back on a non-number and say so; this one
-  // carried NaN through (#301). describeRiskTier(NaN) fails every >= and
-  // reads as SAFE, the log printed risk=NaN, and archiver's `?? 5` does not
-  // catch NaN so build.json stored null. The owner panel writes this as a
-  // repo variable and the workflow passes it through raw.
-  if (Number.isNaN(risk)) {
-    console.warn(
-      `  WEIGHT_RISK=${JSON.stringify(envValue)} is not a number — deriving from the date`
-    )
-    return derived()
-  }
-  return { risk, explicitlySet: true }
-}
-
-/**
  * Render the Creative Weights risk sentence for the Art Director prompt.
  * Four distinct buckets (3-4 / 5-6 / 7-8 / 9-10) so risk is a real dial —
  * previously only 3 buckets existed and the >=7 sentence ("BOLD,
@@ -923,7 +892,7 @@ function validateCodegen({ root = ROOT } = {}) {
  * @returns {Promise<{ rationale: string, design_brief: string, files: Array<{path: string, content: string}> }>}
  */
 export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } = {}) {
-  const { signals, brief, contentSummary, boundaryId = newBoundaryId() } = context
+  const { signals, boundaryId = newBoundaryId() } = context
 
   // Start this run's cost accounting from zero. The ledger is module-level,
   // so a second swarm in the same process (the dev panel's Run button) would
@@ -931,183 +900,11 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
   resetLedger()
   startTape(tape)
 
-  // Read creative weights from environment. WEIGHT_RISK is the one dial
-  // that varies by date rather than falling back to a constant: a fixed
-  // fallback (the old default was '8') meant every day the owner panel
-  // left WEIGHT_RISK unset rendered the exact same "BOLD" prompt sentence
-  // below. When the env var is absent or empty (the owner panel writes a
-  // real value when it wants to override), derive risk 3-10 from the
-  // build date instead — reproducible per day, varied across days. An
-  // explicitly-set repo var (including '0', which is falsy in JS but not
-  // "unset") always wins over the derived value.
   const today = runDate(signals)
-  const { risk: riskWeight, explicitlySet: riskExplicitlySet } = resolveRiskWeight(
-    process.env.WEIGHT_RISK,
-    today
-  )
-  // A repo var set to something that is not a number used to reach the
-  // prompt as "signals=NaN". Fall back to the default, and say so.
-  const weightFromEnv = (name, fallback) => {
-    const raw = process.env[name]
-    if (raw === undefined || raw === '') return fallback
-    const n = Number.parseInt(raw, 10)
-    if (Number.isNaN(n)) {
-      console.warn(`  ${name}=${JSON.stringify(raw)} is not a number — using ${fallback}`)
-      return fallback
-    }
-    return n
-  }
-  const weights = {
-    signals: weightFromEnv('WEIGHT_SIGNALS', 5),
-    inspiration: weightFromEnv('WEIGHT_INSPIRATION', 5),
-    ratings: weightFromEnv('WEIGHT_RATINGS', 5),
-    risk: riskWeight,
-  }
-  console.log(
-    `  creative weights: signals=${weights.signals} inspiration=${weights.inspiration} ratings=${weights.ratings} risk=${weights.risk}${riskExplicitlySet ? '' : ' (derived from date — WEIGHT_RISK unset)'}`
-  )
-  console.log(
-    `  model tier: ${isDevModelTier() ? 'DEV (sonnet ceiling — local Max-plan, no Opus)' : 'PROD (best per job — opus mockup designer)'} | mockup-designer=${modelFor('mockup-designer')}`
-  )
-
-  // Run-level deadline: per-call timeouts protect against hangs, not
-  // against an honest slow day blowing the Actions job timeout mid-run
-  // (which kills the process with no trace). Past the deadline we stop
-  // STARTING expensive optional work and ship what we have.
-  const runDeadline = Date.now() + parseInt(process.env.RUN_BUDGET_MINUTES || '60', 10) * 60000
-  // Publish it so every model call clamps its own timeout to what is left,
-  // rather than each agent's cap being checked only between phases.
-  // pastDeadline() is run-budget's: "past" means less than one call's worth
-  // remains, the same floor the clamp refuses at, so a phase never starts a
-  // call the clamp is about to throw on (#299).
-  setRunDeadline(runDeadline)
-
-  const trace = createTrace(runDate(signals), {
-    onStep: (step) => {
-      console.log(`[TRACE] ${JSON.stringify(step)}`)
-      onTraceStep?.(step)
-    },
-  })
-  traceReplay(trace)
-
-  // Track whether archive() succeeded in this run so saveTrace() knows
-  // whether to write into the current build dir or create a failed-build dir.
-  let archiveRan = false
-
-  async function saveTrace(error) {
-    try {
-      const archiveDateDir = path.join(root, 'archive', today)
-
-      if (archiveRan) {
-        await writeShippedHandoff({ root, date: today, signals })
-        // Success path: find the build dir that archive() just created
-        const builds = readdirSync(archiveDateDir, { withFileTypes: true })
-          .filter(
-            (b) =>
-              b.isDirectory() &&
-              b.name.startsWith('build-') &&
-              !b.name.startsWith('build-failed-') &&
-              !b.name.startsWith('build-pre-')
-          )
-          .sort()
-          .reverse()
-        if (builds[0]) {
-          await writeFile(
-            path.join(archiveDateDir, builds[0].name, 'trace.json'),
-            trace.toJSON(),
-            'utf8'
-          )
-          console.log(`  trace saved to ${builds[0].name}/trace.json`)
-          return
-        }
-      }
-
-      // Failure path: create a dedicated build-failed-* dir so failure
-      // diagnostics are preserved without corrupting prior successful builds
-      const failedDir = path.join(archiveDateDir, `build-failed-${Date.now()}`)
-      await mkdir(failedDir, { recursive: true })
-      await writeFile(path.join(failedDir, 'trace.json'), trace.toJSON(), 'utf8')
-      if (error) {
-        await writeFile(
-          path.join(failedDir, 'error.txt'),
-          `${error.message || String(error)}\n\n${error.stack || ''}`,
-          'utf8'
-        )
-      }
-      // A failed night's spend used to vanish: archive()'s cost.json only
-      // exists on the success path (#432), and the paid responses of its first
-      // stages went with the runner (#578). Both are kept beside the trace.
-      await writeFailureRecords(failedDir, { root, date: today, signals })
-      console.log(`  failure trace saved to ${path.basename(failedDir)}/trace.json`)
-      // Also emit trace to stdout so it's captured in Actions logs even if
-      // the filesystem write fails for some reason.
-      console.log(`[TRACE-FINAL] ${trace.toJSON()}`)
-    } catch (err) {
-      console.warn(`  trace save failed (non-blocking): ${err.message}`)
-      // Last-ditch: emit to stdout so logs always have it
-      try {
-        console.log(`[TRACE-FINAL] ${trace.toJSON()}`)
-      } catch {}
-    }
-  }
-
-  // Snapshot the agent-written files into the failure archive BEFORE
-  // restore() reverts them. Without this, a build failure destroys the only
-  // copy of the failing sources — error.txt tells you WHAT broke but the
-  // code that broke it is gone (every build-failed-* dir before 2026-07-10
-  // has exactly this gap).
-  async function archiveFailedSources(paths) {
-    try {
-      const dir = path.join(root, 'archive', today, `build-failed-sources-${Date.now()}`)
-      let count = 0
-      for (const relPath of paths) {
-        const abs = path.join(root, relPath)
-        if (!existsSync(abs)) continue
-        const dest = path.join(dir, relPath)
-        await mkdir(path.dirname(dest), { recursive: true })
-        await copyFile(abs, dest)
-        count++
-      }
-      if (count > 0)
-        console.log(`  failing sources (${count} files) archived to ${path.basename(dir)}/`)
-    } catch (err) {
-      console.warn(`  failed-source archive failed (non-blocking): ${err.message}`)
-    }
-  }
+  const state = createRunState({ ...context, boundaryId }, { root, tape, today, onTraceStep })
+  const { brief, contentSummary, weights, trace, writtenPaths, verdicts } = state
 
   let swarmError = null
-  // Track every path written during the swarm so we can clean up orphan
-  // files (paths the AI invented beyond MUTABLE_FILES) on any failure.
-  // restore(originalBackup) only reverts paths in the backup; files created
-  // by the AI outside that set would leak without this tracking.
-  const writtenPaths = new Set()
-  // The pre-run snapshot of MUTABLE_FILES, taken inside the try once the
-  // prompts have loaded. Declared here so the outer catch can roll back to it
-  // from any throw after the first write; null means nothing was written yet.
-  let originalBackup = null
-  /**
-   * The one rollback. "A run either ships a night or fails and rolls the
-   * checkout back" (CONTEXT.md), so every throw between the first write and
-   * archive() ends here through the outer catch, whichever site raised it.
-   * Once archive() has returned the night shipped and there is nothing to
-   * undo. A rollback that itself fails must not replace the error that ended
-   * the run.
-   */
-  async function rollBackCheckout() {
-    if (!originalBackup || archiveRan) return
-    try {
-      await cleanupOrphans(writtenPaths, originalBackup, { root })
-      await restore(originalBackup, { root })
-    } catch (rollbackErr) {
-      console.error(`  rollback failed (checkout may be dirty): ${rollbackErr.message}`)
-    }
-  }
-  // Critic verdicts collected across the run; persisted as verdicts.json
-  const verdicts = []
-  // Final-render screenshot captured by the screenshot critic; persisted
-  // as screenshot.png (also becomes public/archive/{date}.png and the
-  // calibration source for future runs).
-  let finalScreenshot = null
   try {
     // Read all prompts and design references.
     // Design references are vendored from pbakaus/impeccable (Apache 2.0) — see
@@ -1169,8 +966,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
 
     // Backup all mutable files
     console.log('\n[backup] Backing up mutable files...')
-    originalBackup = await backup(MUTABLE_FILES, { root })
-    console.log(`  backed up ${originalBackup.size} files`)
+    state.originalBackup = await backup(MUTABLE_FILES, { root })
+    console.log(`  backed up ${state.originalBackup.size} files`)
 
     // -----------------------------------------------------------------------
     // Read recent archive briefs for Design Director context
@@ -1434,7 +1231,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
 
     // Write the Art Director's preset.ts to disk
     const presetFile = { path: 'elements/preset.ts', content: artDirectorResult.presetTs }
-    for (const p of await writeFiles([presetFile], { root, backup: originalBackup }))
+    for (const p of await writeFiles([presetFile], { root, backup: state.originalBackup }))
       writtenPaths.add(p)
 
     // Orchestrator generates the chassis preset (fonts + fontSizes) and
@@ -1539,7 +1336,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
       noteRetry()
       // Restore preset.ts before retry
       const presetBackup = new Map()
-      for (const [k, v] of originalBackup.entries()) {
+      for (const [k, v] of state.originalBackup.entries()) {
         if (k === 'elements/preset.ts') presetBackup.set(k, v)
       }
       await restore(presetBackup, { root })
@@ -1552,7 +1349,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
           retryContext: `## Previous attempt failed codegen\n\n${codegenResult.error?.slice(0, 1500) || ''}`,
         })
         const retryPresetFile = { path: 'elements/preset.ts', content: artDirectorResult.presetTs }
-        for (const p of await writeFiles([retryPresetFile], { root, backup: originalBackup }))
+        for (const p of await writeFiles([retryPresetFile], { root, backup: state.originalBackup }))
           writtenPaths.add(p)
         // The codegen retry re-ran the Art Director, so heroCopy/designBrief may
         // have changed since __root.tsx was first written. Regenerate it so the
@@ -2239,7 +2036,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
       console.error(
         `  [ship-gate] ${remainingFaults.length} engineer-owned fault(s) remain after ${rounds} revision round(s) — refusing to ship`
       )
-      await archiveFailedSources(writtenPaths)
+      await archiveFailedSources(state)
       throw new Error(
         `Refusing to ship: ${remainingFaults.length} engineer-owned fault(s) remain after ${rounds} revision round(s).\n\n${formatFindingsForCritic(remainingFaults).slice(0, 2500)}`
       )
@@ -2272,7 +2069,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
       // file swept out of that state has to be in it.
       const { kept, removed } = await sweepGenerated({
         root,
-        backup: [originalBackup, passingSnapshot],
+        backup: [state.originalBackup, passingSnapshot],
       })
       console.log(
         `  [generated-sweep] kept ${kept.length}, removed ${removed.length}${
@@ -2292,7 +2089,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
     // engineer is told not to emit them and nothing used to check.
     for (const p of await writeEngineerFiles(engineerResult, 'React Engineer', {
       root,
-      backup: originalBackup,
+      backup: state.originalBackup,
     }))
       writtenPaths.add(p)
 
@@ -2430,7 +2227,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
         tokenResult.color_scheme ?? null,
         chosenArchetype ?? null,
         archiveArtifacts({
-          finalScreenshot,
+          finalScreenshot: state.finalScreenshot,
           mockup,
           mockupScreenshot,
           verdicts,
@@ -2448,7 +2245,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
         }),
         { root }
       )
-      archiveRan = true
+      state.archiveRan = true
 
       return { rationale, design_brief: designBrief, files: allFiles }
     }
@@ -2514,9 +2311,9 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
       for (const p of patch.ignoredDeletes) {
         console.warn(`  ⚠ ${label} emptied ${p}, which it does not own this run — ignoring`)
       }
-      for (const p of await writeFiles(patch.writes, { root, backup: originalBackup }))
+      for (const p of await writeFiles(patch.writes, { root, backup: state.originalBackup }))
         writtenPaths.add(p)
-      await deleteFiles(patch.deletes, { root, backup: originalBackup })
+      await deleteFiles(patch.deletes, { root, backup: state.originalBackup })
       reply.files = patch.files
       console.log(
         `  ${label}: ${summary.written} written, ${summary.deleted} deleted, ${patch.files.length} on disk`
@@ -2699,7 +2496,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
           headerCrop: { placement: headerDecl.placement, heightPx: headerDecl.height_px },
           motion: motionDecl,
         })
-        finalScreenshot = screenshotBuffer
+        state.finalScreenshot = screenshotBuffer
         console.log(
           `  screenshot captured (png ${(screenshotBuffer.png.length / 1024).toFixed(0)}KB, jpeg ${(screenshotBuffer.jpeg.length / 1024).toFixed(0)}KB)`
         )
@@ -3222,7 +3019,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
         // If the repair agent itself crashed, don't silently continue to
         // validateBuild — bail out with the real error so debugging points
         // at the actual cause (code review #14).
-        await archiveFailedSources(writtenPaths)
+        await archiveFailedSources(state)
         throw new Error(`react-engineer repair crashed: ${err.message}`)
       }
 
@@ -3296,16 +3093,16 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
 
     // All attempts exhausted — snapshot the failing sources, then throw; the
     // outer catch restores the checkout
-    await archiveFailedSources(writtenPaths)
+    await archiveFailedSources(state)
     throw new Error(
       `Build failed after ${attempt} repair attempt(s). Error:\n${repairError?.slice(0, 2500)}`
     )
   } catch (err) {
     swarmError = err
-    await rollBackCheckout()
+    await rollBackCheckout(state)
     throw err
   } finally {
-    await saveTrace(swarmError)
+    await saveTrace(state, swarmError)
   }
 }
 
