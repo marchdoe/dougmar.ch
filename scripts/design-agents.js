@@ -26,8 +26,7 @@ import path from 'node:path'
 config({ path: path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../.env'), quiet: true })
 
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
-import { existsSync, readdirSync, readFileSync } from 'node:fs'
-import { spawnSync } from 'node:child_process'
+import { existsSync, } from 'node:fs'
 import { callClaudeCLI } from './utils/claude-cli.js'
 import {
   MUTABLE_FILES,
@@ -53,19 +52,13 @@ import {
   assembleMockupDesignerSystemPrompt,
   MOCKUP_DESIGNER_PROMPT_MAX,
 } from './utils/mockup-designer-prompt.js'
-import { CHASSIS_CATALOG } from '../elements/chassis/index.js'
 import {
   buildGoogleFontsUrl,
   renderRootTemplate,
-  renderChassisPresetFile,
-  formatChassisCatalogForPrompt,
-  formatChassisSelectionForPrompt,
 } from './utils/chassis.js'
 import {
-  formatSemanticContractForArtDirector,
   formatSemanticContractForPrompt,
 } from './utils/semantic-contract.js'
-import { formatPatternPropsForPrompt, readPatternProps } from './utils/pattern-props.js'
 import {
   collectGateRules,
   formatGateRulesForPrompt,
@@ -75,29 +68,19 @@ import { fillContentGaps } from './utils/content-gaps.js'
 import { loadPrompt } from './utils/prompt-loader.js'
 import { parseDelimiterResponse } from './utils/delimiter-parser.js'
 import { modelFor } from './utils/models.js'
-import { STEP_BUDGETS, budgetFor } from './utils/budgets.js'
+import { budgetFor } from './utils/budgets.js'
 import { runDate } from './utils/run-date.js'
 import { isMain } from './utils/cli.js'
 import { describeGateErrors, recordGateFailure, surfaceGateRecord } from './utils/gate-outcome.js'
-import { computeMandateSections } from './pipeline/mandates.js'
+import { loadRunContext } from './pipeline/context.js'
+import { runArtDirectorPhase } from './pipeline/phase-art-director.js'
 import {
   archiveFailedSources,
   createRunState,
   rollBackCheckout,
   saveTrace,
 } from './pipeline/run-state.js'
-import { runArtDirector } from './agents/art-director.js'
-import {
-  parseCompositionBlock,
-  parseHeaderBlock,
-  parseMobileBlock,
-  parseTypeTreatmentBlock,
-  parseMotionBlock,
-} from './utils/spec-blocks.js'
-import { renderBrandLockupFile } from './utils/brand-lockup.js'
-import { renderSiteCalloutFile, SITE_CALLOUT_OWNER } from './utils/site-callout.js'
-import { formatMaterialContractBlock, materialSeed, renderMaterialFile } from './utils/material.js'
-import { renderWhitePaperFile } from './utils/white-paper.js'
+import { formatMaterialContractBlock, materialSeed, } from './utils/material.js'
 import { formatClientMarksForPrompt, readClientMarkSources } from './utils/client-marks.js'
 import { formatHeader } from './utils/header-grammar.js'
 import { formatTypeTreatment } from './utils/type-grammar.js'
@@ -123,6 +106,7 @@ import { blockingFaults, driftedVerdict } from './utils/mockup-drift-gate.js'
 import { newBoundaryId } from './utils/data-boundary.js'
 export { parseDelimiterResponse }
 export { resolveRiskWeight } from './pipeline/run-state.js'
+export { describeRiskTier } from './pipeline/phase-art-director.js'
 
 /**
  * Drop any orchestrator-owned file from an agent's output.
@@ -580,42 +564,6 @@ export const FILE_OWNERSHIP = Object.fromEntries([
 ])
 
 /**
- * Render the Creative Weights risk sentence for the Art Director prompt.
- * Four distinct buckets (3-4 / 5-6 / 7-8 / 9-10) so risk is a real dial —
- * previously only 3 buckets existed and the >=7 sentence ("BOLD,
- * EXPERIMENTAL") fired for every risk value from 7 through 10, including
- * the constant risk=8 default that ran every day before WEIGHT_RISK
- * started varying by date.
- *
- * risk >= 9 references the Max-Risk License in art-director.md — the one
- * day the Art Director may deliberately break a single named anti-pattern
- * from the chosen lane, or land one composition axis on a value the
- * Composition Mandate soft-forbade. (Not a custom chassis: an unrecognized
- * CHASSIS_ID is silently replaced with CHASSIS_CATALOG[0], so that
- * deviation would never survive the run — the license targets levers that
- * actually do. Composition itself is no longer a hard-validated fixed set
- * the way it was when this comment described an 8-name ARCHETYPE
- * whitelist — every axis VALUE is still validated against its own fixed
- * vocabulary, but the tuple of values is open, so "invent a value" was
- * never the risk this license needed to cover in the first place.)
- *
- * @param {number} risk
- * @returns {string}
- */
-export function describeRiskTier(risk) {
-  if (risk >= 9) {
-    return 'MAXIMUM RISK today. You may invoke the Max-Risk License below (break exactly ONE named anti-pattern from the lane, or land one composition axis on a soft-forbidden value) if the hero phrase genuinely demands it. Using it is optional — a strong, fully-compliant execution is still a valid MAXIMUM RISK day. Do not hedge: whatever you choose, commit harder than a normal day would.'
-  }
-  if (risk >= 7) {
-    return 'BOLD today. Push for a committed gesture — fuller color saturation, a more aggressive archetype commitment, less hedging toward the safe middle.'
-  }
-  if (risk >= 5) {
-    return 'Balanced. Mix proven patterns with one deliberate point of risk — not maximum safety, not maximum novelty.'
-  }
-  return 'SAFE, POLISHED today. Proven patterns, minimal deviation from what has worked before.'
-}
-
-/**
  * Identify which agent's files appear in a build error.
  *
  * @param {string} errorOutput
@@ -834,37 +782,6 @@ async function callAgent(agentName, systemPrompt, userPrompt, options = {}) {
 }
 
 // ---------------------------------------------------------------------------
-// Internal: validateCodegen
-// ---------------------------------------------------------------------------
-
-/**
- * Run `pnpm panda codegen` to regenerate styled-system from the new preset.
- * @param {{ root?: string }} [options] repo root to run in
- * @returns {{ success: boolean, error?: string }}
- */
-function validateCodegen({ root = ROOT } = {}) {
-  console.log('  running pnpm panda codegen...')
-  const result = spawnSync('pnpm', ['panda', 'codegen'], {
-    cwd: root,
-    encoding: 'utf8',
-    timeout: STEP_BUDGETS.codegenMs,
-  })
-
-  if (result.status === 0) {
-    console.log('  codegen succeeded')
-    return { success: true }
-  }
-
-  const combined = (result.stderr ?? '') + (result.stdout ?? '')
-  const error = combined.slice(-3000)
-  console.log('  codegen failed')
-  console.log('  --- last 500 chars ---')
-  console.log(combined.slice(-500))
-  console.log('  ---')
-  return { success: false, error }
-}
-
-// ---------------------------------------------------------------------------
 // Main orchestrator
 // ---------------------------------------------------------------------------
 
@@ -902,575 +819,38 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
 
   const today = runDate(signals)
   const state = createRunState({ ...context, boundaryId }, { root, tape, today, onTraceStep })
-  const { brief, contentSummary, weights, trace, writtenPaths, verdicts } = state
+  const { contentSummary, weights, trace, writtenPaths, verdicts } = state
 
   let swarmError = null
   try {
-    // Read all prompts and design references.
-    // Design references are vendored from pbakaus/impeccable (Apache 2.0) — see
-    // scripts/prompts/impeccable/README.md. They replace the previous library-*.md
-    // files which authored generic guidance; impeccable provides anti-pattern-aware,
-    // OKLCH-native, register-aware design knowledge tuned to fight AI design slop.
-    // Every prompt file comes through loadPrompt, which fills the phone
-    // width; a bare readFile here would send `{{NARROW_PX}}` to a model.
-    const [
-      screenshotCriticPromptRaw,
-      designSystemRef,
-      refBrand,
+    await loadRunContext(state)
+    await runArtDirectorPhase(state)
+
+    const {
+      screenshotCriticPrompt,
+      designSystemReference,
+      brandRegisterDeclaration,
       refTypography,
       refColor,
       refSpatial,
       refCritique,
       brandContract,
-    ] = await Promise.all([
-      loadPrompt('screenshot-critic.md', { root }),
-      loadPrompt('design-system-reference.md', { root }),
-      loadPrompt('impeccable/reference/brand.md', { root }),
-      loadPrompt('impeccable/reference/typography.md', { root }),
-      loadPrompt('impeccable/reference/color-and-contrast.md', { root }),
-      loadPrompt('impeccable/reference/spatial-design.md', { root }),
-      loadPrompt('impeccable/reference/critique.md', { root }),
-      loadPrompt('brand-contract.md', { root }),
-    ])
-
-    // Brand-register declaration. dougmar.ch is BRAND register — a personal
-    // portfolio where design IS the product. Inject this into every design agent
-    // so they apply brand-register conventions (expressive composition, committed
-    // color strategy, typographic risk) rather than product-register reflexes
-    // (dense dashboards, restrained palette, generic card grids).
-    const brandRegisterDeclaration = `\n\n## Project Register: BRAND\n\nThis project is BRAND register — a personal portfolio where design IS the product. Apply brand-register conventions throughout. The detailed brand-register reference follows.\n\n${refBrand}`
-
-    const screenshotCriticPrompt = `${screenshotCriticPromptRaw}\n\n## Design Critique Heuristics\n\n${refCritique}`
-
-    // The semantic colour contract is generated from scripts/utils/semantic-contract.js
-    // at assembly time and injected into all three prompts that document it, so the
-    // list the agents read cannot drift from the list the validator enforces (#255).
-    // react-engineer.md spent months telling the engineer to reach for `bg.side` and
-    // `accent.glow`, names no preset has ever defined.
-    if (!designSystemRef.includes('{{SEMANTIC_COLOR_CONTRACT}}')) {
-      throw new Error(
-        'design-system-reference.md is missing its {{SEMANTIC_COLOR_CONTRACT}} placeholder'
-      )
-    }
-
-    // The pattern-prop list is generated from styled-system/patterns/*.d.ts at
-    // assembly time, so the engineer prompt cannot list a prop a pattern doesn't
-    // have — that's how `wrap` ended up on HStack, `align` on VStack, and `href`
-    // on `<Box as="a">` in the run that failed issue #432.
-    if (!designSystemRef.includes('{{PATTERN_PROPS}}')) {
-      throw new Error('design-system-reference.md is missing its {{PATTERN_PROPS}} placeholder')
-    }
-    const designSystemReference = designSystemRef
-      .replace('{{SEMANTIC_COLOR_CONTRACT}}', formatSemanticContractForPrompt())
-      .replace('{{PATTERN_PROPS}}', formatPatternPropsForPrompt(readPatternProps(root)))
-
-    // Backup all mutable files
-    console.log('\n[backup] Backing up mutable files...')
-    state.originalBackup = await backup(MUTABLE_FILES, { root })
-    console.log(`  backed up ${state.originalBackup.size} files`)
-
-    // -----------------------------------------------------------------------
-    // Read recent archive briefs for Design Director context
-    // -----------------------------------------------------------------------
-    const archiveDir = path.join(root, 'archive')
-    let recentBriefs = ''
-    try {
-      const dirs = readdirSync(archiveDir)
-        .filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d))
-        .sort()
-        .reverse()
-        .slice(0, 7)
-      const recentDirs5 = dirs.slice(0, 5)
-      for (const dir of recentDirs5) {
-        const briefPath = path.join(archiveDir, dir, 'brief.md')
-        if (existsSync(briefPath)) {
-          recentBriefs += `\n### ${dir}\n${readFileSync(briefPath, 'utf8')}\n`
-        }
-      }
-    } catch {}
-
-    // -----------------------------------------------------------------------
-    // Read recent ratings for taste feedback (new-schema GitHub-issue ratings)
-    // -----------------------------------------------------------------------
-    const { buildRecentRatingsBlock } = await import('./utils/ratings.js')
-    const recentRatings = buildRecentRatingsBlock(path.join(root, 'archive'), { lookbackDays: 10 })
-
-    // -----------------------------------------------------------------------
-    // Owner-curated permanent taste memory (signals/taste.md) — unlike the
-    // 10-build ratings window above, this is hand-maintained and all-time.
-    // Fed to both the Art Director and the Mockup Designer.
-    // -----------------------------------------------------------------------
-    const { buildTasteMemoryBlock, buildVoiceBlock } = await import('./utils/taste-memory.js')
-    const tasteMemoryBlock = buildTasteMemoryBlock(root)
-    // The owner's voice (signals/voice.md, #504): first person, hand-written,
-    // read the same way. Fed to the Art Director beside the taste block, so
-    // the hero and deck lines have a register to match.
-    const voiceBlock = buildVoiceBlock(root)
-
-    // -----------------------------------------------------------------------
-    // What the last several shipped nights' compositions actually became on
-    // a phone — 360px surface-gate findings and critic phone notes, dated
-    // and tagged with each night's tuple (#470). Fed to the Art Director so
-    // it sees its own mobile track record before picking today's tuple,
-    // rather than only the mockup designer and engineer seeing it via
-    // lessonsBlock further down.
-    // -----------------------------------------------------------------------
-    const { buildMobileLessonBlock } = await import('./utils/lessons.js')
-    const mobileLessonBlock = buildMobileLessonBlock(archiveDir)
-
-    // -----------------------------------------------------------------------
-    // Read design references (collected by collect-references.js)
-    // -----------------------------------------------------------------------
-    const referencesPath = path.resolve(root, 'signals/today.references.md')
-    let references = ''
-    if (existsSync(referencesPath)) {
-      references = await readFile(referencesPath, 'utf8')
-      console.log(`  using references (${references.length} chars)`)
-    }
-
-    // Trace: record signals and brief loaded
-    trace.addStep({
-      name: 'signals-loaded',
-      phase: 0,
-      input: { providersAvailable: Object.keys(signals).length },
-      output: signals,
-      durationMs: 0,
-    })
-    if (brief) {
-      trace.addStep({
-        name: 'brief-loaded',
-        phase: 0,
-        input: {},
-        output: { brief: brief.slice(0, 500), charCount: brief.length },
-        durationMs: 0,
-      })
-    }
-
-    // The variance mandates: deterministic, free, advisory. Computed in one
-    // place so the six "try, warn, carry on" blocks that sat here are one.
-    const { colorMandate, sections: mandate } = computeMandateSections({
-      root,
-      signals,
-      date: today,
-    })
+    } = state.prompts
+    const { archiveDir, tasteMemoryBlock, references } = state.inputs
     const {
-      color: colorMandateSection,
-      shell: shellMandateSection,
-      paletteFormula: paletteFormulaMandateSection,
-      heroSource: heroSourceMandateSection,
-      composition: compositionMandateSection,
-      chassis: chassisMandateSection,
-      typeTreatment: typeTreatmentMandateSection,
-      motion: motionMandateSection,
-    } = mandate
-
-    // -----------------------------------------------------------------------
-    // Phase 0+1: Art Director — single decision (hero copy, archetype,
-    // chassis, full preset.ts, visual spec). Replaces the historical
-    // Director + spec-critic gate + Token Designer trio.
-    // -----------------------------------------------------------------------
-    console.log('\n[phase-0+1] Art Director')
-
-    // Repetition feedback from the previous build (Task 6). Deterministic and
-    // free, so it runs every day whether or not an owner rating exists.
-    // Computed rather than read back from uniqueness.json, which only exists
-    // for builds made after the index shipped.
-    let uniquenessBlock = ''
-    try {
-      const { readUniquenessHistory } = await import('./utils/read-uniqueness-history.js')
-      const { computeUniqueness, formatUniquenessForPrompt } = await import(
-        './utils/uniqueness-index.js'
-      )
-      const todayStr = runDate(signals)
-      const [previous, ...before] = await readUniquenessHistory({
-        root,
-        limit: 8,
-        before: todayStr,
-      })
-      if (previous) {
-        uniquenessBlock = formatUniquenessForPrompt(computeUniqueness(previous, before))
-        if (uniquenessBlock) console.log(`  repetition check: scored ${previous.date}`)
-      }
-    } catch (err) {
-      console.warn(`  uniqueness feedback skipped (non-blocking): ${err.message}`)
-    }
-
-    const chassisCatalogBlock = formatChassisCatalogForPrompt(CHASSIS_CATALOG)
-    const weightsBlock = `Signals: ${weights.signals}/10 | Inspiration: ${weights.inspiration}/10 | Ratings: ${weights.ratings}/10 | Risk: ${weights.risk}/10\n\n${describeRiskTier(weights.risk)}`
-
-    // Art Director system prompt: art-director.md + brand register +
-    // typography + color. Trim to brand+color+typography per spec to keep
-    // assembled prompt <= ~50KB (iter-2 failed at 60KB).
-    const artDirectorPromptRaw = await loadPrompt('art-director.md', { root })
-    // The chassis-selection numbers are generated from the catalog at
-    // assembly time.
-    if (!artDirectorPromptRaw.includes('{{CHASSIS_SELECTION_FACTS}}')) {
-      throw new Error('art-director.md is missing its {{CHASSIS_SELECTION_FACTS}} placeholder')
-    }
-    if (!artDirectorPromptRaw.includes('{{SEMANTIC_COLOR_CONTRACT}}')) {
-      throw new Error('art-director.md is missing its {{SEMANTIC_COLOR_CONTRACT}} placeholder')
-    }
-    const artDirectorSystemPrompt = `${artDirectorPromptRaw
-      .replace('{{CHASSIS_SELECTION_FACTS}}', formatChassisSelectionForPrompt(CHASSIS_CATALOG))
-      .replace(
-        '{{SEMANTIC_COLOR_CONTRACT}}',
-        formatSemanticContractForArtDirector()
-      )}${brandRegisterDeclaration}\n\n${refTypography}\n\n${refColor}`
-
-    // Everything the Art Director is asked with, once. The three asks below
-    // differ only in why they are made and what they were told about the last
-    // one, which is what `askArtDirector` takes.
-    const askArtDirector = (extra) =>
-      runArtDirector({
-        boundaryId,
-        signals,
-        contentSummary,
-        chassisCatalog: CHASSIS_CATALOG,
-        chassisCatalogBlock,
-        recentBriefs,
-        recentRatings,
-        references,
-        colorMandateSection,
-        shellMandateSection,
-        paletteFormulaMandateSection,
-        heroSourceMandateSection,
-        compositionMandateSection,
-        chassisMandateSection,
-        typeTreatmentMandateSection,
-        motionMandateSection,
-        brandContract,
-        weightsBlock,
-        tasteMemoryBlock,
-        voiceBlock,
-        mobileLessonBlock,
-        uniquenessBlock,
-        failureDumpPath: path.join(root, 'signals', 'art-director-last-failed.txt'),
-        systemPrompt: artDirectorSystemPrompt,
-        ...extra,
-      })
-
-    let artDirectorResult
-    const t0Director = Date.now()
-    try {
-      artDirectorResult = await askArtDirector({ purpose: 'first' })
-    } catch (firstErr) {
-      if (firstErr.transport) {
-        // A dead model (no credits, an outage) answers the retry the same way
-        // it answered the first call. Twenty-six August nights spent their
-        // retry on exactly that and reported it as a missing block (#432).
-        console.error(`  Art Director failed: ${firstErr.message}`)
-        throw new Error(`Art Director failed: no response from the model — ${firstErr.message}`)
-      }
-      console.warn(`  Art Director failed (${firstErr.message}) — retrying once with error context`)
-      noteRetry()
-      try {
-        artDirectorResult = await askArtDirector({
-          purpose: 'retry',
-          retryContext: `## Previous attempt was rejected\n\nYour previous response failed validation: ${firstErr.message}\nEmit ALL required blocks with exact delimiters and exact field formats this time.`,
-        })
-      } catch (err) {
-        console.error(`  Art Director failed after retry: ${err.message}`)
-        throw new Error(`Art Director failed after retry: ${err.message}`)
-      }
-    }
-
-    const chosenArchetype = artDirectorResult.archetype
-    // Reassigned below, after any codegen retry, so downstream consumers
-    // (lane selection, archive persistence) always see the
-    // composition tuple from the FINAL settled artDirectorResult — same
-    // reasoning as shellDecl/measurablesDecl further down. This early value
-    // only backs the log line and trace step right after this call.
-    let chosenComposition = parseCompositionBlock(artDirectorResult.composition)
-    // Same story for the header: BrandLockup.tsx is generated below and needs
-    // the declared wordmark weight, which arrives in ===HEADER===. Re-parsed
-    // after any codegen retry, like the composition tuple.
-    let headerDecl = parseHeaderBlock(artDirectorResult.header)
-    // How the type is set (#502) rides with the header: re-parsed after any
-    // retry, archived as type-treatment.json, handed to every downstream agent.
-    let typeDecl = parseTypeTreatmentBlock(artDirectorResult.typeTreatment)
-    // The phone declaration (#452) rides with the header: re-parsed after any
-    // retry, archived as mobile.json, and handed to every downstream agent.
-    let mobileDecl = parseMobileBlock(artDirectorResult.mobile)
-    // How the hero arrives (#506) rides with the rest: re-parsed after any
-    // retry, archived as motion.json, handed to the designer, the engineer
-    // and the screenshot critic.
-    let motionDecl = parseMotionBlock(artDirectorResult.motion)
-    let chosenChassis = CHASSIS_CATALOG.find((c) => c.id === artDirectorResult.chassisId)
-    if (!chosenChassis) {
-      console.warn(
-        `  ⚠ Art Director picked unknown chassis "${artDirectorResult.chassisId}" — falling back to "${CHASSIS_CATALOG[0].id}"`
-      )
-      chosenChassis = CHASSIS_CATALOG[0]
-    }
-    const visualSpec = artDirectorResult.visualSpec
-    console.log(
-      `  hero: "${artDirectorResult.heroCopy.slice(0, 60)}${artDirectorResult.heroCopy.length > 60 ? '...' : ''}"`
-    )
-    console.log(
-      `  composition: ${formatTuple(chosenComposition).replace(/\n/g, ' | ')} | chassis: ${chosenChassis.id}`
-    )
-    if (chosenArchetype) console.log(`  archetype (descriptive, unvalidated): ${chosenArchetype}`)
-    console.log(`  visual spec: ${(visualSpec.length / 1024).toFixed(0)}KB`)
-
-    trace.addStep({
-      name: 'art-director',
-      phase: 1,
-      input: { compositionMandate: compositionMandateSection.slice(0, 500) },
-      output: {
-        hero_copy: artDirectorResult.heroCopy.slice(0, 200),
-        archetype: chosenArchetype || 'unknown',
-        composition: chosenComposition,
-        mobile: mobileDecl,
-        chassisId: chosenChassis?.id || 'unknown',
-        specLength: visualSpec.length,
-        specPreview: visualSpec.slice(0, 500),
-        selfCheck: artDirectorResult.selfCheck.slice(0, 300),
-      },
-      durationMs: Date.now() - t0Director,
-    })
-
-    // Write the Art Director's preset.ts to disk
-    const presetFile = { path: 'elements/preset.ts', content: artDirectorResult.presetTs }
-    for (const p of await writeFiles([presetFile], { root, backup: state.originalBackup }))
-      writtenPaths.add(p)
-
-    // Orchestrator generates the chassis preset (fonts + fontSizes) and
-    // __root.tsx (Google Fonts URL substituted into the frozen template).
-    // These two files are NEVER written by an agent.
-    try {
-      const chassisPresetSrc = renderChassisPresetFile(chosenChassis)
-      const chassisPresetPath = path.join(root, 'elements/chassis-preset.ts')
-      await writeFile(chassisPresetPath, chassisPresetSrc, 'utf8')
-      writtenPaths.add('elements/chassis-preset.ts')
-      console.log(`  [chassis] wrote chassis-preset.ts (${chosenChassis.id})`)
-
-      const { buildOgMetaEntries } = await import('./utils/og-meta.js')
-      const ogMeta = buildOgMetaEntries({
-        date: runDate(signals),
-        heroCopy: artDirectorResult.heroCopy,
-        designBrief: artDirectorResult.designBrief,
-      })
-      // The archive link's ink, chosen against tonight's bg and bgAlt now
-      // that the preset exists (#566).
-      const archiveInks = archiveLinkInks(artDirectorResult.presetTs)
-      const rootSrc = renderRootTemplate(
-        buildGoogleFontsUrl(chosenChassis),
-        ogMeta,
-        countArchivedDesigns(path.join(root, 'archive')),
-        archiveInks.root.token
-      )
-      const rootPath = path.join(root, 'app/routes/__root.tsx')
-      await writeFile(rootPath, rootSrc, 'utf8')
-      formatGeneratedFile('app/routes/__root.tsx', { root })
-      writtenPaths.add('app/routes/__root.tsx')
-      console.log(`  [chassis] wrote __root.tsx from template`)
-
-      // The brand lockup, same ownership rule as __root.tsx: generated from a
-      // frozen template every run, never authored by an agent. The engineer
-      // places it and may tint it; it may not draw the mark (#254).
-      const lockupSrc = renderBrandLockupFile(chosenChassis, {
-        wordmarkWeight: headerDecl.wordmark_weight,
-      })
-      await writeFile(path.join(root, 'app/components/BrandLockup.tsx'), lockupSrc, 'utf8')
-      formatGeneratedFile('app/components/BrandLockup.tsx', { root })
-      writtenPaths.add('app/components/BrandLockup.tsx')
-      console.log(`  [chassis] wrote BrandLockup.tsx from template`)
-
-      // The material library (#505), on the same terms: the engineer places
-      // <Ground> where the SHELL declaration asks for one and never draws a
-      // material itself.
-      await writeFile(path.join(root, 'app/components/Material.tsx'), renderMaterialFile(), 'utf8')
-      formatGeneratedFile('app/components/Material.tsx', { root })
-      writtenPaths.add('app/components/Material.tsx')
-      console.log(`  [chassis] wrote Material.tsx from template`)
-
-      // The home page callout (#532), same ownership again. The run's date
-      // picks its line and the count feeds its archive link, so neither
-      // moves on a codegen retry. The link's ink follows the preset, so the
-      // retry below writes this file again (#566).
-      await writeFile(
-        path.join(root, SITE_CALLOUT_OWNER),
-        renderSiteCalloutFile({
-          date: runDate(signals),
-          archiveCount: countArchivedDesigns(path.join(root, 'archive')),
-          archiveLinkInk: archiveInks.callout.token,
-        }),
-        'utf8'
-      )
-      formatGeneratedFile(SITE_CALLOUT_OWNER, { root })
-      writtenPaths.add(SITE_CALLOUT_OWNER)
-      console.log(`  [chassis] wrote SiteCallout.tsx from template`)
-
-      // The white paper's fixed page (#533), on the same terms. It takes
-      // nothing from the chassis or the Art Director, so the codegen retry
-      // below has no reason to write it again.
-      await writeFile(
-        path.join(root, 'app/components/WhitePaper.tsx'),
-        renderWhitePaperFile(),
-        'utf8'
-      )
-      formatGeneratedFile('app/components/WhitePaper.tsx', { root })
-      writtenPaths.add('app/components/WhitePaper.tsx')
-      console.log(`  [chassis] wrote WhitePaper.tsx from template`)
-    } catch (err) {
-      throw new Error(`Chassis file generation failed: ${err.message}`)
-    }
-
-    // Write today's brief.md so the archive has a human-readable artifact
-    // (replaces the old signals/today.brief.md from interpret-signals.js).
-    try {
-      const briefArtifactPath = path.join(root, 'signals', 'today.brief.md')
-      await writeFile(
-        briefArtifactPath,
-        `# Signals Brief — ${today}\n\n${artDirectorResult.brief}\n`,
-        'utf8'
-      )
-    } catch (err) {
-      console.warn(`  brief artifact write failed (non-blocking): ${err.message}`)
-    }
-
-    // Codegen on the Art Director's preset.ts
-    const codegenResult = validateCodegen({ root })
-    if (!codegenResult.success) {
-      console.log('  codegen failed — retrying Art Director with error context...')
-      noteRetry()
-      // Restore preset.ts before retry
-      const presetBackup = new Map()
-      for (const [k, v] of state.originalBackup.entries()) {
-        if (k === 'elements/preset.ts') presetBackup.set(k, v)
-      }
-      await restore(presetBackup, { root })
-      try {
-        // Re-invoke Art Director with codegen error appended to context.
-        // The full Director re-run is expensive but rare — codegen failures
-        // are uncommon now that the Art Director sees PandaCSS rules.
-        artDirectorResult = await askArtDirector({
-          purpose: 'retry',
-          retryContext: `## Previous attempt failed codegen\n\n${codegenResult.error?.slice(0, 1500) || ''}`,
-        })
-        const retryPresetFile = { path: 'elements/preset.ts', content: artDirectorResult.presetTs }
-        for (const p of await writeFiles([retryPresetFile], { root, backup: state.originalBackup }))
-          writtenPaths.add(p)
-        // The codegen retry re-ran the Art Director, so heroCopy/designBrief may
-        // have changed since __root.tsx was first written. Regenerate it so the
-        // og:title/og:description reflect the settled result, not the stale one.
-        try {
-          const { buildOgMetaEntries } = await import('./utils/og-meta.js')
-          const retryOgMeta = buildOgMetaEntries({
-            date: runDate(signals),
-            heroCopy: artDirectorResult.heroCopy,
-            designBrief: artDirectorResult.designBrief,
-          })
-          const retryRootSrc = renderRootTemplate(
-            buildGoogleFontsUrl(chosenChassis),
-            retryOgMeta,
-            countArchivedDesigns(path.join(root, 'archive')),
-            archiveLinkInks(artDirectorResult.presetTs).root.token
-          )
-          await writeFile(path.join(root, 'app/routes/__root.tsx'), retryRootSrc, 'utf8')
-          formatGeneratedFile('app/routes/__root.tsx', { root })
-          console.log('  [chassis] regenerated __root.tsx after codegen retry (og meta refreshed)')
-          // The retry may have moved the chassis or the declared wordmark
-          // weight, and both are baked into the lockup.
-          headerDecl = parseHeaderBlock(artDirectorResult.header)
-          await writeFile(
-            path.join(root, 'app/components/BrandLockup.tsx'),
-            renderBrandLockupFile(chosenChassis, { wordmarkWeight: headerDecl.wordmark_weight }),
-            'utf8'
-          )
-          formatGeneratedFile('app/components/BrandLockup.tsx', { root })
-          console.log('  [chassis] regenerated BrandLockup.tsx after codegen retry')
-          await writeFile(
-            path.join(root, 'app/components/Material.tsx'),
-            renderMaterialFile(),
-            'utf8'
-          )
-          formatGeneratedFile('app/components/Material.tsx', { root })
-          console.log('  [chassis] regenerated Material.tsx after codegen retry')
-          // The callout's archive link is set in a token chosen against the
-          // preset's bgAlt, and the retry brought a new preset (#566).
-          await writeFile(
-            path.join(root, SITE_CALLOUT_OWNER),
-            renderSiteCalloutFile({
-              date: runDate(signals),
-              archiveCount: countArchivedDesigns(path.join(root, 'archive')),
-              archiveLinkInk: archiveLinkInks(artDirectorResult.presetTs).callout.token,
-            }),
-            'utf8'
-          )
-          formatGeneratedFile(SITE_CALLOUT_OWNER, { root })
-          console.log('  [chassis] regenerated SiteCallout.tsx after codegen retry')
-        } catch (rootErr) {
-          console.warn(
-            `  __root.tsx og-meta refresh after retry failed (non-blocking): ${rootErr.message}`
-          )
-        }
-      } catch (err) {
-        throw new Error(`Art Director codegen retry failed: ${err.message}`)
-      }
-      const retryCodegen = validateCodegen({ root })
-      if (!retryCodegen.success) {
-        throw new Error(
-          `Codegen failed after Art Director retry: ${retryCodegen.error?.slice(0, 500)}`
-        )
-      }
-    }
-
-    // Parse shell + measurables + composition from the final settled
-    // artDirectorResult (computed here, after any codegen retry, so they
-    // always reflect the live result). shellDecl (which carries
-    // ground_strategy — see SHELL block) and chosenComposition are also
-    // used as archive artifacts below (shell.json, composition.json).
-    const { parseShellBlock, parseMeasurablesBlock } = await import('./utils/spec-blocks.js')
-    const shellDecl = parseShellBlock(artDirectorResult.shell)
-    headerDecl = parseHeaderBlock(artDirectorResult.header)
-    typeDecl = parseTypeTreatmentBlock(artDirectorResult.typeTreatment)
-    mobileDecl = parseMobileBlock(artDirectorResult.mobile)
-    motionDecl = parseMotionBlock(artDirectorResult.motion)
-    const measurablesDecl = parseMeasurablesBlock(artDirectorResult.measurables)
-    chosenComposition = parseCompositionBlock(artDirectorResult.composition)
-    console.log(
-      `  header: ${headerDecl.placement} @ ${headerDecl.height_px}px | mark=${headerDecl.mark_px}px | wordmark=${headerDecl.wordmark_step}/${headerDecl.wordmark_weight} | role=${headerDecl.role_line} | nav=${headerDecl.nav} (${headerDecl.nav_step}, ${headerDecl.nav_case})`
-    )
-    console.log(`  type: ${formatTypeTreatment(typeDecl).replace(/\n/g, ' | ')}`)
-    console.log(`  motion: ${formatMotion(motionDecl).replace(/\n/g, ' | ')}`)
-    console.log(
-      `  shell: footer=${shellDecl.footer} | lockup=${shellDecl.brand_lockup} (${shellDecl.brand_color_mode}) | ground=${shellDecl.ground_strategy}`
-    )
-    console.log(
-      `  measurables: canvas>=${measurablesDecl.canvas_utilization_min}% color>=${measurablesDecl.color_coverage_min}% hero=${measurablesDecl.hero_scale}`
-    )
-    console.log(`  composition: ${formatTuple(chosenComposition).replace(/\n/g, ' | ')}`)
-    console.log(
-      `  composition rationale: ${(artDirectorResult.compositionRationale || '').slice(0, 200)}`
-    )
-    console.log(
-      `  mobile: collapse=${chosenComposition.collapse} | hero_step_360=${mobileDecl.hero_step_360} | order=${mobileDecl.order} | carrier=${(mobileDecl.carrier || '').slice(0, 120)}`
-    )
-    console.log(`  hero-source: ${artDirectorResult.heroSource || '(none declared)'}`)
-
-    // Color-scheme monitoring (warnings only)
-    if (artDirectorResult.colorScheme && !artDirectorResult.colorScheme.__parse_error) {
-      const { detectCoffeeShopPalette, validateSchemeAgainstPreset, validateSchemeAgainstMandate } =
-        await import('./utils/color-validation.js')
-      const consistency = validateSchemeAgainstPreset(
-        artDirectorResult.colorScheme,
-        artDirectorResult.presetTs
-      )
-      for (const w of consistency.warnings) console.warn(`[color-scheme] ${w}`)
-      const rut = detectCoffeeShopPalette(artDirectorResult.colorScheme, artDirectorResult.presetTs)
-      for (const w of rut.warnings) console.warn(`[color-scheme] ${w}`)
-      const mandateCheck = validateSchemeAgainstMandate(artDirectorResult.colorScheme, colorMandate)
-      for (const w of mandateCheck.warnings) console.warn(`[color-scheme] ${w}`)
-    }
-
-    // Synthetic tokenResult for the rest of the orchestrator (Phase 2 archive)
-    const tokenResult = {
-      files: [presetFile],
-      rationale: artDirectorResult.rationale,
-      design_brief: artDirectorResult.designBrief,
-      color_scheme: artDirectorResult.colorScheme,
-    }
+      result: artDirectorResult,
+      chosenArchetype,
+      chosenChassis,
+      visualSpec,
+      shellDecl,
+      headerDecl,
+      typeDecl,
+      mobileDecl,
+      motionDecl,
+      measurablesDecl,
+      chosenComposition,
+      tokenResult,
+    } = state.ad
 
     // -----------------------------------------------------------------------
     // Phase 2: mockup pipeline (reads tokens from disk)
