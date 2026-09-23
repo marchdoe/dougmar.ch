@@ -39,7 +39,7 @@ pnpm pipeline         # full run; leaves the night on disk, commits nothing
 pnpm pipeline:canary  # a $0 dry run in a disposable worktree, evidence kept
 ```
 
-Without `ANTHROPIC_API_KEY` the agents run through the Claude CLI on a Max plan, capped at Sonnet. With a key they run through the API at the production tier (Opus for the Art Director and Mockup Designer). `PIPELINE_TIER=dev|prod` overrides that. See `scripts/utils/models.js`.
+Without `ANTHROPIC_API_KEY` the agents run through the Claude CLI on a Max plan, capped at Sonnet. With a key they run through the API at the production tier (Opus for the Art Director and Mockup Designer). `PIPELINE_TIER=dev|prod` overrides that. See `scripts/utils/models.js`. Either way, `scripts/utils/claude-cli.js` starts each CLI call with none of the machine's own Claude config. It loads no `~/.claude` CLAUDE.md, rules, auto-memory, hooks or plugins, and no MCP servers or claude.ai connectors. A local run still differs from CI in two small ways. The CLI adds a short note naming the working directory and platform, and on a Max plan it adds the account's email.
 
 `pnpm pipeline:canary` worktrees HEAD, installs, and runs the full pipeline there with `MOCK_MODE=false DRY_RUN=true`, so it reproduces exactly what a paid run would do without spending anything, and files the log, trace, cost and any build errors under `docs/evidence/canary/<date>-<time>/`. Run it before merging a change to `scripts/prompts/**`, `scripts/design-agents.js`, `scripts/pipeline/**` or `scripts/utils/build-validator.js`, and weekly otherwise — it's the only check that catches what only shows up against the real Claude CLI.
 
