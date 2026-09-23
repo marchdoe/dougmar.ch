@@ -250,7 +250,13 @@ export async function callClaudeSDK(agentName, systemPrompt, contentBlocks, opts
   const params = {
     model,
     max_tokens: maxTokens,
-    system: systemPrompt,
+    // A content block, not a plain string, so it can carry cache_control.
+    // Both vision critics call with the same system prompt across a run's
+    // several rounds (#580); a cache hit on the later calls reads at ~0.1x
+    // instead of billing the system prompt at full input price each time.
+    // Below the model's cacheable minimum, the breakpoint is a harmless
+    // no-op (the Anthropic API silently skips caching a short prefix).
+    system: [{ type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } }],
     messages: [{ role: 'user', content: contentBlocks }],
     ...(thinking ? { thinking } : {}),
   }

@@ -44,7 +44,7 @@
  */
 export const MODEL_CATALOG = {
   'claude-haiku-4-5': { pricing: { input: 1, output: 5 }, adaptiveThinking: false },
-  'claude-sonnet-5': { pricing: { input: 3, output: 15 }, adaptiveThinking: true },
+  'claude-sonnet-5': { pricing: { input: 2, output: 10 }, adaptiveThinking: true },
   'claude-opus-4-8': { pricing: { input: 5, output: 25 }, adaptiveThinking: true },
   'claude-opus-5-5': { pricing: { input: 4, output: 20 }, adaptiveThinking: true },
 }
