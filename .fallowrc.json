@@ -210,12 +210,6 @@
         "reason": "414 lines in one function; #221 splits it into phase modules"
       },
       {
-        "files": ["scripts/design-agents.js"],
-        "functions": ["callAgent"],
-        "maxCrap": 32,
-        "reason": "CRAP-only, folds into #221"
-      },
-      {
         "files": ["app/lib/archive-signals.ts"],
         "functions": ["summarize"],
         "maxCyclomatic": 99,
