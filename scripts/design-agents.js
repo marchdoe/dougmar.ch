@@ -762,6 +762,21 @@ index.tsx is a single-composition canvas today, not a portfolio hub.`)
 // ---------------------------------------------------------------------------
 
 /**
+ * The delimiter-format reminder appended to every call's user prompt. A
+ * patch reply sends only the files that changed — "write complete file
+ * contents after each delimiter" reads as "regenerate everything" and
+ * contradicted the brief's "return ONLY the files that must change" (#447)
+ * — so a patch call drops that sentence.
+ * @param {boolean} patch
+ * @returns {string}
+ */
+function formatFileDelimiterReminder(patch) {
+  return patch
+    ? `\n\n---\n\nIMPORTANT: Use the ===FILE:path=== delimiter format described in your instructions. No JSON, no markdown code fences, no explanation — just the delimiters and raw file content.`
+    : `\n\n---\n\nIMPORTANT: Use the ===FILE:path=== delimiter format described in your instructions. Write complete file contents after each delimiter. No JSON, no markdown code fences, no explanation — just the delimiters and raw file content.`
+}
+
+/**
  * Spawn a `claude` CLI process for one agent.
  *
  * The build error used to be appended here, after the agent's whole original
@@ -779,12 +794,7 @@ index.tsx is a single-composition canvas today, not a portfolio hub.`)
 async function callAgent(agentName, systemPrompt, userPrompt, options = {}) {
   let fullPrompt = userPrompt
 
-  // A patch reply sends only the files that changed — "write complete file
-  // contents after each delimiter" reads as "regenerate everything" and
-  // contradicted the brief's "return ONLY the files that must change" (#447).
-  fullPrompt += options.patch
-    ? `\n\n---\n\nIMPORTANT: Use the ===FILE:path=== delimiter format described in your instructions. No JSON, no markdown code fences, no explanation — just the delimiters and raw file content.`
-    : `\n\n---\n\nIMPORTANT: Use the ===FILE:path=== delimiter format described in your instructions. Write complete file contents after each delimiter. No JSON, no markdown code fences, no explanation — just the delimiters and raw file content.`
+  fullPrompt += formatFileDelimiterReminder(options.patch === true)
 
   // Explicit IDs only — the 'sonnet' alias this used to fall back to is what
   // models.js exists to prevent (a pinned CLI freezes what the alias means).
