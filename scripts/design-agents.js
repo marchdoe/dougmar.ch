@@ -26,7 +26,7 @@ import path from 'node:path'
 config({ path: path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../.env'), quiet: true })
 
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
-import { existsSync, } from 'node:fs'
+import { existsSync } from 'node:fs'
 import { callClaudeCLI } from './utils/claude-cli.js'
 import {
   MUTABLE_FILES,
@@ -47,18 +47,8 @@ import { archive } from './utils/archiver.js'
 import { resetLedger, noteRetry } from './utils/cost-ledger.js'
 import { startTape } from './utils/call-tape.js'
 import { clip, openStep } from './utils/trace-step.js'
-import { selectLane } from './utils/select-lane.js'
-import {
-  assembleMockupDesignerSystemPrompt,
-  MOCKUP_DESIGNER_PROMPT_MAX,
-} from './utils/mockup-designer-prompt.js'
-import {
-  buildGoogleFontsUrl,
-  renderRootTemplate,
-} from './utils/chassis.js'
-import {
-  formatSemanticContractForPrompt,
-} from './utils/semantic-contract.js'
+import { buildGoogleFontsUrl, renderRootTemplate } from './utils/chassis.js'
+import { formatSemanticContractForPrompt } from './utils/semantic-contract.js'
 import {
   collectGateRules,
   formatGateRulesForPrompt,
@@ -74,14 +64,14 @@ import { isMain } from './utils/cli.js'
 import { describeGateErrors, recordGateFailure, surfaceGateRecord } from './utils/gate-outcome.js'
 import { loadRunContext } from './pipeline/context.js'
 import { runArtDirectorPhase } from './pipeline/phase-art-director.js'
+import { runMockupPhase } from './pipeline/phase-mockup.js'
 import {
   archiveFailedSources,
   createRunState,
   rollBackCheckout,
   saveTrace,
 } from './pipeline/run-state.js'
-import { formatMaterialContractBlock, materialSeed, } from './utils/material.js'
-import { formatClientMarksForPrompt, readClientMarkSources } from './utils/client-marks.js'
+import { formatMaterialContractBlock, materialSeed } from './utils/material.js'
 import { formatHeader } from './utils/header-grammar.js'
 import { formatTypeTreatment } from './utils/type-grammar.js'
 import { formatMobile } from './utils/mobile-grammar.js'
@@ -100,13 +90,13 @@ import {
 import { sweepGenerated } from './utils/generated-sweep.js'
 import { countArchivedDesigns } from './utils/archive-count.js'
 import { archiveLinkInks } from './utils/archive-link-ink.js'
-import { criticPurpose, designerPurpose, settleMockupRound } from './utils/mockup-rounds.js'
 import { mockupDriftRecord } from './utils/mockup-advisory.js'
 import { blockingFaults, driftedVerdict } from './utils/mockup-drift-gate.js'
 import { newBoundaryId } from './utils/data-boundary.js'
 export { parseDelimiterResponse }
 export { resolveRiskWeight } from './pipeline/run-state.js'
 export { describeRiskTier } from './pipeline/phase-art-director.js'
+export { buildCompositionContractBlock } from './pipeline/phase-mockup.js'
 
 /**
  * Drop any orchestrator-owned file from an agent's output.
@@ -616,64 +606,6 @@ export function planRepairs(failingAgent, error, maxAttempts) {
   }
 }
 
-/**
- * The binding sentence per non-statement `hero_object` value (#501).
- * `statement` is today's behaviour and needs no contract. On `artifact` the
- * client set renders as its marks (#505): the files under public/clients/
- * that project.clients[].logo points at, name-only where an entry has none.
- *
- * @type {Record<string, string>}
- */
-const HERO_OBJECT_CONTRACTS = {
-  figure:
-    "The largest element on the page is a number from today's signals (a score, a temperature, a date, holes in one) at hero_scale; the hero phrase is its caption, one step down at 2xl to 4xl, and is still the h1.",
-  word: 'The largest element on the page is one word lifted from the hero phrase at hero_scale; the rest of the phrase is the deck beneath it at 2xl to 4xl, and the whole phrase is still the h1.',
-  list: 'The largest element on the page is the work index: project titles, years and roles are the first thing rendered, titles at hero_scale; the hero phrase is the standfirst above it at 2xl to 4xl, and is still the h1.',
-  artifact:
-    "The largest element on the page is one piece of owned work: the featured project's title at hero_scale with its year, role and client set beside it, the clients rendered as their marks from project.clients[].logo (one <img> per mark, alt set to the client's name, name-only for an entry without a logo) at a size that reads as a set, never as a footer strip; the hero phrase is its caption at 2xl to 4xl, and is still the h1.",
-}
-
-/**
- * Build a composition-driven constraint block for injection into the Mockup
- * Designer prompt: on a genuinely sparse composition, forbid rendering
- * project cards or portfolio sections on the home page — only the hero
- * phrase and navigation should appear.
- *
- * Successor to buildArchetypeContractBlock(archetype), which fired on the
- * literal strings 'Specimen' and 'Poster'. Re-expressed against the
- * composition tuple instead of a name (composition-grammar arc, Task 4):
- * `density: sparse` is composition-grammar.js's own definition of "very
- * few elements, very large intervals; the page is mostly field" — a
- * project-card grid directly contradicts that regardless of which
- * field_ratio or hero_zone accompanies it. (Deviation from the task's
- * draft wording, which suggested `density: sparse` AND `field_ratio:
- * drenched` specifically: narrowing to density alone is more faithful to
- * the original rule's purpose — Poster's sparseness and Specimen's
- * type-as-canvas both violate "no cards" for the same underlying reason,
- * independent of field_ratio.)
- *
- * `hero_object` (#501) adds a second block, one binding sentence per
- * non-statement value: what leads, and what the phrase becomes. The phrase
- * stays the page's one h1 on every value.
- *
- * @param {Record<string, string>|null|undefined} tuple - the day's composition tuple
- * @returns {string}
- */
-export function buildCompositionContractBlock(tuple) {
-  const blocks = []
-  if (tuple?.density === 'sparse') {
-    blocks.push(`⚠ COMPOSITION CONTRACT — SPARSE:
-Home page = hero phrase + navigation ONLY.
-Do NOT render project cards, featured project, experiments, or any portfolio section.
-index.tsx is a single-composition canvas today, not a portfolio hub.`)
-  }
-  const object = HERO_OBJECT_CONTRACTS[tuple?.hero_object]
-  if (object) {
-    blocks.push(`⚠ COMPOSITION CONTRACT, HERO OBJECT (${tuple.hero_object}):\n${object}`)
-  }
-  return blocks.join('\n\n')
-}
-
 // ---------------------------------------------------------------------------
 // Internal: callAgent
 // ---------------------------------------------------------------------------
@@ -819,29 +751,20 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
 
   const today = runDate(signals)
   const state = createRunState({ ...context, boundaryId }, { root, tape, today, onTraceStep })
-  const { contentSummary, weights, trace, writtenPaths, verdicts } = state
+  const { weights, trace, writtenPaths, verdicts } = state
 
   let swarmError = null
   try {
     await loadRunContext(state)
     await runArtDirectorPhase(state)
 
-    const {
-      screenshotCriticPrompt,
-      designSystemReference,
-      brandRegisterDeclaration,
-      refTypography,
-      refColor,
-      refSpatial,
-      refCritique,
-      brandContract,
-    } = state.prompts
-    const { archiveDir, tasteMemoryBlock, references } = state.inputs
+    const { screenshotCriticPrompt, designSystemReference, brandRegisterDeclaration } =
+      state.prompts
+    const { references } = state.inputs
     const {
       result: artDirectorResult,
       chosenArchetype,
       chosenChassis,
-      visualSpec,
       shellDecl,
       headerDecl,
       typeDecl,
@@ -852,364 +775,9 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
       tokenResult,
     } = state.ad
 
-    // -----------------------------------------------------------------------
-    // Phase 2: mockup pipeline (reads tokens from disk)
-    // -----------------------------------------------------------------------
-    const presetPath = path.join(root, 'elements/preset.ts')
-    const tokenContext = await readFile(presetPath, 'utf8')
-
-    const enrichedBrief = [
-      `## Hero Copy (the page must execute this phrase at marquee scale)`,
-      artDirectorResult.heroCopy,
-      '',
-      `## Hero Rationale`,
-      artDirectorResult.heroRationale,
-      '',
-      // Structured, guaranteed-present composition declaration — every
-      // downstream reader of enrichedBrief (mockup designer, react engineer,
-      // screenshot critic) needs this without depending on the Art Director
-      // having also restated it inside the free-text visual spec.
-      `## Composition (structural declaration — execute exactly)`,
-      formatTuple(chosenComposition),
-      artDirectorResult.compositionRationale || '',
-      '',
-      `## Visual Specification (from the Art Director)`,
-      visualSpec,
-      '',
-      `## Art Director Rationale`,
-      artDirectorResult.rationale,
-    ].join('\n')
-
-    // -----------------------------------------------------------------------
-    // Phase 2a: Mockup Designer → 2b: Mockup Critic loop (blocking, ≤2 revisions)
-    // -----------------------------------------------------------------------
-    console.log('\n[phase-2a] Mockup Designer')
-    const { runMockupDesigner } = await import('./agents/mockup-designer.js')
-    const { runMockupCritic } = await import('./agents/mockup-critic.js')
-    const { captureHtmlFileScreenshot } = await import('./utils/snapshot.js')
-    const { buildLessonsBlock } = await import('./utils/lessons.js')
-
-    const mockupDesignerPromptRaw = await loadPrompt('mockup-designer.md', { root })
-    const mockupCriticPromptRaw = await loadPrompt('mockup-critic.md', { root })
-    const mockupCriticSystemPrompt = `${mockupCriticPromptRaw}\n\n## Design Critique Heuristics\n\n${refCritique}`
-
-    // polish.md is ALWAYS loaded for the designer — but in the USER prompt
-    // (12.1KB; keeps the system prompt under the CLI 2.1.92 ~56KB failure
-    // zone). bolder.md is conditional on a committed/drenched color stance;
-    // overdrive.md is NOT loaded (size cap); refResponsive is NOT appended —
-    // its rules are already salvaged into mockup-designer.md's Responsive
-    // section.
-    const refPolish = await loadPrompt('impeccable/reference/polish.md', { root })
-    const colorStory =
-      JSON.stringify(artDirectorResult.colorScheme || {}).toLowerCase() + visualSpec.toLowerCase()
-    const isCommitted = /drench|committed|saturat|maximal/.test(colorStory)
-    const conditionalRefs = []
-    if (isCommitted) {
-      conditionalRefs.push(await loadPrompt('impeccable/reference/bolder.md', { root }))
-    }
-    const {
-      lane: chosenLane,
-      laneCount,
-      forbidden: forbiddenLanes,
-    } = selectLane({
-      archiveDir,
-      date: today,
-      tuple: chosenComposition,
-    })
-    console.log(
-      `  injecting lane: ${chosenLane.id} (register: ${chosenLane.register}, ${laneCount} lanes` +
-        (forbiddenLanes.includes(chosenLane.id) ? ', forbidden but strongest affinity match' : '') +
-        `); conditional refs: ${conditionalRefs.length}`
-    )
-    const { text: mockupDesignerSystemPrompt, bytes: mockupDesignerPromptBytes } =
-      assembleMockupDesignerSystemPrompt({
-        raw: mockupDesignerPromptRaw,
-        laneBody: chosenLane.body,
-        brandRegisterDeclaration,
-        refs: [refTypography, refColor, refSpatial, ...conditionalRefs],
-        brandContract,
-      })
-    console.log(
-      `  mockup-designer system prompt: ${(mockupDesignerPromptBytes / 1024).toFixed(0)}KB`
-    )
-    if (mockupDesignerPromptBytes > MOCKUP_DESIGNER_PROMPT_MAX) {
-      // A budget, not a crash guard. The CLI 2.1.92 bug this ceiling used to
-      // guard against does not reproduce on the 2.1.207 pin in
-      // .github/workflows/daily-redesign.yml (PR #69, 2026-07-12). The
-      // model reads the whole prompt every revision round, so growth past
-      // this line is a cost and attention problem, not a correctness one.
-      // Throw so the day's run rolls back cleanly instead of quietly getting
-      // more expensive.
-      throw new Error(
-        `mockup-designer system prompt is ${(mockupDesignerPromptBytes / 1024).toFixed(0)}KB — over the ${(MOCKUP_DESIGNER_PROMPT_MAX / 1024).toFixed(0)}KB budget. Trim a reference doc.`
-      )
-    }
-
-    // Calibration: best recent owner grade as a text note (screenshots would
-    // blow the prompt budget; the graded bar carries the value).
-    let calibrationNote = ''
-    try {
-      const { readRecentRatings } = await import('./utils/ratings.js')
-      const rated = readRecentRatings(path.join(root, 'archive'), { lookbackDays: 30 })
-      const best = rated.find((r) => r.grade === 'A') || rated.find((r) => r.grade === 'B')
-      if (best)
-        calibrationNote = `## Calibration\n\nThe owner graded ${best.date} an ${best.grade}${best.worked ? ` — what worked: ${best.worked}` : ''}. That is the execution bar.`
-    } catch {
-      /* non-blocking */
-    }
-
-    const lessonsBlock = buildLessonsBlock(path.join(root, 'archive'), { limit: 7 })
-    const compositionContractBlock = buildCompositionContractBlock(chosenComposition) || ''
-    const brandSvg = await readFile(path.join(root, 'app/assets/logo.svg'), 'utf8')
-    const brandMonoSvg = await readFile(path.join(root, 'app/assets/logo-mono.svg'), 'utf8')
-    // The client marks reach the mockup as inline SVG (#505), and only on an
-    // `artifact` day: the mockup is captured from a file:// URL where
-    // `/clients/*` resolves to nothing, and eight marks are 45KB of prompt
-    // the other four hero objects never draw.
-    const clientMarksBlock =
-      chosenComposition.hero_object === 'artifact'
-        ? formatClientMarksForPrompt(readClientMarkSources({ root }))
-        : ''
-    const googleFontsUrl = buildGoogleFontsUrl(chosenChassis)
-
-    const mockupPath = path.join(root, 'signals', 'today.mockup.html')
-    const mockupCtxBase = {
-      enrichedBrief,
-      tokenContext,
-      contentSummary,
-      measurables: artDirectorResult.measurables,
-      shell: artDirectorResult.shell,
-      header: formatHeader(headerDecl),
-      typeTreatment: formatTypeTreatment(typeDecl),
-      mobile: formatMobile(mobileDecl),
-      collapse: chosenComposition.collapse,
-      motion: formatMotion(motionDecl),
-      brandSvg,
-      brandMonoSvg,
-      clientMarksBlock,
-      googleFontsUrl,
-      lessonsBlock,
-      calibrationNote,
-      compositionContractBlock,
-      tasteMemoryBlock,
-      polishRef: refPolish,
-      systemPrompt: mockupDesignerSystemPrompt,
-      failureDumpPath: path.join(root, 'signals', 'mockup-designer-last-failed.txt'),
-    }
-
-    let mockup
-    let mockupScreenshot = null
-    let revisionFeedback = ''
-    // The mockup the critic just reviewed. The designer revises this page
-    // instead of regenerating one from the brief (#573).
-    let previousMockupHtml = ''
-    let producedMockupRound = -1
-    // The measured design-fidelity numbers (#487) per mockup revision round,
-    // so the mockup-versus-build gap is visible for every round the critic
-    // saw, not only the last — archived as mockup-measurables.json.
-    const mockupMeasurableRounds = []
-    // Where each surface-gate round's build drifted from the approved mockup,
-    // archived as mockup-fidelity.json. Only rounds that had a mockup to
-    // compare against are recorded.
-    const mockupFidelityRounds = []
-    // Every round's mockup and screenshot, so the loop can ship an earlier
-    // round when the critic never approves one and a later round measured
-    // worse (#573).
-    const keptMockupRounds = new Map()
-    const MAX_MOCKUP_REVISIONS = 2
-    for (let round = 0; round <= MAX_MOCKUP_REVISIONS; round++) {
-      // The optional steps check the deadline before starting; the two
-      // required calls (this and the engineer below) did not, so an Art
-      // Director that burned the budget on retries took the night down with
-      // "timed out after 0 minutes" instead of a reason (#299).
-      if (round === 0 && pastDeadline()) {
-        throw new Error(
-          'run budget exhausted before the Mockup Designer could start — nothing to ship'
-        )
-      }
-      const t0Mockup = Date.now()
-      try {
-        mockup = await runMockupDesigner({
-          ...mockupCtxBase,
-          revisionFeedback,
-          previousMockupHtml,
-          purpose: designerPurpose(round),
-        })
-      } catch (firstErr) {
-        if (firstErr.transport) {
-          // A dead model answers the retry the same way it answered the
-          // first call (see the Art Director's identical guard, #432) — skip
-          // straight to the same fallback/throw a crash always got.
-          if (round > 0 && mockup) {
-            console.warn(
-              `  Mockup Designer revision failed (round ${round}, non-blocking — proceeding with previous mockup): ${firstErr.message}`
-            )
-            break
-          }
-          console.error(`  Mockup Designer failed (round ${round}): ${firstErr.message}`)
-          throw new Error(`Mockup Designer failed: ${firstErr.message}`)
-        }
-        console.warn(
-          `  Mockup Designer failed (${firstErr.message}) — retrying once with the reason`
-        )
-        noteRetry()
-        trace.addStep({
-          name: 'mockup-designer-rejected',
-          phase: 2,
-          input: { round },
-          output: { error: firstErr.message },
-          durationMs: Date.now() - t0Mockup,
-        })
-        try {
-          mockup = await runMockupDesigner({
-            ...mockupCtxBase,
-            revisionFeedback,
-            previousMockupHtml,
-            purpose: 'retry',
-            retryContext: `## Previous attempt was rejected\n\nYour previous mockup failed validation: ${firstErr.message}\nReturn a JS-free mockup.html and every required block this time.`,
-          })
-        } catch (err) {
-          if (round > 0 && mockup) {
-            // A revision round crashed (twice) but a previous round produced
-            // a complete mockup — don't throw away a viable design over a
-            // failed polish pass. mockup/mockupScreenshot still hold the
-            // previous round.
-            console.warn(
-              `  Mockup Designer revision failed (round ${round}, non-blocking — proceeding with previous mockup): ${err.message}`
-            )
-            break
-          }
-          console.error(`  Mockup Designer failed after retry (round ${round}): ${err.message}`)
-          trace.addStep({
-            name: 'mockup-designer-rejected',
-            phase: 2,
-            input: { round },
-            output: { error: err.message },
-            durationMs: Date.now() - t0Mockup,
-          })
-          throw new Error(`Mockup Designer failed after retry: ${err.message}`)
-        }
-      }
-      await writeFile(mockupPath, mockup.mockupHtml, 'utf8')
-      producedMockupRound = round
-
-      console.log(`\n[phase-2b] Mockup Critic (round ${round})`)
-      try {
-        mockupScreenshot = await captureHtmlFileScreenshot(mockupPath, {
-          width: 1440,
-          height: 900,
-          headerCrop: { placement: headerDecl.placement, heightPx: headerDecl.height_px },
-        })
-      } catch (err) {
-        console.warn(`  mockup screenshot failed (non-blocking — skipping critic): ${err.message}`)
-        // Don't let an earlier round's screenshot masquerade as this mockup —
-        // a stale image would become the fidelity target and archive artifact.
-        mockupScreenshot = null
-        break
-      }
-      keptMockupRounds.set(round, { mockup, mockupScreenshot })
-      if (mockupScreenshot.measured) {
-        mockupMeasurableRounds.push({
-          round,
-          measured: mockupScreenshot.measured,
-          measuredAt: new Date().toISOString(),
-        })
-        console.log(
-          `  measured mockup — canvas=${mockupScreenshot.measured.canvas_utilization}% ` +
-            `color=${mockupScreenshot.measured.color_coverage}% hero=${mockupScreenshot.measured.hero_px}px`
-        )
-      }
-      let critique
-      try {
-        critique = await runMockupCritic({
-          systemPrompt: mockupCriticSystemPrompt,
-          screenshotBuffer: mockupScreenshot.jpeg,
-          mobileScreenshot: mockupScreenshot.mobileJpeg,
-          headerCrop: mockupScreenshot.headerJpeg,
-          headerCropAnchor: mockupScreenshot.headerCropAnchor,
-          enrichedBrief,
-          measurables: artDirectorResult.measurables,
-          measured: mockupScreenshot.measured,
-          measurablesDecl,
-          shell: artDirectorResult.shell,
-          header: formatHeader(headerDecl),
-          typeTreatment: formatTypeTreatment(typeDecl),
-          mobile: formatMobile(mobileDecl),
-          collapse: chosenComposition.collapse,
-          purpose: criticPurpose(round),
-        })
-      } catch (err) {
-        console.warn(`  mockup critic failed (non-blocking — accepting mockup): ${err.message}`)
-        break
-      }
-      verdicts.push({
-        critic: 'mockup-critic',
-        round,
-        verdict: critique.verdict,
-        feedback: critique.feedback.slice(0, 2000),
-        // A verdict reached without pixels is a different thing from one
-        // reached with them, and verdicts.json is where that has to stay
-        // visible after the fact — the screenshot critic already records
-        // this; the mockup critic dropped it on the way into the array (#304).
-        channel: critique.channel,
-        ts: Date.now(),
-      })
-      trace.addStep({
-        name: 'mockup-critic',
-        phase: 2,
-        input: { round },
-        output: { verdict: critique.verdict, feedback: critique.feedback.slice(0, 500) },
-        durationMs: Date.now() - t0Mockup,
-      })
-      if (critique.verdict === 'APPROVE') {
-        console.log('  [mockup-critic] APPROVE')
-        break
-      }
-      if (
-        critique.verdict === 'REVISE' &&
-        critique.feedback.startsWith('malformed critic response')
-      ) {
-        // The critic's fail-closed REVISE on a malformed response carries no
-        // usable feedback — don't burn an Opus revision round on garbage.
-        // Treated like a critic crash: accept the mockup (the malformed
-        // response is still recorded in verdicts.json above).
-        console.warn('  [mockup-critic] malformed response (non-blocking — accepting mockup)')
-        break
-      }
-      if (round === MAX_MOCKUP_REVISIONS) {
-        console.warn(
-          `  [mockup-critic] still REVISE after ${MAX_MOCKUP_REVISIONS} revisions — proceeding with latest mockup; findings persist to lessons via verdicts.json`
-        )
-        break
-      }
-      if (pastDeadline()) {
-        console.warn('  [deadline] run budget exhausted — proceeding with latest mockup')
-        break
-      }
-      console.log(`  [mockup-critic] REVISE — feeding back to designer`)
-      // Every other retry path counts itself in cost.json; this loop starts
-      // another Mockup Designer call (Opus, the most expensive model in
-      // PROD_MODELS) but never told the ledger, so `retries` undercounted
-      // whether the critic loop earned its keep (#303).
-      noteRetry()
-      revisionFeedback = critique.feedback
-      previousMockupHtml = mockup.mockupHtml
-    }
-
-    // When the critic never approved, the last round is not necessarily the
-    // best one; this ships the round with the smallest measured shortfall.
-    const settled = await settleMockupRound({
-      verdicts,
-      rounds: mockupMeasurableRounds,
-      declared: measurablesDecl,
-      producedRound: producedMockupRound,
-      kept: keptMockupRounds,
-      current: { mockup, mockupScreenshot },
-      mockupPath,
-      trace,
-    })
-    mockup = settled.mockup
-    mockupScreenshot = settled.mockupScreenshot
+    await runMockupPhase(state)
+    const { tokenContext, enrichedBrief, lessonsBlock, chosenLane, mockup, mockupScreenshot } =
+      state.design
 
     // -----------------------------------------------------------------------
     // Phase 2c: React Engineer — translate the approved mockup to TSX
@@ -1620,8 +1188,8 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
           chosenComposition,
           chosenLane,
           measurablesDecl,
-          mockupMeasurableRounds,
-          mockupFidelityRounds,
+          mockupMeasurableRounds: state.mockupMeasurableRounds,
+          mockupFidelityRounds: state.mockupFidelityRounds,
         }),
         { root }
       )
@@ -1812,7 +1380,7 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
       function recordMockupDrift(round, findings) {
         if (!findings) return null
         const record = mockupDriftRecord(round, findings)
-        mockupFidelityRounds.push(record)
+        state.mockupFidelityRounds.push(record)
         console.log(
           `  [mockup-fidelity] round ${round}: ${findings.length} finding(s), ${record.briefed.length} for the brief`
         )
