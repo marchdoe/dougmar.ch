@@ -29,7 +29,7 @@
   // app/ssr.tsx are TanStack Start's convention entries — the framework loads
   // them by path, so nothing imports them by name. app/dev-panel.html is a
   // Vite HTML entry, and the whole dev panel hangs off it (dev-entry →
-  // dev-panel → dev/api, components/responsive-card). app/dev-responsive.html
+  // dev/DevPanel → dev/panes, dev/cards, dev/lib). app/dev-responsive.html
   // is the same pattern for /dev/responsive (#328): dev-responsive-entry →
   // dev-responsive-page, served by app/dev-server/index.ts instead of the
   // router so the page's chunk never reaches a production build. Without
@@ -184,13 +184,14 @@
         "reason": "cognitive 32; the route ceilings above still apply to everything else in the file"
       },
       {
-        // #227 decomposes app/dev-panel.tsx and moves the dev server out of
-        // vite.config.ts. 31 functions, most of them CRAP-only.
-        "files": ["app/dev-panel.tsx", "app/dev/**", "app/dev-server/**"],
-        "maxCyclomatic": 29,
-        "maxCognitive": 60,
-        "maxCrap": 871,
-        "reason": "dev panel debt, split under #227; ceilings are the current worst (AtmosphereStrip, DevPanel)"
+        // #227 split app/dev-panel.tsx into app/dev/ and moved the dev server
+        // out of vite.config.ts. Most of what is left is CRAP-only: components
+        // with no unit coverage, which the dev-panel E2E project covers instead.
+        "files": ["app/dev/**", "app/dev-server/**"],
+        "maxCyclomatic": 13,
+        "maxCognitive": 27,
+        "maxCrap": 190,
+        "reason": "dev panel debt after the #227 split; worst is ArchivePane's row (cyclomatic 13, CRAP 182) and usePipelineRun (cognitive 27)"
       },
       {
         "files": ["scripts/design-agents.js"],

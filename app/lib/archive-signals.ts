@@ -51,49 +51,305 @@ function list(items: JsonValue[], max = 2): string {
   return `${names.slice(0, max).join(', ')}, and ${names.length - max} more`
 }
 
+// ─── Provider readers ─────────────────────────────────────────────────────────
+//
+// One typed reader per provider payload, shared by the summaries below and the
+// dev panel's signal cards (#227). The cards used to cast each payload to a
+// hand-written shape (`signals.weather as {…} | undefined`); a field of the
+// wrong type then reached the page as whatever it happened to be. A reader
+// keeps a field only when it has the type the collector writes, and returns
+// undefined for a payload that is not an object at all.
+
+const asString = (v: unknown): string | undefined => (typeof v === 'string' ? v : undefined)
+const asNumber = (v: unknown): number | undefined => (typeof v === 'number' ? v : undefined)
+const asBoolean = (v: unknown): boolean | undefined => (typeof v === 'boolean' ? v : undefined)
+const records = (v: unknown): Record<string, unknown>[] =>
+  Array.isArray(v) ? v.filter(isRecord) : []
+const strings = (v: unknown): string[] =>
+  Array.isArray(v) ? v.filter((s): s is string => typeof s === 'string') : []
+
+export interface SeasonSignal {
+  season?: string
+  month_name?: string
+  day_of_year?: number
+}
+export function readSeason(v: unknown): SeasonSignal | undefined {
+  if (!isRecord(v)) return undefined
+  return {
+    season: asString(v.season),
+    month_name: asString(v.month_name),
+    day_of_year: asNumber(v.day_of_year),
+  }
+}
+
+export interface DayOfWeekSignal {
+  day?: string
+  is_weekend?: boolean
+}
+export function readDayOfWeek(v: unknown): DayOfWeekSignal | undefined {
+  if (!isRecord(v)) return undefined
+  return { day: asString(v.day), is_weekend: asBoolean(v.is_weekend) }
+}
+
+export interface SunSignal {
+  sunrise?: string
+  sunset?: string
+  daylight_hours?: number
+}
+export function readSun(v: unknown): SunSignal | undefined {
+  if (!isRecord(v)) return undefined
+  return {
+    sunrise: asString(v.sunrise),
+    sunset: asString(v.sunset),
+    daylight_hours: asNumber(v.daylight_hours),
+  }
+}
+
+export interface LunarSignal {
+  phase?: string
+  illumination?: number
+}
+export function readLunar(v: unknown): LunarSignal | undefined {
+  if (!isRecord(v)) return undefined
+  return { phase: asString(v.phase), illumination: asNumber(v.illumination) }
+}
+
+export interface HolidaysSignal {
+  today?: string
+  upcoming: Array<{ name: string; days_away?: number }>
+}
+export function readHolidays(v: unknown): HolidaysSignal | undefined {
+  if (!isRecord(v)) return undefined
+  return {
+    today: asString(v.today),
+    upcoming: records(v.upcoming).flatMap((h) => {
+      const name = asString(h.name)
+      return name === undefined ? [] : [{ name, days_away: asNumber(h.days_away) }]
+    }),
+  }
+}
+
+export interface QuoteSignal {
+  text?: string
+  author?: string
+}
+export function readQuote(v: unknown): QuoteSignal | undefined {
+  if (!isRecord(v)) return undefined
+  return { text: asString(v.text), author: asString(v.author) }
+}
+
+export interface TeamSignal {
+  name: string
+  league?: string
+  result?: string
+  score?: string
+}
+export function readSports(v: unknown): { teams: TeamSignal[] } | undefined {
+  if (!isRecord(v)) return undefined
+  return {
+    teams: records(v.teams).flatMap((t) => {
+      const name = asString(t.name)
+      if (name === undefined) return []
+      return [
+        {
+          name,
+          league: asString(t.league),
+          result: asString(t.result),
+          score: asString(t.score),
+        },
+      ]
+    }),
+  }
+}
+
+export interface GolfSignal {
+  tournament?: string
+  status?: string
+  leaders: Array<{ name: string; position?: string; score?: string }>
+}
+export function readGolf(v: unknown): GolfSignal | undefined {
+  if (!isRecord(v)) return undefined
+  return {
+    tournament: asString(v.tournament),
+    status: asString(v.status),
+    leaders: records(v.leaders).flatMap((l) => {
+      const name = asString(l.name)
+      if (name === undefined) return []
+      return [{ name, position: asString(l.position), score: asString(l.score) }]
+    }),
+  }
+}
+
+export interface RepoSignal {
+  name: string
+  language?: string
+  stars?: number
+}
+export function readGitHub(v: unknown): { repos: RepoSignal[] } | undefined {
+  if (!isRecord(v)) return undefined
+  return {
+    repos: records(v.repos).flatMap((r) => {
+      const name = asString(r.name)
+      if (name === undefined) return []
+      return [{ name, language: asString(r.language), stars: asNumber(r.stars) }]
+    }),
+  }
+}
+
+export interface StorySignal {
+  title: string
+  score?: number
+}
+export function readHackerNews(v: unknown): { stories: StorySignal[] } | undefined {
+  if (!isRecord(v)) return undefined
+  return {
+    stories: records(v.stories).flatMap((s) => {
+      const title = asString(s.title)
+      return title === undefined ? [] : [{ title, score: asNumber(s.score) }]
+    }),
+  }
+}
+
+export interface WeatherSignal {
+  location?: string
+  conditions?: string
+  temp_f?: number
+  humidity?: number
+  wind_mph?: number
+  wind_dir?: string
+  feels_like_f?: number
+}
+export function readWeather(v: unknown): WeatherSignal | undefined {
+  if (!isRecord(v)) return undefined
+  return {
+    location: asString(v.location),
+    conditions: asString(v.conditions),
+    temp_f: asNumber(v.temp_f),
+    humidity: asNumber(v.humidity),
+    wind_mph: asNumber(v.wind_mph),
+    wind_dir: asString(v.wind_dir),
+    feels_like_f: asNumber(v.feels_like_f),
+  }
+}
+
+export interface AirQualitySignal {
+  aqi_index?: number
+  uv_index?: number
+  air_quality_label?: string
+}
+export function readAirQuality(v: unknown): AirQualitySignal | undefined {
+  if (!isRecord(v)) return undefined
+  return {
+    aqi_index: asNumber(v.aqi_index),
+    uv_index: asNumber(v.uv_index),
+    air_quality_label: asString(v.air_quality_label),
+  }
+}
+
+export interface HeadlineSignal {
+  title: string
+  source?: string
+}
+export function readNews(v: unknown): { headlines: HeadlineSignal[] } | undefined {
+  if (!isRecord(v)) return undefined
+  return {
+    headlines: records(v.headlines).flatMap((h) => {
+      const title = asString(h.title)
+      return title === undefined ? [] : [{ title, source: asString(h.source) }]
+    }),
+  }
+}
+
+export interface MarketSignal {
+  symbol?: string
+  price?: string
+  change?: string
+  change_percent?: string
+  direction?: string
+}
+export function readMarket(v: unknown): MarketSignal | undefined {
+  if (!isRecord(v)) return undefined
+  return {
+    symbol: asString(v.symbol),
+    price: asString(v.price),
+    change: asString(v.change),
+    change_percent: asString(v.change_percent),
+    direction: asString(v.direction),
+  }
+}
+
+export interface ProductSignal {
+  name: string
+  votes?: number
+}
+export function readProductHunt(v: unknown): { products: ProductSignal[] } | undefined {
+  if (!isRecord(v)) return undefined
+  return {
+    products: records(v.products).flatMap((p) => {
+      const name = asString(p.name)
+      return name === undefined ? [] : [{ name, votes: asNumber(p.votes) }]
+    }),
+  }
+}
+
+export function readMusic(v: unknown): { bands: string[] } | undefined {
+  if (!isRecord(v)) return undefined
+  return { bands: strings(v.bands) }
+}
+
+export function readBooks(v: unknown): { currently_reading: string[] } | undefined {
+  if (!isRecord(v)) return undefined
+  return { currently_reading: strings(v.currently_reading) }
+}
+
 /** Human summary for one provider's payload, or null when there is nothing to say. */
 function summarize(provider: string, value: JsonValue | undefined): string | null {
   if (value === undefined || value === null) return null
 
   switch (provider) {
     case 'lunar': {
-      if (!isRecord(value)) return null
-      const phase = str(value.phase)
-      const pct = num(value.illumination)
+      const lunar = readLunar(value)
+      if (!lunar) return null
+      const phase = str(lunar.phase)
+      const pct = num(lunar.illumination)
       if (!phase) return null
       return pct === null ? phase : `${phase}, ${Math.round(pct * 100)}% lit`
     }
 
     case 'sun': {
-      if (!isRecord(value)) return null
-      const rise = str(value.sunrise)
-      const set = str(value.sunset)
-      const hours = num(value.daylight_hours)
+      const sun = readSun(value)
+      if (!sun) return null
+      const rise = str(sun.sunrise)
+      const set = str(sun.sunset)
+      const hours = num(sun.daylight_hours)
       if (!rise || !set) return null
       return `${rise} to ${set}${hours === null ? '' : `, ${hours} hours of light`}`
     }
 
     case 'season': {
-      if (!isRecord(value)) return null
-      const season = str(value.season)
-      const monthName = str(value.month_name)
-      const doy = num(value.day_of_year)
+      const read = readSeason(value)
+      if (!read) return null
+      const season = str(read.season)
+      const monthName = str(read.month_name)
+      const doy = num(read.day_of_year)
       if (!season) return null
       return `${season}${monthName ? `, ${monthName}` : ''}${doy === null ? '' : ` — day ${doy} of the year`}`
     }
 
     case 'day_of_week': {
-      if (!isRecord(value)) return null
-      const day = str(value.day)
+      const read = readDayOfWeek(value)
+      if (!read) return null
+      const day = str(read.day)
       if (!day) return null
-      return value.is_weekend === true ? `${day}, a weekend` : day
+      return read.is_weekend === true ? `${day}, a weekend` : day
     }
 
     case 'quote': {
-      if (!isRecord(value)) return null
-      const text = str(value.text)
+      const quote = readQuote(value)
+      if (!quote) return null
+      const text = str(quote.text)
       if (!text) return null
-      const author = str(value.author)
+      const author = str(quote.author)
       return author ? `“${text}” — ${author}` : `“${text}”`
     }
 
@@ -159,31 +415,34 @@ function summarize(provider: string, value: JsonValue | undefined): string | nul
     }
 
     case 'weather': {
-      if (!isRecord(value)) return null
-      const conditions = str(value.conditions)
-      const f = num(value.temp_f)
-      const where = str(value.location)
+      const weather = readWeather(value)
+      if (!weather) return null
+      const conditions = str(weather.conditions)
+      const f = num(weather.temp_f)
+      const where = str(weather.location)
       if (!conditions && f === null) return null
       const head = [conditions, f === null ? null : `${Math.round(f)}°F`].filter(Boolean).join(', ')
       return where ? `${head}, ${where}` : head
     }
 
     case 'air_quality': {
-      if (!isRecord(value)) return null
-      const label = str(value.air_quality_label)
-      const uv = num(value.uv_index)
+      const aq = readAirQuality(value)
+      if (!aq) return null
+      const label = str(aq.air_quality_label)
+      const uv = num(aq.uv_index)
       if (!label && uv === null) return null
       const head = label ? `Air ${label.toLowerCase()}` : 'Air'
       return uv === null ? head : `${head}, UV ${uv}`
     }
 
     case 'market': {
-      if (!isRecord(value)) return null
-      const symbol = str(value.symbol)
-      const price = str(value.price)
+      const market = readMarket(value)
+      if (!market) return null
+      const symbol = str(market.symbol)
+      const price = str(market.price)
       if (!symbol || !price) return null
-      const pct = str(value.change_percent)
-      const dir = str(value.direction)
+      const pct = str(market.change_percent)
+      const dir = str(market.direction)
       const money = Number.parseFloat(price)
       const shown = Number.isFinite(money) ? money.toFixed(2) : price
       return `${symbol} at ${shown}${pct ? `, ${dir === 'down' ? '−' : '+'}${pct.replace(/^[-+]/, '')}` : ''}`

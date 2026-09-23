@@ -63,8 +63,7 @@ app/                 TanStack Start app
   server/            server functions for the archive and signals
   types/             types shared by the archive and the panel
   dev-server/        the /dev panel's HTTP endpoints (vite dev only)
-  dev/               the /dev panel's client for those endpoints
-  dev-panel.tsx      the /dev panel itself
+  dev/               the /dev panel: DevPanel.tsx, panes/, cards/, lib/ (run state), api.ts
 api/                 the /panel API as Vercel functions (panel/), with auth and CSRF guards in _lib/
 middleware.ts        basic auth and the same-origin check in front of /panel and /api/panel
 elements/

@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest'
 
-import { signalLines } from '../../app/lib/archive-signals'
+import {
+  readGitHub,
+  readHolidays,
+  readMarket,
+  readNews,
+  readSports,
+  readWeather,
+  signalLines,
+} from '../../app/lib/archive-signals'
 
 const line = (signals: Record<string, unknown>, provider: string) =>
   // biome-ignore lint/suspicious/noExplicitAny: test fixtures are raw record JSON
@@ -295,5 +303,45 @@ describe('a failed read is not a result', () => {
     )?.summary
     expect(summary).toContain('Detroit Lions')
     expect(summary).toContain('won 24-20')
+  })
+})
+
+// The typed readers the dev panel's cards share with the summaries (#227).
+describe('provider readers', () => {
+  it('return undefined for a payload that is not an object', () => {
+    expect(readWeather(undefined)).toBeUndefined()
+    expect(readWeather(null)).toBeUndefined()
+    expect(readNews(['a'])).toBeUndefined()
+  })
+
+  it('keep a field only when it has the collector’s type', () => {
+    expect(readWeather({ temp_f: '71', conditions: 'Clear', humidity: 40 })).toEqual({
+      location: undefined,
+      conditions: 'Clear',
+      temp_f: undefined,
+      humidity: 40,
+      wind_mph: undefined,
+      wind_dir: undefined,
+      feels_like_f: undefined,
+    })
+    expect(readMarket({ symbol: 'SPY', price: 769.35 })?.price).toBeUndefined()
+  })
+
+  it('drop list items without a name and keep the rest', () => {
+    expect(
+      readSports({ teams: [{ name: 'Lions', result: 'W' }, { result: 'L' }, 'Tigers'] })?.teams
+    ).toEqual([{ name: 'Lions', league: undefined, result: 'W', score: undefined }])
+    // GitHub reports stars as null when it has none; null is not a number.
+    expect(readGitHub({ repos: [{ name: 'a/b', stars: null }] })?.repos).toEqual([
+      { name: 'a/b', language: undefined, stars: undefined },
+    ])
+  })
+
+  it('read a holiday today, or the next one', () => {
+    expect(readHolidays({ today: null, upcoming: [{ name: 'Labor Day', days_away: 7 }] })).toEqual({
+      today: undefined,
+      upcoming: [{ name: 'Labor Day', days_away: 7 }],
+    })
+    expect(readHolidays({ today: 'Fixture Day' })).toEqual({ today: 'Fixture Day', upcoming: [] })
   })
 })
