@@ -146,8 +146,12 @@ export async function settleMockupRound({
   trace,
 }) {
   const last = verdicts.filter((v) => v.critic === 'mockup-critic').at(-1)
+  // The pre-check's measured faults are a REVISE too (mockup-precheck.js),
+  // when they are about the round the loop ended on.
+  const lastPrecheck = verdicts.filter((v) => v.critic === 'mockup-precheck').at(-1)
   const stoppedOnRevise =
-    last?.verdict === 'REVISE' && !last.feedback.startsWith('malformed critic response')
+    (last?.verdict === 'REVISE' && !last.feedback.startsWith('malformed critic response')) ||
+    (lastPrecheck?.verdict === 'REVISE' && lastPrecheck.round === producedRound)
   const shipped = stoppedOnRevise ? pickShippedRound(rounds, declared) : null
   if (!shipped || shipped.latest !== producedRound) return current
 

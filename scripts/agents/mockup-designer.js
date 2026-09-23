@@ -9,6 +9,7 @@ import { callTapedCLI } from '../utils/call-tape.js'
 import { parseDelimiterResponse } from '../utils/delimiter-parser.js'
 import { modelFor } from '../utils/models.js'
 import { budgetFor } from '../utils/budgets.js'
+import { applyMockupPatch, PATCH_INSTRUCTIONS, parseMockupPatch } from '../utils/mockup-patch.js'
 
 export function buildMockupDesignerUserPrompt({
   enrichedBrief,
@@ -31,6 +32,8 @@ export function buildMockupDesignerUserPrompt({
   polishRef,
   previousMockupHtml,
   revisionFeedback,
+  measuredFaults,
+  allowPatch = true,
   tasteMemoryBlock,
   retryContext,
 }) {
@@ -85,20 +88,43 @@ export function buildMockupDesignerUserPrompt({
   // polish.md rides in the user prompt — the system prompt is at its
   // size budget (MOCKUP_DESIGNER_PROMPT_MAX in utils/mockup-designer-prompt.js; the old CLI crash near 56KB is gone with the 2.1.207 pin).
   if (polishRef) sections.push(`## Execution Polish Reference (apply throughout)\n\n${polishRef}`)
+  sections.push(
+    ...revisionSections({ previousMockupHtml, revisionFeedback, measuredFaults, allowPatch })
+  )
+  if (retryContext) sections.push(retryContext)
+  return sections.join('\n\n---\n\n')
+}
+
+/**
+ * A revision round's sections, in order: the page, how to return the
+ * revision, the measured faults, the critic's feedback. Empty on round 0.
+ * @param {{ previousMockupHtml?: string, revisionFeedback?: string, measuredFaults?: string, allowPatch?: boolean }} r
+ * @returns {string[]}
+ */
+function revisionSections({ previousMockupHtml, revisionFeedback, measuredFaults, allowPatch }) {
+  const sections = []
   // The page the critic's numbers and feedback describe. Without it the
   // designer reads "measured 61.9% against floor 76%" about a page it no
   // longer has and starts over (#573).
-  if (revisionFeedback && previousMockupHtml) {
+  if ((revisionFeedback || measuredFaults) && previousMockupHtml) {
     sections.push(
       `## PREVIOUS MOCKUP — the page the critic reviewed; revise this file, do not start over\n\n\`\`\`html\n${previousMockupHtml}\n\`\`\``
     )
+    // A revision returns the regions that change, not the page again: the
+    // whole-file reply was ~16k output tokens a round for fixes that touch a
+    // few rules. Left out when the last patch did not apply, so the fallback
+    // asks for the complete file.
+    if (allowPatch) sections.push(PATCH_INSTRUCTIONS)
   }
-  if (revisionFeedback)
+  // Measured in code on the page above (mockup-precheck.js), ahead of the
+  // critic's judgment, so the facts are read first.
+  if (measuredFaults) sections.push(measuredFaults)
+  if (revisionFeedback) {
     sections.push(
       `## CRITIC REVISION FEEDBACK — fix these before anything else\n\n${revisionFeedback}`
     )
-  if (retryContext) sections.push(retryContext)
-  return sections.join('\n\n---\n\n')
+  }
+  return sections
 }
 
 export function validateMockupResult(parsed) {
@@ -115,7 +141,40 @@ export function validateMockupResult(parsed) {
 }
 
 /**
- * @returns {Promise<{ mockupHtml: string, interiorNotes: string, rationale: string }>}
+ * The reply as a complete mockup. A full ===FILE:mockup.html=== block wins;
+ * otherwise, on a revision, a ===PATCH:mockup.html=== block is applied to the
+ * previous round's page, and the notes and rationale a patch leaves out carry
+ * over from that round. A patch that does not apply throws with
+ * `patchFailed` set, so the retry asks for the whole file.
+ *
+ * @param {ReturnType<typeof parseDelimiterResponse>} parsed
+ * @param {string} raw the reply
+ * @param {{ previousMockupHtml?: string, previousInteriorNotes?: string, previousRationale?: string }} [ctx]
+ * @returns {{ parsed: object, patch: null | { edits: number } }}
+ */
+export function resolveMockupReply(parsed, raw, ctx = {}) {
+  const hasFile = (parsed.files || []).some((f) => f.path === 'mockup.html' && f.content)
+  const edits = hasFile || !ctx.previousMockupHtml ? null : parseMockupPatch(raw)
+  if (!edits) return { parsed, patch: null }
+  const applied = applyMockupPatch(ctx.previousMockupHtml, edits)
+  if (!applied.ok) {
+    const err = new Error(`Mockup Designer patch did not apply: ${applied.error}`)
+    err.patchFailed = true
+    throw err
+  }
+  return {
+    parsed: {
+      ...parsed,
+      files: [...(parsed.files || []), { path: 'mockup.html', content: applied.html }],
+      interior_notes: parsed.interior_notes || ctx.previousInteriorNotes,
+      rationale: parsed.rationale || ctx.previousRationale,
+    },
+    patch: { edits: applied.applied },
+  }
+}
+
+/**
+ * @returns {Promise<{ mockupHtml: string, interiorNotes: string, rationale: string, patch: null | { edits: number } }>}
  */
 export async function runMockupDesigner(ctx) {
   const userPrompt = buildMockupDesignerUserPrompt(ctx)
@@ -125,8 +184,9 @@ export async function runMockupDesigner(ctx) {
     purpose: ctx.purpose,
   })
   let parsed
+  let patch = null
   try {
-    parsed = parseDelimiterResponse(result)
+    ;({ parsed, patch } = resolveMockupReply(parseDelimiterResponse(result), result, ctx))
     validateMockupResult(parsed)
   } catch (err) {
     console.error(`  [mockup-designer] rejected: ${err.message}`)
@@ -138,9 +198,11 @@ export async function runMockupDesigner(ctx) {
     }
     throw err
   }
+  if (patch) console.log(`  [mockup-designer] revision patch applied: ${patch.edits} edit(s)`)
   return {
     mockupHtml: parsed.files.find((f) => f.path === 'mockup.html').content,
     interiorNotes: parsed.interior_notes,
     rationale: parsed.rationale || '',
+    patch,
   }
 }

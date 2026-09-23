@@ -1,8 +1,11 @@
 import { describe, it, expect } from 'vitest'
 import {
   buildMockupDesignerUserPrompt,
+  resolveMockupReply,
   validateMockupResult,
 } from '../../../scripts/agents/mockup-designer.js'
+import { parseDelimiterResponse } from '../../../scripts/utils/delimiter-parser.js'
+import { PATCH_INSTRUCTIONS } from '../../../scripts/utils/mockup-patch.js'
 
 describe('buildMockupDesignerUserPrompt', () => {
   it('includes brief, tokens, measurables, shell, brand svg, and polish sections', () => {
@@ -121,8 +124,44 @@ describe('buildMockupDesignerUserPrompt on a revision round (#573)', () => {
     expect(revised.slice(first.length).split('\n\n---\n\n')).toEqual([
       '',
       `## PREVIOUS MOCKUP — the page the critic reviewed; revise this file, do not start over\n\n\`\`\`html\n${previousMockupHtml}\n\`\`\``,
+      PATCH_INSTRUCTIONS,
       '## CRITIC REVISION FEEDBACK — fix these before anything else\n\nFEEDBACK',
     ])
+  })
+
+  it('puts the measured faults after the patch instructions and before the critic', () => {
+    const p = buildMockupDesignerUserPrompt({
+      ...base,
+      previousMockupHtml,
+      measuredFaults: '## MEASURED FAULTS\n\n- [check 4] mark missing',
+      revisionFeedback: 'FEEDBACK',
+    })
+    expect(p.indexOf('## HOW TO RETURN THIS REVISION')).toBeLessThan(
+      p.indexOf('## MEASURED FAULTS')
+    )
+    expect(p.indexOf('## MEASURED FAULTS')).toBeLessThan(p.indexOf('## CRITIC REVISION FEEDBACK'))
+  })
+
+  it('revises on measured faults alone, with no critic section', () => {
+    const p = buildMockupDesignerUserPrompt({
+      ...base,
+      previousMockupHtml,
+      measuredFaults: '## MEASURED FAULTS\n\n- [check 2] canvas',
+    })
+    expect(p).toContain('## PREVIOUS MOCKUP')
+    expect(p).not.toContain('## CRITIC REVISION FEEDBACK')
+    expect(p.trimEnd().endsWith('- [check 2] canvas')).toBe(true)
+  })
+
+  it('asks for the whole file when the patch format is withdrawn', () => {
+    const p = buildMockupDesignerUserPrompt({
+      ...base,
+      previousMockupHtml,
+      revisionFeedback: 'FEEDBACK',
+      allowPatch: false,
+    })
+    expect(p).toContain('## PREVIOUS MOCKUP')
+    expect(p).not.toContain(PATCH_INSTRUCTIONS)
   })
 
   it('omits the section on the first round and when there is no feedback to act on', () => {
@@ -179,5 +218,63 @@ describe('validateMockupResult', () => {
         files: [{ path: 'mockup.html', content: '<html></html>' }],
       })
     ).toThrow(/INTERIOR_NOTES/)
+  })
+})
+
+describe('resolveMockupReply (a revision is a patch)', () => {
+  const previous =
+    '<!doctype html><html><head><style>\n.mark { height: 24px; }\n</style></head><body>page</body></html>'
+  const ctx = {
+    previousMockupHtml: previous,
+    previousInteriorNotes: 'OLD NOTES',
+    previousRationale: 'OLD RATIONALE',
+  }
+  const reply = (body) => `===PATCH:mockup.html===\n${body}\n`
+
+  it('applies the patch to the previous mockup and carries the notes over', () => {
+    const raw = reply(
+      '<<<<<<< FIND\n.mark { height: 24px; }\n=======\n.mark { height: 52px; }\n>>>>>>> REPLACE'
+    )
+    const { parsed, patch } = resolveMockupReply(parseDelimiterResponse(raw), raw, ctx)
+    expect(patch).toEqual({ edits: 1 })
+    expect(parsed.files.find((f) => f.path === 'mockup.html').content).toBe(
+      previous.replace('24px', '52px')
+    )
+    expect(parsed.interior_notes).toBe('OLD NOTES')
+    expect(parsed.rationale).toBe('OLD RATIONALE')
+    expect(() => validateMockupResult(parsed)).not.toThrow()
+  })
+
+  it('keeps new notes when the patch reply carries them', () => {
+    const raw = `${reply('<<<<<<< FIND\npage\n=======\nPAGE\n>>>>>>> REPLACE')}===INTERIOR_NOTES===\nNEW NOTES\n`
+    const { parsed } = resolveMockupReply(parseDelimiterResponse(raw), raw, ctx)
+    expect(parsed.interior_notes).toBe('NEW NOTES')
+  })
+
+  it('throws with patchFailed when a FIND is not in the page', () => {
+    const raw = reply(
+      '<<<<<<< FIND\n.nav { gap: 4px; }\n=======\n.nav { gap: 8px; }\n>>>>>>> REPLACE'
+    )
+    let err
+    try {
+      resolveMockupReply(parseDelimiterResponse(raw), raw, ctx)
+    } catch (e) {
+      err = e
+    }
+    expect(err?.patchFailed).toBe(true)
+    expect(err.message).toMatch(/edit 1's FIND text is not in the previous mockup/)
+  })
+
+  it('prefers a full file when the reply sends one', () => {
+    const raw = '===FILE:mockup.html===\n<html>whole</html>\n===INTERIOR_NOTES===\nn\n'
+    const { parsed, patch } = resolveMockupReply(parseDelimiterResponse(raw), raw, ctx)
+    expect(patch).toBeNull()
+    expect(parsed.files[0].content).toBe('<html>whole</html>')
+  })
+
+  it('rejects a patched page that adds a script', () => {
+    const raw = reply('<<<<<<< FIND\npage\n=======\n<script>x</script>\n>>>>>>> REPLACE')
+    const { parsed } = resolveMockupReply(parseDelimiterResponse(raw), raw, ctx)
+    expect(() => validateMockupResult(parsed)).toThrow(/script/)
   })
 })

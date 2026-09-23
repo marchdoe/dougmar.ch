@@ -296,8 +296,9 @@ The header is a first-class design surface, and the owner has said so three
 ratings running. It used to be one line of prose inside SHELL, which meant
 nothing downstream could check it: a mark at a quarter of its intended size
 looked the same as one at full size in a full-page screenshot, and shipped.
-So the header is declared as numbers now, and both critics measure a 2x crop
-of it against what you write here.
+So the header is declared as numbers now. Code measures the mockup's mark
+against `mark_px` on the rendered page, and the critics judge a 2x crop of
+the header against the rest of what you write here.
 
 - `placement` must agree with the composition's `shell_posture`. `none` goes
   with `none`, `footer-only` with `footer-only`, `folded-into-hero` with

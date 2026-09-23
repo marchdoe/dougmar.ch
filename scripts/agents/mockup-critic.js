@@ -1,6 +1,9 @@
 /**
- * Mockup Critic — blocking vision gate over the mockup screenshot.
- * Fail-closed: malformed responses count as REVISE.
+ * Mockup Critic — blocking vision gate over the mockup screenshot, for the
+ * checks a measurement cannot see (brief, polish, the header's shape, the
+ * phone's idea, type treatment). The measurable checks are decided in code
+ * first (utils/mockup-precheck.js). Fail-closed: malformed responses count
+ * as REVISE.
  */
 import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { budgetFor } from '../utils/budgets.js'
@@ -144,7 +147,7 @@ export function buildMockupCriticBlocks(ctx) {
     ctx.mobileScreenshot ? imageBlock(ctx.mobileScreenshot) : null,
     ctx.headerCrop
       ? textBlock(
-          `A 2x crop of the header region of that same mockup follows.${describeHeaderCropAnchor(ctx.headerCropAnchor)} Measure the mark against the declared mark_px here, not in the full-page shot:`
+          `A 2x crop of the header region of that same mockup follows.${describeHeaderCropAnchor(ctx.headerCropAnchor)} Judge the header's placement, role line and nav here; the mark's size is measured in code:`
         )
       : null,
     ctx.headerCrop ? imageBlock(ctx.headerCrop) : null,

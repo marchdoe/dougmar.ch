@@ -3,7 +3,11 @@
  *
  * Reads the tokens from disk, builds the enriched brief every later agent
  * reads, picks the lane, and runs up to MAX_MOCKUP_REVISIONS revision rounds
- * of designer and critic. Leaves on `state.design`: `tokenContext`,
+ * of designer, pre-check and critic. The pre-check (mockup-precheck.js)
+ * decides the measurable checks in code; the critic judges the rest; either
+ * sends the mockup back, and a revision is a patch (mockup-patch.js). A round
+ * whose measured faults did not move ends the loop early. Leaves on
+ * `state.design`: `tokenContext`,
  * `enrichedBrief`, `lessonsBlock`, `chosenLane`, and the settled `mockup` and
  * `mockupScreenshot`.
  */
@@ -25,6 +29,12 @@ import { formatMobile } from '../utils/mobile-grammar.js'
 import { formatMotion } from '../utils/motion-grammar.js'
 import { formatTuple } from '../utils/composition-grammar.js'
 import { criticPurpose, designerPurpose, settleMockupRound } from '../utils/mockup-rounds.js'
+import {
+  declaredFromAd,
+  evaluateMockupPrecheck,
+  formatPrecheckForDesigner,
+  precheckMadeProgress,
+} from '../utils/mockup-precheck.js'
 
 /**
  * The binding sentence per non-statement `hero_object` value (#501).
@@ -252,6 +262,16 @@ async function buildDesignerContext(state, parts) {
 const MAX_MOCKUP_REVISIONS = 2
 
 /**
+ * What a revision round is asked with, on top of the designer's context.
+ * @typedef {object} RoundFeedback
+ * @property {string} revisionFeedback the critic's REVISE feedback, or ''
+ * @property {string} measuredFaults the pre-check's findings as a block, or ''
+ * @property {string} previousMockupHtml the page both were about
+ * @property {string} [previousInteriorNotes] carried over when a patch leaves them out
+ * @property {string} [previousRationale] carried over when a patch leaves it out
+ */
+
+/**
  * One designer call, retried once with the reason on a rejection. Returns
  * false when a revision round failed but an earlier round's mockup stands,
  * which ends the loop; throws when there is no mockup to fall back to.
@@ -259,19 +279,17 @@ const MAX_MOCKUP_REVISIONS = 2
  * @param {object} loop - the loop's running state
  * @param {number} round
  * @param {number} t0Mockup
- * @param {{ revisionFeedback: string, previousMockupHtml: string }} feedback - what the
- *   critic said last round, and the page it said it about
+ * @param {RoundFeedback} feedback - what the critic and the pre-check said last
+ *   round, and the page they said it about
  * @returns {Promise<boolean>}
  */
 async function designMockup(state, loop, round, t0Mockup, feedback) {
   const { runMockupDesigner, ctx } = loop
-  const { revisionFeedback, previousMockupHtml } = feedback
   const { trace } = state
   try {
     loop.mockup = await runMockupDesigner({
       ...ctx,
-      revisionFeedback,
-      previousMockupHtml,
+      ...feedback,
       purpose: designerPurpose(round),
     })
     return true
@@ -310,13 +328,18 @@ async function designMockup(state, loop, round, t0Mockup, feedback) {
  * @returns {Promise<boolean>}
  */
 async function retryDesign(state, loop, { round, t0Mockup, feedback, firstErr }) {
+  // A patch that did not apply falls back to the whole file: the retry is
+  // asked for ===FILE:mockup.html=== and is not offered the patch format.
+  const retryContext = firstErr.patchFailed
+    ? `## Previous attempt was rejected\n\n${firstErr.message}\nReturn the complete revised page in a ===FILE:mockup.html=== block this time, JS-free, with ===INTERIOR_NOTES=== and ===RATIONALE===.`
+    : `## Previous attempt was rejected\n\nYour previous mockup failed validation: ${firstErr.message}\nReturn a JS-free mockup.html and every required block this time.`
   try {
     loop.mockup = await loop.runMockupDesigner({
       ...loop.ctx,
-      revisionFeedback: feedback.revisionFeedback,
-      previousMockupHtml: feedback.previousMockupHtml,
+      ...feedback,
+      ...(firstErr.patchFailed ? { allowPatch: false } : {}),
       purpose: 'retry',
-      retryContext: `## Previous attempt was rejected\n\nYour previous mockup failed validation: ${firstErr.message}\nReturn a JS-free mockup.html and every required block this time.`,
+      retryContext,
     })
     return true
   } catch (err) {
@@ -367,11 +390,17 @@ async function captureMockup(state, loop, round) {
   }
   const { mockup, mockupScreenshot } = loop
   loop.kept.set(round, { mockup, mockupScreenshot })
+  loop.findings = precheckMockup(state, mockupScreenshot)
   if (mockupScreenshot.measured) {
     state.mockupMeasurableRounds.push({
       round,
       measured: mockupScreenshot.measured,
       measuredAt: new Date().toISOString(),
+      // What the pre-check found on this round (mockup-precheck.js), so an
+      // archived night can be read back without re-rendering its mockups.
+      ...(loop.findings
+        ? { precheck: loop.findings.map(({ check, key, gap }) => ({ check, key, gap })) }
+        : {}),
     })
     console.log(
       `  measured mockup — canvas=${mockupScreenshot.measured.canvas_utilization}% ` +
@@ -379,6 +408,51 @@ async function captureMockup(state, loop, round) {
     )
   }
   return true
+}
+
+/**
+ * The checks that are facts (mockup-precheck.js), on the round just
+ * captured: Check 2's measured numbers against the declared floors, Check 4's
+ * mark and lockup, and the measurable half of Check 6. Null when the capture
+ * carried nothing to check, which is not the same as nothing found.
+ * @param {import('./run-state.js').RunState} state
+ * @param {object} mockupScreenshot
+ * @returns {Array<{ check: number, key: string, gap: number, detail: string }>|null}
+ */
+function precheckMockup(state, mockupScreenshot) {
+  const { measured } = mockupScreenshot
+  const facts = mockupScreenshot.facts ?? {}
+  if (!measured && !facts.wide && !facts.narrow) return null
+  return evaluateMockupPrecheck({ measured, ...facts, declared: declaredFromAd(state.ad) })
+}
+
+/**
+ * Record the round's pre-check as a verdict, beside the critic's, so
+ * verdicts.json and the lessons carry the measured faults the designer was
+ * given. Nothing is recorded for a round with nothing to check.
+ * @param {import('./run-state.js').RunState} state
+ * @param {number} round
+ * @param {Array<object>|null} findings
+ */
+function recordPrecheck(state, round, findings) {
+  if (!findings) return
+  const verdict = findings.length ? 'REVISE' : 'APPROVE'
+  if (findings.length) {
+    console.log(
+      `  [mockup-precheck] ${findings.length} measured fault(s): ${findings.map((f) => f.key).join(', ')}`
+    )
+  }
+  state.verdicts.push({
+    critic: 'mockup-precheck',
+    round,
+    verdict,
+    feedback: findings
+      .map((f) => `[check ${f.check}] ${f.detail}`)
+      .join('\n')
+      .slice(0, 2000),
+    findings: findings.map(({ check, key, gap }) => ({ check, key, gap })),
+    ts: Date.now(),
+  })
 }
 
 /**
@@ -418,28 +492,49 @@ async function critiqueMockup(state, loop, round) {
 }
 
 /**
- * Whether the loop ends on this verdict: approved, malformed, out of
- * rounds, or out of time.
- * @param {{ verdict: string, feedback: string }} critique
+ * Whether the critic's verdict asks for a revision the designer can act on:
+ * a REVISE with feedback. The fail-closed REVISE on a malformed reply carries
+ * none, and neither does a critic that could not run.
+ * @param {{ verdict: string, feedback: string }|null} critique
+ * @returns {boolean}
+ */
+function criticAsksForRevision(critique) {
+  if (!critique) return false
+  if (critique.verdict === 'APPROVE') {
+    console.log('  [mockup-critic] APPROVE')
+    return false
+  }
+  if (critique.feedback.startsWith('malformed critic response')) {
+    // The critic's fail-closed REVISE on a malformed response carries no
+    // usable feedback — don't burn an Opus revision round on garbage.
+    // Treated like a critic crash: the critic's half accepts the mockup
+    // (the malformed response is still recorded in verdicts.json above).
+    console.warn('  [mockup-critic] malformed response (non-blocking — accepting mockup)')
+    return false
+  }
+  return true
+}
+
+/**
+ * Whether the loop ends on a round that asked for a revision: out of rounds,
+ * no measured progress since the round before, or out of time.
+ * @param {object} loop
  * @param {number} round
  * @returns {boolean}
  */
-function critiqueEndsLoop(critique, round) {
-  if (critique.verdict === 'APPROVE') {
-    console.log('  [mockup-critic] APPROVE')
-    return true
-  }
-  if (critique.verdict === 'REVISE' && critique.feedback.startsWith('malformed critic response')) {
-    // The critic's fail-closed REVISE on a malformed response carries no
-    // usable feedback — don't burn an Opus revision round on garbage.
-    // Treated like a critic crash: accept the mockup (the malformed
-    // response is still recorded in verdicts.json above).
-    console.warn('  [mockup-critic] malformed response (non-blocking — accepting mockup)')
-    return true
-  }
+function revisionEndsLoop(loop, round) {
   if (round === MAX_MOCKUP_REVISIONS) {
     console.warn(
       `  [mockup-critic] still REVISE after ${MAX_MOCKUP_REVISIONS} revisions — proceeding with latest mockup; findings persist to lessons via verdicts.json`
+    )
+    return true
+  }
+  if (!precheckMadeProgress(loop.previousFindings, loop.findings)) {
+    // The same measured faults as the round before, none closer: another
+    // Opus round on this page is money that buys no approval (eleven
+    // September nights ran all three rounds and approved none).
+    console.warn(
+      `  [mockup-precheck] no progress on ${loop.findings.map((f) => f.key).join(', ')} since round ${round - 1} — proceeding without another revision`
     )
     return true
   }
@@ -451,15 +546,15 @@ function critiqueEndsLoop(critique, round) {
 }
 
 /**
- * One round: design, write, capture, critique. Returns the critique that
- * sends the mockup back, or null when the loop ends here.
+ * The designer's half of a round: call, write, and record a patch that was
+ * applied. False when the round produced nothing new (see designMockup).
  * @param {import('./run-state.js').RunState} state
  * @param {object} loop
  * @param {number} round
- * @param {{ revisionFeedback: string, previousMockupHtml: string }} feedback
- * @returns {Promise<{ verdict: string, feedback: string }|null>}
+ * @param {RoundFeedback} feedback
+ * @returns {Promise<boolean>}
  */
-async function runMockupRound(state, loop, round, feedback) {
+async function designRound(state, loop, round, feedback) {
   // The optional steps check the deadline before starting; the two
   // required calls (this and the engineer below) did not, so an Art
   // Director that burned the budget on retries took the night down with
@@ -468,14 +563,30 @@ async function runMockupRound(state, loop, round, feedback) {
     throw new Error('run budget exhausted before the Mockup Designer could start — nothing to ship')
   }
   const t0Mockup = Date.now()
-  if (!(await designMockup(state, loop, round, t0Mockup, feedback))) return null
+  if (!(await designMockup(state, loop, round, t0Mockup, feedback))) return false
   await writeFile(loop.mockupPath, loop.mockup.mockupHtml, 'utf8')
   loop.producedMockupRound = round
+  const { patch, mockupHtml } = loop.mockup
+  if (patch) {
+    state.trace.addStep({
+      name: 'mockup-patch',
+      phase: 2,
+      input: { round },
+      output: { edits: patch.edits, bytes: mockupHtml.length },
+      durationMs: Date.now() - t0Mockup,
+    })
+  }
+  return true
+}
 
-  console.log(`\n[phase-2b] Mockup Critic (round ${round})`)
-  if (!(await captureMockup(state, loop, round))) return null
-  const critique = await critiqueMockup(state, loop, round)
-  if (!critique) return null
+/**
+ * Put the critic's verdict on the record: verdicts.json and the trace.
+ * @param {import('./run-state.js').RunState} state
+ * @param {number} round
+ * @param {{ verdict: string, feedback: string, channel?: string }} critique
+ * @param {number} t0 when the round started
+ */
+function recordCritique(state, round, critique, t0) {
   state.verdicts.push({
     critic: 'mockup-critic',
     round,
@@ -493,9 +604,49 @@ async function runMockupRound(state, loop, round, feedback) {
     phase: 2,
     input: { round },
     output: { verdict: critique.verdict, feedback: critique.feedback.slice(0, 500) },
-    durationMs: Date.now() - t0Mockup,
+    durationMs: Date.now() - t0,
   })
-  return critiqueEndsLoop(critique, round) ? null : critique
+}
+
+/**
+ * What the next round is asked to fix, or null when this round ends the
+ * loop: nothing to fix, or a stop in revisionEndsLoop.
+ * @param {object} loop
+ * @param {number} round
+ * @param {{ verdict: string, feedback: string }|null} critique
+ * @returns {{ revisionFeedback: string, measuredFaults: string }|null}
+ */
+function nextRevision(loop, round, critique) {
+  const criticRevise = criticAsksForRevision(critique)
+  const faults = loop.findings ?? []
+  if (!criticRevise && faults.length === 0) return null
+  if (revisionEndsLoop(loop, round)) return null
+  return {
+    revisionFeedback: criticRevise ? critique.feedback : '',
+    measuredFaults: formatPrecheckForDesigner(faults, { previous: loop.previousFindings }),
+  }
+}
+
+/**
+ * One round: design, write, capture, pre-check, critique. Returns what sends
+ * the mockup back, or null when the loop ends here.
+ * @param {import('./run-state.js').RunState} state
+ * @param {object} loop
+ * @param {number} round
+ * @param {RoundFeedback} feedback
+ * @returns {Promise<{ revisionFeedback: string, measuredFaults: string }|null>}
+ */
+async function runMockupRound(state, loop, round, feedback) {
+  const t0 = Date.now()
+  if (!(await designRound(state, loop, round, feedback))) return null
+
+  console.log(`\n[phase-2b] Mockup Critic (round ${round})`)
+  loop.findings = null
+  if (!(await captureMockup(state, loop, round))) return null
+  recordPrecheck(state, round, loop.findings)
+  const critique = await critiqueMockup(state, loop, round)
+  if (critique) recordCritique(state, round, critique, t0)
+  return nextRevision(loop, round, critique)
 }
 
 /**
@@ -543,25 +694,31 @@ export async function runMockupPhase(state) {
     // round when the critic never approves one and a later round measured
     // worse (#573).
     kept: new Map(),
+    // The pre-check's findings on the round just captured and on the round
+    // before it, for STILL PRESENT and the no-progress stop.
+    findings: null,
+    previousFindings: null,
   }
-  let revisionFeedback = ''
-  // The mockup the critic just reviewed. The designer revises this page
-  // instead of regenerating one from the brief (#573).
-  let previousMockupHtml = ''
+  /** @type {RoundFeedback} */
+  let feedback = { revisionFeedback: '', measuredFaults: '', previousMockupHtml: '' }
   for (let round = 0; round <= MAX_MOCKUP_REVISIONS; round++) {
-    const critique = await runMockupRound(state, loop, round, {
-      revisionFeedback,
-      previousMockupHtml,
-    })
-    if (!critique) break
+    const revise = await runMockupRound(state, loop, round, feedback)
+    if (!revise) break
     console.log(`  [mockup-critic] REVISE — feeding back to designer`)
     // Every other retry path counts itself in cost.json; this loop starts
     // another Mockup Designer call (Opus, the most expensive model in
     // PROD_MODELS) but never told the ledger, so `retries` undercounted
     // whether the critic loop earned its keep (#303).
     noteRetry()
-    revisionFeedback = critique.feedback
-    previousMockupHtml = loop.mockup.mockupHtml
+    // The mockup the critic just reviewed. The designer revises this page
+    // instead of regenerating one from the brief (#573), as a patch.
+    feedback = {
+      ...revise,
+      previousMockupHtml: loop.mockup.mockupHtml,
+      previousInteriorNotes: loop.mockup.interiorNotes,
+      previousRationale: loop.mockup.rationale,
+    }
+    loop.previousFindings = loop.findings
   }
 
   // When the critic never approved, the last round is not necessarily the

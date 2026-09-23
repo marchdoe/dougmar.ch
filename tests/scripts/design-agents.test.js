@@ -635,7 +635,8 @@ describe('a mockup revision round is counted as a retry', () => {
   const loop = SOURCE.slice(loopStart, SOURCE.indexOf('Phase 2c: React Engineer', loopStart))
 
   it('calls noteRetry() before feeding critique back into another revision round', () => {
-    expect(loop).toMatch(/noteRetry\(\)\s*\n\s*revisionFeedback = critique\.feedback/)
+    // Comments may sit between the two; the next statement is the feedback.
+    expect(loop).toMatch(/noteRetry\(\)\s*\n(?:\s*\/\/.*\n)*\s*feedback = \{\s*\n\s*\.\.\.revise,/)
   })
 })
 

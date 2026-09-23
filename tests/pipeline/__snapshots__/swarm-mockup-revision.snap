@@ -355,6 +355,20 @@
 
 ---
 
+## HOW TO RETURN THIS REVISION — a patch, not the whole file
+
+Return only the regions of the previous mockup that change, in one ===PATCH:mockup.html=== block, in place of the ===FILE:mockup.html=== block. Each edit is:
+
+<<<<<<< FIND
+(text copied exactly, character for character, from the PREVIOUS MOCKUP above)
+=======
+(the text that replaces it)
+>>>>>>> REPLACE
+
+Edits apply in order. Each FIND must appear exactly once in the page, so include enough surrounding lines to make it unique, and keep it short: a CSS rule, an element, a few lines. To add something, FIND the line it goes after and REPLACE with that line plus the addition. ===INTERIOR_NOTES=== and ===RATIONALE=== may be left out when they have not changed. Return the complete file in a ===FILE:mockup.html=== block only when the revision rewrites most of the page.
+
+---
+
 ## CRITIC REVISION FEEDBACK — fix these before anything else
 
 Hero phrase renders at 48px.
