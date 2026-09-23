@@ -181,11 +181,14 @@ describe('the React Engineer omits a required file', () => {
 
     // The retry is the repair brief, not the task again: no mockup, no
     // declarations, the files on disk, and the problem named in the report.
+    // The system prompt switches to the patch variant too (#447).
     expect(isBrief(retry)).toBe(true)
     expect(retry.userPrompt).not.toContain('## Approved Mockup')
     expect(retry.userPrompt).toContain(REQUIRED_FILES_REPORT)
     expect(retry.userPrompt).not.toContain('Re-emit')
-    expect(retry.systemPrompt).toBe(first.systemPrompt)
+    expect(retry.systemPrompt).not.toBe(first.systemPrompt)
+    expect(retry.systemPrompt).toContain('This is a patch call')
+    expect(first.systemPrompt).not.toContain('This is a patch call')
     expect(run.retries).toBe(1)
 
     // What Sidebar must hold, named in the brief; the files that did arrive

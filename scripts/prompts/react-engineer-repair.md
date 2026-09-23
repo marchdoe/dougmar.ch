@@ -10,6 +10,14 @@ markers. You cannot read the disk in this call; this listing is the disk.
 
 {{FILES}}
 
+## Design tokens (elements/preset.ts, read only, not yours to write)
+
+The Art Director wrote this file this run. It is not in the listing above
+because you do not own it; a reply that includes it is rejected. Reference
+it for every colour and token name a fix touches.
+
+{{PRESET}}
+
 ## What failed
 
 {{ERRORS}}

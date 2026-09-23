@@ -110,9 +110,28 @@ function allowedUrlHostsRule() {
  * The required-files gate: `findMissingRequiredFiles` rejects an engineer
  * response that omits any of `REQUIRED_FILES`.
  *
+ * A full generation is checked against its own reply, so it must carry
+ * every one of them. A patch (`patch: true` — a repair or a revision) is
+ * checked against the reply merged over what is already on disk (#447): a
+ * file the reply omits stays as it was, so the patch contract asks for the
+ * opposite of the full-generation one — send only what changed.
+ *
+ * @param {{ patch?: boolean }} [options]
  * @returns {GateRule}
  */
-function requiredFilesRule() {
+function requiredFilesRule({ patch = false } = {}) {
+  if (patch) {
+    return {
+      gate: 'required-files',
+      rule:
+        'This check runs against the merged result, not this reply: a file you do not return ' +
+        'stays on disk exactly as it was, so you do not need to resend every one of ' +
+        `${REQUIRED_FILES.join(', ')} to keep them present. Only an empty block that deletes ` +
+        'one of them without a replacement in the same reply leaves it missing and triggers an ' +
+        'automatic retry.',
+      source: 'engineer-output-check.js REQUIRED_FILES',
+    }
+  }
   return {
     gate: 'required-files',
     rule:
@@ -120,6 +139,44 @@ function requiredFilesRule() {
       `${REQUIRED_FILES.join(', ')} — omitting any one of them triggers an automatic retry.`,
     source: 'engineer-output-check.js REQUIRED_FILES',
   }
+}
+
+/**
+ * The `## Required output files` section `react-engineer.md` renders at
+ * `{{REQUIRED_FILES}}` — the full-generation contract (send all of
+ * `REQUIRED_FILES` every time) or the patch contract (send only what
+ * changed; the rest stays as it is on disk). Kept beside `requiredFilesRule`
+ * so the section and the gate line it must agree with can't drift apart the
+ * way they did before #447.
+ *
+ * @param {{ patch?: boolean }} [options]
+ * @returns {string} markdown, no heading
+ */
+export function formatRequiredFilesSection({ patch = false } = {}) {
+  const list = REQUIRED_FILES.map((p) => `- ${p}`).join('\n')
+  if (patch) {
+    return (
+      'This is a patch call: return ONLY the files the brief below asks you to change. ' +
+      'These files are still required in the finished result, but not in this reply — a file ' +
+      "you don't return stays on disk exactly as it was written earlier in this run:\n\n" +
+      `${list}\n\n` +
+      'Deleting one of them (an empty `===FILE:path===` block) without writing a replacement ' +
+      'in the same reply leaves it missing from the merged result and fails the build. Any new ' +
+      'component the fix needs still goes under `app/components/generated/`; the other files ' +
+      'under `app/components/` are hand-written and the write is rejected.\n\n' +
+      'Layout.tsx, when you touch it, still needs a named export (`export function Layout`) ' +
+      'that imports and renders Sidebar and wraps `{children}`.'
+    )
+  }
+  return (
+    `Respond with ===FILE:...=== blocks for ALL of these, every time:\n\n${list}\n\n` +
+    'plus any additional components the translation genuinely needs, each under\n' +
+    '`app/components/generated/`. That directory is yours alone: the nightly\n' +
+    "deletes whatever in it today's files do not import, so a component from a\n" +
+    'previous night is gone unless you import it again. The other files under\n' +
+    '`app/components/` are hand-written and the write is rejected.\n\n' +
+    'Layout.tsx must use a named export (`export function Layout`), import and render Sidebar, and wrap `{children}`. __root.tsx imports it by name and passes the route outlet as children; forgetting `{children}` compiles but renders blank pages.'
+  )
 }
 
 /**
@@ -173,14 +230,15 @@ function frozenSemanticColorsRule() {
  * gate that reads a generated file; every rule here comes from a static
  * import and does not use it today.
  *
- * @param {{ root?: string }} [_options]
+ * @param {{ root?: string, patch?: boolean }} [_options] `patch` selects the
+ *   patch-contract wording for the required-files gate (#447)
  * @returns {GateRule[]}
  */
-export function collectGateRules(_options = {}) {
+export function collectGateRules({ patch = false } = {}) {
   return [
     forbiddenPatternsRule(),
     allowedUrlHostsRule(),
-    requiredFilesRule(),
+    requiredFilesRule({ patch }),
     writeLocationsRule(),
     frozenSemanticColorsRule(),
   ]
