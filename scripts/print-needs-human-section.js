@@ -1,6 +1,7 @@
 /**
  * Print the day's "Needs a human" section for the rating issue, followed by
- * the "Surface gate did not run" section when the gate threw (#565), or
+ * the "Surface gate did not run" section when the gate threw (#565) and the
+ * "Drifted from the mockup" section when drift survived the revisions, or
  * nothing.
  *
  * Run from the nightly workflow's `publish` job, after `Push changes` has
@@ -17,8 +18,10 @@
 
 import { isMain } from './utils/cli.js'
 import {
+  buildDriftedSection,
   buildGateFailedSection,
   buildNeedsHumanSection,
+  readDriftedEntries,
   readGateFailedEntries,
   readNeedsHumanEntries,
 } from './utils/needs-human.js'
@@ -32,6 +35,7 @@ function main() {
   const sections = [
     buildNeedsHumanSection(readNeedsHumanEntries('archive', date)),
     buildGateFailedSection(readGateFailedEntries('archive', date)),
+    buildDriftedSection(readDriftedEntries('archive', date)),
   ].filter(Boolean)
   process.stdout.write(sections.join('\n\n'))
 }

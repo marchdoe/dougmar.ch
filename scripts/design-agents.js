@@ -112,6 +112,7 @@ import { countArchivedDesigns } from './utils/archive-count.js'
 import { archiveLinkInks } from './utils/archive-link-ink.js'
 import { criticPurpose, designerPurpose, settleMockupRound } from './utils/mockup-rounds.js'
 import { mockupDriftRecord } from './utils/mockup-advisory.js'
+import { blockingFaults, driftedVerdict } from './utils/mockup-drift-gate.js'
 import { newBoundaryId } from './utils/data-boundary.js'
 export { parseDelimiterResponse }
 
@@ -300,14 +301,17 @@ function earnsExtraRound(remaining, previousFindings, allFindingsFresh) {
  * @returns {number}
  */
 function grantExtraRoundIfEarned(round, cap, remaining, previousFindings, allFindingsFresh) {
+  // Drift from the mockup never earns the extra round: it cannot block the
+  // ship, so a round spent on it alone buys nothing the night needs.
+  const blocking = blockingFaults(remaining)
   const earned =
     round === cap &&
     cap < EXTRA_REVISION_ROUND_CAP &&
     !pastDeadline() &&
-    earnsExtraRound(remaining, previousFindings, allFindingsFresh)
+    earnsExtraRound(blocking, previousFindings, allFindingsFresh)
   if (!earned) return cap
   console.warn(
-    `  [surface-gate] round ${round} left ${remaining.length} fresh engineer-owned fault(s), none present before the last revision — spending one more round (#635)`
+    `  [surface-gate] round ${round} left ${blocking.length} fresh engineer-owned fault(s), none present before the last revision — spending one more round (#635)`
   )
   return cap + 1
 }
@@ -2146,7 +2150,17 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
      * @param {{ remainingFaults: Array<object>, measured: boolean, rounds: number }} decision
      */
     async function refuseKnownFaults(decision) {
-      const { remainingFaults, measured, rounds } = decision
+      const { measured, rounds } = decision
+      // Drift from the mockup forced its revisions and ships whatever is left
+      // of it, recorded for the rating issue (mockup-drift-gate.js).
+      const drifted = measured ? driftedVerdict(decision.remainingFaults) : null
+      if (drifted) {
+        console.warn(
+          `  [ship-gate] the build still drifts from the mockup after ${rounds} revision round(s) — shipping, recorded as ${drifted.verdict}`
+        )
+        verdicts.push(drifted)
+      }
+      const remainingFaults = blockingFaults(decision.remainingFaults)
       if (!measured) {
         console.warn(
           `  [ship-gate] the last round measured nothing — shipping unmeasured, ${remainingFaults.length} fault(s) known from the round before`

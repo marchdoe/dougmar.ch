@@ -34,6 +34,7 @@ import { readCopyExemptions, readRenderedCopy, renderedCopyFindings } from './co
 import { ROOT } from './file-manager.js'
 import { measureLegibility } from './legibility.js'
 import { formatMockupAdvisory, isMockupAdvisory } from './mockup-advisory.js'
+import { withDriftSeverity } from './mockup-drift-gate.js'
 import { compareMockupLayout, readPageLayout } from './mockup-fidelity.js'
 import { collapseLineLength, lineLengthFindings } from './line-length.js'
 import { TAP_TARGET_MIN_PX } from './responsive-thresholds.js'
@@ -1027,8 +1028,9 @@ export function phoneDensityRecord(m) {
 
 /**
  * The build's `/` against the approved mockup (mockup-fidelity.js), at the
- * desktop and the phone, on pages of its own. Findings are warnings placed
- * like any other gate finding, so `advisoryFaultsForOwner` routes them.
+ * desktop and the phone, on pages of its own. Findings are placed like any
+ * other gate finding, so `advisoryFaultsForOwner` and `faultsForOwner` route
+ * them; the few that force a revision are errors (mockup-drift-gate.js).
  * Returns null when there is no mockup to compare against or the read threw:
  * a comparison that could not run is not a clean one, and must never stop
  * the gate that carries it.
@@ -1042,11 +1044,12 @@ async function measureMockupDrift(browser, baseUrl, mockupLayout) {
   if (!mockupLayout) return null
   try {
     const buildLayout = await readPageLayout(browser, `${baseUrl}/`)
-    return compareMockupLayout(mockupLayout, buildLayout).map((f) => ({
+    const placed = compareMockupLayout(mockupLayout, buildLayout).map((f) => ({
       surface: f.route,
       scheme: 'light',
       ...f,
     }))
+    return withDriftSeverity(placed)
   } catch (err) {
     console.warn(`  [mockup-fidelity] could not compare (non-blocking): ${err.message}`)
     return null
@@ -1075,8 +1078,9 @@ function inRouteOrder(records, surfaces) {
  *   phoneDensity: Array<object>, facts: string, mockupFindings: Array<object>|null }>}
  *   `phoneDensity` is one record per engineer-owned route (`text-density.js`) and
  *   `facts` is those as the section the screenshot critic is handed: measurements,
- *   not findings, so they never fail a build. `mockupFindings` are kept out of
- *   `findings` so the critic is not handed them; null when nothing was compared
+ *   not findings, so they never fail a build. `mockupFindings` is the whole
+ *   comparison; only its errors (mockup-drift-gate.js) are also in `findings`.
+ *   Null when nothing was compared
  */
 export async function runSurfaceGate({
   port,
@@ -1146,9 +1150,14 @@ export async function runSurfaceGate({
       }
       // The same label on the same colours turns up on every route that
       // renders it; fold those into one finding and cap the rest (#566, #567, #574, #569).
-      const folded = collapseLineLength(
-        collapseRenderHealth(collapseSmallText(collapseTextContrast(findings)))
-      )
+      // Drift errors (mockup-drift-gate.js) join the findings so they force
+      // a revision; the rest of the comparison stays in `mockupFindings`.
+      const folded = [
+        ...collapseLineLength(
+          collapseRenderHealth(collapseSmallText(collapseTextContrast(findings)))
+        ),
+        ...(mockupFindings ?? []).filter((f) => f.severity === 'error'),
+      ]
       const phoneDensity = inRouteOrder(densities, surfaces)
       return {
         findings: folded,

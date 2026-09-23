@@ -1224,6 +1224,95 @@ describe('mockup drift in the repair brief', () => {
   })
 })
 
+describe('mockup drift forces a revision, never blocks the ship', () => {
+  // The lost leader at 1440, as runSurfaceGate hands it back: an error in
+  // `findings` (so faultsForOwner sees it) and in `mockupFindings`, its
+  // detail the instruction (mockup-drift-gate.js).
+  const driftNamed = (name) => ({
+    surface: '/',
+    route: '/',
+    scheme: 'light',
+    viewport: 'desktop',
+    width: 1440,
+    kind: 'mockup-hierarchy',
+    severity: 'error',
+    detail:
+      `The mockup's largest text is '${name}' at 158px; the build sets 'deep in' at 122px. ` +
+      "Restore the mockup's hierarchy: 'deep in' is 44px in the mockup.",
+  })
+  const DRIFT = driftNamed('both')
+  const driftGate = (drift = DRIFT, ...others) => ({
+    findings: [drift, ...others],
+    measured: 8,
+    errorCount: 1 + others.length,
+    mockupFindings: [drift],
+  })
+  const engineer = (n) => [
+    ENGINEER_FIXTURE,
+    ...Array.from({ length: n }, (_, i) =>
+      patchReply([markedFile('app/components/Sidebar.tsx', `revision ${i + 1}`)])
+    ),
+  ]
+  const drifted = (run) => run.verdicts?.filter((v) => v.verdict === 'DRIFTED') ?? []
+
+  it('forces a revision on its own, and marks it STILL PRESENT when it survives one', async () => {
+    const run = await runSwarm({
+      gate: [driftGate(), driftGate(), CLEAN_GATE],
+      agents: { 'react-engineer': engineer(2) },
+    })
+    expect(run.error).toBeNull()
+    const [, first, second] = run.callsFor('react-engineer')
+    expect(first.userPrompt).toContain(DRIFT.detail)
+    expect(first.userPrompt).not.toContain('STILL PRESENT after the last revision')
+    expect(second.userPrompt).toContain(`${DRIFT.detail} STILL PRESENT after the last revision`)
+    // Restored before the ship: nothing to record.
+    expect(drifted(run)).toEqual([])
+  })
+
+  it('ships when drift survives every round, and records it as DRIFTED', async () => {
+    const run = await runSwarm({
+      gate: [driftGate(), driftGate(), driftGate(), driftGate()],
+      agents: { 'react-engineer': engineer(3) },
+    })
+    expect(run.error).toBeNull()
+    expect(run.fakes.archive).toHaveLength(1)
+    expect(drifted(run)).toEqual([
+      expect.objectContaining({
+        critic: 'mockup-fidelity',
+        feedback: `- / at 1440px: ${DRIFT.detail}`,
+      }),
+    ])
+  })
+
+  it('does not earn the #635 extra round when only fresh drift is left', async () => {
+    // A single fresh engineer-owned fault after round 3 earns a fourth round;
+    // fresh drift alone must not.
+    const run = await runSwarm({
+      gate: [
+        driftGate(driftNamed('a')),
+        driftGate(driftNamed('b')),
+        driftGate(driftNamed('c')),
+        driftGate(driftNamed('d')),
+      ],
+      agents: { 'react-engineer': engineer(3) },
+    })
+    expect(run.error).toBeNull()
+    expect(run.callsFor('react-engineer')).toHaveLength(4)
+    expect(run.fakes.runSurfaceGate).toHaveLength(4)
+  })
+
+  it('refuses on the blocking faults alone when drift and a gate error both survive', async () => {
+    const run = await runSwarm({
+      gate: Array.from({ length: 4 }, () => driftGate(DRIFT, OVERFLOW_AT_390)),
+      agents: { 'react-engineer': engineer(3) },
+    })
+    expect(run.error?.message).toMatch(
+      /^Refusing to ship: 1 engineer-owned fault\(s\) remain after 3 revision round\(s\)/
+    )
+    expect(run.error.message).not.toContain(DRIFT.detail)
+  })
+})
+
 describe('known faults never ship (#625)', () => {
   const FAULTY = { findings: [OVERFLOW_AT_390], measured: 8, errorCount: 1 }
   const engineer = (n) => [

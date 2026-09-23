@@ -3,10 +3,12 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import {
+  buildDriftedSection,
   buildFinalCheckSection,
   buildGateFailedSection,
   buildNeedsHumanSection,
   buildShippedWithFaultsSection,
+  readDriftedEntries,
   readFinalCheckUnverifiedEntry,
   readGateFailedEntries,
   readNeedsHumanEntries,
@@ -277,5 +279,37 @@ describe('the surface gate that did not run (#565)', () => {
   it('prints nothing when every round measured', () => {
     expect(buildGateFailedSection([])).toBe('')
     expect(buildGateFailedSection(undefined)).toBe('')
+  })
+})
+
+describe('drift from the mockup that shipped', () => {
+  const drifted = {
+    critic: 'mockup-fidelity',
+    verdict: 'DRIFTED',
+    feedback:
+      "- / at 1440px: The mockup's largest text is 'both' at 158px; the build sets 'deep in' at 122px.",
+  }
+
+  it('reads the DRIFTED entries and nothing else from verdicts.json', () => {
+    writeBuild('2026-09-22', '100', {
+      'verdicts.json': JSON.stringify([
+        { critic: 'surface-gate', round: 4, verdict: 'REVISE' },
+        drifted,
+        { critic: 'surface-gate', verdict: 'NEEDS-HUMAN', feedback: '/work overflowed' },
+      ]),
+    })
+    expect(readDriftedEntries(archiveDir, '2026-09-22')).toEqual([drifted])
+    expect(readDriftedEntries(archiveDir, '2026-09-21')).toEqual([])
+  })
+
+  it('lists the lines under "Drifted from the mockup"', () => {
+    const section = buildDriftedSection([drifted])
+    expect(section.startsWith('## Drifted from the mockup\n')).toBe(true)
+    expect(section).toContain(drifted.feedback)
+  })
+
+  it('prints nothing when nothing drifted', () => {
+    expect(buildDriftedSection([])).toBe('')
+    expect(buildDriftedSection(undefined)).toBe('')
   })
 })

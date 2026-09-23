@@ -242,6 +242,31 @@ describe('compareLayouts: finding shape and determinism', () => {
 describe('compareLayouts: facts for the repair brief', () => {
   // The brief phrases each finding as an instruction from these numbers
   // (mockup-advisory.js); `detail` stays as it was for the CLI and the archive.
+  it('says whether the build lost the mockup leader, whatever the shape', () => {
+    const replaced = compareLayouts(
+      [seg('BOTH', 158, { y: 100 }), seg('The work', 150, { y: 300 })],
+      [
+        seg('Other', 122, { y: 100 }),
+        seg('BOTH', 100, { y: 300 }),
+        seg('The work', 95, { y: 500 }),
+      ],
+      VIEWPORT
+    ).find((x) => x.kind === 'mockup-hierarchy')
+    expect(replaced.facts.leaderLost).toBe(true)
+
+    const flattened = compareLayouts(
+      [seg('-26', 160, { y: 100 }), seg('-26', 56, { y: 200 })],
+      [seg('-26', 128, { y: 100 }), seg('-26', 120, { y: 200 })],
+      VIEWPORT
+    ).find((x) => x.kind === 'mockup-hierarchy')
+    expect(flattened.facts.leaderLost).toBe(false)
+  })
+
+  it('skips a segment that is only punctuation (a lone separator between flex items)', () => {
+    const findings = compareLayouts([seg('·', 16, { y: 100 })], [], VIEWPORT)
+    expect(findings).toEqual([])
+  })
+
   it('names the build leader and its mockup size when the leader is replaced (the BOTH canary)', () => {
     const mockup = [
       seg('BOTH', 158, { y: 100 }),
@@ -307,6 +332,7 @@ describe('compareLayouts: facts for the repair brief', () => {
       mockupPx: 56,
       buildPx: 120,
       ratio: 2.14,
+      mockupRank: 0,
     })
 
     const hidden = compareLayouts(

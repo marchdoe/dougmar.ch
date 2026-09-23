@@ -27,12 +27,17 @@
  * verdict: 'GATE-FAILED', feedback }` for it. Nothing was measured, which
  * reads the same as a clean pass unless someone says so, and the last section
  * here does.
+ *
+ * Drift from the approved mockup that forced revisions and survived them
+ * ships under `{ critic: 'mockup-fidelity', verdict: 'DRIFTED', feedback }`
+ * (mockup-drift-gate.js), and is listed under "Drifted from the mockup".
  */
 
 import { existsSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import { pickBuild } from './archive-record.js'
 import { GATE_FAILED } from './gate-outcome.js'
+import { DRIFTED_VERDICT } from './mockup-drift-gate.js'
 
 /**
  * Verdict entries of one kind from the day's shipped build, or `[]` when
@@ -193,5 +198,34 @@ export function buildGateFailedSection(entries) {
     'The gate threw, so this build shipped unmeasured. That reads the same as a clean pass, so it is listed here.',
     '',
     ...lines.map((line) => `- ${line}`),
+  ].join('\n')
+}
+
+/**
+ * The DRIFTED verdicts from the day's shipped build.
+ * @param {string} archiveDir e.g. `archive`
+ * @param {string} date `YYYY-MM-DD`
+ * @returns {Array<{critic: string, verdict: string, feedback: string}>}
+ */
+export function readDriftedEntries(archiveDir, date) {
+  return readVerdictEntries(archiveDir, date, DRIFTED_VERDICT)
+}
+
+/**
+ * The "Drifted from the mockup" section for the rating issue body, or `''`
+ * when the build held the mockup's hierarchy or the revisions restored it.
+ * @param {Array<{feedback: string}>} entries
+ * @returns {string}
+ */
+export function buildDriftedSection(entries) {
+  const lines = (entries ?? []).map((e) => (e?.feedback ?? '').trim()).filter(Boolean)
+  if (!lines.length) return ''
+
+  return [
+    '## Drifted from the mockup',
+    '',
+    'The revisions were told to restore these and did not. They do not block a night, so it shipped with them.',
+    '',
+    ...lines,
   ].join('\n')
 }
