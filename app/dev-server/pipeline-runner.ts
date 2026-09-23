@@ -11,9 +11,12 @@ import { guardRequest, readBodyLimited, sendJson } from './guards'
 // killing the pipeline: the client reconnects and the stream replays what it
 // missed.
 
+type PhaseEventStatus = 'start' | 'done' | 'error'
+
 export type PipelineEvent =
   | { type: 'log'; line: string }
   | { type: 'trace'; step: unknown }
+  | { type: 'phase'; phase: string; status: PhaseEventStatus; error?: string }
   | { type: 'done'; success: boolean; error?: string }
 
 interface StartRequest {
@@ -22,7 +25,39 @@ interface StartRequest {
   weights?: Partial<Weights>
 }
 
-/** Split a chunk of child output into events. `[TRACE] {json}` lines are structured steps. */
+const PHASE_EVENT_STATUSES: ReadonlySet<string> = new Set(['start', 'done', 'error'])
+
+/** Reads a `[phase] {json}` line into a typed event, or null if it isn't one. */
+function parsePhaseLine(line: string): PipelineEvent | null {
+  let parsed: unknown
+  try {
+    parsed = JSON.parse(line.slice('[phase] '.length))
+  } catch {
+    return null
+  }
+  if (
+    !parsed ||
+    typeof parsed !== 'object' ||
+    typeof (parsed as { phase?: unknown }).phase !== 'string' ||
+    !PHASE_EVENT_STATUSES.has((parsed as { status?: unknown }).status as string)
+  ) {
+    return null
+  }
+  const { phase, status, error } = parsed as {
+    phase: string
+    status: PhaseEventStatus
+    error?: unknown
+  }
+  return { type: 'phase', phase, status, ...(typeof error === 'string' ? { error } : {}) }
+}
+
+/**
+ * Split a chunk of child output into events. `[TRACE] {json}` lines are
+ * structured trace steps; `[phase] {json}` lines are structured phase
+ * transitions (#227, scripts/pipeline/phase-events.js) — everything else,
+ * including a line that starts with either prefix but isn't valid JSON in
+ * the expected shape, is an ordinary log line.
+ */
 export function eventsFromChunk(chunk: string): PipelineEvent[] {
   const out: PipelineEvent[] = []
   for (const line of chunk.split('\n')) {
@@ -33,6 +68,13 @@ export function eventsFromChunk(chunk: string): PipelineEvent[] {
         continue
       } catch {
         /* not JSON after all — it is a log line */
+      }
+    }
+    if (line.startsWith('[phase] ')) {
+      const event = parsePhaseLine(line)
+      if (event) {
+        out.push(event)
+        continue
       }
     }
     out.push({ type: 'log', line })

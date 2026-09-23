@@ -51,6 +51,7 @@ import { runBuildPhase } from './pipeline/phase-build.js'
 import { runGatePhase } from './pipeline/phase-gate.js'
 import { runArchivePhase } from './pipeline/phase-archive.js'
 import { createRunState, rollBackCheckout, saveTrace } from './pipeline/run-state.js'
+import { runPhase } from './pipeline/phase-events.js'
 import { newBoundaryId } from './utils/data-boundary.js'
 export { parseDelimiterResponse }
 export { resolveRiskWeight } from './pipeline/run-state.js'
@@ -106,17 +107,22 @@ export async function runAgentSwarm(context, { onTraceStep, root = ROOT, tape } 
 
   let swarmError = null
   try {
-    await loadRunContext(state)
-    await runArtDirectorPhase(state)
-    await runMockupPhase(state)
-    await runEngineerPhase(state)
-    await runBuildPhase(state)
-    await runGatePhase(state)
+    // Each phase call is wrapped in runPhase (scripts/pipeline/phase-events.js),
+    // which prints a `[phase]` start/done/error line to stdout around it —
+    // the dev panel's run pane reads these instead of matching log prose
+    // (#227). This is the single place every swarm phase runs through, so
+    // the emitted line always matches what actually ran.
+    await runPhase('context', () => loadRunContext(state))
+    await runPhase('art-director', () => runArtDirectorPhase(state))
+    await runPhase('mockup', () => runMockupPhase(state))
+    await runPhase('engineer', () => runEngineerPhase(state))
+    await runPhase('build', () => runBuildPhase(state))
+    await runPhase('gate', () => runGatePhase(state))
     // Awaited before the return: the finally (saveTrace) must not run while
     // the archive is still being written, or archiveRan is still false and a
     // successful run writes a phantom build-failed-* trace dir (observed
     // 2026-07-10).
-    await runArchivePhase(state)
+    await runPhase('archive', () => runArchivePhase(state))
     return state.result
   } catch (err) {
     swarmError = err

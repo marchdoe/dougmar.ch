@@ -76,9 +76,9 @@ export function ProgressSection({
   elapsedMs: number
 }) {
   const activePhase = phases.find((p) => p.status === 'active')
-  const isClaudePhase = activePhase?.label === 'Claude designing'
+  const isClaudePhase = Boolean(activePhase?.estimated)
   const claudeElapsed =
-    isClaudePhase && activePhase.startedAt ? Date.now() - activePhase.startedAt : 0
+    isClaudePhase && activePhase?.startedAt ? Date.now() - activePhase.startedAt : 0
   const claudeProgress = isClaudePhase
     ? Math.min(95, (claudeElapsed / ESTIMATED_CLAUDE_MS) * 100)
     : 0
