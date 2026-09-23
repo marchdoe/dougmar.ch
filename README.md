@@ -41,7 +41,7 @@ pnpm pipeline:canary  # a $0 dry run in a disposable worktree, evidence kept
 
 Without `ANTHROPIC_API_KEY` the agents run through the Claude CLI on a Max plan, capped at Sonnet. With a key they run through the API at the production tier (Opus for the Art Director and Mockup Designer). `PIPELINE_TIER=dev|prod` overrides that. See `scripts/utils/models.js`.
 
-`pnpm pipeline:canary` worktrees HEAD, installs, and runs the full pipeline there with `MOCK_MODE=false DRY_RUN=true`, so it reproduces exactly what a paid run would do without spending anything, and files the log, trace, cost and any build errors under `docs/evidence/canary/<date>-<time>/`. Run it before merging a change to `scripts/prompts/**`, `scripts/design-agents.js` or `scripts/utils/build-validator.js`, and weekly otherwise — it's the only check that catches what only shows up against the real Claude CLI.
+`pnpm pipeline:canary` worktrees HEAD, installs, and runs the full pipeline there with `MOCK_MODE=false DRY_RUN=true`, so it reproduces exactly what a paid run would do without spending anything, and files the log, trace, cost and any build errors under `docs/evidence/canary/<date>-<time>/`. Run it before merging a change to `scripts/prompts/**`, `scripts/design-agents.js`, `scripts/pipeline/**` or `scripts/utils/build-validator.js`, and weekly otherwise — it's the only check that catches what only shows up against the real Claude CLI.
 
 `pnpm pipeline:canary --mock` replays the recorded night under `fixtures/canary/` through the real loop and gates in under a minute on a warm pnpm store, with no model call, and is the quick check after a gate or loop change. `RECORD_FIXTURES=true pnpm pipeline:canary` re-records that night from a real $0 run; do it after a gate or prompt change the old recording cannot pass.
 
@@ -73,11 +73,11 @@ elements/
 scripts/
   run-pipeline.js    entry: collect -> design -> archive
   daily-redesign.js  the nightly, as CI runs it
-  design-agents.js   the orchestrator: Art Director -> Mockup Designer -> critics -> React Engineer -> gates
+  design-agents.js   the orchestrator: runs the pipeline/ phases in order, rolls back on a throw, saves the trace
   collect-signals.js runs scripts/signals/*.js in parallel
-  agents/            Art Director, Mockup Designer, Mockup Critic, Screenshot Critic; the React Engineer runs from design-agents.js
+  agents/            Art Director, Mockup Designer, Mockup Critic, Screenshot Critic; the React Engineer runs from pipeline/phase-engineer.js
   prompts/           the agents' system prompts, lanes, and the brand contract
-  pipeline/          shared phases (the variance mandates)
+  pipeline/          the swarm's phases over one run state: context, Art Director, mockup, engineer, build and repair, gate and revisions, archive; plus the variance mandates
   utils/             validators, mandates, the surface gate, the archive record, models and budgets
 archive/<date>/      that night's record: brief, signals, verdicts, trace, cost, the built files
 public/archive/      the preserved sites, one directory per date, served as static HTML

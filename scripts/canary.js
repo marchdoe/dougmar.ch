@@ -8,7 +8,7 @@
  * plan (`MOCK_MODE=false DRY_RUN=true node scripts/run-pipeline.js`)
  * reproduced the same failures for free, and a fix then passed a full night
  * at $0. That local run is now a standing gate — required before any change
- * to `scripts/prompts/**`, `scripts/design-agents.js` or
+ * to `scripts/prompts/**`, `scripts/design-agents.js`, `scripts/pipeline/**` or
  * `scripts/utils/build-validator.js` merges, and weekly otherwise — and its
  * evidence is kept so a failure can be read back without paying to
  * reproduce it.
@@ -80,7 +80,7 @@ const SHIPPED_BUILD_RE = /^build-\d+$/
 const SHIPPED_LOG_RE = /archived to archive\/(\d{4}-\d{2}-\d{2})\/(build-\d+)\//g
 
 /**
- * The line `design-agents.js`'s `saveTrace()` prints when it writes the
+ * The line `saveTrace()` (scripts/pipeline/run-state.js) prints when it writes the
  * dedicated failure dir for a lost night — the run's own name for the
  * `build-failed-*` dir it just created.
  */
@@ -244,7 +244,7 @@ function findShippedBuild(archiveDateDir) {
 }
 
 /**
- * The dedicated failure dir design-agents.js writes trace.json/cost.json/
+ * The dedicated failure dir saveTrace() writes trace.json/cost.json/
  * error.txt into on a lost night — never the `build-failed-sources-*`
  * sibling, which only holds the failing .tsx snapshot.
  * @param {string} archiveDateDir

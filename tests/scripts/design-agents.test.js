@@ -627,7 +627,10 @@ describe('a mockup revision round is counted as a retry', () => {
   // #303: every other retry path calls noteRetry(), but the MAX_MOCKUP_REVISIONS
   // loop started another Mockup Designer call without telling the ledger, so
   // cost.json's retries undercounted whether the critic loop earned its keep.
-  const SOURCE = readFileSync(new URL('../../scripts/design-agents.js', import.meta.url), 'utf8')
+  const SOURCE = readFileSync(
+    new URL('../../scripts/pipeline/phase-mockup.js', import.meta.url),
+    'utf8'
+  )
   const loopStart = SOURCE.indexOf('const MAX_MOCKUP_REVISIONS = 2')
   const loop = SOURCE.slice(loopStart, SOURCE.indexOf('Phase 2c: React Engineer', loopStart))
 
@@ -641,7 +644,10 @@ describe('the mockup critic verdict keeps its channel', () => {
   // so verdicts.json shows whether that verdict was reached with or without
   // pixels. The mockup critic's push dropped critique.channel on the way in,
   // so the same distinction was invisible for every mockup revision round.
-  const SOURCE = readFileSync(new URL('../../scripts/design-agents.js', import.meta.url), 'utf8')
+  const SOURCE = readFileSync(
+    new URL('../../scripts/pipeline/phase-mockup.js', import.meta.url),
+    'utf8'
+  )
   const loopStart = SOURCE.indexOf('const MAX_MOCKUP_REVISIONS = 2')
   const loop = SOURCE.slice(loopStart, SOURCE.indexOf('Phase 2c: React Engineer', loopStart))
 
