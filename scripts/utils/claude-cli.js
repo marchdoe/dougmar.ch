@@ -3,6 +3,19 @@
  *
  * Used by both daily-redesign.js and design-agents.js to avoid duplicating
  * the stream-json parsing, timeout handling, and stdin piping code.
+ *
+ * Every call sees only what the pipeline sends: its system prompt and its
+ * prompt. The CLI otherwise loads whatever the machine it runs on has
+ * configured, which on a local Max-plan run meant Doug's ~/.claude/CLAUDE.md,
+ * his rules/ files, the auto-memory index and about 54 claude.ai connector
+ * tools (GitHub, Claude Docs) in every pipeline prompt, none of it present in
+ * CI. `--tools ''` does not remove connector tools, and a model that called
+ * one got a refusal, took a second turn, and hit `--max-turns 1`
+ * (error_max_turns). So each call also passes `--setting-sources ''` (no
+ * user, project or local settings, which is also what loads CLAUDE.md and
+ * plugins), `--strict-mcp-config` (no MCP servers, connectors included, since
+ * no --mcp-config is given), and claude-cli-settings.json turns auto-memory
+ * off, because auto-memory survives `--setting-sources ''`.
  */
 
 import path from 'node:path'
@@ -167,8 +180,9 @@ export async function callClaudeCLI(agentName, systemPrompt, promptText, options
     return response
   }
 
-  // A Claude CLI settings file (hooks off, plugins off), not pipeline config;
-  // it was named pipeline-settings.json, which invited the wrong edits.
+  // A Claude CLI settings file (hooks off, plugins off, auto-memory off), not
+  // pipeline config; it was named pipeline-settings.json, which invited the
+  // wrong edits. `--settings` still applies under `--setting-sources ''`.
   const PIPELINE_SETTINGS = path.resolve(
     path.dirname(fileURLToPath(import.meta.url)),
     '../claude-cli-settings.json'
@@ -199,6 +213,10 @@ export async function callClaudeCLI(agentName, systemPrompt, promptText, options
     ...(effort ? ['--effort', effort] : []),
     '--tools',
     '',
+    // No user config and no connectors: see the header comment.
+    '--setting-sources',
+    '',
+    '--strict-mcp-config',
     '--disable-slash-commands',
     '--settings',
     PIPELINE_SETTINGS,

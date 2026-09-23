@@ -514,3 +514,64 @@ describe('callClaudeCLI --effort flag', () => {
     await promise
   })
 })
+
+// A pipeline call must see only its own system prompt and prompt. On a local
+// Max-plan run the CLI otherwise loaded Doug's ~/.claude/CLAUDE.md, rules/,
+// auto-memory and ~54 claude.ai connector tools, and a model that called a
+// connector ended the session on error_max_turns (see claude-cli.js).
+describe('callClaudeCLI loads no user config and no connectors', () => {
+  beforeEach(() => {
+    mockChildren.length = 0
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+    vi.clearAllMocks()
+  })
+
+  it("passes --setting-sources '' and --strict-mcp-config alongside --tools ''", async () => {
+    const { callClaudeCLI } = await import('../../scripts/utils/claude-cli.js')
+    const promise = callClaudeCLI('mockup-designer', 'system', 'user prompt', {
+      model: 'claude-opus-4-8',
+      timeoutMs: 60 * 60 * 1000,
+      stallTimeoutMs: 60 * 60 * 1000,
+    }).catch(() => {})
+
+    await vi.advanceTimersByTimeAsync(10)
+    const cliArgs = spawn.mock.calls.at(-1)[1]
+    const argAfter = (flag) => cliArgs[cliArgs.indexOf(flag) + 1]
+    expect(cliArgs).toContain('--tools')
+    expect(argAfter('--tools')).toBe('')
+    expect(cliArgs).toContain('--setting-sources')
+    expect(argAfter('--setting-sources')).toBe('')
+    expect(cliArgs).toContain('--strict-mcp-config')
+    // --strict-mcp-config with no --mcp-config is what yields zero servers.
+    expect(cliArgs).not.toContain('--mcp-config')
+
+    mockChildren.at(-1).emit('close', 0)
+    await promise
+  })
+
+  it('points --settings at a file that turns auto-memory, hooks and plugins off', async () => {
+    const { callClaudeCLI } = await import('../../scripts/utils/claude-cli.js')
+    const promise = callClaudeCLI('art-director', 'system', 'user prompt', {
+      model: 'claude-opus-4-8',
+      timeoutMs: 60 * 60 * 1000,
+      stallTimeoutMs: 60 * 60 * 1000,
+    }).catch(() => {})
+
+    await vi.advanceTimersByTimeAsync(10)
+    const cliArgs = spawn.mock.calls.at(-1)[1]
+    const settingsPath = cliArgs[cliArgs.indexOf('--settings') + 1]
+    expect(path.basename(settingsPath)).toBe('claude-cli-settings.json')
+    const { readFileSync } = await vi.importActual('node:fs')
+    const settings = JSON.parse(readFileSync(settingsPath, 'utf8'))
+    // Auto-memory survives --setting-sources ''; only this key turns it off.
+    expect(settings.autoMemoryEnabled).toBe(false)
+    expect(settings.hooks).toEqual({})
+
+    mockChildren.at(-1).emit('close', 0)
+    await promise
+  })
+})
