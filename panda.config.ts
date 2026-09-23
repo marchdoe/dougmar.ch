@@ -110,6 +110,40 @@ export default defineConfig({
             danger: { value: '#dc2626' },
             warning: { value: '#f59e0b' },
           },
+          /**
+           * The local /dev panel (app/dev/) — #227.
+           *
+           * Its own dark-blue palette, shared with neither `dev.*` (the
+           * responsive report) nor `panel.*` (the phone panel). It lived as a
+           * `c` object of hex strings inside the 3,600-line dev-panel.tsx and
+           * reached the page through `style=` props. Translucent tints are
+           * written as `devPanel.cyan/12` and the like, not as tokens of their
+           * own.
+           */
+          devPanel: {
+            bg: { value: '#050C18' },
+            card: { value: '#070F1E' },
+            log: { value: '#020810' },
+            border: { value: '#0A1828' },
+            text: { value: '#D4E8F8' },
+            secondary: { value: '#7AADC4' },
+            dim: { value: '#6A9DB5' },
+            muted: { value: '#4E7A94' },
+            ghost: { value: '#3A6080' },
+            cyan: { value: '#00E5FF' },
+            preview: { value: '#22d3ee' },
+            green: { value: '#5CBE4A' },
+            blue: { value: '#4A8FD4' },
+            blueDim: { value: '#3A7FC4' },
+            violet: { value: '#a78bfa' },
+            orange: { value: '#f97316' },
+            productHunt: { value: '#da552f' },
+            yellow: { value: '#eab308' },
+            red: { value: '#ef4444' },
+            redSoft: { value: '#f87171' },
+            redDeep: { value: '#dc2626' },
+            white: { value: '#ffffff' },
+          },
         },
         fonts: {
           archive: {
@@ -126,6 +160,9 @@ export default defineConfig({
           },
           dev: {
             mono: { value: 'JetBrains Mono, monospace' },
+          },
+          devPanel: {
+            mono: { value: "'Space Mono', monospace" },
           },
         },
         fontSizes: {
@@ -174,6 +211,13 @@ export default defineConfig({
           max: { value: 'max-content' },
           fit: { value: 'fit-content' },
         },
+      },
+      // The /dev panel's three animations (#227), formerly a <style> element
+      // the panel rendered into its own tree.
+      keyframes: {
+        devPanelPulseDot: { '0%, 100%': { opacity: '1' }, '50%': { opacity: '0.3' } },
+        devPanelPulse: { '0%, 100%': { opacity: '1' }, '50%': { opacity: '0.4' } },
+        devPanelSpin: { from: { transform: 'rotate(0deg)' }, to: { transform: 'rotate(360deg)' } },
       },
       breakpoints: {
         sm: '640px',
