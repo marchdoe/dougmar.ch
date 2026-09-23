@@ -20,6 +20,7 @@ import { STEP_BUDGETS } from './budgets.js'
 import { FINGERPRINT_VIEWPORT, collectGeometry } from './geometry-fingerprint.js'
 import { measureDesignFidelity } from './design-fidelity.js'
 import { readPageLayout } from './mockup-fidelity.js'
+import { readMockupFacts } from './mockup-precheck.js'
 import { hasFirstPaintMotion } from './motion-grammar.js'
 
 /** MIME type per client-mark extension, for the data: URI the snapshot inlines (#505). */
@@ -1262,7 +1263,7 @@ export async function captureScreenshot(port, { headerCrop, motion } = {}) {
  *
  * @param {string} filePath - absolute path to the HTML file
  * @param {{ width?: number, height?: number, headerCrop?: { placement?: string|null, heightPx?: number|null } }} [opts]
- * @returns {Promise<{png: Buffer, jpeg: Buffer, headerJpeg: Buffer|null, headerCropAnchor: 'mark'|'placement'|null, mobileJpeg: Buffer|null, measured: {canvas_utilization: number, color_coverage: number, hero_px: number}, layout: Record<string, Array<object>>|null}>}
+ * @returns {Promise<{png: Buffer, jpeg: Buffer, headerJpeg: Buffer|null, headerCropAnchor: 'mark'|'placement'|null, mobileJpeg: Buffer|null, measured: {canvas_utilization: number, color_coverage: number, hero_px: number}, layout: Record<string, Array<object>>|null, facts: {wide: object|null, narrow: object|null}}>}
  *   image buffers — PNG for archives, JPEG (downscaled, q70) for critic
  *   prompts (see captureScreenshot), plus a 2x crop of the declared header
  *   region, the same mockup rendered at the phone rung, and the
@@ -1271,7 +1272,9 @@ export async function captureScreenshot(port, { headerCrop, motion } = {}) {
  *   already gets from `scoreResponsive`'s desktop rung, so the Mockup
  *   Critic stops estimating them by eye. `layout` is the mockup's text at
  *   1440 and 360 (`readPageLayout`), which the surface gate holds the
- *   build's `/` against; null when it could not be read.
+ *   build's `/` against; null when it could not be read. `facts` is what
+ *   the mockup pre-check reads (`readMockupFacts`) at 1440 and at the phone
+ *   rung, each half null when it could not be read.
  */
 export async function captureHtmlFileScreenshot(
   filePath,
@@ -1302,10 +1305,51 @@ export async function captureHtmlFileScreenshot(
     // of the phone (#466).
     const mobileJpeg = await capturePhoneFilmstrip(browser, `file://${filePath}`)
     const layout = await readMockupLayout(browser, `file://${filePath}`)
-    return { png, jpeg, headerJpeg, headerCropAnchor, mobileJpeg, measured, layout }
+    const facts = await readMockupFactsAt(browser, page, `file://${filePath}`)
+    return { png, jpeg, headerJpeg, headerCropAnchor, mobileJpeg, measured, layout, facts }
   } finally {
     await browser.close()
   }
+}
+
+/**
+ * The facts the mockup pre-check turns on (mockup-precheck.js), read on the
+ * 1440 page already open and on a fresh page at the phone rung. Each half is
+ * null when it could not be read, for the same reason the layout below is:
+ * the pre-check is a brief for the designer, and it must not take the
+ * capture down with it.
+ *
+ * @param {import('playwright').Browser} browser
+ * @param {import('playwright').Page} widePage the 1440 page, at scroll zero
+ * @param {string} url
+ * @returns {Promise<{ wide: object|null, narrow: object|null }>}
+ */
+async function readMockupFactsAt(browser, widePage, url) {
+  const read = async (page) => {
+    try {
+      return await page.evaluate(readMockupFacts)
+    } catch (err) {
+      console.warn(`  [mockup-precheck] facts not read (non-blocking): ${err.message}`)
+      return null
+    }
+  }
+  const wide = await read(widePage)
+  let narrow = null
+  let page = null
+  try {
+    page = await browser.newPage({
+      viewport: { width: CRITIC_MOBILE_VIEWPORT.width, height: CRITIC_MOBILE_VIEWPORT.height },
+      ...FULL_PAGE_CAPTURE,
+    })
+    await page.goto(url, { waitUntil: 'networkidle' })
+    await page.waitForTimeout(1000) // fonts
+    narrow = await read(page)
+  } catch (err) {
+    console.warn(`  [mockup-precheck] phone facts not read (non-blocking): ${err.message}`)
+  } finally {
+    await page?.close()
+  }
+  return { wide, narrow }
 }
 
 /**

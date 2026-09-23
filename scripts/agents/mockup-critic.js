@@ -144,7 +144,7 @@ export function buildMockupCriticBlocks(ctx) {
     ctx.mobileScreenshot ? imageBlock(ctx.mobileScreenshot) : null,
     ctx.headerCrop
       ? textBlock(
-          `A 2x crop of the header region of that same mockup follows.${describeHeaderCropAnchor(ctx.headerCropAnchor)} Measure the mark against the declared mark_px here, not in the full-page shot:`
+          `A 2x crop of the header region of that same mockup follows.${describeHeaderCropAnchor(ctx.headerCropAnchor)} Judge the header's placement, role line and nav here; the mark's size is measured in code:`
         )
       : null,
     ctx.headerCrop ? imageBlock(ctx.headerCrop) : null,

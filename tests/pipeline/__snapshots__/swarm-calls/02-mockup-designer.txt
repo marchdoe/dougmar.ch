@@ -136,12 +136,13 @@ them too:
 Execute the `===SHELL===`, `===HEADER===` and `===MOBILE===` declarations exactly.
 
 SHELL gives you the footer treatment and the brand lockup, including its color
-mode. HEADER gives you numbers, and they are numbers because the critic
-measures them off a 2x crop of the header region rather than off the full-page
-screenshot: header height, the rendered height of the circular mark, the ramp
+mode. HEADER gives you numbers, and they are numbers because they are
+checked: header height, the rendered height of the circular mark, the ramp
 step and weight the wordmark is set at, whether the role line is on, and the
-step, case and form of the nav links. Build the header to those figures. A
-mark at half its declared `mark_px` is a REVISE, and it will be seen.
+step, case and form of the nav links. Build the header to those figures. The
+browser measures the mark on your page (present, height against `mark_px`,
+inside the first fold at both widths, colour mode, lockup), so a mark at half
+its declared size comes back as a measured fault.
 `nav_form` is the shape the links take: `labels` is a row of link labels,
 `numbered` prefixes each with 01 02 03, `sentence` runs them inside one
 sentence, `list` stacks them as a vertical index with a rule per row, `word`

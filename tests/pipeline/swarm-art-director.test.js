@@ -310,6 +310,8 @@ describe('the mockup revision loop (#573)', () => {
   })
 
   it('ships the approved round even when an earlier one measured better', async () => {
+    // Round 2 clears every measured floor (a hero at 100px is inside the
+    // band) but misses the declared size by more than round 0 did.
     const run = await runSwarm({
       agents: {
         'mockup-designer': [mockupRound(0), mockupRound(1), mockupRound(2)],
@@ -319,7 +321,7 @@ describe('the mockup revision loop (#573)', () => {
           mockupCriticReply('APPROVE', 'Lands it.'),
         ],
       },
-      mockupCapture: [capture(0, 95, 50, 122), capture(1, 60, 50, 122), capture(2, 70, 50, 122)],
+      mockupCapture: [capture(0, 95, 50, 122), capture(1, 60, 50, 122), capture(2, 88, 50, 100)],
     })
 
     expect(run.error).toBeNull()
@@ -347,12 +349,184 @@ describe('the mockup revision loop (#573)', () => {
         'mockup-designer': [mockupRound(0)],
         'mockup-critic': ['Looks fine to me, ship it.'],
       },
-      mockupCapture: [capture(0, 10, 10, 10)],
+      // Clears every measured floor, so the malformed critic is the only verdict.
+      mockupCapture: [capture(0, 90, 50, 122)],
     })
 
     expect(run.error).toBeNull()
+    expect(run.callsFor('mockup-designer')).toHaveLength(1)
     expect(shippedStep(run)).toBeUndefined()
     expect(read(run.root, 'signals/today.mockup.html')).toContain('<body data-round="0">')
+  })
+})
+
+/** Page facts as `readMockupFacts` returns them, for a mark at `markPx`. */
+function facts(markPx, { width = 1440, height = 900, inFold = true } = {}) {
+  return {
+    width,
+    height,
+    scrollWidth: width,
+    markCount: markPx ? 1 : 0,
+    mark: markPx ? { heightPx: markPx, top: 20, inFold, original: false } : null,
+    wordmark: markPx ? { orientation: 'row', gapPx: 12 } : null,
+    cutText: [],
+  }
+}
+
+/** A capture with page facts: the recorded night declares a 40px single-colour horizontal-md mark. */
+function captureWithMark(round, markPx, measured = [90, 50, 122]) {
+  return {
+    ...capture(round, ...measured),
+    facts: { wide: facts(markPx), narrow: facts(markPx, { width: 360, height: 640 }) },
+  }
+}
+
+const precheckVerdicts = (run) =>
+  run.verdicts
+    .filter((v) => v.critic === 'mockup-precheck')
+    .map(({ round, verdict, findings }) => ({ round, verdict, keys: findings.map((f) => f.key) }))
+
+describe('the mockup pre-check', () => {
+  it('sends a measured fault back even when the critic approves', async () => {
+    const run = await runSwarm({
+      agents: {
+        'mockup-designer': [mockupRound(0), mockupRound(1)],
+        'mockup-critic': [
+          mockupCriticReply('APPROVE', 'Lands it.'),
+          mockupCriticReply('APPROVE', 'Still lands it.'),
+        ],
+      },
+      mockupCapture: [captureWithMark(0, null), captureWithMark(1, 40)],
+    })
+
+    expect(run.error).toBeNull()
+    const designer = run.callsFor('mockup-designer')
+    expect(designer).toHaveLength(2)
+    expect(designer[1].userPrompt).toContain('## MEASURED FAULTS')
+    expect(designer[1].userPrompt).toContain(
+      '- [check 4] No brand mark renders on the page at 1440'
+    )
+    expect(designer[1].userPrompt).toContain('at 40px tall')
+    expect(designer[1].userPrompt).not.toContain('## CRITIC REVISION FEEDBACK')
+    expect(precheckVerdicts(run)).toEqual([
+      { round: 0, verdict: 'REVISE', keys: ['mark-missing'] },
+      { round: 1, verdict: 'APPROVE', keys: [] },
+    ])
+    expect(read(run.root, 'signals/today.mockup.html')).toContain('<body data-round="1">')
+    const archived = JSON.parse(run.fakes.archive[0].artifacts['mockup-measurables.json'])
+    expect(archived.rounds.map((r) => r.precheck.map((f) => f.key))).toEqual([['mark-missing'], []])
+  })
+
+  it('stops after a round that made no progress on its measured faults, marking them STILL PRESENT', async () => {
+    const run = await runSwarm({
+      agents: {
+        'mockup-designer': [mockupRound(0), mockupRound(1), mockupRound(2)],
+        'mockup-critic': REVISE_THREE_TIMES,
+      },
+      // 2026-09-09: canvas 25.5 then 24.5 against a floor of 85 here.
+      mockupCapture: [
+        captureWithMark(0, 40, [25.5, 50, 122]),
+        captureWithMark(1, 40, [24.5, 50, 122]),
+      ],
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.callsFor('mockup-designer')).toHaveLength(2)
+    expect(run.callsFor('mockup-critic')).toHaveLength(2)
+    expect(precheckVerdicts(run).map((v) => v.keys)).toEqual([['canvas'], ['canvas']])
+    // The critic's own verdicts are still on the record, both rounds.
+    expect(run.verdicts.filter((v) => v.critic === 'mockup-critic').map((v) => v.verdict)).toEqual([
+      'REVISE',
+      'REVISE',
+    ])
+    expect(run.retries).toBe(1)
+  })
+
+  it('marks a fault the last revision did not fix as STILL PRESENT', async () => {
+    const run = await runSwarm({
+      agents: {
+        'mockup-designer': [mockupRound(0), mockupRound(1), mockupRound(2)],
+        'mockup-critic': REVISE_THREE_TIMES,
+      },
+      // The canvas clears (progress), the mark stays small.
+      mockupCapture: [
+        captureWithMark(0, 20, [40, 50, 122]),
+        captureWithMark(1, 20, [88, 50, 122]),
+        captureWithMark(2, 40, [90, 50, 122]),
+      ],
+    })
+
+    expect(run.error).toBeNull()
+    const [, second, third] = run.callsFor('mockup-designer').map((c) => c.userPrompt)
+    expect(second).toContain('[check 2] Canvas utilization measured 40%')
+    expect(second).not.toContain('STILL PRESENT')
+    expect(third).toMatch(/\[check 4\] The brand mark renders 20px tall.*STILL PRESENT/)
+    expect(third).not.toContain('[check 2]')
+  })
+})
+
+/** A designer reply that patches round `n - 1`'s page into round `n`'s. */
+function patchReply(from, to) {
+  return [
+    '===PATCH:mockup.html===',
+    '<<<<<<< FIND',
+    `<body data-round="${from}">`,
+    '=======',
+    `<body data-round="${to}">`,
+    '>>>>>>> REPLACE',
+  ].join('\n')
+}
+
+describe('the mockup revision patch', () => {
+  it('applies a patch reply to the page the critic reviewed and ships it', async () => {
+    const run = await runSwarm({
+      agents: {
+        'mockup-designer': [mockupRound(0), patchReply(0, 1)],
+        'mockup-critic': [
+          mockupCriticReply('REVISE', 'Round 0 is not there yet.'),
+          mockupCriticReply('APPROVE', 'Lands it.'),
+        ],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    const designer = run.callsFor('mockup-designer')
+    expect(designer).toHaveLength(2)
+    expect(designer[1].userPrompt).toContain('## HOW TO RETURN THIS REVISION')
+    const shipped = read(run.root, 'signals/today.mockup.html')
+    expect(shipped).toBe(mockupHtmlOf(0).replace('data-round="0"', 'data-round="1"'))
+    expect(run.callsFor('react-engineer')[0].userPrompt).toContain('<body data-round="1">')
+    expect(run.trace.steps.find((s) => s.name === 'mockup-patch')).toMatchObject({
+      input: { round: 1 },
+      output: { edits: 1 },
+    })
+    expect(run.retries).toBe(1)
+  })
+
+  it('falls back to the whole file when the patch does not apply', async () => {
+    const run = await runSwarm({
+      agents: {
+        'mockup-designer': [mockupRound(0), patchReply(7, 1), mockupRound(1)],
+        'mockup-critic': [
+          mockupCriticReply('REVISE', 'Round 0 is not there yet.'),
+          mockupCriticReply('APPROVE', 'Lands it.'),
+        ],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    const designer = run.callsFor('mockup-designer')
+    expect(designer).toHaveLength(3)
+    expect(designer[2].options.purpose).toBe('retry')
+    expect(designer[2].userPrompt).toContain(
+      "Mockup Designer patch did not apply: edit 1's FIND text is not in the previous mockup"
+    )
+    expect(designer[2].userPrompt).toContain('===FILE:mockup.html=== block this time')
+    expect(designer[2].userPrompt).not.toContain('## HOW TO RETURN THIS REVISION')
+    // The retry still sees the page it is revising.
+    expect(designer[2].userPrompt).toContain(`\`\`\`html\n${mockupHtmlOf(0)}\n\`\`\``)
+    expect(read(run.root, 'signals/today.mockup.html')).toContain('<body data-round="1">')
+    expect(run.trace.steps.find((s) => s.name === 'mockup-patch')).toBeUndefined()
   })
 })
 
