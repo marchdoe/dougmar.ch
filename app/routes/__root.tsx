@@ -35,7 +35,7 @@ import type { ReactNode } from 'react'
 const archiveLink = css({
   display: 'block',
   background: 'bg',
-  color: 'textMuted',
+  color: 'textFaint',
   fontSize: 'xs',
   letterSpacing: '0.08em',
   textAlign: 'center',
@@ -57,28 +57,34 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Deep in both. Not a generalist.' },
-      { property: 'og:title', content: 'Deep in both. Not a generalist.' },
+      { title: 'The quality of your commitments will determine the course of your life.' },
+      {
+        property: 'og:title',
+        content: 'The quality of your commitments will determine the course of your life.',
+      },
       {
         property: 'og:description',
         content:
-          'A client-roster specimen on warm sand: SPACEMAN spanning the wide column, the claim set low in a terracotta band, the Red Wings win the one bright note in a size-marker ledger.',
+          'Cobalt-tinted specimen sheet: "commitments" set low and light in italic Spectral off the left rail, Doug\'s decade of work cataloged in ruled rows, one deep-cobalt band holding the day\'s signals, the green-and-blue mark large and unclipped up top.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-23.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-24.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Deep in both. Not a generalist.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-23.png' },
+      {
+        name: 'twitter:title',
+        content: 'The quality of your commitments will determine the course of your life.',
+      },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-24.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Work+Sans:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Albert+Sans:wght@400;500;600&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -247,7 +253,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 144 designs
+            Archive · 145 designs
           </a>
         )}
         <ScrollRestoration />

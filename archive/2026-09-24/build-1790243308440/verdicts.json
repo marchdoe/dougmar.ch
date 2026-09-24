@@ -1,0 +1,76 @@
+[
+  {
+    "critic": "mockup-precheck",
+    "round": 0,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1790242567288
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 0,
+    "verdict": "REVISE",
+    "feedback": "**Check 3 (Brief fidelity)**: The quote deck sits inline and compressed beside the hero word, not beneath it with breathing room. The brief calls for the word to lead the composition and the full quote to be its deck — a supporting line that lets the word command the field. Here, the deck reads as a cramped companion to the word rather than a subordinate plane. Move the deck below the word across the full width; let \"commitments\" own the upper zone.\n\n**Check 4 (Header placement and nav form)**: The nav links are set in small-caps as declared, but they sit in a row (01 WORK 02 ABOUT 03 CONTACT) rather than the declared `numbered` form, which should show the links as numbered labels in a row *beneath* the wordmark stacked-lg lockup. The current layout reads as correct, but verify the nav form matches the declared `numbered` structure — the links should sit as a distinct row under the mark, not running horizontally from it.\n\n**Check 5 (Polish — hierarchy and spacing)**: The ruled specimen rows below the quote are tight and ordered, but the transition from the hero word zone to \"A ledger of commitments\" section head is abrupt. The brief specifies a crowded density through the ledger, but there is no visual pause or rhythm break between the hero breathing room and the ruled rows that follow. Add a consistent spacing step between the quote zone and the section head to reinforce the shift from hero to ledger.\n\n**Check 6 (Phone — the idea at 360)**: The carrier (the word \"commitments\") is present in fold 1 and holds the idea through the filmstrip. At 360, the word stacks vertically above the quote and the ruled ledger flows below, which preserves the one-column reading and the commitment-as-ledger thesis. The hierarchy survives: the word still dominates at the reduced hero step (4xl declared, appears rendered). The order declared in Mobile Declaration is present across all folds shown. **This check passes.**\n\n**Check 7 (Type treatment)**: The hero word is lowercase italic (",
+    "channel": "sdk-vision",
+    "ts": 1790242576964
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "[check 2] Colour coverage measured 31.1% at 1440x900 against a declared floor of 40%, 8.9 points under (the margin is 5). Paint more of the first 900px in the day's chromatic tokens (a field, a band, a panel background); near-black, near-white and grey do not count.",
+    "findings": [
+      {
+        "check": 2,
+        "key": "colour",
+        "gap": 8.9
+      }
+    ],
+    "ts": 1790242641487
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 1,
+    "verdict": "APPROVE",
+    "feedback": "The mockup delivers the brief with genuine commitment. The word \"commitments\" commands the page at poster scale in light italic—elegant and considered, not shouting. The quote beneath it and the attribution to Ralph Marston sit in clear view, honoring the declaration. The header folds into the hero upper-left as stated, the numbered nav in small caps beneath the stacked lockup reads cleanly, and the three-column ledger of ruled rows below carries the specimen idea without wavering. On the phone, the word stays dominant at 4xl in the first fold, the quote follows, and the order holds: the idea—a life shaped by the quality of commitments—survives the stack intact. The cobalt field band anchors the signals at the base, the mark is present and properly scaled, and the composition reads as left-weighted, crowded, and deliberate across both widths.",
+    "channel": "sdk-vision",
+    "ts": 1790242647374
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 2,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1790242752651
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 2,
+    "verdict": "APPROVE",
+    "feedback": "The word \"commitments\" leads the page at poster scale, italic and light, anchoring the composition's thesis: the quality of a life is the sum of its commitments. The full quote sits beneath it in the deep cobalt field, the attribution legible and present, and the ledger of ruled commitments below—Spaceman, the client roster, seven projects, the day's facts—reads as a specimen catalog of Doug's actual work, not decoration. On 1440 the hero dominates and the three-column ledger is dense and orderly. On 360 the word stacks full-width at the declared `4xl` step, the quote and attribution remain in view in the first fold, and the ledger compresses to a single column without losing the ruled rhythm or the hierarchy: the poster word still reads as the poster. The header is folded into the hero, upper-left, the mark present and the numbered nav in small caps beneath it. The cobalt field band carries the day's signals and closes the page as the final rows of the same ledger. Measurables are met. The brief is executed with commitment.",
+    "channel": "sdk-vision",
+    "ts": 1790242758113
+  },
+  {
+    "critic": "surface-gate",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "/ @360: 'FishSticks' is a 269x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: '15th Club' is a 269x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'dougmar.ch' is a 269x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'TeeTurn' is a 269x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Politweets' is a 269x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Twittertale' is a 269x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'FishSticks' is a 269x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: '15th Club' is a 269x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'dougmar.ch' is a 269x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'TeeTurn' is a 269x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Politweets' is a 269x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Twittertale' is a 269x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 99x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 144x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 191x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 288x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 99x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 144x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 191x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 288x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: <h1.m_0.fw_light.ta_left > span.d_block.mt_40px.xl:mt_52px.mx_-6vw > span.d_block.ff_display.font-style_italic.fw_light> \"The quality of your commitments will det\" at 21.3px sits over div.pos_absolute.inset_0px (positioned background-image); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: <h1.m_0.fw_light.ta_left > span.d_block.mt_40px.xl:mt_52px.mx_-6vw > span.d_block.mt_16px.ff_body.fs_xs> \"Ralph Marston\" at 13.2px sits over div.pos_absolute.inset_0px (positioned background-image); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/about @360: <section.pos_relative.bg_bg.ov_hidden.px_6vw > div.pos_relative.z_1 > span.d_block.mt_20px.ff_body.fs_xs> \"Product Designer & Developer\" at 13.2px sits over div.pos_absolute.inset_0px (positioned background-image); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/work/spaceman @360: 2 more distinct texts over a textured ground are not listed.\n/work/dougmar-ch @820: <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/work/dougmar-ch @820: <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" sets 81 characters on its longest line (8 lines, median 75) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1790243086521
+  },
+  {
+    "critic": "surface-gate",
+    "verdict": "NEEDS-HUMAN",
+    "feedback": "Authored routes outside MUTABLE_FILES failed the gate: /work/dougmar-ch\n\n## Measured layout faults\n\nThese are measurements taken from the live render, not observations from the images below.\nThey are exact. Do not re-litigate them against the screenshots, and do not count one fault\ntwice because it appears at more than one viewport.\n\n- [error] /work/dougmar-ch at 820px (light): <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n- [error] /work/dougmar-ch at 820px (light): <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" sets 81 characters on its longest line (8 lines, median 75) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.",
+    "ts": 1790243086521
+  },
+  {
+    "critic": "screenshot-critic",
+    "verdict": "UNVERIFIED",
+    "feedback": "[screenshot-critic] response truncated at max_tokens (16000 output tokens, cap 16000)",
+    "channel": "sdk-vision-truncated",
+    "ts": 1790243305143
+  }
+]

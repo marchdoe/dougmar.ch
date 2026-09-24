@@ -1,0 +1,97 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'depth is a commitment you make once and keep every day' (40px in the mockup) has no match in the build",
+          "facts": {
+            "text": "depth is a commitment you make once and keep every day",
+            "mockupPx": 40,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'commitments' (120px); in build it is 'commitments' (96px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "depth is a commitment you make once and keep every day",
+                "mockupPx": 40
+              }
+            ],
+            "leader": {
+              "text": "commitments",
+              "mockupPx": 120
+            },
+            "buildLeader": {
+              "text": "commitments",
+              "buildPx": 96,
+              "mockupPx": 120
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a ledger of commitments' moved from (232, 905) in the mockup to (242, 945) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'commitments' (52px); in build it is 'commitments' (54px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "the quality of your commitments will determine the course of your life",
+                "mockupPx": 19
+              }
+            ],
+            "leader": {
+              "text": "commitments",
+              "mockupPx": 52
+            },
+            "buildLeader": {
+              "text": "commitments",
+              "buildPx": 54,
+              "mockupPx": 52
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'commitments' still leads, but the mockup's 'depth is a commitment you make once and keep every day' (40px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'commitments' still leads, but the mockup's 'the quality of your commitments will determine the course...' (19px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'depth is a commitment you make once and keep every day' at 40px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

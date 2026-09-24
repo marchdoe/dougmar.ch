@@ -1,0 +1,163 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "Spaceman",
+            "w": 273,
+            "h": 31
+          },
+          {
+            "tag": "A",
+            "text": "FishSticks",
+            "w": 269,
+            "h": 31
+          },
+          {
+            "tag": "A",
+            "text": "15th Club",
+            "w": 269,
+            "h": 31
+          },
+          {
+            "tag": "A",
+            "text": "dougmar.ch",
+            "w": 269,
+            "h": 31
+          },
+          {
+            "tag": "A",
+            "text": "TeeTurn",
+            "w": 269,
+            "h": 31
+          },
+          {
+            "tag": "A",
+            "text": "Politweets",
+            "w": 269,
+            "h": 31
+          },
+          {
+            "tag": "A",
+            "text": "Twittertale",
+            "w": 269,
+            "h": 31
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "tablet": {
+      "width": 820,
+      "height": 1180,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "Spaceman",
+            "w": 305,
+            "h": 31
+          },
+          {
+            "tag": "A",
+            "text": "FishSticks",
+            "w": 301,
+            "h": 31
+          },
+          {
+            "tag": "A",
+            "text": "15th Club",
+            "w": 301,
+            "h": 31
+          },
+          {
+            "tag": "A",
+            "text": "dougmar.ch",
+            "w": 301,
+            "h": 31
+          },
+          {
+            "tag": "A",
+            "text": "TeeTurn",
+            "w": 301,
+            "h": 31
+          },
+          {
+            "tag": "A",
+            "text": "Politweets",
+            "w": 301,
+            "h": 31
+          },
+          {
+            "tag": "A",
+            "text": "Twittertale",
+            "w": 301,
+            "h": 31
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    }
+  },
+  "overallScore": 3,
+  "worstFailure": {
+    "viewport": "mobile",
+    "check": "bodyTextSize",
+    "detail": "body text min 14.5px (floor 16px)"
+  },
+  "buildId": "1790243308440",
+  "date": "2026-09-24",
+  "archetype": "reads like a type specimen ledger of one man's commitments"
+}

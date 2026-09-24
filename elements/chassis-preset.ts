@@ -1,7 +1,7 @@
 import { definePreset } from '@pandacss/dev'
 
 /**
- * Generated from elements/chassis/zilla-worksans.js by scripts/utils/chassis.js.
+ * Generated from elements/chassis/spectral-albert.js by scripts/utils/chassis.js.
  * Listed LAST in panda.config.ts so the chassis type system — fonts,
  * fontSizes, fontWeights, lineHeights, letterSpacings, spacing, textStyles —
  * wins over any values the Art Director emits in elements/preset.ts.
@@ -36,8 +36,8 @@ export const chassisPreset = definePreset({
       },
       tokens: {
         fonts: {
-          display: { value: "\"Zilla Slab\", Georgia, serif" },
-          body: { value: "\"Work Sans\", system-ui, -apple-system, sans-serif" },
+          display: { value: "Spectral, Georgia, \"Times New Roman\", serif" },
+          body: { value: "\"Albert Sans\", system-ui, -apple-system, sans-serif" },
         },
         fontSizes: {
           '2xs': { value: "0.75rem" },
@@ -58,11 +58,11 @@ export const chassisPreset = definePreset({
           light: { value: "400" },
           normal: { value: "400" },
           medium: { value: "500" },
-          semibold: { value: "700" },
+          semibold: { value: "600" },
           bold: { value: "700" },
         },
         lineHeights: {
-          tight: { value: "1.02" },
+          tight: { value: "1.05" },
           snug: { value: "1.15" },
           normal: { value: "1.5" },
           loose: { value: "1.7" },
@@ -99,7 +99,7 @@ export const chassisPreset = definePreset({
         '3xl': { value: { fontSize: "3xl", lineHeight: "1.1", letterSpacing: "-0.01em" } },
         '4xl': { value: { fontSize: "4xl", lineHeight: "1", letterSpacing: "-0.02em" } },
         '5xl': { value: { fontSize: "5xl", lineHeight: "0.95", letterSpacing: "-0.025em" } },
-        hero: { value: { fontSize: "hero", lineHeight: "1.02", letterSpacing: "-0.005em" } },
+        hero: { value: { fontSize: "hero", lineHeight: "1.05", letterSpacing: "-0.01em" } },
       },
     },
   },

@@ -1,34 +1,30 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { WhitePaper } from '../components/WhitePaper'
-import { CaseHeader } from '../components/generated/CaseHeader'
-import { CaseLinks } from '../components/generated/CaseLinks'
+import { CaseBand } from '../components/generated/CaseBand'
+import { CaseBody } from '../components/generated/CaseBody'
+import { CaseHero } from '../components/generated/CaseHero'
 import { CaseMissing } from '../components/generated/CaseMissing'
-import { CaseNarrative } from '../components/generated/CaseNarrative'
-import { SignalLedger } from '../components/generated/SignalLedger'
 import { projects } from '../content/projects'
 
 export const Route = createFileRoute('/work/$slug')({ component: WorkPage })
 
-type CaseProject = (typeof projects)[number]
-
-function CaseStudy({ project }: { project: CaseProject }) {
-  return (
-    <>
-      <CaseNarrative project={project} />
-      <CaseLinks project={project} />
-    </>
-  )
-}
-
 function WorkPage() {
   const { slug } = Route.useParams()
-  const project = projects.find((p) => p.slug === slug)
+  const index = projects.findIndex((entry) => entry.slug === slug)
+  const project = index >= 0 ? projects[index] : undefined
   if (!project) return <CaseMissing />
+  const next = projects[(index + 1) % projects.length]
   return (
     <>
-      <CaseHeader project={project} />
-      {project.slug === 'dougmar-ch' ? <WhitePaper /> : <CaseStudy project={project} />}
-      <SignalLedger />
+      <CaseHero project={project} />
+      {project.slug === 'dougmar-ch' ? (
+        <WhitePaper />
+      ) : (
+        <>
+          <CaseBody project={project} />
+          <CaseBand project={project} next={next} />
+        </>
+      )}
     </>
   )
 }

@@ -2,7 +2,6 @@ import { createFileRoute } from '@tanstack/react-router'
 import { css } from '../../styled-system/css'
 import { BrandLockup } from '../components/BrandLockup'
 import { Ground } from '../components/Material'
-import { identity } from '../content/about'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
@@ -13,7 +12,7 @@ function OgCard() {
         position: 'fixed',
         inset: '0',
         zIndex: 9999,
-        bg: 'field',
+        bg: 'bg',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -24,59 +23,81 @@ function OgCard() {
           position: 'relative',
           width: '1200px',
           height: '630px',
-          flexShrink: 0,
           overflow: 'hidden',
-          bg: 'field',
-          color: 'fieldInk',
-          borderTopWidth: '6px',
-          borderTopStyle: 'solid',
-          borderTopColor: 'fieldBorder',
+          bg: 'bg',
+          display: 'flex',
+          flexDirection: 'column',
         })}
       >
-        <Ground material="halftone" seed={1925632749} />
+        <Ground material="rule" seed={1908855130} />
         <div
           className={css({
             position: 'relative',
             zIndex: 1,
-            width: '100%',
-            height: '100%',
+            flex: '1',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
-            paddingInline: '80px',
-            paddingBlock: '64px',
+            paddingTop: '48px',
+            paddingInline: '72px',
+            color: 'text',
           })}
         >
-          <BrandLockup variant="mark-only-md" mode="original" />
-          <div>
-            <div
-              className={css({
-                fontFamily: 'body',
-                fontSize: 'base',
-                letterSpacing: 'widest',
-                textTransform: 'uppercase',
-                color: 'fieldInkMuted',
-                fontWeight: 'bold',
-                marginBottom: '3',
-              })}
-            >
-              {identity.name}
-            </div>
-            <h1
-              className={css({
-                fontFamily: 'display',
-                fontWeight: 'bold',
-                textTransform: 'uppercase',
-                fontSize: '88px',
-                lineHeight: '0.9',
-                letterSpacing: '0.01em',
-                color: 'fieldInk',
-              })}
-            >
-              <span className={css({ display: 'block' })}>Deep in both.</span>
-              <span className={css({ display: 'block' })}>Not a generalist.</span>
-            </h1>
-          </div>
+          <BrandLockup variant="stacked-lg" mode="original" />
+          <h1
+            className={css({
+              marginTop: 'auto',
+              marginBottom: '28px',
+              fontFamily: 'display',
+              fontStyle: 'italic',
+              fontWeight: 'light',
+              textTransform: 'lowercase',
+              fontSize: '150px',
+              lineHeight: '0.92',
+              letterSpacing: '-0.025em',
+              color: 'text',
+              whiteSpace: 'nowrap',
+            })}
+          >
+            commitments
+          </h1>
+        </div>
+        <div
+          className={css({
+            position: 'relative',
+            zIndex: 1,
+            bg: 'field',
+            color: 'fieldInk',
+            paddingTop: '32px',
+            paddingBottom: '40px',
+            paddingInline: '72px',
+          })}
+        >
+          <p
+            className={css({
+              fontFamily: 'display',
+              fontStyle: 'italic',
+              fontWeight: 'light',
+              fontSize: '28px',
+              lineHeight: '1.3',
+              color: 'fieldInk',
+            })}
+          >
+            The quality of your commitments will determine the course of your life.
+          </p>
+          <span
+            className={css({
+              display: 'block',
+              marginTop: '12px',
+              fontFamily: 'body',
+              fontSize: 'sm',
+              fontWeight: 600,
+              fontVariantCaps: 'all-small-caps',
+              letterSpacing: 'wide',
+              color: 'fieldInkMuted',
+            })}
+          >
+            Ralph Marston
+          </span>
         </div>
       </div>
     </div>

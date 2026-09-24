@@ -2,37 +2,42 @@ import { css } from '../../../styled-system/css'
 
 export function CaseMissing() {
   return (
-    <div
+    <section
       className={css({
-        paddingInline: 'clamp(28px, 6vw, 104px)',
-        paddingTop: 'clamp(14px, 3vw, 24px)',
-        paddingBottom: 'clamp(30px, 5vw, 52px)',
+        paddingInline: '6vw',
+        paddingTop: { base: '48px', xl: '64px' },
+        paddingBottom: { base: '72px', xl: '96px' },
       })}
     >
       <h1
         className={css({
           fontFamily: 'display',
-          fontWeight: 'bold',
-          textTransform: 'uppercase',
-          textStyle: '3xl',
+          fontStyle: 'italic',
+          fontWeight: 'light',
+          fontSize: '3xl',
           lineHeight: '1',
+          color: 'text',
+          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          animationDelay: '0ms',
         })}
       >
-        No project by that name
+        Nothing filed under that name
       </h1>
       <a
-        href="/work"
+        href="/#work"
         className={css({
           display: 'inline-flex',
           alignItems: 'center',
           minHeight: '44px',
-          marginTop: '3',
-          fontWeight: 'bold',
+          marginTop: '24px',
+          fontFamily: 'body',
+          fontSize: 'sm',
+          fontWeight: 600,
           color: 'accent',
         })}
       >
-        See all work →
+        Back to the ledger →
       </a>
-    </div>
+    </section>
   )
 }

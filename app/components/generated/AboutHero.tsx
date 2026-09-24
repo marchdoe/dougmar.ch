@@ -1,77 +1,54 @@
 import { css } from '../../../styled-system/css'
 import { identity } from '../../content/about'
-import { Band } from './Band'
-
-function PullLabel() {
-  return (
-    <div
-      className={css({
-        fontSize: 'xs',
-        letterSpacing: 'widest',
-        textTransform: 'uppercase',
-        color: 'fieldInkMuted',
-        fontWeight: 'bold',
-        marginBottom: '0.7em',
-      })}
-    >
-      In his own words
-    </div>
-  )
-}
+import { Ground } from '../Material'
 
 export function AboutHero() {
-  const statement = identity.statement.replace(/\s*\u2014\s*/g, ', ')
   return (
-    <div className={css({ display: 'flex', flexDirection: 'column', width: '100%' })}>
-      <div
-        className={css({
-          paddingInline: 'clamp(28px, 6vw, 104px)',
-          paddingTop: 'clamp(14px, 3vw, 24px)',
-          paddingBottom: 'clamp(24px, 4vw, 44px)',
-        })}
-      >
-        <div
-          className={css({
-            fontSize: 'xs',
-            letterSpacing: 'widest',
-            textTransform: 'uppercase',
-            color: 'accent',
-            fontWeight: 'bold',
-            marginBottom: '0.6em',
-          })}
-        >
-          About
-        </div>
+    <section
+      className={css({
+        position: 'relative',
+        bg: 'bg',
+        overflow: 'hidden',
+        paddingInline: '6vw',
+        paddingTop: { base: '48px', xl: '64px' },
+        paddingBottom: { base: '56px', md: '72px', xl: '88px' },
+      })}
+    >
+      <Ground material="rule" seed={1908855130} />
+      <div className={css({ position: 'relative', zIndex: 1 })}>
         <h1
           className={css({
             fontFamily: 'display',
-            fontWeight: 'normal',
-            textStyle: 'lg',
-            lineHeight: '1.4',
-            maxWidth: '46ch',
+            fontStyle: 'italic',
+            fontWeight: 'light',
+            fontSize: { base: 'lg', lg: 'xl' },
+            lineHeight: '1.3',
             color: 'text',
+            maxWidth: '32ch',
+            textAlign: 'left',
+            animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+            animationDelay: '0ms',
           })}
         >
-          {statement}
+          {identity.statement}
         </h1>
+        <span
+          className={css({
+            display: 'block',
+            marginTop: '20px',
+            fontFamily: 'body',
+            fontSize: 'xs',
+            fontWeight: 600,
+            fontVariantCaps: 'all-small-caps',
+            letterSpacing: 'wide',
+            color: 'textFaint',
+            animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+            animationDelay: '80ms',
+          })}
+        >
+          {identity.role}
+        </span>
       </div>
-      <div className={css({ display: 'flex' })}>
-        <Band label={<PullLabel />}>
-          <div
-            className={css({
-              fontFamily: 'display',
-              fontWeight: 'bold',
-              textTransform: 'uppercase',
-              textStyle: { base: '3xl', lg: '4xl' },
-              lineHeight: '0.95',
-              color: 'fieldInk',
-            })}
-          >
-            <span className={css({ display: 'block' })}>Deep in both.</span>
-            <span className={css({ display: 'block' })}>Not a generalist.</span>
-          </div>
-        </Band>
-      </div>
-    </div>
+    </section>
   )
 }
