@@ -138,6 +138,10 @@ A route rendering a fixed 1200×630 card (no scrolling, no responsiveness):
   as the site shell) in a corner or anchored position.
 - It is screenshotted headlessly at 1200×630. Design for exactly that
   box. Keep it simpler than the home page: phrase + field + mark.
+- Fit the headline to the card at 1200×630. Step the type down for a long
+  phrase rather than clipping it. Keep the whole lockup, mark and wordmark,
+  inside the safe margin. Never rely on `overflow: hidden` to hide text. The
+  surface gate measures this card; see its checklist line.
 - og.tsx is a capture target, not a destination. Never link to it from nav or anywhere else.
 
 ## Technical requirements

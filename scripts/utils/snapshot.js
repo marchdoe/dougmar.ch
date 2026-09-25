@@ -1375,7 +1375,9 @@ async function readMockupLayout(browser, url) {
  *
  * Spins up a Vite preview server (unless a port is supplied), renders the
  * route at the given viewport, and screenshots it. Used to capture the
- * runtime-generated /og card at the canonical 1200x630 OG dimensions.
+ * runtime-generated /og card at the canonical 1200x630 OG dimensions. The
+ * surface gate measures the card at the same size and scheme before this
+ * runs (`og-card-fit.js`); keep the two in step.
  *
  * @param {string} route - route path, e.g. "/og"
  * @param {{ port?: number, width?: number, height?: number }} [opts]

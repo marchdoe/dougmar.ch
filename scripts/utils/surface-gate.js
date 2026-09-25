@@ -19,6 +19,10 @@
  * model is told what the measurements say instead of being asked to eyeball
  * it from a downscaled JPEG.
  *
+ * The share card (`/og`) rides on every full walk, measured once at the
+ * 1200x630 the archive phase captures it at and asked only whether its text
+ * and lockup fit inside the card; see `og-card-fit.js`.
+ *
  * @module
  */
 
@@ -33,6 +37,13 @@ import { contrastRatio, rgbToHex } from './contrast.js'
 import { readCopyExemptions, readRenderedCopy, renderedCopyFindings } from './copy-gate.js'
 import { ROOT } from './file-manager.js'
 import { measureLegibility } from './legibility.js'
+import {
+  measureOgCard,
+  OG_CARD_ROUTE,
+  OG_CARD_SCHEME,
+  OG_CARD_VIEWPORT,
+  ogFitFindings,
+} from './og-card-fit.js'
 import { formatMockupAdvisory, isMockupAdvisory } from './mockup-advisory.js'
 import { withDriftSeverity } from './mockup-drift-gate.js'
 import { compareMockupLayout, readPageLayout } from './mockup-fidelity.js'
@@ -151,7 +162,8 @@ export const BRAND_CONTRAST_MIN = 3
  * hardcoded, so a project added to `projects.ts` is covered without anyone
  * remembering to add it here. `/elements` is hand-written and is walked for
  * what the night's shell does to it (#640), and only that; see
- * {@link SHELL_ONLY_ROUTES}. Its findings go to a human.
+ * {@link SHELL_ONLY_ROUTES}. Its findings go to a human. The share card is
+ * not a page and is not listed here; `runSurfaceGate` adds it to a full walk.
  *
  * @param {string} [root] - repo root, injectable for tests
  * @returns {Promise<Array<{ id: string, route: string }>>}
@@ -289,6 +301,8 @@ export function evaluateMeasurement(
   findings.push(...heroFoldFindings(m))
   // The night's shell drawing text over a hand-written route's own (#640).
   findings.push(...shellOverlapFindings(m))
+  // The share card: every line and the lockup inside the 1200x630 card.
+  findings.push(...ogFitFindings(m))
 
   if (m.consoleErrors?.length) {
     findings.push({
@@ -298,7 +312,7 @@ export function evaluateMeasurement(
     })
   }
 
-  return shellQuestionsOnly(findings, m.route)
+  return ogQuestionsOnly(shellQuestionsOnly(findings, m.route), m.route)
 }
 
 /**
@@ -324,6 +338,70 @@ const SHELL_QUESTIONS = ['unreachable', 'status', 'overflow', 'shell-overlap']
 function shellQuestionsOnly(findings, route) {
   if (!SHELL_ONLY_ROUTES.includes(route)) return findings
   return findings.filter((f) => SHELL_QUESTIONS.includes(f.kind))
+}
+
+/**
+ * What the share card is asked: did it load, and does it fit its card. It is
+ * a capture target at one size, not a page, so the page checks (a nav link,
+ * the fold, line length) do not apply to it.
+ */
+const OG_QUESTIONS = ['unreachable', 'status', 'og-fit']
+
+/** The share card's findings, cut to its questions; any other route's, unchanged. */
+function ogQuestionsOnly(findings, route) {
+  if (route !== OG_CARD_ROUTE) return findings
+  return findings.filter((f) => OG_QUESTIONS.includes(f.kind))
+}
+
+/**
+ * Measure the share card once, at the size and scheme the archive phase
+ * captures it at (`captureRouteScreenshot`), which is the only view of it
+ * anyone gets. Same load and font settle as {@link measureRoute}.
+ *
+ * @param {import('playwright').Browser} browser
+ * @param {string} baseUrl
+ * @param {{ id: string, route: string }} surface
+ * @returns {Promise<object>} raw measurement
+ */
+export async function measureOgRoute(browser, baseUrl, surface) {
+  const { width, height, name } = OG_CARD_VIEWPORT
+  const base = { id: surface.id, route: surface.route, viewport: name, scheme: OG_CARD_SCHEME }
+  const page = await browser.newPage({ viewport: { width, height }, colorScheme: OG_CARD_SCHEME })
+  try {
+    const resp = await page.goto(`${baseUrl}${surface.route}`, {
+      waitUntil: 'networkidle',
+      timeout: 30000,
+    })
+    await page.waitForTimeout(900)
+    return { ...base, status: resp?.status() ?? null, ogFit: await measureOgCard(page) }
+  } catch (err) {
+    return { ...base, error: err.message }
+  } finally {
+    await page.close()
+  }
+}
+
+/**
+ * The jobs one walk runs: every route at every rung in every scheme, except
+ * the share card, which is measured once at its own size.
+ *
+ * @param {Array<{ id: string, route: string }>} surfaces
+ * @param {typeof VIEWPORT_RUNGS} viewports
+ * @param {string[]} schemes
+ * @returns {Array<{ surface: object, viewport: object, scheme: string }>}
+ */
+export function gateJobs(surfaces, viewports, schemes) {
+  const jobs = []
+  for (const surface of surfaces) {
+    if (surface.route === OG_CARD_ROUTE) {
+      jobs.push({ surface, viewport: OG_CARD_VIEWPORT, scheme: OG_CARD_SCHEME })
+      continue
+    }
+    for (const viewport of viewports) {
+      for (const scheme of schemes) jobs.push({ surface, viewport, scheme })
+    }
+  }
+  return jobs
 }
 
 /**
@@ -1068,6 +1146,11 @@ function inRouteOrder(records, surfaces) {
  * Reuses a preview server when the caller already has one (`port`), which is
  * the normal case inside the pipeline — the screenshot capture has one open.
  *
+ * Without `routes`, the walk is every generated route plus the share card,
+ * which is measured once at 1200x630 in light whatever `viewports` and
+ * `schemes` say (`gateJobs`). With `routes`, `/og` is measured only when it
+ * is listed.
+ *
  * @param {{ port?: number, routes?: Array<{id:string,route:string}>,
  *          viewports?: typeof VIEWPORT_RUNGS, schemes?: string[],
  *          root?: string, mockupLayout?: Record<string, Array<object>>|null }} [opts]
@@ -1092,16 +1175,15 @@ export async function runSurfaceGate({
   mockupLayout = null,
 } = {}) {
   const { chromium } = await import('playwright')
-  const surfaces = routes ?? (await listGeneratedRoutes(root))
+  // The share card rides on every full walk: the archive phase captures it
+  // after the gate, and ships whatever it draws.
+  const surfaces = routes ?? [
+    ...(await listGeneratedRoutes(root)),
+    { id: 'og', route: OG_CARD_ROUTE },
+  ]
   // What the copy scan may skip, read once rather than per page (#504).
   const exemptions = readCopyExemptions(root)
-
-  const jobs = []
-  for (const surface of surfaces) {
-    for (const viewport of viewports) {
-      for (const scheme of schemes) jobs.push({ surface, viewport, scheme })
-    }
-  }
+  const jobs = gateJobs(surfaces, viewports, schemes)
 
   return await withPreviewServer(
     async (baseUrl) => {
@@ -1123,7 +1205,10 @@ export async function runSurfaceGate({
           for (;;) {
             const job = jobs[cursor++]
             if (!job) return
-            const m = await measureRoute(browser, baseUrl, job.surface, job.viewport, job.scheme)
+            const m =
+              job.viewport === OG_CARD_VIEWPORT
+                ? await measureOgRoute(browser, baseUrl, job.surface)
+                : await measureRoute(browser, baseUrl, job.surface, job.viewport, job.scheme)
             measured++
             const density = phoneDensityRecord(m)
             if (density) densities.push(density)
@@ -1367,7 +1452,8 @@ function formatTapTargetAdvisory(findings) {
  *
  * The revision loop routes every REVISE to `react-engineer`
  * (`design-agents.js`), which is right for the nightly components and wrong
- * for everything else. `/experiments`, `/work` and `/elements` are authored
+ * for everything else. `/og` is the engineer's og.tsx, so the share card's
+ * findings go to it too. `/experiments`, `/work` and `/elements` are authored
  * route files no agent owns: feedback about them is a ticket for a human, not
  * a prompt for a model, and sending it to the engineer produces a confident
  * edit to a file it was never given.
@@ -1378,7 +1464,7 @@ function formatTapTargetAdvisory(findings) {
 export function ownerForSurface(surface) {
   // Kept as an explicit list rather than derived from MUTABLE_FILES, because
   // the mapping is route -> file and several routes share Layout/Sidebar.
-  const generated = ['/', '/about']
+  const generated = ['/', '/about', OG_CARD_ROUTE]
   if (generated.includes(surface)) return 'react-engineer'
   if (surface.startsWith('/work/')) return 'react-engineer'
   return 'human'
