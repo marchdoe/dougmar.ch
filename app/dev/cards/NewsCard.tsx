@@ -16,12 +16,17 @@ export function NewsCard({ signals }: { signals: Signals }) {
       <h3 className={cardHeading}>
         <span>// NEWS</span>
       </h3>
-      {news.headlines.map((h) => (
-        <div key={h.title} className={listRow({ align: 'baseline' })}>
-          <span className={cx(title, truncate)}>{h.title}</span>
-          {h.source && <span className={source}>{h.source}</span>}
-        </div>
-      ))}
+      {news.headlines.map((h, i) => {
+        // Wire syndication can hand back the same headline from two
+        // sources, so the index rules out a duplicate key.
+        const rowKey = h.title + i
+        return (
+          <div key={rowKey} className={listRow({ align: 'baseline' })}>
+            <span className={cx(title, truncate)}>{h.title}</span>
+            {h.source && <span className={source}>{h.source}</span>}
+          </div>
+        )
+      })}
       {news.headlines.length === 0 && <div className={emptyText}>No headlines</div>}
     </div>
   )

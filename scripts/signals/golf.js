@@ -43,8 +43,14 @@ export async function collect(_profile, { signal } = {}) {
   // then take the top 5.
   const sorted = [...competitors].sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
 
-  const leaders = sorted.slice(0, 5).map((c) => ({
-    name: c.athlete?.displayName || 'Unknown',
+  // A missing displayName used to fall back to the shared literal 'Unknown'.
+  // Two competitors ESPN sent without an athlete name then got the same
+  // name, which the panel used as a React key and broke the dev-panel E2E
+  // job on 2026-09-25. `i` is this leaderboard slice's own array index —
+  // unlike `order`, it can never repeat within the slice, so the fallback
+  // stays unique even when ESPN's own ordering doesn't.
+  const leaders = sorted.slice(0, 5).map((c, i) => ({
+    name: c.athlete?.displayName || `Unranked competitor #${i + 1}`,
     position: String(c.order ?? '?'),
     score: typeof c.score === 'string' ? c.score : c.score?.displayValue || 'E',
   }))

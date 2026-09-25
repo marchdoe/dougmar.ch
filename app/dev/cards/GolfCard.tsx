@@ -30,13 +30,19 @@ export function GolfCard({ signals }: { signals: Signals }) {
         <>
           <div className={tournament}>{golf.tournament}</div>
           <div className={status}>{golf.status}</div>
-          {golf.leaders.map((leader, i) => (
-            <div key={leader.name} className={leaderRow}>
-              <span className={position({ podium: i < 3 })}>{leader.position ?? i + 1}</span>
-              <span className={name}>{leader.name}</span>
-              <span className={score}>{leader.score}</span>
-            </div>
-          ))}
+          {golf.leaders.map((leader, i) => {
+            // Two competitors can share a name (or both fall back to the
+            // same placeholder — #676), so the index rules out a duplicate
+            // key.
+            const rowKey = leader.name + i
+            return (
+              <div key={rowKey} className={leaderRow}>
+                <span className={position({ podium: i < 3 })}>{leader.position ?? i + 1}</span>
+                <span className={name}>{leader.name}</span>
+                <span className={score}>{leader.score}</span>
+              </div>
+            )
+          })}
           {golf.leaders.length === 0 && <div className={emptyText}>No leaders yet</div>}
         </>
       ) : (

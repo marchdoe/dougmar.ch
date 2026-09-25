@@ -81,4 +81,36 @@ describe('golf provider', () => {
     expect(result.data.tournament).toBeNull()
     expect(result.data.leaders).toEqual([])
   })
+
+  it('gives two competitors with no athlete name distinct fallback names', async () => {
+    // On 2026-09-25 ESPN sent two competitors with no `athlete.displayName`.
+    // Both fell back to the shared literal 'Unknown', and the dev panel keys
+    // its leaderboard rows by name — two rows with the same key, one React
+    // console error, one red CI run. The fallback must be unique per row.
+    fetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        events: [
+          {
+            name: 'Fixture Open',
+            status: { type: { description: 'In Progress', state: 'in' } },
+            competitions: [
+              {
+                competitors: [
+                  { order: 1, athlete: { displayName: 'Player A' }, score: '-4' },
+                  { order: 2, athlete: null, score: 'E' },
+                  { order: 3, athlete: null, score: 'E' },
+                ],
+              },
+            ],
+          },
+        ],
+      }),
+    })
+
+    const result = await collect({})
+    const names = result.data.leaders.map((l) => l.name)
+    expect(new Set(names).size).toBe(names.length)
+    expect(names).toContain('Player A')
+  })
 })
