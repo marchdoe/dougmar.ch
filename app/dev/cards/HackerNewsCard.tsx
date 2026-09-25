@@ -28,10 +28,13 @@ export function HackerNewsCard({ signals }: { signals: Signals }) {
           HACKER NEWS
         </span>
       </h3>
-      {stories.map((story) => {
+      {stories.map((story, i) => {
         const opacity = Math.min(1, 0.7 + ((story.score ?? 0) / 500) * 0.3)
+        // Two stories can share a title (a repost, or the same link submitted
+        // twice), so the index rules out a duplicate key.
+        const rowKey = story.title + i
         return (
-          <div key={story.title} className={listRow({ align: 'baseline' })}>
+          <div key={rowKey} className={listRow({ align: 'baseline' })}>
             <span className={score} style={{ '--score-opacity': opacity } as CSSProperties}>
               {story.score}
             </span>

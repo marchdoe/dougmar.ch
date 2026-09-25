@@ -43,12 +43,15 @@ export function SportsCard({ signals }: { signals: Signals }) {
         <span>// SPORTS</span>
         <span className={cardHeadingMeta}>{teams.length} teams</span>
       </h3>
-      {teams.map((team) => {
+      {teams.map((team, i) => {
         const isActive = team.result !== 'off season'
         const result = team.result?.toLowerCase()
         const isWin = result === 'w' || result === 'win'
+        // Real feeds can report the same team name twice in a day (e.g. a
+        // doubleheader), so the index rules out a duplicate key.
+        const rowKey = team.name + i
         return (
-          <div key={team.name} className={teamRow({ active: isActive })}>
+          <div key={rowKey} className={teamRow({ active: isActive })}>
             <span className={dot({ size: 'sm', tone: isActive ? 'green' : 'ghost' })} />
             <span className={teamName({ active: isActive })}>{team.name}</span>
             {isActive ? (

@@ -43,10 +43,13 @@ export function GitHubCard({ signals }: { signals: Signals }) {
       <h3 className={cardHeading}>
         <span>// GITHUB TRENDING</span>
       </h3>
-      {repos.map((repo) => {
+      {repos.map((repo, i) => {
         const color = repo.language ? LANGUAGE_COLORS[repo.language] : undefined
+        // Trending pages can list the same repo name twice under different
+        // owners, so the index rules out a duplicate key.
+        const rowKey = repo.name + i
         return (
-          <div key={repo.name} className={listRow()}>
+          <div key={rowKey} className={listRow()}>
             {repo.language && (
               <span
                 className={languageDot}

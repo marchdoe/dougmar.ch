@@ -28,12 +28,17 @@ export function ProductHuntCard({ signals }: { signals: Signals }) {
       <h3 className={cardHeading}>
         <span>// PRODUCT HUNT</span>
       </h3>
-      {ph.products.map((p) => (
-        <div key={p.name} className={listRow({ align: 'baseline' })}>
-          <span className={votes}>{p.votes}</span>
-          <span className={name}>{p.name}</span>
-        </div>
-      ))}
+      {ph.products.map((p, i) => {
+        // Two launches can share a name, so the index rules out a duplicate
+        // key.
+        const rowKey = p.name + i
+        return (
+          <div key={rowKey} className={listRow({ align: 'baseline' })}>
+            <span className={votes}>{p.votes}</span>
+            <span className={name}>{p.name}</span>
+          </div>
+        )
+      })}
       {ph.products.length === 0 && <div className={emptyText}>No products</div>}
     </div>
   )
