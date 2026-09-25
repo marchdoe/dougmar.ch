@@ -158,6 +158,10 @@ A route rendering a fixed 1200×630 card (no scrolling, no responsiveness):
   as the site shell) in a corner or anchored position.
 - It is screenshotted headlessly at 1200×630. Design for exactly that
   box. Keep it simpler than the home page: phrase + field + mark.
+- Fit the headline to the card at 1200×630. Step the type down for a long
+  phrase rather than clipping it. Keep the whole lockup, mark and wordmark,
+  inside the safe margin. Never rely on `overflow: hidden` to hide text. The
+  surface gate measures this card; see its checklist line.
 - og.tsx is a capture target, not a destination. Never link to it from nav or anywhere else.
 
 ## Technical requirements
@@ -630,6 +634,7 @@ The surface gate renders every route at 360, 820 and 1440 in both colour schemes
 - Every route renders an h1, and at 1440 its top sits inside the first 900px. Every route shows a visible link to /about at 360 and 1440.
 - At 360, 820 and 1440, no text in Layout or Sidebar at opacity 0.05 or more lands on the text of a hand-written route (/work, /experiments, /elements). Fix: move the shell's text off the page's content, or give the route the room the shell takes.
 - The brand mark sits inside the first fold at 360 and 1440, at least 32px tall at 1440; a single-color mark reaches 3:1 on its ground.
+- The share card (/og) is measured once, at 1200x630 in the light scheme, the size it is captured at: every visible line of text and the whole brand lockup, mark and wordmark, sit at least 40px inside every edge of the card, and no ancestor's overflow cuts any of it. Type inside an aria-hidden layer at opacity 0.2 or less is texture and exempt. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text.
 
 ## Self-check before responding
 

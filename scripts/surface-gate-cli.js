@@ -12,7 +12,8 @@
  * `--port` reuses a server that is already listening (`pnpm dev`, or a
  * `vite preview`); without it the gate spawns `vite preview` itself, which
  * needs a `dist/`. `--route` narrows the walk and may repeat; without it every
- * generated route is measured. Output is the gate's JSON, and the exit code
+ * generated route is measured, and the share card at 1200x630 (`--route /og`
+ * measures the card alone). Output is the gate's JSON, and the exit code
  * is 1 when any finding is an error.
  */
 

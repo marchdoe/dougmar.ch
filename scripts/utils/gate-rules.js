@@ -32,6 +32,12 @@ import {
   FORBIDDEN_PREFIXES,
 } from './file-manager.js'
 import { LINE_LENGTH_FIX, LINE_LENGTH_OPTIONS } from './line-length.js'
+import {
+  OG_CARD_VIEWPORT,
+  OG_FIT_FIX,
+  OG_SAFE_MARGIN_PX,
+  OG_TEXTURE_MAX_OPACITY,
+} from './og-card-fit.js'
 import { INVISIBLE_FIX, STRANDED_FIX, WORD_BREAK_FIX } from './render-health.js'
 import {
   LINE_LENGTH_MAX_CHARS,
@@ -399,6 +405,17 @@ export function collectSurfaceRules() {
       rule:
         `The brand mark sits inside the first fold at ${both}, at least ${BRAND_MARK_MIN_PX}px ` +
         `tall at ${desktop}; a single-color mark reaches ${BRAND_CONTRAST_MIN}:1 on its ground.`,
+    },
+    {
+      gate: 'og-card-fit',
+      kinds: ['og-fit'],
+      rule:
+        `The share card (/og) is measured once, at ${OG_CARD_VIEWPORT.width}x` +
+        `${OG_CARD_VIEWPORT.height} in the light scheme, the size it is captured at: every ` +
+        'visible line of text and the whole brand lockup, mark and wordmark, sit at least ' +
+        `${OG_SAFE_MARGIN_PX}px inside every edge of the card, and no ancestor's overflow cuts ` +
+        `any of it. Type inside an aria-hidden layer at opacity ${OG_TEXTURE_MAX_OPACITY} or ` +
+        `less is texture and exempt. ${OG_FIT_FIX}`,
     },
   ]
 }
