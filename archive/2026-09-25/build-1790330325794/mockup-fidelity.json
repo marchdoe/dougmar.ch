@@ -1,0 +1,247 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'fun' (16px in the mockup) is present but not rendered (opacity/clipped/offscreen) in the build",
+          "facts": {
+            "text": "fun",
+            "mockupPx": 16,
+            "hidden": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'3-2' is 92px in the mockup and 160px in the build (1.74x)",
+          "facts": {
+            "text": "3-2",
+            "mockupPx": 92,
+            "buildPx": 160,
+            "ratio": 1.74,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'doug runs spaceman for the paying work and builds fishsti...' is 34px in the mockup and 81px in the build (2.38x). Set it back to 34px.",
+          "facts": {
+            "text": "doug runs spaceman for the paying work and builds fishsticks and 15th club on the side for the joy of it",
+            "mockupPx": 34,
+            "buildPx": 81,
+            "ratio": 2.38,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'doug runs spaceman for the paying work and builds fishsticks and 15th club on the side for the joy of it' moved from (720, 651) in the mockup to (720, 1091) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dale carnegie friday full moon' moved from (720, 529) in the mockup to (720, 824) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'theres the work a little about or a way to contact' moved from (720, 793) in the mockup to (720, 1405) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "mockup's largest ('3-2', 52px) leads its runner-up ('people rarely succeed unless they have fun in what they are doing', 40px) by 1.3x; in the build the same two lead by only 1.1x",
+          "facts": {
+            "shape": "flattened",
+            "leader": {
+              "text": "3-2",
+              "mockupPx": 52,
+              "buildPx": 63
+            },
+            "runnerUp": {
+              "text": "people rarely succeed unless they have fun in what they are doing",
+              "mockupPx": 40,
+              "buildPx": 55
+            },
+            "mockupGap": 1.3,
+            "buildGap": 1.1,
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug runs spaceman for the paying work and builds fishsticks and 15th club on the side for the joy of it' is 21px in the mockup and 36px in the build (1.71x)",
+          "facts": {
+            "text": "doug runs spaceman for the paying work and builds fishsticks and 15th club on the side for the joy of it",
+            "mockupPx": 21,
+            "buildPx": 36,
+            "ratio": 1.71,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug runs spaceman for the paying work and builds fishsticks and 15th club on the side for the joy of it' moved from (180, 462) in the mockup to (180, 696) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'theres the work a little about or a way to contact' moved from (180, 567) in the mockup to (180, 942) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: The mockup sets '3-2' at 52px over 'people rarely succeed unless they have fun in what they a...' at 40px, a 1.3x lead; the build sets them at 63px and 55px. Restore the mockup's sizes so '3-2' leads.",
+        "- / at 1440px: The mockup sets 'fun' at 16px; the build has it but does not show it (opacity near 0, clipped, or off the page). Make it visible.",
+        "- / at 1440px: '3-2' is 92px in the mockup and 160px in the build (1.74x). Set it back to 92px.",
+        "- / at 360px: 'doug runs spaceman for the paying work and builds fishsti...' is 21px in the mockup and 36px in the build (1.71x). Set it back to 21px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'fun' (16px in the mockup) is present but not rendered (opacity/clipped/offscreen) in the build",
+          "facts": {
+            "text": "fun",
+            "mockupPx": 16,
+            "hidden": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'doug runs spaceman for the paying work and builds fishsticks and 15th club on the side for the joy of it' moved from (720, 651) in the mockup to (720, 988) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dale carnegie friday full moon' moved from (720, 529) in the mockup to (720, 824) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'theres the work a little about or a way to contact' moved from (720, 793) in the mockup to (720, 1152) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "mockup's largest ('3-2', 52px) leads its runner-up ('people rarely succeed unless they have fun in what they are doing', 40px) by 1.3x; in the build the same two lead by only 1.0x",
+          "facts": {
+            "shape": "flattened",
+            "leader": {
+              "text": "3-2",
+              "mockupPx": 52,
+              "buildPx": 52
+            },
+            "runnerUp": {
+              "text": "people rarely succeed unless they have fun in what they are doing",
+              "mockupPx": 40,
+              "buildPx": 55
+            },
+            "mockupGap": 1.3,
+            "buildGap": 1,
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'theres the work a little about or a way to contact' moved from (180, 567) in the mockup to (180, 742) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: The mockup sets '3-2' at 52px over 'people rarely succeed unless they have fun in what they a...' at 40px, a 1.3x lead; the build sets them at 52px and 55px. Restore the mockup's sizes so '3-2' leads.",
+        "- / at 1440px: The mockup sets 'fun' at 16px; the build has it but does not show it (opacity near 0, clipped, or off the page). Make it visible."
+      ]
+    }
+  ]
+}

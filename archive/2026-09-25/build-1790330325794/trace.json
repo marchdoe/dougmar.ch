@@ -1,0 +1,2168 @@
+{
+  "date": "2026-09-25",
+  "startedAt": "2026-09-25T09:38:52.437Z",
+  "completedAt": "2026-09-25T09:58:55.272Z",
+  "steps": [
+    {
+      "name": "signals-loaded",
+      "phase": 0,
+      "input": {
+        "providersAvailable": 19
+      },
+      "output": {
+        "air_quality": {
+          "aqi_index": 1,
+          "uv_index": 0,
+          "air_quality_label": "Good"
+        },
+        "awwwards": {
+          "sites_of_the_day": [
+            {
+              "title": "The Tie-break",
+              "description": "Play and explore the new New Balance x Miu Miu collection with Coco Gauff.",
+              "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/07/6a47a79eb4dbe565070348.jpg"
+            },
+            {
+              "title": "The Ride",
+              "description": "An experiment with AI, storytelling and interaction. A personal experience built as a first-person motorcycle ride, where story, personality, motion,...",
+              "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/09/6aa2b61ff0f7d582401937.jpg"
+            },
+            {
+              "title": "The Robot and Me",
+              "description": "I never wanted to know if the machine could replace me. I wanted to know what we'd make in the same room. Seven experiments, each one its own world.",
+              "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/09/6a9d3d2d6849b290137381.jpg"
+            }
+          ]
+        },
+        "books": {
+          "currently_reading": []
+        },
+        "day_of_week": {
+          "day": "Friday",
+          "is_weekend": false,
+          "day_index": 5
+        },
+        "github": {
+          "repos": [
+            {
+              "name": "sponsors/rohitg00",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            },
+            {
+              "name": "vectorize-io/hindsight/stargazers",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            },
+            {
+              "name": "dream-num/univer/stargazers",
+              "description": "",
+              "language": "TypeScript",
+              "stars": null
+            },
+            {
+              "name": "google/ax/stargazers",
+              "description": "",
+              "language": "Go",
+              "stars": null
+            },
+            {
+              "name": "NVIDIA/Model-Optimizer/stargazers",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            }
+          ]
+        },
+        "golf": {
+          "tournament": "Presidents Cup",
+          "status": "In Progress",
+          "leaders": [
+            {
+              "name": "Unknown",
+              "position": "1",
+              "score": "3"
+            },
+            {
+              "name": "Unknown",
+              "position": "2",
+              "score": "2"
+            }
+          ]
+        },
+        "hacker_news": {
+          "stories": [
+            {
+              "title": "Dutch governments builds alternative for Microsoft based on NixOS",
+              "url": "https://www.dawo.community/en/",
+              "score": 85,
+              "by": "fjfaase"
+            },
+            {
+              "title": "Pentium II at 600Mhz with Voodoo 3 Emulated on 86Box with M6 Mac Mini",
+              "url": "https://nyaa.sh/reviews/mac-mini-m6-emulation",
+              "score": 39,
+              "by": "hugh4life"
+            },
+            {
+              "title": "The last day of the dinosaurs, as an interactive painting",
+              "url": "https://www.echohive.ai/experiments/dinosaurs",
+              "score": 8,
+              "by": "echohive42"
+            },
+            {
+              "title": "F-Droid 2.0",
+              "url": "https://f-droid.org/2026/09/24/f-droid-2.0-a-new-chapter-for-android-freedom.html",
+              "score": 1244,
+              "by": "daveoc64"
+            },
+            {
+              "title": "CVE-2025-13032: Entering and Breaking the Avast Antivirus Sandbox Part 2",
+              "url": "https://www.safateam.com/intelligence-hub/research/technical-articles/cve-2025-13032-entering-and-breaking-the-avast-antivirus-sandbox-part-2",
+              "score": 46,
+              "by": "safateam"
+            }
+          ]
+        },
+        "holidays": {
+          "today": null,
+          "upcoming": []
+        },
+        "lunar": {
+          "phase": "full moon",
+          "illumination": 0.998,
+          "days_into_cycle": 14.31
+        },
+        "market": {
+          "symbol": "SPY",
+          "price": "767.1800",
+          "change": "-0.6300",
+          "change_percent": "-0.0821%",
+          "direction": "down"
+        },
+        "music": {
+          "bands": [
+            "Tobin Sprout",
+            "Guided by Voices",
+            "Radiohead"
+          ],
+          "rotation": true
+        },
+        "news": {
+          "headlines": [
+            {
+              "title": "Ethiopia and Tigray accuse each of launching offensives, fuelling fears of new war - BBC",
+              "source": "BBC News",
+              "url": "https://www.bbc.com/news/articles/cry8zwwq21pxo"
+            },
+            {
+              "title": "Global bond sell-off deepens as oil holds above $100 - Financial Times",
+              "source": "Financial Times",
+              "url": "https://www.ft.com/content/2d87f8bf-d529-4997-90c5-393ef65d280c"
+            },
+            {
+              "title": "‘America’s Got Talent’ Crowns Season 21 Champion - Billboard",
+              "source": "Billboard",
+              "url": "http://www.billboard.com/culture/tv-film/americas-got-talent-season-21-champion-1236346074/"
+            },
+            {
+              "title": "Hurricane Polo fuels fears of landslides in Mexico as Nolo closes in on Hawaii - NPR",
+              "source": "NPR",
+              "url": "https://www.npr.org/2026/09/23/nx-s1-5979140/hurricane-polo-mexico-nolo-hawaii"
+            },
+            {
+              "title": "Zelenskyy says Ukraine sent 2 North Korean prisoners of war to South Korea - AP News",
+              "source": "Associated Press",
+              "url": "https://apnews.com/article/south-korea-ukraine-zelenskyy-north-korea-pows-4ad738b6b9ceb30cad12cef70058aa6e"
+            }
+          ]
+        },
+        "quote": {
+          "text": "People rarely succeed unless they have fun in what they are doing.",
+          "author": "Dale Carnegie"
+        },
+        "season": {
+          "season": "fall",
+          "month": 9,
+          "day": 25,
+          "day_of_year": 268,
+          "month_name": "September"
+        },
+        "sidebar": {
+          "links": [
+            {
+              "title": "I don’t want the details",
+              "url": "https://michaelheap.com/i-dont-want-the-details/",
+              "source": "michaelheap.com",
+              "description": "Why reasonable explanations are one of the easiest ways to avoid changing anything."
+            },
+            {
+              "title": "Anatomy of a $100 bill",
+              "url": "https://www.realworth.io/anatomy-of-a-100-dollar-bill",
+              "source": "realworth.io",
+              "description": "A 3D tour of the U.S. $100 bill, plus 15 design and security feature groups explained."
+            },
+            {
+              "title": "IMG_0001",
+              "url": "https://walzr.com/IMG_0001/",
+              "source": "walzr.com",
+              "description": "A bot that crawled YouTube and found 5 million of raw, unedited videos."
+            },
+            {
+              "title": "Skip the tools, make the outcomes",
+              "url": "https://www.lukew.com/ff/entry.asp",
+              "source": "lukew.com",
+              "description": "The pervasiveness of tools may have implanted the wrong instinct in our heads in a world of AI."
+            },
+            {
+              "title": "Isometric NYC",
+              "url": "https://cannoneyed.com/isometric-nyc/",
+              "source": "cannoneyed.com",
+              "description": "A giant isometric pixel-art map of New York City. And an excuse to push hard on the limits of the latest and greatest coding agents."
+            }
+          ]
+        },
+        "sports": {
+          "teams": [
+            {
+              "name": "Detroit Lions",
+              "league": "NFL",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            },
+            {
+              "name": "Detroit Red Wings",
+              "league": "NHL",
+              "last_game": "2026-09-24T23:00Z",
+              "result": "win",
+              "score": "3-2"
+            },
+            {
+              "name": "Detroit Pistons",
+              "league": "NBA",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            },
+            {
+              "name": "Detroit Tigers",
+              "league": "MLB",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            }
+          ]
+        },
+        "sun": {
+          "sunrise": "07:07",
+          "sunset": "18:55",
+          "daylight_hours": 11.8
+        },
+        "weather": {
+          "location": "Aldie, Virginia",
+          "conditions": "Overcast",
+          "temp_f": 47,
+          "temp_c": 8.3,
+          "humidity": 78,
+          "wind_mph": 6.9,
+          "wind_dir": "NNW",
+          "feels_like_f": 43.5
+        },
+        "date": "2026-09-25"
+      },
+      "durationMs": 0,
+      "timestamp": "2026-09-25T09:38:52.459Z"
+    },
+    {
+      "name": "art-director",
+      "phase": 1,
+      "input": {
+        "compositionMandate": "## Composition Mandate\n\nRecency is tracked per axis, not per whole tuple: a value used on any of the last 3 builds is discouraged for that axis. The starting values below are derived from today's date — they are a specific place to begin, not an instruction.\n\n- **columns** — start from `single` (avoid `three`, `two-asymmetric`, `two-equal`)\n- **axis** — start from `radial` (avoid `vertical`, `horizontal`, `diagonal`)\n- **symmetry** — start from `mirrored` (avoid `left-weighted`, `broken`, `right"
+      },
+      "output": {
+        "hero_copy": "People rarely succeed unless they have fun in what they are doing.",
+        "archetype": "A warm specimen poster, one line reversed out of a fairway-green field.",
+        "composition": {
+          "columns": "single",
+          "axis": "radial",
+          "symmetry": "symmetric",
+          "hero_zone": "center",
+          "density": "sparse",
+          "rhythm": "accelerating",
+          "shell_posture": "standard",
+          "field_ratio": "drenched",
+          "collapse": "reorder",
+          "hero_object": "statement"
+        },
+        "mobile": {
+          "carrier": "The quote itself, full-width and centred on the green field, carries the idea; nothing structural at 1440 needs to survive because the composition was already one centred column.",
+          "first_fold": "The hero quote, \"People rarely succeed unless they have fun in what they are doing,\" with Carnegie named beneath it.",
+          "order": "hero quote, Red Wings win note, remaining signals, work links, colophon footer",
+          "hero_step_360": "3xl",
+          "nav_360": "Mark stays top-left corner; the nav sentence drops below the hero as one centred small-caps line above the signal rows."
+        },
+        "chassisId": "fraunces-karla",
+        "specLength": 4268,
+        "specPreview": "### 1. Color Specification\n- **Primary hue**: 152° (fairway green). Sits inside the 140–180° mandate, and green is Doug's own register (golf, the fairway split gold standard); saturated it reads buoyant rather than clinical, which the \"have fun\" line asks for.\n- **Neutral palette (sage-cream)**: 50 `#F4F5EC`, 100 `#E6E9DC`, 200 `#CBD2BE`, 300 `#A9B49B`, 400 `#7F8C71`, 500 `#5C6A50`, 600 `#45513B`, 700 `#333D2C`, 800 `#232B1E`, 900 `#151A11`\n- **Accent color (marigold)**: light `#F9C74B`, default",
+        "selfCheck": "1. Hero quotability: Yes — a complete Carnegie aphorism, screenshot-ready in isolation with its author named.\n2. Because-of chain: Yes — warm fun line → centred sparse statement poster → warm Fraunces italic → green drench with marigold spark.\n3. Render feasibility: Yes — `clamp(40px,7vw,104px)` pea"
+      },
+      "durationMs": 238134,
+      "timestamp": "2026-09-25T09:42:50.614Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 0
+      },
+      "output": {
+        "verdict": "APPROVE",
+        "feedback": "The composition executes the brief with rare commitment: the Carnegie line anchors the page at full scale, breathing with air on all sides, the green field drenched and saturated so it reads buoyant rather than clinical, and the type—light italic Fraunces—carries the warmth the aphorism asks for. The mark sits corner, the nav drops to a centred sentence low in the field, and the signal ledger below reads as orbit, not clutter. On the phone the quote holds at 360, the Red Wings spark lands in fol"
+      },
+      "durationMs": 156992,
+      "timestamp": "2026-09-25T09:45:29.392Z"
+    },
+    {
+      "name": "mockup-patch",
+      "phase": 2,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "edits": 1,
+        "bytes": 16835
+      },
+      "durationMs": 44753,
+      "timestamp": "2026-09-25T09:46:14.145Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "verdict": "APPROVE",
+        "feedback": "The composition executes the brief at full commitment: the Carnegie quote dominates the centre at hero scale, set in light italic Fraunces that reads as spoken rather than shouted, and the fairway green drench floods the field with the marigold Red Wings win as the only accent—exactly the tone the brief called for. The centred single column holds at 360, the quote still commanding the first fold, the hierarchy unshaken as it reflows. The mark sits corner, the nav drops to a small centred sentenc"
+      },
+      "durationMs": 58196,
+      "timestamp": "2026-09-25T09:46:27.588Z"
+    },
+    {
+      "name": "react-engineer",
+      "phase": 3,
+      "input": {
+        "tokenContext": 3208,
+        "briefLength": 7919,
+        "mockupLength": 16835
+      },
+      "output": {
+        "files": [
+          "app/components/Layout.tsx",
+          "app/components/Sidebar.tsx",
+          "app/components/generated/NavSentence.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/Signals.tsx",
+          "app/components/generated/Colophon.tsx",
+          "app/components/generated/SectionHead.tsx",
+          "app/components/generated/Ledger.tsx",
+          "app/components/generated/AboutStatement.tsx",
+          "app/components/generated/AboutTimeline.tsx",
+          "app/components/generated/AboutCapabilities.tsx",
+          "app/components/generated/AboutEducation.tsx",
+          "app/components/generated/AboutPersonal.tsx",
+          "app/components/generated/CaseHeader.tsx",
+          "app/components/generated/CaseLinks.tsx",
+          "app/components/generated/CaseBody.tsx",
+          "app/components/generated/CaseMissing.tsx",
+          "app/routes/index.tsx",
+          "app/routes/about.tsx",
+          "app/routes/work.$slug.tsx",
+          "app/routes/og.tsx"
+        ],
+        "rationale": ""
+      },
+      "durationMs": 247879,
+      "timestamp": "2026-09-25T09:50:35.564Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 3,
+      "input": {
+        "after": "react-engineer"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutCapabilities.tsx",
+          "app/components/generated/AboutEducation.tsx",
+          "app/components/generated/AboutPersonal.tsx",
+          "app/components/generated/AboutStatement.tsx",
+          "app/components/generated/AboutTimeline.tsx",
+          "app/components/generated/CaseBody.tsx",
+          "app/components/generated/CaseHeader.tsx",
+          "app/components/generated/CaseLinks.tsx",
+          "app/components/generated/CaseMissing.tsx",
+          "app/components/generated/Colophon.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/Ledger.tsx",
+          "app/components/generated/NavSentence.tsx",
+          "app/components/generated/SectionHead.tsx",
+          "app/components/generated/Signals.tsx"
+        ],
+        "removed": [
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/AboutLedger.tsx",
+          "app/components/generated/CapabilityChips.tsx",
+          "app/components/generated/CaseBand.tsx",
+          "app/components/generated/CaseHero.tsx",
+          "app/components/generated/ColumnTitle.tsx",
+          "app/components/generated/FeaturedNote.tsx",
+          "app/components/generated/KeyValueRows.tsx",
+          "app/components/generated/LedgerColumn.tsx",
+          "app/components/generated/LedgerRow.tsx",
+          "app/components/generated/SignalBand.tsx",
+          "app/components/generated/SiteFooter.tsx",
+          "app/components/generated/StudioColumn.tsx",
+          "app/components/generated/TimelineBand.tsx",
+          "app/components/generated/TimelineRow.tsx",
+          "app/components/generated/WorkLedger.tsx",
+          "app/components/generated/ZoneHead.tsx"
+        ]
+      },
+      "durationMs": 11,
+      "timestamp": "2026-09-25T09:50:35.575Z"
+    },
+    {
+      "name": "build-validation",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "success": true
+      },
+      "durationMs": 0,
+      "timestamp": "2026-09-25T09:50:50.406Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "measured": 72,
+        "errorCount": 15,
+        "findings": [
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "340 characters of running copy set at 81px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/about",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "340 characters of running copy set at 81px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "234 characters of running copy set at 81px (over 48px) — \"Independent design and engineering work doesn't always fit n...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "234 characters of running copy set at 81px (over 48px) — \"Independent design and engineering work doesn't always fit n...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "186 characters of running copy set at 81px (over 48px) — \"Kids struggle to practice spelling lists from school — the t...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "186 characters of running copy set at 81px (over 48px) — \"Kids struggle to practice spelling lists from school — the t...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'dougmar.ch' is a 99x22px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Deletion Test' is a 139x22px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Phoenix Primitives' is a 190x22px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Evaluations Are the Real Codebase' is a 283x22px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'dougmar.ch' is a 99x22px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Deletion Test' is a 139x22px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Phoenix Primitives' is a 190x22px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Evaluations Are the Real Codebase' is a 283x22px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "error",
+            "owner": "react-engineer",
+            "ratio": 1.4689198367582879,
+            "key": "contrast|div.w_100%.d_flex.flex-wrap_wrap.jc_space-between > span.ff_body.fw_normal.textStyle_sm.c_text > span.c_accent.fw_bold|#517332|#0d5d33",
+            "detail": "<div.w_100%.d_flex.flex-wrap_wrap.jc_space-between > span.ff_body.fw_normal.textStyle_sm.c_text > span.c_accent.fw_bold> \"−3\" (x2) at 14.5px bold: #517332 on #0d5d33 is 1.46:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "error",
+            "owner": "react-engineer",
+            "ratio": 1.5776851132446623,
+            "key": "contrast|div.w_100%.max-w_720px.d_flex.flex-d_column > div.w_100%.ta_center.pt_4.lg:pt_5 > div.mt_2.textStyle_xs.fv_small-caps.ls_wider|#427a57|#0d5d33",
+            "detail": "<div.w_100%.max-w_720px.d_flex.flex-d_column > div.w_100%.ta_center.pt_4.lg:pt_5 > div.mt_2.textStyle_xs.fv_small-caps.ls_wider> \"Detroit Red Wings win, the bright note\" at 13.2px: #427a57 on #0d5d33 is 1.57:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "error",
+            "owner": "react-engineer",
+            "ratio": 1.5776851132446623,
+            "key": "contrast|div.w_100%.d_flex.flex-d_column.ai_center > div.w_100%.d_flex.flex-wrap_wrap.jc_space-between > span.textStyle_xs.fv_small-caps.ls_wider.c_textMuted|#427a57|#0d5d33",
+            "detail": "<div.w_100%.d_flex.flex-d_column.ai_center > div.w_100%.d_flex.flex-wrap_wrap.jc_space-between > span.textStyle_xs.fv_small-caps.ls_wider.c_textMuted> \"Presidents Cup, in progress\" (x5) at 13.2px: #427a57 on #0d5d33 is 1.57:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "error",
+            "owner": "react-engineer",
+            "ratio": 1.5776851132446623,
+            "key": "contrast|div.w_100%.max-w_720px.d_flex.flex-d_column > div.w_100%.d_flex.flex-d_column.ai_center > p.pt_3.ff_display.font-style_italic.fw_normal|#427a57|#0d5d33",
+            "detail": "<div.w_100%.max-w_720px.d_flex.flex-d_column > div.w_100%.d_flex.flex-d_column.ai_center > p.pt_3.ff_display.font-style_italic.fw_normal> \"On the turntable: Tobin Sprout, Guided b\" at 19.6px: #427a57 on #0d5d33 is 1.57:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "error",
+            "owner": "react-engineer",
+            "ratio": 1.9022882777122896,
+            "key": "contrast|div.w_100%.d_flex.flex-d_column.ai_center > div.w_100%.d_flex.flex-wrap_wrap.jc_space-between > span.ff_body.fw_normal.textStyle_sm.c_text|#528769|#0d5d33",
+            "detail": "<div.w_100%.d_flex.flex-d_column.ai_center > div.w_100%.d_flex.flex-wrap_wrap.jc_space-between > span.ff_body.fw_normal.textStyle_sm.c_text> \"leaders ,\" (x5) at 14.5px: #528769 on #0d5d33 is 1.90:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 3.58896985501855,
+            "key": "contrast|div.w_100%.d_flex.flex-wrap_wrap.jc_space-between > span.ff_body.fw_normal.textStyle_sm.c_text > span.c_accent.fw_bold|#f2b535|#0f6b3b",
+            "detail": "<div.w_100%.d_flex.flex-wrap_wrap.jc_space-between > span.ff_body.fw_normal.textStyle_sm.c_text > span.c_accent.fw_bold> \"−3\" (x2) at 14.5px bold: #f2b535 on #0f6b3b is 3.58:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 3.891526977700153,
+            "key": "contrast|summary|react-engineer",
+            "detail": "3 more distinct low-contrast pairs are not listed; the worst is 3.89:1."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|section.pos_relative.isolation_isolate.ov_hidden.bg_bg > div.pos_relative.z_1.d_flex.flex-d_column > p.ff_body.fw_normal.textStyle_base.lg:textStyle_md|svg.pos_absolute.inset_0px.w_100%.h_100% (positioned svg)",
+            "detail": "<section.pos_relative.isolation_isolate.ov_hidden.bg_bg > div.pos_relative.z_1.d_flex.flex-d_column > p.ff_body.fw_normal.textStyle_base.lg:textStyle_md> \"Dale Carnegie Friday, full moon\" at 16px sits over svg.pos_absolute.inset_0px.w_100%.h_100% (positioned svg); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|section.pos_relative.isolation_isolate.ov_hidden.bg_bg > div.pos_relative.z_1.mt_4.lg:mt_5 > nav.ff_body.textStyle_sm.fw_normal.fv_small-caps|svg.pos_absolute.inset_0px.w_100%.h_100% (positioned svg)",
+            "detail": "<section.pos_relative.isolation_isolate.ov_hidden.bg_bg > div.pos_relative.z_1.mt_4.lg:mt_5 > nav.ff_body.textStyle_sm.fw_normal.fv_small-caps> \"There’s the , a little , or a way to .\" at 14.5px sits over svg.pos_absolute.inset_0px.w_100%.h_100% (positioned svg); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|div.pos_relative.z_1.mt_4.lg:mt_5 > nav.ff_body.textStyle_sm.fw_normal.fv_small-caps > a.c_text.d_inline-block.lh_1.py_3|svg.pos_absolute.inset_0px.w_100%.h_100% (positioned svg)",
+            "detail": "<div.pos_relative.z_1.mt_4.lg:mt_5 > nav.ff_body.textStyle_sm.fw_normal.fv_small-caps > a.c_text.d_inline-block.lh_1.py_3> \"work\" (x3) at 14.5px sits over svg.pos_absolute.inset_0px.w_100%.h_100% (positioned svg); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|summary|react-engineer",
+            "detail": "1 more distinct texts over a textured ground are not listed."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "line-length",
+            "severity": "error",
+            "owner": "human",
+            "rank": 84,
+            "key": "line-length|ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6",
+            "detail": "<ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "line-length",
+            "severity": "error",
+            "owner": "human",
+            "rank": 81,
+            "key": "line-length|article.bg_bg.c_text.ff_body.fw_normal > div.max-w_40rem.lg:max-w_55rem.ml_auto.mr_auto > p.m_0.mt_2rem.lg:mt_2.5rem.fs_1.3125rem",
+            "detail": "<article.bg_bg.c_text.ff_body.fw_normal > div.max-w_40rem.lg:max-w_55rem.ml_auto.mr_auto > p.m_0.mt_2rem.lg:mt_2.5rem.fs_1.3125rem> \"Chad Fowler argues that once a machine w\" sets 81 characters on its longest line (4 lines, median 74) at 24px in a 880px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "line-length",
+            "severity": "error",
+            "owner": "human",
+            "rank": 81,
+            "key": "line-length|article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty",
+            "detail": "<article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" (x2) sets 81 characters on its longest line (8 lines, median 78) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px."
+          },
+          {
+            "surface": "/",
+            "scheme": "light",
+            "kind": "mockup-scale",
+            "severity": "error",
+            "route": "/",
+            "viewport": "desktop",
+            "width": 1440,
+            "detail": "'doug runs spaceman for the paying work and builds fishsti...' is 34px in the mockup and 81px in the build (2.38x). Set it back to 34px.",
+            "facts": {
+              "text": "doug runs spaceman for the paying work and builds fishsticks and 15th club on the side for the joy of it",
+              "mockupPx": 34,
+              "buildPx": 81,
+              "ratio": 2.38,
+              "mockupRank": 2
+            }
+          },
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 1,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'fun' (16px in the mockup) is present but not rendered (opacity/clipped/offscreen) in the build",
+              "facts": {
+                "text": "fun",
+                "mockupPx": 16,
+                "hidden": true
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-scale",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'3-2' is 92px in the mockup and 160px in the build (1.74x)",
+              "facts": {
+                "text": "3-2",
+                "mockupPx": 92,
+                "buildPx": 160,
+                "ratio": 1.74,
+                "mockupRank": 1
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-scale",
+              "severity": "error",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'doug runs spaceman for the paying work and builds fishsti...' is 34px in the mockup and 81px in the build (2.38x). Set it back to 34px.",
+              "facts": {
+                "text": "doug runs spaceman for the paying work and builds fishsticks and 15th club on the side for the joy of it",
+                "mockupPx": 34,
+                "buildPx": 81,
+                "ratio": 2.38,
+                "mockupRank": 2
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'doug runs spaceman for the paying work and builds fishsticks and 15th club on the side for the joy of it' moved from (720, 651) in the mockup to (720, 1091) in the build; crossed the fold"
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'dale carnegie friday full moon' moved from (720, 529) in the mockup to (720, 824) in the build"
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'theres the work a little about or a way to contact' moved from (720, 793) in the mockup to (720, 1405) in the build; crossed the fold"
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-hierarchy",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "mockup's largest ('3-2', 52px) leads its runner-up ('people rarely succeed unless they have fun in what they are doing', 40px) by 1.3x; in the build the same two lead by only 1.1x",
+              "facts": {
+                "shape": "flattened",
+                "leader": {
+                  "text": "3-2",
+                  "mockupPx": 52,
+                  "buildPx": 63
+                },
+                "runnerUp": {
+                  "text": "people rarely succeed unless they have fun in what they are doing",
+                  "mockupPx": 40,
+                  "buildPx": 55
+                },
+                "mockupGap": 1.3,
+                "buildGap": 1.1,
+                "leaderLost": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-scale",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'doug runs spaceman for the paying work and builds fishsticks and 15th club on the side for the joy of it' is 21px in the mockup and 36px in the build (1.71x)",
+              "facts": {
+                "text": "doug runs spaceman for the paying work and builds fishsticks and 15th club on the side for the joy of it",
+                "mockupPx": 21,
+                "buildPx": 36,
+                "ratio": 1.71,
+                "mockupRank": 2
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'doug runs spaceman for the paying work and builds fishsticks and 15th club on the side for the joy of it' moved from (180, 462) in the mockup to (180, 696) in the build; crossed the fold"
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'theres the work a little about or a way to contact' moved from (180, 567) in the mockup to (180, 942) in the build; crossed the fold"
+            }
+          ],
+          "briefed": [
+            "- / at 360px: The mockup sets '3-2' at 52px over 'people rarely succeed unless they have fun in what they a...' at 40px, a 1.3x lead; the build sets them at 63px and 55px. Restore the mockup's sizes so '3-2' leads.",
+            "- / at 1440px: The mockup sets 'fun' at 16px; the build has it but does not show it (opacity near 0, clipped, or off the page). Make it visible.",
+            "- / at 1440px: '3-2' is 92px in the mockup and 160px in the build (1.74x). Set it back to 92px.",
+            "- / at 360px: 'doug runs spaceman for the paying work and builds fishsti...' is 21px in the mockup and 36px in the build (1.71x). Set it back to 21px."
+          ]
+        }
+      },
+      "durationMs": 44991,
+      "timestamp": "2026-09-25T09:51:35.415Z"
+    },
+    {
+      "name": "screenshot-critic",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 11 (Type Treatment) — react-engineer: The homepage standfirst \"Doug runs Spaceman for the paying work...\" renders at 81px versus the mockup's 34px (2.38×), landing nearly at hero scale (hero clamp maxes ~104px) instead of the spec's mid-register `2xl` step. This collapses the intended hero→standfirst→body scale progression and lets the standfirst compete with the hero quote for dominance. Reset it to the `2xl` token.\n- Section 3 (Readability) — react-e"
+      },
+      "durationMs": 122184,
+      "timestamp": "2026-09-25T09:53:37.600Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 5,
+      "input": {
+        "after": "React Engineer revision"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutCapabilities.tsx",
+          "app/components/generated/AboutEducation.tsx",
+          "app/components/generated/AboutPersonal.tsx",
+          "app/components/generated/AboutStatement.tsx",
+          "app/components/generated/AboutTimeline.tsx",
+          "app/components/generated/CaseBody.tsx",
+          "app/components/generated/CaseHeader.tsx",
+          "app/components/generated/CaseLinks.tsx",
+          "app/components/generated/CaseMissing.tsx",
+          "app/components/generated/Colophon.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/Ledger.tsx",
+          "app/components/generated/NavSentence.tsx",
+          "app/components/generated/SectionHead.tsx",
+          "app/components/generated/Signals.tsx"
+        ],
+        "removed": []
+      },
+      "durationMs": 4,
+      "timestamp": "2026-09-25T09:54:33.795Z"
+    },
+    {
+      "name": "revision",
+      "phase": 4,
+      "input": {
+        "round": 1,
+        "verdict": "REVISE",
+        "responsibleAgent": "react-engineer",
+        "gateForced": true,
+        "engineerFaults": 12,
+        "feedback": "**Issues:**\n- Section 11 (Type Treatment) — react-engineer: The homepage standfirst \"Doug runs Spaceman for the paying work...\" renders at 81px versus the mockup's 34px (2.38×), landing nearly at hero scale (hero clamp maxes ~104px) instead of the spec's mid-register `2xl` step. This collapses the intended hero→standfirst→body scale progression and lets the standfirst compete with the hero quote for dominance. Reset it to the `2xl` token.\n- Section 3 (Readability) — react-engineer: In the dark s"
+      },
+      "output": {
+        "outcome": "rebuilt",
+        "replied": 4,
+        "written": 4,
+        "deleted": 0,
+        "merged": 21
+      },
+      "durationMs": 68477,
+      "timestamp": "2026-09-25T09:54:46.079Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "measured": 72,
+        "errorCount": 3,
+        "findings": [
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'dougmar.ch' is a 99x22px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Deletion Test' is a 139x22px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Phoenix Primitives' is a 190x22px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Evaluations Are the Real Codebase' is a 283x22px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'dougmar.ch' is a 99x22px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Deletion Test' is a 139x22px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Phoenix Primitives' is a 190x22px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Evaluations Are the Real Codebase' is a 283x22px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'work' is a 37x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'about' is a 41x48px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 3.58896985501855,
+            "key": "contrast|div.w_100%.d_flex.flex-wrap_wrap.jc_space-between > span.ff_body.fw_normal.textStyle_sm.c_text > span.c_accent.fw_bold|#f2b535|#0f6b3b",
+            "detail": "<div.w_100%.d_flex.flex-wrap_wrap.jc_space-between > span.ff_body.fw_normal.textStyle_sm.c_text > span.c_accent.fw_bold> \"−3\" (x2) at 14.5px bold: #f2b535 on #0f6b3b is 3.58:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 3.891526977700153,
+            "key": "contrast|div.w_100%.max-w_720px.d_flex.flex-d_column > div.w_100%.ta_center.pt_4.lg:pt_5 > div.mt_2.textStyle_xs.fv_small-caps.ls_wider|#bfcbb2|#0f6b3b",
+            "detail": "<div.w_100%.max-w_720px.d_flex.flex-d_column > div.w_100%.ta_center.pt_4.lg:pt_5 > div.mt_2.textStyle_xs.fv_small-caps.ls_wider> \"Detroit Red Wings win, the bright note\" at 13.2px: #bfcbb2 on #0f6b3b is 3.89:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 3.891526977700153,
+            "key": "contrast|div.w_100%.d_flex.flex-d_column.ai_center > div.w_100%.d_flex.flex-wrap_wrap.jc_space-between > span.textStyle_xs.fv_small-caps.ls_wider.c_textMuted|#bfcbb2|#0f6b3b",
+            "detail": "<div.w_100%.d_flex.flex-d_column.ai_center > div.w_100%.d_flex.flex-wrap_wrap.jc_space-between > span.textStyle_xs.fv_small-caps.ls_wider.c_textMuted> \"Presidents Cup, in progress\" (x5) at 13.2px: #bfcbb2 on #0f6b3b is 3.89:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 3.891526977700153,
+            "key": "contrast|div.w_100%.max-w_720px.d_flex.flex-d_column > div.w_100%.d_flex.flex-d_column.ai_center > p.pt_3.ff_display.font-style_italic.fw_normal|#bfcbb2|#0f6b3b",
+            "detail": "<div.w_100%.max-w_720px.d_flex.flex-d_column > div.w_100%.d_flex.flex-d_column.ai_center > p.pt_3.ff_display.font-style_italic.fw_normal> \"On the turntable: Tobin Sprout, Guided b\" at 19.6px: #bfcbb2 on #0f6b3b is 3.89:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|section.pos_relative.isolation_isolate.ov_hidden.bg_bg > div.pos_relative.z_1.d_flex.flex-d_column > p.ff_body.fw_normal.textStyle_base.lg:textStyle_md|svg.pos_absolute.inset_0px.w_100%.h_100% (positioned svg)",
+            "detail": "<section.pos_relative.isolation_isolate.ov_hidden.bg_bg > div.pos_relative.z_1.d_flex.flex-d_column > p.ff_body.fw_normal.textStyle_base.lg:textStyle_md> \"Dale Carnegie Friday, full moon\" at 16px sits over svg.pos_absolute.inset_0px.w_100%.h_100% (positioned svg); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|section.pos_relative.isolation_isolate.ov_hidden.bg_bg > div.pos_relative.z_1.d_flex.flex-d_column > p.ff_display.font-style_italic.fw_normal.fs_21px|svg.pos_absolute.inset_0px.w_100%.h_100% (positioned svg)",
+            "detail": "<section.pos_relative.isolation_isolate.ov_hidden.bg_bg > div.pos_relative.z_1.d_flex.flex-d_column > p.ff_display.font-style_italic.fw_normal.fs_21px> \"Doug runs for the paying work, and build\" at 21px sits over svg.pos_absolute.inset_0px.w_100%.h_100% (positioned svg); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|div.pos_relative.z_1.d_flex.flex-d_column > p.ff_display.font-style_italic.fw_normal.fs_21px > em.c_text|svg.pos_absolute.inset_0px.w_100%.h_100% (positioned svg)",
+            "detail": "<div.pos_relative.z_1.d_flex.flex-d_column > p.ff_display.font-style_italic.fw_normal.fs_21px > em.c_text> \"Spaceman\" (x2) at 21px sits over svg.pos_absolute.inset_0px.w_100%.h_100% (positioned svg); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|summary|react-engineer",
+            "detail": "3 more distinct texts over a textured ground are not listed."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "line-length",
+            "severity": "error",
+            "owner": "human",
+            "rank": 84,
+            "key": "line-length|ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6",
+            "detail": "<ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "line-length",
+            "severity": "error",
+            "owner": "human",
+            "rank": 81,
+            "key": "line-length|article.bg_bg.c_text.ff_body.fw_normal > div.max-w_40rem.lg:max-w_55rem.ml_auto.mr_auto > p.m_0.mt_2rem.lg:mt_2.5rem.fs_1.3125rem",
+            "detail": "<article.bg_bg.c_text.ff_body.fw_normal > div.max-w_40rem.lg:max-w_55rem.ml_auto.mr_auto > p.m_0.mt_2rem.lg:mt_2.5rem.fs_1.3125rem> \"Chad Fowler argues that once a machine w\" sets 81 characters on its longest line (4 lines, median 74) at 24px in a 880px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "line-length",
+            "severity": "error",
+            "owner": "human",
+            "rank": 81,
+            "key": "line-length|article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty",
+            "detail": "<article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" (x2) sets 81 characters on its longest line (8 lines, median 78) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px."
+          },
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 2,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'fun' (16px in the mockup) is present but not rendered (opacity/clipped/offscreen) in the build",
+              "facts": {
+                "text": "fun",
+                "mockupPx": 16,
+                "hidden": true
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'doug runs spaceman for the paying work and builds fishsticks and 15th club on the side for the joy of it' moved from (720, 651) in the mockup to (720, 988) in the build; crossed the fold"
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'dale carnegie friday full moon' moved from (720, 529) in the mockup to (720, 824) in the build"
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'theres the work a little about or a way to contact' moved from (720, 793) in the mockup to (720, 1152) in the build; crossed the fold"
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-hierarchy",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "mockup's largest ('3-2', 52px) leads its runner-up ('people rarely succeed unless they have fun in what they are doing', 40px) by 1.3x; in the build the same two lead by only 1.0x",
+              "facts": {
+                "shape": "flattened",
+                "leader": {
+                  "text": "3-2",
+                  "mockupPx": 52,
+                  "buildPx": 52
+                },
+                "runnerUp": {
+                  "text": "people rarely succeed unless they have fun in what they are doing",
+                  "mockupPx": 40,
+                  "buildPx": 55
+                },
+                "mockupGap": 1.3,
+                "buildGap": 1,
+                "leaderLost": true
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'theres the work a little about or a way to contact' moved from (180, 567) in the mockup to (180, 742) in the build; crossed the fold"
+            }
+          ],
+          "briefed": [
+            "- / at 360px: The mockup sets '3-2' at 52px over 'people rarely succeed unless they have fun in what they a...' at 40px, a 1.3x lead; the build sets them at 52px and 55px. Restore the mockup's sizes so '3-2' leads.",
+            "- / at 1440px: The mockup sets 'fun' at 16px; the build has it but does not show it (opacity near 0, clipped, or off the page). Make it visible."
+          ]
+        }
+      },
+      "durationMs": 45006,
+      "timestamp": "2026-09-25T09:55:31.085Z"
+    },
+    {
+      "name": "screenshot-critic-final",
+      "phase": 4,
+      "input": {
+        "remainingFaults": 0
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 2 — react-engineer: Component Character declares \"no pill shapes\" for cards/tags (6px radius). The /about page's capability and stack tags (React, TypeScript, GraphQL, SCSS, Ruby on Rails, AI-Assisted Workflows, etc., visible in folds 3–4 of the /about filmstrip) render as fully rounded pill badges, not the specified 6px rounded rectangles. Restyle these chips to the declared `md` radius so they match the rest of the site's hairline-and-rectangle langu",
+        "channel": "sdk-vision"
+      },
+      "durationMs": 191403,
+      "timestamp": "2026-09-25T09:58:42.495Z"
+    }
+  ]
+}

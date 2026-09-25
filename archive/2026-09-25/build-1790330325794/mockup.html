@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — People rarely succeed unless they have fun in what they are doing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,900;1,300;1,400;1,600;1,900&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0C5730;
+    --surface:#0F6B3B;
+    --bgAlt:#084324;
+    --text:#F4F5EC;
+    --textMuted:#BFCBB2;
+    --textFaint:#93A188;
+    --accent:#F2B535;
+    --accentAlt:#F9C74B;
+    --accentDeep:#BC8114;
+    --fieldBorder:#22794A;
+    --borderStrong:#2E9E62;
+    --display:'Fraunces',Georgia,serif;
+    --body:'Karla','Helvetica Neue',Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility;
+    font-kerning:normal;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;transition:color 120ms ease;}
+  ::selection{background:var(--accent);color:#052C17;}
+
+  .page{
+    display:grid;
+    grid-template-rows:auto 1fr auto auto;
+    min-height:100vh;
+    justify-items:stretch;
+  }
+
+  /* ---------- HEADER ---------- */
+  header.mast{
+    height:72px;
+    display:flex;
+    align-items:center;
+    padding:0 clamp(20px,6vw,112px);
+    position:relative;
+    z-index:5;
+  }
+  .lockup{display:flex;align-items:center;gap:14px;}
+  .lockup .mark{
+    color:var(--text);
+    height:44px;
+    width:auto;
+    display:block;
+    flex:0 0 auto;
+  }
+  .lockup .mark svg{height:44px;width:auto;display:block;}
+  .lockup .wordmark{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:clamp(20px,2.4vw,26px);
+    letter-spacing:-0.015em;
+    line-height:1;
+    color:var(--text);
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    min-height:88vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:clamp(40px,7vw,120px) clamp(24px,6vw,112px) clamp(48px,6vw,96px);
+    background:var(--bg);
+  }
+  /* grain material layer */
+  .grain{position:absolute;inset:0;pointer-events:none;z-index:0;color:var(--text);opacity:0.2;}
+  .grain svg{width:100%;height:100%;display:block;}
+  /* type-as-texture: giant word behind */
+  .texture{
+    position:absolute;
+    inset:-12%;
+    z-index:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:0;
+    pointer-events:none;
+    overflow:hidden;
+    transform:rotate(-4deg);
+  }
+  .texture .tline{
+    font-family:var(--display);
+    font-style:italic;
+    font-weight:900;
+    font-size:clamp(28px,5vw,72px);
+    line-height:1.5;
+    color:var(--text);
+    opacity:0.05;
+    letter-spacing:0.02em;
+    white-space:nowrap;
+  }
+=======
+  .hero-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:clamp(24px,3vw,40px);width:100%;}
+
+  h1.quote{
+    font-family:var(--display);
+    font-style:italic;
+    font-weight:300;
+    font-size:clamp(40px,7vw,104px);
+    line-height:1.06;
+    letter-spacing:-0.01em;
+    color:var(--text);
+    max-width:16ch;
+    margin:0;
+    text-wrap:balance;
+  }
+  .deck{
+    font-family:var(--body);
+    font-weight:500;
+    font-size:clamp(16px,1.4vw,20px);
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--textMuted);
+  }
+  .deck .dash{color:var(--textFaint);}
+  .standfirst{
+    font-family:var(--display);
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(21px,3vw,34px);
+    line-height:1.28;
+    color:var(--textMuted);
+    max-width:24ch;
+    margin:clamp(8px,1vw,16px) auto 0;
+  }
+  .standfirst em{color:var(--text);font-style:italic;}
+
+  nav.sentence{
+    position:relative;
+    z-index:2;
+    margin-top:clamp(20px,3vw,40px);
+    font-family:var(--body);
+    font-weight:500;
+    font-size:15px;
+    font-variant-caps:small-caps;
+    letter-spacing:0.06em;
+    color:var(--textFaint);
+    text-align:center;
+  }
+  nav.sentence a{
+    color:var(--textMuted);
+    border-bottom:1px solid var(--fieldBorder);
+    padding:8px 2px;
+    display:inline-block;
+    line-height:1;
+  }
+  nav.sentence a:hover{color:var(--accent);border-color:var(--accent);}
+
+  /* ---------- SIGNALS ---------- */
+  .signals{
+    background:var(--surface);
+    padding:clamp(48px,6vw,88px) clamp(24px,6vw,112px) clamp(56px,6vw,96px);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:clamp(28px,3vw,44px);
+  }
+  .sig-head{
+    font-family:var(--body);
+    font-weight:700;
+    font-size:clamp(16px,1.6vw,20px);
+    font-variant-caps:small-caps;
+    letter-spacing:0.22em;
+    color:var(--textMuted);
+    text-align:center;
+  }
+  .sig-wrap{width:100%;max-width:720px;display:flex;flex-direction:column;align-items:center;gap:0;}
+
+  .redwings{
+    text-align:center;
+    padding:clamp(20px,3vw,32px) 0 clamp(24px,3vw,36px);
+    border-bottom:1px solid var(--fieldBorder);
+    width:100%;
+  }
+  .redwings .fig{
+    font-family:var(--display);
+    font-style:italic;
+    font-weight:900;
+    font-size:clamp(52px,8vw,92px);
+    line-height:0.95;
+    color:var(--accent);
+    letter-spacing:-0.02em;
+    font-variant-numeric:tabular-nums;
+  }
+  .redwings .lbl{
+    margin-top:10px;
+    font-size:13px;
+    font-variant-caps:small-caps;
+    letter-spacing:0.14em;
+    color:var(--textMuted);
+  }
+
+  .ledger{width:100%;display:flex;flex-direction:column;}
+  .row{
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:baseline;
+    gap:16px;
+    padding:16px 0;
+    border-bottom:1px solid var(--fieldBorder);
+  }
+  .row .k{
+    font-size:13px;
+    font-variant-caps:small-caps;
+    letter-spacing:0.12em;
+    color:var(--textFaint);
+  }
+  .row .v{
+    font-family:var(--body);
+    font-weight:500;
+    font-size:15px;
+    color:var(--text);
+    text-align:right;
+    font-variant-numeric:tabular-nums;
+  }
+  .row .v .mark-num{color:var(--accent);font-weight:700;}
+  .taste{
+    padding-top:18px;
+    font-family:var(--display);
+    font-style:italic;
+    font-weight:400;
+    font-size:17px;
+    line-height:1.5;
+    color:var(--textMuted);
+    text-align:center;
+    max-width:52ch;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer.colophon{
+    background:var(--bgAlt);
+    padding:clamp(36px,4vw,56px) clamp(24px,6vw,112px);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:18px;
+    text-align:center;
+  }
+  footer .fmark{color:var(--textMuted);height:26px;}
+  footer .fmark svg{height:26px;width:auto;display:block;}
+  footer .fline{
+    font-size:13px;
+    font-variant-caps:small-caps;
+    letter-spacing:0.14em;
+    color:var(--textFaint);
+  }
+  footer .figs{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:8px 20px;
+    font-size:13px;
+    letter-spacing:0.05em;
+    color:var(--textMuted);
+    font-variant-numeric:tabular-nums;
+  }
+  footer .figs span .m{color:var(--accentAlt);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:600px){
+    .texture span{font-size:78vw;opacity:0.055;}
+    h1.quote{max-width:14ch;}
+    .hero{min-height:72vh;justify-content:flex-start;padding-top:clamp(36px,12vw,64px);}
+  }
+  @media (min-width:820px){
+    .hero{min-height:88vh;}
+  }
+  @media (min-width:1200px){
+    h1.quote{max-width:18ch;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="mast">
+    <a class="lockup" href="/" aria-label="Doug March, home">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" data-brand-mark="">
+        <title>Doug March logo</title>
+        <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="currentColor"/>
+        <circle cx="30.0829" cy="29.3002" r="0.98668" fill="currentColor"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="20.033" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="22.114" stroke="currentColor" stroke-width="0.25"/>
+        <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="wordmark">Doug March</span>
+    </a>
+  </header>
+
+  <section class="hero">
+    <div class="grain" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <filter id="grainf"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="luminanceToAlpha"/><feFlood flood-color="currentColor"/><feComposite operator="in"/></filter>
+        <rect width="100%" height="100%" filter="url(#grainf)"/>
+      </svg>
+    </div>
+    <div class="texture" aria-hidden="true"><span>fun</span></div>
+
+    <div class="hero-inner">
+      <h1 class="quote">People rarely succeed unless they have fun in what they are doing.</h1>
+      <p class="deck">Dale Carnegie <span class="dash">·</span> Friday, full moon</p>
+      <p class="standfirst">Doug runs <em>Spaceman</em> for the paying work, and builds FishSticks and 15th Club on the side <em>for the joy of it.</em></p>
+    </div>
+
+    <nav class="sentence" aria-label="Primary">
+      There's the <a href="/work">work</a>, a little <a href="/about">about</a>, or a way to <a href="/contact">contact</a>.
+    </nav>
+  </section>
+
+  <section class="signals" aria-label="Today's signals">
+    <h2 class="sig-head">Signals — 25 Sep 2026</h2>
+    <div class="sig-wrap">
+      <div class="redwings">
+        <div class="fig">3&ndash;2</div>
+        <div class="lbl">Detroit Red Wings win — the bright note</div>
+      </div>
+      <div class="ledger">
+        <div class="row">
+          <span class="k">Presidents Cup, in progress</span>
+          <span class="v">leaders <span class="mark-num">&minus;3</span>, <span class="mark-num">&minus;2</span></span>
+        </div>
+        <div class="row">
+          <span class="k">Full moon</span>
+          <span class="v">99.8% illuminated</span>
+        </div>
+        <div class="row">
+          <span class="k">S&amp;P 500 (SPY)</span>
+          <span class="v">&minus;0.08%</span>
+        </div>
+        <div class="row">
+          <span class="k">Weather · Aldie, VA</span>
+          <span class="v">Overcast, 47&deg;F</span>
+        </div>
+        <div class="row">
+          <span class="k">Detroit, off-season</span>
+          <span class="v">Tigers &amp; Pistons resting</span>
+        </div>
+        <p class="taste">On the turntable — Tobin Sprout, Guided by Voices, Radiohead.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="colophon">
+    <span class="fmark" aria-hidden="true">
+      <svg viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" data-brand-mark="">
+      <title>Doug March logo</title>
+      <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="currentColor"/>
+      <circle cx="30.0829" cy="29.3002" r="0.98668" fill="currentColor"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="currentColor" stroke-width="0.25"/>
+      <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="currentColor" stroke-width="0.25"/>
+      <circle cx="30.1217" cy="29.3416" r="20.033" stroke="currentColor" stroke-width="0.25"/>
+      <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="currentColor" stroke-width="0.25"/>
+      <circle cx="30.1217" cy="29.3416" r="22.114" stroke="currentColor" stroke-width="0.25"/>
+      <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="currentColor"/>
+      </svg>
+    </span>
+    <p class="fline">Doug March · 2026 · Ashburn, Virginia</p>
+    <p class="figs">
+      <span>Moon <span class="m">99.8%</span></span>
+      <span>SPY <span class="m">&minus;0.08%</span></span>
+      <span>Aldie <span class="m">47&deg;F</span></span>
+      <span>Red Wings <span class="m">3&ndash;2</span></span>
+    </p>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { css } from '../../styled-system/css'
 import { BrandLockup } from '../components/BrandLockup'
-import { Ground } from '../components/Material'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
@@ -11,11 +10,12 @@ function OgCard() {
       className={css({
         position: 'fixed',
         inset: '0',
-        zIndex: 9999,
+        zIndex: '9999',
         bg: 'bg',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        overflow: 'hidden',
       })}
     >
       <div
@@ -23,82 +23,79 @@ function OgCard() {
           position: 'relative',
           width: '1200px',
           height: '630px',
+          flexShrink: '0',
           overflow: 'hidden',
           bg: 'bg',
+          color: 'text',
           display: 'flex',
           flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+          paddingInline: '8',
         })}
       >
-        <Ground material="rule" seed={1908855130} />
-        <div
+        <span
+          aria-hidden="true"
           className={css({
-            position: 'relative',
-            zIndex: 1,
-            flex: '1',
-            display: 'flex',
-            flexDirection: 'column',
-            paddingTop: '48px',
-            paddingInline: '72px',
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%) rotate(-4deg)',
+            fontFamily: 'display',
+            fontStyle: 'italic',
+            fontWeight: 'bold',
+            fontSize: '520px',
+            lineHeight: '1',
             color: 'text',
+            opacity: 0.055,
+            whiteSpace: 'nowrap',
+            pointerEvents: 'none',
           })}
         >
-          <BrandLockup variant="stacked-lg" mode="original" />
-          <h1
-            className={css({
-              marginTop: 'auto',
-              marginBottom: '28px',
-              fontFamily: 'display',
-              fontStyle: 'italic',
-              fontWeight: 'light',
-              textTransform: 'lowercase',
-              fontSize: '150px',
-              lineHeight: '0.92',
-              letterSpacing: '-0.025em',
-              color: 'text',
-              whiteSpace: 'nowrap',
-            })}
-          >
-            commitments
-          </h1>
-        </div>
+          fun
+        </span>
         <div
           className={css({
-            position: 'relative',
-            zIndex: 1,
-            bg: 'field',
-            color: 'fieldInk',
-            paddingTop: '32px',
-            paddingBottom: '40px',
-            paddingInline: '72px',
+            position: 'absolute',
+            top: '48px',
+            left: '56px',
+            color: 'text',
+            zIndex: '1',
           })}
         >
-          <p
-            className={css({
-              fontFamily: 'display',
-              fontStyle: 'italic',
-              fontWeight: 'light',
-              fontSize: '28px',
-              lineHeight: '1.3',
-              color: 'fieldInk',
-            })}
-          >
-            The quality of your commitments will determine the course of your life.
-          </p>
-          <span
-            className={css({
-              display: 'block',
-              marginTop: '12px',
-              fontFamily: 'body',
-              fontSize: 'sm',
-              fontWeight: 600,
-              fontVariantCaps: 'all-small-caps',
-              letterSpacing: 'wide',
-              color: 'fieldInkMuted',
-            })}
-          >
-            Ralph Marston
-          </span>
+          <BrandLockup variant="horizontal-md" mode="single-color" />
         </div>
+        <h1
+          className={css({
+            position: 'relative',
+            zIndex: '1',
+            fontFamily: 'display',
+            fontStyle: 'italic',
+            fontWeight: 'light',
+            fontSize: '76px',
+            lineHeight: 'tight',
+            letterSpacing: 'tight',
+            color: 'text',
+            maxWidth: '18ch',
+          })}
+        >
+          People rarely succeed unless they have fun in what they are doing.
+        </h1>
+        <p
+          className={css({
+            position: 'relative',
+            zIndex: '1',
+            marginTop: '5',
+            fontFamily: 'body',
+            fontSize: '20px',
+            letterSpacing: 'wider',
+            textTransform: 'uppercase',
+            color: 'textMuted',
+          })}
+        >
+          Dale Carnegie
+        </p>
       </div>
     </div>
   )

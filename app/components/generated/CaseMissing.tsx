@@ -4,9 +4,15 @@ export function CaseMissing() {
   return (
     <section
       className={css({
-        paddingInline: '6vw',
-        paddingTop: { base: '48px', xl: '64px' },
-        paddingBottom: { base: '72px', xl: '96px' },
+        maxWidth: '760px',
+        marginInline: 'auto',
+        paddingInline: { base: '4', lg: '7' },
+        paddingBlock: { base: '7', lg: '8' },
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '4',
+        textAlign: 'center',
       })}
     >
       <h1
@@ -14,29 +20,25 @@ export function CaseMissing() {
           fontFamily: 'display',
           fontStyle: 'italic',
           fontWeight: 'light',
-          fontSize: '3xl',
-          lineHeight: '1',
+          textStyle: '3xl',
+          lineHeight: 'tight',
           color: 'text',
-          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '0ms',
         })}
       >
-        Nothing filed under that name
+        Nothing filed under that name.
       </h1>
       <a
-        href="/#work"
+        href="/work"
         className={css({
-          display: 'inline-flex',
-          alignItems: 'center',
-          minHeight: '44px',
-          marginTop: '24px',
-          fontFamily: 'body',
-          fontSize: 'sm',
-          fontWeight: 600,
+          display: 'inline-block',
+          paddingBlock: '3',
           color: 'accent',
+          borderBottom: '1px solid',
+          borderColor: 'accent',
+          lineHeight: '1',
         })}
       >
-        Back to the ledger →
+        Back to the work
       </a>
     </section>
   )

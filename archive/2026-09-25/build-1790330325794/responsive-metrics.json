@@ -1,0 +1,103 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "work",
+            "w": 37,
+            "h": 48
+          },
+          {
+            "tag": "A",
+            "text": "about",
+            "w": 41,
+            "h": 48
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "tablet": {
+      "width": 820,
+      "height": 1180,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "work",
+            "w": 37,
+            "h": 48
+          },
+          {
+            "tag": "A",
+            "text": "about",
+            "w": 41,
+            "h": 48
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 19.6,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 5
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 19.6,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 5
+    }
+  },
+  "overallScore": 4,
+  "worstFailure": {
+    "viewport": "mobile",
+    "check": "tapTargetFailures",
+    "detail": "2 interactive element(s) below 44×44px"
+  },
+  "buildId": "1790330325794",
+  "date": "2026-09-25",
+  "archetype": "A warm specimen poster, one line reversed out of a fairway-green field."
+}

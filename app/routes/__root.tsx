@@ -35,7 +35,7 @@ import type { ReactNode } from 'react'
 const archiveLink = css({
   display: 'block',
   background: 'bg',
-  color: 'textFaint',
+  color: 'textMuted',
   fontSize: 'xs',
   letterSpacing: '0.08em',
   textAlign: 'center',
@@ -57,17 +57,17 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'The quality of your commitments will determine the course of your life.' },
+      { title: 'People rarely succeed unless they have fun in what they are doing.' },
       {
         property: 'og:title',
-        content: 'The quality of your commitments will determine the course of your life.',
+        content: 'People rarely succeed unless they have fun in what they are doing.',
       },
       {
         property: 'og:description',
         content:
-          'Cobalt-tinted specimen sheet: "commitments" set low and light in italic Spectral off the left rail, Doug\'s decade of work cataloged in ruled rows, one deep-cobalt band holding the day\'s signals, the green-and-blue mark large and unclipped up top.',
+          'Fairway-green drench for a full-moon Friday: a Carnegie line on having fun set large in warm Fraunces italic over a ghosted "fun", the Red Wings win the one marigold note.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-24.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-25.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
@@ -75,16 +75,16 @@ export const Route = createRootRoute({
       { name: 'twitter:card', content: 'summary_large_image' },
       {
         name: 'twitter:title',
-        content: 'The quality of your commitments will determine the course of your life.',
+        content: 'People rarely succeed unless they have fun in what they are doing.',
       },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-24.png' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-25.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Albert+Sans:wght@400;500;600&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,900;1,300;1,400;1,600;1,900&family=Karla:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -253,7 +253,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 145 designs
+            Archive · 146 designs
           </a>
         )}
         <ScrollRestoration />
