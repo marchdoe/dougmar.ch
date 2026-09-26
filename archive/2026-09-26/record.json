@@ -1,0 +1,628 @@
+{
+  "date": "2026-09-26",
+  "era": "header-declared",
+  "generatedAt": "2026-09-26T09:48:14.160Z",
+  "buildId": "1790416086594",
+  "attempts": 1,
+  "brief": "Full-moon box score: a didone 8–7 in scoreboard gold floating on a warm near-black void, dot-matrix ground, \"Tigers, by one.\" flush right, the day's signals cataloged in a ragged masonry ledger.",
+  "rationale": "The phrase is a signal stated plainly: Detroit won 8–7, a one-run game, and the Tigers are one of the few things Doug watches. I passed the Tolle quote because it is abstract self-help, the exact register the owner has rejected in other borrowed quotes, and \"a score is a score\" is his actual voice. Because the win is a number and a margin, the object on the page is the figure, not another eyebrow-statement-deck poster: `8–7` is the largest thing on the page and \"Tigers, by one.\" is its caption.\n\nThe composition follows from the figure. A full-bleed scoreboard fold with the number pinned right, a diagonal reading path resolving on the win, and a dense masonry ledger of the day's other facts below — that is the date-derived tuple, kept because it genuinely reads as a scoreboard rather than swapped off a shortlist. The chassis is dm-serif-public, one of the three faces that has never shipped, chosen over the condensed-caps reflex: a high-contrast didone renders `8–7` as an elegant headline, not a sports-poster cliché, which fits a quiet one-run win held under a near-full moon on a clear cool night. It loads a single display weight, so the type is set small-caps, roman, regular, flush right — three moves off the recent mixed/left/centred template.\n\nThe palette is a dark-void, fresh against the recent drench, light-ground and split-field run, and it puts scoreboard gold (62°, inside the 40–80° mandate and Doug's own trophy-gold register) floating on a warm near-black. The dot-matrix ground material reinforces the scoreboard read without painting the color floor. The mono mark sits single-color cream on the void, top-left of the hero inside the first fold at both widths, the nav deferred to a box-score footer where the Presidents Cup, the full moon, the market, the weather and the music rotation all sit subordinate to the number that won the night.",
+  "filesChanged": [
+    "elements/preset.ts",
+    "app/components/Layout.tsx",
+    "app/components/Sidebar.tsx",
+    "app/components/generated/ScoreStrip.tsx",
+    "app/components/generated/HeroHome.tsx",
+    "app/components/generated/SectionHead.tsx",
+    "app/components/generated/LedgerCell.tsx",
+    "app/components/generated/SignalLedger.tsx",
+    "app/components/generated/FeaturedCard.tsx",
+    "app/components/generated/WorkRow.tsx",
+    "app/components/generated/WorkIndex.tsx",
+    "app/components/generated/AboutHero.tsx",
+    "app/components/generated/AboutTimeline.tsx",
+    "app/components/generated/AboutCapabilities.tsx",
+    "app/components/generated/AboutPersonal.tsx",
+    "app/components/generated/CaseHero.tsx",
+    "app/components/generated/CaseBody.tsx",
+    "app/components/generated/CaseLinks.tsx",
+    "app/components/generated/CaseMissing.tsx",
+    "app/routes/index.tsx",
+    "app/routes/about.tsx",
+    "app/routes/work.$slug.tsx",
+    "app/routes/og.tsx"
+  ],
+  "legacyArchetype": null,
+  "signals": {
+    "air_quality": {
+      "aqi_index": 1,
+      "uv_index": 0,
+      "air_quality_label": "Good"
+    },
+    "books": {
+      "currently_reading": []
+    },
+    "day_of_week": {
+      "day": "Saturday",
+      "is_weekend": true,
+      "day_index": 6
+    },
+    "github": {
+      "repos": [
+        {
+          "name": "paperclipai/paperclip/stargazers",
+          "description": "",
+          "language": "TypeScript",
+          "stars": null
+        },
+        {
+          "name": "anthropics/claude-plugins-official/stargazers",
+          "description": "",
+          "language": "Python",
+          "stars": null
+        },
+        {
+          "name": "vectorize-io/hindsight/stargazers",
+          "description": "",
+          "language": "Python",
+          "stars": null
+        },
+        {
+          "name": "sponsors/obra",
+          "description": "",
+          "language": "Shell",
+          "stars": null
+        },
+        {
+          "name": "sponsors/mattpocock",
+          "description": "",
+          "language": "Shell",
+          "stars": null
+        }
+      ]
+    },
+    "golf": {
+      "tournament": "Presidents Cup",
+      "status": "In Progress",
+      "leaders": [
+        {
+          "name": "Unranked competitor #1",
+          "position": "1",
+          "score": "3"
+        },
+        {
+          "name": "Unranked competitor #2",
+          "position": "2",
+          "score": "7"
+        }
+      ]
+    },
+    "hacker_news": {
+      "stories": [
+        {
+          "title": "Revealing the details of how OpenAI agents hacked Hugging Face",
+          "url": "https://swarmtraces.org/",
+          "score": 474,
+          "by": "specked-citrus"
+        },
+        {
+          "title": "We're gonna need a lot more mathematicians",
+          "url": "https://terrytao.wordpress.com/2026/09/24/were-gonna-need-a-lot-more-mathematicians/",
+          "score": 121,
+          "by": "srcreigh"
+        },
+        {
+          "title": "A single function Jev-like wrapper for LLMs, including vision models",
+          "url": "http://allanrbo.blogspot.com/2026/09/a-jev-like-wrapper-for-llms-including.html",
+          "score": 62,
+          "by": "allanrbo"
+        },
+        {
+          "title": "Plan mode is dead",
+          "url": "https://www.aymannadeem.com/artificial/intelligence,/developer/tools/2026/09/24/plan-mode-is-dead.html",
+          "score": 314,
+          "by": "jmvldz"
+        },
+        {
+          "title": "Ollaya – Ollama for open-source, Jev-style decision models",
+          "url": "https://ollaya.dev/",
+          "score": 451,
+          "by": "Ardakilic"
+        }
+      ]
+    },
+    "holidays": {
+      "today": null,
+      "upcoming": []
+    },
+    "lunar": {
+      "phase": "full moon",
+      "illumination": 0.997,
+      "days_into_cycle": 15.3
+    },
+    "market": {
+      "symbol": "SPY",
+      "price": "771.3500",
+      "change": "4.1700",
+      "change_percent": "0.5435%",
+      "direction": "up"
+    },
+    "music": {
+      "bands": [
+        "My Morning Jacket",
+        "Radiohead"
+      ],
+      "rotation": true
+    },
+    "news": {
+      "headlines": [
+        {
+          "title": "Bob Pettit, basketball great who was named the NBA’s first MVP, dies at 93 - The Washington Post",
+          "source": "The Washington Post",
+          "url": "https://www.washingtonpost.com/nation/2026/09/24/bob-pettit-basketball-great-who-was-named-nbas-first-mvp-dies-93/"
+        },
+        {
+          "title": "New Jersey Gov. Sherrill calls on her lieutenant governor to resign - The Washington Post",
+          "source": "The Washington Post",
+          "url": "https://www.washingtonpost.com/politics/2026/09/24/new-jersey-gov-sherrill-calls-her-lieutenant-governor-resign/"
+        },
+        {
+          "title": "CNN, MS NOW White House reporters denied access to Xi’s state dinner arrival - CNN",
+          "source": "CNN",
+          "url": "https://www.cnn.com/2026/09/24/politics/live-news/white-house-press-ban-lawsuit"
+        },
+        {
+          "title": "NFL Week 3 Recap: Immediate fantasy football takeaways from Falcons-Packers - PFF",
+          "source": "Pff.com",
+          "url": "https://www.pff.com/news/nfl-week-3-recap-immediate-fantasy-football-takeaways-from-falcons-packers"
+        },
+        {
+          "title": "Meloni government bans burqas, caps foreign students in Italian schools - Al Jazeera",
+          "source": "Al Jazeera English",
+          "url": "https://www.aljazeera.com/news/2026/9/25/meloni-government-bans-burqas-caps-foreign-students-in-italian-schools"
+        }
+      ]
+    },
+    "quote": {
+      "text": "Some changes look negative on the surface but you will soon realize that space is being created in your life for something new to emerge.",
+      "author": "Eckhart Tolle"
+    },
+    "season": {
+      "season": "fall",
+      "month": 9,
+      "day": 26,
+      "day_of_year": 269,
+      "month_name": "September"
+    },
+    "sidebar": {
+      "links": [
+        {
+          "title": "I don’t want the details",
+          "url": "https://michaelheap.com/i-dont-want-the-details/",
+          "source": "michaelheap.com",
+          "description": "Why reasonable explanations are one of the easiest ways to avoid changing anything."
+        },
+        {
+          "title": "Anatomy of a $100 bill",
+          "url": "https://www.realworth.io/anatomy-of-a-100-dollar-bill",
+          "source": "realworth.io",
+          "description": "A 3D tour of the U.S. $100 bill, plus 15 design and security feature groups explained."
+        },
+        {
+          "title": "IMG_0001",
+          "url": "https://walzr.com/IMG_0001/",
+          "source": "walzr.com",
+          "description": "A bot that crawled YouTube and found 5 million of raw, unedited videos."
+        },
+        {
+          "title": "Skip the tools, make the outcomes",
+          "url": "https://www.lukew.com/ff/entry.asp",
+          "source": "lukew.com",
+          "description": "The pervasiveness of tools may have implanted the wrong instinct in our heads in a world of AI."
+        },
+        {
+          "title": "Isometric NYC",
+          "url": "https://cannoneyed.com/isometric-nyc/",
+          "source": "cannoneyed.com",
+          "description": "A giant isometric pixel-art map of New York City. And an excuse to push hard on the limits of the latest and greatest coding agents."
+        }
+      ]
+    },
+    "sports": {
+      "teams": [
+        {
+          "name": "Detroit Lions",
+          "league": "NFL",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Red Wings",
+          "league": "NHL",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Pistons",
+          "league": "NBA",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Tigers",
+          "league": "MLB",
+          "last_game": "2026-09-25T22:40Z",
+          "result": "win",
+          "score": "8-7"
+        }
+      ]
+    },
+    "sun": {
+      "sunrise": "07:08",
+      "sunset": "18:53",
+      "daylight_hours": 11.8
+    },
+    "weather": {
+      "location": "Aldie, Virginia",
+      "conditions": "Clear",
+      "temp_f": 54.1,
+      "temp_c": 12.3,
+      "humidity": 69,
+      "wind_mph": 9.8,
+      "wind_dir": "NW",
+      "feels_like_f": 48.6
+    },
+    "date": "2026-09-26"
+  },
+  "hero": {
+    "copy": "Tigers, by one.",
+    "rationale": "Detroit won 8–7 on Friday night, a one-run game held to the last out, and the Tigers are on Doug's short list of teams he actually watches. It carries the day because it is his, concrete, and a score is a score: the figure \"8–7\" is the poster object and the phrase is its caption. I passed over `signals.quote` (the Eckhart Tolle line about space being created for something new) because it is abstract self-help in a register the owner has explicitly rejected before (Flaubert, Yogananda, \"a poster of somebody else\"); Doug talks in real numbers, not \"space emerging in your life,\" so it fails the would-Doug-say-it test.\nOwner's voice: he'd say \"Tigers, by one\" the way he says \"a score is a score\" — flat, exact, his team, no adjective needed.",
+    "source": "signal-event"
+  },
+  "chassis": "dm-serif-public",
+  "adBrief": {
+    "visualSpecification": "### 1. Color Specification\n- **Primary hue**: 62° golden-amber. It sits inside the 40–80° mandate and reads as trophy/scoreboard gold — the register of Doug's own gold-standard 2026-09-01 flood — while landing far (82°+) from the previous build's 152° green.\n- **Neutral palette** (warm charcoal, tinted toward gold): 50 `#F6F2E9`, 100 `#E7E1D0`, 200 `#CDC5AF`, 300 `#A79E84`, 400 `#7E765E`, 500 `#5A5341`, 600 `#403A2C`, 700 `#2C271D`, 800 `#1C1812`, 900 `#100D08`.\n- **Accent color** (gold): light `#F0D287`, default `#E9BE55`, dark `#7A5817`, glow `#F7E7BC`.\n- **Secondary accent**: none. One saturated hue carries the night.\n- **Background**: page bg `#100D08`, card/surface `#2C271D`, band/bgAlt `#1C1812`, deep scoreboard field `#2E220B`.\n- **Text colors**: primary `#F6F2E9`, secondary `#CDC5AF`, muted `#A79E84`.\n\n### 2. Typography\n- **Hero phrase rendering**: The poster object is the figure `8–7`, set in the `display` face (DM Serif Display) at the `hero` step, high-contrast didone numerals glowing gold (`accent`) on the dark void. The hero phrase `Tigers, by one.` is the page's one h1, set one step down at `3xl`, small-caps, flush right beneath the figure. The deck `One run stood up.` sits at `lg` in `textMuted`.\n- **Type treatment**: `hero` for the score; `3xl` for the h1 phrase; `xl`/`lg` for section heads and the deck; `base` (Public Sans) at 1.5–1.6 leading, capped 62–68ch, for ledger and body; `sm`/`xs` for labels and metadata. Body face answers the didone with civic-neutral structure; set at genuine reading size so the pairing reads as chosen high/low contrast, not a headline pasted onto default text. Small labels get 2× the space above as below.\n\n### 3. Layout Specification\n- **Composition**: masonry / diagonal / right-weighted / full-bleed / dense / syncopated / footer-only / balanced / hero-only / figure. The score owns the field at full bleed pinned right; the reading path cuts diagonally from the bottom-left signal ledger up to the top-right number, so the eye resolves on the win. It serves \"Tigers, by one\" by making the one-run margin the literal largest object.\n- **CSS grid/flex**: hero fold is `display: grid; grid-template-columns: 1fr 1.4fr; grid-template-rows: auto 1fr auto` with the figure spanning the right two-thirds; signal zone below is `display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); grid-auto-flow: dense` for the masonry cells.\n- **Major dimensions**: hero fold `min-height: 92vh`; `max-width: none` with `padding: 88px 6vw`; signal cells vary 140–260px tall for the ragged masonry edge; section spacing on a 8px base rhythm.\n- **Nav placement**: footer band only, full width, ~128px tall at 1440. The stacked mono mark lives top-left of the hero field.\n- **Hero phrase grid zone**: the figure occupies rows 1–3, right two-thirds (cols 5–12 of a 12-track read), at `clamp(96px, 12vw, 160px)`; the h1 phrase and deck sit rows 2–3 flush right beneath it.\n- **Home callout slot**: on `/`, `<SiteCallout />` sits below the signals ledger and above the footer nav band, full width of the dark field. I place it and do not style or write it.\n\n### 4. Component Character\n- **Border radius**: cards 4px (`md`), tags 2px (`sm`), no pills — a scoreboard is sharp.\n- **Border treatment**: hairline `border` (`#2C271D`) between cells; `borderStrong` (`#5A5341`) and `fieldBorder` gold rules on the footer band.\n- **Shadow**: none. Depth comes from surface lightness on the void, not shadow.\n- **Density**: dense, information-forward, small gutters.\n- **Interactive states**: `_hover` lifts link color from `textMuted` to `accent`; ledger cells brighten border to `borderStrong`.\n\n### 5. Signal Integration\n- **Where signal elements live**: a masonry ledger below the hero fold, each fact one cell.\n- **Sports scores**: the Tigers 8–7 IS the hero figure, gold didone at poster scale. Presidents Cup (in progress, leaders +3 / +7) sits as one ledger cell, tabular figures in `text`, label in `textFaint`.\n- **Quote**: not used as hero; the Tolle line is omitted rather than shrunk into furniture (self-help register, not Doug's).\n- **Holiday elements**: none today.\n- **Music**: My Morning Jacket and Radiohead as a small \"In rotation\" cell, plainly, taste not event, never beside the score as if it happened today.\n- **Other signals**: full moon (99.7%) as one cell with the phase; market SPY +0.54% up, tabular; weather clear 54°F, NW 9.8mph, Aldie VA; sunrise/sunset 07:08 / 18:53. All flat, all in the ledger.",
+    "selfCheck": "1. Hero quotability: Yes — \"Tigers, by one.\" is a tight, screenshot-able line for a fan, anchored by the 8–7 figure.\n2. Because-of chain: Yes — score → figure object → full-bleed scoreboard → didone gold on dark void → dot-matrix field, all traceable.\n3. Render feasibility: Yes — `8–7` at `clamp(96px,12vw,160px)` caps at DM Serif Display's 160px hero ceiling, no overflow at 1440.\n4. Canvas floor feasible: Yes — dense masonry ledger plus a full-bleed figure clears 80%.\n5. Phone: Yes — hero-only fold shows the gold `8–7` at `hero` step (96px min) with its two-word caption, no word cut.",
+    "rationale": "The phrase is a signal stated plainly: Detroit won 8–7, a one-run game, and the Tigers are one of the few things Doug watches. I passed the Tolle quote because it is abstract self-help, the exact register the owner has rejected in other borrowed quotes, and \"a score is a score\" is his actual voice. Because the win is a number and a margin, the object on the page is the figure, not another eyebrow-statement-deck poster: `8–7` is the largest thing on the page and \"Tigers, by one.\" is its caption.\n\nThe composition follows from the figure. A full-bleed scoreboard fold with the number pinned right, a diagonal reading path resolving on the win, and a dense masonry ledger of the day's other facts below — that is the date-derived tuple, kept because it genuinely reads as a scoreboard rather than swapped off a shortlist. The chassis is dm-serif-public, one of the three faces that has never shipped, chosen over the condensed-caps reflex: a high-contrast didone renders `8–7` as an elegant headline, not a sports-poster cliché, which fits a quiet one-run win held under a near-full moon on a clear cool night. It loads a single display weight, so the type is set small-caps, roman, regular, flush right — three moves off the recent mixed/left/centred template.\n\nThe palette is a dark-void, fresh against the recent drench, light-ground and split-field run, and it puts scoreboard gold (62°, inside the 40–80° mandate and Doug's own trophy-gold register) floating on a warm near-black. The dot-matrix ground material reinforces the scoreboard read without painting the color floor. The mono mark sits single-color cream on the void, top-left of the hero inside the first fold at both widths, the nav deferred to a box-score footer where the Presidents Cup, the full moon, the market, the weather and the music rotation all sit subordinate to the number that won the night.",
+    "compositionRationale": "I kept the date-derived starting tuple (masonry, diagonal, right-weighted, dense, syncopated, footer-only, balanced, hero-only, figure) because it reads as a scoreboard and the hero is genuinely a score, so the suggestion fits rather than needs breaking. The one axis I moved is `hero_zone`, from the suggested `edge-bound` to `full-bleed`: edge-bound crops the hero against the edge, and cropping a two-glyph score would read as broken the way the clipped wordmark did, so the figure owns the full field instead. Everything else earns its place — the diagonal path resolves the eye on the win, and the right-weighted mass matches the figure pinned to the right.",
+    "signalIntegration": "- **Where signal elements live**: a masonry ledger below the hero fold, each fact one cell.\n- **Sports scores**: the Tigers 8–7 IS the hero figure, gold didone at poster scale. Presidents Cup (in progress, leaders +3 / +7) sits as one ledger cell, tabular figures in `text`, label in `textFaint`.\n- **Quote**: not used as hero; the Tolle line is omitted rather than shrunk into furniture (self-help register, not Doug's).\n- **Holiday elements**: none today.\n- **Music**: My Morning Jacket and Radiohead as a small \"In rotation\" cell, plainly, taste not event, never beside the score as if it happened today.\n- **Other signals**: full moon (99.7%) as one cell with the phase; market SPY +0.54% up, tabular; weather clear 54°F, NW 9.8mph, Aldie VA; sunrise/sunset 07:08 / 18:53. All flat, all in the ledger."
+  },
+  "tokens": {
+    "colors": {
+      "ramps": {
+        "gold": {
+          "50": "#FBF3DE",
+          "100": "#F7E7BC",
+          "200": "#F0D287",
+          "300": "#E9BE55",
+          "400": "#D8A733",
+          "500": "#C89526",
+          "600": "#A2761D",
+          "700": "#7A5817",
+          "800": "#533C12",
+          "900": "#2E220B"
+        },
+        "ink": {
+          "50": "#F6F2E9",
+          "100": "#E7E1D0",
+          "200": "#CDC5AF",
+          "300": "#A79E84",
+          "400": "#7E765E",
+          "500": "#5A5341",
+          "600": "#403A2C",
+          "700": "#2C271D",
+          "800": "#1C1812",
+          "900": "#100D08"
+        }
+      },
+      "semantic": {
+        "bg": {
+          "base": "{colors.ink.900}"
+        },
+        "bgAlt": {
+          "base": "{colors.ink.800}"
+        },
+        "surface": {
+          "base": "{colors.ink.700}"
+        },
+        "text": {
+          "base": "{colors.ink.50}"
+        },
+        "textMuted": {
+          "base": "{colors.ink.200}"
+        },
+        "textFaint": {
+          "base": "{colors.ink.300}"
+        },
+        "accent": {
+          "base": "{colors.gold.300}"
+        },
+        "accentText": {
+          "base": "{colors.ink.900}"
+        },
+        "accentAlt": {
+          "base": "{colors.gold.200}"
+        },
+        "border": {
+          "base": "{colors.ink.700}"
+        },
+        "borderStrong": {
+          "base": "{colors.ink.500}"
+        },
+        "field": {
+          "base": "{colors.gold.900}"
+        },
+        "fieldInk": {
+          "base": "{colors.gold.100}"
+        },
+        "fieldInkMuted": {
+          "base": "{colors.ink.200}"
+        },
+        "fieldBorder": {
+          "base": "{colors.gold.700}"
+        }
+      }
+    },
+    "radii": {
+      "none": "0",
+      "sm": "2px",
+      "md": "4px",
+      "lg": "8px",
+      "full": "9999px"
+    }
+  },
+  "colorScheme": {
+    "primary_hue": {
+      "h": 62,
+      "s": 78,
+      "l": 62,
+      "name": "scoreboard gold"
+    },
+    "secondary_accent": null,
+    "neutral_family": {
+      "tinted_toward": "warm gold",
+      "name": "warm charcoal"
+    },
+    "mood_word": "held",
+    "color_story": "A gold win floating on a near-black night, dot-matrix like a scoreboard under a full moon."
+  },
+  "shell": {
+    "nav": null,
+    "footer": "box-score footer — the day's remaining signals as a dark scoreboard ledger with gold hairline rules, nav links in a row along the foot",
+    "brand_lockup": "stacked-md",
+    "brand_color_mode": "single-color",
+    "ground_strategy": "dark-void",
+    "ground_material": "dots"
+  },
+  "header": {
+    "placement": "footer-only",
+    "height_px": 128,
+    "mark_px": 42,
+    "wordmark_step": "lg",
+    "wordmark_weight": 400,
+    "role_line": "absent",
+    "nav_step": "sm",
+    "nav_case": "title",
+    "nav_form": "labels",
+    "nav": "Footer scoreboard band, full width: Work, About, Contact as three title-case links in a row along the foot, gold hairline above. The stacked mono mark sits top-left of the hero field, cream (`text`) on the dark void at 42px, inside the first fold at 1440 and 360."
+  },
+  "verdicts": [
+    {
+      "critic": "mockup-precheck",
+      "round": 0,
+      "verdict": "APPROVE",
+      "feedback": "",
+      "findings": [],
+      "ts": 1790415076559
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 0,
+      "verdict": "APPROVE",
+      "feedback": "The score owns the field at full bleed; the diagonal reading path resolves on the win; the phrase \"Tigers, by one.\" lands as its caption in small-caps flush right. The composition executes the brief—a one-run margin made the largest object on the page—with committed restraint. The scoreboard gold floats on the void, the dot ground reads as intentional material, and the masonry ledger below holds the night's other facts subordinate to the number. On the phone the hero folds alone at poster scale; the phrase and deck hold the idea across the width; the ledger follows in order. Type hierarchy, color coverage, canvas utilization all land. No measured failures, no brief shortfalls. Ship it.",
+      "channel": "sdk-vision",
+      "ts": 1790415081140
+    },
+    {
+      "critic": "surface-gate",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "/ @820: <div.d_grid.grid-tc_1fr.md:grid-af_dense.gap_1px > div.bg_surface.c_text.bd_1px_solid.bd-c_border > div.ff_display.fs_4xl.lg:fs_3xl.xl:fs_4xl> holds text wider than its own box: \"+0.54%...\" needs 345px and the box is 325px, so 20px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <section#work.px_22px.md:px_40px.lg:px_6vw.pb_56px > div.d_flex.ai_baseline.jc_space-between.gap_4 > span.fs_xs.ls_widest.tt_uppercase.c_textFaint> is cut off: its right edge lands at 485px, 125px past the 360px viewport, severing \"Smaller swings...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/ @360: <div.d_flex.flex-d_column > a.d_grid.grid-tc_auto_1fr_auto.lg:grid-tc_64px_1fr_180px.ai_center > span.ff_display.fs_xl.lh_1.1.c_text> holds text wider than its own box: \"Twittertale...\" needs 234px and the box is 170px, so 64px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <div.d_flex.flex-d_column > a.d_grid.grid-tc_auto_1fr_auto.lg:grid-tc_64px_1fr_180px.ai_center > span.ff_display.fs_xl.lh_1.1.c_text> holds text wider than its own box: \"Politweets...\" needs 216px and the box is 170px, so 46px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @820: <div.d_grid.grid-tc_1fr.md:grid-af_dense.gap_1px > div.bg_surface.c_text.bd_1px_solid.bd-c_border > div.ff_display.fs_4xl.lg:fs_3xl.xl:fs_4xl> holds text wider than its own box: \"+0.54%...\" needs 345px and the box is 325px, so 20px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <section#work.px_22px.md:px_40px.lg:px_6vw.pb_56px > div.d_flex.ai_baseline.jc_space-between.gap_4 > span.fs_xs.ls_widest.tt_uppercase.c_textFaint> is cut off: its right edge lands at 485px, 125px past the 360px viewport, severing \"Smaller swings...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/ @360: <div.d_flex.flex-d_column > a.d_grid.grid-tc_auto_1fr_auto.lg:grid-tc_64px_1fr_180px.ai_center > span.ff_display.fs_xl.lh_1.1.c_text> holds text wider than its own box: \"Twittertale...\" needs 234px and the box is 170px, so 64px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <div.d_flex.flex-d_column > a.d_grid.grid-tc_auto_1fr_auto.lg:grid-tc_64px_1fr_180px.ai_center > span.ff_display.fs_xl.lh_1.1.c_text> holds text wider than its own box: \"Politweets...\" needs 216px and the box is 170px, so 46px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <div.d_grid.grid-tc_1fr.md:grid-af_dense.gap_1px > div.bg_surface.c_text.bd_1px_solid.bd-c_border > div.ff_display.fs_4xl.lg:fs_3xl.xl:fs_4xl> holds text wider than its own box: \"+0.54%...\" needs 525px and the box is 268px, so 257px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <div.d_grid.grid-tc_1fr.md:grid-af_dense.gap_1px > div.bg_surface.c_text.bd_1px_solid.bd-c_border > div.ff_display.fs_4xl.lg:fs_3xl.xl:fs_4xl> holds text wider than its own box: \"99.7%...\" needs 366px and the box is 268px, so 98px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <div.ff_display.fs_4xl.lg:fs_3xl.xl:fs_4xl > span.d_flex.flex-d_column.gap_2px > span.ff_display.fs_xl.lh_1.15.c_text> holds text wider than its own box: \"Radiohead...\" needs 320px and the box is 268px, so 52px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @360: 340 characters of running copy set at 58px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @360: <section.px_22px.md:px_40px.lg:px_6vw > div.d_flex.ai_baseline.jc_space-between.gap_4 > span.fs_xs.ls_widest.tt_uppercase.c_textFaint> is cut off: its right edge lands at 541px, 181px past the 360px viewport, severing \"What the work draws on...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/about @360: 340 characters of running copy set at 58px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @360: <section.px_22px.md:px_40px.lg:px_6vw > div.d_flex.ai_baseline.jc_space-between.gap_4 > span.fs_xs.ls_widest.tt_uppercase.c_textFaint> is cut off: its right edge lands at 541px, 181px past the 360px viewport, severing \"What the work draws on...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/ @1440: <div.d_grid.grid-tc_1fr.md:grid-af_dense.gap_1px > div.bg_surface.c_text.bd_1px_solid.bd-c_border > div.ff_display.fs_4xl.lg:fs_3xl.xl:fs_4xl> holds text wider than its own box: \"+0.54%...\" needs 525px and the box is 268px, so 257px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <div.d_grid.grid-tc_1fr.md:grid-af_dense.gap_1px > div.bg_surface.c_text.bd_1px_solid.bd-c_border > div.ff_display.fs_4xl.lg:fs_3xl.xl:fs_4xl> holds text wider than its own box: \"99.7%...\" needs 366px and the box is 268px, so 98px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <div.ff_display.fs_4xl.lg:fs_3xl.xl:fs_4xl > span.d_flex.flex-d_column.gap_2px > span.ff_display.fs_xl.lh_1.15.c_text> holds text wider than its own box: \"Radiohead...\" needs 320px and the box is 268px, so 52px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @820: <div.d_grid.grid-af_dense.gap_1px.md:gap_14px > div.bg_field.bd_1px_solid.bd-c_fieldBorder.bdr_md > div.ff_display.fs_lg.mt_2> holds text wider than its own box: \"The University of Dayton...\" needs 191px and the box is 187px, so 4px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @820: <div.d_grid.grid-af_dense.gap_1px.md:gap_14px > div.bg_field.bd_1px_solid.bd-c_fieldBorder.bdr_md > div.ff_display.fs_lg.mt_2> holds text wider than its own box: \"The University of Dayton...\" needs 191px and the box is 187px, so 4px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @1440: 340 characters of running copy set at 160px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: <div.d_grid.grid-af_dense.gap_1px.md:gap_14px > div.bg_field.bd_1px_solid.bd-c_fieldBorder.bdr_md > div.ff_display.fs_lg.mt_2> holds text wider than its own box: \"The University of Dayton...\" needs 191px and the box is 150px, so 41px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @1440: 340 characters of running copy set at 160px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: <div.d_grid.grid-af_dense.gap_1px.md:gap_14px > div.bg_field.bd_1px_solid.bd-c_fieldBorder.bdr_md > div.ff_display.fs_lg.mt_2> holds text wider than its own box: \"The University of Dayton...\" needs 191px and the box is 150px, so 41px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: 'dougmar.ch' is a 99x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 146x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 191x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 293x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 99x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 146x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 191x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 293x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @1440: <header.pos_relative.ov_hidden.bg_bg.d_grid > div.grid-r_2.lg:grid-r_1_/_span_3.lg:grid-c_2.pos_relative > h1.pos_relative.z_1.ff_display.fs_3xl> is cut off: its right edge lands at 1505px, 65px past the 1440px viewport, severing \"dougmar.ch...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/dougmar-ch @1440: <header.pos_relative.ov_hidden.bg_bg.d_grid > div.grid-r_2.lg:grid-r_1_/_span_3.lg:grid-c_2.pos_relative > h1.pos_relative.z_1.ff_display.fs_3xl> is cut off: its right edge lands at 1505px, 65px past the 1440px viewport, severing \"dougmar.ch...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/twittertale @1440: <header.pos_relative.ov_hidden.bg_bg.d_grid > div.grid-r_2.lg:grid-r_1_/_span_3.lg:grid-c_2.pos_relative > h1.pos_relative.z_1.ff_display.fs_3xl> is cut off: its right edge lands at 1462px, 22px past the 1440px viewport, severing \"Twittertale...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/twittertale @1440: <header.pos_relative.ov_hidden.bg_bg.d_grid > div.grid-r_2.lg:grid-r_1_/_span_3.lg:grid-c_2.pos_relative > h1.pos_relative.z_1.ff_display.fs_3xl> is cut off: its right edge lands at 1462px, 22px past the 1440px viewport, severing \"Twittertale...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/ @360: <div.pos_relative.z_1.anim-dly_80ms > div.d_flex.ai_baseline.gap_10px.mb_4px > span.fs_sm.fw_bold.tt_uppercase.ls_wider> \"Detroit\" at 14.5px bold sits over div.pos_absolute.inset_0px.op_0.55.bg-r_repeat (positioned background-image); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: <div.pos_relative.z_1.anim-dly_80ms > div.d_flex.ai_baseline.gap_10px.mb_4px > span.fs_xs.fw_bold.tt_uppercase.ls_widest> \"Final · Fri\" at 13.2px bold sits over div.pos_absolute.inset_0px.op_0.55.bg-r_repeat (positioned background-image); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/work/dougmar-ch @820: <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/work/dougmar-ch @820: <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" sets 81 characters on its longest line (8 lines, median 78) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/ @1440: The mockup sets '8-7' at 160px over '+3 +7' at 64px, a 2.5x lead; the build sets them at 160px and 160px. Restore the mockup's sizes so '8-7' leads.\n/ @1440: '+3 +7' is 64px in the mockup and 160px in the build (2.5x). Set it back to 64px.\n/ @1440: '99.7' is 64px in the mockup and 160px in the build (2.5x). Set it back to 64px.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1790415460093
+    },
+    {
+      "critic": "surface-gate",
+      "verdict": "NEEDS-HUMAN",
+      "feedback": "Authored routes outside MUTABLE_FILES failed the gate: /work/dougmar-ch\n\n## Measured layout faults\n\nThese are measurements taken from the live render, not observations from the images below.\nThey are exact. Do not re-litigate them against the screenshots, and do not count one fault\ntwice because it appears at more than one viewport.\n\n- [error] /work/dougmar-ch at 820px (light): <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n- [error] /work/dougmar-ch at 820px (light): <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" sets 81 characters on its longest line (8 lines, median 78) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.",
+      "ts": 1790415460094
+    },
+    {
+      "critic": "screenshot-critic",
+      "verdict": "REVISE",
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 1/2/7 — react-engineer: The signals-ledger figures (\"+3/+7\", \"99.7%\") render at 160px, identical to the hero score \"8-7,\" instead of the mockup's 64px. This flattens the hierarchy the whole composition depends on — the figure is supposed to be the singular dominant object, but the ledger now reads as co-equal with it.\n- Section 5 — react-engineer: That same sizing bug causes severe clipping in the ledger cells: \"+0.54%\" overflows its box by 257px at 1440 (20px at 820), \"99.7%\" by 98px, and \"Radiohead\" by 52px. Text is silently truncated with no scroll or wrap, not just visually tight.\n- Section 11/5 — react-engineer: On /about, the 340-character intro paragraph is set at display scale (160px at 1440, 58px at 360) instead of the body step, turning running prose into an oversized wall of text rather than readable copy with a proper hero phrase.\n- Section 5 — react-engineer: Case-study headers clip at 1440 — \"dougmar.ch\" loses 65px and \"Twittertale\" loses 22px off the right edge of the h1 on their respective pages. The title column needs to fit the headline at this viewport, not carry a wider size down.\n- Section 10 — react-engineer: At 360px on the homepage, the work-index cards sever project titles (\"Twittertale\" missing 64px, \"Politweets\" missing 46px) and the section's eyebrow label runs 125px past the viewport with no scroll — real content is gone, not merely offscreen.\n- Section 12 — react-engineer: The motion strip shows the hero phrase \"Tigers, by one.\" and the figure \"8-7\" fully formed at 0ms, while the deck and ledger caption fade in afterward — the declared `settle` entrance is landing on secondary content instead of the hero, which is the inverse of what was asked for.\n===END===",
+      "channel": "sdk-vision",
+      "ts": 1790415626098
+    },
+    {
+      "critic": "surface-gate",
+      "round": 2,
+      "verdict": "REVISE",
+      "feedback": "/ @360: <section#work.px_22px.md:px_40px.lg:px_6vw.pb_56px > div.bg_field.bd_1px_solid.bd-c_fieldBorder.bdr_md > h3.ff_display.textStyle_4xl.lh_0.95.fw_normal> holds text wider than its own box: \"Spaceman...\" needs 299px and the box is 270px, so 29px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <section#work.px_22px.md:px_40px.lg:px_6vw.pb_56px > div.bg_field.bd_1px_solid.bd-c_fieldBorder.bdr_md > h3.ff_display.textStyle_4xl.lh_0.95.fw_normal> holds text wider than its own box: \"Spaceman...\" needs 299px and the box is 270px, so 29px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: <header.pos_relative.ov_hidden.bg_bg.d_grid > div.grid-r_2.lg:grid-r_1_/_span_3.lg:grid-c_2.pos_relative > h1.pos_relative.z_1.min-w_0.ff_display> holds text wider than its own box: \"dougmar.ch...\" needs 308px and the box is 272px, so 36px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: 'dougmar.ch' is a 99x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 146x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 191x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 293x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: <header.pos_relative.ov_hidden.bg_bg.d_grid > div.grid-r_2.lg:grid-r_1_/_span_3.lg:grid-c_2.pos_relative > h1.pos_relative.z_1.min-w_0.ff_display> holds text wider than its own box: \"dougmar.ch...\" needs 308px and the box is 272px, so 36px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: 'dougmar.ch' is a 99x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 146x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 191x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 293x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: <header.pos_relative.ov_hidden.bg_bg.d_grid > div.grid-r_2.lg:grid-r_1_/_span_3.lg:grid-c_2.pos_relative > h1.pos_relative.z_1.min-w_0.ff_display> holds text wider than its own box: \"Twittertale...\" needs 289px and the box is 272px, so 17px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @360: <header.pos_relative.ov_hidden.bg_bg.d_grid > div.grid-r_2.lg:grid-r_1_/_span_3.lg:grid-c_2.pos_relative > h1.pos_relative.z_1.min-w_0.ff_display> holds text wider than its own box: \"Twittertale...\" needs 289px and the box is 272px, so 17px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <div.pos_relative.z_1.anim-dly_80ms > div.d_flex.ai_baseline.gap_10px.mb_4px > span.fs_sm.fw_bold.tt_uppercase.ls_wider> \"Detroit\" at 14.5px bold sits over div.pos_absolute.inset_0px.op_0.55.bg-r_repeat (positioned background-image); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: <div.pos_relative.z_1.anim-dly_80ms > div.d_flex.ai_baseline.gap_10px.mb_4px > span.fs_xs.fw_bold.tt_uppercase.ls_widest> \"Final · Fri\" at 13.2px bold sits over div.pos_absolute.inset_0px.op_0.55.bg-r_repeat (positioned background-image); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/work/dougmar-ch @820: <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/work/dougmar-ch @820: <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" sets 81 characters on its longest line (8 lines, median 78) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/ @1440: The mockup's largest text is '8-7' at 160px; the build sets 'spaceman' at 160px. Restore the mockup's hierarchy: 'spaceman' is 22px in the mockup.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1790415781965
+    },
+    {
+      "critic": "surface-gate",
+      "round": 3,
+      "verdict": "REVISE",
+      "feedback": "/work/dougmar-ch @360: 'dougmar.ch' is a 99x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 146x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 191x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 293x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 99x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 146x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 191x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 293x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: <div.pos_relative.z_1.anim-dly_80ms > div.d_flex.ai_baseline.gap_10px.mb_4px > span.fs_sm.fw_bold.tt_uppercase.ls_wider> \"Detroit\" at 14.5px bold sits over div.pos_absolute.inset_0px.op_0.55.bg-r_repeat (positioned background-image); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: <div.pos_relative.z_1.anim-dly_80ms > div.d_flex.ai_baseline.gap_10px.mb_4px > span.fs_xs.fw_bold.tt_uppercase.ls_widest> \"Final · Fri\" at 13.2px bold sits over div.pos_absolute.inset_0px.op_0.55.bg-r_repeat (positioned background-image); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/work/dougmar-ch @820: <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/work/dougmar-ch @820: <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" sets 81 characters on its longest line (8 lines, median 78) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1790415869469
+    },
+    {
+      "critic": "screenshot-critic",
+      "round": "final",
+      "verdict": "UNVERIFIED",
+      "feedback": "[screenshot-critic] response truncated at max_tokens (16000 output tokens, cap 16000)",
+      "channel": "sdk-vision-truncated",
+      "ts": 1790416083254
+    }
+  ],
+  "composition": {
+    "columns": "masonry",
+    "axis": "diagonal",
+    "symmetry": "right-weighted",
+    "hero_zone": "full-bleed",
+    "density": "dense",
+    "rhythm": "syncopated",
+    "shell_posture": "footer-only",
+    "field_ratio": "balanced",
+    "collapse": "hero-only",
+    "hero_object": "figure"
+  },
+  "lane": {
+    "laneId": "linear",
+    "register": "dark-keyboard-first-density"
+  },
+  "cost": {
+    "total_usd": 3.470124,
+    "estimated": true,
+    "partial": false,
+    "calls": 8,
+    "retries": 2,
+    "byAgent": [
+      {
+        "agent": "art-director",
+        "purpose": "first",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 20054,
+        "cache_read": 0,
+        "cache_write": 49019,
+        "cost_usd": 0.8077287499999999,
+        "estimated": false,
+        "ms": 301036,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "first",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 14447,
+        "cache_read": 0,
+        "cache_write": 41052,
+        "cost_usd": 0.61776,
+        "estimated": false,
+        "ms": 174843,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "first",
+        "model": "claude-haiku-4-5",
+        "source": "sdk",
+        "input": 5534,
+        "output": 178,
+        "cache_read": 0,
+        "cache_write": 5503,
+        "cost_usd": 0.01330275,
+        "estimated": true,
+        "ms": 4580,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "first",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 37833,
+        "cache_read": 0,
+        "cache_write": 40170,
+        "cost_usd": 0.957518,
+        "estimated": false,
+        "ms": 318733,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "first",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 19177,
+        "output": 12169,
+        "cache_read": 0,
+        "cache_write": 13534,
+        "cost_usd": 0.193879,
+        "estimated": true,
+        "ms": 139794,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 11650,
+        "cache_read": 0,
+        "cache_write": 47471,
+        "cost_usd": 0.470363,
+        "estimated": false,
+        "ms": 97738,
+        "num_turns": 1
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 3703,
+        "cache_read": 24045,
+        "cache_write": 20759,
+        "cost_usd": 0.182672,
+        "estimated": false,
+        "ms": 30019,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "rejudge",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 16533,
+        "output": 16000,
+        "cache_read": 0,
+        "cache_write": 13534,
+        "cost_usd": 0.22690100000000002,
+        "estimated": true,
+        "ms": 187889,
+        "num_turns": null
+      }
+    ]
+  },
+  "measurables": {
+    "declared": {
+      "canvas_utilization_min": 80,
+      "hero_scale": "clamp(96px, 12vw, 160px)",
+      "color_coverage_min": 38
+    },
+    "declaredAt": "2026-09-26T09:48:06.593Z",
+    "measured": {
+      "canvas_utilization": 100,
+      "color_coverage": 54.1,
+      "hero_px": 160
+    },
+    "measuredAt": "2026-09-26T09:48:14.158Z",
+    "method": "Measured at 1440x900 on a 20px grid over the viewport at scroll position zero. canvas_utilization: % of grid cells touched by an element carrying designed content (visible text, an image/SVG/video/canvas, a background colour distinct from the page background and not transparent, or a background image such as a gradient). A background set on html or body counts as painting the page, unless it is opaque white; ::before and ::after boxes count on the same terms. color_coverage: % of grid cells whose sampled background, background-image stops or text colour is chromatic (HSL saturation > 12%, lightness 8-92%). hero_px: the largest computed font-size among first-fold elements that set visible text."
+  },
+  "surfaceGate": {
+    "ran": true,
+    "error": null,
+    "round": null
+  }
+}

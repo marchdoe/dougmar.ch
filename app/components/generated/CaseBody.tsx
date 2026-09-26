@@ -1,107 +1,71 @@
 import { css } from '../../../styled-system/css'
 import type { projects } from '../../content/projects'
 import { CaseLinks } from './CaseLinks'
+import { SectionHead } from './SectionHead'
 
 type Project = (typeof projects)[number]
 
-const label = css({
-  textStyle: 'xs',
-  fontVariant: 'small-caps',
-  letterSpacing: 'widest',
-  color: 'textMuted',
-  marginBottom: '2',
-})
-
 export function CaseBody({ project }: { project: Project }) {
-  const stack = project.stack ?? []
-  const narrative = [
-    { k: 'In brief', v: project.description },
+  const rows = [
+    { k: 'Summary', v: project.description },
+    { k: 'Problem', v: project.problem },
     { k: 'Approach', v: project.approach },
     { k: 'Outcome', v: project.outcome },
-  ].filter((item): item is { k: string; v: string } => Boolean(item.v))
+  ].filter((r): r is { k: string; v: string } => Boolean(r.v))
   return (
     <section
       className={css({
-        maxWidth: '760px',
-        marginInline: 'auto',
-        paddingInline: { base: '4', lg: '7' },
-        paddingBottom: { base: '7', lg: '8' },
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '6',
+        paddingInline: { base: '22px', md: '40px', lg: '6vw' },
+        paddingBottom: '56px',
+        '@supports (animation-timeline: view())': {
+          animationName: 'rise',
+          animationTimeline: 'view()',
+          animationRange: 'entry 0% entry 40%',
+          animationFillMode: 'both',
+        },
       })}
     >
-      {project.problem ? (
-        <p
-          className={css({
-            fontFamily: 'display',
-            fontStyle: 'italic',
-            fontWeight: 'normal',
-            fontSize: { base: '20px', lg: '28px' },
-            lineHeight: 'snug',
-            letterSpacing: 'normal',
-            color: 'textMuted',
-            maxWidth: '34ch',
-            marginInline: 'auto',
-            textAlign: 'center',
-          })}
-        >
-          {project.problem}
-        </p>
-      ) : null}
-      {narrative.map((item) => (
-        <div
-          key={item.k}
-          className={css({ borderTop: '1px solid', borderColor: 'fieldBorder', paddingTop: '4' })}
-        >
-          <h2 className={label}>{item.k}</h2>
-          <p
+      <SectionHead title="The work" meta={`${project.type} · ${project.year}`} />
+      <div className={css({ display: 'flex', flexDirection: 'column' })}>
+        {rows.map((r) => (
+          <div
+            key={r.k}
             className={css({
-              fontFamily: 'body',
-              textStyle: 'base',
-              lineHeight: 'loose',
-              color: 'text',
-              maxWidth: '50ch',
+              display: 'grid',
+              gridTemplateColumns: { base: '1fr', md: '180px 1fr' },
+              columnGap: '5',
+              rowGap: '2',
+              paddingTop: '7',
+              paddingBottom: '5',
+              borderBottom: '1px solid',
+              borderColor: 'border',
             })}
           >
-            {item.v}
-          </p>
-        </div>
-      ))}
-      {stack.length > 0 ? (
-        <div
-          className={css({ borderTop: '1px solid', borderColor: 'fieldBorder', paddingTop: '4' })}
-        >
-          <h2 className={label}>Stack</h2>
-          <ul
-            className={css({
-              listStyle: 'none',
-              margin: '0',
-              padding: '0',
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '2',
-            })}
-          >
-            {stack.map((item) => (
-              <li
-                key={item}
-                className={css({
-                  textStyle: 'sm',
-                  color: 'text',
-                  border: '1px solid',
-                  borderColor: 'fieldBorder',
-                  borderRadius: 'full',
-                  paddingBlock: '1',
-                  paddingInline: '3',
-                })}
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
+            <span
+              className={css({
+                fontSize: 'xs',
+                fontWeight: 'bold',
+                textTransform: 'uppercase',
+                letterSpacing: 'widest',
+                color: 'textFaint',
+              })}
+            >
+              {r.k}
+            </span>
+            <p
+              className={css({
+                fontSize: 'base',
+                lineHeight: 'normal',
+                color: 'text',
+                maxWidth: '50ch',
+                margin: '0',
+              })}
+            >
+              {r.v}
+            </p>
+          </div>
+        ))}
+      </div>
       <CaseLinks project={project} />
     </section>
   )

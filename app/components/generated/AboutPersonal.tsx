@@ -1,45 +1,41 @@
 import { css } from '../../../styled-system/css'
 import { personal } from '../../content/about'
-import { Ledger } from './Ledger'
+import { ScoreStrip } from './ScoreStrip'
 import { SectionHead } from './SectionHead'
 
 export function AboutPersonal() {
+  const items = [
+    { k: 'Holes in one', v: <b>{personal.holesInOne}</b> },
+    { k: 'Sport', v: personal.sport },
+    { k: 'Teams', v: personal.teams.join(', ') },
+    { k: 'Current focus', v: personal.currentFocus },
+  ]
   return (
-    <section>
-      <SectionHead label="Off the clock" />
-      <div className={css({ textAlign: 'center', paddingBottom: '4' })}>
-        <div
-          className={css({
-            fontFamily: 'display',
-            fontStyle: 'italic',
-            fontWeight: 'bold',
-            textStyle: '4xl',
-            lineHeight: 'tight',
-            color: 'accent',
-            fontVariantNumeric: 'tabular-nums',
-          })}
-        >
-          {personal.holesInOne}
-        </div>
-        <div
-          className={css({
-            marginTop: '2',
-            textStyle: 'xs',
-            fontVariant: 'small-caps',
-            letterSpacing: 'wider',
-            color: 'textMuted',
-          })}
-        >
-          Holes in one
-        </div>
+    <section
+      className={css({
+        paddingInline: { base: '22px', md: '40px', lg: '6vw' },
+        paddingBottom: '56px',
+        '@supports (animation-timeline: view())': {
+          animationName: 'rise',
+          animationTimeline: 'view()',
+          animationRange: 'entry 0% entry 40%',
+          animationFillMode: 'both',
+        },
+      })}
+    >
+      <SectionHead title="Off the clock" meta="Box score" />
+      <div
+        className={css({
+          bg: 'field',
+          borderTop: '2px solid',
+          borderColor: 'fieldBorder',
+          borderRadius: 'md',
+          paddingBlock: '6',
+          paddingInline: { base: '22px', md: '34px' },
+        })}
+      >
+        <ScoreStrip items={items} />
       </div>
-      <Ledger
-        rows={[
-          { k: 'Sport', v: personal.sport },
-          { k: 'Teams', v: personal.teams.join(', ') },
-          { k: 'Current focus', v: personal.currentFocus },
-        ]}
-      />
     </section>
   )
 }

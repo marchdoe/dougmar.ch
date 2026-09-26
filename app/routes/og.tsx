@@ -10,92 +10,68 @@ function OgCard() {
       className={css({
         position: 'fixed',
         inset: '0',
-        zIndex: '9999',
+        zIndex: 9999,
         bg: 'bg',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        overflow: 'hidden',
       })}
     >
       <div
         className={css({
-          position: 'relative',
           width: '1200px',
           height: '630px',
-          flexShrink: '0',
-          overflow: 'hidden',
-          bg: 'bg',
-          color: 'text',
+          flexShrink: 0,
+          boxSizing: 'border-box',
+          bg: 'field',
+          color: 'fieldInk',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          textAlign: 'center',
-          paddingInline: '8',
+          justifyContent: 'space-between',
+          paddingBlock: '64px',
+          paddingInline: '72px',
         })}
       >
-        <span
-          aria-hidden="true"
-          className={css({
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%) rotate(-4deg)',
-            fontFamily: 'display',
-            fontStyle: 'italic',
-            fontWeight: 'bold',
-            fontSize: '520px',
-            lineHeight: '1',
-            color: 'text',
-            opacity: 0.055,
-            whiteSpace: 'nowrap',
-            pointerEvents: 'none',
-          })}
-        >
-          fun
-        </span>
         <div
           className={css({
-            position: 'absolute',
-            top: '48px',
-            left: '56px',
-            color: 'text',
-            zIndex: '1',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
           })}
         >
-          <BrandLockup variant="horizontal-md" mode="single-color" />
+          <div className={css({ color: 'fieldInk' })}>
+            <BrandLockup variant="stacked-md" mode="single-color" />
+          </div>
+          <div
+            className={css({
+              fontFamily: 'display',
+              fontSize: '160px',
+              lineHeight: '0.9',
+              color: 'accent',
+              fontVariantNumeric: 'tabular-nums',
+            })}
+          >
+            8–7
+          </div>
         </div>
-        <h1
-          className={css({
-            position: 'relative',
-            zIndex: '1',
-            fontFamily: 'display',
-            fontStyle: 'italic',
-            fontWeight: 'light',
-            fontSize: '76px',
-            lineHeight: 'tight',
-            letterSpacing: 'tight',
-            color: 'text',
-            maxWidth: '18ch',
-          })}
-        >
-          People rarely succeed unless they have fun in what they are doing.
-        </h1>
-        <p
-          className={css({
-            position: 'relative',
-            zIndex: '1',
-            marginTop: '5',
-            fontFamily: 'body',
-            fontSize: '20px',
-            letterSpacing: 'wider',
-            textTransform: 'uppercase',
-            color: 'textMuted',
-          })}
-        >
-          Dale Carnegie
-        </p>
+        <div className={css({ textAlign: 'right' })}>
+          <h1
+            className={css({
+              fontFamily: 'display',
+              fontSize: '96px',
+              lineHeight: '1',
+              fontWeight: 'normal',
+              fontVariant: 'small-caps',
+              letterSpacing: 'wide',
+              color: 'fieldInk',
+            })}
+          >
+            Tigers, by one.
+          </h1>
+          <div className={css({ marginTop: '16px', fontSize: '28px', color: 'fieldInkMuted' })}>
+            One run stood up.
+          </div>
+        </div>
       </div>
     </div>
   )

@@ -1,45 +1,50 @@
 import { css } from '../../../styled-system/css'
+import { BrandLockup } from '../BrandLockup'
 
 export function CaseMissing() {
   return (
-    <section
+    <header
       className={css({
-        maxWidth: '760px',
-        marginInline: 'auto',
-        paddingInline: { base: '4', lg: '7' },
-        paddingBlock: { base: '7', lg: '8' },
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '4',
-        textAlign: 'center',
+        bg: 'bg',
+        paddingTop: { base: '24px', md: '34px', lg: '44px' },
+        paddingBottom: '56px',
+        paddingInline: { base: '22px', md: '40px', lg: '6vw' },
       })}
     >
+      <div className={css({ color: 'text', width: 'max-content' })}>
+        <BrandLockup variant="stacked-md" mode="single-color" />
+      </div>
       <h1
         className={css({
+          marginTop: '7',
           fontFamily: 'display',
-          fontStyle: 'italic',
-          fontWeight: 'light',
           textStyle: '3xl',
-          lineHeight: 'tight',
+          fontWeight: 'normal',
+          fontVariant: 'small-caps',
+          letterSpacing: 'wide',
           color: 'text',
+          animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          animationDelay: '0ms',
         })}
       >
-        Nothing filed under that name.
+        Not in the record.
       </h1>
       <a
         href="/work"
         className={css({
-          display: 'inline-block',
-          paddingBlock: '3',
+          display: 'inline-flex',
+          alignItems: 'center',
+          minHeight: '44px',
+          marginTop: '4',
+          fontSize: 'sm',
+          fontWeight: 'bold',
+          textTransform: 'uppercase',
+          letterSpacing: 'wide',
           color: 'accent',
-          borderBottom: '1px solid',
-          borderColor: 'accent',
-          lineHeight: '1',
         })}
       >
-        Back to the work
+        Back to the work →
       </a>
-    </section>
+    </header>
   )
 }

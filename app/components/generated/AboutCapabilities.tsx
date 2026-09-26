@@ -1,41 +1,89 @@
 import { css } from '../../../styled-system/css'
-import { capabilities } from '../../content/timeline'
+import { capabilities, education } from '../../content/timeline'
 import { SectionHead } from './SectionHead'
+
+const cell = css({
+  bg: 'field',
+  border: '1px solid',
+  borderColor: 'fieldBorder',
+  borderRadius: 'md',
+  padding: '4',
+  color: 'fieldInk',
+  minWidth: '0',
+})
+
+function EducationCell() {
+  return (
+    <div className={cell}>
+      <div
+        className={css({
+          fontSize: 'xs',
+          fontWeight: 'bold',
+          textTransform: 'uppercase',
+          letterSpacing: 'widest',
+          color: 'fieldInkMuted',
+        })}
+      >
+        Education
+      </div>
+      <div
+        className={css({
+          fontFamily: 'display',
+          fontSize: '20px',
+          lineHeight: 'snug',
+          marginTop: '2',
+        })}
+      >
+        {education.school}
+      </div>
+      <div className={css({ fontSize: 'sm', color: 'fieldInkMuted' })}>{education.degree}</div>
+      <div className={css({ fontSize: 'sm', color: 'fieldInkMuted' })}>
+        {education.concentration}
+      </div>
+      {education.years ? (
+        <div
+          className={css({
+            fontSize: 'sm',
+            color: 'fieldInkMuted',
+            fontVariantNumeric: 'tabular-nums',
+          })}
+        >
+          {education.years}
+        </div>
+      ) : null}
+    </div>
+  )
+}
 
 export function AboutCapabilities() {
   return (
-    <section>
-      <SectionHead label="Capabilities" />
-      <ul
+    <section
+      className={css({
+        paddingInline: { base: '22px', md: '40px', lg: '6vw' },
+        '@supports (animation-timeline: view())': {
+          animationName: 'rise',
+          animationTimeline: 'view()',
+          animationRange: 'entry 0% entry 40%',
+          animationFillMode: 'both',
+        },
+      })}
+    >
+      <SectionHead title="Capabilities" meta="What the work draws on" />
+      <div
         className={css({
-          listStyle: 'none',
-          margin: '0',
-          padding: '0',
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          gap: '2',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
+          gridAutoFlow: 'dense',
+          gap: { base: '1px', md: '14px' },
         })}
       >
-        {capabilities.map((item) => (
-          <li
-            key={item}
-            className={css({
-              textStyle: 'sm',
-              fontVariant: 'small-caps',
-              letterSpacing: 'wide',
-              color: 'text',
-              border: '1px solid',
-              borderColor: 'accent',
-              borderRadius: 'full',
-              paddingBlock: '1',
-              paddingInline: '3',
-            })}
-          >
-            {item}
-          </li>
+        {capabilities.map((c) => (
+          <div key={c} className={cell}>
+            <span className={css({ fontSize: 'sm', lineHeight: 'snug' })}>{c}</span>
+          </div>
         ))}
-      </ul>
+        <EducationCell />
+      </div>
     </section>
   )
 }

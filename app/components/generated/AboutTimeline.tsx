@@ -5,35 +5,52 @@ import { SectionHead } from './SectionHead'
 type Entry = (typeof timeline)[number]
 
 function TimelineRow({ entry }: { entry: Entry }) {
-  const line = [entry.role, entry.company].filter(Boolean).join(', ')
+  const title = [entry.role, entry.company].filter(Boolean).join(', ')
   return (
     <div
       className={css({
-        display: { base: 'flex', md: 'grid' },
-        flexDirection: 'column',
-        gridTemplateColumns: { md: '140px minmax(0, 1fr)' },
+        display: 'grid',
+        gridTemplateColumns: { base: '1fr', md: '140px 1fr' },
         columnGap: '5',
         rowGap: '1',
-        paddingBlock: '3',
+        paddingBlock: { base: '16px', lg: '20px' },
+        paddingInline: '4px',
         borderBottom: '1px solid',
-        borderColor: 'fieldBorder',
+        borderColor: 'border',
+        _first: { borderTopWidth: '1px', borderTopStyle: 'solid' },
       })}
     >
       <div
         className={css({
-          textStyle: 'xs',
-          fontVariant: 'small-caps',
-          letterSpacing: 'wider',
-          color: 'textMuted',
+          fontSize: 'sm',
+          color: 'textFaint',
+          fontVariantNumeric: 'tabular-nums',
           minWidth: { md: '140px' },
         })}
       >
         {entry.year}
       </div>
-      <div className={css({ display: 'flex', flexDirection: 'column', gap: '1', minWidth: '0' })}>
-        <div className={css({ textStyle: 'base', color: 'text' })}>{line}</div>
+      <div className={css({ minWidth: '0' })}>
+        <div
+          className={css({
+            fontFamily: 'display',
+            fontSize: { base: 'base', md: 'xl' },
+            lineHeight: 'snug',
+            color: 'text',
+          })}
+        >
+          {title}
+        </div>
         {entry.description ? (
-          <p className={css({ textStyle: 'sm', color: 'textMuted', maxWidth: '50ch' })}>
+          <p
+            className={css({
+              fontSize: 'sm',
+              color: 'textMuted',
+              maxWidth: '50ch',
+              marginTop: '1',
+              marginBottom: '0',
+            })}
+          >
             {entry.description}
           </p>
         ) : null}
@@ -44,9 +61,19 @@ function TimelineRow({ entry }: { entry: Entry }) {
 
 export function AboutTimeline() {
   return (
-    <section>
-      <SectionHead label="Timeline" />
-      <div className={css({ borderTop: '1px solid', borderColor: 'fieldBorder' })}>
+    <section
+      className={css({
+        paddingInline: { base: '22px', md: '40px', lg: '6vw' },
+        '@supports (animation-timeline: view())': {
+          animationName: 'rise',
+          animationTimeline: 'view()',
+          animationRange: 'entry 0% entry 40%',
+          animationFillMode: 'both',
+        },
+      })}
+    >
+      <SectionHead title="The record" meta={`${timeline.length} roles`} />
+      <div className={css({ display: 'flex', flexDirection: 'column' })}>
         {timeline.map((entry) => (
           <TimelineRow key={`${entry.year}-${entry.company}-${entry.role}`} entry={entry} />
         ))}

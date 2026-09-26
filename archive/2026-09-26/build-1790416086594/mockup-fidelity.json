@@ -1,0 +1,560 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'tigers by one' (44px in the mockup) has no match in the build",
+          "facts": {
+            "text": "tigers by one",
+            "mockupPx": 44,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the night in figures' (32px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the night in figures",
+            "mockupPx": 32,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'0708 1853' (32px in the mockup) has no match in the build",
+          "facts": {
+            "text": "0708 1853",
+            "mockupPx": 32,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'selected work' (32px in the mockup) has no match in the build",
+          "facts": {
+            "text": "selected work",
+            "mockupPx": 32,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'experiments' (32px in the mockup) has no match in the build",
+          "facts": {
+            "text": "experiments",
+            "mockupPx": 32,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a score is a score this one held' (32px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a score is a score this one held",
+            "mockupPx": 32,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "The mockup sets '8-7' at 160px over '+3 +7' at 64px, a 2.5x lead; the build sets them at 160px and 160px. Restore the mockup's sizes so '8-7' leads.",
+          "facts": {
+            "shape": "flattened",
+            "leader": {
+              "text": "8-7",
+              "mockupPx": 160,
+              "buildPx": 160
+            },
+            "runnerUp": {
+              "text": "+3 +7",
+              "mockupPx": 64,
+              "buildPx": 160
+            },
+            "mockupGap": 2.5,
+            "buildGap": 1,
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'+3 +7' is 64px in the mockup and 160px in the build (2.5x). Set it back to 64px.",
+          "facts": {
+            "text": "+3 +7",
+            "mockupPx": 64,
+            "buildPx": 160,
+            "ratio": 2.5,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'99.7' is 64px in the mockup and 160px in the build (2.5x). Set it back to 64px.",
+          "facts": {
+            "text": "99.7",
+            "mockupPx": 64,
+            "buildPx": 160,
+            "ratio": 2.5,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'+0.54' is 64px in the mockup and 160px in the build (2.50x)",
+          "facts": {
+            "text": "+0.54",
+            "mockupPx": 64,
+            "buildPx": 160,
+            "ratio": 2.5,
+            "mockupRank": 3
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'54' is 64px in the mockup and 160px in the build (2.50x)",
+          "facts": {
+            "text": "54",
+            "mockupPx": 64,
+            "buildPx": 160,
+            "ratio": 2.5,
+            "mockupRank": 4
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'+3 +7' is 40px in the mockup and 65px in the build (1.62x)",
+          "facts": {
+            "text": "+3 +7",
+            "mockupPx": 40,
+            "buildPx": 65,
+            "ratio": 1.62,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'99.7' is 40px in the mockup and 65px in the build (1.62x)",
+          "facts": {
+            "text": "99.7",
+            "mockupPx": 40,
+            "buildPx": 65,
+            "ratio": 1.62,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'+0.54' is 40px in the mockup and 65px in the build (1.62x)",
+          "facts": {
+            "text": "+0.54",
+            "mockupPx": 40,
+            "buildPx": 65,
+            "ratio": 1.62,
+            "mockupRank": 3
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'54' is 40px in the mockup and 65px in the build (1.62x)",
+          "facts": {
+            "text": "54",
+            "mockupPx": 40,
+            "buildPx": 65,
+            "ratio": 1.62,
+            "mockupRank": 4
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'tigers by one' moved from (252, 513) in the mockup to (249, 642) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'one run stood up' moved from (255, 551) in the mockup to (250, 771) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets 'tigers by one' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'the night in figures' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets '0708 1853' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'selected work' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'experiments' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'a score is a score this one held' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: '+0.54' is 64px in the mockup and 160px in the build (2.5x). Set it back to 64px.",
+        "- / at 1440px: '54' is 64px in the mockup and 160px in the build (2.5x). Set it back to 64px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'tigers by one' (44px in the mockup) has no match in the build",
+          "facts": {
+            "text": "tigers by one",
+            "mockupPx": 44,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a score is a score this one held' (32px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a score is a score this one held",
+            "mockupPx": 32,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "The mockup's largest text is '8-7' at 160px; the build sets 'spaceman' at 160px. Restore the mockup's hierarchy: 'spaceman' is 22px in the mockup.",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "+3 +7",
+                "mockupPx": 64
+              },
+              {
+                "text": "99.7",
+                "mockupPx": 64
+              }
+            ],
+            "leader": {
+              "text": "8-7",
+              "mockupPx": 160
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 160,
+              "mockupPx": 22
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the night in figures' moved from (230, 908) in the mockup to (230, 1001) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is '8-7' (96px); in build it is '8-7' (110px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "+3 +7",
+                "mockupPx": 40
+              },
+              {
+                "text": "99.7",
+                "mockupPx": 40
+              }
+            ],
+            "leader": {
+              "text": "8-7",
+              "mockupPx": 96
+            },
+            "buildLeader": {
+              "text": "8-7",
+              "buildPx": 110,
+              "mockupPx": 96
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'tigers by one' moved from (252, 513) in the mockup to (249, 642) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'one run stood up' moved from (255, 551) in the mockup to (250, 771) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: '8-7' still leads, but the mockup's '+3 +7' (40px), '99.7' (40px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'tigers by one' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'a score is a score this one held' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'tigers by one' (44px in the mockup) has no match in the build",
+          "facts": {
+            "text": "tigers by one",
+            "mockupPx": 44,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a score is a score this one held' (32px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a score is a score this one held",
+            "mockupPx": 32,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is '8-7' (160px); in build it is '8-7' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "+3 +7",
+                "mockupPx": 64
+              },
+              {
+                "text": "99.7",
+                "mockupPx": 64
+              }
+            ],
+            "leader": {
+              "text": "8-7",
+              "mockupPx": 160
+            },
+            "buildLeader": {
+              "text": "8-7",
+              "buildPx": 160,
+              "mockupPx": 160
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the night in figures' moved from (230, 908) in the mockup to (230, 1001) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is '8-7' (96px); in build it is '8-7' (110px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "99.7",
+                "mockupPx": 40
+              }
+            ],
+            "leader": {
+              "text": "8-7",
+              "mockupPx": 96
+            },
+            "buildLeader": {
+              "text": "8-7",
+              "buildPx": 110,
+              "mockupPx": 96
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'tigers by one' moved from (252, 513) in the mockup to (249, 642) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'one run stood up' moved from (255, 551) in the mockup to (250, 771) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: '8-7' still leads, but the mockup's '+3 +7' (64px), '99.7' (64px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: '8-7' still leads, but the mockup's '99.7' (40px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'tigers by one' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'a score is a score this one held' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}
