@@ -1,83 +1,91 @@
+import type { CSSProperties } from 'react'
 import { css } from '../../../styled-system/css'
-import type { featuredProject } from '../../content/projects'
+import type { projects } from '../../content/projects'
 
-type Project = NonNullable<typeof featuredProject>
+type Project = (typeof projects)[number]
+
+function longestWord(title: string) {
+  return title.split(/\s+/).reduce((max, word) => Math.max(max, word.length), 4)
+}
 
 export function FeaturedCard({ project }: { project: Project }) {
   const href = project.externalUrl ?? project.liveUrl ?? `/work/${project.slug}`
-  const summary = project.problem ?? project.description
   return (
     <div
+      style={{ '--len': longestWord(project.title) } as CSSProperties}
       className={css({
-        bg: 'field',
-        border: '1px solid',
-        borderColor: 'fieldBorder',
-        borderRadius: 'md',
-        paddingTop: { base: '26px', md: '34px', lg: '44px' },
-        paddingBottom: { base: '24px', md: '30px', lg: '38px' },
-        paddingInline: { base: '22px', md: '34px', lg: '44px' },
-        marginBottom: '22px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '14px',
+        containerType: 'inline-size',
+        marginTop: '18px',
+        marginBottom: '2',
+        padding: '3',
+        bg: 'surface',
+        borderRadius: 'lg',
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        borderColor: 'borderStrong',
       })}
     >
-      {/* gold700 kicker substituted with fieldInkMuted for contrast */}
-      <span
-        className={css({
-          fontSize: 'xs',
-          fontWeight: 'bold',
-          textTransform: 'uppercase',
-          letterSpacing: 'widest',
-          color: 'fieldInkMuted',
-        })}
-      >
-        Featured · {project.type} · {project.year}
-      </span>
-      <h3
+      <div
         className={css({
           fontFamily: 'display',
-          fontSize: '22px',
-          lineHeight: '1.1',
-          fontWeight: 'normal',
-          color: 'fieldInk',
-          minWidth: '0',
+          fontSize: '2xs',
+          letterSpacing: 'widest',
+          textTransform: 'uppercase',
+          color: 'accent',
+          marginBottom: '2',
+        })}
+      >
+        Featured · {project.type}
+      </div>
+      {/* capped under the index titles so the work index keeps the page's largest type, as in the mockup */}
+      <div
+        className={css({
+          fontFamily: 'display',
+          fontWeight: 'bold',
+          fontSize: {
+            base: 'min(clamp(26px, 7.2vw, 40px), calc(100cqi / (var(--len) * 0.66)))',
+            lg: 'min(60px, calc(100cqi / (var(--len) * 0.66)))',
+          },
+          lineHeight: { base: '1', lg: '0.98' },
+          letterSpacing: '-0.01em',
+          color: 'text',
         })}
       >
         {project.title}
-      </h3>
-      {summary ? (
+      </div>
+      {project.problem ? (
         <p
           className={css({
-            fontSize: 'base',
-            lineHeight: '1.55',
-            color: 'fieldInkMuted',
-            maxWidth: '50ch',
-            margin: '0',
+            color: 'textMuted',
+            fontSize: 'sm',
+            maxWidth: '48ch',
+            marginTop: '2',
+            marginBottom: '2',
           })}
         >
-          {summary}
+          {project.problem}
         </p>
       ) : null}
       <a
         href={href}
+        target="_blank"
+        rel="noopener noreferrer"
         className={css({
-          alignSelf: 'flex-start',
           display: 'inline-flex',
           alignItems: 'center',
-          gap: '2',
-          fontSize: 'sm',
-          fontWeight: 'bold',
-          letterSpacing: 'wide',
-          textTransform: 'uppercase',
-          color: 'accent',
-          paddingBlock: '12px',
-          paddingInline: '4px',
           minHeight: '44px',
-          _hover: { color: 'accentAlt' },
+          fontFamily: 'display',
+          fontSize: 'sm',
+          letterSpacing: 'wide',
+          color: 'text',
+          textDecoration: 'underline',
+          textDecorationColor: 'accent',
+          textDecorationThickness: '2px',
+          textUnderlineOffset: '4px',
+          _hover: { color: 'accent' },
         })}
       >
-        Visit {project.title} →
+        {project.title} ↗
       </a>
     </div>
   )

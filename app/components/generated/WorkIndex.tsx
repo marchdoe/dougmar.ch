@@ -1,20 +1,35 @@
 import { css } from '../../../styled-system/css'
-import { experiments, featuredProject, selectedWork } from '../../content/projects'
+import type { projects } from '../../content/projects'
 import { FeaturedCard } from './FeaturedCard'
+import { IndexList } from './IndexList'
 import { SectionHead } from './SectionHead'
-import { WorkRow } from './WorkRow'
 
-const rows = css({ display: 'flex', flexDirection: 'column' })
+type Project = (typeof projects)[number]
 
-export function WorkIndex() {
-  const offset = selectedWork.length
+export function WorkIndex({
+  featured,
+  work,
+  experiments,
+}: {
+  featured: Project | undefined
+  work: Project[]
+  experiments: Project[]
+}) {
   return (
     <section
       id="work"
-      aria-labelledby="work-head"
+      aria-labelledby="wi-h"
       className={css({
-        paddingInline: { base: '22px', md: '40px', lg: '6vw' },
-        paddingBottom: '56px',
+        paddingTop: { base: '5', lg: '7' },
+        paddingBottom: { base: '2', lg: '7' },
+        paddingLeft: { base: '3', lg: '6vw' },
+        paddingRight: { base: '3', lg: '4vw' },
+        borderStyle: 'solid',
+        borderColor: 'borderStrong',
+        borderTopWidth: '0',
+        borderLeftWidth: '0',
+        borderRightWidth: { base: '0', lg: '1px' },
+        borderBottomWidth: { base: '0', lg: '1px' },
         '@supports (animation-timeline: view())': {
           animationName: 'rise',
           animationTimeline: 'view()',
@@ -23,33 +38,13 @@ export function WorkIndex() {
         },
       })}
     >
-      <SectionHead id="work-head" title="Selected work" meta="2008–2026" />
-      {featuredProject ? <FeaturedCard project={featuredProject} /> : null}
-      <div className={rows}>
-        {selectedWork.map((p, i) => (
-          <WorkRow
-            key={p.slug}
-            num={String(i + 1).padStart(2, '0')}
-            title={p.title}
-            type={p.type}
-            year={p.year}
-            href={`/work/${p.slug}`}
-          />
-        ))}
+      <SectionHead id="wi-h" label="Selected Work" aside="Index" />
+      {featured ? <FeaturedCard project={featured} /> : null}
+      <IndexList items={work} />
+      <div className={css({ marginTop: '40px' })}>
+        <SectionHead label="Experiments" aside="Archive" />
       </div>
-      <SectionHead tight title="Experiments" meta="Smaller swings" />
-      <div className={rows}>
-        {experiments.map((p, i) => (
-          <WorkRow
-            key={p.slug}
-            num={String(offset + i + 1).padStart(2, '0')}
-            title={p.title}
-            type={p.type}
-            year={p.year}
-            href={p.externalUrl ?? `/work/${p.slug}`}
-          />
-        ))}
-      </div>
+      <IndexList items={experiments} />
     </section>
   )
 }

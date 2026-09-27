@@ -57,28 +57,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Tigers, by one.' },
-      { property: 'og:title', content: 'Tigers, by one.' },
+      { title: 'No one ever said life was fair. Just Eventful.' },
+      { property: 'og:title', content: 'No one ever said life was fair. Just Eventful.' },
       {
         property: 'og:description',
         content:
-          'Full-moon box score: a didone 8–7 in scoreboard gold floating on a warm near-black void, dot-matrix ground, "Tigers, by one." flush right, the day\'s signals cataloged in a ragged masonry ledger.',
+          "Phosphor-green log of an eventful Sunday: Carol Burnett's line justified in Space Mono caps across the top edge, the work and the day's scores cataloged as amber terminal entries, the mark alone glowing in a right-margin rail.",
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-26.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-27.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Tigers, by one.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-26.png' },
+      { name: 'twitter:title', content: 'No one ever said life was fair. Just Eventful.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-27.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital,wght@0,400;1,400&family=Public+Sans:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -247,7 +247,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 147 designs
+            Archive · 148 designs
           </a>
         )}
         <ScrollRestoration />

@@ -1,0 +1,764 @@
+{
+  "date": "2026-09-27",
+  "era": "header-declared",
+  "generatedAt": "2026-09-27T10:36:42.780Z",
+  "buildId": "1790505395219",
+  "attempts": 1,
+  "brief": "Phosphor-green log of an eventful Sunday: Carol Burnett's line justified in Space Mono caps across the top edge, the work and the day's scores cataloged as amber terminal entries, the mark alone glowing in a right-margin rail.",
+  "rationale": "The hero is Carol Burnett's \"No one ever said life was fair. Just Eventful.\" It wins the preferred quote lane because it is Doug's register exactly, a dry shrug rather than a slogan, and today earns it: one Detroit win, one Detroit loss, a market tick up, a full moon, a nor'easter. The line doesn't want to be a poster shout. It wants to head a record of the eventful day, which is why the object on the page is a `list`, the work index and the day's scores cataloged as log entries, with the phrase as the standfirst banner and the list carrying marquee scale. That directly answers the owner's complaint that every day is one big poster line over a signal list.\n\nComposition follows the line: a justified Space Mono caps banner pinned across the top edge (edge-bound, type-dominant), then two equal columns reading left to right as a strip, work index against the day's event log, the regular row rhythm broken once by a caesura and a single emphasized amber row. The chassis is space-mono-archivo, chosen off the three-night serif streak and off the worn faces; a retro-futurist monospace turns the eventful day into a terminal log, and the concept keeps mono from reading as costume, Doug is a designer-developer and the ledger is a real printout with tabular figures. Type is set caps, justified, heavy, roman, texture none: the justified mono banner and the amber data are the texture, and a log renders as solid type, so an outline or repeated-type ground would undercut the deadpan.\n\nThe palette is a duotone, off the recent dark-void, drench and light-ground run: deep pine green (166°, inside the mandate but pushed past the recent 152° and 178° to separate) as the field and amber (44°) as the co-hue flooding the signals band and marking every event. Green and amber are the two classic CRT phosphor colors, so the duotone and the terminal chassis are the same idea. The mark is single-color amber, the honest choice on a two-hue field where the original green-and-blue would blend into the green, and it uses the fresh mark-only-md lockup at the top of a right-margin rail, in the first fold at both widths. Motion is a wipe entrance, the log printing in left to right, with on-scroll reveal so entries rise as you read.",
+  "filesChanged": [
+    "elements/preset.ts",
+    "app/components/Layout.tsx",
+    "app/components/Sidebar.tsx",
+    "app/components/generated/LogTail.tsx",
+    "app/components/generated/SectionHead.tsx",
+    "app/components/generated/HeroBanner.tsx",
+    "app/components/generated/WorkIndex.tsx",
+    "app/components/generated/FeaturedCard.tsx",
+    "app/components/generated/IndexList.tsx",
+    "app/components/generated/IndexRow.tsx",
+    "app/components/generated/EventLog.tsx",
+    "app/components/generated/LogRow.tsx",
+    "app/components/generated/SignalBand.tsx",
+    "app/components/generated/FocusCell.tsx",
+    "app/components/generated/LedgerSection.tsx",
+    "app/components/generated/StatementBanner.tsx",
+    "app/components/generated/TimelineList.tsx",
+    "app/components/generated/TagList.tsx",
+    "app/components/generated/KeyValueList.tsx",
+    "app/components/generated/ProjectBanner.tsx",
+    "app/components/generated/ProseBlocks.tsx",
+    "app/components/generated/BuildSection.tsx",
+    "app/components/generated/CaseStudy.tsx",
+    "app/components/generated/MissingProject.tsx",
+    "app/routes/index.tsx",
+    "app/routes/about.tsx",
+    "app/routes/work.$slug.tsx",
+    "app/routes/og.tsx"
+  ],
+  "legacyArchetype": null,
+  "signals": {
+    "air_quality": {
+      "aqi_index": 1,
+      "uv_index": 0,
+      "air_quality_label": "Good"
+    },
+    "books": {
+      "currently_reading": []
+    },
+    "day_of_week": {
+      "day": "Sunday",
+      "is_weekend": true,
+      "day_index": 0
+    },
+    "github": {
+      "repos": [
+        {
+          "name": "paperclipai/paperclip/stargazers",
+          "description": "",
+          "language": "TypeScript",
+          "stars": null
+        },
+        {
+          "name": "vectorize-io/hindsight/stargazers",
+          "description": "",
+          "language": "Python",
+          "stars": null
+        },
+        {
+          "name": "NVIDIA/Model-Optimizer/stargazers",
+          "description": "",
+          "language": "Python",
+          "stars": null
+        },
+        {
+          "name": "dream-num/univer/stargazers",
+          "description": "",
+          "language": "TypeScript",
+          "stars": null
+        },
+        {
+          "name": "tensorflow/tensorflow/stargazers",
+          "description": "",
+          "language": "C++",
+          "stars": null
+        }
+      ]
+    },
+    "golf": {
+      "tournament": "Presidents Cup",
+      "status": "In Progress",
+      "leaders": [
+        {
+          "name": "Unranked competitor #1",
+          "position": "1",
+          "score": "7.5"
+        },
+        {
+          "name": "Unranked competitor #2",
+          "position": "2",
+          "score": "10.5"
+        }
+      ]
+    },
+    "hacker_news": {
+      "stories": [
+        {
+          "title": "OpenAI Feared \"Optics\" of what might appear on Hacker News",
+          "url": "https://authorsguild.org/news/ag-v-openai-top-execs-knew-mass-book-piracy-was-illegal/",
+          "score": 170,
+          "by": "papergirl"
+        },
+        {
+          "title": "Meta Blocks President Lula's Facebook Page, Campaign Ads 2 Weeks from Election",
+          "url": "https://www.reddit.com/r/worldnews/comments/1wr3id3/meta_blocks_president_lulas_facebook_page_and/",
+          "score": 83,
+          "by": "rbanffy"
+        },
+        {
+          "title": "Does Georgism work? Five years later",
+          "url": "https://www.astralcodexten.com/p/does-georgism-work-five-years-later",
+          "score": 338,
+          "by": "silveraxe93"
+        },
+        {
+          "title": "Flip Fluid on Flip Dots",
+          "url": "https://mitxela.com/projects/flipflip",
+          "score": 84,
+          "by": "blutack"
+        },
+        {
+          "title": "Go Concurrency Distilled",
+          "url": "https://antonz.org/go-concurrency-distilled/",
+          "score": 220,
+          "by": "chmaynard"
+        }
+      ]
+    },
+    "holidays": {
+      "today": null,
+      "upcoming": []
+    },
+    "lunar": {
+      "phase": "full moon",
+      "illumination": 0.973,
+      "days_into_cycle": 16.32
+    },
+    "market": {
+      "symbol": "SPY",
+      "price": "771.3500",
+      "change": "4.1700",
+      "change_percent": "0.5435%",
+      "direction": "up"
+    },
+    "music": {
+      "bands": [
+        "Radiohead",
+        "The War on Drugs",
+        "My Morning Jacket"
+      ],
+      "rotation": true
+    },
+    "news": {
+      "headlines": [
+        {
+          "title": "Thousands without power, roads flood in New Jersey as first major signs of nor'easter take shape - apnews.com",
+          "source": "Associated Press",
+          "url": "https://apnews.com/article/noreaster-storm-cape-cod-new-england-4057bec1ced5c4883d36c30c778df410"
+        },
+        {
+          "title": "Rogue OpenAI agents accessed US government websites - Politico",
+          "source": "Politico",
+          "url": "https://www.politico.com/news/2026/09/25/rogue-openai-agents-accessed-us-government-websites-01094035"
+        },
+        {
+          "title": "Iran War Updates: Tehran proposes 7-day plan to reopen Strait of Hormuz as it seeks deal before U.S. midterms - CBS News",
+          "source": "CBS News",
+          "url": "https://www.cbsnews.com/live-updates/iran-war-us-trump-strait-of-hormuz-7-day-proposal/"
+        },
+        {
+          "title": "Exclusive | Julia Haart's ex husband facing criminal charges, jail over actions during brutal divorce - Page Six",
+          "source": "Page Six",
+          "url": "https://pagesix.com/2026/09/25/society/julia-haarts-ex-husband-facing-criminal-charges-jail-over-alleged-actions-during-brutal-divorce/"
+        },
+        {
+          "title": "Warnings go out about a new drug said to be 10 times more potent than Fentanyl - KDVR",
+          "source": "FOX 31 Denver",
+          "url": "https://kdvr.com/news/local/warnings-go-out-about-a-new-drug-said-to-be-10-times-more-potent-than-fentanyl/"
+        }
+      ]
+    },
+    "quote": {
+      "text": "No one ever said life was fair. Just Eventful.",
+      "author": "Carol Burnett"
+    },
+    "season": {
+      "season": "fall",
+      "month": 9,
+      "day": 27,
+      "day_of_year": 270,
+      "month_name": "September"
+    },
+    "sidebar": {
+      "links": [
+        {
+          "title": "I don’t want the details",
+          "url": "https://michaelheap.com/i-dont-want-the-details/",
+          "source": "michaelheap.com",
+          "description": "Why reasonable explanations are one of the easiest ways to avoid changing anything."
+        },
+        {
+          "title": "Anatomy of a $100 bill",
+          "url": "https://www.realworth.io/anatomy-of-a-100-dollar-bill",
+          "source": "realworth.io",
+          "description": "A 3D tour of the U.S. $100 bill, plus 15 design and security feature groups explained."
+        },
+        {
+          "title": "IMG_0001",
+          "url": "https://walzr.com/IMG_0001/",
+          "source": "walzr.com",
+          "description": "A bot that crawled YouTube and found 5 million of raw, unedited videos."
+        },
+        {
+          "title": "Skip the tools, make the outcomes",
+          "url": "https://www.lukew.com/ff/entry.asp",
+          "source": "lukew.com",
+          "description": "The pervasiveness of tools may have implanted the wrong instinct in our heads in a world of AI."
+        },
+        {
+          "title": "Isometric NYC",
+          "url": "https://cannoneyed.com/isometric-nyc/",
+          "source": "cannoneyed.com",
+          "description": "A giant isometric pixel-art map of New York City. And an excuse to push hard on the limits of the latest and greatest coding agents."
+        }
+      ]
+    },
+    "sports": {
+      "teams": [
+        {
+          "name": "Detroit Lions",
+          "league": "NFL",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Red Wings",
+          "league": "NHL",
+          "last_game": "2026-09-26T23:00Z",
+          "result": "loss",
+          "score": "2-4"
+        },
+        {
+          "name": "Detroit Pistons",
+          "league": "NBA",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Tigers",
+          "league": "MLB",
+          "last_game": "2026-09-26T17:10Z",
+          "result": "win",
+          "score": "4-3"
+        }
+      ]
+    },
+    "sun": {
+      "sunrise": "07:09",
+      "sunset": "18:52",
+      "daylight_hours": 11.7
+    },
+    "weather": {
+      "location": "Aldie, Virginia",
+      "conditions": "Cloudy",
+      "temp_f": 60.4,
+      "temp_c": 15.8,
+      "humidity": 61,
+      "wind_mph": 10.1,
+      "wind_dir": "NW",
+      "feels_like_f": 54.1
+    },
+    "date": "2026-09-27"
+  },
+  "hero": {
+    "copy": "No one ever said life was fair. Just Eventful.",
+    "rationale": "This is `signals.quote`, Carol Burnett, and it wins the preferred lane because it is wry, plain-spoken realism, not a self-help affirmation of the kind the owner has rejected. The day itself proves the line: Tigers win 4–3, Red Wings lose 2–4, market up, a full moon at 97%, a nor'easter flooding New Jersey. Fair, no. Eventful, yes, and the page becomes a log of the events with the line as its deadpan header; Carol Burnett is named in the caption beneath it.\nOwner's voice: Doug takes wins and losses the same way, a score is a score, and this dry shrug at \"fair\" is exactly how he'd read a Sunday that gave him one win and one loss.",
+    "source": "quote"
+  },
+  "chassis": "space-mono-archivo",
+  "adBrief": {
+    "selfCheck": "1. Hero quotability: Yes — a wry stand-alone aphorism with attribution, screenshot-worthy.\n2. Because-of chain: Yes — deadpan quote → mono terminal chassis → day-as-event-log object → green+amber phosphor duotone → ledger layout.\n3. Render feasibility: Yes — phrase at 4xl justified fits both content columns' span at 1440; list at 96px cap is under the 160px ceiling.\n4. Canvas floor feasible: Yes — two full ledgers plus amber band plus rail fill a type-dominant measured page past 78%.\n5. Phone: Yes — phrase drops to 2xl, wraps across 360 without cutting a word; rail becomes a band, mark held at top.",
+    "rationale": "The hero is Carol Burnett's \"No one ever said life was fair. Just Eventful.\" It wins the preferred quote lane because it is Doug's register exactly, a dry shrug rather than a slogan, and today earns it: one Detroit win, one Detroit loss, a market tick up, a full moon, a nor'easter. The line doesn't want to be a poster shout. It wants to head a record of the eventful day, which is why the object on the page is a `list`, the work index and the day's scores cataloged as log entries, with the phrase as the standfirst banner and the list carrying marquee scale. That directly answers the owner's complaint that every day is one big poster line over a signal list.\n\nComposition follows the line: a justified Space Mono caps banner pinned across the top edge (edge-bound, type-dominant), then two equal columns reading left to right as a strip, work index against the day's event log, the regular row rhythm broken once by a caesura and a single emphasized amber row. The chassis is space-mono-archivo, chosen off the three-night serif streak and off the worn faces; a retro-futurist monospace turns the eventful day into a terminal log, and the concept keeps mono from reading as costume, Doug is a designer-developer and the ledger is a real printout with tabular figures. Type is set caps, justified, heavy, roman, texture none: the justified mono banner and the amber data are the texture, and a log renders as solid type, so an outline or repeated-type ground would undercut the deadpan.\n\nThe palette is a duotone, off the recent dark-void, drench and light-ground run: deep pine green (166°, inside the mandate but pushed past the recent 152° and 178° to separate) as the field and amber (44°) as the co-hue flooding the signals band and marking every event. Green and amber are the two classic CRT phosphor colors, so the duotone and the terminal chassis are the same idea. The mark is single-color amber, the honest choice on a two-hue field where the original green-and-blue would blend into the green, and it uses the fresh mark-only-md lockup at the top of a right-margin rail, in the first fold at both widths. Motion is a wipe entrance, the log printing in left to right, with on-scroll reveal so entries rise as you read.",
+    "compositionRationale": "The phrase is a two-beat shrug at an eventful day, so the object is the events themselves cataloged as a log, which is why hero_object is `list` and the two-equal horizontal strip reads work-index-then-scores left to right. I moved symmetry off the mandate's `mirrored` to `broken` on purpose: a mirror would over-order a day that is by definition uneven, so the regular row rhythm is broken once by a large caesura and one emphasized amber event row (interrupted rhythm). The justified caps banner genuinely needs edge-bound and type-dominant to stretch across the top edge, so those start values are kept because they fit, not because nothing pushed."
+  },
+  "tokens": {
+    "colors": {
+      "ramps": {
+        "green": {
+          "50": "#e8f5f0",
+          "100": "#cceadf",
+          "200": "#a3d6c8",
+          "300": "#72bda9",
+          "400": "#479f89",
+          "500": "#2f8270",
+          "600": "#226a5b",
+          "700": "#1a5449",
+          "800": "#123c34",
+          "900": "#0b2620"
+        },
+        "amber": {
+          "50": "#fcf4e0",
+          "100": "#f7e7ba",
+          "200": "#efd184",
+          "300": "#e6b954",
+          "400": "#ddaa3d",
+          "500": "#c48f2c",
+          "600": "#a2751f",
+          "700": "#7e5a19",
+          "800": "#5a4012",
+          "900": "#3a2a0b"
+        },
+        "neutral": {
+          "50": "#eef3f1",
+          "100": "#dde7e3",
+          "200": "#c1d1cb",
+          "300": "#9bb2aa",
+          "400": "#6f8981",
+          "500": "#4e675f",
+          "600": "#3a4e47",
+          "700": "#2b3a35",
+          "800": "#1c2723",
+          "900": "#0e1512"
+        }
+      },
+      "semantic": {
+        "bg": {
+          "base": "{colors.green.900}"
+        },
+        "bgAlt": {
+          "base": "{colors.green.800}"
+        },
+        "surface": {
+          "base": "{colors.green.700}"
+        },
+        "text": {
+          "base": "{colors.green.50}"
+        },
+        "textMuted": {
+          "base": "{colors.green.200}"
+        },
+        "textFaint": {
+          "base": "{colors.green.300}"
+        },
+        "accent": {
+          "base": "{colors.amber.400}"
+        },
+        "accentText": {
+          "base": "{colors.green.900}"
+        },
+        "accentAlt": {
+          "base": "{colors.amber.200}"
+        },
+        "border": {
+          "base": "{colors.green.700}"
+        },
+        "borderStrong": {
+          "base": "{colors.green.500}"
+        },
+        "field": {
+          "base": "{colors.amber.400}"
+        },
+        "fieldInk": {
+          "base": "{colors.green.900}"
+        },
+        "fieldInkMuted": {
+          "base": "{colors.amber.800}"
+        },
+        "fieldBorder": {
+          "base": "{colors.amber.700}"
+        }
+      }
+    },
+    "radii": {
+      "none": "0",
+      "sm": "2px",
+      "md": "4px",
+      "lg": "8px",
+      "full": "9999px"
+    }
+  },
+  "colorScheme": {
+    "primary_hue": {
+      "h": 166,
+      "s": 55,
+      "l": 12,
+      "name": "phosphor pine"
+    },
+    "secondary_accent": {
+      "h": 44,
+      "s": 70,
+      "l": 55,
+      "name": "amber signal"
+    },
+    "neutral_family": {
+      "tinted_toward": "green",
+      "name": "pine-neutral"
+    },
+    "mood_word": "deadpan",
+    "color_story": "A CRT-phosphor duotone: deep pine green carries the field and amber marks every event, the two classic terminal colors under a line that shrugs at fairness."
+  },
+  "shell": {
+    "nav": null,
+    "footer": "log-tail ledger — the day's closing signal lines as the last entries, green hairlines, \"Doug March · Ashburn Virginia · 2026\" and the music rotation as the final muted line",
+    "brand_lockup": "mark-only-md",
+    "brand_color_mode": "single-color",
+    "ground_strategy": "duotone",
+    "ground_material": "none"
+  },
+  "header": {
+    "placement": "right-margin",
+    "height_px": 760,
+    "mark_px": 52,
+    "wordmark_step": "none",
+    "wordmark_weight": 700,
+    "role_line": "absent",
+    "nav_step": "sm",
+    "nav_case": "lower",
+    "nav_form": "list",
+    "nav": "right-margin vertical rail on the pine field; the amber single-color mark sits at the top of the rail inside the first fold at 1440, then work / about / contact stacked down the rail as a lowercase mono list, one green hairline per row."
+  },
+  "verdicts": [
+    {
+      "critic": "mockup-precheck",
+      "round": 0,
+      "verdict": "APPROVE",
+      "feedback": "",
+      "findings": [],
+      "ts": 1790504029038
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 0,
+      "verdict": "REVISE",
+      "feedback": "1. **Check 3 (Brief fidelity)**: The hero phrase is split across two lines at 1440, breaking the statement's deadpan delivery. Carol Burnett's quote is wry precision—\"No one ever said life was fair. Just Eventful.\"—and the current break (\"JUST\" alone on the second line) fractures the rhythm and dilutes the shrug. The justified banner should read as one taut, unbroken line or preserve the semantic pauses the line itself contains (fair / Eventful), not impose arbitrary breaks. Reflow the type to keep the phrase's own beat intact.\n\n2. **Check 4 (Header placement and nav case)**: The nav links are set in sentence case (\"work\", \"about\", \"contact\") in the rail, but the declaration specifies `nav_case: lower`, which in this context means consistently lowercase as a mono ledger, not sentence case. The inconsistency—lowercase in name but title-cased visually—breaks the printout register and contradicts the spec. Set all three links fully lowercase.\n\n3. **Check 6 (Phone, is the declaration on the page?)**: The declared `order` on mobile is: mark strip, hero phrase + attribution, work index, signals band (amber), nav band, footer. In fold 2, the work index appears before the hero phrase is complete, and the nav band should sit below the signals band (fold 4), not appear as part of the work-index region. Walk the filmstrip again: fold 2 should show the phrase + attribution alone, fold 3 the work index, fold 4 the amber band, fold 5 the nav band. The current arrangement has the zones out of sequence.\n\n4. **Check 6 (Phone, is the idea still there?)**: At 360, the two-equal horizontal split (work index vs. day's log) collapses to a single column—that is correct. But the day's log and the work index must remain visually linked as a unified ledger, not separate sections. In fold 3, the work index appears as isolated project cards; in fold 3–4, the day's scores appear separately. They should read as one continuous mono ledger, stacked top to bottom, with the same visual weight and ty",
+      "channel": "sdk-vision",
+      "ts": 1790504041703
+    },
+    {
+      "critic": "mockup-precheck",
+      "round": 1,
+      "verdict": "APPROVE",
+      "feedback": "",
+      "findings": [],
+      "ts": 1790504129215
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "**Check 6 (Phone, collapse and idea integrity):** The `rail-to-band` collapse is present and the nav band appears in fold 4, but the carrier—the event log—has lost coherence at 360. At 1440, the log reads as a unified ledger with the phrase as its header and the scores as entries. At 360, the work index and the day's log are stacked vertically, but the work index now carries the visual weight (large project titles dominate fold 2–3), and the event log entries themselves are reduced to list items in fold 3. The caesura and emphasized amber row that broke the rhythm at 1440 are gone; the interrupted rhythm has collapsed into simple stacking. The idea was a log where scores catalogue an eventful day under a deadpan phrase. At 360, it reads as a portfolio with a quote above it, not a log. The phrase still anchors fold 1, but its role as the header to a unified ledger is lost when the two columns separate into sequential stacks.\n\n**Check 7 (Type treatment):** The hero phrase is set `caps`, `heavy`, `roman`, and `justified` at 1440—all correct. At 360, the phrase stacks into four short lines (fold 1) and loses its justification; it is left-aligned in a narrow column, which breaks the `justified` declaration. The phrase still reads, but it no longer stretches edge-to-edge as the visual anchor; it is now one element in a column among others.",
+      "channel": "sdk-vision",
+      "ts": 1790504136281
+    },
+    {
+      "critic": "mockup-precheck",
+      "round": 2,
+      "verdict": "APPROVE",
+      "feedback": "",
+      "findings": [],
+      "ts": 1790504258795
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 2,
+      "verdict": "APPROVE",
+      "feedback": "The phrase lands with deadpan precision as the page's anchor—justified, heavy, caps, anchoring the entire composition. The two-column ledger executes the brief's core idea perfectly: an event log where the work index and the day's scores read left-to-right as a breaking news ticker, the amber band flooding the signals with the duotone's second hue. The header sits in the right-margin rail, nav stacked lowercase with hairlines, the mark in its declared place. At 360, the rail collapses to a band, the ledger stacks into one continuous mono column, and the idea—the day as an eventful, unordered record—survives intact: the phrase still leads, the events still mark amber, the hierarchy holds. Type sets at the declared steps, justified, tabular, textured by the mono itself and the amber data, not by outline or repetition. The caesura and the single emphasized row break the rhythm exactly as the brief demands. Shell, header, phone, and type treatment all execute as written. This is a confident design that knows what it is about.",
+      "channel": "sdk-vision",
+      "ts": 1790504264368
+    },
+    {
+      "critic": "surface-gate",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "/ @1440: orphan separator in rendered copy: <span> \"· Market close\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/ @1440: orphan separator in rendered copy: <span> \"· Moon\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/ @1440: orphan separator in rendered copy: <span> \"· Weather\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/ @1440: orphan separator in rendered copy: <span> \"· Air\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/about @1440: em dash in rendered copy: \"...INTERSECTION OF DESIGN AND ENGINEERING — NOT AS A GENERALIST, BUT AS SOMEONE WH...\". Use a period or a comma.\n/about @1440: orphan separator in rendered copy: <span> \"· Market close\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/about @1440: orphan separator in rendered copy: <span> \"· Moon\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/about @1440: orphan separator in rendered copy: <span> \"· Weather\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/about @1440: orphan separator in rendered copy: <span> \"· Air\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work @1440: orphan separator in rendered copy: <span> \"· Market close\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work @1440: orphan separator in rendered copy: <span> \"· Moon\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work @1440: orphan separator in rendered copy: <span> \"· Weather\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work @1440: orphan separator in rendered copy: <span> \"· Air\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/experiments @1440: orphan separator in rendered copy: <span> \"· Market close\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/experiments @1440: orphan separator in rendered copy: <span> \"· Moon\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/experiments @1440: orphan separator in rendered copy: <span> \"· Weather\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/experiments @1440: orphan separator in rendered copy: <span> \"· Air\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/spaceman @1440: orphan separator in rendered copy: <span> \"· Market close\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/spaceman @1440: orphan separator in rendered copy: <span> \"· Moon\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/spaceman @1440: orphan separator in rendered copy: <span> \"· Weather\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/spaceman @1440: orphan separator in rendered copy: <span> \"· Air\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/fishsticks @1440: orphan separator in rendered copy: <span> \"· Market close\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/fishsticks @1440: orphan separator in rendered copy: <span> \"· Moon\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/fishsticks @1440: orphan separator in rendered copy: <span> \"· Weather\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/fishsticks @1440: orphan separator in rendered copy: <span> \"· Air\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/dougmar-ch @360: 'dougmar.ch' is a 95x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 140x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 184x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 284x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @1440: orphan separator in rendered copy: <span> \"· Market close\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/15th-club @1440: orphan separator in rendered copy: <span> \"· Moon\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/15th-club @1440: orphan separator in rendered copy: <span> \"· Weather\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/15th-club @1440: orphan separator in rendered copy: <span> \"· Air\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/dougmar-ch @360: 'dougmar.ch' is a 95x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 140x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 184x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 284x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @1440: orphan separator in rendered copy: <span> \"· Market close\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/dougmar-ch @1440: orphan separator in rendered copy: <span> \"· Moon\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/dougmar-ch @1440: orphan separator in rendered copy: <span> \"· Weather\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/dougmar-ch @1440: orphan separator in rendered copy: <span> \"· Air\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/teeturn @1440: orphan separator in rendered copy: <span> \"· Market close\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/teeturn @1440: orphan separator in rendered copy: <span> \"· Moon\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/teeturn @1440: orphan separator in rendered copy: <span> \"· Weather\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/teeturn @1440: orphan separator in rendered copy: <span> \"· Air\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/politweets @1440: orphan separator in rendered copy: <span> \"· Market close\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/politweets @1440: orphan separator in rendered copy: <span> \"· Moon\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/politweets @1440: orphan separator in rendered copy: <span> \"· Weather\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/politweets @1440: orphan separator in rendered copy: <span> \"· Air\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/og @1200: og: brand mark starts 16px above the card's top edge. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text.\n/og @1200: og: <div> line 1 'Sunday · 27 Sep 2026 · Ashburn VA' starts 0px from the card's left edge, inside the 40px safe margin. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text.\n/og @1200: og: headline line 1 'No one ever said life was fair.' starts 0px from the card's left edge, inside the 40px safe margin. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text.\n/og @1200: og: headline line 2 'Just Eventful.' starts 0px from the card's left edge, inside the 40px safe margin. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text.\n/og @1200: og: <div> line 1 'Carol Burnett' starts 0px from the card's left edge, inside the 40px safe margin. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text.\n/work/twittertale @1440: orphan separator in rendered copy: <span> \"· Market close\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/twittertale @1440: orphan separator in rendered copy: <span> \"· Moon\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/twittertale @1440: orphan separator in rendered copy: <span> \"· Weather\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/work/twittertale @1440: orphan separator in rendered copy: <span> \"· Air\" opens on \"·\". A field can be empty; render the separator only when both sides exist.\n/ @360: <section#work.pt_5.lg:pt_7.pb_2.lg:pb_7 > div.mt_18px.mb_2.p_3.bg_surface > div.ff_display.fs_2xs.ls_widest.tt_uppercase> \"Featured · Founder\" at 12px: #ddaa3d on #1a5449 is 4.10:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work/dougmar-ch @820: <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" (x3) sets 85 characters on its longest line (7 lines, median 80) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/work/dougmar-ch @820: <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/work/dougmar-ch @1440: <article.bg_bg.c_text.ff_body.fw_normal > div.max-w_40rem.lg:max-w_55rem.ml_auto.mr_auto > p.m_0.mt_2rem.lg:mt_2.5rem.fs_1.3125rem> \"Chad Fowler argues that once a machine w\" sets 81 characters on its longest line (4 lines, median 74) at 24px in a 880px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision.\n/ @1440: The mockup's largest text is 'dougmarch' at 96px; the build sets 'fishsticks' at 63px. Restore the mockup's hierarchy: 'fishsticks' is 96px in the mockup.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1790504692586
+    },
+    {
+      "critic": "surface-gate",
+      "verdict": "NEEDS-HUMAN",
+      "feedback": "Authored routes outside MUTABLE_FILES failed the gate: /work/dougmar-ch\n\n## Measured layout faults\n\nThese are measurements taken from the live render, not observations from the images below.\nThey are exact. Do not re-litigate them against the screenshots, and do not count one fault\ntwice because it appears at more than one viewport.\n\n- [error] /work/dougmar-ch at 820px (light): <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" (x3) sets 85 characters on its longest line (7 lines, median 80) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n- [error] /work/dougmar-ch at 820px (light): <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n- [error] /work/dougmar-ch at 1440px (light): <article.bg_bg.c_text.ff_body.fw_normal > div.max-w_40rem.lg:max-w_55rem.ml_auto.mr_auto > p.m_0.mt_2rem.lg:mt_2.5rem.fs_1.3125rem> \"Chad Fowler argues that once a machine w\" sets 81 characters on its longest line (4 lines, median 74) at 24px in a 880px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision.",
+      "ts": 1790504692586
+    },
+    {
+      "critic": "screenshot-critic",
+      "verdict": "REVISE",
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 7 — react-engineer: `hero_object: list` means the work index must carry marquee/hero_scale (spec: \"work-index project titles are the largest object at hero_scale\"). Measured render shows the largest work-index title (\"fishsticks\") at 63px versus the mockup's 96px — the object the whole composition is built around is rendering roughly two-thirds of its intended scale on the home page.\n- Section 5 — react-engineer: Orphan separator glyphs render as \"· Market close\", \"· Moon\", \"· Weather\", \"· Air\" with a leading \"·\" and nothing preceding it, on the homepage, /about, /work index, and every case study page (spaceman, fishsticks, 15th-club, dougmar-ch, teeturn, politweets, twittertale). Render the separator only when both sides of the field have content; right now every one of these ledger lines opens on a dangling bullet.\n===END===",
+      "channel": "sdk-vision",
+      "ts": 1790504861932
+    },
+    {
+      "critic": "surface-gate",
+      "round": 2,
+      "verdict": "REVISE",
+      "feedback": "/work/dougmar-ch @360: 'dougmar.ch' is a 95x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 140x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 184x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 284x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 95x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 140x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 184x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 284x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: <section#work.pt_5.lg:pt_7.pb_2.lg:pb_7 > div.mt_18px.mb_2.p_3.bg_surface > div.ff_display.fs_2xs.ls_widest.tt_uppercase> \"Featured · Founder\" at 12px: #ddaa3d on #1a5449 is 4.10:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work/dougmar-ch @820: <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" (x3) sets 85 characters on its longest line (7 lines, median 80) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/work/dougmar-ch @820: <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/work/dougmar-ch @1440: <article.bg_bg.c_text.ff_body.fw_normal > div.max-w_40rem.lg:max-w_55rem.ml_auto.mr_auto > p.m_0.mt_2rem.lg:mt_2.5rem.fs_1.3125rem> \"Chad Fowler argues that once a machine w\" sets 81 characters on its longest line (4 lines, median 74) at 24px in a 880px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision.\n/ @1440: The mockup's largest text is 'dougmarch' at 96px; the build sets 'teeturn' at 96px. Restore the mockup's hierarchy: 'teeturn' is 96px in the mockup.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1790504980032
+    },
+    {
+      "critic": "surface-gate",
+      "round": 3,
+      "verdict": "REVISE",
+      "feedback": "/ @1440: <li.cq-t_inline-size > a.group.d_grid.ai_baseline.cg_12px > span.d_block.ff_display.fw_bold.lh_1> holds text wider than its own box: \"Twittertale...\" needs 606px and the box is 504px, so 102px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <li.cq-t_inline-size > a.group.d_grid.ai_baseline.cg_12px > span.d_block.ff_display.fw_bold.lh_1> holds text wider than its own box: \"FishSticks...\" needs 580px and the box is 504px, so 76px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <li.cq-t_inline-size > a.group.d_grid.ai_baseline.cg_12px > span.d_block.ff_display.fw_bold.lh_1> holds text wider than its own box: \"dougmar.ch...\" needs 580px and the box is 504px, so 76px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <li.cq-t_inline-size > a.group.d_grid.ai_baseline.cg_12px > span.d_block.ff_display.fw_bold.lh_1> holds text wider than its own box: \"Twittertale...\" needs 606px and the box is 504px, so 102px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <li.cq-t_inline-size > a.group.d_grid.ai_baseline.cg_12px > span.d_block.ff_display.fw_bold.lh_1> holds text wider than its own box: \"FishSticks...\" needs 580px and the box is 504px, so 76px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <li.cq-t_inline-size > a.group.d_grid.ai_baseline.cg_12px > span.d_block.ff_display.fw_bold.lh_1> holds text wider than its own box: \"dougmar.ch...\" needs 580px and the box is 504px, so 76px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: 'dougmar.ch' is a 95x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 140x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 184x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 284x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 95x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 140x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 184x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 284x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: <section#work.pt_5.lg:pt_7.pb_2.lg:pb_7 > div.cq-t_inline-size.mt_18px.mb_2.p_3 > div.ff_display.fs_2xs.ls_widest.tt_uppercase> \"Featured · Founder\" at 12px: #ddaa3d on #1a5449 is 4.10:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work/dougmar-ch @820: <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" (x3) sets 85 characters on its longest line (7 lines, median 80) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/work/dougmar-ch @820: <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/work/dougmar-ch @1440: <article.bg_bg.c_text.ff_body.fw_normal > div.max-w_40rem.lg:max-w_55rem.ml_auto.mr_auto > p.m_0.mt_2rem.lg:mt_2.5rem.fs_1.3125rem> \"Chad Fowler argues that once a machine w\" sets 81 characters on its longest line (4 lines, median 74) at 24px in a 880px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision.\n/ @1440: The mockup's largest text is 'dougmarch' at 96px; the build sets 'spaceman' at 96px. Restore the mockup's hierarchy: 'spaceman' is 96px in the mockup.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1790505088879
+    },
+    {
+      "critic": "surface-gate",
+      "round": 4,
+      "verdict": "REVISE",
+      "feedback": "/work/dougmar-ch @360: 'dougmar.ch' is a 95x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 140x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 184x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 284x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 95x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 140x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 184x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 284x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: <section#work.pt_5.lg:pt_7.pb_2.lg:pb_7 > div.cq-t_inline-size.mt_18px.mb_2.p_3 > div.ff_display.fs_2xs.ls_widest.tt_uppercase> \"Featured · Founder\" at 12px: #ddaa3d on #1a5449 is 4.10:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work/dougmar-ch @820: <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" (x3) sets 85 characters on its longest line (7 lines, median 80) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/work/dougmar-ch @820: <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/work/dougmar-ch @1440: <article.bg_bg.c_text.ff_body.fw_normal > div.max-w_40rem.lg:max-w_55rem.ml_auto.mr_auto > p.m_0.mt_2rem.lg:mt_2.5rem.fs_1.3125rem> \"Chad Fowler argues that once a machine w\" sets 81 characters on its longest line (4 lines, median 74) at 24px in a 880px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision.\n/ @1440: The mockup's largest text is 'dougmarch' at 96px; the build sets '15th club' at 96px. Restore the mockup's hierarchy: '15th club' is 96px in the mockup.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1790505183394
+    },
+    {
+      "critic": "screenshot-critic",
+      "round": "final",
+      "verdict": "UNVERIFIED",
+      "feedback": "[screenshot-critic] response truncated at max_tokens (16000 output tokens, cap 16000)",
+      "channel": "sdk-vision-truncated",
+      "ts": 1790505391945
+    },
+    {
+      "critic": "mockup-fidelity",
+      "verdict": "DRIFTED",
+      "feedback": "- / at 1440px: The mockup's largest text is 'dougmarch' at 96px; the build sets '15th club' at 96px. Restore the mockup's hierarchy: '15th club' is 96px in the mockup.",
+      "ts": 1790505391945
+    }
+  ],
+  "composition": {
+    "columns": "two-equal",
+    "axis": "horizontal",
+    "symmetry": "broken",
+    "hero_zone": "edge-bound",
+    "density": "measured",
+    "rhythm": "interrupted",
+    "shell_posture": "marginal",
+    "field_ratio": "type-dominant",
+    "collapse": "rail-to-band",
+    "hero_object": "list"
+  },
+  "lane": {
+    "laneId": "swiss-poster",
+    "register": "grid-rigor"
+  },
+  "cost": {
+    "total_usd": 4.923631,
+    "estimated": true,
+    "partial": false,
+    "calls": 13,
+    "retries": 5,
+    "byAgent": [
+      {
+        "agent": "art-director",
+        "purpose": "first",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 28542,
+        "cache_read": 0,
+        "cache_write": 49431,
+        "cost_usd": 1.02250375,
+        "estimated": false,
+        "ms": 430536,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "first",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 19978,
+        "cache_read": 0,
+        "cache_write": 39269,
+        "cost_usd": 0.74489125,
+        "estimated": false,
+        "ms": 249078,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "first",
+        "model": "claude-haiku-4-5",
+        "source": "sdk",
+        "input": 6937,
+        "output": 762,
+        "cache_read": 0,
+        "cache_write": 5503,
+        "cost_usd": 0.01762575,
+        "estimated": true,
+        "ms": 12663,
+        "num_turns": null
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "revision",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 6014,
+        "cache_read": 20203,
+        "cache_write": 32559,
+        "cost_usd": 0.36395525,
+        "estimated": false,
+        "ms": 77701,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "rejudge",
+        "model": "claude-haiku-4-5",
+        "source": "sdk",
+        "input": 7105,
+        "output": 362,
+        "cache_read": 5503,
+        "cache_write": 0,
+        "cost_usd": 0.0094653,
+        "estimated": true,
+        "ms": 7064,
+        "num_turns": null
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "revision",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 8244,
+        "cache_read": 20203,
+        "cache_write": 32045,
+        "cost_usd": 0.41649274999999997,
+        "estimated": false,
+        "ms": 112558,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "rejudge",
+        "model": "claude-haiku-4-5",
+        "source": "sdk",
+        "input": 7105,
+        "output": 259,
+        "cache_read": 5503,
+        "cache_write": 0,
+        "cost_usd": 0.008950300000000001,
+        "estimated": true,
+        "ms": 5572,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "first",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 43483,
+        "cache_read": 0,
+        "cache_write": 42778,
+        "cost_usd": 1.083558,
+        "estimated": false,
+        "ms": 369102,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "first",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 23904,
+        "output": 12451,
+        "cache_read": 0,
+        "cache_write": 13534,
+        "cost_usd": 0.20615300000000003,
+        "estimated": true,
+        "ms": 144192,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 7050,
+        "cache_read": 0,
+        "cache_write": 48924,
+        "cost_usd": 0.38562799999999997,
+        "estimated": false,
+        "ms": 61284,
+        "num_turns": 1
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 5574,
+        "cache_read": 24045,
+        "cache_write": 21828,
+        "cost_usd": 0.225437,
+        "estimated": false,
+        "ms": 52311,
+        "num_turns": 1
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 4313,
+        "cache_read": 24045,
+        "cache_write": 22585,
+        "cost_usd": 0.204002,
+        "estimated": false,
+        "ms": 37658,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "rejudge",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 20567,
+        "output": 16000,
+        "cache_read": 0,
+        "cache_write": 13534,
+        "cost_usd": 0.234969,
+        "estimated": true,
+        "ms": 183326,
+        "num_turns": null
+      }
+    ]
+  },
+  "measurables": {
+    "declared": {
+      "canvas_utilization_min": 78,
+      "hero_scale": "clamp(44px, 7vw, 96px)",
+      "color_coverage_min": 70
+    },
+    "declaredAt": "2026-09-27T10:36:35.218Z",
+    "measured": {
+      "canvas_utilization": 100,
+      "color_coverage": 100,
+      "hero_px": 60
+    },
+    "measuredAt": "2026-09-27T10:36:42.778Z",
+    "method": "Measured at 1440x900 on a 20px grid over the viewport at scroll position zero. canvas_utilization: % of grid cells touched by an element carrying designed content (visible text, an image/SVG/video/canvas, a background colour distinct from the page background and not transparent, or a background image such as a gradient). A background set on html or body counts as painting the page, unless it is opaque white; ::before and ::after boxes count on the same terms. color_coverage: % of grid cells whose sampled background, background-image stops or text colour is chromatic (HSL saturation > 12%, lightness 8-92%). hero_px: the largest computed font-size among first-fold elements that set visible text."
+  },
+  "surfaceGate": {
+    "ran": true,
+    "error": null,
+    "round": null
+  }
+}

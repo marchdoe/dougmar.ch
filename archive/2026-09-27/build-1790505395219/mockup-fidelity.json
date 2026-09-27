@@ -1,0 +1,619 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "The mockup's largest text is 'dougmarch' at 96px; the build sets 'fishsticks' at 63px. Restore the mockup's hierarchy: 'fishsticks' is 96px in the mockup.",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [],
+            "leader": {
+              "text": "dougmarch",
+              "mockupPx": 96
+            },
+            "buildLeader": {
+              "text": "fishsticks",
+              "buildPx": 63,
+              "mockupPx": 96
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' is 96px in the mockup and 36px in the build (0.38x)",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 96,
+            "buildPx": 36,
+            "ratio": 0.38,
+            "mockupRank": 3
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' moved from (344, 797) in the mockup to (305, 1202) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'97' moved from (813, 802) in the mockup to (812, 907) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'aldie 60°f cloudy' moved from (1026, 877) in the mockup to (1026, 982) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'no one ever said life was fairjust eventful' (27px); in build it is 'spaceman' (36px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "no one ever said life was fairjust eventful",
+                "mockupPx": 27
+              },
+              {
+                "text": "dougmarch",
+                "mockupPx": 26
+              },
+              {
+                "text": "dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof",
+                "mockupPx": 15
+              }
+            ],
+            "leader": {
+              "text": "no one ever said life was fairjust eventful",
+              "mockupPx": 27
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 36,
+              "mockupPx": 26
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'dougmarch' moved from (121, 623) in the mockup to (121, 921) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: The mockup's largest text is 'no one ever said life was fairjust eventful' at 27px; the build sets 'spaceman' at 36px. Restore the mockup's hierarchy: 'spaceman' is 26px in the mockup.",
+        "- / at 1440px: The mockup sets 'dougmarch - a personal site rebuilt every night from the ...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'dougmarch - a personal site rebuilt every night from the ...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: 'spaceman' is 96px in the mockup and 36px in the build (0.38x). Set it back to 96px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "The mockup's largest text is 'dougmarch' at 96px; the build sets 'teeturn' at 96px. Restore the mockup's hierarchy: 'teeturn' is 96px in the mockup.",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "dougmarch",
+                "mockupPx": 96
+              }
+            ],
+            "leader": {
+              "text": "dougmarch",
+              "mockupPx": 96
+            },
+            "buildLeader": {
+              "text": "teeturn",
+              "buildPx": 96,
+              "mockupPx": 96
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' is 96px in the mockup and 36px in the build (0.38x)",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 96,
+            "buildPx": 36,
+            "ratio": 0.38,
+            "mockupRank": 3
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' moved from (344, 797) in the mockup to (364, 1257) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'97' moved from (813, 802) in the mockup to (812, 907) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'aldie 60°f cloudy' moved from (1026, 877) in the mockup to (1026, 982) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'no one ever said life was fairjust eventful' (27px); in build it is 'spaceman' (36px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "no one ever said life was fairjust eventful",
+                "mockupPx": 27
+              },
+              {
+                "text": "dougmarch",
+                "mockupPx": 26
+              },
+              {
+                "text": "dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof",
+                "mockupPx": 15
+              }
+            ],
+            "leader": {
+              "text": "no one ever said life was fairjust eventful",
+              "mockupPx": 27
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 36,
+              "mockupPx": 26
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'dougmarch' moved from (121, 623) in the mockup to (121, 921) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: The mockup's largest text is 'no one ever said life was fairjust eventful' at 27px; the build sets 'spaceman' at 36px. Restore the mockup's hierarchy: 'spaceman' is 26px in the mockup.",
+        "- / at 1440px: The mockup sets 'dougmarch - a personal site rebuilt every night from the ...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'dougmarch - a personal site rebuilt every night from the ...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: 'spaceman' is 96px in the mockup and 36px in the build (0.38x). Set it back to 96px."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "The mockup's largest text is 'dougmarch' at 96px; the build sets 'spaceman' at 96px. Restore the mockup's hierarchy: 'spaceman' is 96px in the mockup.",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "dougmarch",
+                "mockupPx": 96
+              }
+            ],
+            "leader": {
+              "text": "dougmarch",
+              "mockupPx": 96
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 96,
+              "mockupPx": 96
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' moved from (344, 797) in the mockup to (403, 1415) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'97' moved from (813, 802) in the mockup to (812, 907) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'aldie 60°f cloudy' moved from (1026, 877) in the mockup to (1026, 982) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'no one ever said life was fairjust eventful' (27px); in build it is '4-3' (30px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "no one ever said life was fairjust eventful",
+                "mockupPx": 27
+              },
+              {
+                "text": "dougmarch",
+                "mockupPx": 26
+              },
+              {
+                "text": "dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof",
+                "mockupPx": 15
+              }
+            ],
+            "leader": {
+              "text": "no one ever said life was fairjust eventful",
+              "mockupPx": 27
+            },
+            "buildLeader": {
+              "text": "4-3",
+              "buildPx": 30,
+              "mockupPx": 30
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'dougmarch' moved from (121, 623) in the mockup to (121, 893) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: The mockup's largest text is 'no one ever said life was fairjust eventful' at 27px; the build sets '4-3' at 30px. Restore the mockup's hierarchy: '4-3' is 30px in the mockup.",
+        "- / at 1440px: The mockup sets 'dougmarch - a personal site rebuilt every night from the ...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'dougmarch - a personal site rebuilt every night from the ...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 4,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "The mockup's largest text is 'dougmarch' at 96px; the build sets '15th club' at 96px. Restore the mockup's hierarchy: '15th club' is 96px in the mockup.",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "dougmarch",
+                "mockupPx": 96
+              }
+            ],
+            "leader": {
+              "text": "dougmarch",
+              "mockupPx": 96
+            },
+            "buildLeader": {
+              "text": "15th club",
+              "buildPx": 96,
+              "mockupPx": 96
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' moved from (344, 797) in the mockup to (334, 1349) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'97' moved from (813, 802) in the mockup to (812, 907) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'aldie 60°f cloudy' moved from (1026, 877) in the mockup to (1026, 982) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'no one ever said life was fairjust eventful' (27px); in build it is '4-3' (30px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "no one ever said life was fairjust eventful",
+                "mockupPx": 27
+              },
+              {
+                "text": "dougmarch",
+                "mockupPx": 26
+              },
+              {
+                "text": "dougmarch - a personal site rebuilt every night from the days own record where the design is the deliverable and the log below is the proof",
+                "mockupPx": 15
+              }
+            ],
+            "leader": {
+              "text": "no one ever said life was fairjust eventful",
+              "mockupPx": 27
+            },
+            "buildLeader": {
+              "text": "4-3",
+              "buildPx": 30,
+              "mockupPx": 30
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'dougmarch' moved from (121, 623) in the mockup to (121, 893) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: The mockup's largest text is 'no one ever said life was fairjust eventful' at 27px; the build sets '4-3' at 30px. Restore the mockup's hierarchy: '4-3' is 30px in the mockup.",
+        "- / at 1440px: The mockup sets 'dougmarch - a personal site rebuilt every night from the ...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'dougmarch - a personal site rebuilt every night from the ...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

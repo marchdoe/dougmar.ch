@@ -1,125 +1,105 @@
 import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
-import { ScoreStrip } from './generated/ScoreStrip'
+import { BrandLockup } from './BrandLockup'
 
-const signals = [
-  {
-    k: 'Final',
-    v: (
-      <>
-        <b>Tigers 8</b>, 7
-      </>
-    ),
-  },
-  {
-    k: 'Presidents Cup',
-    v: (
-      <>
-        +3 / +7 <b>live</b>
-      </>
-    ),
-  },
-  {
-    k: 'Moon',
-    v: (
-      <>
-        <b>99.7%</b> gibbous
-      </>
-    ),
-  },
-  { k: 'SPY', v: <b>+0.54%</b> },
-  {
-    k: 'Sky',
-    v: (
-      <>
-        Clear <b>54°F</b>, NW 9.8
-      </>
-    ),
-  },
-  {
-    k: 'Sun',
-    v: (
-      <>
-        <b>07:08</b> to 18:53
-      </>
-    ),
-  },
+const LINKS = [
+  { label: 'work', href: '/work' },
+  { label: 'about', href: '/about' },
+  { label: 'contact', href: `mailto:${identity.email}` },
 ]
-
-const navLink = css({
-  fontFamily: 'body',
-  fontSize: 'sm',
-  fontWeight: 'bold',
-  color: 'fieldInk',
-  paddingBlock: '12px',
-  paddingInline: '2',
-  minHeight: '44px',
-  minWidth: '44px',
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  _hover: { color: 'accent' },
-})
 
 export function Sidebar() {
   return (
-    <footer
+    <nav
+      aria-label="Primary"
       className={css({
-        bg: 'field',
-        color: 'fieldInk',
-        borderTop: '2px solid',
-        borderColor: 'fieldBorder',
-        paddingTop: { base: '26px', md: '34px', lg: '40px' },
-        paddingBottom: { base: '30px', md: '40px', lg: '40px' },
-        paddingInline: { base: '22px', md: '40px', lg: '6vw' },
-        minHeight: { lg: '128px' },
+        gridArea: 'rail',
+        bg: 'bg',
+        minHeight: { lg: '760px' },
+        borderStyle: 'solid',
+        borderColor: 'borderStrong',
+        borderTopWidth: { base: '1px', lg: '0' },
+        borderBottomWidth: { base: '1px', lg: '0' },
+        borderRightWidth: '0',
+        borderLeftWidth: { base: '0', lg: '1px' },
       })}
     >
       <div
         className={css({
-          paddingBottom: '22px',
-          borderBottom: '1px solid',
-          borderColor: 'fieldBorder',
-        })}
-      >
-        <ScoreStrip items={signals} />
-      </div>
-      <nav
-        aria-label="Primary"
-        className={css({
           display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          rowGap: '10px',
-          columnGap: '26px',
-          paddingTop: '22px',
+          flexDirection: { base: 'row', lg: 'column' },
+          position: { lg: 'sticky' },
+          top: { lg: '0' },
         })}
       >
-        <div className={css({ display: 'flex', flexWrap: 'wrap', rowGap: '2', columnGap: '5' })}>
-          <a href="/work" className={navLink}>
-            Work
-          </a>
-          <a href="/about" className={navLink}>
-            About
-          </a>
-          <a href={`mailto:${identity.email}`} className={navLink}>
-            Contact
-          </a>
-        </div>
-        {/* mockup gold700 labels on field fall under 3:1; fieldInkMuted is the nearest readable token */}
-        <span
+        <a
+          href="/"
+          aria-label={`${identity.name}, home`}
           className={css({
-            fontSize: 'xs',
-            letterSpacing: 'wider',
-            textTransform: 'uppercase',
-            color: 'fieldInkMuted',
-            fontVariantNumeric: 'tabular-nums',
+            display: { base: 'none', lg: 'flex' },
+            justifyContent: 'center',
+            paddingTop: '20px',
+            paddingBottom: '22px',
+            color: 'accent',
+            borderBottomWidth: '1px',
+            borderBottomStyle: 'solid',
+            borderBottomColor: 'border',
           })}
         >
-          {identity.name} · {identity.role} · Aldie VA
-        </span>
-      </nav>
-    </footer>
+          <BrandLockup variant="mark-only-md" mode="single-color" color="accent" />
+        </a>
+        <ul
+          className={css({
+            display: 'flex',
+            flexDirection: { base: 'row', lg: 'column' },
+            flex: { base: '1', lg: 'none' },
+            listStyle: 'none',
+            margin: '0',
+            padding: '0',
+          })}
+        >
+          {LINKS.map((link) => (
+            <li
+              key={link.label}
+              className={css({
+                flex: { base: '1', lg: 'none' },
+                borderStyle: 'solid',
+                borderColor: 'border',
+                borderTopWidth: '0',
+                borderLeftWidth: '0',
+                borderRightWidth: { base: '1px', lg: '0' },
+                borderBottomWidth: { base: '0', lg: '1px' },
+                _last: { borderRightWidth: '0' },
+              })}
+            >
+              <a
+                href={link.href}
+                className={css({
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  minHeight: { base: '52px', lg: '56px' },
+                  paddingBlock: { base: '14px', lg: '3' },
+                  paddingInline: { base: '2', lg: '0' },
+                  fontFamily: 'display',
+                  fontSize: 'sm',
+                  textTransform: 'lowercase',
+                  letterSpacing: { base: 'wide', lg: 'normal' },
+                  color: 'textMuted',
+                  _hover: {
+                    color: 'accent',
+                    textDecoration: 'underline',
+                    textUnderlineOffset: '4px',
+                    textDecorationColor: 'accent',
+                  },
+                })}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
   )
 }
