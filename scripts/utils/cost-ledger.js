@@ -109,6 +109,9 @@ export function estimateCostUsd(model, usage = {}) {
  * @param {number} [entry.ms] - wall-clock duration
  * @param {number} [entry.numTurns] - CLI turn count
  * @param {string} [entry.purpose] - one of PURPOSES; anything else is stored as 'unknown'
+ * @param {string} [entry.channel] - the vision router's channel when it is not the plain CLI
+ *   ('cli-vision' when a keyless critic read its images from disk, 'cli-text-fallback'); left off
+ *   the record when absent
  * @returns {object} the stored record
  */
 export function recordUsage(entry = {}) {
@@ -139,6 +142,7 @@ export function recordUsage(entry = {}) {
     estimated: reported === null && estimated !== null,
     ms: num(entry.ms),
     num_turns: num(entry.numTurns),
+    ...(typeof entry.channel === 'string' ? { channel: entry.channel } : {}),
   }
   ledger.records.push(record)
   return record

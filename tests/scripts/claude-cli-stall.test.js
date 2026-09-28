@@ -570,8 +570,89 @@ describe('callClaudeCLI loads no user config and no connectors', () => {
     // Auto-memory survives --setting-sources ''; only this key turns it off.
     expect(settings.autoMemoryEnabled).toBe(false)
     expect(settings.hooks).toEqual({})
+    // Without it a -p run's Read reaches any path on the machine (spec 11 1d).
+    expect(settings.permissions.blockReadsOutsideWorkingDirectories).toBe(true)
 
     mockChildren.at(-1).emit('close', 0)
     await promise
+  })
+})
+
+// Spec 11 1d: a keyless vision critic reads its screenshots from a temp dir.
+describe('callClaudeCLI with a readable directory', () => {
+  beforeEach(async () => {
+    mockChildren.length = 0
+    vi.useFakeTimers()
+    const { resetLedger } = await import('../../scripts/utils/cost-ledger.js')
+    resetLedger()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+    vi.clearAllMocks()
+  })
+
+  const call = async (options) => {
+    const { callClaudeCLI } = await import('../../scripts/utils/claude-cli.js')
+    const promise = callClaudeCLI('mockup-critic', 'system', 'user prompt', {
+      model: 'claude-opus-5-5',
+      timeoutMs: 60 * 60 * 1000,
+      stallTimeoutMs: 60 * 60 * 1000,
+      ...options,
+    }).catch(() => {})
+    await vi.advanceTimersByTimeAsync(10)
+    const [, cliArgs, spawnOpts] = spawn.mock.calls.at(-1)
+    return { promise, cliArgs, spawnOpts }
+  }
+
+  it('allows Read and nothing else, starts in that directory, and keeps every isolation flag', async () => {
+    const { promise, cliArgs, spawnOpts } = await call({
+      readableDir: '/tmp/vision-abc',
+      maxTurns: 4,
+      cwd: '/somewhere/else',
+    })
+    const argAfter = (flag) => cliArgs[cliArgs.indexOf(flag) + 1]
+    expect(argAfter('--tools')).toBe('Read')
+    expect(argAfter('--allowedTools')).toBe('Read')
+    expect(argAfter('--max-turns')).toBe('4')
+    expect(argAfter('--setting-sources')).toBe('')
+    expect(cliArgs).toContain('--strict-mcp-config')
+    expect(cliArgs).toContain('--disable-slash-commands')
+    expect(cliArgs).not.toContain('--add-dir')
+    expect(cliArgs).not.toContain('--mcp-config')
+    expect(path.basename(argAfter('--settings'))).toBe('claude-cli-settings.json')
+    expect(spawnOpts.cwd).toBe('/tmp/vision-abc')
+
+    mockChildren.at(-1).emit('close', 0)
+    await promise
+  })
+
+  it('leaves a call without one on no tools and one turn', async () => {
+    const { promise, cliArgs, spawnOpts } = await call({ cwd: '/repo' })
+    expect(cliArgs[cliArgs.indexOf('--tools') + 1]).toBe('')
+    expect(cliArgs).not.toContain('--allowedTools')
+    expect(cliArgs[cliArgs.indexOf('--max-turns') + 1]).toBe('1')
+    expect(spawnOpts.cwd).toBe('/repo')
+
+    mockChildren.at(-1).emit('close', 0)
+    await promise
+  })
+
+  it("books the channel on the ledger record when it is not plain 'cli'", async () => {
+    const { getUsageRecords } = await import('../../scripts/utils/cost-ledger.js')
+    const vision = await call({
+      readableDir: '/tmp/vision-abc',
+      maxTurns: 3,
+      channel: 'cli-vision',
+    })
+    mockChildren.at(-1).emit('close', 0)
+    await vision.promise
+    const plain = await call({})
+    mockChildren.at(-1).emit('close', 0)
+    await plain.promise
+
+    const [first, second] = getUsageRecords()
+    expect(first).toMatchObject({ agent: 'mockup-critic', source: 'cli', channel: 'cli-vision' })
+    expect(second).not.toHaveProperty('channel')
   })
 })

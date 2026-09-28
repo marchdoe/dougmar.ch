@@ -1,9 +1,13 @@
 /**
- * Mockup Critic — blocking vision gate over the mockup screenshot, for the
- * checks a measurement cannot see (brief, polish, the header's shape, the
- * phone's idea, type treatment). The measurable checks are decided in code
- * first (utils/mockup-precheck.js). Fail-closed: malformed responses count
- * as REVISE.
+ * Mockup Critic — blocking vision gate over the mockup screenshot, for what a
+ * measurement cannot see. Since spec 11's 1d it is a taste judge on Opus 5.5
+ * with five judgments: freshness against recent nights, legibility,
+ * hierarchy, the hero in the first fold at 1440 and 360, and copy against
+ * the work records. The measurable checks are decided in code first
+ * (utils/mockup-precheck.js, #671). On 2026-09-28 the Haiku floors check
+ * approved a hero below the 1440 fold and an invented FishSticks
+ * description; the last two judgments exist for those. Fail-closed:
+ * malformed responses count as REVISE.
  */
 import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { budgetFor } from '../utils/budgets.js'
@@ -61,7 +65,7 @@ export function parseMockupCriticResponse(raw) {
 }
 
 /**
- * @param {{ systemPrompt: string, screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null, enrichedBrief: string, measurables: string, measured?: {canvas_utilization: number, color_coverage: number, hero_px: number}|null, measurablesDecl?: object|null, shell: string, header?: string, typeTreatment?: string, mobile?: string, collapse?: string|null, purpose?: string }} ctx
+ * @param {{ systemPrompt: string, screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null, enrichedBrief: string, measurables: string, measured?: {canvas_utilization: number, color_coverage: number, hero_px: number}|null, measurablesDecl?: object|null, shell: string, header?: string, typeTreatment?: string, mobile?: string, collapse?: string|null, recentNights?: string, workRecords?: string, purpose?: string }} ctx
  * @returns {Promise<{ verdict: 'APPROVE'|'REVISE', feedback: string }>}
  */
 export async function runMockupCritic(ctx) {
@@ -102,11 +106,15 @@ export async function runMockupCritic(ctx) {
  * `mark_px` becomes something the critic can actually measure. It is optional:
  * a capture failure costs the critic one image, never the run.
  *
- * The mobile declaration (#452) is what check 6 measures the phone image
+ * The mobile declaration (#452) is what judgment 4 reads the phone image
  * against: the declared carrier, first fold and order, not a general sense
  * of whether the phone "looks fine".
  *
- * @param {{ screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null, enrichedBrief: string, measurables: string, measured?: {canvas_utilization: number, color_coverage: number, hero_px: number}|null, measurablesDecl?: object|null, shell: string, header?: string, mobile?: string, collapse?: string|null }} ctx
+ * Recent Nights and Work Records (spec 11 1d) are what judgments 1 and 5 are
+ * made against. `recentNights` arrives already inside its data boundary tag;
+ * `workRecords` is Doug's own content files, which no stranger wrote.
+ *
+ * @param {{ screenshotBuffer: Buffer, mobileScreenshot?: Buffer|null, headerCrop?: Buffer|null, headerCropAnchor?: 'mark'|'placement'|null, enrichedBrief: string, measurables: string, measured?: {canvas_utilization: number, color_coverage: number, hero_px: number}|null, measurablesDecl?: object|null, shell: string, header?: string, mobile?: string, collapse?: string|null, recentNights?: string, workRecords?: string }} ctx
  * @returns {Array<{type: string, text?: string, source?: object}>}
  */
 export function buildMockupCriticBlocks(ctx) {
@@ -120,13 +128,21 @@ export function buildMockupCriticBlocks(ctx) {
     measuredFidelity ? textBlock(`## Measured Fidelity\n\n${measuredFidelity}`) : null,
     textBlock(`## Shell Declaration\n\n${ctx.shell}`),
     ctx.header ? textBlock(`## Header Declaration\n\n${ctx.header}`) : null,
-    // How the type is set (#502); check 7 reads the hero against it.
+    // How the type is set (#502); judgment 3 reads the hero against it.
     ctx.typeTreatment
       ? textBlock(`## Type Treatment (execute exactly)\n\n${ctx.typeTreatment}`)
       : null,
     ctx.mobile
       ? textBlock(
-          `## Mobile Declaration (check 6 is judged against this)\n\ncollapse: ${ctx.collapse ?? '?'}\n${ctx.mobile}`
+          `## Mobile Declaration (judgment 4 reads the phone against this)\n\ncollapse: ${ctx.collapse ?? '?'}\n${ctx.mobile}`
+        )
+      : null,
+    ctx.recentNights
+      ? textBlock(`## Recent Nights (judgment 1 is made against these)\n\n${ctx.recentNights}`)
+      : null,
+    ctx.workRecords
+      ? textBlock(
+          `## Work Records (judgment 5: every claim about Doug's work must match these)\n\n${ctx.workRecords}`
         )
       : null,
     textBlock('The screenshot of the rendered mockup at 1440×900 (DESKTOP) follows:'),
@@ -138,8 +154,8 @@ export function buildMockupCriticBlocks(ctx) {
     ctx.mobileScreenshot
       ? textBlock(
           `A phone filmstrip of that SAME mockup follows: the whole page at ${NARROW_VIEWPORT.width} wide, cut into ` +
-            "640px folds and laid side by side (the fold labels are ours, not the site's). Check " +
-            '6 is judged here. It is one column of the same design, not a different design — ' +
+            "640px folds and laid side by side (the fold labels are ours, not the site's). " +
+            'Judgment 4 is made here. It is one column of the same design, not a different design — ' +
             'judge whether the idea survived the width across every fold shown, not only whether ' +
             'anything broke:'
         )
@@ -147,7 +163,7 @@ export function buildMockupCriticBlocks(ctx) {
     ctx.mobileScreenshot ? imageBlock(ctx.mobileScreenshot) : null,
     ctx.headerCrop
       ? textBlock(
-          `A 2x crop of the header region of that same mockup follows.${describeHeaderCropAnchor(ctx.headerCropAnchor)} Judge the header's placement, role line and nav here; the mark's size is measured in code:`
+          `A 2x crop of the header region of that same mockup follows.${describeHeaderCropAnchor(ctx.headerCropAnchor)} Read the header's small text for legibility here; the mark's size is measured in code:`
         )
       : null,
     ctx.headerCrop ? imageBlock(ctx.headerCrop) : null,

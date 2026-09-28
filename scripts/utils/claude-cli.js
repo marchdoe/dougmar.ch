@@ -16,6 +16,13 @@
  * plugins), `--strict-mcp-config` (no MCP servers, connectors included, since
  * no --mcp-config is given), and claude-cli-settings.json turns auto-memory
  * off, because auto-memory survives `--setting-sources ''`.
+ *
+ * One exception to `--tools ''`: a keyless vision critic (spec 11, 1d) reads
+ * its screenshots from disk, because the CLI takes no image blocks. That call
+ * passes `readableDir`, which turns on the Read tool and nothing else, starts
+ * the CLI in that directory, and relies on the settings file's
+ * `blockReadsOutsideWorkingDirectories` to refuse any path outside it. Without
+ * that setting a `-p` run reads anywhere on the machine without asking.
  */
 
 import path from 'node:path'
@@ -87,6 +94,59 @@ export function describeCliFailure(code, resultEvent, fullText, stderr) {
 }
 
 /**
+ * The `claude` argument list for one call. Exported so the isolation flags
+ * are testable without a child process.
+ *
+ * `readableDir` is the only way a call gets a tool: Read, for the files in
+ * that directory (the caller must also start the CLI there). Every isolation
+ * flag stays either way.
+ *
+ * @param {object} opts
+ * @param {string} opts.model
+ * @param {string} [opts.effort]
+ * @param {string} opts.systemPrompt
+ * @param {string} opts.settingsPath
+ * @param {string[]} [opts.extraCliArgs]
+ * @param {string} [opts.readableDir]
+ * @param {number} [opts.maxTurns=1]
+ * @returns {string[]}
+ */
+export function buildCliArgs({
+  model,
+  effort,
+  systemPrompt,
+  settingsPath,
+  extraCliArgs = [],
+  readableDir,
+  maxTurns = 1,
+}) {
+  return [
+    '-p',
+    '--verbose',
+    '--output-format',
+    'stream-json',
+    '--max-turns',
+    String(maxTurns),
+    '--model',
+    model,
+    ...(effort ? ['--effort', effort] : []),
+    '--tools',
+    readableDir ? 'Read' : '',
+    ...(readableDir ? ['--allowedTools', 'Read'] : []),
+    // No user config and no connectors: see the header comment.
+    '--setting-sources',
+    '',
+    '--strict-mcp-config',
+    '--disable-slash-commands',
+    '--settings',
+    settingsPath,
+    '--system-prompt',
+    systemPrompt,
+    ...extraCliArgs,
+  ]
+}
+
+/**
  * Spawn a `claude` CLI process and return the raw text response.
  *
  * Writes the prompt to a temp file, pipes it to stdin, parses stream-json
@@ -108,9 +168,14 @@ export function describeCliFailure(code, resultEvent, fullText, stderr) {
  *   Receives { charCount: number } and should return a string to append to the error message (or '').
  * @param {string} [options.purpose] - Why the call is made (`PURPOSES` in cost-ledger.js); goes to the
  *   ledger's record of the call. Left out, the record says 'unknown'.
- * @param {'cli'|'cli-text-fallback'} [options.channel='cli'] - Attributed to a ModelTransportError
- *   thrown from this call, if any. vision-router.js passes 'cli-text-fallback' when this call is the
- *   text-only fallback after the SDK vision path failed, so the channel names which path went dead.
+ * @param {'cli'|'cli-text-fallback'|'cli-vision'} [options.channel='cli'] - Attributed to a
+ *   ModelTransportError thrown from this call, if any, and to the ledger record when it is not
+ *   'cli'. vision-router.js passes 'cli-text-fallback' when this call is the text-only fallback
+ *   after the SDK vision path failed, and 'cli-vision' when it reads its images from disk.
+ * @param {string} [options.readableDir] - Turns on the Read tool for this call only and starts the
+ *   CLI in this directory, overriding `cwd`; reads outside it are refused (see the header comment).
+ * @param {number} [options.maxTurns=1] - `--max-turns`. A call with Read needs one turn per file
+ *   read plus the answer.
  * @returns {Promise<string>} The raw text response from Claude
  */
 export async function callClaudeCLI(agentName, systemPrompt, promptText, options = {}) {
@@ -138,6 +203,8 @@ export async function callClaudeCLI(agentName, systemPrompt, promptText, options
     onTimeout,
     channel = 'cli',
     purpose,
+    readableDir,
+    maxTurns = 1,
   } = options
 
   // An explicit model ID is required. The 'sonnet' alias this defaulted to is
@@ -201,29 +268,15 @@ export async function callClaudeCLI(agentName, systemPrompt, promptText, options
   console.log(`  [${agentName}] calling claude CLI...`)
   console.log(`  [${agentName}] prompt: ${(promptText.length / 1024).toFixed(0)}KB`)
 
-  const cliArgs = [
-    '-p',
-    '--verbose',
-    '--output-format',
-    'stream-json',
-    '--max-turns',
-    '1',
-    '--model',
+  const cliArgs = buildCliArgs({
     model,
-    ...(effort ? ['--effort', effort] : []),
-    '--tools',
-    '',
-    // No user config and no connectors: see the header comment.
-    '--setting-sources',
-    '',
-    '--strict-mcp-config',
-    '--disable-slash-commands',
-    '--settings',
-    PIPELINE_SETTINGS,
-    '--system-prompt',
+    effort,
     systemPrompt,
-    ...extraCliArgs,
-  ]
+    settingsPath: PIPELINE_SETTINGS,
+    extraCliArgs,
+    readableDir,
+    maxTurns,
+  })
 
   // Allowlist env vars passed to the child process. Previously we passed
   // the full parent env, leaking every GitHub Actions secret (WEATHER_API_KEY,
@@ -249,7 +302,9 @@ export async function callClaudeCLI(agentName, systemPrompt, promptText, options
 
   const resultPromise = new Promise((resolve, reject) => {
     const child = spawn('claude', cliArgs, {
-      cwd,
+      // The readable directory is the working directory: the one place
+      // blockReadsOutsideWorkingDirectories lets Read reach.
+      cwd: readableDir ?? cwd,
       env: cliEnv,
     })
 
@@ -375,6 +430,7 @@ export async function callClaudeCLI(agentName, systemPrompt, promptText, options
           costUsd: resultUsage?.costUsd ?? undefined,
           ms: resultUsage?.ms ?? Date.now() - startTime,
           numTurns: resultUsage?.numTurns ?? undefined,
+          ...(channel !== 'cli' ? { channel } : {}),
         })
       } catch {}
     }

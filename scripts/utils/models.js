@@ -10,7 +10,8 @@
  * 4 and matching the mockup in about half the wall time. `opus-5-5` is its
  * own tier, separate from `opus`, so this does not touch the art director or
  * mockup designer. Revert: change PROD_MODELS['react-engineer'] back to
- * 'opus'. Dev caps every agent at DEV_CEILING (Sonnet) so local runs stay off
+ * 'opus'. The mockup critic moved to the same tier with spec 11's 1d, when it
+ * became a taste judge rather than a floors check. Dev caps every agent at DEV_CEILING (Sonnet) so local runs stay off
  * the Max-plan Opus budget: on a subscription, Opus usage is weighted
  * heavily against the rolling rate limit, so a single Opus call burns far
  * more allowance than the same work on Sonnet. Removing it is what lets a
@@ -55,24 +56,28 @@ export const MODEL_IDS = {
   haiku: 'claude-haiku-4-5',
   sonnet: 'claude-sonnet-5',
   opus: 'claude-opus-4-8',
-  // react-engineer's one-week trial tier (see the header comment). Kept apart
-  // from `opus` so art-director and mockup-designer are untouched.
+  // react-engineer's trial tier, and the mockup critic's since spec 11 1d (see
+  // the header comment). Kept apart from `opus` so art-director and
+  // mockup-designer are untouched.
   'opus-5-5': 'claude-opus-5-5',
 }
 
 export const PROD_MODELS = {
   'art-director': 'opus',
   'mockup-designer': 'opus',
-  // Haiku 4.5 has vision; this gate is a floors-check (canvas %, hero scale,
-  // color coverage) against the measurables the Art Director already
-  // declared, not a taste call — Sonnet's judgment was never the bottleneck.
-  'mockup-critic': 'haiku',
+  // A taste judge since spec 11's 1d: freshness, legibility, hierarchy, the
+  // hero in the first fold at 1440 and 360, and copy against the work
+  // records. The floors it used to check on Haiku are measured in code now
+  // (mockup-precheck.js, #671). On 2026-09-28 Haiku approved a hero below
+  // the 1440 fold and an invented FishSticks description. About $0.10 a round.
+  'mockup-critic': 'opus-5-5',
   'react-engineer': 'opus-5-5',
   'screenshot-critic': 'sonnet',
 }
 
 // opus-5-5 ranks above opus so the dev-tier cap below still lands react-
-// engineer on Sonnet locally, same as every other agent above DEV_CEILING.
+// engineer and the mockup critic on Sonnet locally, same as every other agent
+// above DEV_CEILING.
 const TIER_RANK = { haiku: 0, sonnet: 1, opus: 2, 'opus-5-5': 3 }
 const DEV_CEILING = 'sonnet'
 

@@ -16,6 +16,7 @@ import path from 'node:path'
 import { pastDeadline } from '../utils/run-budget.js'
 import { noteRetry } from '../utils/cost-ledger.js'
 import { loadPrompt } from '../utils/prompt-loader.js'
+import { wrapAsData } from '../utils/data-boundary.js'
 import { selectLane } from '../utils/select-lane.js'
 import {
   assembleMockupDesignerSystemPrompt,
@@ -206,6 +207,55 @@ async function readCalibrationNote(root) {
     /* non-blocking */
   }
   return calibrationNote
+}
+
+/**
+ * What the mockup critic judges freshness against (spec 11 1d). Today that is
+ * the recent archive briefs the Art Director already reads (context.js
+ * `readRecentBriefs`: the last five nights' brief.md), inside the same
+ * `briefs` boundary tag, since the briefs carry text from the signals.
+ *
+ * Seam for spec 11 1b: its one-line digest per night for the last 14 nights
+ * (layout, primary hue, ground, type register, hero phrase) replaces this
+ * return value, and nothing downstream changes.
+ *
+ * The uniqueness index (uniqueness-index.js) is not passed. It scores an
+ * archived build against the seven before it, so tonight's mockup has no
+ * score yet, and the Art Director already gets yesterday's.
+ *
+ * @param {import('./run-state.js').RunState} state
+ * @returns {string} '' when there are no recent nights
+ */
+export function recentNightsForCritic(state) {
+  const briefs = state.inputs?.recentBriefs
+  if (!briefs?.trim()) return ''
+  return wrapAsData('briefs', briefs, state.boundaryId)
+}
+
+/** Doug's work records: the content files the site's claims about him must match. */
+const WORK_RECORD_FILES = ['app/content/projects.ts', 'app/content/about.ts']
+
+/**
+ * The work records the mockup critic checks copy against (spec 11 1d),
+ * as source. The designer only gets project titles (`contentSummary`), which
+ * is how 2026-09-28's mockup came to describe FishSticks in words that are
+ * nowhere in projects.ts. Source rather than a parsed summary: every field
+ * reaches the critic and nothing here has to track the Project type.
+ *
+ * @param {string} root
+ * @returns {Promise<string>} '' when neither file can be read
+ */
+export async function readWorkRecords(root) {
+  const parts = []
+  for (const rel of WORK_RECORD_FILES) {
+    try {
+      const src = await readFile(path.join(root, rel), 'utf8')
+      parts.push(`### ${rel}\n\n\`\`\`ts\n${src.trim()}\n\`\`\``)
+    } catch {
+      // A missing file costs the critic one record, never the run.
+    }
+  }
+  return parts.join('\n\n')
 }
 
 /**
@@ -483,6 +533,8 @@ async function critiqueMockup(state, loop, round) {
       typeTreatment: formatTypeTreatment(typeDecl),
       mobile: formatMobile(mobileDecl),
       collapse: chosenComposition.collapse,
+      recentNights: loop.recentNights,
+      workRecords: loop.workRecords,
       purpose: criticPurpose(round),
     })
   } catch (err) {
@@ -683,6 +735,8 @@ export async function runMockupPhase(state) {
   const loop = {
     ctx,
     criticSystemPrompt,
+    recentNights: recentNightsForCritic(state),
+    workRecords: await readWorkRecords(root),
     runMockupDesigner,
     runMockupCritic,
     captureHtmlFileScreenshot,

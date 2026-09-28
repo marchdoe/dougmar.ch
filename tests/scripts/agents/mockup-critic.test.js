@@ -83,7 +83,7 @@ describe('buildMockupCriticBlocks', () => {
     expect(kinds[desktopLabel + 1]).toBe('image')
     expect(mobileLabel).toBe(desktopLabel + 2)
     expect(kinds[mobileLabel + 1]).toBe('image')
-    // The header crop still comes last, so check 4 is judged on it.
+    // The header crop still comes last.
     expect(images[2].source.data).toBe(Buffer.from([0x02]).toString('base64'))
   })
 
@@ -126,6 +126,32 @@ describe('buildMockupCriticBlocks', () => {
     expect(text).toContain('floor 40%')
     expect(text).toContain('96px')
     expect(text).toContain('clamp(64px, 7vw, 96px)')
+  })
+
+  // Spec 11 1d: judgments 1 and 5 are made against these, before the images.
+  it('carries the recent nights and the work records as text before the first image', () => {
+    const blocks = buildMockupCriticBlocks({
+      ...ctx,
+      recentNights: '<briefs-0123abcd>\n### 2026-09-27\nhero: rain\n</briefs-0123abcd>',
+      workRecords: "### app/content/projects.ts\n\ntitle: 'FishSticks'",
+    })
+    const kinds = blocks.map((b) => (b.type === 'image' ? 'image' : b.text))
+    const nights = kinds.findIndex((k) => k.startsWith('## Recent Nights'))
+    const records = kinds.findIndex((k) => k.startsWith('## Work Records'))
+    expect(nights).toBeGreaterThan(-1)
+    expect(records).toBeGreaterThan(-1)
+    expect(kinds[nights]).toContain('<briefs-0123abcd>')
+    expect(kinds[records]).toContain("title: 'FishSticks'")
+    expect(Math.max(nights, records)).toBeLessThan(kinds.indexOf('image'))
+  })
+
+  it('leaves both blocks out when there is nothing to put in them', () => {
+    const text = buildMockupCriticBlocks({ ...ctx, recentNights: '', workRecords: '' })
+      .filter((b) => b.type === 'text')
+      .map((b) => b.text)
+      .join('\n')
+    expect(text).not.toContain('## Recent Nights')
+    expect(text).not.toContain('## Work Records')
   })
 
   it('omits the measured fidelity block when the capture produced no numbers', () => {

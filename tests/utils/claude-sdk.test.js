@@ -122,7 +122,6 @@ describe('callClaudeSDK', () => {
   it('requests adaptive thinking on models that support it', async () => {
     const { client, create } = stubClient(OK)
     // screenshot-critic resolves to sonnet, which supports adaptive thinking.
-    // (mockup-critic resolves to haiku, which does not — see the guard test below.)
     await callClaudeSDK('screenshot-critic', 'sys', [textBlock('x')], { client })
     expect(create.mock.calls[0][0].thinking).toEqual({ type: 'adaptive' })
   })
@@ -141,10 +140,10 @@ describe('callClaudeSDK', () => {
     expect(create.mock.calls[0][0].thinking).toEqual({ type: 'adaptive' })
   })
 
-  it('omits thinking on mockup-critic (haiku tier) without an explicit model override', async () => {
+  it('requests adaptive thinking on mockup-critic (opus-5-5 tier since spec 11 1d) without an override', async () => {
     const { client, create } = stubClient(OK)
     await callClaudeSDK('mockup-critic', 'sys', [textBlock('x')], { client })
-    expect(create.mock.calls[0][0].thinking).toBeUndefined()
+    expect(create.mock.calls[0][0].thinking).toEqual({ type: 'adaptive' })
   })
 
   it('omits thinking on haiku, which rejects adaptive', async () => {
@@ -388,12 +387,13 @@ describe('callClaudeSDK', () => {
       expect(rest).toHaveLength(0)
       expect(record.agent).toBe('mockup-critic')
       expect(record.source).toBe('sdk')
-      expect(record.model).toBe('claude-haiku-4-5')
+      expect(record.model).toBe('claude-opus-5-5')
       expect(record.input).toBe(5000)
       expect(record.output).toBe(400)
       // No price comes back from the API, so the ledger prices it itself.
       expect(record.estimated).toBe(true)
-      expect(record.cost_usd).toBeCloseTo(5000 / 1e6 + (400 * 5) / 1e6, 9)
+      // Opus 5.5 list price: $4 in, $20 out per million.
+      expect(record.cost_usd).toBeCloseTo((5000 * 4) / 1e6 + (400 * 20) / 1e6, 9)
     })
 
     it('books the purpose the caller gave, and unknown when it gave none (#578)', async () => {

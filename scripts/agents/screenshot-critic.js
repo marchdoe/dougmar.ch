@@ -10,6 +10,7 @@ import { imageBlock, textBlock } from '../utils/claude-sdk.js'
 import { parseBarLine, parseCriticVerdict } from '../utils/critic-verdict.js'
 import { newBoundaryId, wrapAsData } from '../utils/data-boundary.js'
 import { describeHeaderCropAnchor } from '../utils/snapshot.js'
+import { sawImages } from '../utils/vision-channels.js'
 import { callVisionAgent } from '../utils/vision-router.js'
 import { VisionTruncatedError } from '../utils/vision-truncated-error.js'
 
@@ -295,7 +296,8 @@ export function buildScreenshotCriticBlocks(ctx) {
  * Ask the screenshot critic and read its verdict.
  *
  * The verdict is only a verdict when the critic saw the build. A reply that
- * reached us on any channel other than `sdk-vision` — a text-only fallback,
+ * reached us on a channel that did not carry the images (anything but
+ * `sdk-vision` or `cli-vision`, see vision-channels.js) — a text-only fallback,
  * a replayed fixture, or a max_tokens truncation, which the router throws as
  * VisionTruncatedError (#570) — comes back as `UNVERIFIED`. Before that, a
  * truncated call returned the error message as the reply, it parsed as a
@@ -340,7 +342,7 @@ export async function runScreenshotCritic({ systemPrompt, contentBlocks, wantsBa
     }
   }
 
-  if (visionChannel !== 'sdk-vision') {
+  if (!sawImages(visionChannel)) {
     console.warn(
       `  [screenshot-critic] verdict reached WITHOUT images (${visionChannel}) — it did not see the design`
     )
@@ -443,7 +445,7 @@ export function logNoRevision(verdict, visionChannel) {
  * @returns {string} the verdict that was recorded
  */
 export function recordFinalJudgment(verdicts, final, remainingFaultsText) {
-  const sawTheBuild = final.visionChannel === 'sdk-vision'
+  const sawTheBuild = sawImages(final.visionChannel)
   const finalVerdict = sawTheBuild ? final.verdict : 'UNVERIFIED'
   verdicts.push({
     critic: 'screenshot-critic',
@@ -457,7 +459,7 @@ export function recordFinalJudgment(verdicts, final, remainingFaultsText) {
 
   if (!sawTheBuild) {
     console.warn(
-      `  [screenshot-critic] final re-judge did not reach the SDK vision channel (${final.visionChannel}) — recording UNVERIFIED instead of a faults verdict`
+      `  [screenshot-critic] final re-judge did not reach a vision channel (${final.visionChannel}) — recording UNVERIFIED instead of a faults verdict`
     )
   } else if (finalVerdict === 'REVISE') {
     verdicts.push({
