@@ -1,7 +1,8 @@
 /**
  * The swarm's Phase 1 and Phase 2 retry paths, run for real against a temp
- * root (#221): the Art Director retry, the codegen retry, the spec checks
- * on the Art Director reply (#576) and the mockup critic loop.
+ * root (#221): the Art Director retry and its block retry (spec 11, 1a), the
+ * codegen retry, the spec checks on the Art Director reply (#576) and the
+ * mockup critic loop.
  *
  * Same fakes as swarm.test.js. The harness records every `restore` and
  * `cleanupOrphans` the swarm makes as `run.fakes.restore` and
@@ -623,6 +624,117 @@ describe('the Art Director retry', () => {
     expect(read(run.root, `archive/${run.date}/${run.trace.dir}/error.txt`)).toMatch(
       /^Art Director failed: no response from the model/
     )
+  })
+})
+
+describe('the Art Director block retry (spec 11, 1a)', () => {
+  const GOOD_FOLD =
+    'first_fold: The gold field: the mark, then the hero phrase "Select a busy man." at hero step in three stacked lines, then the Hubbard consequence clause.'
+  const BAD_FOLD = 'first_fold: The nav row, then the ledger signals.'
+  /** The fixture with a MOBILE block the validator rejects, as on 2026-09-24 and 09-28. */
+  const badMobile = () => {
+    const reply = fixtureFor('art-director')
+    expect(reply).toContain(GOOD_FOLD)
+    return reply.replace(GOOD_FOLD, BAD_FOLD)
+  }
+  /** What the block ask should answer: the fixture's own MOBILE block, alone. */
+  const mobileAnswer = () =>
+    `===MOBILE===\n${parseDelimiterResponse(fixtureFor('art-director')).mobile}\n`
+  const purposes = (run) =>
+    run.ledger.filter((r) => r.agent === 'art-director').map((r) => r.purpose)
+
+  it('asks for the rejected block alone and ships the first reply with it spliced in', async () => {
+    const run = await runSwarm({ agents: { 'art-director': [badMobile(), mobileAnswer()] } })
+
+    expect(run.error).toBeNull()
+    expect(run.calls.map((c) => c.agent)).toEqual(['art-director', ...HAPPY_CALLS])
+    expect(purposes(run)).toEqual(['first', 'block-retry'])
+    expect(run.retries).toBe(1)
+
+    const [first, block] = run.callsFor('art-director')
+    expect(block.systemPrompt).toBe(first.systemPrompt)
+    // The same brief, then the request, the reason and the rejected reply.
+    expect(block.userPrompt.startsWith(first.userPrompt)).toBe(true)
+    expect(block.userPrompt).toContain('## Previous attempt was rejected: return only ===MOBILE===')
+    expect(block.userPrompt).toContain('Art Director MOBILE block is invalid: first_fold')
+    expect(block.userPrompt).toContain(BAD_FOLD)
+
+    const step = run.trace.steps.find((s) => s.name === 'art-director')
+    expect(step.output.mobile.first_fold).toBe(GOOD_FOLD.replace('first_fold: ', ''))
+    expect(step.output.hero_copy).toBe(parseDelimiterResponse(badMobile()).hero_copy)
+    expect(run.fakes.archive).toHaveLength(1)
+  })
+
+  it('falls back to the full retry once when the block answer has no such block', async () => {
+    const run = await runSwarm({
+      agents: {
+        'art-director': [badMobile(), 'MOBILE looks fine to me.', fixtureFor('art-director')],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    expect(purposes(run)).toEqual(['first', 'block-retry', 'retry'])
+    expect(run.retries).toBe(2)
+    // The full retry is told why the first reply failed, as it always was.
+    expect(run.callsFor('art-director')[2].userPrompt).toContain(
+      'Your previous response failed validation: Art Director MOBILE block is invalid: first_fold'
+    )
+    expect(run.fakes.archive).toHaveLength(1)
+  })
+
+  it('falls back to the full retry once when the spliced reply still fails', async () => {
+    const run = await runSwarm({
+      agents: {
+        'art-director': [
+          badMobile(),
+          `===MOBILE===\n${parseDelimiterResponse(badMobile()).mobile}`,
+          fixtureFor('art-director'),
+        ],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    expect(purposes(run)).toEqual(['first', 'block-retry', 'retry'])
+    expect(run.fakes.archive).toHaveLength(1)
+  })
+
+  it('ends the run on a dead model during the block retry, with no full retry (#432)', async () => {
+    const dead = new ModelTransportError({
+      agent: 'art-director',
+      channel: 'cli',
+      emptyReply: true,
+    })
+    const run = await runSwarm({ agents: { 'art-director': [badMobile(), dead] } })
+
+    expect(run.result).toBeNull()
+    expect(run.error.message).toMatch(/^Art Director failed: no response from the model/)
+    expect(purposes(run)).toEqual(['first', 'block-retry'])
+    expect(restored(run)).toEqual([{ paths: MUTABLE_FILES, root: run.root }])
+  })
+
+  it('skips the block retry when other blocks are missing too', async () => {
+    // The validator stops at the first missing block; a reply missing two is
+    // broken wider than one block.
+    const reply = fixtureFor('art-director')
+      .replace('===MOBILE===', '===MOBILE_GONE===')
+      .replace('===MOTION===', '===MOTION_GONE===')
+    const run = await runSwarm({
+      agents: { 'art-director': [reply, fixtureFor('art-director')] },
+    })
+
+    expect(run.error).toBeNull()
+    expect(purposes(run)).toEqual(['first', 'retry'])
+  })
+
+  it('skips the block retry when the rejection names no block', async () => {
+    // A spec finding compares two blocks; the full retry is the one ask.
+    const reply = fixtureFor('art-director').replace('50 `#FAF7EF`', '50 `#123456`')
+    const run = await runSwarm({
+      agents: { 'art-director': [reply, fixtureFor('art-director')] },
+    })
+
+    expect(run.error).toBeNull()
+    expect(purposes(run)).toEqual(['first', 'retry'])
   })
 })
 
