@@ -1,46 +1,47 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { FocusCell } from '../components/generated/FocusCell'
-import { KeyValueList } from '../components/generated/KeyValueList'
-import { LedgerSection } from '../components/generated/LedgerSection'
-import { SignalBand } from '../components/generated/SignalBand'
-import { StatementBanner } from '../components/generated/StatementBanner'
-import { TagList } from '../components/generated/TagList'
-import { TimelineList } from '../components/generated/TimelineList'
+import { Capabilities, CellGroup } from '../components/generated/AboutBlocks'
+import { EvidenceHead } from '../components/generated/EvidenceHead'
+import { HeroStatement } from '../components/generated/HeroStatement'
+import { EvidencePanel, Split } from '../components/generated/Split'
+import { Thesis } from '../components/generated/Thesis'
+import { TimelineTable } from '../components/generated/TimelineTable'
 import { identity, personal } from '../content/about'
-import { capabilities, education, timeline } from '../content/timeline'
+import { education, timeline } from '../content/timeline'
 
 export const Route = createFileRoute('/about')({ component: AboutPage })
 
+const educationCells = [
+  { label: 'School', value: education.school },
+  { label: 'Degree', value: education.degree },
+  { label: 'Concentration', value: education.concentration },
+  { label: 'Years', value: education.years },
+]
+
+const personalCells = [
+  { label: 'Holes in one', value: String(personal.holesInOne) },
+  { label: 'Sport', value: personal.sport },
+  { label: 'Teams', value: personal.teams.join(', ') },
+  { label: 'Current focus', value: personal.currentFocus },
+]
+
 function AboutPage() {
-  const educationRows = [
-    { k: 'School', v: education.school },
-    { k: 'Degree', v: education.degree },
-    { k: 'Concentration', v: education.concentration },
-    { k: 'Years', v: education.years },
-  ].filter((row) => row.v)
-  const personalCells = [
-    { k: 'Holes in one', n: String(personal.holesInOne), s: personal.sport },
-    { k: 'Teams', n: String(personal.teams.length), s: personal.teams.join(', ') },
-  ]
-  const statement = identity.statement.replace(/\s*\u2014\s*/g, ', ')
   return (
-    <>
-      <StatementBanner
-        statement={statement}
-        kicker={[identity.name, identity.role].filter(Boolean).join(' · ')}
-      />
-      <LedgerSection label="Record" aside={`${timeline.length} entries`}>
-        <TimelineList entries={timeline} />
-      </LedgerSection>
-      <LedgerSection label="Capabilities" aside={`${capabilities.length} tags`}>
-        <TagList items={capabilities} />
-      </LedgerSection>
-      <LedgerSection label="Education" aside="On file">
-        <KeyValueList rows={educationRows} />
-      </LedgerSection>
-      <SignalBand head="Personal ledger" aside="Holes in one, teams, focus" cells={personalCells}>
-        <FocusCell text={personal.currentFocus} />
-      </SignalBand>
-    </>
+    <Split>
+      <Thesis>
+        <HeroStatement
+          scale="about"
+          eyebrow="Sheet 02 · Profile"
+          word="About"
+          deck={identity.statement}
+        />
+      </Thesis>
+      <EvidencePanel>
+        <EvidenceHead title="Revision history" count={`${timeline.length} entries`} />
+        <TimelineTable />
+        <Capabilities />
+        <CellGroup title="Education" cells={educationCells} />
+        <CellGroup title="Off the sheet" cells={personalCells} />
+      </EvidencePanel>
+    </Split>
   )
 }

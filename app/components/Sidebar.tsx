@@ -2,104 +2,77 @@ import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
 import { BrandLockup } from './BrandLockup'
 
-const LINKS = [
-  { label: 'work', href: '/work' },
-  { label: 'about', href: '/about' },
-  { label: 'contact', href: `mailto:${identity.email}` },
+const links = [
+  { label: 'Work', href: '/work', idx: '01' },
+  { label: 'About', href: '/about', idx: '02' },
 ]
+
+const row = css({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  minHeight: '44px',
+  paddingInline: '2px',
+  borderBottomWidth: '1px',
+  borderBottomStyle: 'solid',
+  borderBottomColor: 'border',
+  fontFamily: 'display',
+  fontWeight: 'bold',
+  textStyle: 'md',
+  lineHeight: '1',
+  letterSpacing: '0.01em',
+  color: 'text',
+  _last: { borderBottomWidth: '0' },
+  _hover: { color: 'accent' },
+})
+
+const idx = css({
+  fontFamily: 'body',
+  fontSize: '2xs',
+  letterSpacing: '0.12em',
+  color: 'textFaint',
+  fontWeight: 'normal',
+})
 
 export function Sidebar() {
   return (
-    <nav
-      aria-label="Primary"
+    <div
       className={css({
-        gridArea: 'rail',
-        bg: 'bg',
-        minHeight: { lg: '760px' },
+        bg: 'surface',
+        color: 'text',
+        borderRadius: 'sm',
+        borderWidth: '1px',
         borderStyle: 'solid',
-        borderColor: 'borderStrong',
-        borderTopWidth: { base: '1px', lg: '0' },
-        borderBottomWidth: { base: '1px', lg: '0' },
-        borderRightWidth: '0',
-        borderLeftWidth: { base: '0', lg: '1px' },
+        borderColor: 'border',
+        paddingBlock: '16px',
+        paddingInline: { base: '8px', sm: '18px' },
+        width: '100%',
+        minWidth: '0',
+        maxWidth: '420px',
+        boxSizing: 'border-box',
       })}
     >
-      <div
+      <BrandLockup variant="horizontal-md" mode="original" roleLine />
+      <nav
+        aria-label="Primary"
         className={css({
+          marginTop: '14px',
+          borderTopWidth: '1px',
+          borderTopStyle: 'solid',
+          borderTopColor: 'border',
           display: 'flex',
-          flexDirection: { base: 'row', lg: 'column' },
-          position: { lg: 'sticky' },
-          top: { lg: '0' },
+          flexDirection: 'column',
         })}
       >
-        <a
-          href="/"
-          aria-label={`${identity.name}, home`}
-          className={css({
-            display: { base: 'none', lg: 'flex' },
-            justifyContent: 'center',
-            paddingTop: '20px',
-            paddingBottom: '22px',
-            color: 'accent',
-            borderBottomWidth: '1px',
-            borderBottomStyle: 'solid',
-            borderBottomColor: 'border',
-          })}
-        >
-          <BrandLockup variant="mark-only-md" mode="single-color" color="accent" />
+        {links.map((link) => (
+          <a key={link.href} href={link.href} className={row}>
+            {link.label} <span className={idx}>{link.idx}</span>
+          </a>
+        ))}
+        <a href={`mailto:${identity.email}`} className={row}>
+          Contact <span className={idx}>03</span>
         </a>
-        <ul
-          className={css({
-            display: 'flex',
-            flexDirection: { base: 'row', lg: 'column' },
-            flex: { base: '1', lg: 'none' },
-            listStyle: 'none',
-            margin: '0',
-            padding: '0',
-          })}
-        >
-          {LINKS.map((link) => (
-            <li
-              key={link.label}
-              className={css({
-                flex: { base: '1', lg: 'none' },
-                borderStyle: 'solid',
-                borderColor: 'border',
-                borderTopWidth: '0',
-                borderLeftWidth: '0',
-                borderRightWidth: { base: '1px', lg: '0' },
-                borderBottomWidth: { base: '0', lg: '1px' },
-                _last: { borderRightWidth: '0' },
-              })}
-            >
-              <a
-                href={link.href}
-                className={css({
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  minHeight: { base: '52px', lg: '56px' },
-                  paddingBlock: { base: '14px', lg: '3' },
-                  paddingInline: { base: '2', lg: '0' },
-                  fontFamily: 'display',
-                  fontSize: 'sm',
-                  textTransform: 'lowercase',
-                  letterSpacing: { base: 'wide', lg: 'normal' },
-                  color: 'textMuted',
-                  _hover: {
-                    color: 'accent',
-                    textDecoration: 'underline',
-                    textUnderlineOffset: '4px',
-                    textDecorationColor: 'accent',
-                  },
-                })}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </nav>
+      </nav>
+    </div>
   )
 }

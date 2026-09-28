@@ -7,12 +7,12 @@ export const Route = createFileRoute('/og')({ component: OgCard })
 function OgCard() {
   return (
     <div
+      data-folded-shell=""
       className={css({
         position: 'fixed',
         inset: '0',
-        zIndex: '9999',
-        boxSizing: 'border-box',
-        bg: 'bg',
+        zIndex: 9999,
+        bg: 'field',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -21,71 +21,58 @@ function OgCard() {
       <div
         className={css({
           position: 'relative',
-          boxSizing: 'border-box',
           width: '1200px',
           height: '630px',
-          flexShrink: '0',
-          bg: 'bg',
-          color: 'text',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          paddingInline: '80px',
-          paddingBlock: '80px',
+          flexShrink: 0,
+          boxSizing: 'border-box',
+          bg: 'field',
+          color: 'fieldInk',
         })}
       >
-        <div className={css({ position: 'absolute', top: '64px', right: '72px', color: 'accent' })}>
-          <BrandLockup variant="mark-only-md" mode="single-color" color="accent" />
-        </div>
         <div
           className={css({
-            fontFamily: 'display',
-            fontSize: 'sm',
-            letterSpacing: 'widest',
-            textTransform: 'uppercase',
-            color: 'accent',
-            marginBottom: '4',
+            position: 'absolute',
+            top: '72px',
+            left: '80px',
+            bg: 'surface',
+            color: 'text',
+            borderRadius: 'sm',
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            borderColor: 'border',
+            paddingBlock: '16px',
+            paddingInline: '18px',
           })}
         >
-          Sunday · 27 Sep 2026 · Ashburn VA
+          <BrandLockup variant="horizontal-md" mode="original" roleLine />
         </div>
         <h1
           className={css({
+            position: 'absolute',
+            left: '80px',
+            right: '80px',
+            bottom: '72px',
+            margin: '0',
             fontFamily: 'display',
             fontWeight: 'bold',
             textTransform: 'uppercase',
-            fontSize: '50px',
-            lineHeight: '1.16',
-            letterSpacing: '0',
-            color: 'text',
+            fontSize: '68px',
+            lineHeight: '0.95',
+            letterSpacing: '0.01em',
+            color: 'fieldInk',
+            maxWidth: '1000px',
           })}
         >
-          <span className={css({ display: 'block' })}>No one ever said life was fair.</span>
-          <span className={css({ display: 'block' })}>Just Eventful.</span>
+          <span
+            className={css({
+              color: 'transparent',
+              WebkitTextStroke: '2px token(colors.fieldInk)',
+            })}
+          >
+            Buildable
+          </span>{' '}
+          before the first line of code. Faithful after the last.
         </h1>
-        <div
-          className={css({
-            marginTop: '4',
-            fontFamily: 'display',
-            fontSize: 'base',
-            letterSpacing: 'wide',
-            textTransform: 'uppercase',
-            color: 'accent',
-          })}
-        >
-          Carol Burnett
-        </div>
-        <div
-          aria-hidden="true"
-          className={css({
-            position: 'absolute',
-            left: '0',
-            right: '0',
-            bottom: '0',
-            height: '24px',
-            bg: 'field',
-          })}
-        />
       </div>
     </div>
   )

@@ -57,28 +57,34 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'No one ever said life was fair. Just Eventful.' },
-      { property: 'og:title', content: 'No one ever said life was fair. Just Eventful.' },
+      { title: 'Buildable before the first line of code. Faithful after the last.' },
+      {
+        property: 'og:title',
+        content: 'Buildable before the first line of code. Faithful after the last.',
+      },
       {
         property: 'og:description',
         content:
-          "Phosphor-green log of an eventful Sunday: Carol Burnett's line justified in Space Mono caps across the top edge, the work and the day's scores cataloged as amber terminal entries, the mark alone glowing in a right-margin rail.",
+          'Drafting-sheet split: BUILDABLE stamped in outlined signage caps on an indigo field, the shipped work cataloged on warm vellum opposite, the original mark in its own title block.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-27.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-28.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'No one ever said life was fair. Just Eventful.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-27.png' },
+      {
+        name: 'twitter:title',
+        content: 'Buildable before the first line of code. Faithful after the last.',
+      },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-28.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;700;900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -247,7 +253,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 148 designs
+            Archive · 149 designs
           </a>
         )}
         <ScrollRestoration />
