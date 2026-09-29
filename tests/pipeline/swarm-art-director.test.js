@@ -744,7 +744,9 @@ describe('the hero repeat check (spec 11, 1b)', () => {
   /** The fixture reply with another hero phrase. */
   const withHero = (hero) =>
     fixtureFor('art-director').replace(`===HERO_COPY===\n${HERO}`, `===HERO_COPY===\n${hero}`)
-  const heroAnswer = (hero) => `===HERO_COPY===\n${hero}\n`
+  /** A hero re-ask answer: the phrase with its own rationale and source lane. */
+  const heroAnswer = (hero) =>
+    `===HERO_COPY===\n${hero}\n\n===HERO_RATIONALE===\nWhy "${hero}" carries tonight.\n\n===HERO_SOURCE===\nsource: composed\n`
   /** An archived night, inside the 30 days before the run's 2026-08-31, that shipped `hero`. */
   const pastNight = (date, hero) => (root) =>
     writeUnder(root, `archive/${date}/record.json`, JSON.stringify({ date, hero: { copy: hero } }))
@@ -765,7 +767,7 @@ describe('the hero repeat check (spec 11, 1b)', () => {
     )
   })
 
-  it('asks for the hero block alone, naming the earlier night, and ships the new phrase', async () => {
+  it('asks for the hero blocks alone, naming the earlier night, and ships the new phrase', async () => {
     const run = await runSwarm({
       beforeRun: pastNight('2026-08-20', 'select a busy man'),
       agents: { 'art-director': [fixtureFor('art-director'), heroAnswer('Work well done.')] },
@@ -776,9 +778,15 @@ describe('the hero repeat check (spec 11, 1b)', () => {
     expect(purposes(run)).toEqual(['first', 'block-retry'])
     expect(run.retries).toBe(1)
     const block = run.callsFor('art-director')[1].userPrompt
-    expect(block).toContain('## Previous attempt was rejected: return only ===HERO_COPY===')
+    expect(block).toContain(
+      '## Previous attempt was rejected: return only ===HERO_COPY===, ===HERO_RATIONALE===, ===HERO_SOURCE==='
+    )
     expect(block).toContain(`The hero phrase "${HERO}" was already the hero on 2026-08-20`)
     expect(shippedHero(run)).toBe('Work well done.')
+    // The archive describes the phrase that shipped, not the rejected one.
+    expect(JSON.parse(run.fakes.archive[0].artifacts['hero-source.json']).source).toContain(
+      'composed'
+    )
     expect(heroStep(run).output).toMatchObject({ outcome: 'block-retry', hero: 'Work well done.' })
     expect(run.fakes.archive).toHaveLength(1)
   })
@@ -839,6 +847,49 @@ describe('the hero repeat check (spec 11, 1b)', () => {
     expect(run.error).toBeNull()
     expect(purposes(run)).toEqual(['first', 'block-retry', 'retry'])
     expect(shippedHero(run)).toBe(HERO)
+    expect(heroStep(run).output.outcome).toBe('shipped-repeat')
+    expect(run.fakes.archive).toHaveLength(1)
+  })
+
+  it("checks the codegen retry's reply and re-asks its hero the same way", async () => {
+    const run = await runSwarm({
+      beforeRun: pastNight('2026-08-20', HERO),
+      agents: {
+        'art-director': [
+          withHero('Work well done.'),
+          fixtureFor('art-director'),
+          heroAnswer('The busy one finishes.'),
+        ],
+      },
+      codegen: [{ status: 1, stderr: 'codegen broke' }, { status: 0 }],
+    })
+    expect(run.error).toBeNull()
+    expect(purposes(run)).toEqual(['first', 'retry', 'block-retry'])
+    expect(run.callsFor('art-director')[2].userPrompt).toContain(
+      `The hero phrase "${HERO}" was already the hero on 2026-08-20`
+    )
+    expect(heroStep(run).output).toMatchObject({
+      outcome: 'block-retry',
+      hero: 'The busy one finishes.',
+    })
+    expect(read(run.root, 'app/routes/__root.tsx')).toContain('The busy one finishes.')
+  })
+
+  it("spends at most two extra calls on the codegen retry's hero, then ships it", async () => {
+    const run = await runSwarm({
+      beforeRun: pastNight('2026-08-20', HERO),
+      agents: {
+        'art-director': [
+          withHero('Work well done.'),
+          fixtureFor('art-director'),
+          heroAnswer(HERO),
+          fixtureFor('art-director'),
+        ],
+      },
+      codegen: [{ status: 1, stderr: 'codegen broke' }, { status: 0 }],
+    })
+    expect(run.error).toBeNull()
+    expect(purposes(run)).toEqual(['first', 'retry', 'block-retry', 'retry'])
     expect(heroStep(run).output.outcome).toBe('shipped-repeat')
     expect(run.fakes.archive).toHaveLength(1)
   })
