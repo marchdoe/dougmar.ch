@@ -12,7 +12,7 @@ import { writeFile } from 'node:fs/promises'
 import { spawnSync } from 'node:child_process'
 import path from 'node:path'
 import { CHASSIS_CATALOG } from '../../elements/chassis/index.js'
-import { runArtDirector } from '../agents/art-director.js'
+import { runArtDirector, runArtDirectorBlockRetry } from '../agents/art-director.js'
 import { writeFiles, restore } from '../utils/file-manager.js'
 import { formatGeneratedFile } from '../utils/build-validator.js'
 import { noteRetry } from '../utils/cost-ledger.js'
@@ -168,7 +168,9 @@ async function loadArtDirectorSystemPrompt(state) {
 /**
  * Everything the Art Director is asked with, once. The asks differ only in
  * why they are made and what they were told about the last one, which is
- * what the returned function takes.
+ * what the returned function takes. An `extra.blockRetry` of
+ * `{ reply, blocks, reason }` makes the ask a block retry instead
+ * (`runArtDirectorBlockRetry`); `askForBlocks` below is the way in.
  * @param {import('./run-state.js').RunState} state
  * @returns {Promise<(extra: object) => Promise<object>>}
  */
@@ -200,8 +202,8 @@ async function prepareArtDirector(state) {
   const weightsBlock = `Signals: ${weights.signals}/10 | Inspiration: ${weights.inspiration}/10 | Ratings: ${weights.ratings}/10 | Risk: ${weights.risk}/10\n\n${describeRiskTier(weights.risk)}`
   const artDirectorSystemPrompt = await loadArtDirectorSystemPrompt(state)
 
-  return (extra) =>
-    runArtDirector({
+  return ({ blockRetry, ...extra }) => {
+    const ctx = {
       boundaryId,
       signals,
       contentSummary,
@@ -227,11 +229,67 @@ async function prepareArtDirector(state) {
       failureDumpPath: path.join(root, 'signals', 'art-director-last-failed.txt'),
       systemPrompt: artDirectorSystemPrompt,
       ...extra,
+    }
+    return blockRetry ? runArtDirectorBlockRetry(ctx, blockRetry) : runArtDirector(ctx)
+  }
+}
+
+/**
+ * Ask the Art Director again for some blocks of an earlier reply, with the
+ * reason, and get back the whole reply with the answer spliced in and
+ * validated (spec 11, 1a). The retry below uses it for a rejected block;
+ * a check on a valid reply can re-ask through it the same way.
+ * @param {(extra: object) => Promise<object>} askArtDirector
+ * @param {{ reply: string, blocks: string[], reason: string }} request
+ * @returns {Promise<object>} the settled result, as the first ask returns it
+ */
+export function askForBlocks(askArtDirector, { reply, blocks, reason }) {
+  return askArtDirector({ blockRetry: { reply, blocks, reason } })
+}
+
+/**
+ * A model that returned nothing. A dead model (no credits, an outage)
+ * answers a retry the same way it answered the first call. Twenty-six August
+ * nights spent their retry on exactly that and reported it as a missing
+ * block (#432).
+ * @param {Error} err
+ */
+function deadModel(err) {
+  console.error(`  Art Director failed: ${err.message}`)
+  return new Error(`Art Director failed: no response from the model — ${err.message}`)
+}
+
+/**
+ * The block retry for a reply rejected over one block, or null when the
+ * rejection named no block or the block retry did not settle, in which case
+ * the full retry follows. A transport error is thrown, not retried.
+ * @param {(extra: object) => Promise<object>} askArtDirector
+ * @param {Error & { block?: string, reply?: string }} firstErr
+ * @returns {Promise<object|null>}
+ */
+async function tryBlockRetry(askArtDirector, firstErr) {
+  if (!firstErr.block || !firstErr.reply) return null
+  console.warn(
+    `  Art Director failed (${firstErr.message}) — asking for ===${firstErr.block}=== alone`
+  )
+  noteRetry()
+  try {
+    return await askForBlocks(askArtDirector, {
+      reply: firstErr.reply,
+      blocks: [firstErr.block],
+      reason: firstErr.message,
     })
+  } catch (err) {
+    if (err.transport) throw deadModel(err)
+    console.warn(`  block retry did not settle (${err.message}) — retrying the whole reply`)
+    return null
+  }
 }
 
 /**
  * The first ask, and one retry with the reason when the reply was rejected.
+ * A rejection that names one block asks for that block alone first; the
+ * whole Art Director runs again only when that does not settle.
  * @param {(extra: object) => Promise<object>} askArtDirector
  * @returns {Promise<object>}
  */
@@ -239,13 +297,9 @@ async function askWithRetry(askArtDirector) {
   try {
     return await askArtDirector({ purpose: 'first' })
   } catch (firstErr) {
-    if (firstErr.transport) {
-      // A dead model (no credits, an outage) answers the retry the same way
-      // it answered the first call. Twenty-six August nights spent their
-      // retry on exactly that and reported it as a missing block (#432).
-      console.error(`  Art Director failed: ${firstErr.message}`)
-      throw new Error(`Art Director failed: no response from the model — ${firstErr.message}`)
-    }
+    if (firstErr.transport) throw deadModel(firstErr)
+    const settled = await tryBlockRetry(askArtDirector, firstErr)
+    if (settled) return settled
     console.warn(`  Art Director failed (${firstErr.message}) — retrying once with error context`)
     noteRetry()
     try {
