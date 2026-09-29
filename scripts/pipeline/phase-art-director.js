@@ -3,10 +3,11 @@
  * chassis, the full preset.ts and the visual spec. Replaces the historical
  * Director + spec-critic gate + Token Designer trio.
  *
- * The phase writes the preset, generates the orchestrator-owned files from
- * the chosen chassis, runs codegen (asking the Art Director once more on a
- * failure), and leaves the settled result and its parsed declarations on
- * `state.ad`.
+ * A valid reply whose hero phrase repeats a night from the last 30 days is
+ * asked for a new one (spec 11, 1b; settleFreshHero). The phase then writes
+ * the preset, generates the orchestrator-owned files from the chosen chassis,
+ * runs codegen (asking the Art Director once more on a failure), and leaves
+ * the settled result and its parsed declarations on `state.ad`.
  */
 import { writeFile } from 'node:fs/promises'
 import { spawnSync } from 'node:child_process'
@@ -43,6 +44,7 @@ import { formatMotion } from '../utils/motion-grammar.js'
 import { formatTuple } from '../utils/composition-grammar.js'
 import { countArchivedDesigns } from '../utils/archive-count.js'
 import { archiveLinkInks } from '../utils/archive-link-ink.js'
+import { findHeroRepeats, heroRepeatReason, HERO_REPEAT_DAYS } from '../utils/hero-repeat.js'
 
 /**
  * Render the Creative Weights risk sentence for the Art Director prompt.
@@ -178,7 +180,7 @@ async function prepareArtDirector(state) {
   const { root, signals, contentSummary, boundaryId, weights } = state
   const { brandContract } = state.prompts
   const {
-    recentBriefs,
+    recentNights,
     recentRatings,
     references,
     tasteMemoryBlock,
@@ -209,7 +211,7 @@ async function prepareArtDirector(state) {
       contentSummary,
       chassisCatalog: CHASSIS_CATALOG,
       chassisCatalogBlock,
-      recentBriefs,
+      recentNights,
       recentRatings,
       references,
       colorMandateSection,
@@ -312,6 +314,114 @@ async function askWithRetry(askArtDirector) {
       throw new Error(`Art Director failed after retry: ${err.message}`)
     }
   }
+}
+
+/**
+ * Ask for the hero block alone after a repeat, or null when the answer did
+ * not settle. A transport error is thrown, not retried.
+ * @param {(extra: object) => Promise<object>} askArtDirector
+ * @param {object} result the reply whose hero repeats
+ * @param {string} reason
+ * @returns {Promise<object|null>}
+ */
+async function reaskHero(askArtDirector, result, reason) {
+  console.warn('  asking for ===HERO_COPY=== alone')
+  noteRetry()
+  try {
+    return await askForBlocks(askArtDirector, {
+      reply: result.reply,
+      blocks: ['HERO_COPY'],
+      reason,
+    })
+  } catch (err) {
+    if (err.transport) throw deadModel(err)
+    console.warn(`  hero re-ask did not settle (${err.message})`)
+    return null
+  }
+}
+
+/**
+ * The whole Art Director once more after the hero re-ask failed, told why,
+ * or null when that reply is rejected too. A transport error is thrown.
+ * @param {(extra: object) => Promise<object>} askArtDirector
+ * @param {string} reason
+ * @returns {Promise<object|null>}
+ */
+async function retryForHero(askArtDirector, reason) {
+  console.warn('  retrying the whole reply for a new hero phrase')
+  noteRetry()
+  try {
+    return await askArtDirector({
+      purpose: 'retry',
+      retryContext: `## Previous attempt was rejected\n\n${reason}\nEmit ALL required blocks with exact delimiters and exact field formats this time.`,
+    })
+  } catch (err) {
+    if (err.transport) throw deadModel(err)
+    console.warn(`  full retry for the hero was rejected (${err.message})`)
+    return null
+  }
+}
+
+/**
+ * Reject a hero phrase an archived night in the last 30 days already used
+ * (spec 11, 1b; hero-repeat.js says what counts as the same phrase). The
+ * hero block is asked for alone first, through the same block retry a
+ * rejected block gets. When that answer does not settle or repeats as well,
+ * the whole Art Director runs once more, as 1a's retry falls back. After
+ * that the night goes on with the newest valid reply, repeat or not, with a
+ * warning and a `hero-repeat` trace step: a reused line costs less than a
+ * night with no page.
+ * @param {import('./run-state.js').RunState} state
+ * @param {(extra: object) => Promise<object>} askArtDirector
+ * @param {object} result a valid reply
+ * @returns {Promise<object>} the reply to build from
+ */
+async function settleFreshHero(state, askArtDirector, result) {
+  const past = state.inputs.recentHeroes ?? []
+  let repeats = findHeroRepeats(result.heroCopy, past)
+  if (repeats.length === 0) return result
+
+  const rejected = [{ hero: result.heroCopy, repeats }]
+  let settled = result
+  for (const [outcome, ask] of HERO_ASKS) {
+    console.warn(`  hero "${settled.heroCopy}" repeats ${repeats.map((r) => r.date).join(', ')}`)
+    const answer = await ask(askArtDirector, settled, heroRepeatReason(settled.heroCopy, repeats))
+    if (!answer) continue
+    settled = answer
+    repeats = findHeroRepeats(answer.heroCopy, past)
+    if (repeats.length === 0) return recordHeroRepeat(state, past, { rejected, outcome, settled })
+    rejected.push({ hero: answer.heroCopy, repeats })
+  }
+  console.warn(`  ⚠ shipping a repeated hero phrase: "${settled.heroCopy}"`)
+  return recordHeroRepeat(state, past, { rejected, outcome: 'shipped-repeat', settled })
+}
+
+/**
+ * The asks a repeated hero gets, in order, each named by the outcome it
+ * records when it settles on a fresh phrase.
+ * @type {Array<[string, (askArtDirector: (extra: object) => Promise<object>, result: object, reason: string) => Promise<object|null>]>}
+ */
+const HERO_ASKS = [
+  ['block-retry', reaskHero],
+  ['full-retry', (askArtDirector, _result, reason) => retryForHero(askArtDirector, reason)],
+]
+
+/**
+ * Record the repeat check's work as a `hero-repeat` trace step.
+ * @param {import('./run-state.js').RunState} state
+ * @param {import('../utils/hero-repeat.js').PastHero[]} past
+ * @param {{ rejected: object[], outcome: string, settled: object }} step
+ * @returns {object} the settled reply
+ */
+function recordHeroRepeat(state, past, { rejected, outcome, settled }) {
+  state.trace.addStep({
+    name: 'hero-repeat',
+    phase: 1,
+    input: { lookbackDays: HERO_REPEAT_DAYS, pastHeroes: past.length },
+    output: { rejected, outcome, hero: settled.heroCopy },
+    durationMs: 0,
+  })
+  return settled
 }
 
 /**
@@ -670,7 +780,11 @@ export async function runArtDirectorPhase(state) {
 
   const askArtDirector = await prepareArtDirector(state)
   const t0Director = Date.now()
-  const firstResult = await askWithRetry(askArtDirector)
+  const firstResult = await settleFreshHero(
+    state,
+    askArtDirector,
+    await askWithRetry(askArtDirector)
+  )
 
   const chosenArchetype = firstResult.archetype
   const chosenChassis = resolveChassis(firstResult.chassisId)
