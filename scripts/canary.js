@@ -542,8 +542,9 @@ function buildSummary({ date, shipped, trace, cost, errorHead, mock = false }) {
   ].join('\n')
 }
 
-function createWorktree({ exec, root, now }) {
-  const dir = path.join(tmpdir(), `canary-${now().getTime()}-${process.pid}`)
+/** Also used by scripts/replay-mockup.js, which names its own `prefix`. */
+export function createWorktree({ exec, root, now, prefix = 'canary' }) {
+  const dir = path.join(tmpdir(), `${prefix}-${now().getTime()}-${process.pid}`)
   console.log(`  worktree: ${dir}`)
   const result = exec(`git worktree add ${JSON.stringify(dir)} HEAD`, {
     cwd: root,
@@ -555,7 +556,7 @@ function createWorktree({ exec, root, now }) {
   return dir
 }
 
-function removeWorktree({ exec, root, worktree }) {
+export function removeWorktree({ exec, root, worktree }) {
   console.log(`  removing worktree ${worktree}`)
   const result = exec(`git worktree remove ${JSON.stringify(worktree)} --force`, {
     cwd: root,
@@ -566,7 +567,7 @@ function removeWorktree({ exec, root, worktree }) {
   }
 }
 
-function installDeps({ exec, worktree }) {
+export function installDeps({ exec, worktree }) {
   console.log('  pnpm install --frozen-lockfile')
   const result = exec('pnpm install --frozen-lockfile', { cwd: worktree, env: process.env })
   if (result.status !== 0) {

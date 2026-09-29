@@ -24,7 +24,9 @@
  * Tier selection (default): an API key present means billed/API usage (CI or a
  * deliberate `ANTHROPIC_API_KEY=... node ...` local run) → PROD models, off the
  * subscription pool. No API key means a local Max-plan run → DEV cap. The
- * `PIPELINE_TIER=dev|prod` env var overrides this either way.
+ * `PIPELINE_TIER=dev|prod` env var overrides this either way. `MODEL_OVERRIDE`
+ * swaps single agents' tiers for one run (scripts/replay-mockup.js sets it);
+ * see parseModelOverride.
  */
 
 /**
@@ -84,12 +86,64 @@ export function isDevModelTier() {
 }
 
 /**
+ * Read `MODEL_OVERRIDE`, a per-run replacement for PROD_MODELS entries
+ * (spec 11, 1e): `agent=tier` pairs separated by commas, e.g.
+ * `art-director=opus-5-5,mockup-designer=opus-5-5`. The Phase 2 taste test
+ * runs the same night on two models, and editing PROD_MODELS in a commit
+ * before each run (how the 2026-09-23 arms ran) is the thing this replaces.
+ * An agent PROD_MODELS does not name, a tier MODEL_IDS does not name, or a
+ * malformed pair throws: a typo must not quietly run the model under test on
+ * the default. The override replaces the tier only; the dev cap below still
+ * applies, so a replay sets PIPELINE_TIER=prod beside it.
+ *
+ * @param {string|undefined} raw
+ * @returns {Record<string, string>} agent name to tier
+ */
+export function parseModelOverride(raw) {
+  if (raw === undefined || raw.trim() === '') return {}
+  const overrides = {}
+  for (const pair of raw.split(',')) {
+    const [agent, tier] = parseOverridePair(pair)
+    if (Object.hasOwn(overrides, agent)) {
+      throw new Error(`MODEL_OVERRIDE: "${agent}" is named twice`)
+    }
+    overrides[agent] = tier
+  }
+  return overrides
+}
+
+/**
+ * One `agent=tier` pair, checked against PROD_MODELS and MODEL_IDS.
+ * @param {string} pair
+ * @returns {[string, string]}
+ */
+function parseOverridePair(pair) {
+  const [agent, tier, ...rest] = pair.split('=').map((s) => s.trim())
+  if (!agent || !tier || rest.length > 0) {
+    throw new Error(`MODEL_OVERRIDE: "${pair}" is not agent=tier`)
+  }
+  if (!Object.hasOwn(PROD_MODELS, agent)) {
+    throw new Error(
+      `MODEL_OVERRIDE: unknown agent "${agent}" (known: ${Object.keys(PROD_MODELS).join(', ')})`
+    )
+  }
+  if (!Object.hasOwn(MODEL_IDS, tier)) {
+    throw new Error(
+      `MODEL_OVERRIDE: unknown tier "${tier}" (known: ${Object.keys(MODEL_IDS).join(', ')})`
+    )
+  }
+  return [agent, tier]
+}
+
+/**
  * Resolve the model ID for an agent, capped to the dev ceiling in dev tier.
+ * `MODEL_OVERRIDE` (see parseModelOverride) replaces the agent's tier first.
  * @param {string} agentName
  * @returns {string} Explicit model ID (e.g. 'claude-opus-4-8')
  */
 export function modelFor(agentName) {
-  const tier = PROD_MODELS[agentName] || 'sonnet'
+  const override = parseModelOverride(process.env.MODEL_OVERRIDE)
+  const tier = override[agentName] || PROD_MODELS[agentName] || 'sonnet'
   if (!isDevModelTier()) return MODEL_IDS[tier]
   return MODEL_IDS[TIER_RANK[tier] > TIER_RANK[DEV_CEILING] ? DEV_CEILING : tier]
 }

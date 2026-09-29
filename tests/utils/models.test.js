@@ -2,6 +2,7 @@ import { describe, it, expect, afterEach } from 'vitest'
 import {
   modelFor,
   isDevModelTier,
+  parseModelOverride,
   PROD_MODELS,
   MODEL_IDS,
   MODEL_CATALOG,
@@ -9,7 +10,7 @@ import {
   supportsAdaptiveThinking,
 } from '../../scripts/utils/models.js'
 
-const ENV_KEYS = ['PIPELINE_TIER', 'ANTHROPIC_API_KEY']
+const ENV_KEYS = ['PIPELINE_TIER', 'ANTHROPIC_API_KEY', 'MODEL_OVERRIDE']
 const saved = {}
 function setEnv(patch) {
   for (const k of ENV_KEYS) {
@@ -99,6 +100,51 @@ describe('model tier resolution', () => {
     expect(PROD_MODELS['mockup-designer']).toBe('opus')
     expect(PROD_MODELS['art-director']).toBe('opus')
     expect(PROD_MODELS['react-engineer']).toBe('opus-5-5')
+  })
+})
+
+describe('MODEL_OVERRIDE', () => {
+  it('reads agent=tier pairs', () => {
+    expect(parseModelOverride(undefined)).toEqual({})
+    expect(parseModelOverride('  ')).toEqual({})
+    expect(parseModelOverride('art-director=opus-5-5, mockup-designer = opus-5-5')).toEqual({
+      'art-director': 'opus-5-5',
+      'mockup-designer': 'opus-5-5',
+    })
+  })
+
+  it('refuses an unknown agent, an unknown tier, a malformed pair and a repeat', () => {
+    expect(() => parseModelOverride('art-directr=opus-5-5')).toThrow(/unknown agent "art-directr"/)
+    expect(() => parseModelOverride('art-director=opus-5')).toThrow(/unknown tier "opus-5"/)
+    expect(() => parseModelOverride('art-director=claude-opus-5-5')).toThrow(/unknown tier/)
+    expect(() => parseModelOverride('art-director')).toThrow(/is not agent=tier/)
+    expect(() => parseModelOverride('art-director=opus=x')).toThrow(/is not agent=tier/)
+    expect(() => parseModelOverride('art-director=opus,art-director=opus-5-5')).toThrow(
+      /named twice/
+    )
+  })
+
+  it('moves only the named agents, without editing PROD_MODELS', () => {
+    setEnv({
+      PIPELINE_TIER: 'prod',
+      MODEL_OVERRIDE: 'art-director=opus-5-5,mockup-designer=opus-5-5',
+    })
+    expect(modelFor('art-director')).toBe('claude-opus-5-5')
+    expect(modelFor('mockup-designer')).toBe('claude-opus-5-5')
+    expect(modelFor('mockup-critic')).toBe(MODEL_IDS.haiku)
+    expect(modelFor('react-engineer')).toBe('claude-opus-5-5')
+    expect(modelFor('screenshot-critic')).toBe(MODEL_IDS.sonnet)
+    expect(PROD_MODELS['art-director']).toBe('opus')
+  })
+
+  it('still caps an overridden agent in dev tier', () => {
+    setEnv({ PIPELINE_TIER: 'dev', MODEL_OVERRIDE: 'art-director=opus-5-5' })
+    expect(modelFor('art-director')).toBe(MODEL_IDS.sonnet)
+  })
+
+  it('throws from modelFor on a bad override rather than running the default', () => {
+    setEnv({ PIPELINE_TIER: 'prod', MODEL_OVERRIDE: 'art-director=opus-9' })
+    expect(() => modelFor('art-director')).toThrow(/unknown tier "opus-9"/)
   })
 })
 

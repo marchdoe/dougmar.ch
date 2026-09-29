@@ -37,13 +37,16 @@ The pipeline, locally:
 pnpm pipeline:collect # write signals/today.yml from the 19 providers (-- --only season,sun for a subset)
 pnpm pipeline         # full run; leaves the night on disk, commits nothing
 pnpm pipeline:canary  # a $0 dry run in a disposable worktree, evidence kept
+pnpm pipeline:replay -- --date 2026-09-28 --model opus-5-5 --out /tmp/replay  # a past night's Art Director and mockup loop only
 ```
 
-Without `ANTHROPIC_API_KEY` the agents run through the Claude CLI on a Max plan, capped at Sonnet. With a key they run through the API at the production tier (Opus for the Art Director and Mockup Designer). `PIPELINE_TIER=dev|prod` overrides that. See `scripts/utils/models.js`. Either way, `scripts/utils/claude-cli.js` starts each CLI call with none of the machine's own Claude config. It loads no `~/.claude` CLAUDE.md, rules, auto-memory, hooks or plugins, and no MCP servers or claude.ai connectors. A local run still differs from CI in two small ways. The CLI adds a short note naming the working directory and platform, and on a Max plan it adds the account's email.
+Without `ANTHROPIC_API_KEY` the agents run through the Claude CLI on a Max plan, capped at Sonnet. With a key they run through the API at the production tier (Opus for the Art Director and Mockup Designer). `PIPELINE_TIER=dev|prod` overrides that, and `MODEL_OVERRIDE=art-director=opus-5-5,...` moves single agents for one run. See `scripts/utils/models.js`. Either way, `scripts/utils/claude-cli.js` starts each CLI call with none of the machine's own Claude config. It loads no `~/.claude` CLAUDE.md, rules, auto-memory, hooks or plugins, and no MCP servers or claude.ai connectors. A local run still differs from CI in two small ways. The CLI adds a short note naming the working directory and platform, and on a Max plan it adds the account's email.
 
 `pnpm pipeline:canary` worktrees HEAD, installs, and runs the full pipeline there with `MOCK_MODE=false DRY_RUN=true`, so it reproduces exactly what a paid run would do without spending anything, and files the log, trace, cost and any build errors under `docs/evidence/canary/<date>-<time>/`. Run it before merging a change to `scripts/prompts/**`, `scripts/design-agents.js`, `scripts/pipeline/**` or `scripts/utils/build-validator.js`, and weekly otherwise — it's the only check that catches what only shows up against the real Claude CLI.
 
 `pnpm pipeline:canary --mock` replays the recorded night under `fixtures/canary/` through the real loop and gates in under a minute on a warm pnpm store, with no model call, and is the quick check after a gate or loop change. `RECORD_FIXTURES=true pnpm pipeline:canary` re-records that night from a real $0 run; do it after a gate or prompt change the old recording cannot pass.
+
+`pnpm pipeline:replay` rebuilds a shipped night's inputs in a disposable worktree of HEAD (the signals from its trace, `archive/` and `references/` as of the commit that night ran on, its creative weights) and runs the Art Director and the mockup loop on it at the production tier, with the Art Director and Mockup Designer on the `--model` given. It stops before the engineer and writes the brief, the mockup, PNGs at 1440 and 360 and the cost ledger to `--out`. It is the tool for spec 11's model taste test, and it refuses to run with an API key set.
 
 ## What is where
 
