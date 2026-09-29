@@ -21,6 +21,8 @@ import { FINGERPRINT_VIEWPORT, collectGeometry } from './geometry-fingerprint.js
 import { measureDesignFidelity } from './design-fidelity.js'
 import { readPageLayout } from './mockup-fidelity.js'
 import { readMockupFacts } from './mockup-precheck.js'
+import { probePixelContrast } from './pixel-contrast-page.js'
+import { withRevealedPage } from './text-contrast-page.js'
 import { hasFirstPaintMotion } from './motion-grammar.js'
 
 /** MIME type per client-mark extension, for the data: URI the snapshot inlines (#505). */
@@ -1273,8 +1275,9 @@ export async function captureScreenshot(port, { headerCrop, motion } = {}) {
  *   Critic stops estimating them by eye. `layout` is the mockup's text at
  *   1440 and 360 (`readPageLayout`), which the surface gate holds the
  *   build's `/` against; null when it could not be read. `facts` is what
- *   the mockup pre-check reads (`readMockupFacts`) at 1440 and at the phone
- *   rung, each half null when it could not be read.
+ *   the mockup pre-check reads (`readMockupFacts`, and the pixel contrast
+ *   probe as `pixelContrast`) at 1440 and at the phone rung, each half null
+ *   when it could not be read.
  */
 export async function captureHtmlFileScreenshot(
   filePath,
@@ -1327,7 +1330,8 @@ export async function captureHtmlFileScreenshot(
 async function readMockupFactsAt(browser, widePage, url) {
   const read = async (page) => {
     try {
-      return await page.evaluate(readMockupFacts)
+      const facts = await page.evaluate(readMockupFacts)
+      return { ...facts, pixelContrast: await readPixelContrast(page) }
     } catch (err) {
       console.warn(`  [mockup-precheck] facts not read (non-blocking): ${err.message}`)
       return null
@@ -1350,6 +1354,22 @@ async function readMockupFactsAt(browser, widePage, url) {
     await page?.close()
   }
   return { wide, narrow }
+}
+
+/**
+ * The mockup's texts over a textured ground, measured against their pixels
+ * (pixel-contrast.js, spec 11 1c), with the page revealed the way the surface
+ * gate reveals the build. Null when the probe could not run: the facts
+ * beside it still stand.
+ *
+ * @param {import('playwright').Page} page
+ * @returns {Promise<object|null>}
+ */
+function readPixelContrast(page) {
+  return withRevealedPage(page, () => probePixelContrast(page)).catch((err) => {
+    console.warn(`  [mockup-precheck] legibility not probed (non-blocking): ${err.message}`)
+    return null
+  })
 }
 
 /**

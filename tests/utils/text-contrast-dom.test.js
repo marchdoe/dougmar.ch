@@ -50,6 +50,19 @@ describe('the colours a browser paints', () => {
     expect(ratio).toBeLessThan(4.5)
   })
 
+  it('measures outlined text in its stroke colour (spec 11, 1c)', async () => {
+    const c = only(
+      await collect(
+        '<p style="background:#fff;color:transparent;-webkit-text-stroke:1px #999;font-size:14px">Outline</p>'
+      )
+    )
+    expect(c.outlined).toBe(true)
+    const { ratio } = measureCandidate(c)
+    expect(ratio).toBeCloseTo(contrastRatio(rgb(0x99), rgb(255)), 3)
+    const [f] = textContrastFindings({ textContrast: { candidates: [c] } }, 'react-engineer')
+    expect(f.detail).toContain('at 14px outlined')
+  })
+
   it('takes the canvas as white when nothing paints a ground', async () => {
     const c = only(await collect('<p style="color:#000;font-size:14px">Plain</p>'))
     expect(measureCandidate(c).ratio).toBeCloseTo(21, 3)

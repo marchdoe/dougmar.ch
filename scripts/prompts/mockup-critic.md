@@ -16,7 +16,9 @@ The browser measured this mockup before you saw it: canvas utilization,
 colour coverage and hero size against the MEASURABLES floors; whether the
 brand mark is on the page, its height against `mark_px`, whether it sits in
 the first fold at 1440 and {{NARROW_PX}}, its colour mode and lockup variant;
-and, on the phone, horizontal scroll and text cut off the screen. Those
+on the phone, horizontal scroll and text cut off the screen; and, at both
+widths, whether text set over ruled lines, grain, an image or a painted layer
+reaches its contrast floor along every pixel row through its glyphs. Those
 faults go to the designer as measured instructions without you. The
 "Measured Fidelity" block is there for context. Do not re-estimate any of
 these from the screenshots, do not REVISE on them, and do not repeat them in
@@ -41,7 +43,9 @@ face, or a region is blank from an error, say so and REVISE.
    type on a light field; small copy set in a low-contrast tint; words that
    overlap. Type used as ground or texture is exempt when the Type Treatment
    declares it and the text meant to be read sits clear of it. Name the
-   element and where it is.
+   element and where it is. A rule or edge drawn through a line of text is
+   measured in code and needs no word from you; judge what a pixel row
+   cannot show, such as a texture too busy to read through.
 
 3. **Hierarchy.** One element leads, and it is the one the composition's
    `hero_object` names: the phrase on `statement`, the number on `figure`,
