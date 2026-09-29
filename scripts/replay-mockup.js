@@ -19,11 +19,12 @@
  *     so the chore commit never carried it. Written back the way a resume
  *     writes a handoff's signals (handoff.js restoreInputs).
  *   - archive/ and references/: the tree of the commit the nightly ran on,
- *     the parent of `chore: daily redesign <date>`. The recent briefs,
- *     ratings, mobile lessons, mandates, uniqueness history, lane history and
- *     calibration note are all reads over archive/, and none of them filters
- *     by the run's date, so a later night left in place is a night the Art
- *     Director sees from the future. Ratings and reference images added after
+ *     the parent of `chore: daily redesign <date>`. The ratings, mobile
+ *     lessons, mandates, uniqueness history, lane history and calibration
+ *     note are all reads over archive/, and none of them filters by the
+ *     run's date (the recent nights digest and the hero repeat check do), so
+ *     a later night left in place is a night the Art Director sees from the
+ *     future. Ratings and reference images added after
  *     the night go too.
  *   - signals/today.references.md: gitignored as well, so it is made again
  *     by the worktree's collect-references.js from the restored library and

@@ -10,18 +10,21 @@ import { tempDir, writeUnder } from '../helpers/tmp.js'
 const ID = '0123abcd'
 
 describe('recentNightsForCritic', () => {
-  it('hands over the recent briefs inside their boundary tag', () => {
+  it('hands over the recent nights digest inside its boundary tag', () => {
     const out = recentNightsForCritic({
       boundaryId: ID,
-      inputs: { recentBriefs: '\n### 2026-09-27\n## Hero Copy\nrain on the green\n' },
+      inputs: {
+        recentNights:
+          '2026-09-27 | layout ? | hue ? | ground ? | type ? ? | hero "rain on the green"',
+      },
     })
     expect(out.startsWith(`<briefs-${ID}>\n`)).toBe(true)
     expect(out.endsWith(`</briefs-${ID}>`)).toBe(true)
     expect(out).toContain('rain on the green')
   })
 
-  it('is empty when there are no recent briefs', () => {
-    expect(recentNightsForCritic({ boundaryId: ID, inputs: { recentBriefs: '' } })).toBe('')
+  it('is empty when there are no recent nights', () => {
+    expect(recentNightsForCritic({ boundaryId: ID, inputs: { recentNights: '' } })).toBe('')
     expect(recentNightsForCritic({ boundaryId: ID, inputs: {} })).toBe('')
   })
 })

@@ -19,6 +19,8 @@ A pipeline rebuilds this site each morning from the day's signals. That is the m
 
 **Reject candidate phrases that are merely descriptive.** "Welcome to Doug March's portfolio" is not a hero phrase. "Selected work" is not a hero phrase. The phrase must be quotable in isolation. Would someone screenshot this line and post it? If not, keep searching. Never leave the hero phrase empty.
 
+**The phrase cannot be one the site has already worn.** The Recent Nights block in your inputs lists the last fourteen nights, one line each: layout, primary hue, ground, type and hero phrase, followed by the hero phrases from the rest of the last 30 days. A hero phrase from any of those nights is rejected in code and you are asked again, and so is one that contains such a phrase or sits inside one when the shorter is four words or more, ignoring case and punctuation. That holds for a line from the Owner Voice block too: a line Doug would say is still taken once it has shipped. Read the same block before Step 2. A page that repeats one of those nights' layout, hue and ground together is a repeat even under a new phrase.
+
 **The phrase has to be one Doug would say.** Read the Owner Voice block in your inputs when it is present. Your `===HERO_RATIONALE===` ends with one line, `Owner's voice: <why Doug would say this>`, in his register. If you cannot write that line, the phrase is not his; keep searching.
 
 **Step 2: pick everything else BECAUSE of the phrase.**

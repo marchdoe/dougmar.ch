@@ -1,12 +1,12 @@
 /**
  * What the swarm reads before any agent is asked (#221): the prompts and
- * design references, the pre-run backup, the archive's recent briefs and
+ * design references, the pre-run backup, the recent nights digest and
  * ratings, the owner's taste and voice, the mobile lessons, today's
  * references and the variance mandates. Everything lands on `state.prompts`
  * and `state.inputs`; the backup lands on `state.originalBackup`.
  */
 import { readFile } from 'node:fs/promises'
-import { existsSync, readdirSync, readFileSync } from 'node:fs'
+import { existsSync } from 'node:fs'
 import path from 'node:path'
 import { MUTABLE_FILES } from '../utils/site-context.js'
 import { backup } from '../utils/file-manager.js'
@@ -14,6 +14,9 @@ import { loadPrompt } from '../utils/prompt-loader.js'
 import { formatSemanticContractForPrompt } from '../utils/semantic-contract.js'
 import { formatPatternPropsForPrompt, readPatternProps } from '../utils/pattern-props.js'
 import { computeMandateSections } from './mandates.js'
+import { buildNightDigest, DIGEST_NIGHTS } from '../utils/night-digest.js'
+import { formatOlderHeroes, readRecentHeroes } from '../utils/hero-repeat.js'
+import { readRecentDates } from '../utils/recent-builds.js'
 
 /**
  * Read all prompts and design references.
@@ -90,36 +93,31 @@ async function loadPrompts(root) {
 }
 
 /**
- * Recent archive briefs, for the Art Director's context.
+ * The recent nights, for the Art Director's context (spec 11, 1b): one line
+ * per night for the last fourteen (night-digest.js), then the older hero
+ * phrases the repeat check still rejects, and those phrases as data for the
+ * check itself. This replaced the last five `brief.md` files in full, which
+ * is why 2026-09-28 could not see 2026-09-18's layout or 2026-09-22's hero.
  * @param {string} archiveDir
- * @returns {string}
+ * @param {string} today the run's date, never in its own history
+ * @returns {{ recentNights: string, recentHeroes: import('../utils/hero-repeat.js').PastHero[] }}
  */
-function readRecentBriefs(archiveDir) {
-  let recentBriefs = ''
-  try {
-    const dirs = readdirSync(archiveDir)
-      .filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d))
-      .sort()
-      .reverse()
-      .slice(0, 7)
-    const recentDirs5 = dirs.slice(0, 5)
-    for (const dir of recentDirs5) {
-      const briefPath = path.join(archiveDir, dir, 'brief.md')
-      if (existsSync(briefPath)) {
-        recentBriefs += `\n### ${dir}\n${readFileSync(briefPath, 'utf8')}\n`
-      }
-    }
-  } catch {}
-  return recentBriefs
+function readRecentNights(archiveDir, today) {
+  const recentHeroes = readRecentHeroes(archiveDir, { before: today })
+  const digest = buildNightDigest(archiveDir, { before: today })
+  const shown = readRecentDates(archiveDir, { lookbackDays: DIGEST_NIGHTS, before: today })
+  const older = shown.length > 0 ? formatOlderHeroes(recentHeroes, shown.at(-1)) : ''
+  return { recentNights: [digest, older].filter(Boolean).join('\n\n'), recentHeroes }
 }
 
 /**
  * The archive and owner inputs every design agent reads.
  * @param {string} root
+ * @param {string} today the run's date
  */
-async function readHistory(root) {
+async function readHistory(root, today) {
   const archiveDir = path.join(root, 'archive')
-  const recentBriefs = readRecentBriefs(archiveDir)
+  const { recentNights, recentHeroes } = readRecentNights(archiveDir, today)
 
   // Recent ratings for taste feedback (new-schema GitHub-issue ratings)
   const { buildRecentRatingsBlock } = await import('../utils/ratings.js')
@@ -154,7 +152,8 @@ async function readHistory(root) {
 
   return {
     archiveDir,
-    recentBriefs,
+    recentNights,
+    recentHeroes,
     recentRatings,
     tasteMemoryBlock,
     voiceBlock,
@@ -177,7 +176,7 @@ export async function loadRunContext(state) {
   state.originalBackup = await backup(MUTABLE_FILES, { root })
   console.log(`  backed up ${state.originalBackup.size} files`)
 
-  const history = await readHistory(root)
+  const history = await readHistory(root, today)
 
   // Trace: record signals and brief loaded
   trace.addStep({

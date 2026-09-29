@@ -1,8 +1,8 @@
 /**
  * The swarm's Phase 1 and Phase 2 retry paths, run for real against a temp
  * root (#221): the Art Director retry and its block retry (spec 11, 1a), the
- * codegen retry, the spec checks on the Art Director reply (#576) and the
- * mockup critic loop.
+ * hero repeat re-ask (spec 11, 1b), the codegen retry, the spec checks on the
+ * Art Director reply (#576) and the mockup critic loop.
  *
  * Same fakes as swarm.test.js. The harness records every `restore` and
  * `cleanupOrphans` the swarm makes as `run.fakes.restore` and
@@ -13,6 +13,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import { describe, expect, it, vi } from 'vitest'
 import { ModelTransportError } from '../../scripts/utils/model-transport-error.js'
+import { writeUnder } from '../helpers/tmp.js'
 import {
   fixtureFor,
   mockFactories as m,
@@ -735,6 +736,125 @@ describe('the Art Director block retry (spec 11, 1a)', () => {
 
     expect(run.error).toBeNull()
     expect(purposes(run)).toEqual(['first', 'retry'])
+  })
+})
+
+describe('the hero repeat check (spec 11, 1b)', () => {
+  const HERO = 'Select a busy man.'
+  /** The fixture reply with another hero phrase. */
+  const withHero = (hero) =>
+    fixtureFor('art-director').replace(`===HERO_COPY===\n${HERO}`, `===HERO_COPY===\n${hero}`)
+  const heroAnswer = (hero) => `===HERO_COPY===\n${hero}\n`
+  /** An archived night, inside the 30 days before the run's 2026-08-31, that shipped `hero`. */
+  const pastNight = (date, hero) => (root) =>
+    writeUnder(root, `archive/${date}/record.json`, JSON.stringify({ date, hero: { copy: hero } }))
+  const purposes = (run) =>
+    run.ledger.filter((r) => r.agent === 'art-director').map((r) => r.purpose)
+  const heroStep = (run) => run.trace.steps.find((s) => s.name === 'hero-repeat')
+  const shippedHero = (run) =>
+    run.trace.steps.find((s) => s.name === 'art-director').output.hero_copy
+
+  it('asks nothing more when the hero phrase is fresh', async () => {
+    const run = await runSwarm({ beforeRun: pastNight('2026-08-20', 'Another line entirely.') })
+    expect(run.error).toBeNull()
+    expect(purposes(run)).toEqual(['first'])
+    expect(heroStep(run)).toBeUndefined()
+    // The digest the Art Director read lists the past night.
+    expect(run.callsFor('art-director')[0].userPrompt).toContain(
+      '2026-08-20 | layout ? | hue ? | ground ? | type ? ? | hero "Another line entirely."'
+    )
+  })
+
+  it('asks for the hero block alone, naming the earlier night, and ships the new phrase', async () => {
+    const run = await runSwarm({
+      beforeRun: pastNight('2026-08-20', 'select a busy man'),
+      agents: { 'art-director': [fixtureFor('art-director'), heroAnswer('Work well done.')] },
+    })
+
+    expect(run.error).toBeNull()
+    expect(run.calls.map((c) => c.agent)).toEqual(['art-director', ...HAPPY_CALLS])
+    expect(purposes(run)).toEqual(['first', 'block-retry'])
+    expect(run.retries).toBe(1)
+    const block = run.callsFor('art-director')[1].userPrompt
+    expect(block).toContain('## Previous attempt was rejected: return only ===HERO_COPY===')
+    expect(block).toContain(`The hero phrase "${HERO}" was already the hero on 2026-08-20`)
+    expect(shippedHero(run)).toBe('Work well done.')
+    expect(heroStep(run).output).toMatchObject({ outcome: 'block-retry', hero: 'Work well done.' })
+    expect(run.fakes.archive).toHaveLength(1)
+  })
+
+  it('falls back to the full retry when the re-asked phrase repeats too', async () => {
+    const run = await runSwarm({
+      beforeRun: (root) => {
+        pastNight('2026-08-20', HERO)(root)
+        pastNight('2026-08-12', 'Select a busy man, the other kind has no time.')(root)
+      },
+      agents: {
+        'art-director': [
+          fixtureFor('art-director'),
+          heroAnswer('The other kind has no time'),
+          withHero('Work well done.'),
+        ],
+      },
+    })
+
+    expect(run.error).toBeNull()
+    expect(purposes(run)).toEqual(['first', 'block-retry', 'retry'])
+    expect(run.retries).toBe(2)
+    // The full retry is told about the second phrase's repeat.
+    expect(run.callsFor('art-director')[2].userPrompt).toContain(
+      'The hero phrase "The other kind has no time" was already the hero on 2026-08-12'
+    )
+    expect(shippedHero(run)).toBe('Work well done.')
+    expect(heroStep(run).output.outcome).toBe('full-retry')
+    expect(heroStep(run).output.rejected.map((r) => r.hero)).toEqual([
+      HERO,
+      'The other kind has no time',
+    ])
+  })
+
+  it('falls back to the full retry when the hero answer does not splice', async () => {
+    const run = await runSwarm({
+      beforeRun: pastNight('2026-08-20', HERO),
+      agents: {
+        'art-director': [
+          fixtureFor('art-director'),
+          'A new hero, I promise.',
+          withHero('Work well done.'),
+        ],
+      },
+    })
+    expect(run.error).toBeNull()
+    expect(purposes(run)).toEqual(['first', 'block-retry', 'retry'])
+    expect(shippedHero(run)).toBe('Work well done.')
+  })
+
+  it('ships the repeat with a trace step when the full retry repeats as well', async () => {
+    const run = await runSwarm({
+      beforeRun: pastNight('2026-08-20', HERO),
+      agents: {
+        'art-director': [fixtureFor('art-director'), heroAnswer(HERO), fixtureFor('art-director')],
+      },
+    })
+    expect(run.error).toBeNull()
+    expect(purposes(run)).toEqual(['first', 'block-retry', 'retry'])
+    expect(shippedHero(run)).toBe(HERO)
+    expect(heroStep(run).output.outcome).toBe('shipped-repeat')
+    expect(run.fakes.archive).toHaveLength(1)
+  })
+
+  it('ends the run on a dead model during the hero re-ask (#432)', async () => {
+    const dead = new ModelTransportError({
+      agent: 'art-director',
+      channel: 'cli',
+      emptyReply: true,
+    })
+    const run = await runSwarm({
+      beforeRun: pastNight('2026-08-20', HERO),
+      agents: { 'art-director': [fixtureFor('art-director'), dead] },
+    })
+    expect(run.error.message).toMatch(/^Art Director failed: no response from the model/)
+    expect(purposes(run)).toEqual(['first', 'block-retry'])
   })
 })
 

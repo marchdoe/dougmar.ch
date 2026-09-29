@@ -1,6 +1,6 @@
 # 2026-08-30
 
-**Design Brief:** Split-field imperative — "Select a busy man." reversed out of an industry-gold marquee, the day's work stacked as a warm-black ledger opposite, the divide as the argument.
+**Design Brief:** Split-field imperative — "Hire the busy one." reversed out of an industry-gold marquee, the day's work stacked as a warm-black ledger opposite, the divide as the argument.
 
 ## Signals
 
