@@ -28,10 +28,10 @@
  * critic calls stopped at exactly 6000 with no verdict (#570). The screenshot
  * critic went back to 16000, the SDK default, and the mockup critic followed
  * when it moved to Opus 5.5 (spec 11 1d), which thinks the same way. The CLI
- * path takes no `maxTokens`; it only reaches the SDK call. `output_config.effort` would be
- * the lever for bounding thinking on this model (`budget_tokens` is rejected
- * on Sonnet 5), and it is an owner call on judgment quality, so it is not set
- * here.
+ * path takes no `maxTokens`; it only reaches the SDK call.
+ * `output_config.effort` would be the lever for bounding thinking on these
+ * models (`budget_tokens` is rejected on Sonnet 5), and it is an owner call on
+ * judgment quality, so it is not set here.
  *
  * react-engineer instead carries `effort` (2026-09-22, one-week Opus 5.5
  * trial — see models.js). It does not reach callVisionAgent: the engineer

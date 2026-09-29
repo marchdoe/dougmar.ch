@@ -134,7 +134,8 @@ describe('MODEL_OVERRIDE', () => {
     })
     expect(modelFor('art-director')).toBe('claude-opus-5-5')
     expect(modelFor('mockup-designer')).toBe('claude-opus-5-5')
-    expect(modelFor('mockup-critic')).toBe(MODEL_IDS.haiku)
+    // The critic keeps its own prod tier (opus-5-5 since spec 11 1d), not the override.
+    expect(modelFor('mockup-critic')).toBe(MODEL_IDS[PROD_MODELS['mockup-critic']])
     expect(modelFor('react-engineer')).toBe('claude-opus-5-5')
     expect(modelFor('screenshot-critic')).toBe(MODEL_IDS.sonnet)
     expect(PROD_MODELS['art-director']).toBe('opus')
