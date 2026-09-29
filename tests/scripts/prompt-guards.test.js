@@ -134,22 +134,46 @@ describe('mockup-designer.md load-bearing directives', () => {
   })
 })
 
+// Spec 11 1d: a taste judge with six judgments; the floors are code's (#671).
 describe('mockup-critic.md load-bearing directives', () => {
-  it('instructs numeric measurement of utilization and coverage', () => {
-    const c = read('mockup-critic.md')
-    expect(c).toContain('canvas_utilization_min')
-    expect(c).toContain('color_coverage_min')
-    expect(c).toMatch(/MEASURED, not\s+estimated/i)
+  const c = () => read('mockup-critic.md')
+  it('judges the six things and nothing code measures', () => {
+    expect(c()).toContain('## The six judgments')
+    for (const heading of [
+      '1. **Freshness.**',
+      '2. **Legibility.**',
+      '3. **Hierarchy.**',
+      `4. **The hero in the first fold, at ${WIDE} and at ${NARROW}.**`,
+      '5. **Copy matches the work records.**',
+      '6. **The declarations are on the page.**',
+    ]) {
+      expect(c()).toContain(heading)
+    }
+    expect(c()).toMatch(/do not REVISE on them/)
   })
-  it('requires a REVISE when a measured floor is missed by more than 5 points', () => {
-    const c = read('mockup-critic.md')
-    expect(c).toMatch(/more than 5\s+points/i)
-    expect(c).toContain('REVISE')
+  it('puts a hero outside the first fold first in the feedback', () => {
+    expect(c()).toMatch(/A hero that starts below either fold, or is\s+cut by it, is a REVISE/)
+    expect(c()).toMatch(/A hero outside the first\s+fold goes first/)
   })
-  it('runs a seventh check on the type treatment (#502)', () => {
-    const c = read('mockup-critic.md')
-    expect(c).toContain('run all seven')
-    expect(c).toContain('7. **Type treatment**')
+  it('reads the hero against the type treatment (#502)', () => {
+    expect(c()).toMatch(/the Type Treatment block says: `case`, `lead`, `alignment`, `texture`/)
+  })
+  it('judges the header, footer and ground declarations but not the mark', () => {
+    for (const field of [
+      '`placement`',
+      '`role_line: present`',
+      '`nav_form`',
+      '`ground_material`',
+    ]) {
+      expect(c()).toContain(field)
+    }
+    expect(c()).toMatch(/declared footer treatment is visibly executed/)
+    expect(c()).toMatch(
+      /The mark\s+itself \(present, size, first fold, colour mode, lockup variant\) is\s+measured in code/
+    )
+  })
+  it('carries the data boundary rule for the recent nights block', () => {
+    expect(c()).toContain('## Third-party data')
   })
 })
 

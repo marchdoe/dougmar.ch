@@ -3,6 +3,7 @@ import path from 'node:path'
 import { NARROW_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { readRecentBuilds } from './recent-builds.js'
 import { readRecentRatings } from './ratings.js'
+import { sawImages } from './vision-channels.js'
 
 // Cheap token-overlap similarity for RECURRING detection — no need for
 // anything fancier than normalized word-set overlap to catch the same
@@ -71,7 +72,7 @@ function clusterRecurring(entries) {
 /**
  * Whether a verdict record is something a critic found, and so worth teaching
  * the next night. A record's `channel` says how the reply reached us: only
- * `sdk-vision` means the critic saw the build. Anything else is the pipeline's
+ * `sdk-vision` and `cli-vision` mean the critic saw the build. Anything else is the pipeline's
  * own output, such as a truncation message or a text-only fallback's guess, and
  * absent means a deterministic gate or a text agent, which stay. A critic's
  * fail-closed REVISE on a malformed reply carries the reply's first characters
@@ -80,7 +81,7 @@ function clusterRecurring(entries) {
  * @returns {boolean}
  */
 function isCriticFinding(v) {
-  if (v.channel && v.channel !== 'sdk-vision') return false
+  if (v.channel && !sawImages(v.channel)) return false
   if (v.malformed) return false
   return !String(v.feedback ?? '').startsWith('malformed critic response')
 }

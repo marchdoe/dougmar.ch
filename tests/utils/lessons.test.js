@@ -232,6 +232,22 @@ describe('buildLessonsBlock', () => {
       }
     )
 
+    it('keeps a finding from a keyless critic that read the images from disk (cli-vision)', () => {
+      seed(archiveDir, '2026-06-10', {
+        verdicts: [
+          {
+            critic: 'mockup-critic',
+            verdict: 'REVISE',
+            feedback: 'hero starts below the 1440 fold',
+            channel: 'cli-vision',
+          },
+        ],
+      })
+      expect(buildLessonsBlock(archiveDir, { limit: 7 })).toContain(
+        'hero starts below the 1440 fold'
+      )
+    })
+
     it('keeps verdicts with no channel (the gates and the text agents) and sdk-vision ones', () => {
       seed(archiveDir, '2026-06-10', {
         verdicts: [

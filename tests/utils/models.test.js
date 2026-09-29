@@ -72,16 +72,19 @@ describe('model tier resolution', () => {
 
   it('leaves models already at or below the dev ceiling unchanged', () => {
     setEnv({}) // dev tier
-    expect(modelFor('mockup-critic')).toBe(MODEL_IDS.haiku)
     expect(modelFor('screenshot-critic')).toBe(MODEL_IDS.sonnet)
   })
 
-  it('mockup-critic resolves to haiku in prod (floors-check gate, not a taste call)', () => {
+  // Spec 11 1d: the mockup critic is a taste judge now; the floors it checked
+  // on Haiku are measured in code (#671).
+  it('mockup-critic resolves to opus-5-5 in prod and is capped to sonnet in dev', () => {
     setEnv({ PIPELINE_TIER: 'prod' })
-    expect(modelFor('mockup-critic')).toBe(MODEL_IDS.haiku)
-    expect(PROD_MODELS['mockup-critic']).toBe('haiku')
-    // screenshot-critic (taste/fidelity judgment) stays on sonnet
+    expect(PROD_MODELS['mockup-critic']).toBe('opus-5-5')
+    expect(modelFor('mockup-critic')).toBe(MODEL_IDS['opus-5-5'])
+    // screenshot-critic stays on sonnet
     expect(modelFor('screenshot-critic')).toBe(MODEL_IDS.sonnet)
+    setEnv({})
+    expect(modelFor('mockup-critic')).toBe(MODEL_IDS.sonnet)
   })
 
   it('falls back to sonnet for an unknown agent', () => {
@@ -131,7 +134,8 @@ describe('MODEL_OVERRIDE', () => {
     })
     expect(modelFor('art-director')).toBe('claude-opus-5-5')
     expect(modelFor('mockup-designer')).toBe('claude-opus-5-5')
-    expect(modelFor('mockup-critic')).toBe(MODEL_IDS.haiku)
+    // The critic keeps its own prod tier (opus-5-5 since spec 11 1d), not the override.
+    expect(modelFor('mockup-critic')).toBe(MODEL_IDS[PROD_MODELS['mockup-critic']])
     expect(modelFor('react-engineer')).toBe('claude-opus-5-5')
     expect(modelFor('screenshot-critic')).toBe(MODEL_IDS.sonnet)
     expect(PROD_MODELS['art-director']).toBe('opus')
