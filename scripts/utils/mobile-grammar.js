@@ -67,11 +67,29 @@ export function namesHero(firstFold, heroCopy) {
 
 /**
  * Does the first-fold line say the hero sits below the fold?
+ *
+ * `[^.]*` used to run on `normalize()`'s output, which has already stripped
+ * every period, so it matched clear across sentence boundaries: a
+ * multi-sentence hero quoted early in the line, followed by an unrelated
+ * later mention of "fold", read as a below-the-fold clause (#684). Split into
+ * sentences first and check each one on its own.
+ *
  * @param {string|null|undefined} firstFold
  * @returns {boolean}
  */
 export function heroBelowFold(firstFold) {
-  return /\bbelow\b[^.]*\bfold\b|\bunder\b[^.]*\bfold\b/.test(normalize(firstFold))
+  return splitSentences(firstFold).some((sentence) => {
+    const clause = normalize(sentence)
+    return /\bbelow\b[^.]*\bfold\b|\bunder\b[^.]*\bfold\b/.test(clause)
+  })
+}
+
+/** @returns {string[]} the text's sentences, split before punctuation is stripped */
+function splitSentences(text) {
+  return String(text ?? '')
+    .split(/[.!?]+/)
+    .map((s) => s.trim())
+    .filter(Boolean)
 }
 
 function normalize(text) {
