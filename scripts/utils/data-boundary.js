@@ -2,9 +2,10 @@
  * The line between the pipeline's own prompt text and text a stranger wrote.
  *
  * Signals come off the public internet (a Hacker News title, a Product Hunt
- * tagline, a headline, an awwwards og:title). Archive briefs are model output
- * from the night before, so an instruction that got through once repeats
- * itself. Both used to reach a prompt as if they were part of it. Now each
+ * tagline, a headline, an awwwards og:title). The digest of past nights
+ * (night-digest.js) carries hero phrases and labels earlier runs wrote, so an
+ * instruction that got through once repeats itself. It keeps the `briefs` tag
+ * from when it was five full archive briefs. Both used to reach a prompt as if they were part of it. Now each
  * goes inside a tag whose name ends in a per-run random suffix, and the system
  * prompt says text inside such a tag is data (`prompts/data-boundary-rule.md`,
  * loaded through `{{DATA_BOUNDARY_RULE}}`).

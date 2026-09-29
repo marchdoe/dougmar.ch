@@ -45,9 +45,10 @@ const BRAND_LOCKUP_IDS = new Set(LOCKUP_IDS)
  * Assemble the user prompt for the Art Director call.
  * Pure function — no I/O — so unit tests can drive it directly.
  *
- * The signals, the design references and the archive briefs are text a
+ * The signals, the design references and the recent nights digest are text a
  * stranger or an earlier model run wrote. Each goes inside a tag ending in
- * `boundaryId`, which the system prompt names as data (data-boundary.js).
+ * `boundaryId`, which the system prompt names as data (data-boundary.js). The
+ * digest keeps the `briefs` tag it had when it was five full briefs.
  * `runAgentSwarm` draws one id per run; without one a random id is drawn here.
  */
 export function buildArtDirectorUserPrompt({
@@ -55,7 +56,7 @@ export function buildArtDirectorUserPrompt({
   signals,
   contentSummary,
   chassisCatalogBlock,
-  recentBriefs,
+  recentNights,
   recentRatings,
   references,
   colorMandateSection,
@@ -80,7 +81,8 @@ export function buildArtDirectorUserPrompt({
     `## Today's Raw Signals\n\n${wrapAsData('signals', `\`\`\`yaml\n${serialiseSignals(signals)}\n\`\`\``, boundaryId)}`,
     `## Site Content (read-only — for hero phrase mining)\n\n${contentSummary}`,
     `## Typography Chassis Catalog\n\n${chassisCatalogBlock}`,
-    recentBriefs && `## Recent Archive Briefs\n\n${wrapAsData('briefs', recentBriefs, boundaryId)}`,
+    recentNights &&
+      `## Recent Nights (newest first)\n\n${wrapAsData('briefs', recentNights, boundaryId)}`,
     recentRatings && `## User Design Ratings (learn from these)\n\n${recentRatings}`,
     references && `## Design References\n\n${wrapAsData('references', references, boundaryId)}`,
     colorMandateSection,
@@ -344,7 +346,7 @@ function validateMotion(parsed) {
  *   contentSummary: string,
  *   chassisCatalog: object[],
  *   chassisCatalogBlock: string,
- *   recentBriefs: string,
+ *   recentNights: string,
  *   recentRatings: string,
  *   references: string,
  *   colorMandateSection: string,

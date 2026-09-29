@@ -210,14 +210,12 @@ async function readCalibrationNote(root) {
 }
 
 /**
- * What the mockup critic judges freshness against (spec 11 1d). Today that is
- * the recent archive briefs the Art Director already reads (context.js
- * `readRecentBriefs`: the last five nights' brief.md), inside the same
- * `briefs` boundary tag, since the briefs carry text from the signals.
- *
- * Seam for spec 11 1b: its one-line digest per night for the last 14 nights
- * (layout, primary hue, ground, type register, hero phrase) replaces this
- * return value, and nothing downstream changes.
+ * What the mockup critic judges freshness against (spec 11 1d): the recent
+ * nights digest the Art Director reads (spec 11 1b, context.js
+ * `readRecentNights`), one line per night for the last fourteen with its
+ * layout, primary hue, ground, type register and hero phrase, then the older
+ * hero phrases of the last 30 days. It goes inside the same `briefs` boundary
+ * tag, since the hero phrases carry text from the signals.
  *
  * The uniqueness index (uniqueness-index.js) is not passed. It scores an
  * archived build against the seven before it, so tonight's mockup has no
@@ -227,9 +225,9 @@ async function readCalibrationNote(root) {
  * @returns {string} '' when there are no recent nights
  */
 export function recentNightsForCritic(state) {
-  const briefs = state.inputs?.recentBriefs
-  if (!briefs?.trim()) return ''
-  return wrapAsData('briefs', briefs, state.boundaryId)
+  const nights = state.inputs?.recentNights
+  if (!nights?.trim()) return ''
+  return wrapAsData('briefs', nights, state.boundaryId)
 }
 
 /** Doug's work records: the content files the site's claims about him must match. */
