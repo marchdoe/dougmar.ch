@@ -317,7 +317,14 @@ async function askWithRetry(askArtDirector) {
 }
 
 /**
- * Ask for the hero block alone after a repeat, or null when the answer did
+ * The blocks a hero re-ask returns: the phrase, and the rationale and source
+ * lane that describe it, so the archive records the phrase that shipped and
+ * not the rejected one's reasons.
+ */
+const HERO_BLOCKS = ['HERO_COPY', 'HERO_RATIONALE', 'HERO_SOURCE']
+
+/**
+ * Ask for the hero blocks alone after a repeat, or null when the answer did
  * not settle. A transport error is thrown, not retried.
  * @param {(extra: object) => Promise<object>} askArtDirector
  * @param {object} result the reply whose hero repeats
@@ -325,12 +332,12 @@ async function askWithRetry(askArtDirector) {
  * @returns {Promise<object|null>}
  */
 async function reaskHero(askArtDirector, result, reason) {
-  console.warn('  asking for ===HERO_COPY=== alone')
+  console.warn(`  asking for ${HERO_BLOCKS.map((b) => `===${b}===`).join(', ')} alone`)
   noteRetry()
   try {
     return await askForBlocks(askArtDirector, {
       reply: result.reply,
-      blocks: ['HERO_COPY'],
+      blocks: HERO_BLOCKS,
       reason,
     })
   } catch (err) {
@@ -365,12 +372,15 @@ async function retryForHero(askArtDirector, reason) {
 /**
  * Reject a hero phrase an archived night in the last 30 days already used
  * (spec 11, 1b; hero-repeat.js says what counts as the same phrase). The
- * hero block is asked for alone first, through the same block retry a
- * rejected block gets. When that answer does not settle or repeats as well,
- * the whole Art Director runs once more, as 1a's retry falls back. After
- * that the night goes on with the newest valid reply, repeat or not, with a
- * warning and a `hero-repeat` trace step: a reused line costs less than a
- * night with no page.
+ * hero blocks (HERO_BLOCKS) are asked for alone first, through the same
+ * block retry a rejected block gets. When that answer does not settle or
+ * repeats as well, the whole Art Director runs once more, as 1a's retry falls
+ * back. After that the night goes on with the newest valid reply, repeat or
+ * not, with a warning and a `hero-repeat` trace step: a reused line costs
+ * less than a night with no page.
+ *
+ * It runs on the first settled reply and again on the codegen retry's reply,
+ * so each pass costs at most two extra calls and a night at most four.
  * @param {import('./run-state.js').RunState} state
  * @param {(extra: object) => Promise<object>} askArtDirector
  * @param {object} result a valid reply
@@ -656,7 +666,10 @@ async function refreshGeneratedAfterRetry(state, artDirectorResult, chosenChassi
 /**
  * Codegen on the Art Director's preset.ts. On a failure the preset is put
  * back, the Art Director is asked once more with the error, and codegen
- * runs again; a second failure ends the run.
+ * runs again; a second failure ends the run. The retry's reply goes through
+ * the hero repeat check before its preset is written. A hero full retry
+ * there does not carry the codegen error, so its preset meets the same
+ * second codegen run and a failure still ends the run.
  * @param {import('./run-state.js').RunState} state
  * @param {(extra: object) => Promise<object>} askArtDirector
  * @param {object} artDirectorResult
@@ -685,6 +698,9 @@ async function settleCodegen(state, askArtDirector, artDirectorResult, chosenCha
       purpose: 'retry',
       retryContext: `## Previous attempt failed codegen\n\n${codegenResult.error?.slice(0, 1500) || ''}`,
     })
+    // The retry is a whole new reply, so its hero phrase is checked the way
+    // the first one was (spec 11, 1b), before its preset is written.
+    settled = await settleFreshHero(state, askArtDirector, settled)
     const retryPresetFile = { path: 'elements/preset.ts', content: settled.presetTs }
     for (const p of await writeFiles([retryPresetFile], { root, backup: state.originalBackup }))
       state.writtenPaths.add(p)
