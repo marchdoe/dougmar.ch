@@ -1,9 +1,10 @@
 /**
  * Mockup Critic — blocking vision gate over the mockup screenshot, for what a
  * measurement cannot see. Since spec 11's 1d it is a taste judge on Opus 5.5
- * with five judgments: freshness against recent nights, legibility,
- * hierarchy, the hero in the first fold at 1440 and 360, and copy against
- * the work records. The measurable checks are decided in code first
+ * with six judgments: freshness against recent nights, legibility,
+ * hierarchy, the hero in the first fold at 1440 and 360, copy against the
+ * work records, and the header, footer and ground declarations code does not
+ * measure. The measurable checks are decided in code first
  * (utils/mockup-precheck.js, #671). On 2026-09-28 the Haiku floors check
  * approved a hero below the 1440 fold and an invented FishSticks
  * description; the last two judgments exist for those. Fail-closed:
@@ -163,7 +164,7 @@ export function buildMockupCriticBlocks(ctx) {
     ctx.mobileScreenshot ? imageBlock(ctx.mobileScreenshot) : null,
     ctx.headerCrop
       ? textBlock(
-          `A 2x crop of the header region of that same mockup follows.${describeHeaderCropAnchor(ctx.headerCropAnchor)} Read the header's small text for legibility here; the mark's size is measured in code:`
+          `A 2x crop of the header region of that same mockup follows.${describeHeaderCropAnchor(ctx.headerCropAnchor)} Judge the header's placement, role line and nav here, and read its small text for legibility; the mark's size is measured in code:`
         )
       : null,
     ctx.headerCrop ? imageBlock(ctx.headerCrop) : null,

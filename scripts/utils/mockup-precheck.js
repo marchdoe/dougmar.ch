@@ -13,8 +13,8 @@
  * gate's: a check number, a stable `key`, a `gap` (how far off, in the unit
  * the check uses) and a `detail` that is the instruction the designer gets.
  * The critic keeps what a measurement cannot see (since spec 11's 1d:
- * freshness, legibility, hierarchy, the hero in the first fold, and copy
- * against the work records).
+ * freshness, legibility, hierarchy, the hero in the first fold, copy
+ * against the work records, and the header's shape, footer and ground).
  *
  * Three parts:
  *

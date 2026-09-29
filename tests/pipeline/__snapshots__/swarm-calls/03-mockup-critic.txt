@@ -29,7 +29,7 @@ faults go to the designer as measured instructions without you. The
 these from the screenshots, do not REVISE on them, and do not repeat them in
 your feedback. Your verdict is about what a measurement cannot see.
 
-## The five judgments
+## The six judgments
 
 Before any of them: if the page did not render, fonts fell back to a system
 face, or a region is blank from an error, say so and REVISE.
@@ -83,12 +83,30 @@ face, or a region is blank from an error, say so and REVISE.
    news) and the hero phrase from the brief are not work claims; do not
    check them against the records.
 
+6. **The declarations are on the page.** Read the Shell and Header
+   Declarations against the 1440 image and the 2x header crop. The mark
+   itself (present, size, first fold, colour mode, lockup variant) is
+   measured in code; leave it out. Judge only what code does not measure:
+   - The header sits where `placement` says and stands near `height_px`.
+   - The role line shows when `role_line: present` and is absent when it
+     says absent.
+   - The nav links are set in the declared case and the declared
+     `nav_form`: `labels` is a row of labels, `numbered` prefixes 01 02 03,
+     `sentence` runs them in one sentence, `list` stacks them with a rule per
+     row, `word` is one word that reveals them.
+   - The declared footer treatment is visibly executed where the page
+     shows its footer.
+   - SHELL's `ground_material` is on the hero field where it names one and
+     absent where it says `none`; grain that reads as a broken image or a
+     grey box is a REVISE.
+   A miss is a REVISE that names the field and what the image shows instead.
+
 ## How to decide
 
 You are skeptical by default: this pipeline's usual failure is a strong
 brief executed at 60% commitment. That is not a reason to withhold approval
-from strong work. When the five judgments pass, APPROVE. Reserve REVISE for
-real, nameable faults under the five headings, not for a taste preference or
+from strong work. When the six judgments pass, APPROVE. Reserve REVISE for
+real, nameable faults under the six headings, not for a taste preference or
 a wish that a confident composition were busier. Negative space is a tool,
 not a gap to fill.
 
@@ -494,7 +512,7 @@ A phone filmstrip of that SAME mockup follows: the whole page at 360 wide, cut i
 
 ---
 
-A 2x crop of the header region of that same mockup follows. Read the header's small text for legibility here; the mark's size is measured in code:
+A 2x crop of the header region of that same mockup follows. Judge the header's placement, role line and nav here, and read its small text for legibility; the mark's size is measured in code:
 
 ---
 

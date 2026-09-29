@@ -66,8 +66,8 @@ export const PROD_MODELS = {
   'art-director': 'opus',
   'mockup-designer': 'opus',
   // A taste judge since spec 11's 1d: freshness, legibility, hierarchy, the
-  // hero in the first fold at 1440 and 360, and copy against the work
-  // records. The floors it used to check on Haiku are measured in code now
+  // hero in the first fold at 1440 and 360, copy against the work records,
+  // and the header, footer and ground declarations. The floors it used to check on Haiku are measured in code now
   // (mockup-precheck.js, #671). On 2026-09-28 Haiku approved a hero below
   // the 1440 fold and an invented FishSticks description. About $0.10 a round.
   'mockup-critic': 'opus-5-5',

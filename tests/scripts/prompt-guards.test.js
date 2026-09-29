@@ -134,17 +134,18 @@ describe('mockup-designer.md load-bearing directives', () => {
   })
 })
 
-// Spec 11 1d: a taste judge with five judgments; the floors are code's (#671).
+// Spec 11 1d: a taste judge with six judgments; the floors are code's (#671).
 describe('mockup-critic.md load-bearing directives', () => {
   const c = () => read('mockup-critic.md')
-  it('judges the five things and nothing code measures', () => {
-    expect(c()).toContain('## The five judgments')
+  it('judges the six things and nothing code measures', () => {
+    expect(c()).toContain('## The six judgments')
     for (const heading of [
       '1. **Freshness.**',
       '2. **Legibility.**',
       '3. **Hierarchy.**',
       `4. **The hero in the first fold, at ${WIDE} and at ${NARROW}.**`,
       '5. **Copy matches the work records.**',
+      '6. **The declarations are on the page.**',
     ]) {
       expect(c()).toContain(heading)
     }
@@ -156,6 +157,20 @@ describe('mockup-critic.md load-bearing directives', () => {
   })
   it('reads the hero against the type treatment (#502)', () => {
     expect(c()).toMatch(/the Type Treatment block says: `case`, `lead`, `alignment`, `texture`/)
+  })
+  it('judges the header, footer and ground declarations but not the mark', () => {
+    for (const field of [
+      '`placement`',
+      '`role_line: present`',
+      '`nav_form`',
+      '`ground_material`',
+    ]) {
+      expect(c()).toContain(field)
+    }
+    expect(c()).toMatch(/declared footer treatment is visibly executed/)
+    expect(c()).toMatch(
+      /The mark\s+itself \(present, size, first fold, colour mode, lockup variant\) is\s+measured in code/
+    )
   })
   it('carries the data boundary rule for the recent nights block', () => {
     expect(c()).toContain('## Third-party data')
