@@ -162,3 +162,62 @@ describe('validateArtDirectorResult, the reply checked against itself (#576)', (
     expect(() => validateArtDirectorResult(r)).not.toThrow()
   })
 })
+
+describe('validateArtDirectorResult names the block that failed (spec 11, 1a)', () => {
+  /** The error a reply throws, so its `block` can be read. */
+  const thrown = (r) => {
+    try {
+      validateArtDirectorResult(r)
+    } catch (err) {
+      return err
+    }
+    throw new Error('expected the reply to be rejected')
+  }
+  const without = (key) => {
+    const r = valid()
+    delete r[key]
+    return r
+  }
+
+  it.each([
+    ['hero_copy', 'HERO_COPY'],
+    ['composition', 'COMPOSITION'],
+    ['composition_rationale', 'COMPOSITION_RATIONALE'],
+    ['chassis_id', 'CHASSIS_ID'],
+    ['visual_spec', 'VISUAL_SPEC'],
+    ['self_check', 'SELF_CHECK'],
+    ['measurables', 'MEASURABLES'],
+    ['shell', 'SHELL'],
+    ['header', 'HEADER'],
+    ['mobile', 'MOBILE'],
+    ['type_treatment', 'TYPE_TREATMENT'],
+    ['motion', 'MOTION'],
+  ])('a missing %s names %s', (key, block) => {
+    expect(thrown(without(key)).block).toBe(block)
+  })
+
+  it('a missing preset names its FILE block', () => {
+    expect(thrown({ ...valid(), files: [] }).block).toBe('FILE:elements/preset.ts')
+  })
+
+  it('an invalid field inside a present block names that block', () => {
+    // The 2026-09-24 and 09-28 retries were both over MOBILE alone.
+    const mobile = validMobile.replace(/first_fold: .*/, 'first_fold: the nav row, then the lede')
+    const err = thrown({ ...valid(), mobile })
+    expect(err.message).toMatch(/^Art Director MOBILE block is invalid: first_fold/)
+    expect(err.block).toBe('MOBILE')
+    const shell = valid().shell.replace('brand_color_mode: original', 'brand_color_mode: neon')
+    expect(thrown({ ...valid(), shell }).block).toBe('SHELL')
+    expect(thrown({ ...valid(), motion: 'entrance: spin' }).block).toBe('MOTION')
+  })
+
+  it('a spec finding names no block, because either side of it could be the fix', () => {
+    const err = thrown({
+      ...valid(),
+      visual_spec: '### 1. Color Specification\n- accent `#e86f1e`',
+      files: [{ path: 'elements/preset.ts', content: "colors: { a: { value: '#0a7d54' } }" }],
+    })
+    expect(err.message).toMatch(/disagrees with its own chassis or preset/)
+    expect(err.block).toBeUndefined()
+  })
+})

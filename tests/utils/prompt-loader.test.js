@@ -68,7 +68,7 @@ describe('loadPrompt and loadPromptSync', () => {
 
   it('fill the data boundary rule wherever a prompt asks for it, and only there', async () => {
     const rule = readFileSync(path.join(PROMPTS, 'data-boundary-rule.md'), 'utf8').trim()
-    for (const file of ['art-director.md', 'screenshot-critic.md']) {
+    for (const file of ['art-director.md', 'screenshot-critic.md', 'mockup-critic.md']) {
       expect(readFileSync(path.join(PROMPTS, file), 'utf8')).toContain(DATA_BOUNDARY_RULE_TOKEN)
       const loaded = await loadPrompt(file)
       expect(loaded).not.toContain(DATA_BOUNDARY_RULE_TOKEN)
@@ -76,7 +76,7 @@ describe('loadPrompt and loadPromptSync', () => {
       expect(loadPromptSync(file)).toBe(loaded)
     }
     // A prompt without the token is read exactly as before.
-    const plain = await loadPrompt('mockup-critic.md')
+    const plain = await loadPrompt('mockup-designer.md')
     expect(plain).not.toContain(rule)
   })
 
@@ -120,11 +120,6 @@ describe('prompt sources do not spell the phone width out', () => {
       file: 'art-director.md',
       line: 'was good at 1440; at 360 the split was gone',
       why: 'what happened on 2026-09-04, when the phone was 360',
-    },
-    {
-      file: 'mockup-critic.md',
-      line: 'entirely at 360, the answer panel faced nothing',
-      why: 'the same 2026-09-04 night',
     },
     {
       file: 'screenshot-critic.md',

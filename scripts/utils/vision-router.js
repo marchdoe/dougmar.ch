@@ -6,16 +6,26 @@
  * the SDK with real image blocks — the model sees the pixels, and three
  * 1440x900 JPEGs cost roughly 5k input tokens.
  *
- * Without a key (local Max-plan dev) the call falls back to the `claude` CLI
- * with the TEXT blocks only. The images are dropped rather than inlined as
- * base64 data-URIs: the CLI bills that base64 as text (~336k tokens for a
- * 360KB image) and the model still can't see it, so a blind critique costs
- * dollars and returns a hallucination. A critic told plainly that no image is
- * available gives a cheaper and more honest answer.
+ * Without a key (local Max-plan dev) the call goes to the `claude` CLI, which
+ * takes no image blocks. Inlining the images as base64 data-URIs is no answer:
+ * the CLI bills that base64 as text (~336k tokens for a 360KB image) and the
+ * model still can't see it. Until spec 11's 1d the images were dropped and the
+ * critic was told so (NO_IMAGE_NOTICE). Phase 0 of that spec showed a keyless
+ * CLI call with the Read tool reads a PNG or JPG path correctly, at about 1.5k
+ * to 2k input tokens an image. So each image is now written to a private temp
+ * directory, the prompt lists the paths where the images stood, and the CLI
+ * gets Read for that directory only (see claude-cli.js). The channel is
+ * `cli-vision`. This covers both critics, mockup and screenshot. The notice
+ * survives for the calls that really have no image: none was attached, the
+ * temp files could not be written, or the SDK failed with a key present
+ * (`cli-text-fallback`, still text only).
  *
  * @module
  */
 
+import { mkdtemp, realpath, rm, writeFile } from 'node:fs/promises'
+import os from 'node:os'
+import path from 'node:path'
 import {
   assertNotAutomated,
   isMockMode,
@@ -29,7 +39,7 @@ import { modelFor } from './models.js'
 import { ModelTransportError } from './model-transport-error.js'
 import { VisionTruncatedError } from './vision-truncated-error.js'
 
-/** Prepended to the CLI fallback prompt so the critic never invents pixels. */
+/** Prepended to a text-only CLI prompt so the critic never invents pixels. */
 export const NO_IMAGE_NOTICE =
   'NOTE: no screenshot is attached to this request — this run has no API key, ' +
   'so image input is unavailable. Judge only what the text below states. Do NOT ' +
@@ -48,6 +58,113 @@ export function blocksToText(contentBlocks) {
     .filter((block) => block.type === 'text' && block.text)
     .map((block) => block.text)
     .join('\n\n---\n\n')
+}
+
+/** File extension per image media type; anything else is written as .jpg. */
+const IMAGE_EXTENSIONS = { 'image/png': 'png', 'image/webp': 'webp', 'image/gif': 'gif' }
+
+/**
+ * Write every image block to its own file in a fresh temp directory under the
+ * process's temp area. The directory is resolved through realpath (on macOS
+ * os.tmpdir() sits behind the /var symlink), so the paths the prompt names
+ * are the same paths the CLI sees as inside its working directory.
+ *
+ * @param {Array<{type: string, source?: {media_type?: string, data?: string}}>} contentBlocks
+ * @returns {Promise<{ dir: string, paths: string[] }>} `paths` in block order
+ */
+async function writeImageFiles(contentBlocks) {
+  const dir = await realpath(await mkdtemp(path.join(os.tmpdir(), 'vision-')))
+  const paths = []
+  try {
+    for (const block of contentBlocks) {
+      if (block.type !== 'image') continue
+      const ext = IMAGE_EXTENSIONS[block.source?.media_type] ?? 'jpg'
+      const file = path.join(dir, `image-${paths.length + 1}.${ext}`)
+      await writeFile(file, Buffer.from(block.source?.data ?? '', 'base64'))
+      paths.push(file)
+    }
+  } catch (err) {
+    await rm(dir, { recursive: true, force: true })
+    throw err
+  }
+  return { dir, paths }
+}
+
+/**
+ * The CLI prompt for a call whose images are on disk: a line saying how many
+ * there are and to Read each one, then the blocks in order with each image
+ * replaced by its path, so "the screenshot follows:" is still followed by it.
+ *
+ * @param {Array<{type: string, text?: string}>} contentBlocks
+ * @param {string[]} imagePaths one per image block, in block order
+ * @returns {string}
+ */
+export function blocksToCliPrompt(contentBlocks, imagePaths) {
+  let next = 0
+  const parts = contentBlocks
+    .map((block) => {
+      if (block.type === 'image') {
+        next += 1
+        return `[Image ${next}: ${imagePaths[next - 1]}]`
+      }
+      return block.type === 'text' ? block.text : ''
+    })
+    .filter(Boolean)
+  const notice =
+    `${imagePaths.length} image(s) come with this request as files. Use the Read tool on each ` +
+    'path in square brackets below before you answer, and read nothing else. Judge the images ' +
+    'as the screenshots they are.'
+  return [notice, ...parts].join('\n\n---\n\n')
+}
+
+/**
+ * A keyless call that reads its images from disk. The temp directory is
+ * removed whatever the call does.
+ *
+ * @param {object} opts
+ * @param {string} opts.agentName
+ * @param {string} opts.systemPrompt
+ * @param {Array<object>} opts.contentBlocks
+ * @param {{ dir: string, paths: string[] }} opts.files from writeImageFiles
+ * @param {object} opts.cliOptions timeouts and purpose, passed through
+ * @returns {Promise<string>}
+ */
+async function callCliWithImages({ agentName, systemPrompt, contentBlocks, files, cliOptions }) {
+  try {
+    return await callClaudeCLI(
+      agentName,
+      systemPrompt,
+      blocksToCliPrompt(contentBlocks, files.paths),
+      {
+        ...cliOptions,
+        model: modelFor(agentName),
+        channel: 'cli-vision',
+        readableDir: files.dir,
+        // One Read per image, the answer, and one spare for a retried Read.
+        maxTurns: files.paths.length + 2,
+      }
+    )
+  } finally {
+    await rm(files.dir, { recursive: true, force: true })
+  }
+}
+
+/**
+ * Write the images for the keyless path, or null when that failed and the
+ * call goes text-only instead.
+ * @param {string} agentName
+ * @param {Array<object>} contentBlocks
+ * @returns {Promise<{ dir: string, paths: string[] }|null>}
+ */
+async function tryWriteImageFiles(agentName, contentBlocks) {
+  try {
+    return await writeImageFiles(contentBlocks)
+  } catch (err) {
+    console.warn(
+      `  [${agentName}] could not write screenshots for the CLI (${err.message}); text-only critique`
+    )
+    return null
+  }
 }
 
 /**
@@ -128,8 +245,11 @@ async function attemptSdkVision({
  * @param {(channel: string) => void} [args.onChannel] - told which channel
  *   actually answered: 'sdk-vision', 'sdk-vision-truncated' (the SDK saw the
  *   images but stopped at max_tokens; the call then throws), 'cli-text-fallback'
- *   (the SDK failed for another reason), 'cli-text-no-key', or
- *   'fixture-replay' (MOCK_MODE, nothing was called).
+ *   (the SDK failed for another reason), 'cli-vision' (no key; the CLI read
+ *   the images from temp files), 'cli-text-no-key' (no key, and the temp files
+ *   could not be written), 'cli-text-no-images', or 'fixture-replay'
+ *   (MOCK_MODE, nothing was called). `sawImages` in vision-channels.js says
+ *   which of these saw the pixels.
  *   Without this the degradation is invisible: a 400 from a bad thinking param
  *   or a wrong model id silently turns both vision gates into text-only, and a
  *   critic can APPROVE a design it never saw.
@@ -175,9 +295,15 @@ export async function callVisionAgent(args) {
     if (!result.fallback) return result.text
     cliChannel = result.channel
   } else if (imageCount > 0) {
-    console.warn(
-      `  [${agentName}] no ANTHROPIC_API_KEY — ${imageCount} screenshot(s) dropped; text-only critique`
-    )
+    const files = await tryWriteImageFiles(agentName, contentBlocks)
+    if (files) {
+      console.log(
+        `  [${agentName}] no ANTHROPIC_API_KEY — ${imageCount} screenshot(s) read from disk`
+      )
+      onChannel('cli-vision')
+      const cliOptions = { timeoutMs, stallTimeoutMs, purpose }
+      return await callCliWithImages({ agentName, systemPrompt, contentBlocks, files, cliOptions })
+    }
     onChannel('cli-text-no-key')
   } else {
     onChannel('cli-text-no-images')

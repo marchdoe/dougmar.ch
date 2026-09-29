@@ -37,6 +37,7 @@ import { MATERIAL_NAMES, isMaterialName } from '../utils/material.js'
 import { modelFor } from '../utils/models.js'
 import { budgetFor } from '../utils/budgets.js'
 import { newBoundaryId, serialiseSignals, wrapAsData } from '../utils/data-boundary.js'
+import { blockRequest, spliceBlockAnswer } from '../utils/ad-block-splice.js'
 
 const BRAND_LOCKUP_IDS = new Set(LOCKUP_IDS)
 
@@ -102,6 +103,17 @@ export function buildArtDirectorUserPrompt({
 }
 
 /**
+ * A validation error that names the one block that failed.
+ * @param {string} block the delimiter name, without the `===`
+ * @param {string} message
+ */
+function rejectBlock(block, message) {
+  const err = new Error(message)
+  err.block = block
+  return err
+}
+
+/**
  * Validate that an Art Director response has all required blocks and a
  * valid composition tuple. Throws with a specific reason on failure so the
  * orchestrator can decide whether to retry or surface the error.
@@ -123,56 +135,74 @@ export function buildArtDirectorUserPrompt({
  * spec that still disagrees with its preset after being told how is not worth
  * the night, and the second failure ends the run.
  *
+ * Every rejection that one block can fix carries that block's delimiter name
+ * as `err.block` ('MOBILE', 'FILE:elements/preset.ts'), so the retry can ask
+ * for that block alone (ad-block-splice.js, spec 11 1a). The spec findings
+ * carry none: each compares two blocks, and either one could be the fix.
+ *
  * @param {object} parsed
  * @param {{ enforceSpec?: boolean }} [options]
  * @returns {string[]} the spec findings that were tolerated, empty when none
  */
 export function validateArtDirectorResult(parsed, { enforceSpec = true } = {}) {
   if (!parsed.hero_copy || parsed.hero_copy.length < 3) {
-    throw new Error('Art Director response missing or empty hero_copy (===HERO_COPY===)')
+    throw rejectBlock(
+      'HERO_COPY',
+      'Art Director response missing or empty hero_copy (===HERO_COPY===)'
+    )
   }
   if (!parsed.composition) {
-    throw new Error('Art Director response missing ===COMPOSITION===')
+    throw rejectBlock('COMPOSITION', 'Art Director response missing ===COMPOSITION===')
   }
   const composition = parseCompositionBlock(parsed.composition)
   const { valid, errors } = isValidTuple(composition)
   if (!valid) {
-    throw new Error(`Art Director composition tuple is invalid: ${errors.join('; ')}`)
+    throw rejectBlock(
+      'COMPOSITION',
+      `Art Director composition tuple is invalid: ${errors.join('; ')}`
+    )
   }
   if (!parsed.composition_rationale || parsed.composition_rationale.length < 10) {
-    throw new Error('Art Director response missing or too-short ===COMPOSITION_RATIONALE===')
+    throw rejectBlock(
+      'COMPOSITION_RATIONALE',
+      'Art Director response missing or too-short ===COMPOSITION_RATIONALE==='
+    )
   }
   if (!parsed.chassis_id) {
-    throw new Error('Art Director response missing chassis_id (===CHASSIS_ID===)')
+    throw rejectBlock('CHASSIS_ID', 'Art Director response missing chassis_id (===CHASSIS_ID===)')
   }
   if (!parsed.visual_spec) {
-    throw new Error('Art Director response missing ===VISUAL_SPEC===')
+    throw rejectBlock('VISUAL_SPEC', 'Art Director response missing ===VISUAL_SPEC===')
   }
   if (!parsed.self_check) {
-    throw new Error('Art Director response missing ===SELF_CHECK===')
+    throw rejectBlock('SELF_CHECK', 'Art Director response missing ===SELF_CHECK===')
   }
   const presetFile = (parsed.files || []).find((f) => f.path === 'elements/preset.ts')
   if (!presetFile?.content) {
-    throw new Error('Art Director response missing ===FILE:elements/preset.ts=== block')
+    throw rejectBlock(
+      'FILE:elements/preset.ts',
+      'Art Director response missing ===FILE:elements/preset.ts=== block'
+    )
   }
   if (!parsed.measurables) {
-    throw new Error('Art Director response missing ===MEASURABLES===')
+    throw rejectBlock('MEASURABLES', 'Art Director response missing ===MEASURABLES===')
   }
   const measurables = parseMeasurablesBlock(parsed.measurables)
   if (measurables.canvas_utilization_min === null) {
-    throw new Error('MEASURABLES block missing numeric canvas_utilization_min')
+    throw rejectBlock('MEASURABLES', 'MEASURABLES block missing numeric canvas_utilization_min')
   }
   if (!parsed.shell) {
-    throw new Error('Art Director response missing ===SHELL===')
+    throw rejectBlock('SHELL', 'Art Director response missing ===SHELL===')
   }
   const shell = parseShellBlock(parsed.shell)
   // `nav` is no longer a SHELL field — it moved to HEADER with the rest of
   // the header declaration (#254).
   for (const key of ['footer', 'brand_lockup', 'brand_color_mode']) {
-    if (!shell[key]) throw new Error(`SHELL block missing ${key}`)
+    if (!shell[key]) throw rejectBlock('SHELL', `SHELL block missing ${key}`)
   }
   if (!['original', 'single-color'].includes(shell.brand_color_mode)) {
-    throw new Error(
+    throw rejectBlock(
+      'SHELL',
       `SHELL brand_color_mode must be "original" or "single-color", got "${shell.brand_color_mode}"`
     )
   }
@@ -185,10 +215,11 @@ export function validateArtDirectorResult(parsed, { enforceSpec = true } = {}) {
   // brand_color_mode is: the component draws exactly these six, and a name
   // it does not know renders nothing.
   if (!shell.ground_material) {
-    throw new Error('SHELL block missing ground_material')
+    throw rejectBlock('SHELL', 'SHELL block missing ground_material')
   }
   if (!isMaterialName(shell.ground_material)) {
-    throw new Error(
+    throw rejectBlock(
+      'SHELL',
       `SHELL ground_material must be one of ${MATERIAL_NAMES.join(', ')}, got "${shell.ground_material}"`
     )
   }
@@ -197,7 +228,7 @@ export function validateArtDirectorResult(parsed, { enforceSpec = true } = {}) {
   // ignore. Three owner ratings running said the header was wrong and no
   // gate could have caught any of them (#254).
   if (!parsed.header) {
-    throw new Error('Art Director response missing ===HEADER===')
+    throw rejectBlock('HEADER', 'Art Director response missing ===HEADER===')
   }
   const header = parseHeaderBlock(parsed.header)
   const headerCheck = isValidHeader(header, {
@@ -205,10 +236,13 @@ export function validateArtDirectorResult(parsed, { enforceSpec = true } = {}) {
     brandLockup: shell.brand_lockup,
   })
   if (!headerCheck.valid) {
-    throw new Error(`Art Director HEADER block is invalid: ${headerCheck.errors.join('; ')}`)
+    throw rejectBlock(
+      'HEADER',
+      `Art Director HEADER block is invalid: ${headerCheck.errors.join('; ')}`
+    )
   }
   if (!header.nav) {
-    throw new Error('HEADER block missing nav')
+    throw rejectBlock('HEADER', 'HEADER block missing nav')
   }
   // MOBILE is validated the way HEADER is (#452): the composition's
   // `collapse` axis names what the canvas becomes on the phone, and this block says
@@ -216,7 +250,7 @@ export function validateArtDirectorResult(parsed, { enforceSpec = true } = {}) {
   // rejected, not reconciled, the same as a placement that contradicts the
   // shell posture.
   if (!parsed.mobile) {
-    throw new Error('Art Director response missing ===MOBILE===')
+    throw rejectBlock('MOBILE', 'Art Director response missing ===MOBILE===')
   }
   const mobile = parseMobileBlock(parsed.mobile)
   const mobileCheck = isValidMobile(mobile, {
@@ -227,7 +261,10 @@ export function validateArtDirectorResult(parsed, { enforceSpec = true } = {}) {
     heroCopy: parsed.hero_copy,
   })
   if (!mobileCheck.valid) {
-    throw new Error(`Art Director MOBILE block is invalid: ${mobileCheck.errors.join('; ')}`)
+    throw rejectBlock(
+      'MOBILE',
+      `Art Director MOBILE block is invalid: ${mobileCheck.errors.join('; ')}`
+    )
   }
   validateTypeTreatment(parsed)
   validateMotion(parsed)
@@ -265,14 +302,17 @@ function validateSpec(parsed, enforce) {
  */
 function validateTypeTreatment(parsed) {
   if (!parsed.type_treatment) {
-    throw new Error('Art Director response missing ===TYPE_TREATMENT===')
+    throw rejectBlock('TYPE_TREATMENT', 'Art Director response missing ===TYPE_TREATMENT===')
   }
   const chassis = CHASSIS_CATALOG.find((c) => c.id === parsed.chassis_id) ?? null
   const typeCheck = isValidTypeTreatment(parseTypeTreatmentBlock(parsed.type_treatment), {
     chassis,
   })
   if (!typeCheck.valid) {
-    throw new Error(`Art Director TYPE_TREATMENT block is invalid: ${typeCheck.errors.join('; ')}`)
+    throw rejectBlock(
+      'TYPE_TREATMENT',
+      `Art Director TYPE_TREATMENT block is invalid: ${typeCheck.errors.join('; ')}`
+    )
   }
 }
 
@@ -284,11 +324,14 @@ function validateTypeTreatment(parsed) {
  */
 function validateMotion(parsed) {
   if (!parsed.motion) {
-    throw new Error('Art Director response missing ===MOTION===')
+    throw rejectBlock('MOTION', 'Art Director response missing ===MOTION===')
   }
   const motionCheck = isValidMotion(parseMotionBlock(parsed.motion))
   if (!motionCheck.valid) {
-    throw new Error(`Art Director MOTION block is invalid: ${motionCheck.errors.join('; ')}`)
+    throw rejectBlock(
+      'MOTION',
+      `Art Director MOTION block is invalid: ${motionCheck.errors.join('; ')}`
+    )
   }
 }
 
@@ -322,23 +365,112 @@ function validateMotion(parsed) {
  *   systemPrompt: string,
  *   designReferenceImages?: Array<{ data: string, media_type: string, title?: string }>,
  * }} ctx
- * @returns {Promise<{ heroCopy: string, heroRationale: string, heroSource: string, archetype: string, chassisId: string, presetTs: string, visualSpec: string, selfCheck: string, rationale: string, designBrief: string, colorScheme: object|null, shell: string, header: string, typeTreatment: string, mobile: string, motion: string, composition: string, compositionRationale: string, brief: string }>}
+ * @returns {Promise<{ heroCopy: string, heroRationale: string, heroSource: string, archetype: string, chassisId: string, presetTs: string, visualSpec: string, selfCheck: string, rationale: string, designBrief: string, colorScheme: object|null, shell: string, header: string, typeTreatment: string, mobile: string, motion: string, composition: string, compositionRationale: string, brief: string, reply: string }>}
+ *   `reply` is the raw text the result was parsed from, which a block retry
+ *   splices into. A rejected reply rides on the thrown error the same way, as
+ *   `err.reply`, beside the `err.block` that names what failed.
  */
 export async function runArtDirector(ctx) {
-  const userPrompt = buildArtDirectorUserPrompt(ctx)
+  return settleArtDirectorReply(await callArtDirector(ctx), ctx)
+}
 
+/**
+ * Ask again for named blocks of an earlier reply, with the reason, and splice
+ * the answer into that reply (spec 11, 1a). The model sees the same system
+ * prompt and the same brief, then its previous reply and the request, and
+ * returns only those blocks. The spliced reply is parsed and validated whole,
+ * like a fresh one, and tolerates spec findings the way any retry does.
+ *
+ * Throws when the answer leaves out a requested block or the spliced reply
+ * still fails validation; the caller decides whether a full ask follows. A
+ * transport error arrives with `transport` set, as from `runArtDirector`.
+ *
+ * @param {Parameters<typeof runArtDirector>[0]} ctx as `runArtDirector`
+ * @param {{ reply: string, blocks: string[], reason: string }} request `reply`
+ *   is the earlier raw reply, `blocks` the delimiter names ('MOBILE',
+ *   'FILE:elements/preset.ts'), `reason` what the model is told was wrong
+ * @returns {ReturnType<typeof runArtDirector>}
+ */
+export async function runArtDirectorBlockRetry(ctx, { reply, blocks, reason }) {
+  const blockCtx = {
+    ...ctx,
+    retryContext: blockRequest({ reply, blocks, reason }),
+    purpose: 'block-retry',
+  }
+  const answer = await callArtDirector(blockCtx)
+  const spliced = spliceBlockAnswer(reply, answer, blocks)
+  if (!spliced.ok) throw new Error(`Art Director block retry did not splice: ${spliced.error}`)
+  return settleArtDirectorReply(spliced.reply, blockCtx)
+}
+
+/**
+ * One model call with the Art Director's prompt and budget.
+ * @param {Parameters<typeof runArtDirector>[0]} ctx
+ * @returns {Promise<string>} the raw reply
+ */
+function callArtDirector(ctx) {
   // 20-minute total / 15-minute stall headroom. AD calls in production
   // have run 7:45 (run 1) and 8:55 (run 2) at 5–9 weight settings; a
   // higher-inspiration prompt with the export-name guard added pushed
   // run 3 past the original 10-minute hard cap. Match the shape of the
   // unified-designer config (30 min total / 25 min stall) one register
   // tighter — the AD prompt is smaller and shouldn't need that much.
-  const result = await callTapedCLI('art-director', ctx.systemPrompt, userPrompt, {
+  return callTapedCLI('art-director', ctx.systemPrompt, buildArtDirectorUserPrompt(ctx), {
     ...budgetFor('art-director'),
     model: modelFor('art-director'),
     purpose: ctx.purpose,
   })
+}
 
+/** The parsed keys of the blocks every reply must carry, for the rejection log. */
+const REQUIRED_KEYS = [
+  'hero_copy',
+  'composition',
+  'composition_rationale',
+  'chassis_id',
+  'visual_spec',
+  'self_check',
+  'measurables',
+  'shell',
+  'header',
+  'type_treatment',
+  'mobile',
+  'motion',
+]
+
+/**
+ * Log a rejected reply, dump it, and attach it to the error as `err.reply`
+ * for a block retry to splice into.
+ * @param {Error & { block?: string, reply?: string }} err
+ * @param {ReturnType<typeof parseDelimiterResponse>} parsed
+ * @param {string} result the raw reply
+ * @param {{ failureDumpPath?: string }} ctx
+ */
+async function reportRejectedReply(err, parsed, result, ctx) {
+  const present = REQUIRED_KEYS.filter((k) => parsed[k])
+  const absent = REQUIRED_KEYS.filter((k) => !parsed[k])
+  console.error(
+    `  [AD] validation failed — present: [${present.join(', ')}] absent: [${absent.join(', ')}]`
+  )
+  console.error(`  [AD] response head: ${result.slice(0, 300).replace(/\n/g, '↵')}`)
+  if (ctx.failureDumpPath) {
+    try {
+      await writeFile(ctx.failureDumpPath, result, 'utf8')
+    } catch {}
+  }
+  // A reply missing other blocks as well is broken wider than the one block
+  // the validator stopped at, so it gets the full retry, not a block retry.
+  if (absent.some((k) => k.toUpperCase() !== err.block)) delete err.block
+  err.reply = result
+}
+
+/**
+ * Parse and validate a raw reply, and compose the result the phase uses.
+ * @param {string} result the raw reply
+ * @param {Parameters<typeof runArtDirector>[0]} ctx
+ * @returns {ReturnType<typeof runArtDirector>}
+ */
+async function settleArtDirectorReply(result, ctx) {
   let parsed
   try {
     parsed = parseDelimiterResponse(result)
@@ -352,43 +484,7 @@ export async function runArtDirector(ctx) {
       console.warn(`  [AD] shipping a spec finding after the retry: ${finding}`)
     }
   } catch (err) {
-    const present = [
-      'hero_copy',
-      'composition',
-      'composition_rationale',
-      'chassis_id',
-      'visual_spec',
-      'self_check',
-      'measurables',
-      'shell',
-      'header',
-      'type_treatment',
-      'mobile',
-      'motion',
-    ].filter((k) => parsed[k])
-    const absent = [
-      'hero_copy',
-      'composition',
-      'composition_rationale',
-      'chassis_id',
-      'visual_spec',
-      'self_check',
-      'measurables',
-      'shell',
-      'header',
-      'type_treatment',
-      'mobile',
-      'motion',
-    ].filter((k) => !parsed[k])
-    console.error(
-      `  [AD] validation failed — present: [${present.join(', ')}] absent: [${absent.join(', ')}]`
-    )
-    console.error(`  [AD] response head: ${result.slice(0, 300).replace(/\n/g, '↵')}`)
-    if (ctx.failureDumpPath) {
-      try {
-        await writeFile(ctx.failureDumpPath, result, 'utf8')
-      } catch {}
-    }
+    await reportRejectedReply(err, parsed, result, ctx)
     throw err
   }
 
@@ -448,5 +544,6 @@ export async function runArtDirector(ctx) {
     designBrief: parsed.design_brief || '',
     colorScheme: parsed.color_scheme || null,
     brief,
+    reply: result,
   }
 }

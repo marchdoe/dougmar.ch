@@ -1,3 +1,5 @@
+import { existsSync, readFileSync } from 'node:fs'
+import path from 'node:path'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const sdkMock = vi.fn()
@@ -23,7 +25,7 @@ vi.mock('../../scripts/utils/agent-fixtures.js', async (importOriginal) => {
 })
 
 const { imageBlock, textBlock } = await import('../../scripts/utils/claude-sdk.js')
-const { NO_IMAGE_NOTICE, blocksToText, callVisionAgent } = await import(
+const { NO_IMAGE_NOTICE, blocksToCliPrompt, blocksToText, callVisionAgent } = await import(
   '../../scripts/utils/vision-router.js'
 )
 const { VisionTruncatedError } = await import('../../scripts/utils/vision-truncated-error.js')
@@ -46,6 +48,28 @@ const BLOCKS = [
 describe('blocksToText', () => {
   it('keeps text blocks and drops images', () => {
     expect(blocksToText(BLOCKS)).toBe('## Brief\n\n---\n\nLIGHT scheme:')
+  })
+})
+
+describe('blocksToCliPrompt', () => {
+  it('puts each image path where its image stood, after a notice to Read them', () => {
+    const blocks = [
+      textBlock('## Brief'),
+      textBlock('desktop follows:'),
+      imageBlock(Buffer.from([1])),
+      textBlock('phone follows:'),
+      imageBlock(Buffer.from([2]), 'image/png'),
+    ]
+    const prompt = blocksToCliPrompt(blocks, ['/t/image-1.jpg', '/t/image-2.png'])
+    expect(prompt.split('\n\n---\n\n')).toEqual([
+      expect.stringMatching(/^2 image\(s\) come with this request as files\. Use the Read tool/),
+      '## Brief',
+      'desktop follows:',
+      '[Image 1: /t/image-1.jpg]',
+      'phone follows:',
+      '[Image 2: /t/image-2.png]',
+    ])
+    expect(prompt).not.toContain(NO_IMAGE_NOTICE)
   })
 })
 
@@ -100,25 +124,102 @@ describe('callVisionAgent', () => {
     expect(blocks.filter((b) => b.type === 'image')).toHaveLength(1)
   })
 
-  it('falls back to the text-only CLI when no API key is set', async () => {
-    cliMock.mockResolvedValue('cli text')
+  // Spec 11 1d: with no key the CLI reads the images from temp files.
+  describe('with no API key and images attached (cli-vision)', () => {
+    const PNG = Buffer.from([0x89, 0x50, 0x4e, 0x47])
+    const JPG = Buffer.from([0xff, 0xd8, 0xff])
+    const TWO_IMAGES = [
+      textBlock('## Brief'),
+      imageBlock(JPG),
+      textBlock('phone:'),
+      imageBlock(PNG, 'image/png'),
+    ]
 
-    const result = await callVisionAgent({
-      agentName: 'mockup-critic',
-      systemPrompt: 'sys',
-      contentBlocks: BLOCKS,
+    beforeEach(() => {
+      vi.stubEnv('ANTHROPIC_API_KEY', '')
     })
 
-    expect(result).toBe('cli text')
-    expect(sdkMock).not.toHaveBeenCalled()
-    const [agentName, systemPrompt, prompt, opts] = cliMock.mock.calls[0]
-    expect(agentName).toBe('mockup-critic')
-    expect(systemPrompt).toBe('sys')
-    expect(prompt).toContain(NO_IMAGE_NOTICE)
-    expect(prompt).toContain('## Brief')
-    // No base64 payload smuggled into the text prompt.
-    expect(prompt).not.toContain('base64')
-    expect(opts.model).toBe('claude-haiku-4-5') // mockup-critic's prod tier (floors-check, not taste)
+    it('writes each image to a temp file, lists the paths, and lets Read reach that directory only', async () => {
+      let seenAtCall = null
+      cliMock.mockImplementation(async (_agent, _sys, prompt, opts) => {
+        const files = [...prompt.matchAll(/\[Image \d: ([^\]]+)\]/g)].map((m) => m[1])
+        seenAtCall = { files, bytes: files.map((f) => readFileSync(f)), opts }
+        return 'cli vision text'
+      })
+      const channels = []
+
+      const result = await callVisionAgent({
+        agentName: 'mockup-critic',
+        systemPrompt: 'sys',
+        contentBlocks: TWO_IMAGES,
+        purpose: 'first',
+        timeoutMs: 600000,
+        stallTimeoutMs: 300000,
+        onChannel: (c) => channels.push(c),
+      })
+
+      expect(result).toBe('cli vision text')
+      expect(sdkMock).not.toHaveBeenCalled()
+      expect(channels).toEqual(['cli-vision'])
+      const { files, bytes, opts } = seenAtCall
+      expect(files.map((f) => path.basename(f))).toEqual(['image-1.jpg', 'image-2.png'])
+      expect(bytes).toEqual([JPG, PNG])
+      expect(files.every((f) => path.dirname(f) === opts.readableDir)).toBe(true)
+      expect(opts).toMatchObject({
+        channel: 'cli-vision',
+        maxTurns: 4,
+        model: 'claude-opus-5-5',
+        purpose: 'first',
+        timeoutMs: 600000,
+        stallTimeoutMs: 300000,
+      })
+      const [, , prompt] = cliMock.mock.calls[0]
+      expect(prompt).not.toContain(NO_IMAGE_NOTICE)
+      expect(prompt).not.toContain(JPG.toString('base64'))
+      // Cleaned up after the call.
+      expect(existsSync(opts.readableDir)).toBe(false)
+    })
+
+    it('removes the temp directory when the CLI call fails', async () => {
+      let dir = null
+      cliMock.mockImplementation(async (_a, _s, _p, opts) => {
+        dir = opts.readableDir
+        throw new Error('claude exited with code 1')
+      })
+
+      await expect(
+        callVisionAgent({
+          agentName: 'screenshot-critic',
+          systemPrompt: 'sys',
+          contentBlocks: BLOCKS,
+        })
+      ).rejects.toThrow(/exited with code 1/)
+      expect(dir).toBeTruthy()
+      expect(existsSync(dir)).toBe(false)
+    })
+
+    it('goes text-only with the notice when the temp files cannot be written', async () => {
+      vi.stubEnv('TMPDIR', '/nonexistent-vision-router-test')
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      cliMock.mockResolvedValue('cli text')
+      const channels = []
+
+      await callVisionAgent({
+        agentName: 'mockup-critic',
+        systemPrompt: 'sys',
+        contentBlocks: BLOCKS,
+        onChannel: (c) => channels.push(c),
+      })
+
+      expect(channels).toEqual(['cli-text-no-key'])
+      const [, , prompt, opts] = cliMock.mock.calls[0]
+      expect(prompt).toContain(NO_IMAGE_NOTICE)
+      expect(prompt).toContain('## Brief')
+      expect(prompt).not.toContain('base64')
+      expect(opts.readableDir).toBeUndefined()
+      expect(opts.channel).toBe('cli')
+      warn.mockRestore()
+    })
   })
 
   it('uses the CLI when there are no images even with an API key', async () => {

@@ -579,6 +579,13 @@ describe('runScreenshotCritic', () => {
     expect(await ask()).toMatchObject({ verdict: 'REVISE', visionChannel: 'sdk-vision' })
   })
 
+  // Spec 11 1d: a keyless run reads the screenshots from disk, so it saw them.
+  it('keeps a verdict from a keyless critic that read the screenshots from disk', async () => {
+    answerOn('cli-vision', '===VERDICT===\nREVISE\n===END===')
+
+    expect(await ask()).toMatchObject({ verdict: 'REVISE', visionChannel: 'cli-vision' })
+  })
+
   it('says UNVERIFIED for a truncated reply, with the reason and no BAR (#570)', async () => {
     const reason =
       '[screenshot-critic] response truncated at max_tokens (6000 output tokens, cap 6000)'
@@ -770,6 +777,18 @@ describe('recordFinalJudgment', () => {
     )
   })
 
+  it('records a final REVISE from the cli-vision channel as a seen fault (spec 11 1d)', () => {
+    const verdicts = []
+
+    expect(recordFinalJudgment(verdicts, judged('REVISE', 'cli-vision', 'still wrong'), '')).toBe(
+      'REVISE'
+    )
+    expect(verdicts.map((v) => [v.critic, v.verdict])).toEqual([
+      ['screenshot-critic', 'REVISE'],
+      ['ship-gate', 'SHIPPED-WITH-FAULTS'],
+    ])
+  })
+
   it('leaves the blank out of the ship-gate feedback when the second measurement was clean', () => {
     const verdicts = []
 
@@ -790,7 +809,7 @@ describe('recordFinalJudgment', () => {
       expect(verdicts).toHaveLength(1)
       expect(verdicts[0]).toMatchObject({ verdict: 'UNVERIFIED', channel, round: 'final' })
       expect(console.warn).toHaveBeenCalledWith(
-        `  [screenshot-critic] final re-judge did not reach the SDK vision channel (${channel}) — recording UNVERIFIED instead of a faults verdict`
+        `  [screenshot-critic] final re-judge did not reach a vision channel (${channel}) — recording UNVERIFIED instead of a faults verdict`
       )
     }
   )

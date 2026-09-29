@@ -150,14 +150,14 @@ export function buildShippedWithFaultsSection(entries) {
 }
 
 /**
- * Human-readable reason for each channel a final re-judge can land on other
- * than `sdk-vision` (#486). Keyed by the `channel` vision-router.js reports
- * through `onChannel`.
+ * Human-readable reason for each channel a final re-judge can land on that
+ * did not carry the images (#486; `sdk-vision` and `cli-vision` did). Keyed by
+ * the `channel` vision-router.js reports through `onChannel`.
  */
 const UNVERIFIED_CHANNEL_REASONS = {
   'sdk-vision-truncated': 'its reply was cut off at the output cap',
   'cli-text-fallback': 'the vision call failed and the text-only fallback never saw it',
-  'cli-text-no-key': 'no API key was available for image input',
+  'cli-text-no-key': 'no API key, and the screenshots could not be written for the CLI to read',
   'cli-text-no-images': 'no screenshot reached the critic',
   'fixture-replay': 'a recorded fixture answered instead of a live critique',
   'call-failed': 'the critic could not be reached on any channel',

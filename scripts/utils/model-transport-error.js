@@ -19,7 +19,7 @@ export class ModelTransportError extends Error {
   /**
    * @param {object} opts
    * @param {string} opts.agent - agent name (e.g. 'art-director')
-   * @param {'cli'|'sdk-vision'|'cli-text-fallback'} opts.channel - which call path produced no reply
+   * @param {'cli'|'sdk-vision'|'cli-text-fallback'|'cli-vision'} opts.channel - which call path produced no reply
    * @param {number|null} [opts.exitCode] - process exit code; null when not a CLI call, or killed by signal
    * @param {string} [opts.stderrTail] - last 500 chars of stderr; '' when there was none
    * @param {boolean} [opts.emptyReply] - true when the call completed but returned no text
