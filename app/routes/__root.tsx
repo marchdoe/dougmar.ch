@@ -35,7 +35,7 @@ import type { ReactNode } from 'react'
 const archiveLink = css({
   display: 'block',
   background: 'bg',
-  color: 'textFaint',
+  color: 'textMuted',
   fontSize: 'xs',
   letterSpacing: '0.08em',
   textAlign: 'center',
@@ -57,17 +57,17 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Buildable before the first line of code. Faithful after the last.' },
+      { title: 'What do we live for, if it is not to make life less difficult for each other?' },
       {
         property: 'og:title',
-        content: 'Buildable before the first line of code. Faithful after the last.',
+        content: 'What do we live for, if it is not to make life less difficult for each other?',
       },
       {
         property: 'og:description',
         content:
-          'Drafting-sheet split: BUILDABLE stamped in outlined signage caps on an indigo field, the shipped work cataloged on warm vellum opposite, the original mark in its own title block.',
+          "Soft sage light-ground gallery: George Eliot's question set low and quiet in Source Serif, ink on a pale green wall, the green-and-blue mark finally reading in full in the corner.",
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-28.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-29.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
@@ -75,16 +75,16 @@ export const Route = createRootRoute({
       { name: 'twitter:card', content: 'summary_large_image' },
       {
         name: 'twitter:title',
-        content: 'Buildable before the first line of code. Faithful after the last.',
+        content: 'What do we live for, if it is not to make life less difficult for each other?',
       },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-28.png' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-29.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;700;900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -253,7 +253,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 149 designs
+            Archive · 150 designs
           </a>
         )}
         <ScrollRestoration />

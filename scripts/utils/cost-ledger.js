@@ -38,6 +38,8 @@ const CACHE_WRITE_MULTIPLIER = 1.25
  *
  *   first        the agent's first answer to its task
  *   retry        the same task asked again after the first answer failed
+ *   block-retry  the Art Director asked for only the blocks of its reply that
+ *                failed, spliced back into that reply (ad-block-splice.js)
  *   revision     the engineer or the designer answering a critic's feedback
  *   repair       the engineer answering a build failure
  *   output-patch the engineer answering an incomplete or posture-breaking reply
@@ -48,6 +50,7 @@ const CACHE_WRITE_MULTIPLIER = 1.25
 export const PURPOSES = Object.freeze([
   'first',
   'retry',
+  'block-retry',
   'revision',
   'repair',
   'output-patch',

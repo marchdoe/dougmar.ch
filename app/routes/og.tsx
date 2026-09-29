@@ -1,18 +1,18 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { css } from '../../styled-system/css'
 import { BrandLockup } from '../components/BrandLockup'
+import { identity } from '../content/about'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
 function OgCard() {
   return (
     <div
-      data-folded-shell=""
       className={css({
         position: 'fixed',
         inset: '0',
         zIndex: 9999,
-        bg: 'field',
+        bg: 'bg',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -24,55 +24,66 @@ function OgCard() {
           width: '1200px',
           height: '630px',
           flexShrink: 0,
-          boxSizing: 'border-box',
-          bg: 'field',
-          color: 'fieldInk',
+          bg: 'bg',
+          display: 'flex',
+          flexDirection: 'column',
+          fontFamily: 'body',
         })}
       >
+        <div className={css({ position: 'absolute', top: '56px', left: '64px' })}>
+          <BrandLockup variant="mark-only-md" mode="original" />
+        </div>
         <div
           className={css({
-            position: 'absolute',
-            top: '72px',
-            left: '80px',
-            bg: 'surface',
-            color: 'text',
-            borderRadius: 'sm',
-            borderWidth: '1px',
-            borderStyle: 'solid',
-            borderColor: 'border',
-            paddingBlock: '16px',
-            paddingInline: '18px',
+            flex: '1',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            paddingTop: '120px',
+            paddingBottom: '40px',
+            paddingInline: '120px',
           })}
         >
-          <BrandLockup variant="horizontal-md" mode="original" roleLine />
-        </div>
-        <h1
-          className={css({
-            position: 'absolute',
-            left: '80px',
-            right: '80px',
-            bottom: '72px',
-            margin: '0',
-            fontFamily: 'display',
-            fontWeight: 'bold',
-            textTransform: 'uppercase',
-            fontSize: '68px',
-            lineHeight: '0.95',
-            letterSpacing: '0.01em',
-            color: 'fieldInk',
-            maxWidth: '1000px',
-          })}
-        >
-          <span
+          <h1
             className={css({
-              color: 'transparent',
-              WebkitTextStroke: '2px token(colors.fieldInk)',
+              fontFamily: 'display',
+              fontSize: '58px',
+              lineHeight: '1.16',
+              fontWeight: 'normal',
+              textTransform: 'lowercase',
+              textAlign: 'center',
+              maxWidth: '900px',
+              color: 'text',
             })}
           >
-            Buildable
-          </span>{' '}
-          before the first line of code. Faithful after the last.
-        </h1>
+            What do we live for, if it is not to make life less difficult for each other?
+          </h1>
+          <p
+            className={css({
+              marginTop: '4',
+              fontSize: '18px',
+              letterSpacing: 'wide',
+              textTransform: 'lowercase',
+              color: 'textMuted',
+            })}
+          >
+            George Eliot
+          </p>
+        </div>
+        <div
+          className={css({
+            height: '120px',
+            bg: 'field',
+            color: 'fieldInk',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '20px',
+          })}
+        >
+          {identity.name}
+        </div>
       </div>
     </div>
   )
