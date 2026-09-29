@@ -69,6 +69,23 @@ describe('namesHero / heroBelowFold', () => {
     expect(heroBelowFold('the hero under the fold so the date leads')).toBe(true)
     expect(heroBelowFold('the hero at the top')).toBe(false)
   })
+
+  it('does not let a multi-sentence hero and a later, unrelated "fold" read as below the fold (#684)', () => {
+    const hero = 'Twenty-six under. Two shots clear.'
+    const fold =
+      'The mark, then "Twenty-six under. Two shots clear." at hero step, ' +
+      'then the fold closes on the ledger.'
+    expect(namesHero(fold, hero)).toBe(true)
+    expect(heroBelowFold(fold)).toBe(false)
+  })
+
+  it('still reads below-the-fold across clauses within one sentence, single- or multi-sentence hero', () => {
+    const singleSentenceHero = 'Select a busy man.'
+    const fold =
+      'The score and the date lead; the hero, "Select a busy man.", sits below the fold so the win lands first.'
+    expect(namesHero(fold, singleSentenceHero)).toBe(true)
+    expect(heroBelowFold(fold)).toBe(true)
+  })
 })
 
 describe('COLLAPSE_RULES / hadRail', () => {
