@@ -20,11 +20,14 @@
  * over the text's box (09-18's ruled lines were a `position: absolute` div
  * beside the copy, not an ancestor of it) makes the ratio a guess. The text is
  * reported as `contrast-unresolved` (a warning, naming what is behind it) and
- * no ratio is produced.
+ * no ratio is produced here. The pixel probe (`pixel-contrast.js`, spec 11
+ * 1c) then measures it against a screenshot of its ground; a text it probed
+ * drops the warning, and one it could not probe keeps it.
  *
  * Large text (24px, or 18.66px and bold; WCAG's 18pt and 14pt) is not
  * measured. The issue asks for text under 24px, and a display line set in a
- * quiet colour is a design decision the critics read.
+ * quiet colour is a design decision the critics read. The pixel probe does
+ * hold large text to 3:1, but only over a ground this walk cannot resolve.
  *
  * @module
  */
@@ -162,7 +165,7 @@ export function measureCandidate(c) {
 const shown = (ratio) => (Math.floor(ratio * 100) / 100).toFixed(2)
 
 function describeText(c) {
-  const bold = c.weight >= BOLD_WEIGHT ? ' bold' : ''
+  const bold = `${c.weight >= BOLD_WEIGHT ? ' bold' : ''}${c.outlined ? ' outlined' : ''}`
   const times = c.count > 1 ? ` (x${c.count})` : ''
   return `<${c.selector}> "${c.text}"${times} at ${c.sizePx}px${bold}`
 }
@@ -201,21 +204,31 @@ function unresolvedFinding(c, owner) {
   }
 }
 
+/** The walk's candidates, less the unresolved ones measured in pixels instead (pixel-contrast.js, spec 11 1c). */
+function unprobedCandidates(m) {
+  const probed = new Set(m.pixelContrast?.probed ?? [])
+  return (m.textContrast?.candidates ?? []).filter(
+    (c) => !(c.unresolved && probed.has(`${c.selector}|${c.unresolved}`))
+  )
+}
+
 /**
  * The text-contrast findings for one measurement. Distinct by kind, element
  * chain and colour pair; the run-wide cap is {@link collapseTextContrast}'s.
  *
  * A candidate inside an orchestrator-owned part is owned by 'human', the
  * owner the gate already uses for what no agent can edit. Everything else
- * takes the owner of the route.
+ * takes the owner of the route. An unresolved candidate the pixel probe
+ * measured (`m.pixelContrast.probed`) is left to its findings.
  *
- * @param {{ textContrast?: { candidates: Array<object> } }} m raw measurement
+ * @param {{ textContrast?: { candidates: Array<object> },
+ *   pixelContrast?: { probed: string[] } }} m raw measurement
  * @param {'react-engineer'|'human'} surfaceOwner
  * @returns {Array<object>}
  */
 export function textContrastFindings(m, surfaceOwner) {
   const byKey = new Map()
-  for (const c of m.textContrast?.candidates ?? []) {
+  for (const c of unprobedCandidates(m)) {
     const owner = c.part ? 'human' : surfaceOwner
     const measured = measureCandidate(c)
     if (!measured) {

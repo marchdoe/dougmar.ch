@@ -7,6 +7,7 @@
 import { describeGateErrors, recordGateFailure } from '../utils/gate-outcome.js'
 import { mockupDriftRecord } from '../utils/mockup-advisory.js'
 import { blockingFaults, driftedVerdict } from '../utils/mockup-drift-gate.js'
+import { legibilityFaults } from '../utils/pixel-contrast.js'
 import { snapshotPassingState } from './engineer-tools.js'
 import { archiveFailedSources } from './run-state.js'
 import { feedbackFor, runRevisionRounds } from './revision-rounds.js'
@@ -315,7 +316,8 @@ async function runScreenshotCriticGate(state) {
  * failure does, so the failure issue carries the faults and the handoff
  * a resume can start from (#578). A run that could not measure at all
  * still ships: that is a tooling failure, and the e2e gate is its
- * backstop.
+ * backstop. Under SHIP_GATE=lenient the faults ship with the record saying
+ * so, except a legibility fault (spec 11), which refuses as above.
  *
  * @param {import('./run-state.js').RunState} state
  * @param {{ remainingFaults: Array<object>, measured: boolean, rounds: number }} decision
@@ -344,7 +346,11 @@ async function refuseKnownFaults(state, decision) {
   // (#633): the rounds run, and what they leave ships with the record
   // saying so, until the first pass measures few enough errors for the
   // loop to clear (#634). Unset, the gate refuses as #626 intended.
-  if (process.env.SHIP_GATE === 'lenient') {
+  // Spec 11 (docs/specs/11-taste-and-cost.md, 1c): text that fails the pixel
+  // contrast probe after the last round is the one fault lenient does not
+  // wave through. Hard-to-read copy shipped on 2026-09-28 under this gate.
+  const illegible = legibilityFaults(remainingFaults)
+  if (process.env.SHIP_GATE === 'lenient' && illegible.length === 0) {
     console.warn(
       `  [ship-gate] ${remainingFaults.length} engineer-owned fault(s) remain after ${rounds} revision round(s) — SHIP_GATE=lenient, shipping with the faults logged (#633)`
     )
@@ -357,7 +363,7 @@ async function refuseKnownFaults(state, decision) {
     return
   }
   console.error(
-    `  [ship-gate] ${remainingFaults.length} engineer-owned fault(s) remain after ${rounds} revision round(s) — refusing to ship`
+    `  [ship-gate] ${remainingFaults.length} engineer-owned fault(s) remain after ${rounds} revision round(s)${illegible.length ? `, ${illegible.length} of them legibility (spec 11 overrides SHIP_GATE=lenient)` : ''} — refusing to ship`
   )
   await archiveFailedSources(state)
   throw new Error(

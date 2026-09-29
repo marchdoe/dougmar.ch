@@ -37,6 +37,7 @@ import {
   collectInvisibleText,
   collectStrandedText,
 } from './render-health-page.js'
+import { probePixelContrast } from './pixel-contrast-page.js'
 import { collectTextContrast, REVEAL_SETTLE_MS, withRevealedPage } from './text-contrast-page.js'
 import { ownerNote } from './text-contrast.js'
 
@@ -303,11 +304,13 @@ export async function measureStranded(browser, url) {
  * the reduced-motion visit on its own page, then the text-contrast walk and
  * the invisible-text probe with the viewport sized to the document, so both
  * see the page after the scroll reveal. Last, because that resize changes
- * the height `vh` resolves against.
+ * the height `vh` resolves against. The pixel contrast probe (spec 11, 1c)
+ * runs last in the same revealed state, on the texts the walk could not
+ * resolve.
  *
  * @param {{ browser: import('playwright').Browser, page: import('playwright').Page,
  *   viewport: { name: string }, scheme: string }} args
- * @returns {Promise<{ textContrast: object, renderHealth: object }>}
+ * @returns {Promise<{ textContrast: object, pixelContrast: object, renderHealth: object }>}
  */
 export async function measureRenderHealth({ browser, page, viewport, scheme }) {
   const seen = await collectBrokenWords(page)
@@ -316,9 +319,12 @@ export async function measureRenderHealth({ browser, page, viewport, scheme }) {
   const revealed = await withRevealedPage(page, async () => ({
     textContrast: await collectTextContrast(page),
     invisible: await collectInvisibleText(page),
+    // Last: it marks one text at a time and screenshots its box (spec 11, 1c).
+    pixelContrast: await probePixelContrast(page),
   }))
   return {
     textContrast: revealed.textContrast,
+    pixelContrast: revealed.pixelContrast,
     renderHealth: {
       designDate: seen.designDate,
       words: seen.words,

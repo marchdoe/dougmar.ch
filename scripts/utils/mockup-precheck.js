@@ -15,6 +15,9 @@
  * The critic keeps what a measurement cannot see (since spec 11's 1d:
  * freshness, legibility, hierarchy, the hero in the first fold, copy
  * against the work records, and the header's shape, footer and ground).
+ * Text that fails the pixel contrast probe (pixel-contrast.js, spec 11 1c)
+ * is a finding here too: a line drawn through the glyphs is measured, and
+ * the critic's legibility judgment keeps what a measurement cannot read.
  *
  * Three parts:
  *
@@ -31,6 +34,7 @@
  */
 
 import { heroPxAt } from './mockup-rounds.js'
+import { describeLegibility, failingProbes, LEGIBILITY_FIX } from './pixel-contrast.js'
 
 /** A measured floor missed by more than this many points is a fault; the critic's own margin. */
 export const FLOOR_MARGIN_POINTS = 5
@@ -395,7 +399,37 @@ function cutTextRule({ narrow }) {
   )
 }
 
-/** Every rule, in the order the findings are listed: check 2, check 4, check 6. */
+/**
+ * Text over ruled lines, an image or a painted layer that does not reach its
+ * floor along a pixel row through its glyphs (pixel-contrast.js, spec 11
+ * 1c), at 1440 and on the phone. Filed as check 5: the number is only a
+ * label in the designer's brief, and it is the one the other measured checks
+ * (2, 4 and 6) leave free.
+ */
+function legibilityRule({ wide, narrow }) {
+  const failing = [
+    ...failingProbes(wide?.pixelContrast).map((f) => ({ ...f, at: wide.width })),
+    ...failingProbes(narrow?.pixelContrast).map((f) => ({ ...f, at: narrow.width })),
+  ]
+  if (!failing.length) return null
+  const gapOf = ({ measured }) => measured.threshold - measured.ratio
+  failing.sort((a, b) => gapOf(b) - gapOf(a))
+  const seen = new Set()
+  const listed = failing.filter(
+    ({ probe }) => !seen.has(probe.selector) && seen.add(probe.selector)
+  )
+  const lines = listed
+    .slice(0, MAX_CUT_TEXTS)
+    .map((f) => `At ${f.at}px, ${describeLegibility(f.probe, f.measured)}`)
+  return finding(
+    5,
+    'legibility',
+    Math.round(gapOf(failing[0]) * 100) / 100,
+    `Legibility: ${lines.join(' ')} ${LEGIBILITY_FIX}`
+  )
+}
+
+/** Every rule, in the order the findings are listed: check 2, check 4, check 6, then legibility. */
 const RULES = [
   floorRule(
     'canvas',
@@ -420,6 +454,7 @@ const RULES = [
   phoneMarkRule,
   overflowRule,
   cutTextRule,
+  legibilityRule,
 ]
 
 /**

@@ -48,6 +48,7 @@ import { formatMockupAdvisory, isMockupAdvisory } from './mockup-advisory.js'
 import { withDriftSeverity } from './mockup-drift-gate.js'
 import { compareMockupLayout, readPageLayout } from './mockup-fidelity.js'
 import { collapseLineLength, lineLengthFindings } from './line-length.js'
+import { collapseLegibility, legibilityFindings } from './pixel-contrast.js'
 import { TAP_TARGET_MIN_PX } from './responsive-thresholds.js'
 import { collapseRenderHealth, measureRenderHealth, renderHealthFindings } from './render-health.js'
 import { measureShellOverlap, shellOverlapFindings } from './shell-overlap.js'
@@ -277,6 +278,10 @@ export function evaluateMeasurement(
   // Text under 4.5:1 against the ground it sits on, and text over a ground
   // that cannot be measured (#566). Owner-aware: see text-contrast.js.
   findings.push(...textContrastFindings(m, ownerForSurface(m.route)))
+  // Those grounds measured in pixels: the text against each pixel row
+  // through its glyphs (spec 11, 1c). The one fault the lenient ship gate
+  // refuses on.
+  findings.push(...legibilityFindings(m, ownerForSurface(m.route)))
   // Running copy and any visible text under the type-size floors (#567).
   findings.push(...smallTextFindings(m, ownerForSurface(m.route)))
   // A word broken across lines, text painted in nothing, text left at opacity 0
@@ -1058,9 +1063,10 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
       visibleCopy = await readRenderedCopy(page)
     }
     // Text contrast, the type-size floors and render health, at the phone and
-    // desktop rungs in both schemes (#566, #567, #574). Last, because it resizes
-    // the viewport to reveal what fades in on scroll.
-    const { textContrast, renderHealth } = await measureRenderHealth({
+    // desktop rungs in both schemes (#566, #567, #574), and the pixel probe on
+    // the texts over a ground the CSS cannot resolve (spec 11, 1c). Last,
+    // because it resizes the viewport to reveal what fades in on scroll.
+    const { textContrast, pixelContrast, renderHealth } = await measureRenderHealth({
       browser,
       page,
       viewport,
@@ -1076,6 +1082,7 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
       shellOverlap,
       brand,
       textContrast,
+      pixelContrast,
       renderHealth,
       lineLength,
       textDensity,
@@ -1234,12 +1241,15 @@ export async function runSurfaceGate({
         if (browser) await browser.close()
       }
       // The same label on the same colours turns up on every route that
-      // renders it; fold those into one finding and cap the rest (#566, #567, #574, #569).
+      // renders it; fold those into one finding and cap the rest (#566, #567, #574, #569,
+      // spec 11 1c).
       // Drift errors (mockup-drift-gate.js) join the findings so they force
       // a revision; the rest of the comparison stays in `mockupFindings`.
       const folded = [
-        ...collapseLineLength(
-          collapseRenderHealth(collapseSmallText(collapseTextContrast(findings)))
+        ...collapseLegibility(
+          collapseLineLength(
+            collapseRenderHealth(collapseSmallText(collapseTextContrast(findings)))
+          )
         ),
         ...(mockupFindings ?? []).filter((f) => f.severity === 'error'),
       ]

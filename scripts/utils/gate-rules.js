@@ -44,6 +44,13 @@ import {
   SMALL_COPY_FLOOR_PX,
   SMALL_TEXT_FLOOR_PX,
 } from './responsive-thresholds.js'
+import {
+  LEGIBILITY_FIX,
+  LEGIBILITY_KIND,
+  LEGIBILITY_LARGE_MIN,
+  LEGIBILITY_MIN,
+  ROW_FRACTION,
+} from './pixel-contrast.js'
 import { SEMANTIC_COLOR_NAMES } from './semantic-contract.js'
 import { SHELL_OVERLAP_FIX, SHELL_OVERLAP_MIN_OPACITY } from './shell-overlap.js'
 import { SMALL_COPY_FIX, SMALL_TEXT_FIX } from './small-text.js'
@@ -346,7 +353,20 @@ export function collectSurfaceRules() {
         `it renders over forces a revision, and under ${TEXT_CONTRAST_WARN_BELOW}:1 is a ` +
         `warning. ${CONTRAST_FIX} \`text\` clears 4.5:1 on \`bg\`, \`bgAlt\` and \`surface\`; ` +
         'check any other ink or the accent before setting small type in it. Text over an image, ' +
-        `a gradient, ruled lines or a painting layer is not measured. ${UNRESOLVED_FIX}`,
+        `a gradient, ruled lines or a painting layer is measured in pixels instead (the next line). ${UNRESOLVED_FIX}`,
+    },
+    {
+      gate: 'legibility',
+      kinds: [LEGIBILITY_KIND],
+      rule:
+        `At ${both} in both colour schemes, text over an image, a gradient, ruled lines or a ` +
+        'painting layer is screenshotted with the text hidden, and its colour must reach ' +
+        `${LEGIBILITY_MIN}:1 (${LEGIBILITY_LARGE_MIN}:1 at ${LARGE_TEXT_PX}px, or ` +
+        `${LARGE_BOLD_TEXT_PX}px bold) along every pixel row through its glyphs: a row under ` +
+        `that across ${ROW_FRACTION * 100}% or more of the line fails, which is a line or edge ` +
+        'drawn through the text. Outlined text is measured in its stroke colour; aria-hidden ' +
+        'text is skipped. A miss forces a revision and, left after the last round, stops the ' +
+        `night shipping. ${LEGIBILITY_FIX}`,
     },
     {
       gate: 'invisible-text',

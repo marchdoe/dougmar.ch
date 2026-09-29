@@ -1566,6 +1566,38 @@ describe('known faults never ship (#625)', () => {
     }
   })
 
+  it('refuses a legibility fault even when SHIP_GATE=lenient (spec 11, 1c)', async () => {
+    const illegible = {
+      surface: '/',
+      viewport: 'mobile',
+      width: 360,
+      scheme: 'light',
+      kind: 'legibility',
+      severity: 'error',
+      owner: 'react-engineer',
+      detail: '<div > span.label> "SHEET 01" at 12px over div.rules: is 1.83:1, under 4.5:1.',
+    }
+    const faulty = { findings: [OVERFLOW_AT_390, illegible], measured: 8, errorCount: 2 }
+    const before = process.env.SHIP_GATE
+    process.env.SHIP_GATE = 'lenient'
+    try {
+      const run = await runSwarm({
+        gate: [faulty, faulty, faulty, faulty],
+        agents: { 'react-engineer': engineer(3) },
+      })
+
+      expect(run.error).not.toBeNull()
+      expect(run.error.message).toMatch(
+        /^Refusing to ship: 2 engineer-owned fault\(s\) remain after 3 revision round\(s\)/
+      )
+      expect(run.error.message).toContain('SHEET 01')
+      expect(run.fakes.archive).toHaveLength(0)
+    } finally {
+      if (before === undefined) delete process.env.SHIP_GATE
+      else process.env.SHIP_GATE = before
+    }
+  })
+
   it('ships, and says so, when the gate cannot measure a rebuilt round (#631 review)', async () => {
     const run = await runSwarm({
       gate: [FAULTY, new Error('playwright fell over in round 2')],

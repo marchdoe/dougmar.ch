@@ -17,6 +17,8 @@
  * `visibility: hidden`, `opacity: 0` on the element or any ancestor, parked
  * off the top or left edge, clipped to a pixel (the visually-hidden pattern),
  * fully transparent, inside inline svg. Large text is counted, not measured.
+ * Outlined text (a transparent fill and a -webkit-text-stroke) is measured in
+ * its stroke colour (spec 11, 1c).
  *
  * The same walk also hands back the elements under the type-size floors
  * (`small-text-page.js`, #567), because it is the one place the page is read
@@ -297,6 +299,20 @@ function pageOverlayOver(el, kit) {
   return hit ? hit.label : null
 }
 
+/**
+ * The colour the glyphs are drawn in: the fill, or, for outlined text (a
+ * transparent fill with a -webkit-text-stroke), the stroke. 2026-09-28 set
+ * its hero word as a white outline over ruled lines, and the walk skipped it
+ * as painted in nothing (spec 11, 1c). Null when neither paints.
+ */
+function pageInkOf(cs, kit) {
+  const fill = kit.parseColor(cs.webkitTextFillColor) ?? kit.parseColor(cs.color)
+  if (fill && fill.a > 0) return { fg: fill, outlined: false }
+  if (!(Number.parseFloat(cs.webkitTextStrokeWidth || '0') > 0)) return null
+  const stroke = kit.parseColor(cs.webkitTextStrokeColor)
+  return stroke && stroke.a > 0 ? { fg: stroke, outlined: true } : null
+}
+
 /** The element's text, ink and computed style when there is small visible text to measure. */
 function pageInspect(el, kit) {
   const skipped = ['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE', 'TITLE', 'HEAD', 'OPTION']
@@ -305,8 +321,8 @@ function pageInspect(el, kit) {
   if (!text) return null
   const cs = getComputedStyle(el)
   if (!kit.isVisible(el, cs)) return null
-  const fg = kit.parseColor(cs.webkitTextFillColor) ?? kit.parseColor(cs.color)
-  return fg && fg.a > 0 ? { el, cs, text, fg } : null
+  const ink = kit.inkOf(cs)
+  return ink ? { el, cs, text, ...ink } : null
 }
 
 function pageIsLarge(cs, kit) {
@@ -317,7 +333,7 @@ function pageIsLarge(cs, kit) {
 }
 
 function pageBuildCandidate(seen, kit) {
-  const { el, cs, text, fg } = seen
+  const { el, cs, text, fg, outlined } = seen
   const walked = kit.walkLayers(el, cs)
   return {
     selector: kit.selector(el),
@@ -328,6 +344,7 @@ function pageBuildCandidate(seen, kit) {
     layers: walked.layers,
     unresolved: walked.unresolved ?? kit.overlayOver(el),
     part: kit.partOf(el),
+    outlined,
     count: 1,
   }
 }
@@ -378,6 +395,7 @@ export const TEXT_CONTRAST_PAGE_FUNCTIONS = {
   textBox: pageTextBox,
   overlapShare: pageOverlapShare,
   overlayOver: pageOverlayOver,
+  inkOf: pageInkOf,
   inspect: pageInspect,
   isLarge: pageIsLarge,
   buildCandidate: pageBuildCandidate,
