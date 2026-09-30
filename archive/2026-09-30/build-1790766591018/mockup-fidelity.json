@@ -1,0 +1,283 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the whole practice one craft - brand product and production code solo or embedded in a team' (34px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the whole practice one craft - brand product and production code solo or embedded in a team",
+            "mockupPx": 34,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a ten-year studio built on a single premise design and engineering are one craft not two departments - worked sometimes as a solo contributor sometimes embedded in a larger team the roster below reads across the whole practice' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a ten-year studio built on a single premise design and engineering are one craft not two departments - worked sometimes as a solo contributor sometimes embedded in a larger team the roster below reads across the whole practice",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "mockup's largest ('spaceman', 152px) leads its runner-up ('design and engineering as one job not two teams passing files', 62px) by 2.5x; in the build the same two lead by only 1.0x",
+          "facts": {
+            "shape": "flattened",
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 152,
+              "buildPx": 128
+            },
+            "runnerUp": {
+              "text": "design and engineering as one job not two teams passing files",
+              "mockupPx": 62,
+              "buildPx": 128
+            },
+            "mockupGap": 2.5,
+            "buildGap": 1,
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'design and engineering as one job not two teams passing f...' is 62px in the mockup and 128px in the build (2.06x). Set it back to 62px.",
+          "facts": {
+            "text": "design and engineering as one job not two teams passing files",
+            "mockupPx": 62,
+            "buildPx": 128,
+            "ratio": 2.06,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'visit the studio ↗' moved from (1291, 813) in the mockup to (1279, 1141) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'a ten-year studio built on a single premise design and engineering are one craft not two departments - worked sometimes as a solo contributor sometimes embedded in a larger team the roster below reads across the whole practice' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a ten-year studio built on a single premise design and engineering are one craft not two departments - worked sometimes as a solo contributor sometimes embedded in a larger team the roster below reads across the whole practice",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets 'spaceman' at 152px over 'design and engineering as one job not two teams passing f...' at 62px, a 2.5x lead; the build sets them at 128px and 128px. Restore the mockup's sizes so 'spaceman' leads.",
+        "- / at 1440px: The mockup sets 'the whole practice one craft - brand product and producti...' at 34px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'a ten-year studio built on a single premise design and en...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'a ten-year studio built on a single premise design and en...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the whole practice one craft - brand product and production code solo or embedded in a team' (34px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the whole practice one craft - brand product and production code solo or embedded in a team",
+            "mockupPx": 34,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a ten-year studio built on a single premise design and engineering are one craft not two departments - worked sometimes as a solo contributor sometimes embedded in a larger team the roster below reads across the whole practice' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a ten-year studio built on a single premise design and engineering are one craft not two departments - worked sometimes as a solo contributor sometimes embedded in a larger team the roster below reads across the whole practice",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'a ten-year studio built on a single premise design and engineering are one craft not two departments - worked sometimes as a solo contributor sometimes embedded in a larger team the roster below reads across the whole practice' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a ten-year studio built on a single premise design and engineering are one craft not two departments - worked sometimes as a solo contributor sometimes embedded in a larger team the roster below reads across the whole practice",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'spaceman' (72px); in build it is 'spaceman' (64px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "design and engineering as one job not two teams passing files",
+                "mockupPx": 34
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 72
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 64,
+              "mockupPx": 72
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: 'spaceman' still leads, but the mockup's 'design and engineering as one job not two teams passing f...' (34px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'the whole practice one craft - brand product and producti...' at 34px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'a ten-year studio built on a single premise design and en...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'a ten-year studio built on a single premise design and en...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the whole practice one craft - brand product and production code solo or embedded in a team' (34px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the whole practice one craft - brand product and production code solo or embedded in a team",
+            "mockupPx": 34,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a ten-year studio built on a single premise design and engineering are one craft not two departments - worked sometimes as a solo contributor sometimes embedded in a larger team the roster below reads across the whole practice' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a ten-year studio built on a single premise design and engineering are one craft not two departments - worked sometimes as a solo contributor sometimes embedded in a larger team the roster below reads across the whole practice",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'a ten-year studio built on a single premise design and engineering are one craft not two departments - worked sometimes as a solo contributor sometimes embedded in a larger team the roster below reads across the whole practice' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a ten-year studio built on a single premise design and engineering are one craft not two departments - worked sometimes as a solo contributor sometimes embedded in a larger team the roster below reads across the whole practice",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'spaceman' (72px); in build it is 'spaceman' (64px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "design and engineering as one job not two teams passing files",
+                "mockupPx": 34
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 72
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 64,
+              "mockupPx": 72
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: 'spaceman' still leads, but the mockup's 'design and engineering as one job not two teams passing f...' (34px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'the whole practice one craft - brand product and producti...' at 34px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'a ten-year studio built on a single premise design and en...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'a ten-year studio built on a single premise design and en...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

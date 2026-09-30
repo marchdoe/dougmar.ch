@@ -1,0 +1,97 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_30% z_0 pointer-events_none anim_drift_40s_cubic-bezier(0.65,_0,_0.35,_1)_infinite_alternate",
+            "b": "DIV.pos_relative z_1 flex_1 d_flex flex-d_column rg_5 lg:rg_6"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "tablet": {
+      "width": 820,
+      "height": 1180,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_30% z_0 pointer-events_none anim_drift_40s_cubic-bezier(0.65,_0,_0.35,_1)_infinite_alternate",
+            "b": "DIV.pos_relative z_1 flex_1 d_flex flex-d_column rg_5 lg:rg_6"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_30% z_0 pointer-events_none anim_drift_40s_cubic-bezier(0.65,_0,_0.35,_1)_infinite_alternate",
+            "b": "DIV.pos_relative z_1 flex_1 d_flex flex-d_column rg_5 lg:rg_6"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_30% z_0 pointer-events_none anim_drift_40s_cubic-bezier(0.65,_0,_0.35,_1)_infinite_alternate",
+            "b": "DIV.pos_relative z_1 flex_1 d_flex flex-d_column rg_5 lg:rg_6"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    }
+  },
+  "overallScore": 4,
+  "worstFailure": {
+    "viewport": "mobile",
+    "check": "headerOverlap",
+    "detail": "1 overlapping pair(s) in the header"
+  },
+  "buildId": "1790766591018",
+  "date": "2026-09-30",
+  "archetype": "a founder's specimen sheet, reversed out of the fog"
+}

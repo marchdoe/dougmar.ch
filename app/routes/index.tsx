@@ -1,16 +1,19 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { SiteCallout } from '../components/SiteCallout'
-import { HomeBand } from '../components/generated/HomeBand'
-import { HomeHero } from '../components/generated/HomeHero'
+import { FeaturedArtifact, FeaturedMeta } from '../components/generated/FeaturedArtifact'
+import { HeroField } from '../components/generated/HeroField'
+import { WorkIndex } from '../components/generated/WorkIndex'
 
 export const Route = createFileRoute('/')({ component: HomePage })
 
 function HomePage() {
   return (
     <>
-      <HomeHero />
-      <HomeBand />
+      <HeroField tall meta={<FeaturedMeta />}>
+        <FeaturedArtifact />
+      </HeroField>
       <SiteCallout />
+      <WorkIndex />
     </>
   )
 }
