@@ -131,7 +131,7 @@ const textColumnStacked = css({
 
 const wordmark = css({
   fontFamily: 'display',
-  fontWeight: 800,
+  fontWeight: 700,
   lineHeight: 1,
   letterSpacing: '-0.015em',
   whiteSpace: 'nowrap',

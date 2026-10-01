@@ -57,34 +57,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Design and engineering as one job, not two teams passing files.' },
-      {
-        property: 'og:title',
-        content: 'Design and engineering as one job, not two teams passing files.',
-      },
+      { title: 'None but ourselves can free our minds.' },
+      { property: 'og:title', content: 'None but ourselves can free our minds.' },
       {
         property: 'og:description',
         content:
-          "Fog-teal drench, a founder's specimen reversed out of the cold, one amber light and a client roster as the evidence.",
+          'Oxblood-and-bone specimen ledger: Marley reversed out of a deep red band, ten years of work cascading beneath in heavy small-caps slab.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-09-30.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-01.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      {
-        name: 'twitter:title',
-        content: 'Design and engineering as one job, not two teams passing files.',
-      },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-09-30.png' },
+      { name: 'twitter:title', content: 'None but ourselves can free our minds.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-01.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,600;0,800;1,400;1,600;1,800&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Bitter:wght@500;700;900&family=Mulish:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -253,7 +247,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 151 designs
+            Archive · 152 designs
           </a>
         )}
         <ScrollRestoration />

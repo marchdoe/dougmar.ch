@@ -1,108 +1,105 @@
 import { css } from '../../styled-system/css'
+import { BrandLockup } from './BrandLockup'
 import { identity } from '../content/about'
 
-const NAV = [
-  { n: '01', label: 'Work', href: '/work' },
-  { n: '02', label: 'About', href: '/about' },
-  { n: '03', label: 'Contact', href: `mailto:${identity.email}` },
-]
-
 export function Sidebar() {
+  const items = [
+    { n: '01', label: 'Work', href: '/work' },
+    { n: '02', label: 'About', href: '/about' },
+    { n: '03', label: 'Contact', href: `mailto:${identity.email}` },
+  ]
   return (
-    <footer
+    <aside
       className={css({
-        bg: 'field',
-        color: 'fieldInk',
-        paddingTop: { base: '6', lg: '7' },
-        paddingBottom: { base: '5', lg: '6' },
-        paddingInline: { base: '4', lg: '7', xl: '8' },
+        display: 'none',
+        lg: {
+          display: 'block',
+          position: 'relative',
+          borderLeftWidth: '1px',
+          borderLeftStyle: 'solid',
+          borderLeftColor: 'border',
+          bg: 'bg',
+          paddingTop: '32px',
+        },
       })}
     >
-      <nav
-        aria-label="Primary"
-        className={css({
-          display: 'flex',
-          flexDirection: { base: 'column', sm: 'row' },
-          flexWrap: 'wrap',
-          justifyContent: { base: 'flex-start', sm: 'flex-end' },
-          rowGap: { base: '0', sm: '3' },
-          columnGap: '6',
-          paddingBottom: { base: '4', lg: '5' },
-        })}
-      >
-        {NAV.map((item) => (
-          <a
-            key={item.n}
-            href={item.href}
-            className={css({
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '2',
-              minHeight: '44px',
-              minWidth: '88px',
-              paddingBlock: '3',
-              paddingInline: '1',
-              textStyle: 'base',
-              '&:hover [data-nl]': { borderBottomColor: 'fieldInk' },
-            })}
-          >
-            <span
-              className={css({
-                textStyle: 'sm',
-                color: 'accentAlt',
-                fontVariantNumeric: 'tabular-nums',
-              })}
-            >
-              {item.n}
-            </span>
-            <span
-              data-nl=""
-              className={css({
-                color: 'fieldInk',
-                borderBottomWidth: '1px',
-                borderBottomStyle: 'solid',
-                borderBottomColor: 'transparent',
-              })}
-            >
-              {item.label}
-            </span>
-          </a>
-        ))}
-      </nav>
-      <hr
-        className={css({
-          borderWidth: '0',
-          borderTopWidth: '2px',
-          borderTopStyle: 'solid',
-          borderTopColor: 'borderStrong',
-          margin: '0',
-        })}
-      />
       <div
         className={css({
+          position: 'sticky',
+          top: '0',
+          minHeight: '640px',
           display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          gap: '4',
-          paddingTop: { base: '4', lg: '5' },
+          flexDirection: 'column',
+          alignItems: 'center',
+          paddingTop: '28px',
         })}
       >
-        <span className={css({ textStyle: 'sm', color: 'fieldInkMuted', letterSpacing: 'wide' })}>
-          {identity.name}, {identity.role}
-        </span>
-        <p
+        <div
           className={css({
-            textStyle: 'sm',
-            color: 'fieldInkMuted',
-            lineHeight: 'loose',
-            maxWidth: '48ch',
-            textAlign: { base: 'left', sm: 'right' },
+            color: 'text',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center',
+            marginBottom: '40px',
           })}
         >
-          Mist, 58°F, wind 2 mph · SPY 764.20 −0.18% · Waning gibbous, 78% lit · In rotation:
-          Radiohead, Guided by Voices, Wet Leg
-        </p>
+          <BrandLockup variant="stacked-md" mode="single-color" />
+        </div>
+        <nav
+          aria-label="Primary"
+          className={css({
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            borderTopWidth: '1px',
+            borderTopStyle: 'solid',
+            borderTopColor: 'border',
+          })}
+        >
+          {items.map((item) => (
+            <a
+              key={item.n}
+              href={item.href}
+              className={css({
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                gap: '6px',
+                paddingBlock: '22px',
+                paddingInline: '4px',
+                minHeight: '88px',
+                borderBottomWidth: '1px',
+                borderBottomStyle: 'solid',
+                borderBottomColor: 'border',
+                fontFamily: 'display',
+                fontWeight: 'bold',
+                fontVariant: 'small-caps',
+                letterSpacing: 'wide',
+                fontSize: 'sm',
+                color: 'text',
+                _hover: { color: 'accent' },
+              })}
+            >
+              <span
+                className={css({
+                  fontFamily: 'body',
+                  fontWeight: 'bold',
+                  fontSize: '12px',
+                  color: 'accent',
+                  letterSpacing: 'wider',
+                  fontVariantNumeric: 'tabular-nums lining-nums',
+                })}
+              >
+                {item.n}
+              </span>
+              <span className={css({ display: 'block' })}>{item.label}</span>
+            </a>
+          ))}
+        </nav>
       </div>
-    </footer>
+    </aside>
   )
 }

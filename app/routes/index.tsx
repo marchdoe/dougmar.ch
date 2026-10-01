@@ -1,7 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { css } from '../../styled-system/css'
 import { SiteCallout } from '../components/SiteCallout'
-import { FeaturedArtifact, FeaturedMeta } from '../components/generated/FeaturedArtifact'
-import { HeroField } from '../components/generated/HeroField'
+import { Column } from '../components/generated/Column'
+import { ExperimentIndex } from '../components/generated/ExperimentIndex'
+import { HomeHero } from '../components/generated/HomeHero'
 import { WorkIndex } from '../components/generated/WorkIndex'
 
 export const Route = createFileRoute('/')({ component: HomePage })
@@ -9,11 +11,13 @@ export const Route = createFileRoute('/')({ component: HomePage })
 function HomePage() {
   return (
     <>
-      <HeroField tall meta={<FeaturedMeta />}>
-        <FeaturedArtifact />
-      </HeroField>
-      <SiteCallout />
-      <WorkIndex />
+      <HomeHero />
+      <Column>
+        <WorkIndex />
+        <ExperimentIndex />
+        <div aria-hidden="true" className={css({ height: '56px' })} />
+        <SiteCallout />
+      </Column>
     </>
   )
 }

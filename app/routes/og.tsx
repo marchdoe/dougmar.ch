@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { css } from '../../styled-system/css'
 import { BrandLockup } from '../components/BrandLockup'
+import { Ground } from '../components/Material'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
@@ -19,37 +20,60 @@ function OgCard() {
     >
       <div
         className={css({
+          position: 'relative',
           width: '1200px',
           height: '630px',
           flexShrink: 0,
-          boxSizing: 'border-box',
           bg: 'field',
           color: 'fieldInk',
+          paddingBlock: '64px',
+          paddingInline: '72px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          padding: '7',
         })}
       >
-        <div className={css({ display: 'flex', color: 'fieldInk' })}>
-          <BrandLockup variant="stacked-lg" mode="single-color" />
-        </div>
-        <h1
+        <Ground material="dots" seed={1027631916} />
+        <div
           className={css({
-            alignSelf: 'flex-end',
-            textAlign: 'right',
-            fontFamily: 'display',
-            fontWeight: 'normal',
-            textStyle: '3xl',
-            // Fixed for the 1200x630 capture: three lines inside the safe margin.
-            fontSize: '64px',
-            lineHeight: '1.05',
-            maxWidth: '1000px',
+            position: 'relative',
+            zIndex: 1,
             color: 'fieldInk',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
           })}
         >
-          Design and engineering as one job, not two teams passing files.
-        </h1>
+          <BrandLockup variant="stacked-md" mode="single-color" />
+        </div>
+        <div className={css({ position: 'relative', zIndex: 1 })}>
+          <h1
+            className={css({
+              fontFamily: 'display',
+              fontWeight: 'bold',
+              fontVariant: 'small-caps',
+              letterSpacing: 'wide',
+              fontSize: '80px',
+              lineHeight: '1.04',
+              color: 'fieldInk',
+              maxWidth: '20ch',
+            })}
+          >
+            None but ourselves can free our minds.
+          </h1>
+          <p
+            className={css({
+              marginTop: '16px',
+              fontSize: '20px',
+              letterSpacing: 'wider',
+              textTransform: 'uppercase',
+              fontWeight: 'bold',
+              color: 'fieldInkMuted',
+            })}
+          >
+            Bob Marley, Redemption Song
+          </p>
+        </div>
       </div>
     </div>
   )
