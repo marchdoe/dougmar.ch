@@ -20,13 +20,18 @@
  * comment. This paragraph and tests/scripts/csp.test.js are where that
  * decision is written down.
  *
- * Known shapes, and only these three are ever accepted:
+ * Known shapes, and only these are ever accepted:
  *   - theme-init:              THEME_INIT_SCRIPT, verbatim, from
  *                              scripts/templates/__root.tsx.template
  *   - tsr-scroll-restoration:  TanStack's scroll-restoration script,
  *                              SCROLL_RESTORATION_SCRIPT, verbatim
- *   - tsr-stream-barrier:      TanStack's `$tsr` stream barrier (the one that
- *                              differs every build)
+ *   - tsr-stream-barrier:      TanStack's stream scripts, the ones that differ
+ *                              every build. Since 1.168.60 they are several
+ *                              `<script data-tsr-stream-part>` tags per page;
+ *                              before that, one `class="$tsr"` barrier
+ *   - tsr-stream-boundary:     STREAM_BOUNDARY_SCRIPT, verbatim
+ *   - react-suspense-reveal:   REACT_SUSPENSE_REVEAL_SCRIPT, verbatim
+ *   - react-reveal-timestamp:  REACT_REVEAL_TIMESTAMP_SCRIPT, verbatim
  *
  * `dist/client/404.html` is copied verbatim from `public/404.html` — a
  * deliberately static page (see the comment on `notFoundComponent` in
@@ -59,6 +64,28 @@ const HEAD_OPEN = /<head[^>]*>/i
  * refuses the page and prints the new script: read it, then paste it here.
  */
 export const SCROLL_RESTORATION_SCRIPT = `(function(a,f){let l;try{l=JSON.parse(sessionStorage.getItem(a)||"{}")}catch{return}const n=l?.[f||history.state?.__TSR_key];let c=!1;for(const t in n){const e=n[t],o=e?.scrollX,s=e?.scrollY;if(Number.isFinite(o)&&Number.isFinite(s)){if(t==="window")scrollTo(o,s),c=!0;else if(t)try{const r=document.querySelector(t);r&&(r.scrollLeft=o,r.scrollTop=s)}catch{}}}if(c)return;const i=location.hash.slice(1);if(i){const t=history.state?.__hashScrollIntoViewOptions??!0;if(t){const e=document.getElementById(i);e&&e.scrollIntoView(t)}return}scrollTo(0,0)})("tsr-scroll-restoration-v1_3");document.currentScript.remove()`
+
+/**
+ * The bare script TanStack Start (1.168.60+) closes every streamed page with.
+ * Fixed text with no attribute to classify it by, so it is matched byte for
+ * byte like the scroll-restoration script.
+ */
+export const STREAM_BOUNDARY_SCRIPT = `document.currentScript.remove();/*$tsr-stream-boundary*/`
+
+/**
+ * React 19.3's Suspense reveal runtime (`$RB`/`$RV`/`$RC`), which the server
+ * renderer inlines on a page that streams a Suspense boundary. Matched byte for
+ * byte, newline included. If React changes it, the build refuses the page and
+ * prints the new text: read it, then paste it here.
+ */
+export const REACT_SUSPENSE_REVEAL_SCRIPT = `$RB=[];$RV=function(a){$RT=performance.now();for(var b=0;b<a.length;b+=2){var c=a[b],e=a[b+1];null!==e.parentNode&&e.parentNode.removeChild(e);var f=c.parentNode;if(f){var g=c.previousSibling,h=0;do{if(c&&8===c.nodeType){var d=c.data;if("/$"===d||"/&"===d)if(0===h)break;else h--;else"$"!==d&&"$?"!==d&&"$~"!==d&&"$!"!==d&&"&"!==d||h++}d=c.nextSibling;f.removeChild(c);c=d}while(c);for(;e.firstChild;)f.insertBefore(e.firstChild,c);g.data="$";g._reactRetry&&requestAnimationFrame(g._reactRetry)}}a.length=0};
+$RC=function(a,b){if(b=document.getElementById(b))(a=document.getElementById(a))?(a.previousSibling.data="$~",$RB.push(a,b),2===$RB.length&&("number"!==typeof $RT?requestAnimationFrame($RV.bind(null,$RB)):(a=performance.now(),setTimeout($RV.bind(null,$RB),2300>a&&2E3<a?2300-a:$RT+300-a)))):b.parentNode.removeChild(b)};$RC("B:0","S:0")`
+
+/**
+ * React 19.3's paint timestamp for the reveal runtime above, emitted as
+ * `<script id="_R_">` on the same pages. Matched byte for byte.
+ */
+export const REACT_REVEAL_TIMESTAMP_SCRIPT = `requestAnimationFrame(function(){$RT=performance.now()});`
 
 let themeInitScriptCache = null
 
@@ -143,16 +170,23 @@ function normalizeScriptBody(body) {
 }
 
 /**
- * Which of the three known shapes an inline script is, or `null` if it is
- * none of them — the signal `pinHtml` uses to refuse a build.
+ * Which of the known shapes an inline script is, or `null` if it is none of
+ * them — the signal `pinHtml` uses to refuse a build.
  *
  * @param {{ attrs: string, body: string }} script
- * @returns {'theme-init' | 'tsr-scroll-restoration' | 'tsr-stream-barrier' | null}
+ * @returns {'theme-init' | 'tsr-scroll-restoration' | 'tsr-stream-barrier' | 'tsr-stream-boundary' | 'react-suspense-reveal' | 'react-reveal-timestamp' | null}
  */
 export function classifyScript({ attrs, body }) {
   if (body === themeInitScript()) return 'theme-init'
   if (body === SCROLL_RESTORATION_SCRIPT) return 'tsr-scroll-restoration'
-  if (/class=["']\$tsr["']/.test(attrs) || /id=["']\$tsr-stream-barrier["']/.test(attrs)) {
+  if (body === STREAM_BOUNDARY_SCRIPT) return 'tsr-stream-boundary'
+  if (body === REACT_SUSPENSE_REVEAL_SCRIPT) return 'react-suspense-reveal'
+  if (body === REACT_REVEAL_TIMESTAMP_SCRIPT) return 'react-reveal-timestamp'
+  if (
+    /(?:^|\s)data-tsr-stream-part(?:\s*=|\s|$)/.test(attrs) ||
+    /class=["']\$tsr["']/.test(attrs) ||
+    /id=["']\$tsr-stream-barrier["']/.test(attrs)
+  ) {
     return 'tsr-stream-barrier'
   }
   return null

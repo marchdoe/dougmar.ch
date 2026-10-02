@@ -4,7 +4,10 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
+  REACT_REVEAL_TIMESTAMP_SCRIPT,
+  REACT_SUSPENSE_REVEAL_SCRIPT,
   SCROLL_RESTORATION_SCRIPT,
+  STREAM_BOUNDARY_SCRIPT,
   classifyScript,
   cspHash,
   inlineScripts,
@@ -151,6 +154,37 @@ describe('classifyScript', () => {
     expect(classifyScript({ attrs: ' id="$tsr-stream-barrier"', body: 'x' })).toBe(
       'tsr-stream-barrier'
     )
+  })
+
+  it('classifies TanStack 1.168.60+ stream parts by their data-tsr-stream-part attribute', () => {
+    expect(classifyScript({ attrs: ' data-tsr-stream-part=""', body: STREAM_BARRIER_BODY })).toBe(
+      'tsr-stream-barrier'
+    )
+    expect(classifyScript({ attrs: ' data-tsr-stream-part', body: 'x' })).toBe('tsr-stream-barrier')
+    expect(classifyScript({ attrs: ' data-tsr-stream-partx=""', body: 'x' })).toBeNull()
+    expect(classifyScript({ attrs: ' data-not-tsr-stream-part=""', body: 'x' })).toBeNull()
+  })
+
+  it('classifies the stream boundary and the React 19.3 reveal scripts by exact match', () => {
+    expect(classifyScript({ attrs: '', body: STREAM_BOUNDARY_SCRIPT })).toBe('tsr-stream-boundary')
+    expect(classifyScript({ attrs: '', body: REACT_SUSPENSE_REVEAL_SCRIPT })).toBe(
+      'react-suspense-reveal'
+    )
+    expect(classifyScript({ attrs: ' id="_R_"', body: REACT_REVEAL_TIMESTAMP_SCRIPT })).toBe(
+      'react-reveal-timestamp'
+    )
+  })
+
+  it('rejects near-misses of the exact-match scripts', () => {
+    for (const body of [
+      STREAM_BOUNDARY_SCRIPT,
+      REACT_SUSPENSE_REVEAL_SCRIPT,
+      REACT_REVEAL_TIMESTAMP_SCRIPT,
+    ]) {
+      expect(classifyScript({ attrs: '', body: `${body};fetch('/x')` })).toBeNull()
+      expect(classifyScript({ attrs: '', body: `fetch('/x');${body}` })).toBeNull()
+    }
+    expect(classifyScript({ attrs: ' id="_R_"', body: "fetch('/x')" })).toBeNull()
   })
 
   it('refuses anything else', () => {

@@ -29,3 +29,9 @@ overrides:
   # only, no outside YAML). The site's own js-yaml is ^5.3.0 and is untouched.
   # GHSA-2883-xcg3-v3hh, high. Drop once xmlbuilder2 resolves 4.3.2 on its own.
   'js-yaml@>=4.0.0 <4.3.2': '^4.3.2'
+  # Both sit under @pandacss/dev 1.12's build-time tree (reporter > table > ajv,
+  # and parser > ts-morph > minimatch). GHSA-qw65-cvwx-89v3, GHSA-58mr-gqgx-xq4g,
+  # GHSA-hrr3-gc8f-f4qj (fast-uri); GHSA-6j4f-fj2g-mc7p, GHSA-qhr7-859c-m2p7,
+  # GHSA-q2hr-2g5m-vwhr (brace-expansion). Drop once Panda moves (v2 is out).
+  'fast-uri@>=3.0.0 <3.1.8': '^3.1.8'
+  'brace-expansion@>=4.0.0 <5.0.12': '^5.0.12'
