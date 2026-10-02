@@ -1,0 +1,763 @@
+{
+  "date": "2026-10-02",
+  "era": "header-declared",
+  "generatedAt": "2026-10-02T11:00:23.517Z",
+  "buildId": "1790938816776",
+  "attempts": 1,
+  "brief": "A committed aphorism on a green-black void: forward-leaning capitals, two directions outlined against each other, one spring-green signal lit in the dark.",
+  "rationale": "The phrase is Steve Harvey's \"You can't go forward and backwards at the same time,\" a line about committing to one direction. Everything flows from that. The composition commits to a single ground, dark-void, instead of splitting the canvas into two fields, because the phrase says you can't do both at once; a split-field would literally go two directions and contradict the line. The quote holds the center as a statement at marquee scale, the one still point, while the day's signals crowd the narrow right rail, the noise of going both ways.\n\nThe chassis is Anybody, a wide squarish grotesk with true italics. The italic lean is forward motion made typographic, and the two direction words \"FORWARD\" and \"BACKWARDS\" render as outlined letterforms in the one accent against the solid caps, so the opposition in the sentence is visible on the page. Caps, heavy, justified locks the quote into a committed slab with its edges pinned, direction chosen. I kept it off the condensed-caps default and off the three recently-used chassis.\n\nThe palette is one spring green at 160° floating on a green-black void, a single go-signal lit in the dark. That honors the 140-180 target and, more important, breaks the recent run of green drenches and duotones by changing the formula, not just the hue. The mark goes single-color inheriting `text` ink, not the mono-in-the-green trap the owner flagged, so it clears contrast in the first fold. Rise entrance and a slow drifting mesh give the void depth and move the quote forward as it arrives, the first motion this surface has carried.",
+  "filesChanged": [
+    "elements/preset.ts",
+    "app/components/Layout.tsx",
+    "app/components/Sidebar.tsx",
+    "app/components/generated/DriftGround.tsx",
+    "app/components/generated/HomeQuote.tsx",
+    "app/components/generated/SignalRail.tsx",
+    "app/components/generated/HomeHero.tsx",
+    "app/components/generated/FeaturedWork.tsx",
+    "app/components/generated/ProjectGroup.tsx",
+    "app/components/generated/WorkIndex.tsx",
+    "app/components/generated/VoidHero.tsx",
+    "app/components/generated/PageNav.tsx",
+    "app/components/generated/AboutHero.tsx",
+    "app/components/generated/TimelineSection.tsx",
+    "app/components/generated/CapabilitiesSection.tsx",
+    "app/components/generated/EducationPersonal.tsx",
+    "app/components/generated/CaseNav.tsx",
+    "app/components/generated/WorkHero.tsx",
+    "app/components/generated/CaseFacts.tsx",
+    "app/components/generated/CaseStudy.tsx",
+    "app/components/generated/MissingProject.tsx",
+    "app/routes/index.tsx",
+    "app/routes/about.tsx",
+    "app/routes/work.$slug.tsx",
+    "app/routes/og.tsx"
+  ],
+  "legacyArchetype": null,
+  "signals": {
+    "air_quality": {
+      "aqi_index": 1,
+      "uv_index": 0,
+      "air_quality_label": "Good"
+    },
+    "awwwards": {
+      "sites_of_the_day": [
+        {
+          "title": "Point Of View",
+          "description": "A longread about the history of glasses: from polished reading stones to experimental spectacles. How a simple tool changed the way we see the world and...",
+          "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/09/6aaae8bd68f7a314961376.png"
+        },
+        {
+          "title": "THE 360° RACING STUDIO",
+          "description": "Racing Studio is an immersive experience built in Unreal. It runs in-browser via PixelStreaming and integrates UE to SFCommerce. Discover the brand further...",
+          "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/09/6abbaf5054ead270819925.png"
+        },
+        {
+          "title": "The Romans",
+          "description": "The Romans are the world's most awarded PR agency.",
+          "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/09/6ab32dc28896e965717726.png"
+        }
+      ]
+    },
+    "books": {
+      "currently_reading": []
+    },
+    "day_of_week": {
+      "day": "Friday",
+      "is_weekend": false,
+      "day_index": 5
+    },
+    "github": {
+      "repos": [
+        {
+          "name": "sponsors/DietrichGebert",
+          "description": "",
+          "language": "JavaScript",
+          "stars": null
+        },
+        {
+          "name": "sponsors/mattpocock",
+          "description": "",
+          "language": "Shell",
+          "stars": null
+        },
+        {
+          "name": "NVIDIA/OpenShell/stargazers",
+          "description": "",
+          "language": "Rust",
+          "stars": null
+        },
+        {
+          "name": "firebase/firebase-ios-sdk/stargazers",
+          "description": "",
+          "language": "C++",
+          "stars": null
+        },
+        {
+          "name": "mvschwarz/openrig/stargazers",
+          "description": "",
+          "language": "TypeScript",
+          "stars": null
+        }
+      ]
+    },
+    "golf": {
+      "tournament": "Bank of Utah Championship",
+      "status": "In Progress",
+      "leaders": [
+        {
+          "name": "Zach Bauchou",
+          "position": "1",
+          "score": "-9"
+        },
+        {
+          "name": "Sudarshan Yellamaraju",
+          "position": "2",
+          "score": "-8"
+        },
+        {
+          "name": "David Lipsky",
+          "position": "3",
+          "score": "-8"
+        },
+        {
+          "name": "Stephan Jaeger",
+          "position": "4",
+          "score": "-8"
+        },
+        {
+          "name": "Steven Fisk",
+          "position": "5",
+          "score": "-8"
+        }
+      ]
+    },
+    "hacker_news": {
+      "stories": [
+        {
+          "title": "Pi 1.0",
+          "url": "https://earendil.com/posts/pi-1-0/",
+          "score": 1302,
+          "by": "sergiotapia"
+        },
+        {
+          "title": "Shimano Bicycle Museum Review",
+          "url": "https://inrng.com/2026/10/shimano-bicycle-museum/",
+          "score": 116,
+          "by": "pietroppeter"
+        },
+        {
+          "title": "Several vulnerabilities have been discovered in the Linux kernel",
+          "url": "https://lwn.net/Articles/1097401/",
+          "score": 314,
+          "by": "luispa"
+        },
+        {
+          "title": "How Singapore's government-run dating service works",
+          "url": "https://www.singapore-samizdat.com/p/how-singapores-government-run-dating-service-firstdate-works",
+          "score": 172,
+          "by": "danielfoster"
+        },
+        {
+          "title": "Clef: Open-weight decision models, and new RL fine-tuning platform",
+          "url": "https://blog.cloudflare.com/clef-decision-models/",
+          "score": 518,
+          "by": "jasondavies"
+        }
+      ]
+    },
+    "holidays": {
+      "today": null,
+      "upcoming": []
+    },
+    "lunar": {
+      "phase": "last quarter",
+      "illumination": 0.585,
+      "days_into_cycle": 21.34
+    },
+    "market": {
+      "symbol": "SPY",
+      "price": "763.9900",
+      "change": "1.3600",
+      "change_percent": "0.1783%",
+      "direction": "up"
+    },
+    "music": {
+      "bands": [
+        "The War on Drugs",
+        "Wet Leg"
+      ],
+      "rotation": true
+    },
+    "news": {
+      "headlines": [
+        {
+          "title": "Stock Market Today: Global Bond Selloff Deepens — Live Updates - WSJ",
+          "source": "The Wall Street Journal",
+          "url": "https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-10-01-2026"
+        },
+        {
+          "title": "Why Micron’s Dazzling Earnings Report Isn’t Budging the Stock - Barron's",
+          "source": "Barron's",
+          "url": "https://www.barrons.com/articles/micron-earnings-stock-price-6c25895f"
+        },
+        {
+          "title": "Phillies vs. Braves NL Wild Card Series Game 3 FAQ (8 ET, NBC/Peacock) - MLB.com",
+          "source": "MLB.com",
+          "url": "https://www.mlb.com/news/phillies-vs-braves-nl-wild-card-series-game-3-starting-lineups-and-pitching-matchup"
+        },
+        {
+          "title": "Flydubai latest: Indian pilot who fought off apparent hijack attempt hailed a hero as passengers describe terror onboard - CNN",
+          "source": "CNN",
+          "url": "https://www.cnn.com/2026/10/01/world/live-news/flydubai-flight-israel-pilot-passengers-intl"
+        },
+        {
+          "title": "Boston Red Sox vs. New York Yankees Results, Stats, and Recap - September 30, 2026 Gametracker - CBS Sports",
+          "source": "CBS Sports",
+          "url": "https://www.cbssports.com/mlb/gametracker/recap/MLB_20260930_BOS@NYY/"
+        }
+      ]
+    },
+    "quote": {
+      "text": "You can't go forward and backwards at the same time.",
+      "author": "Steve Harvey"
+    },
+    "season": {
+      "season": "fall",
+      "month": 10,
+      "day": 2,
+      "day_of_year": 275,
+      "month_name": "October"
+    },
+    "sidebar": {
+      "links": [
+        {
+          "title": "What happens when you can build it all yourself",
+          "url": "https://www.renatovaldes.com/essays/what-happens-when-you-can-build-it-all-yourself/",
+          "source": "renatovaldes.com",
+          "description": "What speed is doing to my expectations, my attention and the case for startup funding."
+        },
+        {
+          "title": "Thinking orbs",
+          "url": "https://www.thinkingorbs.com/",
+          "source": "thinkingorbs.com",
+          "description": "A React component library of well-crafted, animated orbs for AI: thinking, searching, compacting and more status indicators. Free, open source."
+        },
+        {
+          "title": "Blume",
+          "url": "https://useblume.dev/",
+          "source": "useblume.dev",
+          "description": "The open-source docs framework for humans and agents. Drop Markdown into a folder and ship a fast docs site."
+        },
+        {
+          "title": "Modern web types",
+          "url": "https://philipwalton.com/articles/modern-web-types/",
+          "source": "philipwalton.com",
+          "description": "TypeScript intentionally doesn’t support all new APIs, but there’s an easy fix."
+        },
+        {
+          "title": "Do frameworks matter anymore?",
+          "url": "https://brookslybrand.com/posts/do-frameworks-matter-anymore/",
+          "source": "brookslybrand.com",
+          "description": "How abstractions constrain AI agents, helping engineering teams evaluate long-term web architecture choices."
+        }
+      ]
+    },
+    "sports": {
+      "teams": [
+        {
+          "name": "Detroit Lions",
+          "league": "NFL",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Red Wings",
+          "league": "NHL",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Pistons",
+          "league": "NBA",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Tigers",
+          "league": "MLB",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        }
+      ]
+    },
+    "sun": {
+      "sunrise": "07:13",
+      "sunset": "18:43",
+      "daylight_hours": 11.5
+    },
+    "weather": {
+      "location": "Aldie, Virginia",
+      "conditions": "Cloudy",
+      "temp_f": 66.7,
+      "temp_c": 19.3,
+      "humidity": 64,
+      "wind_mph": 3.8,
+      "wind_dir": "SW",
+      "feels_like_f": 66
+    },
+    "date": "2026-10-02"
+  },
+  "hero": {
+    "copy": "You can't go forward and backwards at the same time.",
+    "rationale": "This is `signals.quote` (Steve Harvey), and I took it at the lane's word: reach for the quote first. It reads as a line about commitment, which is exactly Doug's working creed. He checks a thing is buildable before the first line of code and faithful after the last; both demand you pick a direction and move, not hedge. The gold-standard note in his own memory says the bar is \"committed gestures, not hedges,\" and this quote is that idea in nine words. Steve Harvey's name renders as the caption directly under the line.\nOwner's voice: Doug commits to one direction on every build, buildable-then-faithful, and has no patience for hedging either way.",
+    "source": "quote"
+  },
+  "chassis": "anybody-franklin",
+  "adBrief": {
+    "visualSpecification": "### 1. Color Specification\n- **Primary hue**: 160° (spring green). A forward, go-signal green, the one color lit on the void. Direction, not decoration.\n- **Neutral palette** (green-tinted): 50 `#eef4f0`, 100 `#dde9e2`, 200 `#bdd1c6`, 300 `#93ab9f`, 400 `#6b857a`, 500 `#4d645a`, 600 `#394d44`, 700 `#293932`, 800 `#182621`, 900 `#0c1611`\n- **Accent color**: light `#5ce6b0`, default `#1fd891`, dark `#14986a`, glow `#0b5f43`\n- **Secondary accent**: none. One color carries the page.\n- **Background**: page bg `#0c1611`, bgAlt band `#10201a`, surface/panel `#16271f`, flooded signal field `#0f2e22`\n- **Text colors**: primary `#eef4f0`, secondary `#9fb6aa`, faint `#80978b`; ink on accent `#06130d`; ink on field `#d9f6e9`, muted on field `#83c6a7`\n\n### 2. Typography\n- **Hero phrase rendering**: `display` (Anybody) at the `hero` ramp step for the marquee quote, clamped `clamp(44px, 6.5vw, 104px)` so it never passes Anybody's 160px ceiling and never overflows 1440. Set in caps, italic, heavy, justified as a solid block. The two direction words \"FORWARD\" and \"BACKWARDS\" render as outlined (stroked) letterforms in `accent`; every other word is solid `text`. The opposition is visible, not just read.\n- **Type treatment**: hero at `hero`; the attribution \"Steve Harvey\" at `md`; signal section heads at `lg`; the leaderboard names/figures at `base` with tabular numerals; captions and metadata at `sm`; micro labels at `xs`, never below 13px. Body (Libre Franklin) runs 60-68ch at `base`, leading held by the `base` textStyle. One mid-register element (the attribution + a short standfirst) spends the middle of the scale so it never jumps title-to-caption.\n\n### 3. Layout Specification\n- **Composition**: two-asymmetric / horizontal / left-weighted / center / crowded / even / folded-into-hero / field-dominant / hero-only / statement. The horizontal axis is the forward/backward reading line; the quote sits center-weighted in the larger left field while the day's signals crowd the narrow right column, the noise of going both ways around the one still line.\n- **CSS grid/flex structure**: `display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(300px, 1fr); min-height: 100vh;` on the hero section. Quote block spans the left column, vertically centered; signal cluster fills the right column top to bottom.\n- **Major dimensions**:\n  - Hero/void height: `min-height: 100vh`\n  - Signal rail width: right column `minmax(300px, 1fr)` (~36% at 1440)\n  - Max content width: `max-width: none`; side padding `clamp(24px, 5vw, 88px)`\n  - Section padding: vertical rhythm on the chassis base unit; signal rows at one repeating interval (even rhythm)\n- **Nav placement**: folded into the hero. Horizontal lockup top-left of the void. Three title-case links in a row along the lower-left edge, beneath the quote. No top bar, no links opposite the mark.\n- **Hero phrase grid zone**: left column, rows spanning the vertical center (roughly rows 3–8 of a 10-row hero), occupying ~60% of viewport width and ~50vh height, the largest element on the page.\n- **Home callout slot**: `<SiteCallout />` sits on `/` directly below the hero void and above the footer, between the signal/hero fold and the baseline-rule footer. Full column width, orchestrator-styled. I place it, I do not design it.\n\n### 4. Component Character\n- **Border radius**: cards/panels 10px (`lg`) sparingly; tags/labels 2px (`sm`); buttons 4px (`md`). Mostly square; the void wants hard edges.\n- **Border treatment**: hairlines in `border` between signal rows; `borderStrong` for the one rule above the footer and the top edge of the flooded signal field.\n- **Shadow**: none. Depth comes from field lightness (surface/bgAlt lifting off bg) and the mesh blooms, not shadow.\n- **Density**: crowded in the signal rail, spacious around the quote. The contrast is the composition.\n- **Interactive states**: nav and links shift `text` → `accent` on `_hover`, no underline slide; leaderboard leader row holds `accent` always.\n\n### 5. Signal Integration\n- **Where signal elements live**: the crowded right rail, as a packed data stack over the flooded `field` plane.\n- **Sports scores**: Bank of Utah Championship, in progress. Zach Bauchou −9 as the leader row in `accent` with tabular numerals at `base`; Yellamaraju, Lipsky, Jaeger, Fisk −8 beneath in `fieldInk`/`fieldInkMuted`, one hairline per row. Section head \"Bank of Utah · in progress\" at `lg`.\n- **Market**: SPY 763.99, up 0.18%, as a compact figure row with the up-direction in `accent`.\n- **Weather**: Aldie, Virginia, 66.7°F, cloudy, as one metadata line at `sm` in `textMuted`.\n- **Moon**: last quarter, 58.5% lit, one faint line at `xs` in `textFaint`.\n- **Quote**: IS the hero. \"Steve Harvey\" renders as the caption at `md` in `textMuted` directly beneath the justified block.\n- **Music**: The War on Drugs and Wet Leg, a standing rotation, set as one quiet caption in the footer baseline rule, never beside the live golf or market figures as if it happened today.\n- **Air quality**: Good (AQI 1) folded into the weather line, not given its own row.",
+    "selfCheck": "1. Hero quotability: Yes — a nine-word aphorism about direction that stands fully on its own, attributed.\n2. Because-of chain: Yes — commitment-to-one-direction drove dark-void (one committed ground), Anybody's forward-leaning italic, outlined direction words, horizontal axis, and the single green.\n3. Render feasibility: Yes — `clamp(44px, 6.5vw, 104px)` under Anybody's 160px ceiling, justified across ~60% of 1440 wraps to three legible lines without overflow.\n4. Canvas floor feasible: Yes — crowded field-dominant void with a packed signal rail genuinely fills 82% of 1440×900.\n5. Phone: Yes — `hero_step_360: 3xl` lands the full quote in the first 640px above the signals without cutting a word.",
+    "rationale": "The phrase is Steve Harvey's \"You can't go forward and backwards at the same time,\" a line about committing to one direction. Everything flows from that. The composition commits to a single ground, dark-void, instead of splitting the canvas into two fields, because the phrase says you can't do both at once; a split-field would literally go two directions and contradict the line. The quote holds the center as a statement at marquee scale, the one still point, while the day's signals crowd the narrow right rail, the noise of going both ways.\n\nThe chassis is Anybody, a wide squarish grotesk with true italics. The italic lean is forward motion made typographic, and the two direction words \"FORWARD\" and \"BACKWARDS\" render as outlined letterforms in the one accent against the solid caps, so the opposition in the sentence is visible on the page. Caps, heavy, justified locks the quote into a committed slab with its edges pinned, direction chosen. I kept it off the condensed-caps default and off the three recently-used chassis.\n\nThe palette is one spring green at 160° floating on a green-black void, a single go-signal lit in the dark. That honors the 140-180 target and, more important, breaks the recent run of green drenches and duotones by changing the formula, not just the hue. The mark goes single-color inheriting `text` ink, not the mono-in-the-green trap the owner flagged, so it clears contrast in the first fold. Rise entrance and a slow drifting mesh give the void depth and move the quote forward as it arrives, the first motion this surface has carried.",
+    "compositionRationale": "The phrase is about direction, so I moved `axis` off the mandate's radial to horizontal, the literal forward/backward reading line. I kept `hero_object` on statement rather than the suggested figure because this is a quote: the whole line has to read at marquee scale or the forward/backward opposition it hinges on is lost; a figure or single word would gut it. `columns` moved to two-asymmetric (from three) so the quote owns a committed left field while the day's signals crowd the narrow right, and `hero_zone` to center so the line is the still point the crowded data orbits.",
+    "signalIntegration": "- **Where signal elements live**: the crowded right rail, as a packed data stack over the flooded `field` plane.\n- **Sports scores**: Bank of Utah Championship, in progress. Zach Bauchou −9 as the leader row in `accent` with tabular numerals at `base`; Yellamaraju, Lipsky, Jaeger, Fisk −8 beneath in `fieldInk`/`fieldInkMuted`, one hairline per row. Section head \"Bank of Utah · in progress\" at `lg`.\n- **Market**: SPY 763.99, up 0.18%, as a compact figure row with the up-direction in `accent`.\n- **Weather**: Aldie, Virginia, 66.7°F, cloudy, as one metadata line at `sm` in `textMuted`.\n- **Moon**: last quarter, 58.5% lit, one faint line at `xs` in `textFaint`.\n- **Quote**: IS the hero. \"Steve Harvey\" renders as the caption at `md` in `textMuted` directly beneath the justified block.\n- **Music**: The War on Drugs and Wet Leg, a standing rotation, set as one quiet caption in the footer baseline rule, never beside the live golf or market figures as if it happened today.\n- **Air quality**: Good (AQI 1) folded into the weather line, not given its own row."
+  },
+  "tokens": {
+    "colors": {
+      "ramps": {
+        "green": {
+          "50": "#e3fbf1",
+          "100": "#c0f6de",
+          "200": "#86edc2",
+          "300": "#4ce2a6",
+          "400": "#1fd891",
+          "500": "#16bd7f",
+          "600": "#109866",
+          "700": "#0d7650",
+          "800": "#0a5a3d",
+          "900": "#073d2a"
+        },
+        "neutral": {
+          "50": "#eef4f0",
+          "100": "#dde9e2",
+          "200": "#bdd1c6",
+          "300": "#93ab9f",
+          "400": "#6b857a",
+          "500": "#4d645a",
+          "600": "#394d44",
+          "700": "#293932",
+          "800": "#182621",
+          "900": "#0c1611"
+        },
+        "void": {
+          "alt": "#10201a",
+          "surface": "#16271f",
+          "field": "#0f2e22",
+          "fieldBorder": "#1d4a37",
+          "fieldInk": "#d9f6e9",
+          "fieldInkMuted": "#83c6a7",
+          "accentText": "#06130d",
+          "accentAlt": "#5ce6b0",
+          "textMuted": "#9fb6aa",
+          "textFaint": "#80978b"
+        }
+      },
+      "semantic": {
+        "bg": {
+          "base": "{colors.neutral.900}"
+        },
+        "bgAlt": {
+          "base": "{colors.void.alt}"
+        },
+        "surface": {
+          "base": "{colors.void.surface}"
+        },
+        "text": {
+          "base": "{colors.neutral.50}"
+        },
+        "textMuted": {
+          "base": "{colors.void.textMuted}"
+        },
+        "textFaint": {
+          "base": "{colors.void.textFaint}"
+        },
+        "accent": {
+          "base": "{colors.green.400}"
+        },
+        "accentText": {
+          "base": "{colors.void.accentText}"
+        },
+        "accentAlt": {
+          "base": "{colors.void.accentAlt}"
+        },
+        "border": {
+          "base": "{colors.neutral.700}"
+        },
+        "borderStrong": {
+          "base": "{colors.neutral.500}"
+        },
+        "field": {
+          "base": "{colors.void.field}"
+        },
+        "fieldInk": {
+          "base": "{colors.void.fieldInk}"
+        },
+        "fieldInkMuted": {
+          "base": "{colors.void.fieldInkMuted}"
+        },
+        "fieldBorder": {
+          "base": "{colors.void.fieldBorder}"
+        }
+      }
+    },
+    "radii": {
+      "none": "0",
+      "sm": "2px",
+      "md": "4px",
+      "lg": "10px",
+      "full": "9999px"
+    }
+  },
+  "colorScheme": {
+    "primary_hue": {
+      "h": 160,
+      "s": 75,
+      "l": 48,
+      "name": "spring green"
+    },
+    "secondary_accent": null,
+    "neutral_family": {
+      "tinted_toward": "green",
+      "name": "green-black"
+    },
+    "mood_word": "committed",
+    "color_story": "One saturated spring green floats on a green-black void, a single direction lit in the dark, because the phrase is about picking one and not hedging. The hue sits at 160, inside the 140-180 target; it overlaps the computed forbidden band 118-218, but the formula (dark-void, not another green drench) is what breaks the recent sameness, and the target range was the explicit instruction."
+  },
+  "shell": {
+    "nav": null,
+    "footer": "baseline rule — one hairline with location and year left, the music rotation right",
+    "brand_lockup": "horizontal-md",
+    "brand_color_mode": "single-color",
+    "ground_strategy": "dark-void",
+    "ground_material": "mesh"
+  },
+  "header": {
+    "placement": "folded-into-hero",
+    "height_px": 120,
+    "mark_px": 44,
+    "wordmark_step": "lg",
+    "wordmark_weight": 700,
+    "role_line": "present",
+    "nav_step": "sm",
+    "nav_case": "title",
+    "nav_form": "labels",
+    "nav": "Horizontal lockup (mark + wordmark, role line beneath) top-left of the void, inside the first fold at 1440 and 360. Three title-case links in a row along the lower-left edge beneath the quote. No top bar, no links opposite the mark."
+  },
+  "verdicts": [
+    {
+      "critic": "mockup-precheck",
+      "round": 0,
+      "verdict": "APPROVE",
+      "feedback": "",
+      "findings": [],
+      "ts": 1790937667239
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 0,
+      "verdict": "REVISE",
+      "feedback": "1. (Judgment 5) The role line under the wordmark reads \"DESIGNER & ENGINEER\", but the record's `identity.role` is \"Product Designer & Developer\". Set the role line to the recorded role.\n\n2. (Judgment 5) The featured dougmar.ch entry says \"A portfolio that redesigns itself every night. The problem: prove each build is actually buildable before the first line of code, and faithful to the brief after the last — committed gestures, not hedges.\" The record's problem is that a portfolio \"argues that you can design and build things, then sits unchanged for years,\" and the record says the pipeline rebuilds the site \"each morning,\" not every night. Use the recorded problem and approach text, and take the brief's creed out of the work copy.\n\n3. (Judgment 3) Type Treatment declares `alignment: justified` as a solid block. At 1440 only \"YOU CAN'T GO\" and \"AT THE SAME\" reach the measure; \"FORWARD\", \"AND\", \"BACKWARDS\" and \"TIME.\" stand ragged at the left. At 360, \"AND\" and \"BACKWARDS\" fall short and \"YOU CAN'T\" opens a wide gap. Re-break or re-set the lines so every line but the last runs edge to edge as one pinned slab at both widths.",
+      "channel": "sdk-vision",
+      "ts": 1790937687357
+    },
+    {
+      "critic": "mockup-precheck",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "[check 6] At 360px, text runs past the edge of the screen and is cut: \"You can't go\" (x 18 to 384), \"and\" (x 18 to 384), \"at\" (x 18 to 384). Set display type in clamp() with a vw term so it fits the column, and let lines wrap.",
+      "findings": [
+        {
+          "check": 6,
+          "key": "text-cut-360",
+          "gap": 3
+        }
+      ],
+      "ts": 1790937856531
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "1. (Judgment 5) The phone work section labels dougmar.ch \"FEATURED\", but the records mark Spaceman as the featured project (`featured: true`). The page lists Spaceman as an ordinary row. Make Spaceman (Founder, 2018 — Present, Active) the featured entry with its own record copy, and move dougmar.ch into Selected Work with FishSticks and 15th Club.\n2. (Judgment 6) The footer reads \"NOW PLAYING — The War on Drugs · Wet Leg\", which presents the music as happening today. The brief declares it a standing rotation that must never be framed as live. Relabel it as a rotation (for example \"In rotation —\") and keep it on the right of the baseline rule.",
+      "channel": "sdk-vision",
+      "ts": 1790937879271
+    },
+    {
+      "critic": "mockup-precheck",
+      "round": 2,
+      "verdict": "APPROVE",
+      "feedback": "",
+      "findings": [],
+      "ts": 1790937958734
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 2,
+      "verdict": "REVISE",
+      "feedback": "5. The Featured Spaceman block (fold 3 at 360) says \"Founding a company means picking one direction and committing before you can know it was the right one. Spaceman is the long bet — chosen early, built, shipped, and still running years on. The proof that the decision held is that it is still here.\" None of that is in the work records. The record describes Spaceman as \"the LLC I've operated under for the past decade, partnering with companies and studios across industries,\" spanning product design, frontend engineering, design systems and brand. Its outcome is \"Ten years in, Spaceman is still the vehicle for independent work and new experiments.\" Replace the invented copy with the record's problem, approach or outcome text, and don't bend the description toward tonight's hero theme.",
+      "channel": "sdk-vision",
+      "ts": 1790937972417
+    },
+    {
+      "critic": "surface-gate",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "/ @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @360: <div > a.group.d_grid.ai_baseline.cg_12px > span.ff_display.fw_bold.tt_uppercase.lh_1.05> holds text wider than its own box: \"Twittertale...\" needs 159px and the box is 144px, so 15px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <div > a.group.d_grid.ai_baseline.cg_12px > span.ff_display.fw_bold.tt_uppercase.lh_1.05> holds text wider than its own box: \"Politweets...\" needs 146px and the box is 144px, so 2px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: 'Work' (×2) is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'About' is a 44x53px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @360: <div > a.group.d_grid.ai_baseline.cg_12px > span.ff_display.fw_bold.tt_uppercase.lh_1.05> holds text wider than its own box: \"Twittertale...\" needs 159px and the box is 144px, so 15px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <div > a.group.d_grid.ai_baseline.cg_12px > span.ff_display.fw_bold.tt_uppercase.lh_1.05> holds text wider than its own box: \"Politweets...\" needs 146px and the box is 144px, so 2px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: 'Work' (×2) is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'About' is a 44x53px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/about @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/about @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @1440: em dash in rendered copy: \"...designs FEATURED SPACEMAN FOUNDER 2018 — PRESENT ACTIVE Independent design and ...\". Use a period or a comma.\n/about @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/about @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/about @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work @360: 'Work' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: 'Work' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/experiments @360: 'Work' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'Work' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/spaceman @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/spaceman @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/spaceman @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/spaceman @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/fishsticks @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/fishsticks @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/fishsticks @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/fishsticks @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/fishsticks @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/fishsticks @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/15th-club @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/15th-club @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/15th-club @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/15th-club @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/15th-club @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/15th-club @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/dougmar-ch @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/dougmar-ch @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 100x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 147x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 194x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/dougmar-ch @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/dougmar-ch @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 100x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 147x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 194x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/dougmar-ch @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/dougmar-ch @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/teeturn @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/teeturn @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/teeturn @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/teeturn @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/teeturn @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/teeturn @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/politweets @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/politweets @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/politweets @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/politweets @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/politweets @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/politweets @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/twittertale @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/twittertale @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/twittertale @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/twittertale @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/twittertale @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/twittertale @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/twittertale @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @360: <aside.pos_relative.z_1.bg_field.border-style_solid > div > h2.ff_display.fw_bold.font-style_italic.tt_uppercase> \"Bank of Utah\" (x3) at 18px bold sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: <aside.pos_relative.z_1.bg_field.border-style_solid > div > div.tt_uppercase.ls_0.08em.fs_13px.c_fieldInkMuted> \"In progress · Championship\" at 13px sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: <div > div.d_grid.grid-tc_1.6rem_1fr_auto.ai_baseline.cg_12px > span.fs_12px> \"1\" (x5) at 12px bold sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: 6 more distinct texts over a textured ground are not listed.\n/ @360: <aside.d_block.bg_bgAlt.c_text.bd-t_1px_solid > div.d_grid.grid-tc_1fr.jc_space-between.ai_end > p.m_0.ff_body.fs_base.md:fs_md> \"This design is a day old at most. A pipe\" at 16px sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. SiteCallout is written by the orchestrator, so this is reported for the owner and is not a revision.\n/ @360: <div.d_grid.grid-tc_1fr.jc_space-between.ai_end > div.d_flex.flex-wrap_wrap.ai_center.cg_5 > a.d_inline-flex.ai_center.min-h_44px.td_underline> \"Read the white paper\" at 14.5px bold sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. SiteCallout is written by the orchestrator, so this is reported for the owner and is not a revision.\n/work/dougmar-ch @820: <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/work/dougmar-ch @820: <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" sets 81 characters on its longest line (8 lines, median 75) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/about @1440: <span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em > span.d_flex.flex-d_column.pt_0.39em > span.ff_body.lh_1.2.ls_0.09em.tt_uppercase> \"Product Designer & Developer\" at 13px over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background): #b4e8d3 is under 4.5:1 across 100% of one pixel row through its glyphs (1.56:1 on #1eca87). BrandLockup is written by the orchestrator, so this is reported for the owner and is not a revision. Also on / at 360px, /about at 360px, / at 1440px, /work/spaceman at 360px, /work/spaceman at 1440px, /work/fishsticks at 360px, /work/fishsticks at 1440px, /work/15th-club at 360px, /work/15th-club at 1440px, /work/dougmar-ch at 360px, /work/dougmar-ch at 1440px, /work/teeturn at 360px, /work/teeturn at 1440px, /work/politweets at 360px, /work/politweets at 1440px, /work/twittertale at 360px, /work/twittertale at 1440px.\n/about @1440: <span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em > span.d_flex.flex-d_column.pt_0.39em > span.ff_display.fw_700.lh_1.ls_-0.015em> \"Doug March\" at 28.6px over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background): #eef4f0 is under 3:1 across 100% of one pixel row through its glyphs (1.83:1 on #1ece8b). BrandLockup is written by the orchestrator, so this is reported for the owner and is not a revision. Also on / at 1440px, /work/spaceman at 1440px, /work/fishsticks at 1440px, /work/15th-club at 1440px, /work/dougmar-ch at 1440px, /work/teeturn at 1440px, /work/politweets at 1440px, /work/twittertale at 1440px.\n/work/15th-club @360: <dl.d_flex.flex-wrap_wrap.cg_6.rg_3 > div > dt.textStyle_xs.tt_uppercase.ls_0.08em.c_textMuted> \"Type\" at 13.2px over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background): #9fb6aa is under 4.5:1 across 100% of one pixel row through its glyphs (1.84:1 on #189163). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text. Also on /work/spaceman at 360px, /work/spaceman at 1440px, /work/fishsticks at 360px, /work/fishsticks at 1440px, /work/15th-club at 1440px, /work/dougmar-ch at 360px, /work/dougmar-ch at 1440px, /work/teeturn at 360px, /work/teeturn at 1440px, /work/politweets at 360px, /work/politweets at 1440px, /work/twittertale at 360px, /work/twittertale at 1440px.\n/work/dougmar-ch @360: <div.d_flex.flex-wrap_wrap.cg_6 > a.d_inline-flex.ai_baseline.cg_2.min-h_44px > span> \"TeeTurn\" at 14.5px over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background): #eef4f0 is under 4.5:1 across 100% of one pixel row through its glyphs (2.20:1 on #1cbc7f). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text. Also on /work/spaceman at 360px, /work/fishsticks at 360px, /work/politweets at 360px, /work/twittertale at 360px.\n/work/spaceman @360: <div.d_flex.flex-wrap_wrap.cg_6 > a.d_inline-flex.ai_baseline.cg_2.min-h_44px > span.textStyle_xs.tt_uppercase.ls_0.08em.c_textMuted> \"Next\" at 13.2px over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background): #9fb6aa is under 4.5:1 across 100% of one pixel row through its glyphs (2.40:1 on #167c55). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text. Also on /work/fishsticks at 360px, /work/dougmar-ch at 360px, /work/politweets at 360px, /work/twittertale at 360px.\n/work/15th-club @360: <dl.d_flex.flex-wrap_wrap.cg_6.rg_3 > div > dd.textStyle_md.c_text.m_0> \"AI\" at 22.6px over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background): #eef4f0 is under 4.5:1 across 100% of one pixel row through its glyphs (4.09:1 on #17865b). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text.\n/about @360: <section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_relative.z_1.pt_128px.md:pt_176px > h1.ff_display.font-style_italic.fw_bold.lh_snug> \"I work at the intersection of design and\" at 24px over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background): #eef4f0 is under 3:1 across 55% of one pixel row through its glyphs (2.79:1 on #3ea37b). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1790938386129
+    },
+    {
+      "critic": "surface-gate",
+      "verdict": "NEEDS-HUMAN",
+      "feedback": "Authored routes outside MUTABLE_FILES failed the gate: /work/dougmar-ch, /about\n\n## Measured layout faults\n\nThese are measurements taken from the live render, not observations from the images below.\nThey are exact. Do not re-litigate them against the screenshots, and do not count one fault\ntwice because it appears at more than one viewport.\n\n- [error] /work/dougmar-ch at 820px (light): <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n- [error] /work/dougmar-ch at 820px (light): <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" sets 81 characters on its longest line (8 lines, median 75) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n- [error] /about at 1440px (dark): <span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em > span.d_flex.flex-d_column.pt_0.39em > span.ff_body.lh_1.2.ls_0.09em.tt_uppercase> \"Product Designer & Developer\" at 13px over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background): #b4e8d3 is under 4.5:1 across 100% of one pixel row through its glyphs (1.56:1 on #1eca87). BrandLockup is written by the orchestrator, so this is reported for the owner and is not a revision. Also on / at 360px, /about at 360px, / at 1440px, /work/spaceman at 360px, /work/spaceman at 1440px, /work/fishsticks at 360px, /work/fishsticks at 1440px, /work/15th-club at 360px, /work/15th-club at 1440px, /work/dougmar-ch at 360px, /work/dougmar-ch at 1440px, /work/teeturn at 360px, /work/teeturn at 1440px, /work/politweets at 360px, /work/politweets at 1440px, /work/twittertale at 360px, /work/twittertale at 1440px.\n- [error] /about at 1440px (dark): <span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em > span.d_flex.flex-d_column.pt_0.39em > span.ff_display.fw_700.lh_1.ls_-0.015em> \"Doug March\" at 28.6px over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background): #eef4f0 is under 3:1 across 100% of one pixel row through its glyphs (1.83:1 on #1ece8b). BrandLockup is written by the orchestrator, so this is reported for the owner and is not a revision. Also on / at 1440px, /work/spaceman at 1440px, /work/fishsticks at 1440px, /work/15th-club at 1440px, /work/dougmar-ch at 1440px, /work/teeturn at 1440px, /work/politweets at 1440px, /work/twittertale at 1440px.",
+      "ts": 1790938386129
+    },
+    {
+      "critic": "screenshot-critic",
+      "verdict": "REVISE",
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10/5 — react-engineer: On the home page's Experiments list (phone filmstrip fold 4 of 5), the project-name spans overflow their grid cell and are cut off mid-word: \"TWITTERTALE\" needs 159px in a 144px box (15px lost, visible as \"TWITTERTALE\" colliding into \"XPERIMENT\"), and \"POLITWEETS\" needs 146px in the same 144px box. Shrink the type to fit the column at 360px or let the label wrap instead of clipping.\n- Section 3/10 — react-engineer: On `/about` at 360px (dark), the hero heading \"I work at the intersection of design and…\" sits at 2.79:1 contrast across 55% of its glyph row against the decorative gradient background, below the 3:1 minimum for large text. Give the heading a flat backing panel or a solid-enough scrim behind it so it clears contrast at every point along the line.\n- Section 3 — react-engineer: Several case-study pages fail text contrast against the green gradient ground at 360px: the \"Type\" and \"AI\" labels on `/work/15th-club` (1.84:1 and under 4.5:1 respectively), the \"TeeTurn\" related-work link on `/work/dougmar-ch` (2.20:1), and the \"Next\" label on `/work/spaceman` (2.40:1), all needing 4.5:1. Put these labels on a flat solid chip/background rather than directly on the mesh gradient.\n===END===",
+      "channel": "sdk-vision",
+      "ts": 1790938516731
+    },
+    {
+      "critic": "surface-gate",
+      "round": 2,
+      "verdict": "REVISE",
+      "feedback": "/ @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @360: 'Work' (×2) is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'About' is a 44x53px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @360: 'Work' (×2) is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'About' is a 44x53px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/about @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/about @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/about @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/about @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/about @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/about @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work @360: 'Work' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: 'Work' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/experiments @360: 'Work' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'Work' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/spaceman @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/spaceman @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/spaceman @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/spaceman @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/fishsticks @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/fishsticks @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/fishsticks @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/fishsticks @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/fishsticks @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/fishsticks @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/15th-club @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/15th-club @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/15th-club @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/15th-club @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/15th-club @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/15th-club @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/dougmar-ch @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/dougmar-ch @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 100x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 147x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 194x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/dougmar-ch @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 100x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 147x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 194x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/dougmar-ch @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/dougmar-ch @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/dougmar-ch @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/teeturn @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/teeturn @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/teeturn @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/teeturn @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/teeturn @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/teeturn @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/politweets @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/politweets @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/politweets @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/politweets @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/politweets @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/politweets @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/twittertale @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/twittertale @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/twittertale @360: 'Work' (×2) is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'Home' is a 42x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/twittertale @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/twittertale @820: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/twittertale @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/work/twittertale @1440: <main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @360: <aside.pos_relative.z_1.bg_field.border-style_solid > div > h2.ff_display.fw_bold.font-style_italic.tt_uppercase> \"Bank of Utah\" (x3) at 18px bold sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: <aside.pos_relative.z_1.bg_field.border-style_solid > div > div.tt_uppercase.ls_0.08em.fs_13px.c_fieldInkMuted> \"In progress · Championship\" at 13px sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: <div > div.d_grid.grid-tc_1.6rem_1fr_auto.ai_baseline.cg_12px > span.fs_12px> \"1\" (x5) at 12px bold sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: 6 more distinct texts over a textured ground are not listed.\n/ @360: <aside.d_block.bg_bgAlt.c_text.bd-t_1px_solid > div.d_grid.grid-tc_1fr.jc_space-between.ai_end > p.m_0.ff_body.fs_base.md:fs_md> \"This design is a day old at most. A pipe\" at 16px sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. SiteCallout is written by the orchestrator, so this is reported for the owner and is not a revision.\n/ @360: <div.d_grid.grid-tc_1fr.jc_space-between.ai_end > div.d_flex.flex-wrap_wrap.ai_center.cg_5 > a.d_inline-flex.ai_center.min-h_44px.td_underline> \"Read the white paper\" at 14.5px bold sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. SiteCallout is written by the orchestrator, so this is reported for the owner and is not a revision.\n/work/dougmar-ch @820: <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/work/dougmar-ch @820: <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" sets 81 characters on its longest line (8 lines, median 75) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/about @1440: <span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em > span.d_flex.flex-d_column.pt_0.39em > span.ff_body.lh_1.2.ls_0.09em.tt_uppercase> \"Product Designer & Developer\" at 13px over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background): #b4e8d3 is under 4.5:1 across 100% of one pixel row through its glyphs (1.56:1 on #1eca87). BrandLockup is written by the orchestrator, so this is reported for the owner and is not a revision. Also on / at 360px, /about at 360px, / at 1440px, /work/spaceman at 360px, /work/spaceman at 1440px, /work/fishsticks at 360px, /work/fishsticks at 1440px, /work/15th-club at 360px, /work/15th-club at 1440px, /work/dougmar-ch at 360px, /work/dougmar-ch at 1440px, /work/teeturn at 360px, /work/teeturn at 1440px, /work/politweets at 360px, /work/politweets at 1440px, /work/twittertale at 360px, /work/twittertale at 1440px.\n/work/spaceman @1440: <span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em > span.d_flex.flex-d_column.pt_0.39em > span.ff_display.fw_700.lh_1.ls_-0.015em> \"Doug March\" at 28.6px over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background): #eef4f0 is under 3:1 across 100% of one pixel row through its glyphs (1.83:1 on #1ece8b). BrandLockup is written by the orchestrator, so this is reported for the owner and is not a revision. Also on / at 1440px, /about at 1440px, /work/fishsticks at 1440px, /work/15th-club at 1440px, /work/dougmar-ch at 1440px, /work/teeturn at 1440px, /work/politweets at 1440px, /work/twittertale at 1440px.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1790938616877
+    },
+    {
+      "critic": "screenshot-critic",
+      "round": "final",
+      "verdict": "UNVERIFIED",
+      "feedback": "[screenshot-critic] response truncated at max_tokens (16000 output tokens, cap 16000)",
+      "channel": "sdk-vision-truncated",
+      "ts": 1790938813922
+    }
+  ],
+  "composition": {
+    "columns": "two-asymmetric",
+    "axis": "horizontal",
+    "symmetry": "left-weighted",
+    "hero_zone": "center",
+    "density": "crowded",
+    "rhythm": "even",
+    "shell_posture": "folded-into-hero",
+    "field_ratio": "field-dominant",
+    "collapse": "hero-only",
+    "hero_object": "statement"
+  },
+  "lane": {
+    "laneId": "behance",
+    "register": "dark-portfolio-grid"
+  },
+  "cost": {
+    "total_usd": 4.61772,
+    "estimated": true,
+    "partial": false,
+    "calls": 12,
+    "retries": 4,
+    "byAgent": [
+      {
+        "agent": "art-director",
+        "purpose": "first",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 22692,
+        "cache_read": 0,
+        "cache_write": 45965,
+        "cost_usd": 0.8545912499999999,
+        "estimated": false,
+        "ms": 336193,
+        "num_turns": 1
+      },
+      {
+        "agent": "art-director",
+        "purpose": "block-retry",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 242,
+        "cache_read": 0,
+        "cache_write": 52080,
+        "cost_usd": 0.33156,
+        "estimated": false,
+        "ms": 5224,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "first",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 14165,
+        "cache_read": 0,
+        "cache_write": 41138,
+        "cost_usd": 0.6112475,
+        "estimated": false,
+        "ms": 181390,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "first",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 14302,
+        "output": 1936,
+        "cache_read": 0,
+        "cache_write": 6988,
+        "cost_usd": 0.13086799999999998,
+        "estimated": true,
+        "ms": 20117,
+        "num_turns": null
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "revision",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 11325,
+        "cache_read": 22690,
+        "cache_write": 27983,
+        "cost_usd": 0.46937375000000003,
+        "estimated": false,
+        "ms": 155743,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "rejudge",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 14302,
+        "output": 2119,
+        "cache_read": 6988,
+        "cache_write": 0,
+        "cost_usd": 0.1023832,
+        "estimated": true,
+        "ms": 22738,
+        "num_turns": null
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "revision",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 5300,
+        "cache_read": 22690,
+        "cache_write": 28098,
+        "cost_usd": 0.3194675,
+        "estimated": false,
+        "ms": 66312,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "rejudge",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 14302,
+        "output": 1117,
+        "cache_read": 6988,
+        "cache_write": 0,
+        "cost_usd": 0.0823432,
+        "estimated": true,
+        "ms": 13681,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "first",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 40504,
+        "cache_read": 0,
+        "cache_write": 39672,
+        "cost_usd": 1.008448,
+        "estimated": false,
+        "ms": 346119,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "first",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 24902,
+        "output": 9791,
+        "cache_read": 0,
+        "cache_write": 13535,
+        "cost_usd": 0.1815515,
+        "estimated": true,
+        "ms": 105395,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 3984,
+        "cache_read": 0,
+        "cache_write": 47377,
+        "cost_usd": 0.316573,
+        "estimated": false,
+        "ms": 33510,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "rejudge",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 23303,
+        "output": 16000,
+        "cache_read": 13535,
+        "cache_write": 0,
+        "cost_usd": 0.209313,
+        "estimated": true,
+        "ms": 172098,
+        "num_turns": null
+      }
+    ]
+  },
+  "measurables": {
+    "declared": {
+      "canvas_utilization_min": 82,
+      "hero_scale": "clamp(44px, 6.5vw, 104px)",
+      "color_coverage_min": 40
+    },
+    "declaredAt": "2026-10-02T11:00:16.776Z",
+    "measured": {
+      "canvas_utilization": 100,
+      "color_coverage": 100,
+      "hero_px": 94
+    },
+    "measuredAt": "2026-10-02T11:00:23.515Z",
+    "method": "Measured at 1440x900 on a 20px grid over the viewport at scroll position zero. canvas_utilization: % of grid cells touched by an element carrying designed content (visible text, an image/SVG/video/canvas, a background colour distinct from the page background and not transparent, or a background image such as a gradient). A background set on html or body counts as painting the page, unless it is opaque white; ::before and ::after boxes count on the same terms. color_coverage: % of grid cells whose sampled background, background-image stops or text colour is chromatic (HSL saturation > 12%, lightness 8-92%). hero_px: the largest computed font-size among first-fold elements that set visible text."
+  },
+  "surfaceGate": {
+    "ran": true,
+    "error": null,
+    "round": null
+  }
+}

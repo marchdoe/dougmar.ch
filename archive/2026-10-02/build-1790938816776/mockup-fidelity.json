@@ -1,0 +1,50 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'pick a direction commit build the thing' (34px in the mockup) has no match in the build",
+          "facts": {
+            "text": "pick a direction commit build the thing",
+            "mockupPx": 34,
+            "hidden": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets 'pick a direction commit build the thing' at 34px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'pick a direction commit build the thing' (34px in the mockup) has no match in the build",
+          "facts": {
+            "text": "pick a direction commit build the thing",
+            "mockupPx": 34,
+            "hidden": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets 'pick a direction commit build the thing' at 34px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

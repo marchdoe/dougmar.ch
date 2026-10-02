@@ -57,28 +57,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'None but ourselves can free our minds.' },
-      { property: 'og:title', content: 'None but ourselves can free our minds.' },
+      { title: "You can't go forward and backwards at the same time." },
+      { property: 'og:title', content: "You can't go forward and backwards at the same time." },
       {
         property: 'og:description',
         content:
-          'Oxblood-and-bone specimen ledger: Marley reversed out of a deep red band, ten years of work cascading beneath in heavy small-caps slab.',
+          'A committed aphorism on a green-black void: forward-leaning capitals, two directions outlined against each other, one spring-green signal lit in the dark.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-01.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-02.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'None but ourselves can free our minds.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-01.png' },
+      { name: 'twitter:title', content: "You can't go forward and backwards at the same time." },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-02.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Bitter:wght@500;700;900&family=Mulish:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Libre+Franklin:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -247,7 +247,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 152 designs
+            Archive · 153 designs
           </a>
         )}
         <ScrollRestoration />

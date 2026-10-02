@@ -1,0 +1,155 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "selector": "main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg",
+            "text": "",
+            "cause": "viewport",
+            "right": 382,
+            "over": 22,
+            "boxWidth": 389
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14,
+          "passing": false
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "Work",
+            "w": 38,
+            "h": 53
+          },
+          {
+            "tag": "A",
+            "text": "About",
+            "w": 44,
+            "h": 53
+          },
+          {
+            "tag": "A",
+            "text": "Work",
+            "w": 44,
+            "h": 44
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 2
+    },
+    "tablet": {
+      "width": 820,
+      "height": 1180,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "selector": "main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg",
+            "text": "",
+            "cause": "viewport",
+            "right": 871,
+            "over": 51,
+            "boxWidth": 886
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14,
+          "passing": false
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "Work",
+            "w": 38,
+            "h": 53
+          },
+          {
+            "tag": "A",
+            "text": "About",
+            "w": 44,
+            "h": 53
+          },
+          {
+            "tag": "A",
+            "text": "Work",
+            "w": 44,
+            "h": 44
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 2
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "selector": "main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg",
+            "text": "",
+            "cause": "viewport",
+            "right": 1087,
+            "over": 63,
+            "boxWidth": 1106
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "selector": "main > section.pos_relative.ov_hidden.bg_bg.mt_-96px > div.pos_absolute.inset_-4%.z_0.bg_bg",
+            "text": "",
+            "cause": "viewport",
+            "right": 1529,
+            "over": 89,
+            "boxWidth": 1555
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    }
+  },
+  "overallScore": 2,
+  "worstFailure": {
+    "viewport": "mobile",
+    "check": "clippedElements",
+    "detail": "1 element(s) clipped (first: <DIV>)"
+  },
+  "buildId": "1790938816776",
+  "date": "2026-10-02",
+  "archetype": "a committed aphorism on a green-black void, two directions outlined against each other"
+}

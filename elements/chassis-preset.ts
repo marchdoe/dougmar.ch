@@ -1,7 +1,7 @@
 import { definePreset } from '@pandacss/dev'
 
 /**
- * Generated from elements/chassis/bitter-mulish.js by scripts/utils/chassis.js.
+ * Generated from elements/chassis/anybody-franklin.js by scripts/utils/chassis.js.
  * Listed LAST in panda.config.ts so the chassis type system — fonts,
  * fontSizes, fontWeights, lineHeights, letterSpacings, spacing, textStyles —
  * wins over any values the Art Director emits in elements/preset.ts.
@@ -36,8 +36,8 @@ export const chassisPreset = definePreset({
       },
       tokens: {
         fonts: {
-          display: { value: "Bitter, Georgia, serif" },
-          body: { value: "Mulish, system-ui, -apple-system, sans-serif" },
+          display: { value: "Anybody, \"Arial Black\", Arial, sans-serif" },
+          body: { value: "\"Libre Franklin\", system-ui, -apple-system, sans-serif" },
         },
         fontSizes: {
           '2xs': { value: "0.75rem" },
@@ -52,7 +52,7 @@ export const chassisPreset = definePreset({
           '3xl': { value: "clamp(3.031rem, 2.157rem + 3.884vw, 5.653rem)" },
           '4xl': { value: "clamp(3.482rem, 1.978rem + 6.683vw, 7.993rem)" },
           '5xl': { value: "clamp(4rem, 2rem + 8.889vw, 10rem)" },
-          hero: { value: "clamp(4rem, 2.669rem + 5.916vw, 7.993rem)" },
+          hero: { value: "clamp(4.5rem, 3.336rem + 5.175vw, 7.993rem)" },
         },
         fontWeights: {
           light: { value: "400" },
@@ -62,13 +62,13 @@ export const chassisPreset = definePreset({
           bold: { value: "900" },
         },
         lineHeights: {
-          tight: { value: "0.95" },
+          tight: { value: "0.92" },
           snug: { value: "1.1" },
           normal: { value: "1.5" },
           loose: { value: "1.7" },
         },
         letterSpacings: {
-          tight: { value: "-0.01em" },
+          tight: { value: "-0.005em" },
           normal: { value: "0" },
           wide: { value: "0.04em" },
           wider: { value: "0.08em" },
@@ -95,11 +95,11 @@ export const chassisPreset = definePreset({
         md: { value: { fontSize: "md", lineHeight: "1.4", letterSpacing: "0" } },
         lg: { value: { fontSize: "lg", lineHeight: "1.3", letterSpacing: "-0.005em" } },
         xl: { value: { fontSize: "xl", lineHeight: "1.2", letterSpacing: "-0.01em" } },
-        '2xl': { value: { fontSize: "2xl", lineHeight: "1.1", letterSpacing: "-0.01em" } },
-        '3xl': { value: { fontSize: "3xl", lineHeight: "1.05", letterSpacing: "-0.01em" } },
-        '4xl': { value: { fontSize: "4xl", lineHeight: "1", letterSpacing: "-0.02em" } },
-        '5xl': { value: { fontSize: "5xl", lineHeight: "0.95", letterSpacing: "-0.025em" } },
-        hero: { value: { fontSize: "hero", lineHeight: "0.95", letterSpacing: "-0.01em" } },
+        '2xl': { value: { fontSize: "2xl", lineHeight: "1.1", letterSpacing: "-0.005em" } },
+        '3xl': { value: { fontSize: "3xl", lineHeight: "1.05", letterSpacing: "-0.005em" } },
+        '4xl': { value: { fontSize: "4xl", lineHeight: "1", letterSpacing: "-0.005em" } },
+        '5xl': { value: { fontSize: "5xl", lineHeight: "0.95", letterSpacing: "-0.005em" } },
+        hero: { value: { fontSize: "hero", lineHeight: "0.92", letterSpacing: "-0.005em" } },
       },
     },
   },

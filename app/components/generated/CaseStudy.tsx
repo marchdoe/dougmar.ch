@@ -1,121 +1,72 @@
 import { css } from '../../../styled-system/css'
 import type { projects } from '../../content/projects'
-import { SectionLabel } from './SectionLabel'
+import { CaseFacts } from './CaseFacts'
 
-type CaseProject = (typeof projects)[number] & { timeline?: string; status?: string }
+type Project = (typeof projects)[number]
 
-function projectFacts(p: CaseProject) {
-  return [
-    { lbl: 'Role', val: p.role ?? '' },
-    { lbl: 'Timeline', val: p.timeline ?? '' },
-    { lbl: 'Status', val: p.status ?? '' },
-    { lbl: 'Stack', val: (p.stack ?? []).join(', ') },
-  ].filter((f) => f.val !== '')
-}
-
-function projectNarrative(p: CaseProject) {
-  return [
-    { title: 'Problem', body: p.problem ?? p.description ?? '' },
-    { title: 'Approach', body: p.approach ?? '' },
-    { title: 'Outcome', body: p.outcome ?? '' },
-  ].filter((s) => s.body !== '')
-}
-
-export function CaseStudy({ project }: { project: CaseProject }) {
+export function CaseStudy({ project }: { project: Project }) {
+  const parts = [
+    { label: 'Overview', body: project.description },
+    { label: 'Problem', body: project.problem },
+    { label: 'Approach', body: project.approach },
+    { label: 'Outcome', body: project.outcome },
+  ].filter((p) => Boolean(p.body))
   return (
-    <div
+    <section
       className={css({
-        paddingTop: '32px',
-        paddingInline: '24px',
-        md: { paddingInline: '6vw' },
+        paddingBlock: 'clamp(40px, 6vw, 80px)',
+        paddingInline: 'clamp(24px, 5vw, 88px)',
+        borderTopWidth: '1px',
+        borderTopStyle: 'solid',
+        borderTopColor: 'borderStrong',
+        display: 'grid',
+        gridTemplateColumns: { base: '1fr', lg: 'minmax(0, 1.5fr) minmax(240px, 1fr)' },
+        gap: '7',
+        alignItems: 'start',
+        '@supports (animation-timeline: view())': {
+          animationName: 'rise',
+          animationTimeline: 'view()',
+          animationRange: 'entry 0% entry 40%',
+          animationFillMode: 'both',
+        },
       })}
     >
-      <dl
+      <div
         className={css({
-          display: 'grid',
-          gridTemplateColumns: 'minmax(0, 1fr)',
-          rowGap: '3',
-          columnGap: '6',
-          margin: '0',
-          paddingBlock: '4',
-          borderTopWidth: '1px',
-          borderTopStyle: 'solid',
-          borderTopColor: 'border',
-          borderBottomWidth: '1px',
-          borderBottomStyle: 'solid',
-          borderBottomColor: 'border',
-          md: { gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' },
-          lg: { gridTemplateColumns: 'repeat(4, minmax(0, 1fr))' },
+          bg: 'surface',
+          padding: 'clamp(20px, 3vw, 40px)',
+          '& > div:first-child h2': { marginTop: '0' },
         })}
       >
-        {projectFacts(project).map((f) => (
-          <div key={f.lbl}>
-            <dt
+        {parts.map((part) => (
+          <div key={part.label}>
+            <h2
               className={css({
-                fontSize: '12px',
-                fontWeight: 'bold',
-                letterSpacing: 'wider',
+                textStyle: 'sm',
                 textTransform: 'uppercase',
-                color: 'textFaint',
+                letterSpacing: '0.08em',
+                color: 'accent',
+                fontWeight: 'bold',
+                marginTop: '6',
+                marginBottom: '3',
               })}
             >
-              {f.lbl}
-            </dt>
-            <dd className={css({ margin: '0', fontSize: 'sm', color: 'text', marginTop: '1' })}>
-              {f.val}
-            </dd>
+              {part.label}
+            </h2>
+            <p
+              className={css({
+                textStyle: 'base',
+                color: 'text',
+                maxWidth: '50ch',
+                lineHeight: 'loose',
+              })}
+            >
+              {part.body}
+            </p>
           </div>
         ))}
-      </dl>
-      {projectNarrative(project).map((s) => (
-        <section
-          key={s.title}
-          className={css({
-            marginTop: '56px',
-            '@supports (animation-timeline: view())': {
-              animationName: 'rise',
-              animationTimeline: 'view()',
-              animationRange: 'entry 0% entry 40%',
-              animationFillMode: 'both',
-            },
-          })}
-        >
-          <SectionLabel title={s.title} note={project.title} />
-          <p
-            className={css({
-              fontSize: 'base',
-              lineHeight: '1.6',
-              color: 'text',
-              maxWidth: '50ch',
-            })}
-          >
-            {s.body}
-          </p>
-        </section>
-      ))}
-      {project.liveUrl ? (
-        <a
-          href={project.liveUrl}
-          className={css({
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '6px',
-            marginTop: '40px',
-            fontWeight: 'bold',
-            fontSize: '13px',
-            letterSpacing: 'wide',
-            textTransform: 'uppercase',
-            color: 'accent',
-            borderBottomWidth: '2px',
-            borderBottomStyle: 'solid',
-            borderBottomColor: 'accent',
-            paddingBlock: '6px',
-            minHeight: '44px',
-          })}
-        >
-          Visit the live project ↗
-        </a>
-      ) : null}
-    </div>
+      </div>
+      <CaseFacts project={project} />
+    </section>
   )
 }

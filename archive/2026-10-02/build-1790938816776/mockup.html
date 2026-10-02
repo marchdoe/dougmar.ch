@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — You can't go forward and backwards at the same time</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Libre+Franklin:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c1611; --bgAlt:#10201a; --surface:#16271f;
+    --text:#eef4f0; --textMuted:#9fb6aa; --textFaint:#80978b;
+    --accent:#1fd891; --accentText:#06130d; --accentAlt:#5ce6b0;
+    --border:#293932; --borderStrong:#4d645a;
+    --field:#0f2e22; --fieldBorder:#1d4a37; --fieldInk:#d9f6e9; --fieldInkMuted:#83c6a7;
+    --disp:"Anybody", sans-serif;
+    --body:"Libre Franklin", sans-serif;
+    --pad:clamp(24px,5vw,88px);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:var(--body); font-weight:400;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility; font-kerning:normal;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{margin:0; font-weight:inherit;}
+  p{margin:0;}
+  a{color:var(--accent); text-decoration:none; transition:color 160ms ease;}
+  ::selection{background:var(--accent); color:var(--accentText);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; overflow:hidden;
+    min-height:100vh;
+    display:flex; flex-direction:column;
+    padding:0;
+  }
+  .mesh{
+    position:absolute; inset:0; pointer-events:none; z-index:0;
+    background-color:var(--bg);
+    background-image:
+      radial-gradient(at 18% 30%, rgba(31,216,145,0.20) 0, transparent 45%),
+      radial-gradient(at 72% 68%, rgba(92,230,176,0.14) 0, transparent 42%),
+      radial-gradient(at 50% 92%, rgba(12,22,17,0.9) 0, transparent 55%),
+      radial-gradient(at 88% 12%, rgba(31,216,145,0.10) 0, transparent 40%);
+  }
+  .hero__grid{
+    position:relative; z-index:1;
+    flex:1;
+    display:grid;
+    grid-template-columns:1fr;
+    min-height:100vh;
+  }
+  .hero__left{
+    display:flex; flex-direction:column;
+    padding:clamp(20px,5vw,40px) clamp(18px,4vw,56px) clamp(24px,4vw,48px);
+    min-height:100vh;
+  }
+
+  /* lockup */
+  .lockup{
+    display:flex; align-items:flex-start; gap:14px;
+    min-height:60px;
+  }
+  .lockup__mark{ color:var(--text); height:44px; width:auto; display:block; flex:none; }
+  .lockup__mark svg{ height:44px; width:auto; display:block; }
+  .lockup__txt{ display:flex; flex-direction:column; justify-content:center; }
+  .lockup__name{
+    font-family:var(--disp); font-weight:700; font-size:24px; line-height:1;
+    letter-spacing:-0.015em; color:var(--text);
+  }
+  .lockup__role{
+    font-family:var(--body); font-weight:500; text-transform:uppercase;
+    letter-spacing:0.09em; font-size:13px; color:var(--textMuted); margin-top:7px;
+  }
+
+  /* quote */
+  .quote-block{
+    flex:1;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:clamp(28px,5vh,56px) 0;
+    animation:rise 700ms cubic-bezier(.16,.84,.44,1) both;
+  }
+  .quote{
+    font-family:var(--disp);
+    font-style:italic; font-weight:900;
+    text-transform:uppercase;
+    font-size:clamp(34px,6.5vw,104px);
+    line-height:0.98;
+    letter-spacing:-0.02em;
+  }
+  .qline{
+    display:block;
+    text-align:justify;
+    -webkit-text-align-last:justify; text-align-last:justify;
+    overflow-wrap:break-word;
+  }
+  @media (min-width:860px){
+    .qline{ line-height:0.96; }
+  }
+  .quote .out{
+    color:transparent;
+    -webkit-text-stroke:1.6px var(--accent);
+    text-stroke:1.6px var(--accent);
+  }
+  .attr{
+    font-family:var(--disp); font-style:italic; font-weight:400;
+    font-size:clamp(16px,1.4vw,20px);
+    color:var(--textMuted);
+    margin-top:clamp(20px,3vh,34px);
+    letter-spacing:0.01em;
+  }
+  .attr b{ color:var(--text); font-weight:700; font-style:normal; }
+
+  /* hero nav */
+  .hero-nav{
+    display:flex; flex-wrap:wrap; gap:clamp(20px,3vw,44px);
+    margin-top:auto; padding-top:clamp(24px,3vh,40px);
+  }
+  .hero-nav a{
+    font-family:var(--body); font-weight:500; font-size:15px;
+    color:var(--text); letter-spacing:0.01em;
+    padding:12px 0; min-height:44px; display:inline-flex; align-items:center;
+  }
+  .hero-nav a:hover{ color:var(--accent); }
+
+  /* ---------- SIGNAL RAIL ---------- */
+  .rail{
+    position:relative; z-index:1;
+    background:var(--field);
+    border-top:1px solid var(--borderStrong);
+    padding:clamp(28px,5vw,44px) var(--pad);
+    display:flex; flex-direction:column; gap:30px;
+  }
+  .rail__block{ display:flex; flex-direction:column; }
+  .rail__head{
+    font-family:var(--disp); font-weight:700; font-style:italic;
+    text-transform:uppercase; letter-spacing:0.02em;
+    font-size:clamp(18px,1.5vw,22px); color:var(--fieldInk);
+    margin-bottom:14px;
+  }
+  .rail__sub{
+    font-family:var(--body); text-transform:uppercase; letter-spacing:0.08em;
+    font-size:13px; font-weight:500; color:var(--fieldInkMuted); margin-bottom:16px;
+  }
+  .lb__row{
+    display:grid; grid-template-columns:1.6rem 1fr auto;
+    align-items:baseline; gap:12px;
+    padding:11px 0; border-bottom:1px solid var(--fieldBorder);
+    font-size:15px;
+    font-variant-numeric:tabular-nums;
+  }
+  .lb__row:last-child{ border-bottom:none; }
+  .lb__pos{ color:var(--fieldInkMuted); font-size:12px; font-variant-numeric:tabular-nums; }
+  .lb__name{ color:var(--fieldInk); }
+  .lb__score{ color:var(--fieldInkMuted); font-variant-numeric:tabular-nums; }
+  .lb__row.lead .lb__name,
+  .lb__row.lead .lb__score,
+  .lb__row.lead .lb__pos{ color:var(--accent); font-weight:600; }
+
+  .mkt{
+    display:flex; align-items:baseline; gap:12px;
+    font-variant-numeric:tabular-nums; flex-wrap:wrap;
+  }
+  .mkt__sym{ font-family:var(--disp); font-weight:700; color:var(--fieldInk); font-size:17px; }
+  .mkt__val{ color:var(--fieldInk); font-size:17px; font-variant-numeric:tabular-nums; }
+  .mkt__chg{ color:var(--accent); font-size:15px; font-weight:600; font-variant-numeric:tabular-nums; }
+
+  .meta{
+    font-size:14px; color:var(--fieldInkMuted); line-height:1.55;
+  }
+  .meta b{ color:var(--fieldInk); font-weight:600; }
+  .meta--faint{ font-size:13px; color:var(--fieldInkMuted); }
+
+  /* ---------- CALLOUT ---------- */
+  .callout{
+    background:var(--bgAlt);
+    border-top:1px solid var(--border);
+    padding:clamp(40px,6vw,72px) var(--pad);
+    display:flex; align-items:center; justify-content:space-between;
+    gap:24px; flex-wrap:wrap;
+  }
+  .callout__txt{
+    font-family:var(--disp); font-style:italic; font-weight:700;
+    font-size:clamp(22px,2.6vw,34px); letter-spacing:-0.01em;
+    color:var(--text); max-width:22ch;
+  }
+  .callout__cta{
+    font-family:var(--body); font-weight:600; font-size:15px;
+    color:var(--accentText); background:var(--accent);
+    padding:14px 24px; border-radius:4px; min-height:44px;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .callout__cta:hover{ background:var(--accentAlt); color:var(--accentText); }
+
+  /* ---------- WORK INDEX ---------- */
+  .work{
+    background:var(--bg);
+    padding:clamp(48px,7vw,96px) var(--pad) clamp(40px,5vw,72px);
+  }
+  .work__eyebrow{
+    font-family:var(--body); text-transform:uppercase; letter-spacing:0.1em;
+    font-size:13px; font-weight:600; color:var(--accent); margin-bottom:10px;
+  }
+  .featured{
+    border-top:1px solid var(--borderStrong);
+    padding-top:clamp(24px,3vw,40px);
+    margin-bottom:clamp(48px,6vw,80px);
+    display:grid; grid-template-columns:1fr; gap:18px;
+  }
+  .featured__title{
+    font-family:var(--disp); font-weight:900; font-style:italic;
+    text-transform:uppercase; font-size:clamp(40px,7vw,96px);
+    line-height:0.95; letter-spacing:-0.01em; color:var(--text);
+  }
+  .featured__meta{
+    font-family:var(--body); text-transform:uppercase; letter-spacing:0.08em;
+    font-size:13px; color:var(--textMuted); font-weight:500;
+  }
+  .featured__problem{
+    font-size:17px; line-height:1.55; color:var(--textMuted);
+    max-width:62ch;
+  }
+  .featured__problem b{ color:var(--text); font-weight:600; }
+  .featured__link{
+    font-weight:600; font-size:15px; color:var(--accent);
+    display:inline-flex; align-items:center; gap:8px;
+    min-height:44px;
+  }
+  .featured__link:hover{ color:var(--accentAlt); }
+
+  .idx__group{ margin-bottom:clamp(32px,4vw,56px); }
+  .idx__label{
+    font-family:var(--body); text-transform:uppercase; letter-spacing:0.1em;
+    font-size:13px; font-weight:600; color:var(--textFaint);
+    padding-bottom:12px; border-bottom:1px solid var(--border);
+    margin-bottom:4px;
+  }
+  .idx__row{
+    display:grid; grid-template-columns:1fr auto;
+    align-items:baseline; gap:12px;
+    padding:16px 0; border-bottom:1px solid var(--border);
+    min-height:44px;
+  }
+  .idx__row:hover .idx__name{ color:var(--accent); }
+  .idx__name{
+    font-family:var(--disp); font-weight:700; text-transform:uppercase;
+    font-size:clamp(22px,2.6vw,34px); line-height:1.05;
+    letter-spacing:-0.005em; color:var(--text); transition:color 160ms ease;
+  }
+  .idx__right{
+    display:flex; gap:16px; align-items:baseline; flex-wrap:wrap;
+    justify-content:flex-end;
+    font-family:var(--body); font-size:13px; letter-spacing:0.06em;
+    text-transform:uppercase; color:var(--textMuted);
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ---------- FOOTER ---------- */
+  .baseline{
+    border-top:1px solid var(--borderStrong);
+    padding:22px var(--pad);
+    display:flex; align-items:center; justify-content:space-between;
+    gap:16px; flex-wrap:wrap;
+    font-family:var(--body); font-size:13px; letter-spacing:0.05em;
+    text-transform:uppercase; color:var(--textMuted);
+  }
+  .baseline b{ color:var(--text); font-weight:600; }
+
+  @keyframes rise{
+    from{ opacity:0; transform:translateY(26px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .quote-block{ animation:none; }
+  }
+
+  /* ---------- DESKTOP ---------- */
+  @media (min-width:860px){
+    .hero__grid{
+      grid-template-columns:minmax(0,1.55fr) minmax(300px,1fr);
+    }
+    .rail{
+      border-top:none; border-left:1px solid var(--borderStrong);
+      justify-content:center; gap:34px;
+    }
+    .featured{
+      grid-template-columns:1.2fr 1fr;
+      grid-template-areas:
+        "title title"
+        "meta problem"
+        "link problem";
+      align-items:start; column-gap:48px; row-gap:20px;
+    }
+    .featured__title{ grid-area:title; }
+    .featured__meta{ grid-area:meta; }
+    .featured__problem{ grid-area:problem; grid-row:span 2; }
+    .featured__link{ grid-area:link; }
+    .hero__left{
+      padding-left:clamp(32px,3.5vw,60px);
+      padding-right:clamp(16px,1.5vw,28px);
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="mesh"></div>
+  <div class="hero__grid">
+    <div class="hero__left">
+      <div class="lockup">
+        <span class="lockup__mark" aria-hidden="true">
+          <svg viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <title>Doug March logo</title>
+          <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="currentColor"/>
+          <circle cx="30.0829" cy="29.3002" r="0.98668" fill="currentColor"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="currentColor" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="currentColor" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3416" r="20.033" stroke="currentColor" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="currentColor" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3416" r="22.114" stroke="currentColor" stroke-width="0.25"/>
+          <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="lockup__txt">
+          <span class="lockup__name">Doug March</span>
+          <span class="lockup__role">Product Designer &amp; Developer</span>
+        </span>
+      </div>
+
+      <div class="quote-block">
+        <h1 class="quote">
+          <span class="qline">You can't go</span>
+          <span class="qline"><span class="out">forward</span> and</span>
+          <span class="qline"><span class="out">backwards</span> at</span>
+          <span class="qline">the same time.</span>
+        </h1>
+        <p class="attr"><b>Steve Harvey</b></p>
+      </div>
+
+      <nav class="hero-nav" aria-label="Primary">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+
+    <aside class="rail" aria-label="Today's signals">
+      <div class="rail__block">
+        <h2 class="rail__head">Bank of Utah</h2>
+        <p class="rail__sub">In progress · Championship</p>
+        <div class="lb__row lead">
+          <span class="lb__pos">1</span>
+          <span class="lb__name">Zach Bauchou</span>
+          <span class="lb__score">−9</span>
+        </div>
+        <div class="lb__row">
+          <span class="lb__pos">T2</span>
+          <span class="lb__name">Yellamaraju</span>
+          <span class="lb__score">−8</span>
+        </div>
+        <div class="lb__row">
+          <span class="lb__pos">T2</span>
+          <span class="lb__name">Lipsky</span>
+          <span class="lb__score">−8</span>
+        </div>
+        <div class="lb__row">
+          <span class="lb__pos">T2</span>
+          <span class="lb__name">Jaeger</span>
+          <span class="lb__score">−8</span>
+        </div>
+        <div class="lb__row">
+          <span class="lb__pos">T2</span>
+          <span class="lb__name">Fisk</span>
+          <span class="lb__score">−8</span>
+        </div>
+      </div>
+
+      <div class="rail__block">
+        <h2 class="rail__head">Market</h2>
+        <div class="mkt">
+          <span class="mkt__sym">SPY</span>
+          <span class="mkt__val">763.99</span>
+          <span class="mkt__chg">▲ 0.18%</span>
+        </div>
+      </div>
+
+      <div class="rail__block">
+        <h2 class="rail__head">Aldie, VA</h2>
+        <p class="meta"><b>66.7°F</b> · Cloudy · Air quality Good (AQI 1)</p>
+        <p class="meta meta--faint">Moon — last quarter, 58.5% lit</p>
+      </div>
+    </aside>
+  </div>
+</header>
+
+<section class="callout" aria-label="Site callout">
+  <p class="callout__txt">Pick a direction. Commit. Build the thing.</p>
+  <a class="callout__cta" href="#contact">Start a project →</a>
+</section>
+
+<section class="work" id="work">
+  <p class="work__eyebrow">Featured</p>
+  <div class="featured">
+    <h2 class="featured__title">Spaceman</h2>
+    <p class="featured__meta">Founder · 2018 – Present · Active</p>
+    <p class="featured__problem"><b>Founding a company means picking one direction and committing before you can know it was the right one.</b> Spaceman is the long bet — chosen early, built, shipped, and still running years on. The proof that the decision held is that it is still here.</p>
+    <a class="featured__link" href="#spaceman">View Spaceman →</a>
+  </div>
+
+  <div class="idx__group">
+    <p class="idx__label">Selected Work</p>
+    <a class="idx__row" href="#dougmar-ch">
+      <span class="idx__name">dougmar.ch</span>
+      <span class="idx__right"><span>AI</span><span>2026</span></span>
+    </a>
+    <a class="idx__row" href="#fishsticks">
+      <span class="idx__name">FishSticks</span>
+      <span class="idx__right"><span>SaaS</span><span>2025</span></span>
+    </a>
+    <a class="idx__row" href="#15th-club">
+      <span class="idx__name">15th Club</span>
+      <span class="idx__right"><span>AI</span><span>2025</span></span>
+    </a>
+  </div>
+
+  <div class="idx__group">
+    <p class="idx__label">Experiments</p>
+    <a class="idx__row" href="#teeturn">
+      <span class="idx__name">TeeTurn</span>
+      <span class="idx__right"><span>Experiment</span><span>2020</span></span>
+    </a>
+    <a class="idx__row" href="#politweets">
+      <span class="idx__name">Politweets</span>
+      <span class="idx__right"><span>Experiment</span><span>2008</span></span>
+    </a>
+    <a class="idx__row" href="#twittertale">
+      <span class="idx__name">Twittertale</span>
+      <span class="idx__right"><span>Experiment</span><span>2008</span></span>
+    </a>
+  </div>
+</section>
+
+<footer class="baseline">
+  <span><b>Aldie, Virginia</b> · 2026</span>
+  <span>In rotation — <b>The War on Drugs</b> · <b>Wet Leg</b></span>
+</footer>
+
+</body>
+</html>

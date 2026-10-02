@@ -1,119 +1,77 @@
 import { css } from '../../../styled-system/css'
-import { BrandLockup } from '../BrandLockup'
-import { Ground } from '../Material'
+import { identity } from '../../content/about'
+import { DriftGround } from './DriftGround'
+import { HomeQuote } from './HomeQuote'
+import { SignalRail } from './SignalRail'
+
+const navLink = css({
+  fontFamily: 'body',
+  textStyle: 'sm',
+  color: 'text',
+  letterSpacing: '0.01em',
+  paddingBlock: '3',
+  minHeight: '44px',
+  display: 'inline-flex',
+  alignItems: 'center',
+  _hover: { color: 'accent' },
+})
 
 export function HomeHero() {
   return (
-    <header
+    <section
       className={css({
         position: 'relative',
         overflow: 'hidden',
-        bg: 'field',
-        color: 'fieldInk',
-        paddingTop: '28px',
-        paddingBottom: '40px',
-        paddingInline: '24px',
-        minHeight: '62vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        md: { paddingTop: '40px', paddingBottom: '56px', paddingInline: '6vw' },
-        lg: { minHeight: '52vh' },
+        bg: 'bg',
+        marginTop: { base: '-96px', md: '-120px' },
       })}
     >
-      <Ground material="dots" seed={1027631916} />
-      <span
-        aria-hidden="true"
-        data-allow-x-overflow=""
+      <DriftGround />
+      <div
         className={css({
-          display: 'none',
-          lg: { display: 'block' },
-          position: 'absolute',
-          zIndex: 0,
-          right: '2vw',
-          bottom: '-0.12em',
-          fontFamily: 'display',
-          fontWeight: 'bold',
-          fontVariant: 'small-caps',
-          fontSize: '20vw',
-          lineHeight: '0.8',
-          whiteSpace: 'nowrap',
-          color: 'fieldInk',
-          opacity: 0.06,
-          pointerEvents: 'none',
-          userSelect: 'none',
+          position: 'relative',
+          zIndex: 1,
+          display: 'grid',
+          gridTemplateColumns: { base: '1fr', lg: 'minmax(0, 1.55fr) minmax(300px, 1fr)' },
+          minHeight: '100vh',
         })}
       >
-        minds
-      </span>
-      <div className={css({ position: 'relative', zIndex: 1, width: '100%' })}>
         <div
           className={css({
-            color: 'fieldInk',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'flex-start',
-            lg: { display: 'none' },
+            minHeight: '100vh',
+            minWidth: '0',
+            paddingTop: { base: '96px', md: '120px' },
+            paddingBottom: 'clamp(24px, 4vw, 48px)',
+            paddingLeft: { base: 'clamp(18px, 4vw, 56px)', lg: 'clamp(32px, 3.5vw, 60px)' },
+            paddingRight: { base: 'clamp(18px, 4vw, 56px)', lg: 'clamp(16px, 1.5vw, 28px)' },
           })}
         >
-          <BrandLockup variant="stacked-md" mode="single-color" />
+          <HomeQuote />
+          <nav
+            aria-label="Primary"
+            className={css({
+              display: 'flex',
+              flexWrap: 'wrap',
+              columnGap: 'clamp(20px, 3vw, 44px)',
+              marginTop: 'auto',
+              paddingTop: 'clamp(24px, 3vh, 40px)',
+            })}
+          >
+            <a href="#work" className={navLink}>
+              Work
+            </a>
+            <a href="/about" className={navLink}>
+              About
+            </a>
+            <a href={`mailto:${identity.email}`} className={navLink}>
+              Contact
+            </a>
+          </nav>
         </div>
-        <p
-          className={css({
-            fontSize: 'sm',
-            letterSpacing: 'wider',
-            textTransform: 'uppercase',
-            color: 'fieldInkMuted',
-            fontWeight: 'bold',
-            marginTop: '48px',
-            marginBottom: '18px',
-            animationName: 'wipe',
-            animationDuration: '500ms',
-            animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-            animationFillMode: 'both',
-            animationDelay: '80ms',
-          })}
-        >
-          Aldie, Virginia · October 1
-        </p>
-        <h1
-          className={css({
-            fontFamily: 'display',
-            fontWeight: 'bold',
-            fontVariant: 'small-caps',
-            letterSpacing: 'wide',
-            fontSize: { base: 'clamp(30px, 8.4vw, 62px)', xl: 'clamp(44px, 4.3vw, 64px)' },
-            lineHeight: '1.04',
-            color: 'fieldInk',
-            textAlign: 'left',
-            maxWidth: { base: '18ch', xl: '16ch' },
-            animationName: 'wipe',
-            animationDuration: '500ms',
-            animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-            animationFillMode: 'both',
-            animationDelay: '0ms',
-          })}
-        >
-          None but ourselves can free our minds.
-        </h1>
-        <p
-          className={css({
-            marginTop: '16px',
-            fontSize: '14px',
-            letterSpacing: 'wider',
-            textTransform: 'uppercase',
-            color: 'fieldInkMuted',
-            fontWeight: 'bold',
-            animationName: 'wipe',
-            animationDuration: '500ms',
-            animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-            animationFillMode: 'both',
-            animationDelay: '160ms',
-          })}
-        >
-          Bob Marley, Redemption Song
-        </p>
+        <SignalRail />
       </div>
-    </header>
+    </section>
   )
 }
