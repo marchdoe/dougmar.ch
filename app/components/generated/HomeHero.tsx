@@ -1,20 +1,6 @@
 import { css } from '../../../styled-system/css'
-import { identity } from '../../content/about'
-import { DriftGround } from './DriftGround'
-import { HomeQuote } from './HomeQuote'
-import { SignalRail } from './SignalRail'
-
-const navLink = css({
-  fontFamily: 'body',
-  textStyle: 'sm',
-  color: 'text',
-  letterSpacing: '0.01em',
-  paddingBlock: '3',
-  minHeight: '44px',
-  display: 'inline-flex',
-  alignItems: 'center',
-  _hover: { color: 'accent' },
-})
+import { personal } from '../../content/about'
+import { Ground } from '../Material'
 
 export function HomeHero() {
   return (
@@ -23,54 +9,141 @@ export function HomeHero() {
         position: 'relative',
         overflow: 'hidden',
         bg: 'bg',
-        marginTop: { base: '-96px', md: '-120px' },
+        minHeight: { base: '76vh', md: '78vh' },
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        paddingTop: '48px',
+        paddingBottom: { base: '72px', md: '112px' },
+        paddingInline: 'clamp(24px, 6vw, 112px)',
       })}
     >
-      <DriftGround />
+      <Ground material="grain" seed={994076678} />
+      {/* glow #F0D0A0 has no semantic token; nearest is accent, laid down soft and blurred */}
+      <div
+        aria-hidden="true"
+        className={css({
+          position: 'absolute',
+          top: '46%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 'min(80%, 640px)',
+          aspectRatio: '1',
+          borderRadius: 'full',
+          bg: 'accent',
+          opacity: 0.2,
+          filter: 'blur(72px)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        })}
+      />
+      {/* ring stroke #E8B873 has no semantic token; nearest is accent at reduced opacity */}
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 800 800"
+        fill="none"
+        className={css({
+          position: 'absolute',
+          top: '46%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 'min(100%, 860px)',
+          height: 'auto',
+          aspectRatio: '1',
+          color: 'accent',
+          opacity: 0.32,
+          pointerEvents: 'none',
+          zIndex: 0,
+        })}
+      >
+        <g stroke="currentColor" strokeWidth="2" fill="none">
+          <circle cx="400" cy="400" r="110" />
+          <circle cx="400" cy="400" r="175" />
+          <circle cx="400" cy="400" r="240" />
+          <circle cx="400" cy="400" r="305" />
+          <circle cx="400" cy="400" r="370" />
+        </g>
+      </svg>
       <div
         className={css({
           position: 'relative',
           zIndex: 1,
-          display: 'grid',
-          gridTemplateColumns: { base: '1fr', lg: 'minmax(0, 1.55fr) minmax(300px, 1fr)' },
-          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '10px',
         })}
       >
-        <div
+        <span
           className={css({
-            display: 'flex',
-            flexDirection: 'column',
-            minHeight: '100vh',
-            minWidth: '0',
-            paddingTop: { base: '96px', md: '120px' },
-            paddingBottom: 'clamp(24px, 4vw, 48px)',
-            paddingLeft: { base: 'clamp(18px, 4vw, 56px)', lg: 'clamp(32px, 3.5vw, 60px)' },
-            paddingRight: { base: 'clamp(18px, 4vw, 56px)', lg: 'clamp(16px, 1.5vw, 28px)' },
+            fontFamily: 'body',
+            fontSize: 'xs',
+            fontWeight: '500',
+            textTransform: 'lowercase',
+            letterSpacing: '0.22em',
+            color: 'text',
           })}
         >
-          <HomeQuote />
-          <nav
-            aria-label="Primary"
+          holes in one · a scorecard i keep
+        </span>
+        <span
+          className={`tnum ${css({
+            fontFamily: 'display',
+            fontWeight: 'normal',
+            textStyle: 'hero',
+            lineHeight: '0.9',
+            letterSpacing: '-0.01em',
+            color: 'fieldBorder',
+            marginTop: '2px',
+            marginBottom: '6px',
+          })}`}
+        >
+          {personal.holesInOne}
+        </span>
+        <h1
+          className={css({
+            fontFamily: 'display',
+            fontWeight: 'normal',
+            fontSize: { base: '28px', lg: '40px' },
+            lineHeight: '1.08',
+            letterSpacing: '-0.005em',
+            textTransform: 'lowercase',
+            color: 'text',
+            maxWidth: '16ch',
+          })}
+        >
+          Four holes in one. The scorecard is the first experiment.
+        </h1>
+        <p
+          className={css({
+            fontSize: 'sm',
+            color: 'textMuted',
+            maxWidth: '46ch',
+            marginTop: '6px',
+          })}
+        >
+          the aces are a real card, and 15th club's scorecard is the first of its experiments. see
+          the{' '}
+          <a
+            href="#work"
             className={css({
-              display: 'flex',
-              flexWrap: 'wrap',
-              columnGap: 'clamp(20px, 3vw, 44px)',
-              marginTop: 'auto',
-              paddingTop: 'clamp(24px, 3vh, 40px)',
+              color: 'text',
+              bg: 'surface',
+              borderBottomWidth: '2px',
+              borderBottomStyle: 'solid',
+              borderBottomColor: 'fieldBorder',
+              paddingBlock: '1px',
+              paddingInline: '5px',
+              borderRadius: 'sm',
+              _hover: { color: 'accentAlt', borderBottomColor: 'accentAlt' },
             })}
           >
-            <a href="#work" className={navLink}>
-              Work
-            </a>
-            <a href="/about" className={navLink}>
-              About
-            </a>
-            <a href={`mailto:${identity.email}`} className={navLink}>
-              Contact
-            </a>
-          </nav>
-        </div>
-        <SignalRail />
+            work
+          </a>
+          .
+        </p>
       </div>
     </section>
   )

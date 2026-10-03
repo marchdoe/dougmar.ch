@@ -1,16 +1,16 @@
 import { css } from '../../../styled-system/css'
 import { capabilities } from '../../content/timeline'
+import { SectionHeading } from './SectionHeading'
 
 export function CapabilitiesSection() {
   return (
     <section
       className={css({
-        paddingBlock: 'clamp(40px, 6vw, 80px)',
-        paddingInline: 'clamp(24px, 5vw, 88px)',
-        bg: 'bgAlt',
-        borderTopWidth: '1px',
-        borderTopStyle: 'solid',
-        borderTopColor: 'border',
+        maxWidth: '720px',
+        marginInline: 'auto',
+        paddingTop: '64px',
+        paddingInline: 'clamp(24px, 6vw, 112px)',
+        boxSizing: 'content-box',
         '@supports (animation-timeline: view())': {
           animationName: 'rise',
           animationTimeline: 'view()',
@@ -19,52 +19,33 @@ export function CapabilitiesSection() {
         },
       })}
     >
-      <h2
-        className={css({
-          fontFamily: 'display',
-          fontWeight: 'bold',
-          fontStyle: 'italic',
-          textTransform: 'uppercase',
-          fontSize: 'clamp(18px, 1.5vw, 22px)',
-          color: 'text',
-          marginBottom: '5',
-        })}
-      >
-        Capabilities
-      </h2>
+      <SectionHeading label="in the bag" title="capabilities" flush />
       <ul
         className={css({
           listStyle: 'none',
-          margin: '0',
           padding: '0',
+          margin: '0',
+          marginTop: '20px',
           display: 'flex',
           flexWrap: 'wrap',
-          columnGap: '5',
-          rowGap: '3',
+          rowGap: '8px',
+          columnGap: '20px',
         })}
       >
-        {capabilities.map((cap) => (
+        {capabilities.map((c) => (
           <li
-            key={cap}
+            key={c}
             className={css({
               fontSize: 'sm',
-              textTransform: 'uppercase',
-              letterSpacing: 'wide',
               color: 'text',
-              display: 'inline-flex',
-              alignItems: 'center',
-              _before: {
-                content: '""',
-                display: 'inline-block',
-                width: '6px',
-                height: '6px',
-                bg: 'accent',
-                marginRight: '2',
-                flexShrink: '0',
-              },
+              textTransform: 'lowercase',
+              paddingBottom: '2px',
+              borderBottomWidth: '1px',
+              borderBottomStyle: 'solid',
+              borderBottomColor: 'border',
             })}
           >
-            {cap}
+            {c}
           </li>
         ))}
       </ul>

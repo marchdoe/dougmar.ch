@@ -1,12 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { css } from '../../styled-system/css'
 import { BrandLockup } from '../components/BrandLockup'
-import { Ground } from '../components/Material'
+import { personal } from '../content/about'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
-
-const line = css({ display: 'block', textAlign: 'justify', textAlignLast: 'justify' })
-const outline = css({ color: 'transparent', WebkitTextStroke: '1.6px token(colors.accent)' })
 
 function OgCard() {
   return (
@@ -23,52 +20,46 @@ function OgCard() {
     >
       <div
         className={css({
-          position: 'relative',
           width: '1200px',
           height: '630px',
-          flexShrink: '0',
+          flexShrink: 0,
           bg: 'bg',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '16px',
+          padding: '64px',
+          textAlign: 'center',
+          color: 'text',
         })}
       >
-        <Ground material="mesh" seed={1010854297} />
-        <div
+        <BrandLockup variant="mark-only-md" mode="original" />
+        <span
+          className={`tnum ${css({
+            fontFamily: 'display',
+            fontWeight: 'normal',
+            fontSize: '150px',
+            lineHeight: '0.9',
+            color: 'fieldBorder',
+          })}`}
+        >
+          {personal.holesInOne}
+        </span>
+        <h1
           className={css({
-            position: 'relative',
-            zIndex: 1,
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            paddingBlock: '64px',
-            paddingInline: '72px',
+            fontFamily: 'display',
+            fontWeight: 'normal',
+            fontSize: '52px',
+            lineHeight: '1.08',
+            letterSpacing: '-0.005em',
+            textTransform: 'lowercase',
+            color: 'text',
+            maxWidth: '920px',
           })}
         >
-          <div className={css({ color: 'text', display: 'inline-flex' })}>
-            <BrandLockup variant="horizontal-md" mode="single-color" roleLine />
-          </div>
-          <h1
-            className={css({
-              width: '880px',
-              fontFamily: 'display',
-              fontStyle: 'italic',
-              fontWeight: 'bold',
-              textTransform: 'uppercase',
-              fontSize: '76px',
-              lineHeight: '0.96',
-              letterSpacing: '-0.02em',
-              color: 'text',
-            })}
-          >
-            <span className={line}>{"You can't go"}</span>
-            <span className={line}>
-              <span className={outline}>forward</span> and
-            </span>
-            <span className={line}>
-              <span className={outline}>backwards</span> at
-            </span>
-            <span className={line}>the same time.</span>
-          </h1>
-        </div>
+          Four holes in one. The scorecard is the first experiment.
+        </h1>
       </div>
     </div>
   )

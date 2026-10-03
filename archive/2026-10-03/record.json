@@ -1,0 +1,776 @@
+{
+  "date": "2026-10-03",
+  "era": "header-declared",
+  "generatedAt": "2026-10-03T10:24:36.602Z",
+  "buildId": "1791023068186",
+  "attempts": 1,
+  "brief": "A burnt-amber \"4\" at the center of a fall-paper field, radial orbit of a live leaderboard, the aces spelled out in lowercase slab beneath.",
+  "rationale": "The phrase is Doug's: four holes in one, and the scorecard became his first experiment. I passed over the day's Gita quote because a moral about lust, anger and greed is a stranger's voice, and the taste memory is blunt that a quote that isn't his reads as a poster of somebody else. Today's live golf tournament gives the line a reason to exist this morning without faking a Detroit win the Red Wings didn't get.\n\nA hole-in-one is a ball into a circle, so the composition is radial around one anchor, and the anchor is the scorecard numeral itself: hero_object becomes `figure`, a single amber \"4\" at marquee scale with the phrase as its caption and the one h1. That decision pulls the chassis: a fatface slab, Alfa Slab One over Rubik (alfa-rubik), because a scorecard number wants weight and physical warmth, and the rounded Rubik body answers Alfa's rounded terminals so display and body share a skeleton. The palette follows the number: burnt amber at 36° is the golden moment, set on warm fall paper rather than drenched, which keeps it off the recent dark-void/duotone/drench run and gives the original green-and-blue mark a light ground to sit on for once.\n\nLayout serves the figure: a centered, symmetric radial field, the \"4\" at the vertical center, the leaderboard and the day's signals orbiting below in a centered cluster, intervals tightening as the page descends. The header is a symmetric centered top bar with the real circular mark, not the wordmark-left/links-right pattern the owner has rejected three ratings running. Lowercase, centred, single-weight type is the treatment, moved off the recent caps/heavy/justified defaults so the composition reads as a decision, not a template.",
+  "filesChanged": [
+    "elements/preset.ts",
+    "app/components/Layout.tsx",
+    "app/components/Sidebar.tsx",
+    "app/components/generated/SiteFooter.tsx",
+    "app/components/generated/HomeHero.tsx",
+    "app/components/generated/SectionHeading.tsx",
+    "app/components/generated/LeaderboardSection.tsx",
+    "app/components/generated/WorkListSection.tsx",
+    "app/components/generated/SigItem.tsx",
+    "app/components/generated/SignalsSection.tsx",
+    "app/components/generated/AboutIntro.tsx",
+    "app/components/generated/TimelineSection.tsx",
+    "app/components/generated/CapabilitiesSection.tsx",
+    "app/components/generated/EducationSection.tsx",
+    "app/components/generated/PersonalSection.tsx",
+    "app/components/generated/CaseHeader.tsx",
+    "app/components/generated/CaseBody.tsx",
+    "app/components/generated/CaseLinks.tsx",
+    "app/components/generated/CaseMissing.tsx",
+    "app/routes/index.tsx",
+    "app/routes/about.tsx",
+    "app/routes/work.$slug.tsx",
+    "app/routes/og.tsx"
+  ],
+  "legacyArchetype": null,
+  "signals": {
+    "air_quality": {
+      "aqi_index": 1,
+      "uv_index": 0,
+      "air_quality_label": "Good"
+    },
+    "awwwards": {
+      "sites_of_the_day": [
+        {
+          "title": "Point Of View",
+          "description": "A longread about the history of glasses: from polished reading stones to experimental spectacles. How a simple tool changed the way we see the world and...",
+          "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/09/6aaae8bd68f7a314961376.png"
+        },
+        {
+          "title": "THE 360° RACING STUDIO",
+          "description": "Racing Studio is an immersive experience built in Unreal. It runs in-browser via PixelStreaming and integrates UE to SFCommerce. Discover the brand further...",
+          "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/09/6abbaf5054ead270819925.png"
+        },
+        {
+          "title": "The Romans",
+          "description": "The Romans are the world's most awarded PR agency.",
+          "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/09/6ab32dc28896e965717726.png"
+        }
+      ]
+    },
+    "books": {
+      "currently_reading": []
+    },
+    "day_of_week": {
+      "day": "Saturday",
+      "is_weekend": true,
+      "day_index": 6
+    },
+    "github": {
+      "repos": [
+        {
+          "name": "Panniantong/Agent-Reach/stargazers",
+          "description": "",
+          "language": "Python",
+          "stars": null
+        },
+        {
+          "name": "sponsors/JuliusBrussee",
+          "description": "",
+          "language": "Go",
+          "stars": null
+        },
+        {
+          "name": "sponsors/obra",
+          "description": "",
+          "language": "Shell",
+          "stars": null
+        },
+        {
+          "name": "sponsors/DietrichGebert",
+          "description": "",
+          "language": "JavaScript",
+          "stars": null
+        },
+        {
+          "name": "pbakaus/impeccable/stargazers",
+          "description": "",
+          "language": "JavaScript",
+          "stars": null
+        }
+      ]
+    },
+    "golf": {
+      "tournament": "Bank of Utah Championship",
+      "status": "In Progress",
+      "leaders": [
+        {
+          "name": "Austin Smotherman",
+          "position": "1",
+          "score": "-17"
+        },
+        {
+          "name": "Kevin Roy",
+          "position": "2",
+          "score": "-16"
+        },
+        {
+          "name": "Doug Ghim",
+          "position": "3",
+          "score": "-15"
+        },
+        {
+          "name": "Kevin Streelman",
+          "position": "4",
+          "score": "-15"
+        },
+        {
+          "name": "Stephan Jaeger",
+          "position": "5",
+          "score": "-14"
+        }
+      ]
+    },
+    "hacker_news": {
+      "stories": [
+        {
+          "title": "Newgrounds.com – A community of games, music, and art",
+          "url": "https://www.newgrounds.com/",
+          "score": 216,
+          "by": "azhenley"
+        },
+        {
+          "title": "Court agrees with EFF: Utah's VPN law demands a technical impossibility",
+          "url": "https://www.eff.org/deeplinks/2026/10/court-agrees-eff-utahs-vpn-law-demands-technical-impossibility",
+          "score": 632,
+          "by": "hn_acker"
+        },
+        {
+          "title": "Apple Pass Designer",
+          "url": "https://developer.apple.com/pass-designer/",
+          "score": 424,
+          "by": "soheilpro"
+        },
+        {
+          "title": "Mike Tomlin spent 12 years building a Minecraft city",
+          "url": "https://www.nytimes.com/athletic/7648198/2026/10/01/mike-tomlin-minecraft-nfl-coach/",
+          "score": 458,
+          "by": "CoryOndrejka"
+        },
+        {
+          "title": "Barcodes are about to go extinct",
+          "url": "https://thehustle.co/originals/why-barcodes-are-about-to-go-extinct",
+          "score": 41,
+          "by": "rmason"
+        }
+      ]
+    },
+    "holidays": {
+      "today": null,
+      "upcoming": []
+    },
+    "lunar": {
+      "phase": "last quarter",
+      "illumination": 0.482,
+      "days_into_cycle": 22.32
+    },
+    "market": {
+      "symbol": "SPY",
+      "price": "769.6400",
+      "change": "5.6500",
+      "change_percent": "0.7395%",
+      "direction": "up"
+    },
+    "music": {
+      "bands": [
+        "My Morning Jacket",
+        "Radiohead",
+        "The War on Drugs"
+      ],
+      "rotation": true
+    },
+    "news": {
+      "headlines": [
+        {
+          "title": "Nike shares plummet 10% after weak revenue outlook and layoff plans underway - CNBC",
+          "source": "CNBC",
+          "url": "https://www.cnbc.com/2026/10/02/nike-nke-stock-q1-earnings-layoffs.html"
+        },
+        {
+          "title": "Stock market today: Dow, S&P 500, Nasdaq futures rise ahead of key jobs report as oil steadies - Yahoo Finance",
+          "source": "Yahoo Entertainment",
+          "url": "https://finance.yahoo.com/markets/live/stock-market-today-friday-october-2-dow-sp-500-nasdaq-september-jobs-report-080623878.html"
+        },
+        {
+          "title": "Patient dies by suicide after \"insurance issue\" delayed medicine for lung disease flare-ups - CBS News",
+          "source": "CBS News",
+          "url": "https://www.cbsnews.com/news/patient-death-insurance-delay-medicine-lung-disease/"
+        },
+        {
+          "title": "Christa Pike is in critical condition after failed execution in Tennessee, her lawyers say - NBC News",
+          "source": "NBC News",
+          "url": "https://www.nbcnews.com/news/us-news/christa-pike-critical-condition-failed-execution-tennessee-lawyers-say-rcna600992"
+        },
+        {
+          "title": "‘I couldn’t let everybody else die,’ says hero Flydubai pilot Smit Machchhar - CNN",
+          "source": "CNN",
+          "url": "https://www.cnn.com/2026/10/02/middleeast/i-couldnt-let-everybody-else-die-says-hero-flydubai-pilot-smit-machchhar"
+        }
+      ]
+    },
+    "quote": {
+      "text": "Lust, anger and greed are the three gates to self-destructive hell.",
+      "author": "Bhagavad Gita"
+    },
+    "season": {
+      "season": "fall",
+      "month": 10,
+      "day": 3,
+      "day_of_year": 276,
+      "month_name": "October"
+    },
+    "sidebar": {
+      "links": [
+        {
+          "title": "What happens when you can build it all yourself",
+          "url": "https://www.renatovaldes.com/essays/what-happens-when-you-can-build-it-all-yourself/",
+          "source": "renatovaldes.com",
+          "description": "What speed is doing to my expectations, my attention and the case for startup funding."
+        },
+        {
+          "title": "Thinking orbs",
+          "url": "https://www.thinkingorbs.com/",
+          "source": "thinkingorbs.com",
+          "description": "A React component library of well-crafted, animated orbs for AI: thinking, searching, compacting and more status indicators. Free, open source."
+        },
+        {
+          "title": "Blume",
+          "url": "https://useblume.dev/",
+          "source": "useblume.dev",
+          "description": "The open-source docs framework for humans and agents. Drop Markdown into a folder and ship a fast docs site."
+        },
+        {
+          "title": "Modern web types",
+          "url": "https://philipwalton.com/articles/modern-web-types/",
+          "source": "philipwalton.com",
+          "description": "TypeScript intentionally doesn’t support all new APIs, but there’s an easy fix."
+        },
+        {
+          "title": "Do frameworks matter anymore?",
+          "url": "https://brookslybrand.com/posts/do-frameworks-matter-anymore/",
+          "source": "brookslybrand.com",
+          "description": "How abstractions constrain AI agents, helping engineering teams evaluate long-term web architecture choices."
+        }
+      ]
+    },
+    "sports": {
+      "teams": [
+        {
+          "name": "Detroit Lions",
+          "league": "NFL",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Red Wings",
+          "league": "NHL",
+          "last_game": "2026-10-02T22:30Z",
+          "result": "loss",
+          "score": "0-2"
+        },
+        {
+          "name": "Detroit Pistons",
+          "league": "NBA",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Tigers",
+          "league": "MLB",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        }
+      ]
+    },
+    "sun": {
+      "sunrise": "07:14",
+      "sunset": "18:42",
+      "daylight_hours": 11.5
+    },
+    "weather": {
+      "location": "Aldie, Virginia",
+      "conditions": "Patchy rain nearby",
+      "temp_f": 59.2,
+      "temp_c": 15.1,
+      "humidity": 92,
+      "wind_mph": 5.1,
+      "wind_dir": "N",
+      "feels_like_f": 58.5
+    },
+    "date": "2026-10-03"
+  },
+  "hero": {
+    "copy": "Four holes in one. The scorecard is the first experiment.",
+    "rationale": "This is Doug's own line, verbatim from his voice file, and it ties straight to today's live golf signal (the Bank of Utah Championship in progress) without pretending his own teams played. It carries a real, rare number (four aces) and it bridges his two subjects: golf and the small products he builds, where tracking a scorecard became his first experiment. I passed over today's `signals.quote` (the Bhagavad Gita on lust, anger and greed as gates to self-destructive hell) because it is a dark religious moral in nobody's register but a stranger's, and the taste memory is explicit that a quote that isn't Doug's is \"a poster of somebody else.\"\nOwner's voice: Doug says this because the aces are a real scorecard he keeps, and the scorecard is literally where his product-building started.",
+    "source": "content-lifted"
+  },
+  "chassis": "alfa-rubik",
+  "adBrief": {
+    "visualSpecification": "### 1. Color Specification\n- **Primary hue**: 36° (burnt amber). Autumnal, celebratory, warm. It is inside the mandate's 15–40° target and sits 28° off the nearest recent primary (oxblood 8°); it reads as gold-amber, not red, so the perceptual distance is wider than the angle suggests. Chosen because a hole-in-one is a golden moment and October golf wants a warm field, not a cool one.\n- **Neutral palette** (warm, tinted toward amber): 50 `#FAF6EF`, 100 `#F1EADD`, 200 `#E3D8C6`, 300 `#CDBDA2`, 400 `#9D8E76`, 500 `#6F624C`, 600 `#554A38`, 700 `#3E3628`, 800 `#2A251A`, 900 `#1A1710`\n- **Accent color**: light `#E8B873`, default `#D4862A`, dark `#B86D1C`, glow `#F0D0A0`\n- **Secondary accent**: none. One amber carries the page.\n- **Background**: page bg `#FAF6EF`, card/surface `#FEFBF5`, second ground (bgAlt / callout band) `#F1EADD`\n- **Text colors**: primary `#1A1710`, secondary `#554A38`, muted/faint `#6F624C`\n\n### 2. Typography\n- **Hero figure rendering**: the numeral `4` is the marquee, set in `display` (Alfa Slab One) at the `hero` clamp, hero_scale `clamp(120px, 11vw, 158px)`, centered as the radial anchor. The hero phrase (the page's one h1) is its caption directly beneath, set at `2xl` so the figure stays clearly dominant (roughly 4:1).\n- **Type treatment**: steps as textStyle tokens — figure `hero`; phrase/caption `2xl`; section heads `xl`; standfirst/mid-register `lg` (so no page jumps straight from marquee to body); body `base` (Rubik, measure held at 62–68ch, leading 1.5); leaderboard rows and signal lines `sm`; micro labels `xs` (never below 12px). Phrase and all display set lowercase for the warm, rounded Alfa+Rubik register; body sentence case.\n\n### 3. Layout Specification\n- **Composition**: single / radial / symmetric / center / sparse / accelerating / standard / type-dominant / stack / figure. Content orbits one anchor — the amber `4` — so the composition is literally a radial field around the figure, which is exactly what a hole-in-one (a ball into a circle) wants, and the symmetry is true-centered rather than a mirrored pair.\n- **CSS grid/flex structure**: `display: grid; grid-template-rows: auto minmax(70vh, auto) auto auto auto; place-items: center;` hero block is a centered flex column (figure over caption); the leaderboard and signals arrange as a centered radial cluster (`display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); justify-items: center`) orbiting below.\n- **Major dimensions**:\n  - Hero/figure area: `min-height: 72vh`\n  - No sidebar.\n  - Max content width: `max-width: none`; side padding `clamp(24px, 6vw, 112px)`. Body prose blocks inset to ~64ch inside the centered field.\n  - Section padding: vertical rhythm on the chassis base unit; intervals shrink descending (accelerating): hero 128px below, work band 96px, signals 64px, footer 48px.\n- **Nav placement**: top-bar, 88px tall, symmetric and centered — circular mark centered at top, three lowercase nav labels centered in a row beneath it, one amber hairline under the bar. This deliberately is not the rejected wordmark-left/links-right pattern.\n- **Hero phrase grid zone**: row 2, centered; the figure occupies the vertical center of the viewport, the phrase caption sits in the lower half of that same row, both centered on the page's vertical axis (roughly columns 4–9 of a 12-grid at 1440).\n- **Home callout slot**: on `/`, place `<SiteCallout />` below the selected-work band and below the signals band, directly above the footer. It is the only place that subject appears.\n\n### 4. Component Character\n- **Border radius**: cards/panels `4px` (md), tags `2px` (sm), the mark untouched, full `9999px` only for the mark's own geometry. Crisp, not rounded — honoring the standing header complaint.\n- **Border treatment**: hairlines in `border` (#E3D8C6); section breaks and the nav rule in `borderStrong` (#9D8E76) and amber for the hero underline.\n- **Shadow**: none. Depth comes from value, not shadow (light ground).\n- **Density**: spacious / sparse. The field is mostly paper.\n- **Interactive states**: nav and links shift to `accent` (#D4862A) on hover with a 1px amber underline that grows from left; leaderboard rows raise to `surface` on hover.\n\n### 5. Signal Integration\n- **Golf (hero-adjacent)**: the Bank of Utah Championship leaderboard sits in the radial cluster directly under the hero caption, five rows, tabular-nums in `display` small caps for position/score, names in body. Scores (`-17`, `-16`) in `accent`. This is the one signal the hero theme earns, so it gets prominence.\n- **Sports scores**: Red Wings loss as one quiet line in the signals band — \"Red Wings 0, (opp) 2\" in body with the score tabular; no celebration, a loss stays flat.\n- **Market**: \"SPY 769.64, up 0.74%\" one line, direction arrow in `accent`, tabular-nums.\n- **Weather**: \"Aldie, Virginia. Patchy rain, 59°F.\" one caption line, textMuted.\n- **Quote**: not used as hero; the Gita line is omitted rather than shrunk into furniture, because it fights Doug's register.\n- **Music**: a single caption, \"on rotation: My Morning Jacket, Radiohead, The War on Drugs,\" in the colophon as taste, never beside the scores as an event.\n- **Moon/air**: \"Last quarter moon. Air quality good.\" one micro line in the colophon.",
+    "selfCheck": "1. Hero quotability: Yes — \"Four holes in one. The scorecard is the first experiment.\" is a complete, screenshot-worthy line that carries a real number and a real idea.\n2. Because-of chain: Yes — a hole-in-one is a ball into a circle, so radial/center; the figure \"4\" is a scorecard numeral, so a fatface slab (alfa-rubik) and a warm amber on fall paper; the figure anchors the grid at center.\n3. Render feasibility: Yes — a single numeral at `clamp(120px,11vw,158px)` lands at ~158px at 1440 (under the 160 cap) with the phrase at 2xl beneath, no overflow.\n4. Canvas floor feasible: Yes — the centered figure, caption, orbiting leaderboard and signal cluster fill ~70% of the 1440×900 field.\n5. Phone: Yes — a single \"4\" at the `hero` clamp cannot cut a word and sits in the first 640px with the phrase beneath it.",
+    "rationale": "The phrase is Doug's: four holes in one, and the scorecard became his first experiment. I passed over the day's Gita quote because a moral about lust, anger and greed is a stranger's voice, and the taste memory is blunt that a quote that isn't his reads as a poster of somebody else. Today's live golf tournament gives the line a reason to exist this morning without faking a Detroit win the Red Wings didn't get.\n\nA hole-in-one is a ball into a circle, so the composition is radial around one anchor, and the anchor is the scorecard numeral itself: hero_object becomes `figure`, a single amber \"4\" at marquee scale with the phrase as its caption and the one h1. That decision pulls the chassis: a fatface slab, Alfa Slab One over Rubik (alfa-rubik), because a scorecard number wants weight and physical warmth, and the rounded Rubik body answers Alfa's rounded terminals so display and body share a skeleton. The palette follows the number: burnt amber at 36° is the golden moment, set on warm fall paper rather than drenched, which keeps it off the recent dark-void/duotone/drench run and gives the original green-and-blue mark a light ground to sit on for once.\n\nLayout serves the figure: a centered, symmetric radial field, the \"4\" at the vertical center, the leaderboard and the day's signals orbiting below in a centered cluster, intervals tightening as the page descends. The header is a symmetric centered top bar with the real circular mark, not the wordmark-left/links-right pattern the owner has rejected three ratings running. Lowercase, centred, single-weight type is the treatment, moved off the recent caps/heavy/justified defaults so the composition reads as a decision, not a template.",
+    "compositionRationale": "A hole-in-one is a ball dropped into a circle, so a radial axis orbiting a single centered anchor is the honest structure, and the anchor is the scorecard numeral \"4\". I invoke the Max-Risk License to land hero_zone on `center`, the value the Composition Mandate soft-forbade today: the radial axis has no meaning without a center anchor, and placing the figure upper-left would break the orbit the phrase demands. Symmetry moves from mirrored to symmetric (a single centered numeral is true-symmetric, not a reflected pair), and the object moves from word to figure so the number itself gets marquee scale.",
+    "signalIntegration": "- **Golf (hero-adjacent)**: the Bank of Utah Championship leaderboard sits in the radial cluster directly under the hero caption, five rows, tabular-nums in `display` small caps for position/score, names in body. Scores (`-17`, `-16`) in `accent`. This is the one signal the hero theme earns, so it gets prominence.\n- **Sports scores**: Red Wings loss as one quiet line in the signals band — \"Red Wings 0, (opp) 2\" in body with the score tabular; no celebration, a loss stays flat.\n- **Market**: \"SPY 769.64, up 0.74%\" one line, direction arrow in `accent`, tabular-nums.\n- **Weather**: \"Aldie, Virginia. Patchy rain, 59°F.\" one caption line, textMuted.\n- **Quote**: not used as hero; the Gita line is omitted rather than shrunk into furniture, because it fights Doug's register.\n- **Music**: a single caption, \"on rotation: My Morning Jacket, Radiohead, The War on Drugs,\" in the colophon as taste, never beside the scores as an event.\n- **Moon/air**: \"Last quarter moon. Air quality good.\" one micro line in the colophon."
+  },
+  "tokens": {
+    "colors": {
+      "ramps": {
+        "amber": {
+          "50": "#FBF4E7",
+          "100": "#F7E7CC",
+          "200": "#F0D0A0",
+          "300": "#E8B873",
+          "400": "#E0A049",
+          "500": "#D4862A",
+          "600": "#B86D1C",
+          "700": "#8F5316",
+          "800": "#693D13",
+          "900": "#452810"
+        },
+        "paper": {
+          "50": "#FAF6EF",
+          "100": "#F1EADD",
+          "200": "#E3D8C6",
+          "300": "#CDBDA2",
+          "400": "#9D8E76",
+          "500": "#6F624C",
+          "600": "#554A38",
+          "700": "#3E3628",
+          "800": "#2A251A",
+          "900": "#1A1710"
+        }
+      },
+      "semantic": {
+        "bg": {
+          "base": "{colors.paper.50}"
+        },
+        "bgAlt": {
+          "base": "{colors.paper.100}"
+        },
+        "surface": {
+          "base": "#FEFBF5"
+        },
+        "text": {
+          "base": "{colors.paper.900}"
+        },
+        "textMuted": {
+          "base": "{colors.paper.600}"
+        },
+        "textFaint": {
+          "base": "{colors.paper.500}"
+        },
+        "accent": {
+          "base": "{colors.amber.500}"
+        },
+        "accentText": {
+          "base": "{colors.paper.900}"
+        },
+        "accentAlt": {
+          "base": "{colors.amber.600}"
+        },
+        "border": {
+          "base": "{colors.paper.200}"
+        },
+        "borderStrong": {
+          "base": "{colors.paper.400}"
+        },
+        "field": {
+          "base": "{colors.amber.500}"
+        },
+        "fieldInk": {
+          "base": "{colors.paper.900}"
+        },
+        "fieldInkMuted": {
+          "base": "#3A2C12"
+        },
+        "fieldBorder": {
+          "base": "{colors.amber.700}"
+        }
+      }
+    },
+    "radii": {
+      "none": "0",
+      "sm": "2px",
+      "md": "4px",
+      "lg": "8px",
+      "full": "9999px"
+    }
+  },
+  "colorScheme": {
+    "primary_hue": {
+      "h": 36,
+      "s": 68,
+      "l": 50,
+      "name": "burnt amber"
+    },
+    "secondary_accent": null,
+    "neutral_family": {
+      "tinted_toward": "amber",
+      "name": "warm paper"
+    },
+    "mood_word": "earned",
+    "color_story": "A warm amber numeral on fall paper reads like a scorecard kept in a back pocket, the single aced hole celebrated in gold against a quiet October ground."
+  },
+  "shell": {
+    "nav": null,
+    "footer": "colophon block",
+    "brand_lockup": "mark-only-md",
+    "brand_color_mode": "original",
+    "ground_strategy": "light-ground",
+    "ground_material": "grain"
+  },
+  "header": {
+    "placement": "top-bar",
+    "height_px": 88,
+    "mark_px": 48,
+    "wordmark_step": "none",
+    "wordmark_weight": 400,
+    "role_line": "absent",
+    "nav_step": "sm",
+    "nav_case": "lower",
+    "nav_form": "labels",
+    "nav": "Centered top bar. The original green-and-blue circular mark sits centered at the top at 48px inside the first fold at 1440 and 360; three lowercase labels (work, about, contact) run centered in a single row beneath it, one amber hairline under the bar. Not wordmark-left/links-right."
+  },
+  "verdicts": [
+    {
+      "critic": "mockup-precheck",
+      "round": 0,
+      "verdict": "REVISE",
+      "feedback": "[check 5] Legibility: At 1440px, <div.hero__inner > p.hero__note > a> \"work\" at 14px over div.hero__bg (positioned background-image): #b86d1c is under 4.5:1 across 100% of one pixel row through its glyphs (3.16:1 on #f5e2c6). At 360px, <section.hero > div.hero__inner > span.eyebrow> \"holes in one · a scorecard i keep\" at 12px over div.hero__bg (positioned background-image): #6f624c is under 4.5:1 across 100% of one pixel row through its glyphs (4.23:1 on #f1d6ac). At 360px, <section.hero > div.hero__inner > span.figure.tnum> \"4\" at 120px over div.hero__bg (positioned background-image): #b86d1c is under 3:1 across 100% of one pixel row through its glyphs (2.75:1 on #f0d2a4). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text.",
+      "findings": [
+        {
+          "check": 5,
+          "key": "legibility",
+          "gap": 1.34
+        }
+      ],
+      "ts": 1791021822013
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 0,
+      "verdict": "REVISE",
+      "feedback": "1. (6, 2) The declared `ground_material: grain` renders as a flat grey rectangle in the top-left of the hero field, below the header rule. At 1440 it sits about 0–300px wide. At 360 it spans almost the full width and sits behind the eyebrow \"holes in one • a scorecard i keep\", which makes that line hard to read. Render the grain as a full-field texture or remove it; the grey box must go.\n2. (4) The Mobile Declaration's `order` puts selected work between the golf leaderboard and the signals band, but the filmstrip runs leaderboard → \"the rest of the day\" → \"about this page\" → colophon with no project anywhere. Add the selected-work band (Spaceman, FishSticks, 15th Club, dougmar.ch from the records) in that slot at both widths.\n3. (6) The header is declared at `height_px: 88`, but the amber hairline closing the bar sits about 140px down at 1440, with a loose gap between the mark and the nav row. Tighten the mark-over-labels stack so the bar stands near 88px.\n4. (5) The callout says \"a site that redraws itself every night\", but the dougmar.ch record says a pipeline rebuilds the site \"each morning.\" Match the record's wording.",
+      "channel": "sdk-vision",
+      "ts": 1791021841842
+    },
+    {
+      "critic": "mockup-precheck",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "[check 5] Legibility: At 1440px, <div.hero__inner > p.hero__note > a> \"work\" at 14px over div.hero__bg (positioned background-image): #8f5316 is under 4.5:1 across 65% of one pixel row through its glyphs (4.37:1 on #e5d8c5). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text.",
+      "findings": [
+        {
+          "check": 5,
+          "key": "legibility",
+          "gap": 0.12
+        }
+      ],
+      "ts": 1791022202548
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "5. The hero caption makes a claim the records contradict: \"the aces are a real card. counting them is where the small things i build began.\" The records show Doug building Twittertale and Politweets in 2008 and TeeTurn in 2020. They only say of 15th Club (2025) that \"the scorecard is the first experiment\" for that platform. Rewrite the caption so it claims no more than that, for example that 15th Club's scorecard is the first of its experiments, and keep the 'see the work' link.",
+      "channel": "sdk-vision",
+      "ts": 1791022222073
+    },
+    {
+      "critic": "mockup-precheck",
+      "round": 2,
+      "verdict": "APPROVE",
+      "feedback": "",
+      "findings": [],
+      "ts": 1791022258226
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 2,
+      "verdict": "REVISE",
+      "feedback": "6. SHELL `ground_material: grain`: the grain is on the hero field, but it reads as a grey box. On the desktop the hero band is a cooler grey than the `#FAF6EF` paper around it, with a hard horizontal bottom edge near y≈805 that slices through the outer rings. At 360 it ends the same way at the foot of fold 1. Tint the grain toward the warm neutrals (`#F1EADD` / `#FAF6EF`) so it reads as paper. Then either feather the band into the page or let the rings finish inside it, so the radial field doesn't end on a cut edge.\n\n6. Header `height_px: 88`: the centered bar runs to roughly 103px at 1440 before the amber hairline. Tighten the gap between the mark and the label row so the bar stands near 88.",
+      "channel": "sdk-vision",
+      "ts": 1791022293823
+    },
+    {
+      "critic": "surface-gate",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "/ @360: <div.max-w_720px.mx_auto.mt_28px.bd-t-w_1px > a.group.d_grid.grid-tc_1fr_auto.ai_baseline > span.ff_display.fw_normal.textStyle_lg.lh_1.1> holds text wider than its own box: \"Spaceman...\" needs 222px and the box is 159px, so 63px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <div.max-w_720px.mx_auto.mt_28px.bd-t-w_1px > a.group.d_grid.grid-tc_1fr_auto.ai_baseline > span.ff_display.fw_normal.textStyle_lg.lh_1.1> holds text wider than its own box: \"dougmar.ch...\" needs 259px and the box is 205px, so 54px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <main > section.pt_96px > h2.ff_display.fw_normal.textStyle_xl.tt_lowercase> holds text wider than its own box: \"bank of utah championship...\" needs 344px and the box is 296px, so 48px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: 'work' is a 44x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: <div.max-w_720px.mx_auto.mt_28px.bd-t-w_1px > a.group.d_grid.grid-tc_1fr_auto.ai_baseline > span.ff_display.fw_normal.textStyle_lg.lh_1.1> holds text wider than its own box: \"Spaceman...\" needs 222px and the box is 159px, so 63px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <div.max-w_720px.mx_auto.mt_28px.bd-t-w_1px > a.group.d_grid.grid-tc_1fr_auto.ai_baseline > span.ff_display.fw_normal.textStyle_lg.lh_1.1> holds text wider than its own box: \"dougmar.ch...\" needs 259px and the box is 205px, so 54px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <main > section.pt_96px > h2.ff_display.fw_normal.textStyle_xl.tt_lowercase> holds text wider than its own box: \"bank of utah championship...\" needs 344px and the box is 296px, so 48px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: 'work' is a 44x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: <main > div.cq-t_inline-size.bx-s_border-box.min-h_100vh.py_6 > h1.ff_display.tt_uppercase.lh_tight.ls_tight> holds text wider than its own box: \"Experiments...\" needs 298px and the box is 296px, so 2px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/experiments @360: <main > div.cq-t_inline-size.bx-s_border-box.min-h_100vh.py_6 > h1.ff_display.tt_uppercase.lh_tight.ls_tight> holds text wider than its own box: \"Experiments...\" needs 298px and the box is 296px, so 2px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/experiments @820: <main > div.cq-t_inline-size.bx-s_border-box.min-h_100vh.py_6 > h1.ff_display.tt_uppercase.lh_tight.ls_tight> holds text wider than its own box: \"Experiments...\" needs 714px and the box is 706px, so 8px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/experiments @820: <main > div.cq-t_inline-size.bx-s_border-box.min-h_100vh.py_6 > h1.ff_display.tt_uppercase.lh_tight.ls_tight> holds text wider than its own box: \"Experiments...\" needs 714px and the box is 706px, so 8px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/spaceman @360: <main > section.d_flex.flex-d_column.ai_center.ta_center > h1.ff_display.fw_normal.textStyle_3xl.md:textStyle_5xl> holds text wider than its own box: \"Spaceman...\" needs 302px and the box is 296px, so 6px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/spaceman @360: <main > section.d_flex.flex-d_column.ai_center.ta_center > h1.ff_display.fw_normal.textStyle_3xl.md:textStyle_5xl> holds text wider than its own box: \"Spaceman...\" needs 302px and the box is 296px, so 6px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/spaceman @1440: em dash in rendered copy: \"work about contact founder · 2018 — present · active spaceman 2018 · found...\". Use a period or a comma.\n/work/dougmar-ch @360: <main > section.d_flex.flex-d_column.ai_center.ta_center > h1.ff_display.fw_normal.textStyle_3xl.md:textStyle_5xl> holds text wider than its own box: \"dougmar.ch...\" needs 356px and the box is 296px, so 60px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: 'dougmar.ch' is a 103x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 150x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 199x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 299x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: <main > section.d_flex.flex-d_column.ai_center.ta_center > h1.ff_display.fw_normal.textStyle_3xl.md:textStyle_5xl> holds text wider than its own box: \"dougmar.ch...\" needs 356px and the box is 296px, so 60px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: 'dougmar.ch' is a 103x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 150x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 199x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 299x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: <main > section.d_flex.flex-d_column.ai_center.ta_center > h1.ff_display.fw_normal.textStyle_3xl.md:textStyle_5xl> holds text wider than its own box: \"Politweets...\" needs 314px and the box is 296px, so 18px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @360: <main > section.d_flex.flex-d_column.ai_center.ta_center > h1.ff_display.fw_normal.textStyle_3xl.md:textStyle_5xl> holds text wider than its own box: \"Politweets...\" needs 314px and the box is 296px, so 18px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @360: <main > section.d_flex.flex-d_column.ai_center.ta_center > h1.ff_display.fw_normal.textStyle_3xl.md:textStyle_5xl> holds text wider than its own box: \"Twittertale...\" needs 328px and the box is 296px, so 32px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @360: <main > section.d_flex.flex-d_column.ai_center.ta_center > h1.ff_display.fw_normal.textStyle_3xl.md:textStyle_5xl> holds text wider than its own box: \"Twittertale...\" needs 328px and the box is 296px, so 32px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @820: <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/work/dougmar-ch @820: <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" sets 81 characters on its longest line (8 lines, median 75) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/ @1440: 'four holes in one the scorecard is the first experiment' is 40px in the mockup and 110px in the build (2.74x). Set it back to 40px.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1791022629224
+    },
+    {
+      "critic": "surface-gate",
+      "verdict": "NEEDS-HUMAN",
+      "feedback": "Authored routes outside MUTABLE_FILES failed the gate: /experiments, /work/dougmar-ch\n\n## Measured layout faults\n\nThese are measurements taken from the live render, not observations from the images below.\nThey are exact. Do not re-litigate them against the screenshots, and do not count one fault\ntwice because it appears at more than one viewport.\n\n- [error] /experiments at 360px (both schemes): <main > div.cq-t_inline-size.bx-s_border-box.min-h_100vh.py_6 > h1.ff_display.tt_uppercase.lh_tight.ls_tight> holds text wider than its own box: \"Experiments...\" needs 298px and the box is 296px, so 2px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n- [error] /experiments at 820px (both schemes): <main > div.cq-t_inline-size.bx-s_border-box.min-h_100vh.py_6 > h1.ff_display.tt_uppercase.lh_tight.ls_tight> holds text wider than its own box: \"Experiments...\" needs 714px and the box is 706px, so 8px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n- [error] /work/dougmar-ch at 820px (light): <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n- [error] /work/dougmar-ch at 820px (light): <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" sets 81 characters on its longest line (8 lines, median 75) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.",
+      "ts": 1791022629224
+    },
+    {
+      "critic": "screenshot-critic",
+      "verdict": "REVISE",
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 7 / Mockup fidelity — react-engineer: Measured at 1440, the hero phrase (\"four holes in one. the scorecard is the first experiment.\") renders at 110px, nearly 3x the spec's 40px/`2xl` caption size. In the mockup the phrase is a modest caption beneath the \"4,\" keeping the figure dominant at roughly 4:1; in the build the phrase spans three full-width lines at near-marquee scale and visually rivals the numeral, breaking the figure-dominant hierarchy the Art Director specified. Reset the phrase to the `2xl` step so the \"4\" clearly leads.\n- Section 6 — react-engineer: On the `/work/spaceman` desktop filmstrip, \"the problem\"/\"the approach\" body copy sits in a narrow column occupying roughly the left half of the row (fold 1 of 3), with the right half of that same row left empty; \"the outcome\" repeats the same left-anchored narrow column in fold 2 of 3. This is a dead canvas on a case-study page — the masthead is committed but the body rows waste ~45-50% of the viewport width fold after fold.\n- Section 10 (home, mobile) — react-engineer: The leaderboard's own section head \"bank of utah championship\" is cut mid-word at 360px (fold 3 of 6, already flagged in measured faults). This costs the one signal the Art Director singled out for prominence: the golf heading that is supposed to anchor the radial cluster below the hero is illegible at the first viewport where a mobile reader meets it.\n- Section 10 (case studies, mobile) — react-engineer: Across `/work/spaceman`, `/work/dougmar-ch`, `/work/politweets`, and `/work/twittertale`, the h1 project titles are each clipped at 360px (measured faults list 6-60px cut off per page). Beyond the individual overflow, this is a repeated, systemic failure of the case-study template at the mobile breakpoint — every project's own name is partially unreadable the moment a visitor opens it on a phone.\n===END===",
+      "channel": "sdk-vision",
+      "ts": 1791022775036
+    },
+    {
+      "critic": "surface-gate",
+      "round": 2,
+      "verdict": "REVISE",
+      "feedback": "/ @360: 'work' is a 44x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'work' is a 44x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: <main > div.cq-t_inline-size.bx-s_border-box.min-h_100vh.py_6 > h1.ff_display.tt_uppercase.lh_tight.ls_tight> holds text wider than its own box: \"Experiments...\" needs 298px and the box is 296px, so 2px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/experiments @360: <main > div.cq-t_inline-size.bx-s_border-box.min-h_100vh.py_6 > h1.ff_display.tt_uppercase.lh_tight.ls_tight> holds text wider than its own box: \"Experiments...\" needs 298px and the box is 296px, so 2px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/experiments @820: <main > div.cq-t_inline-size.bx-s_border-box.min-h_100vh.py_6 > h1.ff_display.tt_uppercase.lh_tight.ls_tight> holds text wider than its own box: \"Experiments...\" needs 714px and the box is 706px, so 8px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/experiments @820: <main > div.cq-t_inline-size.bx-s_border-box.min-h_100vh.py_6 > h1.ff_display.tt_uppercase.lh_tight.ls_tight> holds text wider than its own box: \"Experiments...\" needs 714px and the box is 706px, so 8px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: 'dougmar.ch' is a 103x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 150x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 199x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 299x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 103x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 150x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 199x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 299x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @820: <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/work/dougmar-ch @820: <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" sets 81 characters on its longest line (8 lines, median 75) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1791022922787
+    },
+    {
+      "critic": "screenshot-critic",
+      "round": "final",
+      "verdict": "REVISE",
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 8 — react-engineer: The composition declares `density: sparse`, which requires the home page to be nothing but the hero phrase (no project cards, no \"Selected Work\" heading, no work grid) with projects reachable only via nav. The phone filmstrip of \"/\" shows a \"selected work\" heading at fold 3 of 5 listing four project titles (spaceman, fishsticks, 15th club, dougmar.ch) directly on the home page, which is the exact failure this check names. Either the density should not be declared sparse, or the selected-work band needs to move off the home page and behind navigation.\n\n===END===",
+      "channel": "sdk-vision",
+      "ts": 1791023064935
+    },
+    {
+      "critic": "ship-gate",
+      "verdict": "SHIPPED-WITH-FAULTS",
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 8 — react-engineer: The composition declares `density: sparse`, which requires the home page to be nothing but the hero phrase (no project cards, no \"Selected Work\" heading, no work grid) with projects reachable only via nav. The phone filmstrip of \"/\" shows a \"selected work\" heading at fold 3 of 5 listing four project titles (spaceman, fishsticks, 15th club, dougmar.ch) directly on the home page, which is the exact failure this check names. Either the density should not be declared sparse, or the selected-work band needs to move off the home page and behind navigation.\n\n===END===",
+      "ts": 1791023064935
+    }
+  ],
+  "composition": {
+    "columns": "single",
+    "axis": "radial",
+    "symmetry": "symmetric",
+    "hero_zone": "center",
+    "density": "sparse",
+    "rhythm": "accelerating",
+    "shell_posture": "standard",
+    "field_ratio": "type-dominant",
+    "collapse": "stack",
+    "hero_object": "figure"
+  },
+  "lane": {
+    "laneId": "apple",
+    "register": "cinematic-monochrome-verticality"
+  },
+  "cost": {
+    "total_usd": 4.796151,
+    "estimated": true,
+    "partial": false,
+    "calls": 13,
+    "retries": 5,
+    "byAgent": [
+      {
+        "agent": "art-director",
+        "purpose": "first",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 20153,
+        "cache_read": 0,
+        "cache_write": 46288,
+        "cost_usd": 0.7931349999999999,
+        "estimated": false,
+        "ms": 297812,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "first",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 18092,
+        "cache_read": 0,
+        "cache_write": 38971,
+        "cost_usd": 0.6958787500000001,
+        "estimated": false,
+        "ms": 247225,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "first",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 14385,
+        "output": 1660,
+        "cache_read": 0,
+        "cache_write": 6988,
+        "cost_usd": 0.12568000000000001,
+        "estimated": true,
+        "ms": 19826,
+        "num_turns": null
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "revision",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 12874,
+        "cache_read": 20333,
+        "cache_write": 27578,
+        "cost_usd": 0.5043890000000001,
+        "estimated": false,
+        "ms": 165502,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "retry",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 14832,
+        "cache_read": 20333,
+        "cache_write": 27402,
+        "cost_usd": 0.552239,
+        "estimated": false,
+        "ms": 180962,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "rejudge",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 14105,
+        "output": 1644,
+        "cache_read": 0,
+        "cache_write": 6988,
+        "cost_usd": 0.12423999999999999,
+        "estimated": true,
+        "ms": 19521,
+        "num_turns": null
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "revision",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 1499,
+        "cache_read": 20333,
+        "cache_write": 28039,
+        "cost_usd": 0.22289525,
+        "estimated": false,
+        "ms": 23180,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "rejudge",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 14105,
+        "output": 2817,
+        "cache_read": 6988,
+        "cache_write": 0,
+        "cost_usd": 0.1155552,
+        "estimated": true,
+        "ms": 35594,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "first",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 28145,
+        "cache_read": 0,
+        "cache_write": 39150,
+        "cost_usd": 0.7586579999999999,
+        "estimated": false,
+        "ms": 231734,
+        "num_turns": 1
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "repair",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 3791,
+        "cache_read": 0,
+        "cache_write": 41425,
+        "cost_usd": 0.28295299999999995,
+        "estimated": false,
+        "ms": 29739,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "first",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 18925,
+        "output": 11157,
+        "cache_read": 0,
+        "cache_write": 13535,
+        "cost_usd": 0.1832575,
+        "estimated": true,
+        "ms": 121275,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 9476,
+        "cache_read": 24278,
+        "cache_write": 19698,
+        "cost_usd": 0.29287359999999996,
+        "estimated": false,
+        "ms": 89984,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "rejudge",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 16820,
+        "output": 10805,
+        "cache_read": 13535,
+        "cache_write": 0,
+        "cost_usd": 0.144397,
+        "estimated": true,
+        "ms": 117806,
+        "num_turns": null
+      }
+    ]
+  },
+  "measurables": {
+    "declared": {
+      "canvas_utilization_min": 70,
+      "hero_scale": "clamp(120px, 11vw, 158px)",
+      "color_coverage_min": 38
+    },
+    "declaredAt": "2026-10-03T10:24:28.186Z",
+    "measured": {
+      "canvas_utilization": 100,
+      "color_coverage": 35.8,
+      "hero_px": 160
+    },
+    "measuredAt": "2026-10-03T10:24:36.599Z",
+    "method": "Measured at 1440x900 on a 20px grid over the viewport at scroll position zero. canvas_utilization: % of grid cells touched by an element carrying designed content (visible text, an image/SVG/video/canvas, a background colour distinct from the page background and not transparent, or a background image such as a gradient). A background set on html or body counts as painting the page, unless it is opaque white; ::before and ::after boxes count on the same terms. color_coverage: % of grid cells whose sampled background, background-image stops or text colour is chromatic (HSL saturation > 12%, lightness 8-92%). hero_px: the largest computed font-size among first-fold elements that set visible text."
+  },
+  "surfaceGate": {
+    "ran": true,
+    "error": null,
+    "round": null
+  }
+}

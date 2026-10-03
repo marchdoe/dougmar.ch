@@ -1,0 +1,191 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is '4' (158px); in build it is '4' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "work about contact",
+                "mockupPx": 14
+              }
+            ],
+            "leader": {
+              "text": "4",
+              "mockupPx": 158
+            },
+            "buildLeader": {
+              "text": "4",
+              "buildPx": 160,
+              "mockupPx": 158
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'four holes in one the scorecard is the first experiment' is 40px in the mockup and 110px in the build (2.74x). Set it back to 40px.",
+          "facts": {
+            "text": "four holes in one the scorecard is the first experiment",
+            "mockupPx": 40,
+            "buildPx": 110,
+            "ratio": 2.74,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is '4' (120px); in build it is '4' (110px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "work about contact",
+                "mockupPx": 14
+              }
+            ],
+            "leader": {
+              "text": "4",
+              "mockupPx": 120
+            },
+            "buildLeader": {
+              "text": "4",
+              "buildPx": 110,
+              "mockupPx": 120
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'four holes in one the scorecard is the first experiment' is 28px in the mockup and 52px in the build (1.86x)",
+          "facts": {
+            "text": "four holes in one the scorecard is the first experiment",
+            "mockupPx": 28,
+            "buildPx": 52,
+            "ratio": 1.86,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the aces are a real card 15th clubs scorecard is the first of its experiments - see the work' moved from (180, 475) in the mockup to (180, 660) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: '4' still leads, but the mockup's 'work about contact' (14px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: '4' still leads, but the mockup's 'work about contact' (14px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'four holes in one the scorecard is the first experiment' is 28px in the mockup and 52px in the build (1.86x). Set it back to 28px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is '4' (158px); in build it is '4' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "four holes in one the scorecard is the first experiment",
+                "mockupPx": 40
+              },
+              {
+                "text": "work about contact",
+                "mockupPx": 14
+              }
+            ],
+            "leader": {
+              "text": "4",
+              "mockupPx": 158
+            },
+            "buildLeader": {
+              "text": "4",
+              "buildPx": 160,
+              "mockupPx": 158
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is '4' (120px); in build it is '4' (110px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "four holes in one the scorecard is the first experiment",
+                "mockupPx": 28
+              },
+              {
+                "text": "work about contact",
+                "mockupPx": 14
+              }
+            ],
+            "leader": {
+              "text": "4",
+              "mockupPx": 120
+            },
+            "buildLeader": {
+              "text": "4",
+              "buildPx": 110,
+              "mockupPx": 120
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: '4' still leads, but the mockup's 'four holes in one the scorecard is the first experiment' (40px), 'work about contact' (14px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: '4' still leads, but the mockup's 'four holes in one the scorecard is the first experiment' (28px), 'work about contact' (14px) fell out of the build's three largest texts. Restore the mockup's sizes."
+      ]
+    }
+  ]
+}
