@@ -1,0 +1,476 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' (30px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 30,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman is an llc that partners with companies and studios - sometimes as a solo contributor sometimes embedded in a larger team' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is an llc that partners with companies and studios - sometimes as a solo contributor sometimes embedded in a larger team",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'mind' (160px); in build it is 'mind' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "work",
+                "mockupPx": 40
+              }
+            ],
+            "leader": {
+              "text": "mind",
+              "mockupPx": 160
+            },
+            "buildLeader": {
+              "text": "mind",
+              "buildPx": 160,
+              "mockupPx": 160
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' moved from (896, 122) in the mockup to (924, 701) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'fishsticks' moved from (842, 536) in the mockup to (913, 784) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'15th club' moved from (832, 595) in the mockup to (896, 867) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' moved from (857, 654) in the mockup to (940, 950) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'teeturn' moved from (817, 783) in the mockup to (869, 1109) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'politweets' moved from (845, 842) in the mockup to (918, 1192) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'twittertale' moved from (849, 901) in the mockup to (925, 1275) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman is an llc that partners with companies and studios - sometimes as a solo contributor sometimes embedded in a larger team' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is an llc that partners with companies and studios - sometimes as a solo contributor sometimes embedded in a larger team",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'mind' (88px); in build it is 'mind' (72px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "make your mind your own business",
+                "mockupPx": 19
+              }
+            ],
+            "leader": {
+              "text": "mind",
+              "mockupPx": 88
+            },
+            "buildLeader": {
+              "text": "mind",
+              "buildPx": 72,
+              "mockupPx": 88
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'make your mind your own business' is 19px in the mockup and 41px in the build (2.18x)",
+          "facts": {
+            "text": "make your mind your own business",
+            "mockupPx": 19,
+            "buildPx": 41,
+            "ratio": 2.18,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 18px in the mockup and 45px in the build (2.50x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 18,
+            "buildPx": 45,
+            "ratio": 2.5,
+            "mockupRank": 3
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman' moved from (117, 403) in the mockup to (107, 1094) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' moved from (88, 99) in the mockup to (198, 145) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'jack butcher' moved from (300, 284) in the mockup to (321, 477) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'visit spacemanllc →' moved from (85, 579) in the mockup to (97, 828) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "text-cut",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'jack butcher' shows 83% of itself in the build",
+          "facts": {
+            "text": "jack butcher",
+            "buildPx": 16,
+            "visiblePct": 83
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'mind' still leads, but the mockup's 'work' (40px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'mind' still leads, but the mockup's 'make your mind your own business' (19px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'spaceman' at 30px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'spaceman is an llc that partners with companies and studi...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'spaceman is an llc that partners with companies and studi...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: 'doug march' is 18px in the mockup and 45px in the build (2.5x). Set it back to 18px.",
+        "- / at 360px: 'make your mind your own business' is 19px in the mockup and 41px in the build (2.18x). Set it back to 19px.",
+        "- / at 360px: 'jack butcher' shows 83% of itself; its box cuts the rest off. Let it wrap or give its box the room."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman is an llc that partners with companies and studios - sometimes as a solo contributor sometimes embedded in a larger team' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is an llc that partners with companies and studios - sometimes as a solo contributor sometimes embedded in a larger team",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'mind' (160px); in build it is 'mind' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "spaceman",
+                "mockupPx": 46
+              },
+              {
+                "text": "work",
+                "mockupPx": 40
+              }
+            ],
+            "leader": {
+              "text": "mind",
+              "mockupPx": 160
+            },
+            "buildLeader": {
+              "text": "mind",
+              "buildPx": 160,
+              "mockupPx": 160
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' moved from (896, 122) in the mockup to (924, 618) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' moved from (848, 477) in the mockup to (846, 128) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'teeturn' moved from (817, 783) in the mockup to (869, 1026) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'politweets' moved from (845, 842) in the mockup to (918, 1109) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'twittertale' moved from (849, 901) in the mockup to (925, 1192) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman is an llc that partners with companies and studios - sometimes as a solo contributor sometimes embedded in a larger team' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is an llc that partners with companies and studios - sometimes as a solo contributor sometimes embedded in a larger team",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'mind' (88px); in build it is 'mind' (72px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "spaceman",
+                "mockupPx": 30
+              },
+              {
+                "text": "make your mind your own business",
+                "mockupPx": 19
+              }
+            ],
+            "leader": {
+              "text": "mind",
+              "mockupPx": 88
+            },
+            "buildLeader": {
+              "text": "mind",
+              "buildPx": 72,
+              "mockupPx": 88
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 18px in the mockup and 45px in the build (2.50x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 18,
+            "buildPx": 45,
+            "ratio": 2.5,
+            "mockupRank": 3
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' moved from (88, 99) in the mockup to (186, 145) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'visit spacemanllc →' moved from (85, 579) in the mockup to (97, 722) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'mind' still leads, but the mockup's 'spaceman' (46px), 'work' (40px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'mind' still leads, but the mockup's 'spaceman' (30px), 'make your mind your own business' (19px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'spaceman is an llc that partners with companies and studi...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'spaceman is an llc that partners with companies and studi...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: 'doug march' is 18px in the mockup and 45px in the build (2.5x). Set it back to 18px."
+      ]
+    }
+  ]
+}

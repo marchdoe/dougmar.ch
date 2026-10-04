@@ -1,81 +1,118 @@
 import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
-import { BrandLockup } from './BrandLockup'
+import { SignalLedger } from './generated/SignalLedger'
+import { revealClass } from './generated/styles'
+
+const navItems = [
+  { label: 'Work', href: '/work' },
+  { label: 'About', href: '/about' },
+]
 
 const navLink = css({
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  columnGap: '3',
+  paddingBlock: '16px',
+  paddingInline: '2px',
+  minHeight: '56px',
+  fontFamily: 'display',
+  fontWeight: 'normal',
+  textStyle: 'xl',
+  letterSpacing: '-0.01em',
+  color: 'fieldInk',
+  borderBottomWidth: '1px',
+  borderBottomStyle: 'solid',
+  borderBottomColor: 'fieldBorder',
+  _hover: { color: 'fieldInkMuted', textDecoration: 'none' },
+})
+
+const fieldMicro = css({
+  fontFamily: 'body',
+  fontSize: 'xs',
+  fontWeight: 'bold',
+  letterSpacing: 'widest',
+  textTransform: 'uppercase',
+  color: 'fieldInkMuted',
+  marginBottom: '3',
+})
+
+const tape = css({
+  marginTop: '18px',
+  maxWidth: '52ch',
   fontFamily: 'body',
   fontSize: 'sm',
-  fontWeight: '500',
-  textTransform: 'lowercase',
+  lineHeight: '1.6',
   letterSpacing: '0.02em',
-  color: 'textMuted',
-  paddingBlock: { base: '11px', md: '3px' },
-  paddingInline: '16px',
-  minHeight: { base: '44px', md: '0' },
-  display: 'inline-flex',
-  alignItems: 'center',
-  position: 'relative',
-  transition: 'color 0.2s ease',
-  _after: {
-    content: '""',
-    position: 'absolute',
-    left: '16px',
-    right: '16px',
-    bottom: '6px',
-    height: '1px',
-    bg: 'fieldBorder',
-    transform: 'scaleX(0)',
-    transformOrigin: 'left',
-    transition: 'transform 0.25s ease',
-  },
-  _hover: { color: 'fieldBorder' },
-  '&:hover::after': { transform: 'scaleX(1)' },
+  color: 'fieldInkMuted',
 })
+
+const strong = css({ color: 'fieldInk', fontWeight: 'bold' })
 
 export function Sidebar() {
   return (
-    <header
+    <footer
       className={css({
-        position: 'relative',
-        zIndex: 5,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '4px',
-        paddingTop: '12px',
-        paddingBottom: '0',
-        paddingInline: 'clamp(24px, 6vw, 112px)',
+        bg: 'field',
+        color: 'fieldInk',
+        paddingTop: { base: '6', lg: '72px' },
+        paddingInline: { base: '20px', lg: '6vw' },
+        paddingBottom: { base: '40px', lg: '56px' },
       })}
     >
-      <a
-        href="/"
-        aria-label={`${identity.name}, home`}
-        className={css({ display: 'inline-flex', alignItems: 'center', _hover: { color: 'text' } })}
-      >
-        <BrandLockup variant="mark-only-md" mode="original" />
-      </a>
-      <nav className={css({ display: 'flex', gap: '2px', alignItems: 'center', marginTop: '2px' })}>
-        <a href="/#work" className={navLink}>
-          work
-        </a>
-        <a href="/about" className={navLink}>
-          about
-        </a>
-        <a href={`mailto:${identity.email}`} className={navLink}>
-          contact
-        </a>
-      </nav>
-      {/* accentDeep (#8F5316) maps to fieldBorder, the exact token for that hex */}
       <div
         className={css({
-          width: '100%',
-          maxWidth: '1216px',
-          height: '1px',
-          bg: 'fieldBorder',
-          opacity: 0.55,
-          marginTop: '6px',
+          display: 'grid',
+          gridTemplateColumns: { base: '1fr', lg: '1.1fr 0.9fr' },
+          gap: { base: '40px', lg: '6vw' },
+          alignItems: 'start',
         })}
-      />
-    </header>
+      >
+        <nav aria-label="Primary" className={revealClass}>
+          <div className={fieldMicro}>Index</div>
+          <div
+            className={css({
+              borderTopWidth: '1px',
+              borderTopStyle: 'solid',
+              borderTopColor: 'fieldBorder',
+            })}
+          >
+            {navItems.map((item) => (
+              <a key={item.href} href={item.href} className={navLink}>
+                {item.label}
+              </a>
+            ))}
+            <a href={`mailto:${identity.email}`} className={navLink}>
+              <span>Contact</span>
+              <span
+                className={css({
+                  fontFamily: 'body',
+                  fontSize: 'sm',
+                  fontWeight: 'bold',
+                  letterSpacing: 'normal',
+                  color: 'fieldInkMuted',
+                })}
+              >
+                {identity.email}
+              </span>
+            </a>
+          </div>
+        </nav>
+        <div className={revealClass}>
+          <div className={fieldMicro}>Signals · 04 Oct 2026</div>
+          <SignalLedger />
+          <p className={tape}>
+            On rotation: <b className={strong}>Radiohead</b> &amp;{' '}
+            <b className={strong}>Tobin Sprout</b>. Taste, not an event.
+          </p>
+          <p className={tape}>
+            <b className={strong}>{identity.name}</b>, {identity.role}. Working independent under
+            Spaceman since 2018. Aldie, Virginia.
+          </p>
+          <p className={tape}>© 2026 {identity.name}.</p>
+        </div>
+      </div>
+    </footer>
   )
 }

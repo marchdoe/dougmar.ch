@@ -1,20 +1,26 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { CaseStudy } from '../components/generated/CaseStudy'
+import { WorkHero } from '../components/generated/WorkHero'
 import { WhitePaper } from '../components/WhitePaper'
-import { CaseBody } from '../components/generated/CaseBody'
-import { CaseHeader } from '../components/generated/CaseHeader'
-import { CaseMissing } from '../components/generated/CaseMissing'
 import { projects } from '../content/projects'
 
 export const Route = createFileRoute('/work/$slug')({ component: WorkPage })
 
+type Project = (typeof projects)[number]
+
+function deckFor(project: Project): string {
+  const parts = [project.role ?? '', project.type, String(project.year)].filter((p) => p !== '')
+  return [...new Set(parts)].join(' · ')
+}
+
 function WorkPage() {
   const { slug } = Route.useParams()
   const project = projects.find((p) => p.slug === slug)
-  if (!project) return <CaseMissing />
+  if (!project) return <WorkHero title="Not found" deck="No project by that name." />
   return (
     <>
-      <CaseHeader project={project} />
-      {project.slug === 'dougmar-ch' ? <WhitePaper /> : <CaseBody project={project} />}
+      <WorkHero title={project.title} deck={deckFor(project)} />
+      {project.slug === 'dougmar-ch' ? <WhitePaper /> : <CaseStudy project={project} />}
     </>
   )
 }

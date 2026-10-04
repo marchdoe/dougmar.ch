@@ -1,0 +1,97 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute top_-4% left_-4% bottom_-4% right_-4% lg:right_50% z_0 bg_bg pointer-events_none anim_drift_40s_cubic-bezier(0.65,_0,_0.35,_1)_infinite_alternate",
+            "b": "DIV.pos_relative z_1 d_grid grid-tc_minmax(0,_1fr) lg:grid-tc_minmax(0,_1fr)_minmax(0,_1fr) rg_44px cg_0 lg:cg_4vw ai_start"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 15,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "tablet": {
+      "width": 820,
+      "height": 1180,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute top_-4% left_-4% bottom_-4% right_-4% lg:right_50% z_0 bg_bg pointer-events_none anim_drift_40s_cubic-bezier(0.65,_0,_0.35,_1)_infinite_alternate",
+            "b": "DIV.pos_relative z_1 d_grid grid-tc_minmax(0,_1fr) lg:grid-tc_minmax(0,_1fr)_minmax(0,_1fr) rg_44px cg_0 lg:cg_4vw ai_start"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 15,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute top_-4% left_-4% bottom_-4% right_-4% lg:right_50% z_0 bg_bg pointer-events_none anim_drift_40s_cubic-bezier(0.65,_0,_0.35,_1)_infinite_alternate",
+            "b": "DIV.pos_relative z_1 d_grid grid-tc_minmax(0,_1fr) lg:grid-tc_minmax(0,_1fr)_minmax(0,_1fr) rg_44px cg_0 lg:cg_4vw ai_start"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 15,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute top_-4% left_-4% bottom_-4% right_-4% lg:right_50% z_0 bg_bg pointer-events_none anim_drift_40s_cubic-bezier(0.65,_0,_0.35,_1)_infinite_alternate",
+            "b": "DIV.pos_relative z_1 d_grid grid-tc_minmax(0,_1fr) lg:grid-tc_minmax(0,_1fr)_minmax(0,_1fr) rg_44px cg_0 lg:cg_4vw ai_start"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 15,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    }
+  },
+  "overallScore": 3,
+  "worstFailure": {
+    "viewport": "mobile",
+    "check": "headerOverlap",
+    "detail": "1 overlapping pair(s) in the header"
+  },
+  "buildId": "1791111844381",
+  "date": "2026-10-04",
+  "archetype": "a defiant specimen poster, one word owned"
+}
