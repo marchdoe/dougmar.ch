@@ -1,54 +1,122 @@
 import { css } from '../../../styled-system/css'
+import type { projects } from '../../content/projects'
+import { BrandLockup } from '../BrandLockup'
 import { Ground } from '../Material'
-import { Evidence } from './Evidence'
-import { Thesis } from './Thesis'
+import { ClientLedger } from './ClientLedger'
+import { FeaturedMeta } from './FeaturedMeta'
+import { FeaturedTitle } from './FeaturedTitle'
+import { RunningSentence } from './RunningSentence'
 
-export function HomeHero() {
+type Project = (typeof projects)[number]
+
+export function HomeHero({ project }: { project: Project | undefined }) {
   return (
     <header
       className={css({
         position: 'relative',
         overflow: 'hidden',
-        bg: 'bg',
         minHeight: '92vh',
-        paddingTop: { base: '4', lg: '6' },
-        paddingInline: { base: '20px', lg: '6vw' },
-        paddingBottom: { base: '6', lg: '7' },
+        bg: 'bg',
+        paddingBlock: 'clamp(22px, 6vw, 56px)',
+        paddingInline: 'clamp(20px, 6vw, 80px)',
       })}
     >
-      <div
+      <Ground material="rule" seed={960521440} />
+      <span
         aria-hidden="true"
-        data-allow-x-overflow=""
         className={css({
+          display: { base: 'none', lg: 'block' },
           position: 'absolute',
-          top: '-4%',
-          left: '-4%',
-          bottom: '-4%',
-          right: { base: '-4%', lg: '50%' },
+          top: 'clamp(22px, 6vw, 56px)',
+          right: 'clamp(20px, 6vw, 80px)',
           zIndex: 0,
-          bg: 'bg',
           pointerEvents: 'none',
-          animation: 'drift 40s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate',
+          fontFamily: 'display',
+          fontWeight: 'bold',
+          fontStyle: 'italic',
+          fontVariant: 'all-small-caps',
+          fontSize: 'hero',
+          lineHeight: '1',
+          whiteSpace: 'nowrap',
+          color: 'text',
+          opacity: 0.06,
         })}
       >
-        <Ground material="halftone" seed={977299059} />
-      </div>
+        Hustle
+      </span>
       <div
         className={css({
           position: 'relative',
           zIndex: 1,
           display: 'grid',
-          gridTemplateColumns: {
-            base: 'minmax(0, 1fr)',
-            lg: 'minmax(0, 1fr) minmax(0, 1fr)',
-          },
-          rowGap: '44px',
-          columnGap: { base: '0', lg: '4vw' },
-          alignItems: 'start',
+          gridTemplateColumns: { base: '1fr', lg: 'repeat(12, minmax(0, 1fr))' },
+          rowGap: { base: 'clamp(26px, 4vh, 40px)', lg: '0px' },
+          columnGap: { base: '0px', lg: 'clamp(16px, 2vw, 32px)' },
+          alignItems: { lg: 'start' },
         })}
       >
-        <Thesis />
-        <Evidence />
+        <div
+          className={css({
+            gridColumn: { lg: '1 / 5' },
+            gridRow: { lg: '1' },
+            marginBottom: { lg: 'clamp(30px, 5vh, 56px)' },
+          })}
+        >
+          <BrandLockup variant="stacked-md" mode="original" />
+        </div>
+        <h1
+          className={css({
+            fontFamily: 'display',
+            fontStyle: 'italic',
+            fontWeight: 'normal',
+            fontVariant: 'all-small-caps',
+            letterSpacing: 'wide',
+            textAlign: 'left',
+            fontSize: { base: '3xl', lg: '64px' },
+            lineHeight: '1.08',
+            color: 'text',
+            maxWidth: '16ch',
+            gridColumn: { lg: '1 / 8' },
+            gridRow: { lg: '2' },
+            marginBottom: { lg: 'clamp(24px, 4vh, 44px)' },
+            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+            animationDelay: '0ms',
+          })}
+        >
+          The dream is free, but the hustle is sold separately.
+          <span
+            className={css({
+              display: 'block',
+              width: 'fit-content',
+              bg: 'bg',
+              fontFamily: 'body',
+              fontStyle: 'normal',
+              fontWeight: 'normal',
+              fontVariant: 'normal',
+              fontSize: 'md',
+              color: 'textMuted',
+              marginTop: '18px',
+              letterSpacing: '0.01em',
+              lineHeight: '1.4',
+              maxWidth: '40ch',
+            })}
+          >
+            <span className={css({ color: 'text' })}>Steve Harvey.</span> Ten years of Spaceman is
+            the hustle, itemised.
+          </span>
+        </h1>
+        <FeaturedTitle project={project} />
+        <FeaturedMeta project={project} />
+        <RunningSentence
+          className={css({
+            gridColumn: { lg: '1 / 5' },
+            gridRow: { lg: '5' },
+            marginTop: { lg: 'clamp(28px, 4vh, 48px)' },
+            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+            animationDelay: '240ms',
+          })}
+        />
+        <ClientLedger project={project} />
       </div>
     </header>
   )

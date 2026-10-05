@@ -1,81 +1,83 @@
 import { css } from '../../../styled-system/css'
 import type { projects } from '../../content/projects'
-import { revealClass } from './styles'
+import { ClientChips } from './ClientChips'
 
-type Client = NonNullable<(typeof projects)[number]['clients']>[number]
+type Project = (typeof projects)[number]
 
-export function ClientLedger({ clients }: { clients: Client[] }) {
+export function ClientLedger({ project }: { project: Project | undefined }) {
+  const clients = project?.clients ?? []
   if (clients.length === 0) return null
   return (
-    <section className={revealClass}>
+    <aside
+      aria-label="Client roster"
+      className={css({
+        bg: 'field',
+        color: 'fieldInk',
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        borderColor: 'fieldBorder',
+        padding: 'clamp(24px, 3vw, 40px)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '22px',
+        gridColumn: { lg: '5 / 13' },
+        gridRow: { lg: '3 / span 3' },
+        alignSelf: { lg: 'start' },
+        marginTop: { lg: 'clamp(150px, 20vh, 230px)' },
+      })}
+    >
       <div
         className={css({
-          bg: 'field',
-          color: 'fieldInk',
-          paddingInline: { base: '20px', lg: '6vw' },
-          paddingTop: { base: '6', lg: '7' },
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '4px',
+          borderBottomWidth: '1px',
+          borderBottomStyle: 'solid',
+          borderBottomColor: 'fieldBorder',
+          paddingBottom: '16px',
         })}
       >
-        <div
+        <span
           className={css({
-            marginBottom: '3',
-            fontFamily: 'body',
-            fontSize: 'xs',
-            fontWeight: 'bold',
-            letterSpacing: 'widest',
-            textTransform: 'uppercase',
+            fontSize: 'sm',
             color: 'fieldInkMuted',
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
           })}
         >
-          Clients
-        </div>
-        <div
+          The ledger · clients since {project?.year}
+        </span>
+        <span
           className={css({
-            borderTopWidth: '1px',
-            borderTopStyle: 'solid',
-            borderTopColor: 'fieldBorder',
+            fontFamily: 'display',
+            fontWeight: 'bold',
+            fontVariant: 'all-small-caps',
+            letterSpacing: '0.04em',
+            fontSize: '2xl',
+            color: 'fieldInk',
+            lineHeight: '1',
           })}
         >
-          {clients.map((c) => (
-            <div
-              key={c.name}
-              className={css({
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'space-between',
-                alignItems: 'baseline',
-                columnGap: '12px',
-                paddingBlock: '13px',
-                paddingInline: '2px',
-                borderBottomWidth: '1px',
-                borderBottomStyle: 'solid',
-                borderBottomColor: 'fieldBorder',
-              })}
-            >
-              <span
-                className={css({
-                  fontFamily: 'body',
-                  fontSize: 'sm',
-                  fontWeight: 'bold',
-                  color: 'fieldInk',
-                })}
-              >
-                {c.name}
-              </span>
-              <span
-                className={css({
-                  maxWidth: '48ch',
-                  fontFamily: 'body',
-                  fontSize: 'sm',
-                  color: 'fieldInkMuted',
-                })}
-              >
-                {c.description ?? ''}
-              </span>
-            </div>
-          ))}
-        </div>
+          Who paid for the hustle
+        </span>
       </div>
-    </section>
+      <ClientChips clients={clients} />
+      <p
+        className={css({
+          margin: '0',
+          fontSize: 'sm',
+          color: 'fieldInkMuted',
+          lineHeight: '1.6',
+          borderTopWidth: '1px',
+          borderTopStyle: 'solid',
+          borderTopColor: 'fieldBorder',
+          paddingTop: '16px',
+          maxWidth: '50ch',
+        })}
+      >
+        {clients.length} clients, one line in the balance book:{' '}
+        <b className={css({ color: 'fieldInk' })}>the dream was free; the build was billable.</b>
+      </p>
+    </aside>
   )
 }

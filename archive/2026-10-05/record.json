@@ -1,0 +1,786 @@
+{
+  "date": "2026-10-05",
+  "era": "header-declared",
+  "generatedAt": "2026-10-05T12:10:08.480Z",
+  "buildId": "1791202200639",
+  "attempts": 1,
+  "brief": "A founder's specimen ledger, quote stamped over a teal evidence panel, warm sand ground, one coral hustle-mark.",
+  "rationale": "The phrase is a quote about effort: the idea is free, the building is the cost. A line like that is weightless on its own, so it demanded evidence under it, which is why the composition leads with an artifact — Spaceman, Founder, 2018, and the real client roster (Zeldman, Rolex, The Nature Conservancy, Intuit, LastPass) as the proof of ten years of hustle. The quote becomes the caption stamped over that ledger, exactly the register a founder's specimen sheet wants.\n\nBecause the page is a ledger of evidence, the chassis is Zilla Slab, a sturdy structural slab built for specimens and index work, set small-caps and italic-led so the quote reads as a printed epigraph rather than a shout. The palette answers the same logic: a warm sand ledger ground where the quote lives, and deep teal evidence panels the client list reverses out of, so the two grounds carry the whole page as a committed duotone with no neutral void. One coral mark is the hustle, used sparingly as the 10% pulse against the teal and sand.\n\nLayout follows from the artifact and the broken symmetry: the title and quote anchor the upper-left, and the teal ledger panel offsets down and right, breaking the rail so the evidence physically interrupts the claim after one oversized caesura gap. The mark stays in the first fold top-left as original green-and-blue, which the warm sand ground gives it somewhere honest to sit, and the nav dissolves into a single running sentence low in the field because the shell is none. At 360 the quote reorders to lead, then the title, then the ledger, so the argument survives one column.",
+  "filesChanged": [
+    "elements/preset.ts",
+    "app/components/Layout.tsx",
+    "app/components/Sidebar.tsx",
+    "app/components/generated/RunningSentence.tsx",
+    "app/components/generated/ClientChips.tsx",
+    "app/components/generated/ClientLedger.tsx",
+    "app/components/generated/FeaturedTitle.tsx",
+    "app/components/generated/FeaturedMeta.tsx",
+    "app/components/generated/HomeHero.tsx",
+    "app/components/generated/WorkRows.tsx",
+    "app/components/generated/HustleChart.tsx",
+    "app/components/generated/WorkIndex.tsx",
+    "app/components/generated/AboutHero.tsx",
+    "app/components/generated/TimelineLedger.tsx",
+    "app/components/generated/CapabilityStrip.tsx",
+    "app/components/generated/EducationRows.tsx",
+    "app/components/generated/PersonalPanel.tsx",
+    "app/components/generated/AboutFacts.tsx",
+    "app/components/generated/CaseClients.tsx",
+    "app/components/generated/CaseMeta.tsx",
+    "app/components/generated/CaseHero.tsx",
+    "app/components/generated/StackChips.tsx",
+    "app/components/generated/CaseLinks.tsx",
+    "app/components/generated/CaseNarrative.tsx",
+    "app/components/generated/MissingCase.tsx",
+    "app/routes/index.tsx",
+    "app/routes/about.tsx",
+    "app/routes/work.$slug.tsx",
+    "app/routes/og.tsx"
+  ],
+  "legacyArchetype": null,
+  "signals": {
+    "air_quality": {
+      "aqi_index": 1,
+      "uv_index": 0,
+      "air_quality_label": "Good"
+    },
+    "awwwards": {
+      "sites_of_the_day": [
+        {
+          "title": "LEDUP — Lighting the Future",
+          "description": "A digital experience where innovative lighting, technology and design come together to illuminate the future.",
+          "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/09/6aad5235cbac2805799783.png"
+        },
+        {
+          "title": "The Bluejack Group Dashboard",
+          "description": "This is the first political marketing dashboard of it's kind integrated AI, heat maps, session recordings and email warming metrics laid out in an elegant...",
+          "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/09/6aaebbb55d1eb062619248.jpg"
+        },
+        {
+          "title": "The F-List 2026",
+          "description": "The F-List 2026 exposes the hidden relationships between fossil fuel companies and the advertising and PR agencies protecting their reputations.",
+          "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/09/6ab10c65cbd95372756426.jpg"
+        }
+      ]
+    },
+    "books": {
+      "currently_reading": []
+    },
+    "day_of_week": {
+      "day": "Monday",
+      "is_weekend": false,
+      "day_index": 1
+    },
+    "github": {
+      "repos": [
+        {
+          "name": "tester-army/e2e/stargazers",
+          "description": "",
+          "language": "TypeScript",
+          "stars": null
+        },
+        {
+          "name": "sponsors/thedotmack",
+          "description": "",
+          "language": "TypeScript",
+          "stars": null
+        },
+        {
+          "name": "michael-denyer/pstack-claude/stargazers",
+          "description": "",
+          "language": "JavaScript",
+          "stars": null
+        },
+        {
+          "name": "earthtojake/text-to-cad/stargazers",
+          "description": "",
+          "language": "Python",
+          "stars": null
+        },
+        {
+          "name": "pingdotgg/t3code/stargazers",
+          "description": "",
+          "language": "TypeScript",
+          "stars": null
+        }
+      ]
+    },
+    "golf": {
+      "tournament": "Bank of Utah Championship",
+      "status": "Final",
+      "leaders": [
+        {
+          "name": "Austin Smotherman",
+          "position": "1",
+          "score": "-26"
+        },
+        {
+          "name": "Doug Ghim",
+          "position": "2",
+          "score": "-24"
+        },
+        {
+          "name": "David Ford",
+          "position": "3",
+          "score": "-23"
+        },
+        {
+          "name": "Trace Crowe",
+          "position": "4",
+          "score": "-23"
+        },
+        {
+          "name": "Ben James",
+          "position": "5",
+          "score": "-22"
+        }
+      ]
+    },
+    "hacker_news": {
+      "stories": [
+        {
+          "title": "Denmark Data Breach Exposes 8.8M People's Personal Data",
+          "url": "https://www.cpr.dk/cpr-nyt/nyhedsarkiv/2026/okt/omfattende-uautoriseret-adgang-til-borgeres-cpr-oplysninger",
+          "score": 193,
+          "by": "clan"
+        },
+        {
+          "title": "Apple and a Hacker's Future",
+          "url": "https://stratechery.com/2026/apple-and-a-hackers-future/",
+          "score": 38,
+          "by": "maguay"
+        },
+        {
+          "title": "Huawei and Qualcomm Announce Broad Patent License Agreement",
+          "url": "https://www.huawei.com/en/news/2026/10/qualcomm-broad-patent-agreement",
+          "score": 77,
+          "by": "0xedb"
+        },
+        {
+          "title": "Europe's new robotics unicorn: Germany's RobCo hits $1B valuation",
+          "url": "https://techfundingnews.com/europes-new-robotics-unicorn-germanys-robco-hits-1b-valuation/",
+          "score": 5,
+          "by": "dachworker"
+        },
+        {
+          "title": "Web Search API",
+          "url": "https://developers.cloudflare.com/changelog/post/2026-10-02-introducing-web-search-api/",
+          "score": 9,
+          "by": "tosh"
+        }
+      ]
+    },
+    "holidays": {
+      "today": null,
+      "upcoming": [
+        {
+          "name": "Columbus Day",
+          "date": "2026-10-12",
+          "days_away": 7
+        }
+      ]
+    },
+    "lunar": {
+      "phase": "waning crescent",
+      "illumination": 0.271,
+      "days_into_cycle": 24.38
+    },
+    "market": {
+      "symbol": "SPY",
+      "price": "769.6400",
+      "change": "5.6500",
+      "change_percent": "0.7395%",
+      "direction": "up"
+    },
+    "music": {
+      "bands": [
+        "The War on Drugs",
+        "Guided by Voices",
+        "Radiohead"
+      ],
+      "rotation": true
+    },
+    "news": {
+      "headlines": [
+        {
+          "title": "Drew Rasmussen no-hits Yankees into 8th inning, Rays win ALDS opener - Tampa Bay Times",
+          "source": "Tampa Bay Times",
+          "url": "https://www.tampabay.com/sports/rays/2026/10/03/drew-rasmussen-alds-yankees-jonathan-aranda-gerrit-cole-austin-wells-bryan-baker/"
+        },
+        {
+          "title": "High-wire act! Inside the insane play in 9th inning of Brewers-Padres - Milwaukee Journal Sentinel",
+          "source": "Milwaukee Journal Sentinel",
+          "url": "https://www.jsonline.com/story/sports/mlb/brewers/2026/10/03/ball-hitting-roof-cable-in-brewers-padres-nlds-game-causes-confusion/92063091007/"
+        },
+        {
+          "title": "U.S. Marine arrested on suspicion of killing Japanese woman in Okinawa - NBC News",
+          "source": "NBC News",
+          "url": "https://www.nbcnews.com/world/japan/us-marine-arrested-suspicion-killing-japanese-woman-okinawa-rcna601367"
+        },
+        {
+          "title": "Jada Pinkett Smith Wants Will's Ex-Pal To Sit For Mental Exam to Prove Emotional Distress - tmz.com",
+          "source": "TMZ",
+          "url": "https://www.tmz.com/2026/10/04/jada-pinkett-smith-bilaal-salaam-legal-battle-continues/"
+        },
+        {
+          "title": "1 question for each team going into today's NLDS Game 2s - MLB.com",
+          "source": "MLB.com",
+          "url": "https://www.mlb.com/news/2026-nlds-game-2-storylines-what-to-watch-for"
+        }
+      ]
+    },
+    "quote": {
+      "text": "The dream is free, but the hustle is sold separately.",
+      "author": "Steve Harvey"
+    },
+    "season": {
+      "season": "fall",
+      "month": 10,
+      "day": 5,
+      "day_of_year": 278,
+      "month_name": "October"
+    },
+    "sidebar": {
+      "links": [
+        {
+          "title": "How to de-slopify your designs",
+          "url": "https://uxdesign.cc/how-to-de-slopify-your-designs-4c40c57c1dc9",
+          "source": "uxdesign.cc",
+          "description": "Tips for anyone who vibecodes."
+        },
+        {
+          "title": "Amazing glass",
+          "url": "https://tomacco.github.io/amazing-glass/",
+          "source": "tomacco.github.io",
+          "description": "Glass that bends the page behind it. Liquid glass web components for HTML, React and Vue, tuned pixel by pixel against Apple’s own renderer."
+        },
+        {
+          "title": "A loading state within a loading state",
+          "url": "https://unsung.aresluna.org/a-loading-state-within-a-loading-state/",
+          "source": "unsung.aresluna.org",
+          "description": "Loading is a complex space, where sometimes the most natural solution is a bad one."
+        },
+        {
+          "title": "Google has the best AI money can buy. Its products still feel broken.",
+          "url": "https://hitesh.in/2026/best-ai-still-feels-broken/",
+          "source": "hitesh.in",
+          "description": "Google’s AI-era products keep breaking an old trust contract with users, and the model isn’t the reason."
+        },
+        {
+          "title": "What happens when you can build it all yourself",
+          "url": "https://www.renatovaldes.com/essays/what-happens-when-you-can-build-it-all-yourself/",
+          "source": "renatovaldes.com",
+          "description": "What speed is doing to my expectations, my attention and the case for startup funding."
+        }
+      ]
+    },
+    "sports": {
+      "teams": [
+        {
+          "name": "Detroit Lions",
+          "league": "NFL",
+          "last_game": "2026-10-05T00:20Z",
+          "result": "loss",
+          "score": "26-32"
+        },
+        {
+          "name": "Detroit Red Wings",
+          "league": "NHL",
+          "last_game": "2026-10-04T17:00Z",
+          "result": "loss",
+          "score": "2-3"
+        },
+        {
+          "name": "Detroit Pistons",
+          "league": "NBA",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Tigers",
+          "league": "MLB",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        }
+      ]
+    },
+    "sun": {
+      "sunrise": "07:16",
+      "sunset": "18:39",
+      "daylight_hours": 11.4
+    },
+    "weather": {
+      "location": "Aldie, Virginia",
+      "conditions": "Mist",
+      "temp_f": 54,
+      "temp_c": 12.2,
+      "humidity": 97,
+      "wind_mph": 3.1,
+      "wind_dir": "W",
+      "feels_like_f": 53.6
+    },
+    "date": "2026-10-05"
+  },
+  "hero": {
+    "copy": "The dream is free, but the hustle is sold separately.",
+    "rationale": "Straight from `signals.quote` (Steve Harvey), and it earns the day by sitting as the caption on ten years of Spaceman: the idea was the free part, the building was sold separately. It reads as a work-ethic line, not a motivational poster, once it hangs over a real client ledger (Zeldman, Rolex, The Nature Conservancy, Intuit, LastPass) as evidence of the hustle. Steve Harvey is attributed in the standfirst beneath the line. Owner's voice: Doug builds products on the side and has said the mockup is the easy part and shipping it is the work, so \"the dream is free, the hustle is sold separately\" is exactly how he'd frame ten years of Spaceman.",
+    "source": "quote"
+  },
+  "chassis": "zilla-worksans",
+  "adBrief": {
+    "visualSpecification": "### 1. Color Specification\n- **Primary hue**: 176° deep teal. It is the evidence color, the flooded plane the client ledger reverses out of, cool enough to read as proof against the warm sand the quote lives on.\n- **Neutral palette (warm sand, tinted toward 70°)**: 50 `#faf5ea`, 100 `#f3ecd9`, 200 `#ece2cc`, 300 `#e0d2b4`, 400 `#cdbb94`, 500 `#a8906a`, 600 `#7c6a4b`, 700 `#574a34`, 800 `#3a3123`, 900 `#241e14`\n- **Accent color (hustle coral)**: light `#ea8257`, default `#e05d2d`, dark `#c24a1f`, glow `#f2b092`\n- **Secondary accent**: none beyond coral; teal is a ground, not a second accent.\n- **Background**: page bg `#ece2cc` (sand 200), card/surface `#f3ecd9` (sand 100), teal field panel `#0a3d39` (teal 800), bgAlt band `#e0d2b4` (sand 300)\n- **Text colors**: primary `#0a3d39` (teal ink on sand), secondary `#0f615a`, muted/faint `#7c6a4b`; on the teal field, ink `#faf5ea`, muted `#93cdc6`\n\n### 2. Typography\n- **Hero phrase rendering**: the quote is the single h1, set at `4xl` (desktop) in the Zilla Slab display, small-caps, italic, left — a printed ledger epigraph, not a shout. The artifact title \"Spaceman\" is the marquee object at `hero_scale` (`5xl` register), small-caps heavy roman, functioning as type-as-texture anchoring the upper-left.\n- **Type treatment**: `hero_scale`/`5xl` for the Spaceman title; `4xl` for the quote h1; `md` standfirst for the Steve Harvey attribution and the role/year line; `base` for ledger body (hold 60-68ch, leading 1.5); `sm`/`xs` small-caps for the ruled client labels and signal rows. At least one mid-register element (the `md` standfirst) sits between marquee and body so no page jumps title-to-body.\n\n### 3. Layout Specification\n- **Composition**: irregular-twelve / vertical / broken / upper-left / measured / interrupted / none / balanced / reorder / artifact. A twelve-unit grid where the Spaceman title and quote anchor the upper-left and the teal client ledger breaks the grid on the right, so the \"evidence\" panel physically answers the \"hustle\" claim.\n- **CSS grid/flex structure**: `display: grid; grid-template-columns: repeat(12, 1fr); column-gap: clamp(16px, 2vw, 32px)`. Hero quote cols 1-7; Spaceman title cols 1-8; teal ledger panel cols 5-12 (offset, breaking the rail); metadata cols 1-4.\n- **Major dimensions**:\n  - Hero/artifact area: `min-height: 88vh`\n  - Teal ledger panel: spans cols 5-12, `min-height: 60vh`, offset down ~120px from the title (the interrupted-rhythm caesura)\n  - Max content width: `max-width: none`; `padding: clamp(64px, 7vw, 112px) 6vw`\n  - Section spacing: vertical rhythm on the chassis base unit; one oversized gap (~160px) before the ledger panel as the caesura\n- **Nav placement**: no header bar (shell none). The original mark sits top-left of the sand field; Work / About / Contact resolve inside one quiet running sentence low in the artifact field (teal links on sand).\n- **Hero phrase grid zone**: rows 1-2, cols 1-7, quote at `4xl` (~64px at 1440); the Spaceman title occupies rows 3-5, cols 1-8 at `hero_scale`.\n- **Home callout slot**: `<SiteCallout />` sits below the Spaceman artifact-and-ledger section and above the footer signal ledger, full width, between the ledger panel and the footer. Not inside the hero.\n\n### 4. Component Character\n- **Border radius**: cards/panels `0` (none), buttons/links `2px` (sm), tags `0`. Sharp ledger geometry.\n- **Border treatment**: bordered with hairlines; `border` (sand 400) for ledger row rules, `borderStrong` (sand 600) for section breaks, `fieldBorder` (teal 600) inside the teal panel.\n- **Shadow**: none. Depth comes from the teal/sand value split, not shadow.\n- **Density**: measured — ruled rows breathe, generous caesura before the ledger.\n- **Interactive states**: links underline-from-transparent to coral on `_hover`; ledger rows shift ground to surface on hover.\n\n### 5. Signal Integration\n- **Where signals live**: a footer \"ruled signal ledger\" strip on the sand ground, one strong teal rule above it, rows below. No nav in it (shell none).\n- **Sports scores**: ruled rows in `sm` small-caps with tabular figures. \"Bank of Utah Championship · Final · Smotherman −26\" as the lead golf row (Doug's game). \"Lions 26, 32 · loss\" and \"Red Wings 2–3 · loss\" as his-team rows, loss noted plainly.\n- **Market**: \"SPY 769.64 · +0.74%\" one row, coral up-tick mark.\n- **Quote display**: the quote IS the hero phrase, the artifact's caption; Steve Harvey attributed in the `md` standfirst directly beneath.\n- **Weather**: \"Aldie · mist · 54°F\" quiet row. **Lunar**: \"waning crescent · 27%\" micro label.\n- **Music**: The War on Drugs / Guided by Voices / Radiohead as a standing-rotation caption at the strip's foot, framed as taste, not a dated event.\n- **Holiday**: none today; \"Columbus Day · Oct 12\" as a faint upcoming note.",
+    "selfCheck": "1. Hero quotability: Yes — \"The dream is free, but the hustle is sold separately\" is a complete, screenshottable line.\n2. Because-of chain: Yes — the hustle line demanded evidence, so artifact leads with Spaceman's client ledger (composition), rendered in a sturdy slab specimen (chassis), on a committed teal/sand duotone (palette).\n3. Render feasibility: Yes — Zilla carries the title at ~118px (under its 120px cap) and the quote at `4xl`/64px at 1440 without overflow.\n4. Canvas floor feasible: Yes — the teal ledger panel plus sand field and ruled rows fill ~75% of a measured, balanced canvas.\n5. Phone: Yes — the quote at `3xl` wraps to 3-4 lines inside 640px at 360 with the mark above it, no word cut.",
+    "rationale": "The phrase is a quote about effort: the idea is free, the building is the cost. A line like that is weightless on its own, so it demanded evidence under it, which is why the composition leads with an artifact — Spaceman, Founder, 2018, and the real client roster (Zeldman, Rolex, The Nature Conservancy, Intuit, LastPass) as the proof of ten years of hustle. The quote becomes the caption stamped over that ledger, exactly the register a founder's specimen sheet wants.\n\nBecause the page is a ledger of evidence, the chassis is Zilla Slab, a sturdy structural slab built for specimens and index work, set small-caps and italic-led so the quote reads as a printed epigraph rather than a shout. The palette answers the same logic: a warm sand ledger ground where the quote lives, and deep teal evidence panels the client list reverses out of, so the two grounds carry the whole page as a committed duotone with no neutral void. One coral mark is the hustle, used sparingly as the 10% pulse against the teal and sand.\n\nLayout follows from the artifact and the broken symmetry: the title and quote anchor the upper-left, and the teal ledger panel offsets down and right, breaking the rail so the evidence physically interrupts the claim after one oversized caesura gap. The mark stays in the first fold top-left as original green-and-blue, which the warm sand ground gives it somewhere honest to sit, and the nav dissolves into a single running sentence low in the field because the shell is none. At 360 the quote reorders to lead, then the title, then the ledger, so the argument survives one column.",
+    "compositionRationale": "Artifact leading is right because the quote needs proof under it: Spaceman's ten-year client roster is the hustle made concrete, so the work leads and the line is its caption. I moved symmetry off the mandate's `mirrored` to `broken` because a reflected arrangement would read as decorative here, whereas a broken rail lets the teal evidence panel offset and physically interrupt the sand field, which is the whole argument. Interrupted rhythm gives the one oversized caesura gap before that panel so the claim and its evidence read as a deliberate turn, not a continuous column.",
+    "signalIntegration": "- **Where signals live**: a footer \"ruled signal ledger\" strip on the sand ground, one strong teal rule above it, rows below. No nav in it (shell none).\n- **Sports scores**: ruled rows in `sm` small-caps with tabular figures. \"Bank of Utah Championship · Final · Smotherman −26\" as the lead golf row (Doug's game). \"Lions 26, 32 · loss\" and \"Red Wings 2–3 · loss\" as his-team rows, loss noted plainly.\n- **Market**: \"SPY 769.64 · +0.74%\" one row, coral up-tick mark.\n- **Quote display**: the quote IS the hero phrase, the artifact's caption; Steve Harvey attributed in the `md` standfirst directly beneath.\n- **Weather**: \"Aldie · mist · 54°F\" quiet row. **Lunar**: \"waning crescent · 27%\" micro label.\n- **Music**: The War on Drugs / Guided by Voices / Radiohead as a standing-rotation caption at the strip's foot, framed as taste, not a dated event.\n- **Holiday**: none today; \"Columbus Day · Oct 12\" as a faint upcoming note."
+  },
+  "tokens": {
+    "colors": {
+      "ramps": {
+        "teal": {
+          "50": "#e9f4f2",
+          "100": "#c9e6e2",
+          "200": "#93cdc6",
+          "300": "#57b0a7",
+          "400": "#2d9087",
+          "500": "#167a71",
+          "600": "#0f615a",
+          "700": "#0c4c47",
+          "800": "#0a3d39",
+          "900": "#072e2b"
+        },
+        "coral": {
+          "50": "#fbeee6",
+          "100": "#f6d6c4",
+          "200": "#f2b092",
+          "300": "#ea8257",
+          "400": "#e05d2d",
+          "500": "#c24a1f",
+          "600": "#9f3c18",
+          "700": "#7c2f13",
+          "800": "#5a220e",
+          "900": "#3a1609"
+        },
+        "sand": {
+          "50": "#faf5ea",
+          "100": "#f3ecd9",
+          "200": "#ece2cc",
+          "300": "#e0d2b4",
+          "400": "#cdbb94",
+          "500": "#a8906a",
+          "600": "#7c6a4b",
+          "700": "#574a34",
+          "800": "#3a3123",
+          "900": "#241e14"
+        }
+      },
+      "semantic": {
+        "bg": {
+          "base": "{colors.sand.200}"
+        },
+        "bgAlt": {
+          "base": "{colors.sand.300}"
+        },
+        "surface": {
+          "base": "{colors.sand.100}"
+        },
+        "text": {
+          "base": "{colors.teal.800}"
+        },
+        "textMuted": {
+          "base": "{colors.teal.600}"
+        },
+        "textFaint": {
+          "base": "{colors.sand.600}"
+        },
+        "accent": {
+          "base": "{colors.coral.400}"
+        },
+        "accentText": {
+          "base": "{colors.sand.50}"
+        },
+        "accentAlt": {
+          "base": "{colors.coral.500}"
+        },
+        "border": {
+          "base": "{colors.sand.400}"
+        },
+        "borderStrong": {
+          "base": "{colors.sand.600}"
+        },
+        "field": {
+          "base": "{colors.teal.800}"
+        },
+        "fieldInk": {
+          "base": "{colors.sand.50}"
+        },
+        "fieldInkMuted": {
+          "base": "{colors.teal.200}"
+        },
+        "fieldBorder": {
+          "base": "{colors.teal.600}"
+        }
+      }
+    },
+    "radii": {
+      "none": "0",
+      "sm": "2px",
+      "md": "4px",
+      "lg": "8px",
+      "full": "9999px"
+    }
+  },
+  "colorScheme": {
+    "primary_hue": {
+      "h": 176,
+      "s": 68,
+      "l": 14,
+      "name": "deep teal"
+    },
+    "secondary_accent": {
+      "h": 20,
+      "s": 72,
+      "l": 53,
+      "name": "hustle coral"
+    },
+    "neutral_family": {
+      "tinted_toward": "warm sand",
+      "name": "ledger sand"
+    },
+    "mood_word": "earned",
+    "color_story": "Deep teal evidence panels reversed against a warm sand ledger, one coral mark for the hustle, so the page is two committed grounds carrying the line instead of a neutral void; hue 176 sits in the 140-180 target but near recent teals, so the duotone formula and a warm sand base, not hue novelty, do the differentiating."
+  },
+  "shell": {
+    "nav": null,
+    "footer": "ruled signal ledger — the day's signals as ruled sand rows under one strong teal rule, no nav",
+    "brand_lockup": "stacked-md",
+    "brand_color_mode": "original",
+    "ground_strategy": "duotone",
+    "ground_material": "rule"
+  },
+  "header": {
+    "placement": "none",
+    "height_px": 0,
+    "mark_px": 42,
+    "wordmark_step": "lg",
+    "wordmark_weight": 600,
+    "role_line": "absent",
+    "nav_step": "sm",
+    "nav_case": "small-caps",
+    "nav_form": "sentence",
+    "nav": "No header bar. The original green-and-blue mark (stacked-md, mark above wordmark) sits top-left of the sand hero field, inside the first fold at 1440 and 360. Work, About and Contact resolve inside one quiet running sentence low in the artifact field, teal links on sand. No top bar, no rail."
+  },
+  "verdicts": [
+    {
+      "critic": "mockup-precheck",
+      "round": 0,
+      "verdict": "REVISE",
+      "feedback": "[check 5] Legibility: At 1440px, <div.hero__grid > div.title-block > span.artifact-kicker> \"Featured — the proof\" at 14px over div.hero__rule (positioned background-image): #9f3c18 is under 4.5:1 across 100% of one pixel row through its glyphs (4.14:1 on #d9caaa). At 1440px, <div.meta > p > span.problem-label> \"The problem\" at 14px over div.hero__rule (positioned background-image): #9f3c18 is under 4.5:1 across 100% of one pixel row through its glyphs (4.14:1 on #d9caaa). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text.",
+      "findings": [
+        {
+          "check": 5,
+          "key": "legibility",
+          "gap": 0.36
+        }
+      ],
+      "ts": 1791200779812
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 0,
+      "verdict": "REVISE",
+      "feedback": "1. **Judgment 5:** The ledger label reads \"Clients 2018–2028\". The record gives Spaceman's timeline as \"2018 — Present\", so the end year is wrong and set in the future. Change it to \"2018–Present\" or drop the range.\n2. **Judgment 5:** The Selected Work header says \"03 shipped\". The records list 15th Club as \"In Development\", so only FishSticks and dougmar.ch are live. Change the count or the word.\n3. **Judgment 5:** The Spaceman metadata line reads \"Founder · 2018 · Product studio\", and the records never call Spaceman a product studio. They describe \"the LLC I've operated under for the past decade\" doing product design, frontend engineering, design systems and brand. Use the record's terms. The problem copy also contains invented claims: \"Everyone had a deck and a dream\" and \"Spaceman was built to close the gap\". Rewrite it from the record's problem and approach text.\n4. **Judgment 2:** At 1440 the teal ledger panel sits on top of \"The Problem\" body copy. The paragraph runs under the panel and is cut mid-word (\"Spaceman was built t…\", \"the rest of the way to pro…\"). Either narrow that column to end before col 5, or start the panel below the paragraph.\n5. **Judgment 3:** The Steve Harvey standfirst is declared as the `md` mid-register step directly beneath the quote. It renders as tiny xs small-caps run inline after \"SEPARATELY.\" and wraps onto a loose second line. Set it as its own `md` line under the h1 so the page steps from title through standfirst to body.\n6. **Judgment 2:** The Rolex logo in the first ledger tile is a few pixels tall and unreadable at both widths, while Intuit and LastPass fill their tiles. Scale it to match the others.",
+      "channel": "sdk-vision",
+      "ts": 1791200805730
+    },
+    {
+      "critic": "mockup-precheck",
+      "round": 1,
+      "verdict": "APPROVE",
+      "feedback": "",
+      "findings": [],
+      "ts": 1791200921363
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "1. **Judgment 3 (Type Treatment `texture: type-as-texture`):** Nothing on the page is used as texture at 1440 or 360. \"SPACEMAN\" is a clean, isolated title, and every other piece of type sits in ordinary reading roles. Make the Spaceman title, or a repeat of it, work as texture anchoring the upper-left field, as the brief declares, and keep the quote and standfirst readable and clear of it.\n\n2. **Judgment 5 (copy vs records):** The fold-5 teal band sets \"The mockup is the easy part. Shipping it is the work.\" as Doug's own line, followed by \"I build products on the side and take other people's ideas the rest of the way to production — the part nobody sells you.\" Neither quote nor claim appears in the Work Records. Replace it with wording drawn from `identity.statement`, which is about closing the gap between what gets designed and what gets built and making sure what ships looks like what was designed. Alternatively, drop the attributed quote.\n\n3. **Judgment 3 (declared register):** The brief sets the quote h1 at `4xl` (about 64px at 1440) and the Hero Copy says it must read at marquee scale. It renders at roughly half that, which reads as a pull-quote rather than an epigraph one step below the Spaceman title. Raise it to the declared `4xl` while keeping it below the title.",
+      "channel": "sdk-vision",
+      "ts": 1791200953425
+    },
+    {
+      "critic": "mockup-precheck",
+      "round": 2,
+      "verdict": "REVISE",
+      "feedback": "[check 2] The largest first-fold text measures 268px at 1440; the declared hero_scale clamp(72px, 9vw, 118px) resolves to 118px there (227%, over the 75-125% band). Set the hero element's font-size to exactly clamp(72px, 9vw, 118px).",
+      "findings": [
+        {
+          "check": 2,
+          "key": "hero",
+          "gap": 150
+        }
+      ],
+      "ts": 1791201022022
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 2,
+      "verdict": "APPROVE",
+      "feedback": "The Spaceman title leads as the artifact. The italic quote sits one clear step beneath it as its caption. The teal client ledger breaks off the sand rail as the evidence, and the order holds from the 1440 fold down through the reordered 360 column into the ruled signal ledger.",
+      "channel": "sdk-vision",
+      "ts": 1791201047320
+    },
+    {
+      "critic": "surface-gate",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "/ @820: <div.d_block.lg:d_grid.lg:grid-tc_7fr_5fr.lg:ai_start > figure.m_0.bd-w_1px.border-style_solid.bd-c_border > div.sr_true> holds text wider than its own box: \"Projects per year, 2008: 2, 2018: 1, 2020: 1, 2025...\" needs 454px and the box is 1px, so 453px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @820: <div.d_block.lg:d_grid.lg:grid-tc_7fr_5fr.lg:ai_start > figure.m_0.bd-w_1px.border-style_solid.bd-c_border > div.sr_true> holds text wider than its own box: \"Projects per year, 2008: 2, 2018: 1, 2020: 1, 2025...\" needs 454px and the box is 1px, so 453px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: document is 12px wider than the 360px viewport (scrollWidth 372)\n/ @360: <div.d_block.lg:d_grid.lg:grid-tc_7fr_5fr.lg:ai_start > figure.m_0.bd-w_1px.border-style_solid.bd-c_border > div.sr_true> holds text wider than its own box: \"Projects per year, 2008: 2, 2018: 1, 2020: 1, 2025...\" needs 454px and the box is 1px, so 453px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <li.bd-b-w_1px.border-bottom-style_solid.bd-b-c_border > a.group.d_grid.grid-tc_1fr_auto.ai_baseline > span.fs_sm.c_textMuted.ls_0.06em.tt_uppercase> is cut off: its right edge lands at 372px, 12px past the 360px viewport, severing \"Experiment · 2008...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/ @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: document is 12px wider than the 360px viewport (scrollWidth 372)\n/ @360: <div.d_block.lg:d_grid.lg:grid-tc_7fr_5fr.lg:ai_start > figure.m_0.bd-w_1px.border-style_solid.bd-c_border > div.sr_true> holds text wider than its own box: \"Projects per year, 2008: 2, 2018: 1, 2020: 1, 2025...\" needs 454px and the box is 1px, so 453px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <li.bd-b-w_1px.border-bottom-style_solid.bd-b-c_border > a.group.d_grid.grid-tc_1fr_auto.ai_baseline > span.fs_sm.c_textMuted.ls_0.06em.tt_uppercase> is cut off: its right edge lands at 372px, 12px past the 360px viewport, severing \"Experiment · 2008...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/ @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @1440: <div.d_block.lg:d_grid.lg:grid-tc_7fr_5fr.lg:ai_start > figure.m_0.bd-w_1px.border-style_solid.bd-c_border > div.sr_true> holds text wider than its own box: \"Projects per year, 2008: 2, 2018: 1, 2020: 1, 2025...\" needs 454px and the box is 1px, so 453px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <div.d_block.lg:d_grid.lg:grid-tc_7fr_5fr.lg:ai_start > figure.m_0.bd-w_1px.border-style_solid.bd-c_border > div.sr_true> holds text wider than its own box: \"Projects per year, 2008: 2, 2018: 1, 2020: 1, 2025...\" needs 454px and the box is 1px, so 453px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @1440: 340 characters of running copy set at 51px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/work @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @1440: 340 characters of running copy set at 51px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/experiments @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 102x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 155x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 201x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 102x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 155x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 201x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'About' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: <li.d_grid.grid-tc_1fr.md:grid-tc_200px_1fr.md:ai_baseline > span.fs_sm.c_text.fv-num_tabular-nums.ls_0.02em > span.c_accentAlt> \"· +0.74% ▲\" at 14.5px: #c24a1f on #ece2cc is 3.80:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /about, /work/spaceman, /work/fishsticks, /work/15th-club, /work/dougmar-ch, /work/teeturn, /work/politweets, /work/twittertale.\n/work @360: <li.d_grid.grid-tc_1fr.md:grid-tc_200px_1fr.md:ai_baseline > span.fs_sm.c_text.fv-num_tabular-nums.ls_0.02em > span.c_accentAlt> \"· +0.74% ▲\" at 14.5px: #c24a1f on #ece2cc is 3.80:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments.\n/ @1440: <div.pos_relative.z_1.d_grid.grid-tc_1fr > div.lg:grid-c_1_/_9.lg:grid-r_3.d_flex.flex-d_column > span.fs_sm.fw_bold.ls_0.14em.tt_uppercase> \"Featured, the proof\" at 14.5px over div.pos_absolute.inset_0px (positioned background-image): #c24a1f is under 4.5:1 across 100% of one pixel row through its glyphs (2.59:1 on #cdbb94). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text. Also on / at 360px.\n/about @1440: <header.pos_relative.ov_hidden.bg_bg > div.pos_relative.z_1.d_flex.flex-d_column > span.fs_sm.fw_bold.ls_0.14em.tt_uppercase> \"About Doug March\" at 14.5px over div.pos_absolute.inset_0px (positioned background-image): #c24a1f is under 4.5:1 across 100% of one pixel row through its glyphs (2.59:1 on #cdbb94). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text. Also on /about at 360px.\n/work/spaceman @1440: <div.pos_relative.z_1.d_grid.grid-tc_1fr > div.lg:grid-c_1_/_9.lg:grid-r_2.d_flex.flex-d_column > span.fs_sm.fw_bold.ls_0.14em.tt_uppercase> \"Case study · 2018\" at 14.5px over div.pos_absolute.inset_0px (positioned background-image): #c24a1f is under 4.5:1 across 100% of one pixel row through its glyphs (2.59:1 on #cdbb94). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text. Also on /work/spaceman at 360px, /work/fishsticks at 360px, /work/fishsticks at 1440px, /work/15th-club at 360px, /work/15th-club at 1440px, /work/dougmar-ch at 360px, /work/dougmar-ch at 1440px, /work/teeturn at 360px, /work/teeturn at 1440px, /work/politweets at 360px, /work/politweets at 1440px, /work/twittertale at 360px, /work/twittertale at 1440px.\n/ @360: <div.lg:grid-c_1_/_5.lg:grid-r_4.max-w_60ch.anim-dly_160ms > p.m_0.mb_14px.fs_base.c_text > span.d_block.fs_sm.fw_bold.ls_0.13em> \"The practice\" at 14.5px over div.pos_absolute.inset_0px (positioned background-image): #c24a1f is under 4.5:1 across 100% of one pixel row through its glyphs (3.80:1 on #ece2cc). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text. Also on / at 1440px.\n/ @360: <div.pos_relative.z_1.d_grid.grid-tc_1fr > h1.ff_display.font-style_italic.fw_normal.fv_all-small-caps > span.d_block.ff_body.font-style_normal.fw_normal> \"Ten years of Spaceman is the hustle, ite\" at 21.3px over div.pos_absolute.inset_0px (positioned background-image): #0f615a is under 4.5:1 across 100% of one pixel row through its glyphs (3.86:1 on #cdbb94). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text. Also on / at 1440px.\n/ @1440: <header.pos_relative.ov_hidden.min-h_92vh.bg_bg > div.pos_relative.z_1.d_grid.grid-tc_1fr > p.m_0.fs_md.c_textMuted.lh_1.6> \"The rest is simple: see the , read the m\" at 21.3px over div.pos_absolute.inset_0px (positioned background-image): #0f615a is under 4.5:1 across 100% of one pixel row through its glyphs (3.86:1 on #cdbb94). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text.\n/ @1440: 5 more texts under their floor over a textured ground are not listed.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1791201528155
+    },
+    {
+      "critic": "screenshot-critic",
+      "verdict": "REVISE",
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 — react-engineer: The home page overflows horizontally at 360px (document scrollWidth 372px, 12px past the viewport) and a project-list `<li>` (an \"Experiment · 2008…\" row) is severed at the 372px edge with no scroll to reach it. Both are measured, reproducible faults; fix the overflowing element (the hidden bar-chart caption) so it stops forcing extra document width, and let the list row scale to its 360px column.\n- Section 3 — react-engineer: Measured contrast failures recur across nearly every page in the dark variant: the hero quote itself (\"Ten years of Spaceman is the hustle…\", 3.86:1), the \"Featured, the proof\" and \"Case study · 2018\" eyebrow labels (2.59:1) repeated on all seven case studies, the \"About Doug March\" label, and the \"The rest is simple…\" paragraph — plus 5 more unlisted failures on the home page alone. Give these labels and the quote a flat ground or stop the ruled/textured background short of the glyphs so every token clears 4.5:1.\n- Section 5 — react-engineer: A figure caption (\"Projects per year, 2008: 2, 2018: 1…\") is rendered in a 1px-wide box needing 454px, cutting off 453px of content, and this repeats identically at 1440, 820, and 360px. Size the container to fit the text or let it wrap; this is the likely source of the 360px horizontal overflow noted above.\n- Section 5 — react-engineer: On `/about` at 1440px, 340 characters of running copy are set at 51px, over the 48px display-step ceiling, producing a wall of oversized body text rather than a hero. Drop this paragraph to the body step and reserve the display step for a short phrase.\n- Section 12 — react-engineer: The motion declaration calls for a `wipe` entrance, but in the motion strip the hero quote and \"SPACEMAN\" title are fully settled at 0ms with no arrival animation; only the unrelated teal ledger panel grows in height across the four frames. This is the cascade pattern the spec forbids (a secondary element animating while the her",
+      "channel": "sdk-vision",
+      "ts": 1791201695321
+    },
+    {
+      "critic": "surface-gate",
+      "round": 2,
+      "verdict": "REVISE",
+      "feedback": "/work/dougmar-ch @360: 'dougmar.ch' is a 102x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 155x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 201x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 102x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 155x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 201x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: <li.d_grid.grid-tc_1fr.md:grid-tc_200px_1fr.md:ai_baseline > span.fs_sm.c_text.fv-num_tabular-nums.ls_0.02em > span.c_accentAlt> \"· +0.74% ▲\" at 14.5px: #c24a1f on #ece2cc is 3.80:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /about, /work/spaceman, /work/fishsticks, /work/15th-club, /work/dougmar-ch, /work/teeturn, /work/politweets, /work/twittertale.\n/ @360: <div.d_block.lg:d_grid.lg:grid-tc_7fr_5fr.lg:ai_start > figure.m_0.bd-w_1px.border-style_solid.bd-c_border > figcaption.fs_sm.ls_0.1em.tt_uppercase.c_textMuted> \"Figure 1 · the hustle, by year\" at 14.5px: #2b7168 on #ece2cc is 4.44:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <div.pos_relative.h_200px.bd-b-w_1.5px.border-bottom-style_solid > div.flex_1.min-w_0.d_flex.flex-d_column > span.fs_xs.c_textMuted.fv-num_tabular-nums> \"2\" (x5) at 13.2px: #2b7168 on #ece2cc is 4.44:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <div > div.d_flex.pt_8px.px_6px > span.flex_1.min-w_0.ta_center.fs_xs> \"2008\" (x5) at 13.2px: #2b7168 on #ece2cc is 4.44:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work @360: <li.d_grid.grid-tc_1fr.md:grid-tc_200px_1fr.md:ai_baseline > span.fs_sm.c_text.fv-num_tabular-nums.ls_0.02em > span.c_accentAlt> \"· +0.74% ▲\" at 14.5px: #c24a1f on #ece2cc is 3.80:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments.\n/work/spaceman @360: <dl.m_0.bd-t-w_2px.border-top-style_solid.bd-t-c_field > div.d_grid.cg_16px.py_10px.bd-b-w_1px > dt.fs_xs.ls_widest.tt_uppercase.c_textMuted> \"Role\" at 13.2px over div.pos_absolute.inset_0px (positioned background-image): #0f615a is under 4.5:1 across 100% of one pixel row through its glyphs (3.86:1 on #cdbb94). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text. Also on /work/fishsticks at 360px, /work/spaceman at 1440px, /work/fishsticks at 1440px, /work/15th-club at 360px, /work/15th-club at 1440px, /work/dougmar-ch at 360px, /work/teeturn at 360px, /work/dougmar-ch at 1440px, /work/teeturn at 1440px, /work/politweets at 360px, /work/politweets at 1440px, /work/twittertale at 360px, /work/twittertale at 1440px.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1791201901656
+    },
+    {
+      "critic": "surface-gate",
+      "round": 3,
+      "verdict": "SHIP",
+      "feedback": "/work/dougmar-ch @360: 'dougmar.ch' is a 102x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 155x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 201x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 102x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 155x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 201x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: <li.d_grid.grid-tc_1fr.md:grid-tc_200px_1fr.md:ai_baseline > span.fs_sm.c_text.fv-num_tabular-nums.ls_0.02em > span.c_accentAlt> \"· +0.74% ▲\" at 14.5px: #c24a1f on #ece2cc is 3.80:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /about, /work/spaceman, /work/fishsticks, /work/15th-club, /work/dougmar-ch, /work/teeturn, /work/politweets, /work/twittertale.\n/ @360: <div.d_block.lg:d_grid.lg:grid-tc_7fr_5fr.lg:ai_start > figure.m_0.bd-w_1px.border-style_solid.bd-c_border > figcaption.fs_sm.ls_0.1em.tt_uppercase.c_textMuted> \"Figure 1 · the hustle, by year\" at 14.5px: #2b7168 on #ece2cc is 4.44:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <div.pos_relative.h_200px.bd-b-w_1.5px.border-bottom-style_solid > div.flex_1.min-w_0.d_flex.flex-d_column > span.fs_xs.c_textMuted.fv-num_tabular-nums> \"2\" (x5) at 13.2px: #2b7168 on #ece2cc is 4.44:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <div > div.d_flex.pt_8px.px_6px > span.flex_1.min-w_0.ta_center.fs_xs> \"2008\" (x5) at 13.2px: #2b7168 on #ece2cc is 4.44:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work @360: <li.d_grid.grid-tc_1fr.md:grid-tc_200px_1fr.md:ai_baseline > span.fs_sm.c_text.fv-num_tabular-nums.ls_0.02em > span.c_accentAlt> \"· +0.74% ▲\" at 14.5px: #c24a1f on #ece2cc is 3.80:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1791202003704
+    },
+    {
+      "critic": "screenshot-critic",
+      "round": "final",
+      "verdict": "UNVERIFIED",
+      "feedback": "[screenshot-critic] response truncated at max_tokens (16000 output tokens, cap 16000)",
+      "channel": "sdk-vision-truncated",
+      "ts": 1791202197544
+    }
+  ],
+  "composition": {
+    "columns": "irregular-twelve",
+    "axis": "vertical",
+    "symmetry": "broken",
+    "hero_zone": "upper-left",
+    "density": "measured",
+    "rhythm": "interrupted",
+    "shell_posture": "none",
+    "field_ratio": "balanced",
+    "collapse": "reorder",
+    "hero_object": "artifact"
+  },
+  "lane": {
+    "laneId": "economist",
+    "register": "data-driven-editorial-confidence"
+  },
+  "cost": {
+    "total_usd": 6.603632,
+    "estimated": true,
+    "partial": false,
+    "calls": 12,
+    "retries": 4,
+    "byAgent": [
+      {
+        "agent": "art-director",
+        "purpose": "first",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 21919,
+        "cache_read": 0,
+        "cache_write": 46229,
+        "cost_usd": 0.8369162499999999,
+        "estimated": false,
+        "ms": 317854,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "first",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 43349,
+        "cache_read": 0,
+        "cache_write": 66776,
+        "cost_usd": 1.5010850000000002,
+        "estimated": false,
+        "ms": 618031,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "first",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 13901,
+        "output": 2423,
+        "cache_read": 0,
+        "cache_write": 6988,
+        "cost_usd": 0.139004,
+        "estimated": true,
+        "ms": 25916,
+        "num_turns": null
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "revision",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 7883,
+        "cache_read": 0,
+        "cache_write": 102523,
+        "cost_usd": 0.83785375,
+        "estimated": false,
+        "ms": 100425,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "rejudge",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 13901,
+        "output": 2917,
+        "cache_read": 6988,
+        "cache_write": 0,
+        "cost_usd": 0.11673919999999999,
+        "estimated": true,
+        "ms": 32062,
+        "num_turns": null
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "revision",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 3985,
+        "cache_read": 22767,
+        "cache_write": 79371,
+        "cost_usd": 0.60708725,
+        "estimated": false,
+        "ms": 53155,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "rejudge",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 13901,
+        "output": 2141,
+        "cache_read": 6988,
+        "cache_write": 0,
+        "cost_usd": 0.10121920000000001,
+        "estimated": true,
+        "ms": 25296,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "first",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 47657,
+        "cache_read": 0,
+        "cache_write": 65453,
+        "cost_usd": 1.280413,
+        "estimated": false,
+        "ms": 397187,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "first",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 19340,
+        "output": 13325,
+        "cache_read": 0,
+        "cache_write": 13535,
+        "cost_usd": 0.2057675,
+        "estimated": true,
+        "ms": 141772,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 16179,
+        "cache_read": 0,
+        "cache_write": 53399,
+        "cost_usd": 0.590583,
+        "estimated": false,
+        "ms": 125547,
+        "num_turns": 1
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 1154,
+        "cache_read": 24278,
+        "cache_write": 26355,
+        "cost_usd": 0.15971860000000002,
+        "estimated": false,
+        "ms": 23251,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "rejudge",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 16704,
+        "output": 16000,
+        "cache_read": 0,
+        "cache_write": 13535,
+        "cost_usd": 0.2272455,
+        "estimated": true,
+        "ms": 167833,
+        "num_turns": null
+      }
+    ]
+  },
+  "measurables": {
+    "declared": {
+      "canvas_utilization_min": 75,
+      "hero_scale": "clamp(72px, 9vw, 118px)",
+      "color_coverage_min": 60
+    },
+    "declaredAt": "2026-10-05T12:10:00.638Z",
+    "measured": {
+      "canvas_utilization": 100,
+      "color_coverage": 100,
+      "hero_px": 118
+    },
+    "measuredAt": "2026-10-05T12:10:08.478Z",
+    "method": "Measured at 1440x900 on a 20px grid over the viewport at scroll position zero. canvas_utilization: % of grid cells touched by an element carrying designed content (visible text, an image/SVG/video/canvas, a background colour distinct from the page background and not transparent, or a background image such as a gradient). A background set on html or body counts as painting the page, unless it is opaque white; ::before and ::after boxes count on the same terms. color_coverage: % of grid cells whose sampled background, background-image stops or text colour is chromatic (HSL saturation > 12%, lightness 8-92%). hero_px: the largest computed font-size among first-fold elements that set visible text."
+  },
+  "surfaceGate": {
+    "ran": true,
+    "error": null,
+    "round": null
+  }
+}

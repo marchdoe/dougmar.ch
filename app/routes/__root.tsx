@@ -57,28 +57,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Make your mind your own business.' },
-      { property: 'og:title', content: 'Make your mind your own business.' },
+      { title: 'The dream is free, but the hustle is sold separately.' },
+      { property: 'og:title', content: 'The dream is free, but the hustle is sold separately.' },
       {
         property: 'og:description',
         content:
-          'Electric fuchsia drench, "Mind" at poster scale in light wide caps, the aphorism stacked beside a dense ledger of the day.',
+          "A founder's specimen ledger, quote stamped over a teal evidence panel, warm sand ground, one coral hustle-mark.",
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-04.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-05.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Make your mind your own business.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-04.png' },
+      { name: 'twitter:title', content: 'The dream is free, but the hustle is sold separately.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-05.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Figtree:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Work+Sans:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -247,7 +247,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 155 designs
+            Archive · 156 designs
           </a>
         )}
         <ScrollRestoration />

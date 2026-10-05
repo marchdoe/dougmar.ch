@@ -19,67 +19,66 @@ function OgCard() {
     >
       <div
         className={css({
-          position: 'relative',
           width: '1200px',
           height: '630px',
           flexShrink: 0,
           bg: 'bg',
-          color: 'text',
+          display: 'flex',
+          flexDirection: 'row',
         })}
       >
-        <div className={css({ position: 'absolute', top: '56px', left: '56px', color: 'text' })}>
-          <BrandLockup variant="stacked-lg" mode="single-color" />
-        </div>
-        <h1
+        <div
           className={css({
-            position: 'absolute',
-            right: '64px',
-            bottom: '56px',
-            maxWidth: '640px',
-            textAlign: 'right',
+            flex: '1',
+            minWidth: '0',
+            paddingBlock: '64px',
+            paddingInline: '64px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
           })}
         >
-          <span
-            className={css({
-              display: 'block',
-              fontFamily: 'display',
-              fontWeight: 'light',
-              fontSize: '200px',
-              lineHeight: '0.86',
-              letterSpacing: '-0.01em',
-              color: 'text',
-            })}
-          >
-            Mind
-          </span>
-          <span
-            className={css({
-              display: 'block',
-              marginTop: '20px',
-              marginLeft: 'auto',
-              maxWidth: '16ch',
-              fontFamily: 'body',
-              fontWeight: 'normal',
-              fontSize: '40px',
-              lineHeight: '1.25',
-              letterSpacing: '-0.01em',
-              color: 'textMuted',
-            })}
-          >
-            Make your mind your own business.
+          <BrandLockup variant="stacked-md" mode="original" />
+          <div>
+            <h1
+              className={css({
+                fontFamily: 'display',
+                fontStyle: 'italic',
+                fontWeight: 'normal',
+                fontVariant: 'all-small-caps',
+                letterSpacing: 'wide',
+                fontSize: '64px',
+                lineHeight: '1.04',
+                color: 'text',
+                maxWidth: '780px',
+              })}
+            >
+              The dream is free, but the hustle is sold separately.
+            </h1>
             <span
               className={css({
                 display: 'block',
-                marginTop: '10px',
+                marginTop: '16px',
+                fontFamily: 'body',
                 fontSize: '22px',
-                letterSpacing: 'normal',
-                color: 'text',
+                color: 'textMuted',
+                letterSpacing: '0.01em',
               })}
             >
-              Jack Butcher
+              Steve Harvey
             </span>
-          </span>
-        </h1>
+          </div>
+        </div>
+        <div
+          className={css({
+            width: '260px',
+            flexShrink: 0,
+            bg: 'field',
+            borderLeftWidth: '6px',
+            borderLeftStyle: 'solid',
+            borderLeftColor: 'accent',
+          })}
+        />
       </div>
     </div>
   )
