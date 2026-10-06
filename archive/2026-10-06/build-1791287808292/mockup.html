@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — The key to success is emotional stability</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton:wght@400&family=Inter+Tight:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#BDCE5E; --bgAlt:#9FB63D; --surface:#ECF1C5;
+    --field:#1D2408; --fieldInk:#F7F9E6; --fieldInkMuted:#DBE593;
+    --text:#16180E; --textMuted:#26271C; --textFaint:#3C3E2E;
+    --accent:#B9541C; --accentLight:#E08F55;
+    --border:#647A1E; --borderStrong:#313D10;
+    --space:8px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:"Inter Tight",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility; font-kerning:normal;
+    font-variant-numeric:tabular-nums;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4,h5,h6{margin:0;font-weight:inherit;}
+  p{margin:0;text-wrap:pretty;}
+  a{color:var(--accent);text-decoration:none;}
+  ::selection{background:var(--accent);color:var(--fieldInk);}
+
+  /* ============ HERO SPLIT ============ */
+  .hero{
+    display:block;
+    min-height:92vh;
+    position:relative;
+  }
+  .field{
+    position:relative;
+    background:var(--bg);
+    display:flex;
+    flex-direction:column;
+    min-height:92vh;
+    padding:16px clamp(20px,5vw,88px) 24px;
+    overflow:hidden;
+  }
+  .field__mesh{
+    position:absolute; inset:0; z-index:0; pointer-events:none;
+    background-repeat:no-repeat;
+    background-image:
+      radial-gradient(36% 30% at 15% 9%, var(--accentLight) 0%, transparent 62%),
+      radial-gradient(44% 34% at 84% 5%, var(--bgAlt) 0%, transparent 64%),
+      radial-gradient(30% 26% at 72% 26%, var(--accent) 0%, transparent 58%),
+      radial-gradient(42% 32% at 28% 22%, var(--bgAlt) 0%, transparent 62%),
+      radial-gradient(28% 24% at 95% 40%, var(--accentLight) 0%, transparent 60%);
+    opacity:.62;
+  }
+  .field > *{position:relative;z-index:1;}
+
+  /* lockup */
+  .lockup{
+    display:flex; align-items:center; gap:14px;
+    min-height:72px;
+  }
+  .lockup__mark{height:46px;width:auto;display:block;flex:none;}
+  .lockup__mark svg{height:46px;width:auto;display:block;}
+  .lockup__text{display:flex;flex-direction:column;gap:3px;}
+  .wordmark{
+    font-family:"Anton",sans-serif; font-weight:400;
+    font-size:28px; line-height:1; letter-spacing:-0.015em;
+    color:var(--text); text-transform:none;
+  }
+  .role{
+    font-family:"Inter Tight",sans-serif; font-weight:500;
+    font-size:13px; line-height:1; letter-spacing:0.09em;
+    text-transform:uppercase; color:var(--textMuted);
+  }
+
+  .field__spacer{flex:1 1 auto;min-height:40px;}
+
+  /* monument */
+  .field__body{display:flex;flex-direction:column;gap:clamp(18px,2.6vh,30px);}
+  .monument{
+    font-family:"Anton",sans-serif; font-weight:400;
+    color:var(--text);
+    --hero:clamp(44px,6vw,96px);
+    line-height:0.82;
+    text-transform:uppercase;
+    width:fit-content;
+    max-width:100%;
+    display:flex;
+    flex-direction:column;
+  }
+  .monument .ln{
+    display:block;
+    white-space:nowrap;
+    letter-spacing:-0.005em;
+  }
+  .monument .l1{font-size:calc(var(--hero)*0.49);}
+  .monument .l2{font-size:calc(var(--hero)*0.77);}
+  .monument .l3{font-size:var(--hero);}
+
+  .attribution{display:flex;flex-direction:column;gap:10px;}
+  .attribution__rule{
+    width:min(260px,70%);height:3px;background:var(--accent);border:0;
+  }
+  .attribution__name{
+    font-size:clamp(17px,1.5vw,20px);
+    font-weight:500;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--textMuted);
+  }
+  .attribution__name span{color:var(--textFaint);font-weight:400;letter-spacing:0.04em;text-transform:none;}
+
+  .deck{
+    font-size:clamp(20px,2.4vw,32px);
+    line-height:1.22;
+    font-weight:400;
+    color:var(--textMuted);
+    max-width:24ch;
+  }
+
+  /* folded nav */
+  .folded-nav{
+    display:flex;flex-wrap:wrap;gap:8px 28px;
+    margin-top:clamp(12px,2vh,22px);
+    padding-top:16px;
+    border-top:1px solid var(--border);
+  }
+  .folded-nav a{
+    display:inline-flex;align-items:center;gap:8px;
+    min-height:44px;padding:4px 0;
+    color:var(--text);
+    font-size:14px;font-weight:500;letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+  .folded-nav a .num{color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums;}
+  .folded-nav a:hover{color:var(--accent);text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:4px;}
+
+  /* ============ RAIL / LEDGER ============ */
+  .rail{
+    background:var(--field);
+    color:var(--fieldInk);
+    padding:28px clamp(20px,3vw,34px) 34px;
+    display:flex;flex-direction:column;gap:22px;
+  }
+  .rail__head{
+    display:flex;justify-content:space-between;align-items:baseline;
+    border-bottom:1px solid var(--border);padding-bottom:12px;
+  }
+  .rail__head h2{
+    font-family:"Anton",sans-serif;font-weight:400;
+    font-size:18px;letter-spacing:0.06em;text-transform:uppercase;
+    color:var(--fieldInk);
+  }
+  .rail__head .date{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fieldInkMuted);}
+
+  .block{display:flex;flex-direction:column;gap:8px;}
+  .block__label{
+    font-size:12px;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--fieldInkMuted);font-weight:600;
+  }
+  .lede-row{
+    display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+    padding:6px 0;border-bottom:1px solid var(--borderStrong);
+  }
+  .lede-row:last-child{border-bottom:0;}
+  .lede-row .nm{font-size:14px;color:var(--fieldInk);}
+  .lede-row .nm small{display:block;color:var(--fieldInkMuted);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;margin-top:2px;}
+  .lede-row .fig{
+    font-family:"Anton",sans-serif;font-weight:400;
+    font-size:clamp(26px,2.2vw,36px);line-height:0.9;
+    color:var(--fieldInk);font-variant-numeric:tabular-nums;
+  }
+  .lede-row .fig.big{font-size:clamp(30px,2.6vw,42px);}
+  .sub-row{
+    display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+    padding:4px 0;
+  }
+  .sub-row .nm{font-size:13px;color:var(--fieldInkMuted);}
+  .sub-row .fig{font-size:16px;font-weight:700;color:var(--fieldInk);font-variant-numeric:tabular-nums;}
+
+  .result{font-weight:700;letter-spacing:0.06em;}
+  .result.win{color:var(--accentLight);}
+  .result.loss{color:var(--fieldInkMuted);}
+  .arrow{color:var(--accentLight);font-weight:700;}
+
+  .cluster-row{
+    display:flex;justify-content:space-between;gap:12px;
+    font-size:13px;padding:4px 0;color:var(--fieldInk);
+  }
+  .cluster-row span:last-child{color:var(--fieldInkMuted);font-variant-numeric:tabular-nums;}
+
+  .faint-line{font-size:12px;color:var(--fieldInkMuted);letter-spacing:0.06em;}
+
+  .rotation{margin-top:auto;border-top:1px solid var(--border);padding-top:14px;}
+  .rotation .block__label{margin-bottom:6px;}
+  .rotation ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;}
+  .rotation li{font-size:15px;color:var(--fieldInk);}
+
+  /* ============ WORK INDEX ============ */
+  .work{
+    background:var(--bg);
+    padding:clamp(40px,7vh,88px) clamp(20px,5vw,88px);
+  }
+  .work__head{
+    display:flex;flex-direction:column;gap:6px;
+    border-bottom:3px solid var(--borderStrong);padding-bottom:18px;margin-bottom:8px;
+  }
+  .work__head h2{
+    font-family:"Anton",sans-serif;font-weight:400;
+    font-size:clamp(28px,4vw,52px);text-transform:uppercase;letter-spacing:0.01em;
+    color:var(--text);
+  }
+  .work__head p{font-size:14px;letter-spacing:0.1em;text-transform:uppercase;color:var(--textFaint);font-weight:600;}
+
+  /* featured */
+  .featured{
+    display:flex;flex-direction:column;gap:14px;
+    padding:22px 0 28px;border-bottom:1px solid var(--border);
+  }
+  .featured__tag{font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);font-weight:700;}
+  .featured__title{
+    font-family:"Anton",sans-serif;font-weight:400;
+    font-size:clamp(40px,7vw,96px);line-height:0.92;text-transform:uppercase;
+    color:var(--text);
+  }
+  .featured__meta{display:flex;gap:18px;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:var(--textFaint);font-weight:600;}
+  .featured__problem{font-size:17px;line-height:1.5;max-width:60ch;color:var(--textMuted);}
+  .featured__link{
+    display:inline-flex;align-items:center;gap:8px;min-height:44px;
+    font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--accent);
+  }
+  .featured__link:hover{text-decoration:underline;text-underline-offset:4px;}
+
+  .index{list-style:none;margin:0;padding:0;}
+  .index li{border-bottom:1px solid var(--border);}
+  .index a{
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:baseline;gap:6px 16px;
+    min-height:56px;padding:12px 0;
+    color:var(--text);
+  }
+  .index .t{
+    font-family:"Anton",sans-serif;font-weight:400;
+    font-size:clamp(24px,3.4vw,40px);line-height:1;text-transform:uppercase;letter-spacing:0.01em;
+    grid-column:1;
+  }
+  .index .y{
+    grid-column:2;grid-row:1;
+    font-size:15px;font-weight:700;color:var(--textFaint);font-variant-numeric:tabular-nums;
+  }
+  .index .k{
+    grid-column:1;grid-row:2;
+    font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--textFaint);font-weight:600;
+  }
+  .index a:hover .t{color:var(--accent);}
+  .index a:hover .y{color:var(--accent);}
+
+  .index__group{margin-top:clamp(30px,5vh,56px);}
+  .index__group h3{
+    font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:var(--textFaint);
+    font-weight:700;border-bottom:3px solid var(--borderStrong);padding-bottom:10px;margin-bottom:4px;
+  }
+
+  /* ============ CALLOUT ============ */
+  .callout{
+    background:var(--bgAlt);
+    padding:20px clamp(20px,5vw,88px);
+    display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px 24px;
+    border-top:1px solid var(--border);
+  }
+  .callout .lead{font-family:"Anton",sans-serif;font-weight:400;font-size:clamp(18px,2.2vw,26px);text-transform:uppercase;letter-spacing:0.02em;color:var(--text);}
+  .callout .sub{font-size:14px;color:var(--textMuted);letter-spacing:0.04em;}
+
+  /* ============ FOOTER ============ */
+  footer{
+    background:var(--field);color:var(--fieldInk);
+    padding:clamp(28px,5vh,56px) clamp(20px,5vw,88px) clamp(32px,6vh,64px);
+    border-top:4px solid var(--borderStrong);
+  }
+  .colophon{display:flex;flex-wrap:wrap;gap:24px 48px;}
+  .colophon .col{display:flex;flex-direction:column;gap:6px;}
+  .colophon .cl-label{font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--fieldInkMuted);font-weight:600;}
+  .colophon .cl-val{font-size:16px;color:var(--fieldInk);}
+  .colophon .cl-wordmark{font-family:"Anton",sans-serif;font-weight:400;font-size:22px;letter-spacing:-0.015em;color:var(--fieldInk);}
+
+  /* ============ DESKTOP ============ */
+  @media (min-width:900px){
+    .hero{
+      display:grid;
+      grid-template-columns:minmax(0,1.55fr) minmax(300px,0.9fr);
+    }
+    .field{min-height:92vh;padding:24px clamp(40px,5vw,88px) 40px;}
+    .rail{min-height:92vh;}
+    .folded-nav{gap:8px 40px;}
+    .index a{grid-template-columns:1fr 2fr auto;}
+    .index .t{grid-column:1;}
+    .index .k{grid-column:2;grid-row:1;align-self:center;}
+    .index .y{grid-column:3;grid-row:1;}
+  }
+  @media (min-width:900px) and (max-width:1200px){
+    .index a{grid-template-columns:1fr auto;}
+    .index .k{grid-column:1;grid-row:2;}
+    .index .y{grid-column:2;grid-row:1;}
+  }
+</style>
+</head>
+<body>
+
+  <section class="hero">
+    <!-- LEFT: gold field, monument anchored to lower third -->
+    <div class="field">
+      <div class="field__mesh" aria-hidden="true"></div>
+
+      <div class="lockup">
+        <span class="lockup__mark">
+<svg width="71" height="59" viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" data-brand-mark="">
+<title>Doug March logo</title>
+<path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+<path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+<circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+<circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+<circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+<circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+<circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+<path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+</svg>
+        </span>
+        <span class="lockup__text">
+          <span class="wordmark">Doug March</span>
+          <span class="role">Product Designer &amp; Developer</span>
+        </span>
+      </div>
+
+      <div class="field__spacer" aria-hidden="true"></div>
+
+      <div class="field__body">
+        <h1 class="monument" aria-label="The key to success is emotional stability">
+          <span class="ln l1">The key to success</span>
+          <span class="ln l2">Is emotional</span>
+          <span class="ln l3">Stability</span>
+        </h1>
+
+        <div class="attribution">
+          <hr class="attribution__rule">
+          <span class="attribution__name">Warren Buffett <span>— on what carries the work</span></span>
+        </div>
+
+        <p class="deck">Ten years under one shingle — Spaceman — sometimes a solo contributor, sometimes embedded in a larger team.</p>
+
+        <nav class="folded-nav" aria-label="Primary">
+          <a href="#work"><span class="num">01</span> Work</a>
+          <a href="#about"><span class="num">02</span> About</a>
+          <a href="#contact"><span class="num">03</span> Contact</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- RIGHT: dark ledger rail -->
+    <aside class="rail" aria-label="Today's signals">
+      <div class="rail__head">
+        <h2>The Ledger</h2>
+        <span class="date">Oct 6, 2026</span>
+      </div>
+
+      <div class="block">
+        <span class="block__label">Golf — Bank of Utah Championship · Final</span>
+        <div class="lede-row">
+          <span class="nm">Austin Smotherman <small>Leader</small></span>
+          <span class="fig big">−26</span>
+        </div>
+        <div class="sub-row"><span class="nm">Doug Ghim</span><span class="fig">−24</span></div>
+        <div class="sub-row"><span class="nm">Ford</span><span class="fig">−23</span></div>
+        <div class="sub-row"><span class="nm">Crowe</span><span class="fig">−23</span></div>
+        <div class="sub-row"><span class="nm">James</span><span class="fig">−22</span></div>
+      </div>
+
+      <div class="block">
+        <span class="block__label">Detroit</span>
+        <div class="lede-row">
+          <span class="nm">Pistons <small>Final · <span class="result win">Win</span></small></span>
+          <span class="fig">109–107</span>
+        </div>
+        <div class="lede-row">
+          <span class="nm">Lions <small>Final · <span class="result loss">Loss</span></small></span>
+          <span class="fig">26–32</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <span class="block__label">Market</span>
+        <div class="lede-row">
+          <span class="nm">SPY <small><span class="arrow">▲</span> +0.67%</small></span>
+          <span class="fig">774.83</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <span class="block__label">Aldie, VA — sky &amp; air</span>
+        <div class="cluster-row"><span>Clear</span><span>43.9°F</span></div>
+        <div class="cluster-row"><span>Waning crescent</span><span>18%</span></div>
+        <div class="cluster-row"><span>AQI · Good</span><span>1 · UV 0</span></div>
+        <p class="faint-line">Columbus Day — Oct 12</p>
+      </div>
+
+      <div class="rotation">
+        <span class="block__label">In rotation</span>
+        <ul>
+          <li>Wet Leg</li>
+          <li>The War on Drugs</li>
+        </ul>
+      </div>
+    </aside>
+  </section>
+
+  <!-- WORK INDEX -->
+  <section class="work" id="work">
+    <div class="work__head">
+      <h2>Selected Work</h2>
+      <p>Studio, products &amp; experiments — 2008 to today</p>
+    </div>
+
+    <div class="featured">
+      <span class="featured__tag">Featured — the studio</span>
+      <div class="featured__title">Spaceman</div>
+      <div class="featured__meta"><span>Founder</span><span>2018</span></div>
+      <p class="featured__problem">Spaceman is the LLC I've operated under for the past decade — partnering with companies and other studios, sometimes as a solo contributor, sometimes embedded in a larger team, bringing design and engineering together wherever the work needs both.</p>
+      <a class="featured__link" href="#spaceman">View the studio →</a>
+    </div>
+
+    <ul class="index">
+      <li><a href="#fishsticks"><span class="t">FishSticks</span><span class="k">SaaS</span><span class="y">2025</span></a></li>
+      <li><a href="#15th-club"><span class="t">15th Club</span><span class="k">AI</span><span class="y">2025</span></a></li>
+      <li><a href="#dougmar-ch"><span class="t">dougmar.ch</span><span class="k">AI</span><span class="y">2026</span></a></li>
+    </ul>
+
+    <div class="index__group">
+      <h3>Experiments</h3>
+      <ul class="index">
+        <li><a href="#teeturn"><span class="t">TeeTurn</span><span class="k">Experiment</span><span class="y">2020</span></a></li>
+        <li><a href="#politweets"><span class="t">Politweets</span><span class="k">Experiment</span><span class="y">2008</span></a></li>
+        <li><a href="#twittertale"><span class="t">Twittertale</span><span class="k">Experiment</span><span class="y">2008</span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- HOME CALLOUT SLOT (bgAlt) -->
+  <section class="callout" aria-label="Site note">
+    <span class="lead">dougmar.ch</span>
+    <span class="sub">A portfolio redrawn each day — steady hand, new face.</span>
+  </section>
+
+  <!-- FOOTER: colophon rule -->
+  <footer id="contact">
+    <div class="colophon">
+      <div class="col">
+        <span class="cl-wordmark">Doug March</span>
+      </div>
+      <div class="col">
+        <span class="cl-label">Location</span>
+        <span class="cl-val">Aldie, Virginia</span>
+      </div>
+      <div class="col">
+        <span class="cl-label">Year</span>
+        <span class="cl-val">2026</span>
+      </div>
+      <div class="col">
+        <span class="cl-label">In rotation</span>
+        <span class="cl-val">Wet Leg · The War on Drugs</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

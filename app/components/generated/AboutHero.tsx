@@ -1,79 +1,73 @@
 import { css } from '../../../styled-system/css'
 import { identity } from '../../content/about'
-import { BrandLockup } from '../BrandLockup'
-import { Ground } from '../Material'
-import { RunningSentence } from './RunningSentence'
+import { capabilities } from '../../content/timeline'
+import { HeroNav } from './HeroNav'
+
+// The statement carries a long dash in its source; set it as a comma.
+const statement = identity.statement.replace(/\s*[\u2013\u2014]\s*/g, ', ')
+
+const statementClass = css({
+  fontFamily: 'display',
+  fontWeight: 'normal',
+  fontSize: 'clamp(28px, 3.4vw, 48px)',
+  lineHeight: '0.95',
+  textTransform: 'uppercase',
+  textAlign: 'justify',
+  color: 'text',
+  maxWidth: '26ch',
+  animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+  animationDelay: '0ms',
+})
+
+const deckClass = css({
+  textStyle: '2xl',
+  color: 'textMuted',
+  maxWidth: '24ch',
+  animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+  animationDelay: '80ms',
+})
+
+const tagsClass = css({
+  listStyle: 'none',
+  margin: '0',
+  padding: '0',
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: '8px',
+  animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+  animationDelay: '160ms',
+})
+
+const tagClass = css({
+  textStyle: 'sm',
+  color: 'text',
+  bg: 'bg',
+  borderWidth: '1px',
+  borderStyle: 'solid',
+  borderColor: 'border',
+  borderRadius: 'none',
+  paddingBlock: '6px',
+  paddingInline: '10px',
+})
+
+const navMotion = css({
+  animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+  animationDelay: '240ms',
+})
 
 export function AboutHero() {
   return (
-    <header
-      className={css({
-        position: 'relative',
-        overflow: 'hidden',
-        bg: 'bg',
-        paddingBlock: 'clamp(22px, 6vw, 56px)',
-        paddingInline: 'clamp(20px, 6vw, 80px)',
-      })}
-    >
-      <Ground material="rule" seed={960521440} />
-      <div
-        className={css({
-          position: 'relative',
-          zIndex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'clamp(26px, 4vh, 40px)',
-        })}
-      >
-        <BrandLockup variant="stacked-md" mode="original" />
-        {/* eyebrow in text ink on a flat bg box so it clears 4.5:1 over the ruled ground */}
-        <span
-          className={css({
-            display: 'block',
-            width: 'fit-content',
-            alignSelf: 'flex-start',
-            bg: 'bg',
-            paddingBlock: '2px',
-            paddingInline: '8px',
-            borderLeftWidth: '3px',
-            borderLeftStyle: 'solid',
-            borderLeftColor: 'accent',
-            fontSize: 'sm',
-            fontWeight: 'bold',
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
-            color: 'text',
-            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '80ms',
-          })}
-        >
-          About {identity.name}
-        </span>
-        <h1
-          className={css({
-            fontFamily: 'display',
-            fontStyle: 'italic',
-            fontWeight: 'normal',
-            fontVariant: 'all-small-caps',
-            letterSpacing: 'wide',
-            textAlign: 'left',
-            fontSize: { base: 'lg', lg: 'xl' },
-            lineHeight: '1.2',
-            color: 'text',
-            maxWidth: '40ch',
-            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '0ms',
-          })}
-        >
-          {identity.statement}
-        </h1>
-        <RunningSentence
-          className={css({
-            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '160ms',
-          })}
-        />
-      </div>
-    </header>
+    <>
+      <h1 className={statementClass}>{statement}</h1>
+      <p className={deckClass}>{identity.role}</p>
+      <ul className={tagsClass}>
+        {capabilities.map((cap) => (
+          <li key={cap} className={tagClass}>
+            {cap}
+          </li>
+        ))}
+      </ul>
+      <HeroNav className={navMotion} />
+    </>
   )
 }

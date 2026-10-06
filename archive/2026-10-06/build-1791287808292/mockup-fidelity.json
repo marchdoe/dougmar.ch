@@ -1,0 +1,193 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the war on drugs' moved from (1004, 840) in the mockup to (1004, 911) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'warren buffett - on what carries the work' (17px in the mockup) has no match in the build",
+          "facts": {
+            "text": "warren buffett - on what carries the work",
+            "mockupPx": 17,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'stability' (44px); in build it is 'stability' (44px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "is emotional",
+                "mockupPx": 34
+              }
+            ],
+            "leader": {
+              "text": "stability",
+              "mockupPx": 44
+            },
+            "buildLeader": {
+              "text": "stability",
+              "buildPx": 44,
+              "mockupPx": 44
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: 'stability' still leads, but the mockup's 'is emotional' (34px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: The mockup sets 'warren buffett - on what carries the work' at 17px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the war on drugs' moved from (1004, 840) in the mockup to (1004, 911) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'warren buffett - on what carries the work' (17px in the mockup) has no match in the build",
+          "facts": {
+            "text": "warren buffett - on what carries the work",
+            "mockupPx": 17,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'stability' (44px); in build it is 'stability' (44px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "is emotional",
+                "mockupPx": 34
+              }
+            ],
+            "leader": {
+              "text": "stability",
+              "mockupPx": 44
+            },
+            "buildLeader": {
+              "text": "stability",
+              "buildPx": 44,
+              "mockupPx": 44
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: 'stability' still leads, but the mockup's 'is emotional' (34px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: The mockup sets 'warren buffett - on what carries the work' at 17px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the war on drugs' moved from (1004, 840) in the mockup to (1004, 911) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'warren buffett - on what carries the work' (17px in the mockup) has no match in the build",
+          "facts": {
+            "text": "warren buffett - on what carries the work",
+            "mockupPx": 17,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'stability' (44px); in build it is 'stability' (44px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "is emotional",
+                "mockupPx": 34
+              }
+            ],
+            "leader": {
+              "text": "stability",
+              "mockupPx": 44
+            },
+            "buildLeader": {
+              "text": "stability",
+              "buildPx": 44,
+              "mockupPx": 44
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: 'stability' still leads, but the mockup's 'is emotional' (34px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: The mockup sets 'warren buffett - on what carries the work' at 17px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

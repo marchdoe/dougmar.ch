@@ -1,123 +1,119 @@
 import { css } from '../../../styled-system/css'
-import type { projects } from '../../content/projects'
-import { BrandLockup } from '../BrandLockup'
-import { Ground } from '../Material'
-import { ClientLedger } from './ClientLedger'
-import { FeaturedMeta } from './FeaturedMeta'
-import { FeaturedTitle } from './FeaturedTitle'
-import { RunningSentence } from './RunningSentence'
+import { HeroNav } from './HeroNav'
 
-type Project = (typeof projects)[number]
+// Leading opened to 1 so no line's caps reach into the next line's box; each
+// line also sits on its own flat bg plate, clear of the mesh behind the hero.
+const monumentClass = css({
+  fontFamily: 'display',
+  fontWeight: 'normal',
+  color: 'text',
+  bg: 'bg',
+  lineHeight: '1',
+  textTransform: 'uppercase',
+  textAlign: 'justify',
+  width: 'fit-content',
+  maxWidth: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+})
 
-export function HomeHero({ project }: { project: Project | undefined }) {
+const l1 = css({
+  display: 'block',
+  whiteSpace: 'nowrap',
+  bg: 'bg',
+  lineHeight: '1',
+  letterSpacing: '-0.005em',
+  fontSize: 'clamp(21.5px, 2.94vw, 47px)',
+  animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+  animationDelay: '0ms',
+})
+const l2 = css({
+  display: 'block',
+  whiteSpace: 'nowrap',
+  bg: 'bg',
+  lineHeight: '1',
+  letterSpacing: '-0.005em',
+  fontSize: 'clamp(34px, 4.62vw, 74px)',
+  animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+  animationDelay: '80ms',
+})
+const l3 = css({
+  display: 'block',
+  whiteSpace: 'nowrap',
+  bg: 'bg',
+  lineHeight: '1',
+  letterSpacing: '-0.005em',
+  fontSize: 'clamp(44px, 6vw, 96px)',
+  animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+  animationDelay: '160ms',
+})
+
+const attrClass = css({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '10px',
+  animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+  animationDelay: '240ms',
+})
+
+const ruleClass = css({
+  width: 'min(260px, 70%)',
+  height: '3px',
+  bg: 'accent',
+  borderWidth: '0',
+  margin: '0',
+})
+
+const nameClass = css({
+  fontSize: '17px',
+  lineHeight: '1.3',
+  fontWeight: 'normal',
+  letterSpacing: 'wider',
+  textTransform: 'uppercase',
+  color: 'textMuted',
+})
+
+const nameNoteClass = css({
+  color: 'textFaint',
+  letterSpacing: 'wide',
+  textTransform: 'none',
+  marginLeft: '0.4em',
+})
+
+const deckClass = css({
+  fontSize: 'clamp(20px, 2.4vw, 32px)',
+  lineHeight: '1.22',
+  color: 'textMuted',
+  maxWidth: '24ch',
+  animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+  animationDelay: '240ms',
+})
+
+const navMotion = css({
+  animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+  animationDelay: '240ms',
+})
+
+export function HomeHero() {
   return (
-    <header
-      className={css({
-        position: 'relative',
-        overflow: 'hidden',
-        minHeight: '92vh',
-        bg: 'bg',
-        paddingBlock: 'clamp(22px, 6vw, 56px)',
-        paddingInline: 'clamp(20px, 6vw, 80px)',
-      })}
-    >
-      <Ground material="rule" seed={960521440} />
-      <span
-        aria-hidden="true"
-        className={css({
-          display: { base: 'none', lg: 'block' },
-          position: 'absolute',
-          top: 'clamp(22px, 6vw, 56px)',
-          right: 'clamp(20px, 6vw, 80px)',
-          zIndex: 0,
-          pointerEvents: 'none',
-          fontFamily: 'display',
-          fontWeight: 'bold',
-          fontStyle: 'italic',
-          fontVariant: 'all-small-caps',
-          fontSize: 'hero',
-          lineHeight: '1',
-          whiteSpace: 'nowrap',
-          color: 'text',
-          opacity: 0.06,
-        })}
-      >
-        Hustle
-      </span>
-      <div
-        className={css({
-          position: 'relative',
-          zIndex: 1,
-          display: 'grid',
-          gridTemplateColumns: { base: '1fr', lg: 'repeat(12, minmax(0, 1fr))' },
-          rowGap: { base: 'clamp(26px, 4vh, 40px)', lg: '0px' },
-          columnGap: { base: '0px', lg: 'clamp(16px, 2vw, 32px)' },
-          alignItems: { lg: 'start' },
-        })}
-      >
-        <div
-          className={css({
-            gridColumn: { lg: '1 / 5' },
-            gridRow: { lg: '1' },
-            marginBottom: { lg: 'clamp(30px, 5vh, 56px)' },
-          })}
-        >
-          <BrandLockup variant="stacked-md" mode="original" />
-        </div>
-        <h1
-          className={css({
-            fontFamily: 'display',
-            fontStyle: 'italic',
-            fontWeight: 'normal',
-            fontVariant: 'all-small-caps',
-            letterSpacing: 'wide',
-            textAlign: 'left',
-            fontSize: { base: '3xl', lg: '64px' },
-            lineHeight: '1.08',
-            color: 'text',
-            maxWidth: '16ch',
-            gridColumn: { lg: '1 / 8' },
-            gridRow: { lg: '2' },
-            marginBottom: { lg: 'clamp(24px, 4vh, 44px)' },
-            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '0ms',
-          })}
-        >
-          The dream is free, but the hustle is sold separately.
-          <span
-            className={css({
-              display: 'block',
-              width: 'fit-content',
-              bg: 'bg',
-              fontFamily: 'body',
-              fontStyle: 'normal',
-              fontWeight: 'normal',
-              fontVariant: 'normal',
-              fontSize: 'md',
-              color: 'textMuted',
-              marginTop: '18px',
-              letterSpacing: '0.01em',
-              lineHeight: '1.4',
-              maxWidth: '40ch',
-            })}
-          >
-            <span className={css({ color: 'text' })}>Steve Harvey.</span> Ten years of Spaceman is
-            the hustle, itemised.
-          </span>
-        </h1>
-        <FeaturedTitle project={project} />
-        <FeaturedMeta project={project} />
-        <RunningSentence
-          className={css({
-            gridColumn: { lg: '1 / 5' },
-            gridRow: { lg: '5' },
-            marginTop: { lg: 'clamp(28px, 4vh, 48px)' },
-            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '240ms',
-          })}
-        />
-        <ClientLedger project={project} />
+    <>
+      <h1 className={monumentClass}>
+        <span className={l1}>The key to success</span>
+        <span className={l2}>Is emotional</span>
+        <span className={l3}>Stability</span>
+      </h1>
+      <div className={attrClass}>
+        <hr className={ruleClass} />
+        <span className={nameClass}>
+          Warren Buffett
+          <span className={nameNoteClass}>on what carries the work</span>
+        </span>
       </div>
-    </header>
+      <p className={deckClass}>
+        Ten years under one shingle, Spaceman, sometimes a solo contributor, sometimes embedded in a
+        larger team.
+      </p>
+      <HeroNav className={navMotion} />
+    </>
   )
 }

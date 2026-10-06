@@ -1,18 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { AboutFacts } from '../components/generated/AboutFacts'
 import { AboutHero } from '../components/generated/AboutHero'
-import { CapabilityStrip } from '../components/generated/CapabilityStrip'
-import { TimelineLedger } from '../components/generated/TimelineLedger'
+import { AboutRail } from '../components/generated/AboutRail'
+import { SplitHero } from '../components/generated/SplitHero'
 
 export const Route = createFileRoute('/about')({ component: AboutPage })
 
 function AboutPage() {
   return (
-    <>
+    <SplitHero rail={<AboutRail />}>
       <AboutHero />
-      <TimelineLedger />
-      <CapabilityStrip />
-      <AboutFacts />
-    </>
+    </SplitHero>
   )
 }

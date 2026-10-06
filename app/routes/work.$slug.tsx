@@ -1,20 +1,24 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { WhitePaper } from '../components/WhitePaper'
-import { CaseHero } from '../components/generated/CaseHero'
-import { CaseNarrative } from '../components/generated/CaseNarrative'
-import { MissingCase } from '../components/generated/MissingCase'
+import { CaseBody } from '../components/generated/CaseBody'
+import { CaseHero, CaseMissing } from '../components/generated/CaseHero'
+import { CaseRail } from '../components/generated/CaseRail'
+import { SplitHero } from '../components/generated/SplitHero'
 import { projects } from '../content/projects'
 
-export const Route = createFileRoute('/work/$slug')({ component: WorkPage })
+export const Route = createFileRoute('/work/$slug')({ component: CaseStudyPage })
 
-function WorkPage() {
+function CaseStudyPage() {
   const { slug } = Route.useParams()
   const project = projects.find((p) => p.slug === slug)
-  if (!project) return <MissingCase />
+  if (!project) return <CaseMissing />
+  const isPaper = project.slug === 'dougmar-ch'
   return (
     <>
-      <CaseHero project={project} />
-      {project.slug === 'dougmar-ch' ? <WhitePaper /> : <CaseNarrative project={project} />}
+      <SplitHero rail={isPaper ? undefined : <CaseRail project={project} />}>
+        <CaseHero project={project} />
+      </SplitHero>
+      {project.slug === 'dougmar-ch' ? <WhitePaper /> : <CaseBody project={project} />}
     </>
   )
 }
