@@ -57,28 +57,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'The key to success is emotional stability.' },
-      { property: 'og:title', content: 'The key to success is emotional stability.' },
+      { title: 'Red Wings take it, 5–3.' },
+      { property: 'og:title', content: 'Red Wings take it, 5–3.' },
       {
         property: 'og:description',
         content:
-          "Olive-gold field at 69°, a Buffett line cut as a justified caps monument low on the page, the day's facts ruled into a dark ledger rail, one rust accent turning on.",
+          'A night-rink scoreboard: steel-blue void, the winning five lit in Red Wings red, the losing three outlined in cold steel, one spine of chrome down the left.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-06.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-07.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'The key to success is emotional stability.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-06.png' },
+      { name: 'twitter:title', content: 'Red Wings take it, 5–3.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-07.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Anton:wght@400&family=Inter+Tight:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;700;900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -247,7 +247,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 157 designs
+            Archive · 158 designs
           </a>
         )}
         <ScrollRestoration />

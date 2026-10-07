@@ -1,92 +1,93 @@
 import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
+import { BrandLockup } from './BrandLockup'
 
-const cols = [
-  { label: 'Location', value: 'Aldie, Virginia' },
-  { label: 'Year', value: '2026' },
-  { label: 'In rotation', value: 'Wet Leg · The War on Drugs' },
+const links = [
+  { label: 'Work', href: '/work' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: `mailto:${identity.email}` },
 ]
-
-const footerClass = css({
-  bg: 'field',
-  color: 'fieldInk',
-  paddingTop: 'clamp(28px, 5vh, 56px)',
-  paddingBottom: 'clamp(32px, 6vh, 64px)',
-  paddingInline: 'clamp(20px, 5vw, 88px)',
-  borderTopWidth: '4px',
-  borderTopStyle: 'solid',
-  borderTopColor: 'borderStrong',
-})
-
-const colophonClass = css({ display: 'flex', flexWrap: 'wrap', rowGap: '24px', columnGap: '48px' })
-const colClass = css({ display: 'flex', flexDirection: 'column', gap: '6px', minWidth: '0' })
-const labelClass = css({
-  textStyle: '2xs',
-  letterSpacing: 'widest',
-  textTransform: 'uppercase',
-  color: 'fieldInkMuted',
-  fontWeight: 'bold',
-})
-const valClass = css({ textStyle: 'base', color: 'fieldInk' })
-const wordmarkClass = css({
-  fontFamily: 'display',
-  fontWeight: 'normal',
-  textStyle: 'lg',
-  letterSpacing: '-0.015em',
-  color: 'fieldInk',
-})
-const roleClass = css({
-  textStyle: 'xs',
-  letterSpacing: 'wider',
-  textTransform: 'uppercase',
-  color: 'fieldInkMuted',
-})
-const linksClass = css({ display: 'flex', flexWrap: 'wrap', columnGap: '16px' })
-
-const linkClass = css({
-  display: 'inline-flex',
-  alignItems: 'center',
-  minHeight: '44px',
-  textStyle: 'base',
-  color: 'fieldInk',
-  textDecoration: 'underline',
-  textDecorationColor: 'fieldBorder',
-  textUnderlineOffset: '4px',
-  _hover: { color: 'accentAlt', textDecorationColor: 'accentAlt' },
-})
 
 export function Sidebar() {
   return (
-    <footer className={footerClass}>
-      <div className={colophonClass}>
-        <div className={colClass}>
-          <span className={wordmarkClass}>{identity.name}</span>
-          <span className={roleClass}>{identity.role}</span>
-        </div>
-        {cols.map((col) => (
-          <div key={col.label} className={colClass}>
-            <span className={labelClass}>{col.label}</span>
-            <span className={valClass}>{col.value}</span>
-          </div>
-        ))}
-        <div className={colClass}>
-          <span className={labelClass}>Contact</span>
-          <a href={`mailto:${identity.email}`} className={linkClass}>
-            {identity.email}
-          </a>
-        </div>
-        <div className={colClass}>
-          <span className={labelClass}>Index</span>
-          <div className={linksClass}>
-            <a href="/#work" className={linkClass}>
-              Work
-            </a>
-            <a href="/about" className={linkClass}>
-              About
-            </a>
-          </div>
-        </div>
+    <header
+      className={css({
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '2',
+        paddingInline: '20px',
+        paddingTop: '18px',
+        paddingBottom: '2',
+        bg: 'bgAlt',
+        borderBottomWidth: '1px',
+        borderBottomStyle: 'solid',
+        borderColor: 'borderStrong',
+        position: 'relative',
+        zIndex: 3,
+        lg: {
+          alignItems: 'center',
+          gridColumn: '1',
+          gridRow: '1 / span 2',
+          gap: '0',
+          borderBottomWidth: '0',
+          borderRightWidth: '1px',
+          borderRightStyle: 'solid',
+          paddingInline: '0',
+          paddingTop: '28px',
+          paddingBottom: '0',
+        },
+      })}
+    >
+      <div className={css({ display: 'flex', alignItems: 'center', lg: { marginBottom: '40px' } })}>
+        <BrandLockup variant="mark-only-md" mode="original" />
       </div>
-    </footer>
+      <nav
+        aria-label="Primary"
+        className={css({
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'nowrap',
+          columnGap: '5',
+          lg: { flexDirection: 'column', columnGap: '0', width: '100%' },
+        })}
+      >
+        {links.map((link) => (
+          <a
+            key={link.label}
+            href={link.href}
+            className={css({
+              display: 'inline-flex',
+              alignItems: 'center',
+              minHeight: '44px',
+              paddingBlock: '0',
+              paddingInline: '0',
+              textStyle: 'xs',
+              fontFamily: 'body',
+              fontWeight: 'bold',
+              letterSpacing: 'wider',
+              textTransform: 'uppercase',
+              color: 'textMuted',
+              transition: 'color .2s ease, border-color .2s ease, background .2s ease',
+              _hover: { color: 'accent' },
+              lg: {
+                display: 'flex',
+                justifyContent: 'center',
+                width: '100%',
+                minHeight: '52px',
+                textStyle: 'sm',
+                letterSpacing: 'wide',
+                borderTopWidth: '1px',
+                borderTopStyle: 'solid',
+                borderColor: 'borderStrong',
+                _hover: { bg: 'surface' },
+                _last: { borderBottomWidth: '1px', borderBottomStyle: 'solid' },
+              },
+            })}
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+    </header>
   )
 }

@@ -1,0 +1,50 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'red wings take it 5-3.' (40px in the mockup) has no match in the build",
+          "facts": {
+            "text": "red wings take it 5-3.",
+            "mockupPx": 40,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'red wings take it 5-3.' is 28px in the mockup and 58px in the build (2.07x)",
+          "facts": {
+            "text": "red wings take it 5-3.",
+            "mockupPx": 28,
+            "buildPx": 58,
+            "ratio": 2.07,
+            "mockupRank": 2
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets 'red wings take it 5-3.' at 40px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: 'red wings take it 5-3.' is 28px in the mockup and 58px in the build (2.07x). Set it back to 28px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [],
+      "briefed": []
+    }
+  ]
+}

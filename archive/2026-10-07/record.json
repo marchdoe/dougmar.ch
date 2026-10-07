@@ -1,0 +1,673 @@
+{
+  "date": "2026-10-07",
+  "era": "header-declared",
+  "generatedAt": "2026-10-07T11:27:35.117Z",
+  "buildId": "1791372448869",
+  "attempts": 1,
+  "brief": "A night-rink scoreboard: steel-blue void, the winning five lit in Red Wings red, the losing three outlined in cold steel, one spine of chrome down the left.",
+  "rationale": "The phrase is a score: the Red Wings won 5–3 last night, and of everything in the feed it is the one fact that is plainly mine, said the way I say a score. Because the anchor is a number, the object has to be a figure, not a statement: the numeral is the largest thing on the page and the words are its caption. A figure that size wants an athletic signage face, so big-shoulders-atkinson carries the numerals (Big Shoulders Display is literally stadium signage) over the hyperlegible Atkinson body for the data rows.\n\nThe palette follows the subject. A night game reads as a rink under lights, so the ground is a dark-void in steel blue 222°, the one hue the mandate leaves open and the right cold for ice. The single saturated thing turned on is wing red, carried only by the winning 5 and one hairline under the score; the losing 3 is the same face outlined in steel, so the texture itself states the result. The original green-and-blue mark sits on near-black where it has room to breathe, honoring the contract's preference for the real mark over the mono stand-in.\n\nLayout serves the number. A single centred field, two numerals mirrored across the dash on a horizontal axis, is the scoreboard made literal; a marginal left spine holds the mark and a stacked nav list so nothing competes with the figure. Below it the signals accelerate downward, tightening as they descend, with the market, the weather, and one Nobel line as quiet tabular rows. Nothing animates on load; the dot field drifts slowly like light over ice, and sections below the fold rise on scroll.",
+  "filesChanged": [
+    "elements/preset.ts",
+    "app/components/Layout.tsx",
+    "app/components/Sidebar.tsx",
+    "app/components/generated/FootStrip.tsx",
+    "app/components/generated/Field.tsx",
+    "app/components/generated/HomeHero.tsx",
+    "app/components/generated/SignalStack.tsx",
+    "app/components/generated/HomeSignals.tsx",
+    "app/components/generated/SectionLabel.tsx",
+    "app/components/generated/AboutIntro.tsx",
+    "app/components/generated/Timeline.tsx",
+    "app/components/generated/Capabilities.tsx",
+    "app/components/generated/AboutFacts.tsx",
+    "app/components/generated/WorkHeader.tsx",
+    "app/components/generated/CaseStudy.tsx",
+    "app/components/generated/WorkIndex.tsx",
+    "app/components/generated/MissingWork.tsx",
+    "app/routes/index.tsx",
+    "app/routes/about.tsx",
+    "app/routes/work.$slug.tsx",
+    "app/routes/og.tsx"
+  ],
+  "legacyArchetype": null,
+  "signals": {
+    "air_quality": {
+      "aqi_index": 1,
+      "uv_index": 0,
+      "air_quality_label": "Good"
+    },
+    "books": {
+      "currently_reading": []
+    },
+    "day_of_week": {
+      "day": "Wednesday",
+      "is_weekend": false,
+      "day_index": 3
+    },
+    "github": {
+      "repos": [
+        {
+          "name": "morluto/rea/stargazers",
+          "description": "",
+          "language": "TypeScript",
+          "stars": null
+        },
+        {
+          "name": "sponsors/mattpocock",
+          "description": "",
+          "language": "Shell",
+          "stars": null
+        },
+        {
+          "name": "boykopovar/AnyPS5/stargazers",
+          "description": "",
+          "language": "C++",
+          "stars": null
+        },
+        {
+          "name": "ayghri/i-have-adhd/stargazers",
+          "description": "",
+          "language": "Python",
+          "stars": null
+        },
+        {
+          "name": "sponsors/cathrynlavery",
+          "description": "",
+          "language": "HTML",
+          "stars": null
+        }
+      ]
+    },
+    "golf": {
+      "tournament": "Baycurrent Classic",
+      "status": "Scheduled",
+      "leaders": []
+    },
+    "hacker_news": {
+      "stories": [
+        {
+          "title": "Nobel Prize in Chemistry 2026 to Henri B. Kagan and Kenso Soai",
+          "url": "https://www.nobelprize.org/prizes/chemistry/2026/press-release/",
+          "score": 43,
+          "by": "sasvari"
+        },
+        {
+          "title": "A font recreated from photographs of classic Commodore 64 keycaps",
+          "url": "https://github.com/szabadkai/c64-keyboard-font/",
+          "score": 68,
+          "by": "sohkamyung"
+        },
+        {
+          "title": "Sharing AI progress in mathematics",
+          "url": "https://openai.com/index/sharing-ai-progress-in-mathematics/",
+          "score": 955,
+          "by": "OfficialTurkey"
+        },
+        {
+          "title": "Strands Decider 2B: a small, open-source, decision model",
+          "url": "https://strandsagents.com/blog/introducing-strands-decider/",
+          "score": 190,
+          "by": "gmays"
+        },
+        {
+          "title": "Decisions API is in public beta",
+          "url": "https://developers.openai.com/api/docs/guides/decisions",
+          "score": 312,
+          "by": "chiefstorm"
+        }
+      ]
+    },
+    "holidays": {
+      "today": null,
+      "upcoming": [
+        {
+          "name": "Columbus Day",
+          "date": "2026-10-12",
+          "days_away": 5
+        }
+      ]
+    },
+    "lunar": {
+      "phase": "waning crescent",
+      "illumination": 0.109,
+      "days_into_cycle": 26.37
+    },
+    "market": {
+      "symbol": "SPY",
+      "price": "779.0900",
+      "change": "4.2600",
+      "change_percent": "0.5498%",
+      "direction": "up"
+    },
+    "music": {
+      "bands": [
+        "The War on Drugs",
+        "My Morning Jacket",
+        "Guided by Voices"
+      ],
+      "rotation": true
+    },
+    "news": {
+      "headlines": [
+        {
+          "title": "With more than 1,000 measles cases, Pennsylvania now has the largest U.S. outbreak in 3 decades - Pittsburgh Post-Gazette",
+          "source": "Pittsburgh Post-Gazette",
+          "url": "https://www.post-gazette.com/news/health/2026/10/05/pennsylvania-measles-outbreak-update/stories/202610050033"
+        },
+        {
+          "title": "Falcons 45-24 Saints (Oct 5, 2026) Game Recap - ESPN",
+          "source": "ESPN",
+          "url": "https://www.espn.com/nfl/recap"
+        },
+        {
+          "title": "Austin Abrams’ ‘Whalefall’: First Reactions - The Hollywood Reporter",
+          "source": "Hollywood Reporter",
+          "url": "http://www.hollywoodreporter.com/movies/movie-news/whalefall-first-reactions-austin-abrams-brian-duffield-1236716804/"
+        },
+        {
+          "title": "Stock futures edge higher after Nasdaq hits new record: Live updates - cnbc.com",
+          "source": "CNBC",
+          "url": "https://www.cnbc.com/2026/10/05/stock-market-today-live-updates.html"
+        },
+        {
+          "title": "Jim Bakker, who built ‘PTL Club’ televangelism empire, has died at 86 - NPR",
+          "source": "NPR",
+          "url": "https://www.npr.org/2026/10/06/g-s1-146603/obit-jim-bakker"
+        }
+      ]
+    },
+    "quote": {
+      "text": "Being a good example is the best form of service.",
+      "author": "Sathya Sai Baba"
+    },
+    "season": {
+      "season": "fall",
+      "month": 10,
+      "day": 7,
+      "day_of_year": 280,
+      "month_name": "October"
+    },
+    "sidebar": {
+      "links": [
+        {
+          "title": "On being anything other than a designer",
+          "url": "https://blog.ronbronson.com/on-being-anything-other-than-a-designer",
+          "source": "blog.ronbronson.com",
+          "description": "There’s that person in your job who is the one people call for all kinds of tasks that only “they can do.”"
+        },
+        {
+          "title": "F*cking good libraries",
+          "url": "https://fglibs.com/",
+          "source": "fglibs.com",
+          "description": "A browsable semantic library for creative development resources."
+        },
+        {
+          "title": "Emerging patterns: design leadership in 2026",
+          "url": "https://www.emergingpatterns.design/",
+          "source": "emergingpatterns.design",
+          "description": "Findings from nearly 120 design leaders — pathways, mentorship, portfolio careers, tooling, and the human qualities of leadership."
+        },
+        {
+          "title": "The era of cmd+tab",
+          "url": "https://era-of-cmd-tab.vercel.app/",
+          "source": "era-of-cmd-tab.vercel.app",
+          "description": "An essay that degrades 1% at a time, and a little more every time you leave it."
+        },
+        {
+          "title": "Design is a nice-to-have",
+          "url": "https://draganbabic.com/blog/design-is-a-nice-to-have/",
+          "source": "draganbabic.com",
+          "description": "I am in a very weird place right now when it comes to design."
+        }
+      ]
+    },
+    "sports": {
+      "teams": [
+        {
+          "name": "Detroit Lions",
+          "league": "NFL",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Red Wings",
+          "league": "NHL",
+          "last_game": "2026-10-06T23:00Z",
+          "result": "win",
+          "score": "5-3"
+        },
+        {
+          "name": "Detroit Pistons",
+          "league": "NBA",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Tigers",
+          "league": "MLB",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        }
+      ]
+    },
+    "sun": {
+      "sunrise": "07:18",
+      "sunset": "18:36",
+      "daylight_hours": 11.3
+    },
+    "weather": {
+      "location": "Aldie, Virginia",
+      "conditions": "Clear",
+      "temp_f": 43.9,
+      "temp_c": 6.6,
+      "humidity": 82,
+      "wind_mph": 4.3,
+      "wind_dir": "SSW",
+      "feels_like_f": 41.5
+    },
+    "date": "2026-10-07"
+  },
+  "hero": {
+    "copy": "Red Wings take it, 5–3.",
+    "rationale": "Last night the Red Wings won 5–3, and a Detroit result is the one signal this morning that is unambiguously mine. Today's quote (\"Being a good example is the best form of service,\" Sathya Sai Baba) is a devotional aphorism with no purchase on design, engineering, or the day's facts, and it does not read in my register, so I passed it for the scoreboard. A score leads the page as a figure; the words are its caption. Owner's voice: I say a score as a score, and the Wings are my team.",
+    "source": "signal-event"
+  },
+  "chassis": "big-shoulders-atkinson",
+  "adBrief": {
+    "visualSpecification": "### 1. Color Specification\n- **Primary hue**: 222° steel blue. It is the cold of ice and arena light, and it sits inside the one allowed window (219–281°) the mandate leaves open. The neutrals and the field are all built off it so the void reads as a rink at night, not as generic black.\n- **Neutral palette (ink, blue-tinted)**: 50 `#eef1f7`, 100 `#dce2ee`, 200 `#b9c4da`, 300 `#9aa6c2`, 400 `#72819f`, 500 `#4b5a7d`, 600 `#394662`, 700 `#2a3449`, 800 `#1a2133`, 900 `#0b0f1a`\n- **Primary scale (azure 222°)**: 50 `#eaf1fc`, 100 `#cfe0f8`, 200 `#a2c3ef`, 300 `#6f9fe3`, 400 `#447ad3`, 500 `#2a5dba`, 600 `#214a97`, 700 `#1a3972`, 800 `#142a54`, 900 `#0e1c38`\n- **Accent color (wing red 25°)**: light `#f94f45`, default `#e8322d`, dark `#961716`, glow `#f94f45`\n- **Secondary accent**: wing red is the second accent, carried only by the winning numeral and one hairline under the score. Blue is primary/field; red is the one saturated thing turned on. Signal contrast (two team registers) justifies it.\n- **Background**: page bg `#0b0f1a`, card/surface `#1a2133`, rail/bgAlt `#0e1c38`\n- **Text colors**: primary `#eef1f7`, secondary `#9aa6c2`, muted/faint `#72819f`\n\n### 2. Typography\n- **Hero figure rendering**: `display` (Big Shoulders Display) at the `hero` clamp, `clamp(96px, 20vw, 160px)`, landing at 160px at 1440. The numeral `5–3` is the largest object on the page: the `5` is a solid `accent` (wing red) fill, the `3` is the same face set `outline` in `borderStrong` steel. The en dash sits between them at reduced weight in `textMuted`.\n- **Hero phrase (the h1 caption)**: `red wings take it, 5–3.` set lowercase in `display` at the `3xl` step (one step down from the figure, per the figure rule), `textMuted` with \"red wings\" in `text`. It sits directly beneath the numeral, centred.\n- **Type treatment / ramp steps**: eyebrow label `RED WINGS · NHL` at `sm`, Atkinson, tracked caps, `textFaint`. Mid-register standfirst at `lede`/`md` (fills the middle of the scale the owner asked for). Body and signal rows at `base` Atkinson Hyperlegible, `textMuted`, tabular-nums on all figures. Captions/metadata at `sm`, `textFaint`. Name steps, not raw leading/tracking.\n\n### 3. Layout Specification\n- **Composition**: single / horizontal / mirrored / center / sparse / accelerating / marginal / type-dominant / stack / figure. A score is two numbers facing each other across a dash; the mirrored horizontal pair centred in a type-dominant void is the scoreboard made literal, and the figure object puts the number where the eye lands first.\n- **CSS grid/flex structure**: `display: grid; grid-template-columns: 96px 1fr;` left rail 96px + main field. Main field `display: grid; place-items: center; grid-auto-rows: min-content;` with the numeral row, the caption row, then an accelerating stack of signal rows descending.\n- **Major dimensions**:\n  - Hero/figure field: `min-height: 82vh`\n  - Left rail: `width: 96px`, full viewport height\n  - Max content width: `max-width: none`; main field padding `96px 7vw`; signal stack capped at `62ch` for readable rows\n  - Section spacing: base unit from the chassis rhythm; intervals shrink descending (accelerating): score→caption generous, caption→signals tighter, signal rows tightest\n- **Nav placement**: left rail (marginal). Mark at the top of the rail inside the first fold; nav as a stacked vertical list down the spine, one hairline per row. No top bar.\n- **Hero phrase grid zone**: the numeral occupies the centred figure zone (main column, rows 1–2, full width of the field, ~160px tall at 1440); the h1 caption sits rows 3, directly under it at `3xl`.\n- **Home callout slot**: `<SiteCallout />` sits on `/` below the signal stack and above the footer data strip, between the signal section and the footer. I place it; I write no copy and no styling for it.\n\n### 4. Component Character\n- **Border radius**: cards `4px` (md), buttons `2px` (sm), tags `2px`. Sharp, scoreboard-hard.\n- **Border treatment**: hairlines in `border`; the single rule under the score and the rail row rules in `borderStrong`/`fieldBorder`.\n- **Shadow**: none. Depth comes from surface lightness over the void, not shadow.\n- **Density**: sparse up top, compacting downward.\n- **Interactive states**: nav/links shift `textMuted` → `accent` on `_hover`, with the row rule brightening to `borderStrong`. Tap targets ≥44px.\n\n### 5. Signal Integration\n- **Where signals live**: an accelerating stack beneath the score caption on `/`, plus the footer data strip.\n- **Sports scores**: the Red Wings 5–3 IS the hero figure. Any other score (Falcons 45–24 Saints) renders as a quiet tabular row in the stack, `textMuted`, not competing.\n- **Quote**: demoted; appears nowhere as hero. Not used.\n- **Market**: SPY 779.09, +0.55% up, one tabular row, the `+` in `accent`.\n- **Weather**: Aldie, clear, 43.9°F, one row (cold night, fits the rink).\n- **Nobel / HN / news**: a single muted \"today\" line in the stack (Nobel Chemistry 2026), no link lifted.\n- **Music**: The War on Drugs, My Morning Jacket, Guided by Voices as a footer rotation line, taste not event, kept away from the score rows.\n- **Holiday**: none today; Columbus Day (5 days away) gets no treatment.\n- **Moon**: waning crescent, 11% — one faint metadata note in the footer strip.",
+    "selfCheck": "1. Hero quotability: Yes — a score stated flat, \"Red Wings take it, 5–3,\" reads as a caption anyone in Detroit would post.\n2. Because-of chain: Yes — figure leads → scoreboard numeral → athletic signage chassis → steel void + wing red → centred mirrored field.\n3. Render feasibility: Yes — Big Shoulders hero caps at 160px at 1440, and `5–3` is four glyphs, no overflow.\n4. Canvas floor feasible: Yes — a 160px numeral, caption, rail, and descending signal stack fill ~68% of a sparse poster.\n5. Phone: Yes — numeral at the hero clamp and the caption at `3xl` both land inside the first 640px at 360 without cutting a word.",
+    "rationale": "The phrase is a score: the Red Wings won 5–3 last night, and of everything in the feed it is the one fact that is plainly mine, said the way I say a score. Because the anchor is a number, the object has to be a figure, not a statement: the numeral is the largest thing on the page and the words are its caption. A figure that size wants an athletic signage face, so big-shoulders-atkinson carries the numerals (Big Shoulders Display is literally stadium signage) over the hyperlegible Atkinson body for the data rows.\n\nThe palette follows the subject. A night game reads as a rink under lights, so the ground is a dark-void in steel blue 222°, the one hue the mandate leaves open and the right cold for ice. The single saturated thing turned on is wing red, carried only by the winning 5 and one hairline under the score; the losing 3 is the same face outlined in steel, so the texture itself states the result. The original green-and-blue mark sits on near-black where it has room to breathe, honoring the contract's preference for the real mark over the mono stand-in.\n\nLayout serves the number. A single centred field, two numerals mirrored across the dash on a horizontal axis, is the scoreboard made literal; a marginal left spine holds the mark and a stacked nav list so nothing competes with the figure. Below it the signals accelerate downward, tightening as they descend, with the market, the weather, and one Nobel line as quiet tabular rows. Nothing animates on load; the dot field drifts slowly like light over ice, and sections below the fold rise on scroll.",
+    "compositionRationale": "A score is two numbers facing across a dash, so I moved axis off the mandate's suggested `radial` onto `horizontal` and set `symmetry: mirrored`: the 5 and the 3 read as a literal scoreboard pair, not as content orbiting a point. I moved `columns` off `masonry` to `single` and `shell_posture` to `marginal` so the number owns one clean centred field with the brand on a quiet spine, which also pulls the whole tuple away from 10-03's radial/standard figure day. Everything else (center, sparse, accelerating, type-dominant, stack, figure) stays on the suggestion because a poster scoreboard genuinely wants a single dominant numeral with the data accelerating beneath it.",
+    "signalIntegration": "- **Where signals live**: an accelerating stack beneath the score caption on `/`, plus the footer data strip.\n- **Sports scores**: the Red Wings 5–3 IS the hero figure. Any other score (Falcons 45–24 Saints) renders as a quiet tabular row in the stack, `textMuted`, not competing.\n- **Quote**: demoted; appears nowhere as hero. Not used.\n- **Market**: SPY 779.09, +0.55% up, one tabular row, the `+` in `accent`.\n- **Weather**: Aldie, clear, 43.9°F, one row (cold night, fits the rink).\n- **Nobel / HN / news**: a single muted \"today\" line in the stack (Nobel Chemistry 2026), no link lifted.\n- **Music**: The War on Drugs, My Morning Jacket, Guided by Voices as a footer rotation line, taste not event, kept away from the score rows.\n- **Holiday**: none today; Columbus Day (5 days away) gets no treatment.\n- **Moon**: waning crescent, 11% — one faint metadata note in the footer strip."
+  },
+  "tokens": {
+    "colors": {
+      "ramps": {
+        "ink": {
+          "50": "#eef1f7",
+          "100": "#dce2ee",
+          "200": "#b9c4da",
+          "300": "#9aa6c2",
+          "400": "#72819f",
+          "500": "#4b5a7d",
+          "600": "#394662",
+          "700": "#2a3449",
+          "800": "#1a2133",
+          "900": "#0b0f1a"
+        },
+        "azure": {
+          "50": "#eaf1fc",
+          "100": "#cfe0f8",
+          "200": "#a2c3ef",
+          "300": "#6f9fe3",
+          "400": "#447ad3",
+          "500": "#2a5dba",
+          "600": "#214a97",
+          "700": "#1a3972",
+          "800": "#142a54",
+          "900": "#0e1c38"
+        },
+        "red": {
+          "50": "#ffeceb",
+          "100": "#ffd3d0",
+          "200": "#ffaba5",
+          "300": "#ff7d75",
+          "400": "#f94f45",
+          "500": "#e8322d",
+          "600": "#c21f1c",
+          "700": "#961716",
+          "800": "#6d1312",
+          "900": "#470c0c"
+        }
+      },
+      "semantic": {
+        "bg": {
+          "base": "{colors.ink.900}"
+        },
+        "bgAlt": {
+          "base": "{colors.azure.900}"
+        },
+        "surface": {
+          "base": "{colors.ink.800}"
+        },
+        "text": {
+          "base": "{colors.ink.50}"
+        },
+        "textMuted": {
+          "base": "{colors.ink.300}"
+        },
+        "textFaint": {
+          "base": "{colors.ink.400}"
+        },
+        "accent": {
+          "base": "{colors.red.500}"
+        },
+        "accentText": {
+          "base": "#fff6f5"
+        },
+        "accentAlt": {
+          "base": "{colors.red.400}"
+        },
+        "border": {
+          "base": "{colors.ink.700}"
+        },
+        "borderStrong": {
+          "base": "{colors.ink.600}"
+        },
+        "field": {
+          "base": "{colors.azure.800}"
+        },
+        "fieldInk": {
+          "base": "{colors.ink.50}"
+        },
+        "fieldInkMuted": {
+          "base": "{colors.azure.200}"
+        },
+        "fieldBorder": {
+          "base": "{colors.azure.700}"
+        }
+      }
+    },
+    "radii": {
+      "none": "0",
+      "sm": "2px",
+      "md": "4px",
+      "lg": "8px",
+      "full": "9999px"
+    }
+  },
+  "colorScheme": {
+    "primary_hue": {
+      "h": 222,
+      "s": 62,
+      "l": 44,
+      "name": "steel blue"
+    },
+    "secondary_accent": {
+      "h": 25,
+      "s": 80,
+      "l": 55,
+      "name": "wing red"
+    },
+    "neutral_family": {
+      "tinted_toward": "steel blue",
+      "name": "rink ink"
+    },
+    "mood_word": "nocturnal",
+    "color_story": "Night at the rink: a steel-blue void, the winning five lit in Red Wings red, the losing three outlined in cold steel."
+  },
+  "shell": {
+    "nav": null,
+    "footer": "data strip — location, date, moon phase, and the music rotation on one thin strip, no nav",
+    "brand_lockup": "mark-only-md",
+    "brand_color_mode": "original",
+    "ground_strategy": "dark-void",
+    "ground_material": "dots"
+  },
+  "header": {
+    "placement": "left-rail",
+    "height_px": 672,
+    "mark_px": 52,
+    "wordmark_step": "none",
+    "wordmark_weight": 600,
+    "role_line": "absent",
+    "nav_step": "sm",
+    "nav_case": "upper",
+    "nav_form": "list",
+    "nav": "Left spine on the void. The original green-and-blue circular mark sits at the top of the rail inside the first fold at 1440 and 360. Beneath it, Work / About / Contact run down the spine as a vertical list, one borderStrong hairline per row, uppercase and tracked. No top bar."
+  },
+  "verdicts": [
+    {
+      "critic": "mockup-precheck",
+      "round": 0,
+      "verdict": "REVISE",
+      "feedback": "[check 6] At 360px the page is 432px wide, 72px of horizontal scroll. Find the element wider than the column (a fixed width, a nowrap line, desktop-size type) and fit it to 360px.\n[check 6] At 360px, text runs past the edge of the screen and is cut: \"Falcons –24 Saints\" (x 262 to 407), \"SPY\" (x 268 to 407), \"+0.55%\" (x 352 to 407). Set display type in clamp() with a vw term so it fits the column, and let lines wrap.",
+      "findings": [
+        {
+          "check": 6,
+          "key": "overflow-360",
+          "gap": 72
+        },
+        {
+          "check": 6,
+          "key": "text-cut-360",
+          "gap": 3
+        }
+      ],
+      "ts": 1791371657543
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 0,
+      "verdict": "APPROVE",
+      "feedback": "The red solid 5 facing the steel outlined 3 across a muted dash tells the result through texture alone, and it carries the centred, mirrored scoreboard at both 1440 and 360. The lowercase caption sits one step beneath it, and the signal rows tighten as they descend.",
+      "channel": "sdk-vision",
+      "ts": 1791371673318
+    },
+    {
+      "critic": "mockup-precheck",
+      "round": 1,
+      "verdict": "APPROVE",
+      "feedback": "",
+      "findings": [],
+      "ts": 1791371730586
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 1,
+      "verdict": "APPROVE",
+      "feedback": "The wing-red solid 5 against the steel-outlined 3, set on a mirrored axis in a dotted rink-blue void, makes the result legible from the texture alone, and it holds as the centred carrier in the first fold at both 1440 and 360.",
+      "channel": "sdk-vision",
+      "ts": 1791371742013
+    },
+    {
+      "critic": "surface-gate",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "/about @1440: 340 characters of running copy set at 68px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: <section.w_100% > div.d_grid.grid-tc_1fr.rg_2.py_5 > div.ff_display.fw_bold.fs_sm.lg:fs_xl> holds text wider than its own box: \"2025 to present...\" needs 207px and the box is 200px, so 7px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @1440: <section.w_100% > div.d_grid.grid-tc_1fr.rg_2.py_5 > div.ff_display.fw_bold.fs_sm.lg:fs_xl> holds text wider than its own box: \"2018 to present...\" needs 207px and the box is 200px, so 7px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @1440: 340 characters of running copy set at 68px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: <section.w_100% > div.d_grid.grid-tc_1fr.rg_2.py_5 > div.ff_display.fw_bold.fs_sm.lg:fs_xl> holds text wider than its own box: \"2025 to present...\" needs 207px and the box is 200px, so 7px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @1440: <section.w_100% > div.d_grid.grid-tc_1fr.rg_2.py_5 > div.ff_display.fw_bold.fs_sm.lg:fs_xl> holds text wider than its own box: \"2018 to present...\" needs 207px and the box is 200px, so 7px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @1440: em dash in rendered copy: \"...intersection of design and engineering — not as a generalist, but as someone wh...\". Use a period or a comma.\n/work/spaceman @360: 'Open the live project →' is a 176x30px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'Open the live project →' is a 176x30px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'Open the live project →' is a 176x30px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'Open the live project →' is a 176x30px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'Open the live project →' is a 176x30px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'Open the live project →' is a 176x30px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 98x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 150x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 198x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 300x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 98x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 150x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 198x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 300x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: <section.w_100%.max-w_62ch.mt_40px.ta_left > div.d_flex.jc_space-between.ai_baseline.gap_4 > span.ff_body.textStyle_2xs.fw_bold.ls_wider> \"NFL\" (x4) at 12px bold sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground. Also on /about.\n/ @360: <section.w_100%.max-w_62ch.mt_40px.ta_left > div.d_flex.jc_space-between.ai_baseline.gap_4 > span.ff_body.textStyle_sm.c_textMuted.ta_right> \"Falcons –24 Saints\" (x4) at 14.5px sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground. Also on /about.\n/ @360: <div.d_flex.jc_space-between.ai_baseline.gap_4 > span.ff_body.textStyle_sm.c_textMuted.ta_right > b> \"45\" (x4) at 14.5px bold sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/about @360: 8 more distinct texts over a textured ground are not listed.\n/ @360: <aside.d_block.bg_bgAlt.c_text.bd-t_1px_solid > div.d_grid.grid-tc_1fr.jc_space-between.ai_end > p.m_0.ff_body.fs_base.md:fs_md> \"This design is a day old at most. A pipe\" at 16px sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. SiteCallout is written by the orchestrator, so this is reported for the owner and is not a revision.\n/about @360: <a.d_block.bg_bg.c_textFaint.fs_xs> \"Archive · 157 designs\" at 13.2px sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. The archive link is written by the orchestrator, so this is reported for the owner and is not a revision.\n/work/dougmar-ch @820: <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" (x2) sets 85 characters on its longest line (7 lines, median 80) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/work/dougmar-ch @820: <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1791372085126
+    },
+    {
+      "critic": "surface-gate",
+      "verdict": "NEEDS-HUMAN",
+      "feedback": "Authored routes outside MUTABLE_FILES failed the gate: /work/dougmar-ch\n\n## Measured layout faults\n\nThese are measurements taken from the live render, not observations from the images below.\nThey are exact. Do not re-litigate them against the screenshots, and do not count one fault\ntwice because it appears at more than one viewport.\n\n- [error] /work/dougmar-ch at 820px (light): <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" (x2) sets 85 characters on its longest line (7 lines, median 80) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n- [error] /work/dougmar-ch at 820px (light): <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.",
+      "ts": 1791372085126
+    },
+    {
+      "critic": "screenshot-critic",
+      "verdict": "REVISE",
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 5/3 — react-engineer: On `/about` at 1440px, 340 characters of running copy render at 68px (display scale), e.g. \"I work at the intersection of design and engineering — not a...\". A paragraph at hero/display size is a wall, not a hero; set this copy at the body step (`base`/`md`) and reserve the display step for a short phrase.\n- Section 5 — react-engineer: On `/about`, the timeline label boxes (\"2025 to present...\", \"2018 to present...\") are 207px of text in 200px boxes; the trailing characters are cut off with no wrap and no scroll. Shrink the type to fit the column or allow the label to wrap.\n- Section 10 — react-engineer: The mobile declaration's `nav_360` calls for Work/About/Contact as \"a short uppercase row\" beneath the mark at 360px, but the render (filmstrip fold 1) stacks them as three full-width bordered buttons, consuming roughly half the first fold before the score appears. Collapse the nav into a compact horizontal row as declared so the score/caption lead the fold more immediately.\n===END===",
+      "channel": "sdk-vision",
+      "ts": 1791372241489
+    },
+    {
+      "critic": "surface-gate",
+      "round": 2,
+      "verdict": "REVISE",
+      "feedback": "/ @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'Open the live project →' is a 176x30px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'Open the live project →' is a 176x30px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'Open the live project →' is a 176x30px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'Open the live project →' is a 176x30px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'Open the live project →' is a 176x30px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'Open the live project →' is a 176x30px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 98x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 150x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 198x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 300x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 98x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 150x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 198x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 300x22px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'Work' is a 43x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: <section.w_100%.max-w_62ch.mt_40px.ta_left > div.d_flex.jc_space-between.ai_baseline.gap_4 > span.ff_body.textStyle_2xs.fw_bold.ls_wider> \"NFL\" (x4) at 12px bold sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground. Also on /about.\n/ @360: <section.w_100%.max-w_62ch.mt_40px.ta_left > div.d_flex.jc_space-between.ai_baseline.gap_4 > span.ff_body.textStyle_sm.c_textMuted.ta_right> \"Falcons –24 Saints\" (x4) at 14.5px sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground. Also on /about.\n/ @360: <div.d_flex.jc_space-between.ai_baseline.gap_4 > span.ff_body.textStyle_sm.c_textMuted.ta_right > b> \"45\" (x4) at 14.5px bold sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/about @360: 8 more distinct texts over a textured ground are not listed.\n/ @360: <aside.d_block.bg_bgAlt.c_text.bd-t_1px_solid > div.d_grid.grid-tc_1fr.jc_space-between.ai_end > p.m_0.ff_body.fs_base.md:fs_md> \"This design is a day old at most. A pipe\" at 16px sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. SiteCallout is written by the orchestrator, so this is reported for the owner and is not a revision.\n/about @360: <a.d_block.bg_bg.c_textFaint.fs_xs> \"Archive · 157 designs\" at 13.2px sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. The archive link is written by the orchestrator, so this is reported for the owner and is not a revision.\n/work/dougmar-ch @820: <article.bg_bg.c_text.ff_body.fw_normal > section.d_grid.cg_3rem.rg_1rem.jc_center > p.m_0.c_text.tw_pretty> \"Each morning a pipeline of Claude agents\" (x2) sets 85 characters on its longest line (7 lines, median 80) at 18px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\n/work/dougmar-ch @820: <ul.m_0.p_0.li-s_none > li.pt_1.25rem.pb_1.25rem.bd-t_1px_solid.bd-c_border > p.m_0.mt_0.5rem.fs_1rem.lh_1.6> \"Specification, evaluation, context bound\" sets 84 characters on one line at 16px in a 640px box, over the 80 limit. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision. Also on /work/dougmar-ch at 1440px.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1791372339092
+    },
+    {
+      "critic": "screenshot-critic",
+      "round": "final",
+      "verdict": "SHIP",
+      "feedback": "===VERDICT===\nSHIP\n===END===",
+      "channel": "sdk-vision",
+      "ts": 1791372446133
+    }
+  ],
+  "composition": {
+    "columns": "single",
+    "axis": "horizontal",
+    "symmetry": "mirrored",
+    "hero_zone": "center",
+    "density": "sparse",
+    "rhythm": "accelerating",
+    "shell_posture": "marginal",
+    "field_ratio": "type-dominant",
+    "collapse": "stack",
+    "hero_object": "figure"
+  },
+  "lane": {
+    "laneId": "vercel-geist",
+    "register": "dev-precision-specimen"
+  },
+  "cost": {
+    "total_usd": 3.325689,
+    "estimated": true,
+    "partial": false,
+    "calls": 9,
+    "retries": 2,
+    "byAgent": [
+      {
+        "agent": "art-director",
+        "purpose": "first",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 23185,
+        "cache_read": 0,
+        "cache_write": 45100,
+        "cost_usd": 0.86151,
+        "estimated": false,
+        "ms": 347323,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "first",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 11193,
+        "cache_read": 0,
+        "cache_write": 41716,
+        "cost_usd": 0.54056,
+        "estimated": false,
+        "ms": 129681,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "first",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 17214,
+        "output": 1292,
+        "cache_read": 0,
+        "cache_write": 6988,
+        "cost_usd": 0.129636,
+        "estimated": true,
+        "ms": 15772,
+        "num_turns": null
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "revision",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 3055,
+        "cache_read": 22869,
+        "cache_write": 27886,
+        "cost_usd": 0.262107,
+        "estimated": false,
+        "ms": 45156,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "rejudge",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 17254,
+        "output": 905,
+        "cache_read": 6988,
+        "cache_write": 0,
+        "cost_usd": 0.0899112,
+        "estimated": true,
+        "ms": 11426,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "first",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 32236,
+        "cache_read": 0,
+        "cache_write": 39359,
+        "cost_usd": 0.841523,
+        "estimated": false,
+        "ms": 275778,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "first",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 20940,
+        "output": 10832,
+        "cache_read": 0,
+        "cache_write": 13535,
+        "cost_usd": 0.1840375,
+        "estimated": true,
+        "ms": 133091,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 4748,
+        "cache_read": 0,
+        "cache_write": 41193,
+        "cost_usd": 0.300933,
+        "estimated": false,
+        "ms": 36510,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "rejudge",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 21257,
+        "output": 7025,
+        "cache_read": 13535,
+        "cache_write": 0,
+        "cost_usd": 0.115471,
+        "estimated": true,
+        "ms": 83697,
+        "num_turns": null
+      }
+    ]
+  },
+  "measurables": {
+    "declared": {
+      "canvas_utilization_min": 68,
+      "hero_scale": "clamp(96px, 20vw, 160px)",
+      "color_coverage_min": 40
+    },
+    "declaredAt": "2026-10-07T11:27:28.868Z",
+    "measured": {
+      "canvas_utilization": 100,
+      "color_coverage": 100,
+      "hero_px": 160
+    },
+    "measuredAt": "2026-10-07T11:27:35.116Z",
+    "method": "Measured at 1440x900 on a 20px grid over the viewport at scroll position zero. canvas_utilization: % of grid cells touched by an element carrying designed content (visible text, an image/SVG/video/canvas, a background colour distinct from the page background and not transparent, or a background image such as a gradient). A background set on html or body counts as painting the page, unless it is opaque white; ::before and ::after boxes count on the same terms. color_coverage: % of grid cells whose sampled background, background-image stops or text colour is chromatic (HSL saturation > 12%, lightness 8-92%). hero_px: the largest computed font-size among first-fold elements that set visible text."
+  },
+  "surfaceGate": {
+    "ran": true,
+    "error": null,
+    "round": null
+  }
+}
