@@ -52,7 +52,7 @@ import {
   ROW_FRACTION,
 } from './pixel-contrast.js'
 import { SEMANTIC_COLOR_NAMES } from './semantic-contract.js'
-import { SHELL_OVERLAP_FIX, SHELL_OVERLAP_MIN_OPACITY } from './shell-overlap.js'
+import { RAIL_OVERLAP_FIX, SHELL_OVERLAP_FIX, SHELL_OVERLAP_MIN_OPACITY } from './shell-overlap.js'
 import { SMALL_COPY_FIX, SMALL_TEXT_FIX } from './small-text.js'
 import {
   BOX_PAST_VIEWPORT_FIX,
@@ -418,6 +418,16 @@ export function collectSurfaceRules() {
         `At ${all}, no text in Layout or Sidebar at opacity ${SHELL_OVERLAP_MIN_OPACITY} or ` +
         'more lands on the text of a hand-written route (/work, /experiments, /elements). ' +
         `Fix: ${SHELL_OVERLAP_FIX}`,
+    },
+    {
+      // #702: the rail is in flow at the top of /, /about and /work/*, and a
+      // fixed bar is laid out against the viewport, on top of it.
+      gate: 'rail-overlap',
+      kinds: ['rail-overlap'],
+      rule:
+        `At ${both}, at scroll 0, no position: fixed element sits on the site's rail ` +
+        '([data-live-frame], the top 44px of /, /about and /work/*). ' +
+        `Fix: ${RAIL_OVERLAP_FIX}`,
     },
     {
       gate: 'brand-mark',

@@ -42,7 +42,7 @@ import { renderWhitePaperFile } from '../utils/white-paper.js'
 import { formatTypeTreatment } from '../utils/type-grammar.js'
 import { formatMotion } from '../utils/motion-grammar.js'
 import { formatTuple } from '../utils/composition-grammar.js'
-import { countArchivedDesigns } from '../utils/archive-count.js'
+import { countArchivedDesigns, latestArchivedDateBefore } from '../utils/archive-count.js'
 import { archiveLinkInks } from '../utils/archive-link-ink.js'
 import { findHeroRepeats, heroRepeatReason, HERO_REPEAT_DAYS } from '../utils/hero-repeat.js'
 
@@ -528,11 +528,15 @@ async function writeChassisFiles(state, artDirectorResult, chosenChassis) {
     // The archive link's ink, chosen against tonight's bg and bgAlt now
     // that the preset exists (#566).
     const archiveInks = archiveLinkInks(artDirectorResult.presetTs)
+    // The live rail names the run's date and links `‹` to the newest
+    // captured design before it (#702).
     const rootSrc = renderRootTemplate(
       buildGoogleFontsUrl(chosenChassis),
       ogMeta,
       countArchivedDesigns(path.join(root, 'archive')),
-      archiveInks.root.token
+      archiveInks.root.token,
+      runDate(signals),
+      latestArchivedDateBefore(runDate(signals), path.join(root, 'public', 'archive'))
     )
     await writeGenerated(state, 'app/routes/__root.tsx', rootSrc)
     console.log(`  [chassis] wrote __root.tsx from template`)
@@ -629,7 +633,9 @@ async function refreshGeneratedAfterRetry(state, artDirectorResult, chosenChassi
       buildGoogleFontsUrl(chosenChassis),
       retryOgMeta,
       countArchivedDesigns(path.join(root, 'archive')),
-      archiveLinkInks(artDirectorResult.presetTs).root.token
+      archiveLinkInks(artDirectorResult.presetTs).root.token,
+      runDate(signals),
+      latestArchivedDateBefore(runDate(signals), path.join(root, 'public', 'archive'))
     )
     await rewriteGenerated(root, 'app/routes/__root.tsx', retryRootSrc)
     console.log('  [chassis] regenerated __root.tsx after codegen retry (og meta refreshed)')

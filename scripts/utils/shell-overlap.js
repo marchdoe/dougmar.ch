@@ -20,6 +20,10 @@
  * sends it where every other fault on that route goes: on the hand-written
  * routes, to the rating issue's "Needs a human" section, forcing nothing.
  *
+ * The second probe here is the same question turned round (#702): the night's
+ * shell pinned over the site's own rail on the routes that carry one. See
+ * `measureRailOverlap`.
+ *
  * @module
  */
 
@@ -215,5 +219,134 @@ export function shellOverlapFindings(m) {
     kind: 'shell-overlap',
     severity: 'error',
     detail: describeShellOverlap(hit),
+  }))
+}
+
+/*
+ * The night's shell over the site's rail (#702).
+ *
+ * `/`, `/about` and `/work/*` open on the live rail: `<div data-live-frame>`,
+ * 44px tall, in normal flow at the top of `<body>`, rendered from `__root`
+ * above the night's `<Layout>`. A top bar the night pins with
+ * `position: fixed; top: 0` is laid out against the viewport, not the flow,
+ * so at scroll 0 it sits on the rail and hides the line that tells a first
+ * visitor the site is redesigned every morning. A sticky bar does not: it is
+ * in flow below the rail until the rail has scrolled away, so it needs no
+ * check. This is the reverse of the probe above (the shell over the route's
+ * text), and like it, it is an error on the route it was measured on.
+ */
+
+/** Fixed elements one measurement reports. A header and a menu button is two. */
+export const MAX_RAIL_OVERLAPS_REPORTED = 3
+
+/** The fix line a rail-overlap finding ends with, quoted by the engineer prompt's checklist. */
+export const RAIL_OVERLAP_FIX =
+  'pin a top bar with `position: sticky; top: 0`, never `position: fixed`; sticky stays in ' +
+  'flow below the rail until the rail scrolls away. Do not style, move or hide the rail.'
+
+/**
+ * What one element does to the rail: a record when it is `position: fixed`,
+ * drawn, and its box overlaps the rail's; null otherwise. Drawn is laid out
+ * with a size, not `visibility: hidden` and not at opacity 0. A negative
+ * `z-index` paints under the page's in-flow content, rail included, so a
+ * full-bleed texture parked behind everything is left alone.
+ */
+function pageFixedOverRail(el, frame, kit) {
+  const cs = getComputedStyle(el)
+  const skip = [
+    cs.position !== 'fixed',
+    cs.display === 'none',
+    cs.visibility === 'hidden',
+    Number.parseFloat(cs.opacity) === 0,
+    Number.parseInt(cs.zIndex, 10) < 0,
+  ]
+  if (skip.some(Boolean)) return null
+  const r = el.getBoundingClientRect()
+  const w = Math.min(r.right, frame.right) - Math.max(r.left, frame.left)
+  const h = Math.min(r.bottom, frame.bottom) - Math.max(r.top, frame.top)
+  // Its own box has a size, and so does the part of it on the rail.
+  if (![r.width, r.height, w, h].every((n) => n > 0)) return null
+  return {
+    selector: kit.selector(el),
+    text: (el.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 40),
+    top: Math.round(r.top),
+    height: Math.round(r.height),
+    overlapPx: Math.round(h),
+  }
+}
+
+/**
+ * Every fixed element on `[data-live-frame]` at scroll 0, in document order;
+ * none when the page has no rail. The rail's own descendants are not the
+ * shell's. A fixed element inside a fixed element is one fault, reported at
+ * the outer one, which is the bar the engineer wrote.
+ */
+function pageFindFixedOverRail(kit) {
+  const rail = document.querySelector('[data-live-frame]')
+  const frame = rail?.getBoundingClientRect()
+  if (!frame || !(frame.width > 0 && frame.height > 0)) return []
+  const reported = []
+  const found = []
+  for (const el of document.querySelectorAll('body *')) {
+    if (rail.contains(el) || reported.some((p) => p.contains(el))) continue
+    const hit = kit.fixedOverRail(el, frame)
+    if (!hit) continue
+    reported.push(el)
+    found.push(hit)
+  }
+  return found
+}
+
+/** The rail probe's kit: its two functions and the contrast walk's element chain. */
+const RAIL_KIT = {
+  describe: TEXT_CONTRAST_PAGE_FUNCTIONS.describe,
+  selector: TEXT_CONTRAST_PAGE_FUNCTIONS.selector,
+  fixedOverRail: pageFixedOverRail,
+  findFixedOverRail: pageFindFixedOverRail,
+}
+
+/**
+ * Read the rail probe off a page at scroll 0.
+ *
+ * @param {import('playwright').Page} page
+ * @returns {Promise<Array<{ selector: string, text: string, top: number, height: number,
+ *   overlapPx: number }>>}
+ */
+export function measureRailOverlap(page) {
+  return runPageKit(page, RAIL_KIT, 'findFixedOverRail', {})
+}
+
+/**
+ * The words for one fixed element sitting on the rail.
+ *
+ * @param {{ selector: string, text: string, top: number, height: number,
+ *   overlapPx: number }} hit
+ * @returns {string}
+ */
+export function describeRailOverlap(hit) {
+  const says = hit.text ? ` ("${hit.text}")` : ''
+  return (
+    `<${hit.selector}>${says} is position: fixed and covers ${hit.overlapPx}px of the site's ` +
+    `rail at scroll 0 (its top at y=${hit.top}, ${hit.height}px tall). The top 44px of /, /about ` +
+    'and /work/* is the rail [data-live-frame], rendered above <Layout> in normal flow, and a ' +
+    `fixed bar is laid out against the viewport, so it lands on top of it. Fix: ${RAIL_OVERLAP_FIX}`
+  )
+}
+
+/**
+ * The `rail-overlap` findings for one measurement: one per fixed element,
+ * capped. An error, owned by whoever owns the route (#702).
+ *
+ * @param {{ railOverlap?: Array<object>|null }} m raw measurement
+ * @param {'react-engineer'|'human'} owner from `ownerForSurface`
+ * @returns {Array<{ kind: 'rail-overlap', severity: 'error', owner: string, detail: string }>}
+ */
+export function railOverlapFindings(m, owner) {
+  if (!Array.isArray(m.railOverlap)) return []
+  return m.railOverlap.slice(0, MAX_RAIL_OVERLAPS_REPORTED).map((hit) => ({
+    kind: 'rail-overlap',
+    severity: 'error',
+    owner,
+    detail: describeRailOverlap(hit),
   }))
 }

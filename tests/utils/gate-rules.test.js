@@ -15,7 +15,7 @@ import {
   SMALL_COPY_FLOOR_PX,
   SMALL_TEXT_FLOOR_PX,
 } from '../../scripts/utils/responsive-thresholds.js'
-import { SHELL_OVERLAP_FIX } from '../../scripts/utils/shell-overlap.js'
+import { RAIL_OVERLAP_FIX, SHELL_OVERLAP_FIX } from '../../scripts/utils/shell-overlap.js'
 import { OG_FIT_FIX } from '../../scripts/utils/og-card-fit.js'
 import { SMALL_COPY_FIX, SMALL_TEXT_FIX } from '../../scripts/utils/small-text.js'
 import {
@@ -186,6 +186,7 @@ describe('collectSurfaceRules', () => {
       ORPHAN_SEPARATOR_FIX,
       SPACED_SPACING_WHY,
       SHELL_OVERLAP_FIX,
+      RAIL_OVERLAP_FIX,
       OG_FIT_FIX,
     ]) {
       expect(checklist, fix).toContain(fix)

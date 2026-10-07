@@ -339,6 +339,10 @@ the header against the rest of what you write here.
   the rendered mark's box against the viewport on every route at both rungs,
   and a mark outside the fold forces a revision. Two of the last eight builds
   shipped with no mark in the first fold; that is what this rule is for.
+- On `/`, `/about` and `/work/*` the site draws its own 44px rail above the
+  day's design, the same band every day, so the fold starts 44px lower there
+  at every width. Leave room for that when you put the mark and the hero in
+  the first fold. The mockup is drawn without the rail.
 
 A top bar with a wordmark on the left and text links on the right is the
 pattern the owner has rejected in three consecutive ratings. It is still

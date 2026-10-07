@@ -15,6 +15,9 @@ import { describe, expect, it } from 'vitest'
 import { ARCHIVE_LINK_INKS } from '../../scripts/utils/archive-link-ink.js'
 import { renderRootTemplate } from '../../scripts/utils/chassis.js'
 
+/** Any valid design date; the rail's own tests below vary it. */
+const DAY = '2026-10-06'
+
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 const read = (rel) => readFileSync(path.join(ROOT, rel), 'utf8')
 
@@ -181,13 +184,13 @@ describe('every import the template declares is one it uses', () => {
 
 describe('renderRootTemplate — the archive link', () => {
   it('substitutes the count into the rendered source', () => {
-    const src = renderRootTemplate('https://fonts.example/x', '', 123)
+    const src = renderRootTemplate('https://fonts.example/x', '', 123, 'text', DAY)
     expect(src).toContain('Archive · 123 designs')
     expect(src).not.toContain('{{ARCHIVE_COUNT}}')
   })
 
   it('renders the link outside <Layout>, where no agent can delete it', () => {
-    const src = renderRootTemplate('https://fonts.example/x', '', 7)
+    const src = renderRootTemplate('https://fonts.example/x', '', 7, 'text', DAY)
     const layoutClose = src.indexOf('</Layout>')
     const link = src.indexOf('data-archive-link')
     expect(layoutClose).toBeGreaterThan(-1)
@@ -195,7 +198,7 @@ describe('renderRootTemplate — the archive link', () => {
   })
 
   it('skips the link on home alone, where the callout carries it (#532)', () => {
-    const src = renderRootTemplate('https://fonts.example/x', '', 7)
+    const src = renderRootTemplate('https://fonts.example/x', '', 7, 'text', DAY)
     // Only `/` turns it off, and the flag defaults on so no other caller can
     // lose the link by forgetting to pass it.
     expect(src).toContain("<RootDocument archiveLink={pathname !== '/'}>")
@@ -209,11 +212,13 @@ describe('renderRootTemplate — the archive link', () => {
   })
 
   it('points at /archive', () => {
-    expect(renderRootTemplate('u', '', 1)).toContain('href="/archive"')
+    expect(renderRootTemplate('u', '', 1, 'text', DAY)).toContain('href="/archive"')
   })
 
   it('defaults the count rather than leaving a raw placeholder', () => {
-    expect(renderRootTemplate('u')).toContain('Archive · 0 designs')
+    expect(renderRootTemplate('u', undefined, undefined, undefined, DAY)).toContain(
+      'Archive · 0 designs'
+    )
   })
 
   it('the template still carries every placeholder the renderer fills', () => {
@@ -223,6 +228,8 @@ describe('renderRootTemplate — the archive link', () => {
       '{{ARCHIVE_LINK_INK}}',
       '{{OG_META}}',
       '{{GOOGLE_FONTS_URL}}',
+      '{{DESIGN_DATE}}',
+      '{{PREV_DATE}}',
     ]) {
       expect(template).toContain(p)
     }
@@ -242,19 +249,21 @@ describe('renderRootTemplate — the archive link', () => {
   })
 
   it.each(ARCHIVE_LINK_INKS)('writes %s into the link, and nothing else', (ink) => {
-    const src = renderRootTemplate('u', '', 1, ink)
+    const src = renderRootTemplate('u', '', 1, ink, DAY)
     expect(src).toContain(`color: '${ink}'`)
     expect(src).not.toContain('{{ARCHIVE_LINK_INK}}')
     expect(src).not.toContain('opacity: 0.55')
   })
 
   it('defaults to text, which clears 4.5:1 on bg by contract', () => {
-    expect(renderRootTemplate('u')).toContain("color: 'text'")
+    expect(renderRootTemplate('u', '', 1, undefined, DAY)).toContain("color: 'text'")
   })
 
   it('refuses an ink that is not one of the three it may choose between', () => {
-    expect(() => renderRootTemplate('u', '', 1, "text'); alert(1); ('")).toThrow(/archive link ink/)
-    expect(() => renderRootTemplate('u', '', 1, 'accent')).toThrow(/archive link ink/)
+    expect(() => renderRootTemplate('u', '', 1, "text'); alert(1); ('", DAY)).toThrow(
+      /archive link ink/
+    )
+    expect(() => renderRootTemplate('u', '', 1, 'accent', DAY)).toThrow(/archive link ink/)
   })
 
   it('the committed file carries one of them and no opacity', () => {
@@ -265,6 +274,86 @@ describe('renderRootTemplate — the archive link', () => {
     expect(block).not.toContain('opacity')
     const ink = /color: '(\w+)'/.exec(block)?.[1]
     expect(ARCHIVE_LINK_INKS).toContain(ink)
+  })
+})
+
+// ─── The live rail (#702) ────────────────────────────────────────────────────
+//
+// The archive's top rail, adapted for the live site, rendered before <Layout>
+// on `/`, `/about` and `/work/*` only. Its dates are written in by the
+// orchestrator, so they are checked here the way the ink is above.
+
+describe('renderRootTemplate — the live rail', () => {
+  it('writes the design date and the previous one in as string literals', () => {
+    const src = renderRootTemplate('u', '', 9, 'text', '2026-10-06', '2026-10-05')
+    expect(src).toContain("const DESIGN_DATE = '2026-10-06'")
+    expect(src).toContain("const PREV_DATE: string | null = '2026-10-05'")
+    expect(src).toContain('const ARCHIVE_COUNT = 9')
+    expect(src).not.toMatch(/\{\{[A-Z_]+\}\}/)
+  })
+
+  it('writes null when there is no previous design, which renders no arrow', () => {
+    const src = renderRootTemplate('u', '', 9, 'text', '2026-10-06')
+    expect(src).toContain('const PREV_DATE: string | null = null')
+  })
+
+  it('fills the count into both the rail and the footer link', () => {
+    const src = renderRootTemplate('u', '', 42, 'text', DAY)
+    expect(src).toContain('const ARCHIVE_COUNT = 42')
+    expect(src).toContain('Archive · 42 designs')
+  })
+
+  it('refuses a design date that is missing, malformed or not a real day', () => {
+    expect(() => renderRootTemplate('u')).toThrow(/design date/)
+    expect(() => renderRootTemplate('u', '', 1, 'text', "2026-10-06'; alert(1); '")).toThrow(
+      /design date/
+    )
+    expect(() => renderRootTemplate('u', '', 1, 'text', '2026-02-30')).toThrow(/design date/)
+  })
+
+  it('refuses a previous date that is malformed or not before the design date', () => {
+    expect(() => renderRootTemplate('u', '', 1, 'text', DAY, 'yesterday')).toThrow(
+      /previous design date/
+    )
+    expect(() => renderRootTemplate('u', '', 1, 'text', DAY, DAY)).toThrow(/not before/)
+  })
+})
+
+describe.each([
+  [TEMPLATE_PATH, template],
+  [GENERATED_PATH, generated],
+])('%s renders the live rail on the right routes (#702)', (_rel, src) => {
+  it('on /, /about and /work/* alone', () => {
+    expect(src).toContain(
+      "return pathname === '/' || pathname === '/about' || pathname.startsWith('/work/')"
+    )
+  })
+
+  it('before <Layout>, outside it, and never on an archive surface', () => {
+    const rail = src.indexOf('<LiveRail ')
+    const nightly = src.indexOf("<RootDocument archiveLink={pathname !== '/'}>")
+    const bare = src.indexOf('<RootDocument bare>')
+    expect(rail).toBeGreaterThan(nightly)
+    expect(rail).toBeLessThan(src.indexOf('<Layout>', nightly))
+    expect(bare).toBeLessThan(nightly)
+    expect(src.match(/<LiveRail /g)).toHaveLength(1)
+    expect(src).toContain('{showsLiveRail(pathname) ? (')
+  })
+
+  it('from the three constants the orchestrator writes', () => {
+    expect(src).toContain(
+      '<LiveRail date={DESIGN_DATE} prevDate={PREV_DATE} archiveCount={ARCHIVE_COUNT} />'
+    )
+  })
+})
+
+describe('the committed __root.tsx carries real rail values', () => {
+  it('a YYYY-MM-DD design date and a previous one before it, or null', () => {
+    const date = /const DESIGN_DATE = '(\d{4}-\d{2}-\d{2})'/.exec(generated)?.[1]
+    const prev = /const PREV_DATE: string \| null = (?:'(\d{4}-\d{2}-\d{2})'|null)/.exec(generated)
+    expect(date).toBeDefined()
+    expect(prev).not.toBeNull()
+    if (prev?.[1]) expect(prev[1] < (date ?? '')).toBe(true)
   })
 })
 

@@ -26,6 +26,13 @@ import { CANONICAL_ORIGIN, matchOrigin } from '../../shared/site-origin.js'
 export const FRAME_MARKER = 'data-archive-frame'
 
 /**
+ * Marks the live site's rail (#702). The same rail ships on `/`, `/about` and
+ * `/work/*`, and a snapshot captures it as part of the rendered page. Sealed, it
+ * would stack under the archive frame, so it is cut out before the frame goes on.
+ */
+export const LIVE_FRAME_MARKER = 'data-live-frame'
+
+/**
  * Absolute paths a sealed page is allowed to keep. Both are deliberate exits.
  *
  * `/archive` is the calendar, and 93 snapshots already link to it — it is where
@@ -200,7 +207,8 @@ export function buildFrame({ date, prev, next }) {
 [${FRAME_MARKER}] .af-x{display:flex;align-items:center;justify-content:center;width:26px;height:26px;font-size:15px;line-height:1}
 [${FRAME_MARKER}] .af-off{opacity:.28}
 [${FRAME_MARKER}] .af-date{font-variant-numeric:tabular-nums;white-space:nowrap}
-[${FRAME_MARKER}] .af-note{color:rgba(244,244,245,.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+[${FRAME_MARKER}] .af-note{color:rgba(244,244,245,.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:5px 9px}
+[${FRAME_MARKER}] .af-note:hover{color:#fff}
 [${FRAME_MARKER}] .af-how{margin-left:auto;padding:5px 10px;white-space:nowrap;border:1px solid rgba(255,255,255,.24)}
 [${FRAME_MARKER}] .af-short{display:none}
 @media (max-width:640px){[${FRAME_MARKER}]{gap:10px;padding:0 8px;font-size:12px;border-bottom:0;box-shadow:inset 0 -1px 0 rgba(255,255,255,.14)}[${FRAME_MARKER}] .af-note{display:none}[${FRAME_MARKER}] .af-home{display:flex;align-items:center;align-self:stretch;min-width:44px;margin-left:0;padding:0 10px}[${FRAME_MARKER}] .af-x{width:44px;height:44px}[${FRAME_MARKER}] .af-how{position:relative;display:flex;align-items:center;justify-content:center;align-self:stretch;min-width:44px;padding:0 10px;border:0}[${FRAME_MARKER}] .af-how::before{content:"";position:absolute;top:8px;right:0;bottom:8px;left:0;border:1px solid rgba(255,255,255,.24);border-radius:5px}}
@@ -211,7 +219,7 @@ body{padding-top:44px!important}
 <a class="af-home" href="/archive" rel="nofollow">&larr; Archive</a>
 <span class="af-nav">${arrow(prev, 'Previous build', '&lsaquo;')}${arrow(next, 'Next build', '&rsaquo;')}</span>
 <span class="af-date"><span class="af-long">${escapeHtml(longDate(date))}</span><span class="af-short">${escapeHtml(shortDate(date))}</span></span>
-<span class="af-note">Archived design &mdash; not the current site</span>
+<a class="af-note" href="https://dougmar.ch/">Archived design. See today&rsquo;s &rarr;</a>
 <a class="af-how" href="/how/${escapeHtml(date)}" rel="nofollow" aria-label="How it was made"><span class="af-long">How it was made</span><span class="af-short">How</span></a>
 </div>`
 }
@@ -235,6 +243,25 @@ export function stripFrame(html) {
 }
 
 /**
+ * Remove the live site's rail from a captured page (#702).
+ *
+ * The rail's root has no nested `<div>` (a unit test enforces it), so the first
+ * closing tag after the marker is its own, the same as `stripFrame`. Called by
+ * `processHtml` at capture time and again by `sealPage`, so a snapshot captured
+ * before the capture-time strip existed cannot end up with two rails.
+ */
+export function stripLiveFrame(html) {
+  let out = html
+  for (;;) {
+    const open = out.indexOf(`<div ${LIVE_FRAME_MARKER}`)
+    if (open === -1) return out
+    const close = out.indexOf('</div>', open)
+    if (close === -1) return out
+    out = out.slice(0, open) + out.slice(close + '</div>'.length)
+  }
+}
+
+/**
  * Seal one page. Idempotent: running it on already-sealed HTML is a no-op.
  *
  * @param {string} html   the captured page
@@ -247,7 +274,7 @@ export function stripFrame(html) {
 export function sealPage(html, { date, relPath, prev = null, next = null }) {
   const prefix = '../'.repeat(depthOf(relPath))
 
-  let out = stripFrame(html)
+  let out = stripFrame(stripLiveFrame(html))
   out = stripDeadPreloads(out)
   out = rewriteMeta(out, { date })
   out = rewriteLinks(out, { prefix })

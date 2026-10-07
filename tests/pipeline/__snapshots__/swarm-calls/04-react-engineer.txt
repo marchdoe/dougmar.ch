@@ -174,6 +174,8 @@ A route rendering a fixed 1200×630 card (no scrolling, no responsiveness):
 
 **`__root.tsx` already wraps ALL routes in `<Layout>`.** Route files must NEVER import or use Layout. They render ONLY page content. Wrapping a route in Layout creates a double header.
 
+**The top 44px of `/`, `/about` and `/work/*` is the site's rail.** `__root.tsx` renders it above `<Layout>`, in normal flow, and it scrolls away with the page. It is not yours: do not style it, hide it or make room for it, and nothing you write targets `[data-live-frame]`. Pin a top bar with `position: sticky; top: 0`, never `position: fixed`. A fixed bar sits on the rail at scroll 0 and fails the surface gate; a sticky one stays below it until it has scrolled away.
+
 **Route file pattern:**
 ```tsx
 import { createFileRoute } from '@tanstack/react-router'
@@ -579,12 +581,13 @@ takes no props. It paints its own `bgAlt` ground and sets its own type from
 the day's tokens, so give it the full width of the column it sits in and do
 not wrap it in anything that pads, scales, recolours or clips it.
 
-On `/` it is the page's only link into the archive: `__root.tsx` renders that
-link on every other page and leaves it off home. A home route that does not
-import `SiteCallout` from `../components/SiteCallout` and render it fails the
-build, and so does a component of your own with that name. The Copy rule
-still holds for every string you write: this band is the one place the site
-describes itself, and it is not yours to echo in a caption or a footer line.
+Below the rail, it is the only link into the archive on `/`: `__root.tsx`
+renders that link in the footer of every other page and leaves it off home.
+A home route that does not import `SiteCallout` from
+`../components/SiteCallout` and render it fails the build, and so does a
+component of your own with that name. The Copy rule still holds for every
+string you write: this band and the rail are the only places the site
+describes itself, and neither is yours to echo in a caption or a footer line.
 
 ## Size and shape
 
@@ -634,6 +637,7 @@ The surface gate renders every route at 360, 820 and 1440 in both colour schemes
 - One spacing token per property: `padding: '4 0'` ships as 4px 0px and fails the token gate. Panda resolves a token only when it is the whole value. Write paddingBlock: '4', paddingInline: '0'.
 - Every route renders an h1, and at 1440 its top sits inside the first 900px. Every route shows a visible link to /about at 360 and 1440.
 - At 360, 820 and 1440, no text in Layout or Sidebar at opacity 0.05 or more lands on the text of a hand-written route (/work, /experiments, /elements). Fix: move the shell's text off the page's content, or give the route the room the shell takes.
+- At 360 and 1440, at scroll 0, no position: fixed element sits on the site's rail ([data-live-frame], the top 44px of /, /about and /work/*). Fix: pin a top bar with `position: sticky; top: 0`, never `position: fixed`; sticky stays in flow below the rail until the rail scrolls away. Do not style, move or hide the rail.
 - The brand mark sits inside the first fold at 360 and 1440, at least 32px tall at 1440; a single-color mark reaches 3:1 on its ground.
 - The share card (/og) is measured once, at 1200x630 in the light scheme, the size it is captured at: every visible line of text and the whole brand lockup, mark and wordmark, sit at least 40px inside every edge of the card, and no ancestor's overflow cuts any of it. Type inside an aria-hidden layer at opacity 0.2 or less is texture and exempt. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text.
 

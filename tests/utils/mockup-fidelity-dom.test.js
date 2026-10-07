@@ -193,6 +193,16 @@ describe('extractTextSegments', () => {
     expect(texts).toContain('Left column')
     expect(texts).toContain('Right column')
   })
+
+  it("reads the design without the site's rail: no rail text, no 44px shift (#702)", async () => {
+    const design = '<h1 style="margin:0;font-size:96px">Hero</h1><p style="font-size:18px">Copy</p>'
+    const rail =
+      '<div data-live-frame="2026-10-07" style="height:44px;font-size:14px">' +
+      '<span>Archive</span> <a href="/how/2026-10-07">How it was made</a></div>'
+    const without = await measure(browser, design)
+    const withRail = await measure(browser, rail + design)
+    expect(withRail).toEqual(without)
+  })
 })
 
 /**

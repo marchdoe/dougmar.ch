@@ -67,9 +67,19 @@ export const ELEMENT_CLASSES = Object.keys(CLASS_WEIGHTS)
  * allowed to draw the mark (build-validator check 7) and the Brand Contract
  * forbids redrawing it, so `0 0 71 59` identifies it wherever it is placed.
  *
+ * The site's rail (#702), `[data-live-frame]` above <Layout> on /, /about and
+ * /work/*, is the same 44px band every day: it is the site's frame, not the
+ * night's silhouette. It is taken out of layout while the boxes are read, so
+ * every box sits where the design put it and a fingerprint taken with the
+ * rail compares with one taken before it, and put back before returning.
+ * Nothing changes for a page without one, so FINGERPRINT_VERSION stands.
+ *
  * @returns {{version: number, viewport: {width: number, height: number}, elements: Array<{class: string, x: number, y: number, w: number, h: number}>}}
  */
 export function collectGeometry() {
+  const hideRail = document.head.appendChild(document.createElement('style'))
+  hideRail.textContent = '[data-live-frame]{display:none!important}'
+
   const vw = window.innerWidth
   const vh = window.innerHeight
   const round = (n) => Math.round(n * 10000) / 10000
@@ -160,6 +170,8 @@ export function collectGeometry() {
     const b = box(section, 'section')
     if (b) elements.push(b)
   }
+
+  hideRail.remove()
 
   // The literal rather than FINGERPRINT_VERSION: this function is serialized
   // into the page, where module scope does not exist. A test pins the two together.

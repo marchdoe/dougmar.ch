@@ -30,7 +30,9 @@ async function measureRail(browser, width) {
     return await page.evaluate(() => {
       const frame = document.querySelector('[data-archive-frame]')
       const visible = (el) => getComputedStyle(el).display !== 'none'
-      const controls = [...frame.querySelectorAll('a, .af-off')].map((el) => {
+      // The note is a link since #702 but is display:none up to 640px, so it is
+      // not a control a phone visitor can tap.
+      const controls = [...frame.querySelectorAll('a, .af-off')].filter(visible).map((el) => {
         const r = el.getBoundingClientRect()
         return {
           name: el.getAttribute('aria-label') || el.textContent.trim(),

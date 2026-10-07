@@ -153,4 +153,24 @@ describe('collectGeometry', () => {
       await page.close()
     }
   })
+
+  it("reads the same silhouette with the site's rail above it, and puts the rail back (#702)", async () => {
+    // The rail carries a nav and a lone child of body would be a wrapper, so
+    // left in, it would add a box and push every other one down 44px.
+    const rail =
+      '<div data-live-frame="2026-10-07" style="height: 44px;"><nav><a href="/archive">Archive</a></nav></div>'
+    const page = await browser.newPage({ viewport: { ...FINGERPRINT_VIEWPORT } })
+    try {
+      await page.setContent(FIXTURE)
+      const without = await page.evaluate(collectGeometry)
+      await page.setContent(FIXTURE.replace('<body>', `<body>${rail}`))
+      expect(await page.evaluate(collectGeometry)).toEqual(without)
+      const shown = await page.evaluate(
+        () => getComputedStyle(document.querySelector('[data-live-frame]')).display
+      )
+      expect(shown).toBe('block')
+    } finally {
+      await page.close()
+    }
+  })
 })

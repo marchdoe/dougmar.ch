@@ -12,7 +12,7 @@ import { formatGeneratedFile } from '../utils/build-validator.js'
 import { archive } from '../utils/archiver.js'
 import { buildGoogleFontsUrl, renderRootTemplate } from '../utils/chassis.js'
 import { surfaceGateRecord } from '../utils/gate-outcome.js'
-import { countArchivedDesigns } from '../utils/archive-count.js'
+import { countArchivedDesigns, latestArchivedDateBefore } from '../utils/archive-count.js'
 import { archiveLinkInks } from '../utils/archive-link-ink.js'
 
 /**
@@ -176,7 +176,9 @@ async function refreshRootOgImage(state) {
       buildGoogleFontsUrl(chosenChassis),
       finalOgMeta,
       countArchivedDesigns(path.join(root, 'archive')),
-      archiveLinkInks(artDirectorResult.presetTs).root.token
+      archiveLinkInks(artDirectorResult.presetTs).root.token,
+      today,
+      latestArchivedDateBefore(today, path.join(root, 'public', 'archive'))
     )
     await writeFile(path.join(root, 'app/routes/__root.tsx'), finalRootSrc, 'utf8')
     formatGeneratedFile('app/routes/__root.tsx', { root })

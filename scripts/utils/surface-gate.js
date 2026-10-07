@@ -51,7 +51,12 @@ import { collapseLineLength, lineLengthFindings } from './line-length.js'
 import { collapseLegibility, legibilityFindings } from './pixel-contrast.js'
 import { TAP_TARGET_MIN_PX } from './responsive-thresholds.js'
 import { collapseRenderHealth, measureRenderHealth, renderHealthFindings } from './render-health.js'
-import { measureShellOverlap, shellOverlapFindings } from './shell-overlap.js'
+import {
+  measureRailOverlap,
+  measureShellOverlap,
+  railOverlapFindings,
+  shellOverlapFindings,
+} from './shell-overlap.js'
 import { collapseSmallText, smallTextFindings } from './small-text.js'
 import { withPreviewServer } from './snapshot.js'
 import { TABLET_RUNG, tabletMeasurement } from './tablet-rung.js'
@@ -306,6 +311,8 @@ export function evaluateMeasurement(
   findings.push(...heroFoldFindings(m))
   // The night's shell drawing text over a hand-written route's own (#640).
   findings.push(...shellOverlapFindings(m))
+  // A fixed top bar over the site's rail on /, /about and /work/* (#702).
+  findings.push(...railOverlapFindings(m, ownerForSurface(m.route)))
   // The share card: every line and the lockup inside the 1200x630 card.
   findings.push(...ogFitFindings(m))
 
@@ -1046,6 +1053,10 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
       ([src, thresholds]) => new Function(`return ${src}`)()(window.innerWidth, thresholds),
       [findBrandMark.toString(), {}]
     )
+    // A fixed element over the site's rail at scroll 0 (#702), at the phone
+    // and desktop rungs in the light scheme: where a box lands is the same in
+    // both schemes, and nothing has scrolled yet. Empty on a page with no rail.
+    const railOverlap = scheme === 'light' ? await measureRailOverlap(page) : null
     let tapTargets = []
     // By name, not by width: a width compare goes quiet the day the phone
     // width moves, and nothing fails to say so.
@@ -1080,6 +1091,7 @@ export async function measureRoute(browser, baseUrl, surface, viewport, scheme) 
       ...box,
       clipped,
       shellOverlap,
+      railOverlap,
       brand,
       textContrast,
       pixelContrast,

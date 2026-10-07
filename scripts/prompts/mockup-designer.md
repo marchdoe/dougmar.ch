@@ -157,6 +157,11 @@ and the `currentColor` source for `single-color`.
 The mark sits inside the first fold at {{NARROW_PX}} and at 1440 whatever the placement;
 `footer-only` and `none` move the nav, never the mark.
 
+On `/`, `/about` and `/work/*` the live site draws a 44px rail of its own above
+your design, so a visitor's fold starts 44px lower there. Draw the mockup
+without the rail and leave no space for it, but keep the mark and the hero
+clear of the fold's bottom 44px.
+
 ## Ground material
 
 SHELL carries `ground_material`. It is a texture on the hero's colour field,

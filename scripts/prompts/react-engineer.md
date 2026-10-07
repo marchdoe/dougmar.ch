@@ -154,6 +154,8 @@ A route rendering a fixed 1200×630 card (no scrolling, no responsiveness):
 
 **`__root.tsx` already wraps ALL routes in `<Layout>`.** Route files must NEVER import or use Layout. They render ONLY page content. Wrapping a route in Layout creates a double header.
 
+**The top 44px of `/`, `/about` and `/work/*` is the site's rail.** `__root.tsx` renders it above `<Layout>`, in normal flow, and it scrolls away with the page. It is not yours: do not style it, hide it or make room for it, and nothing you write targets `[data-live-frame]`. Pin a top bar with `position: sticky; top: 0`, never `position: fixed`. A fixed bar sits on the rail at scroll 0 and fails the surface gate; a sticky one stays below it until it has scrolled away.
+
 **Route file pattern:**
 ```tsx
 import { createFileRoute } from '@tanstack/react-router'
@@ -538,12 +540,13 @@ takes no props. It paints its own `bgAlt` ground and sets its own type from
 the day's tokens, so give it the full width of the column it sits in and do
 not wrap it in anything that pads, scales, recolours or clips it.
 
-On `/` it is the page's only link into the archive: `__root.tsx` renders that
-link on every other page and leaves it off home. A home route that does not
-import `SiteCallout` from `../components/SiteCallout` and render it fails the
-build, and so does a component of your own with that name. The Copy rule
-still holds for every string you write: this band is the one place the site
-describes itself, and it is not yours to echo in a caption or a footer line.
+Below the rail, it is the only link into the archive on `/`: `__root.tsx`
+renders that link in the footer of every other page and leaves it off home.
+A home route that does not import `SiteCallout` from
+`../components/SiteCallout` and render it fails the build, and so does a
+component of your own with that name. The Copy rule still holds for every
+string you write: this band and the rail are the only places the site
+describes itself, and neither is yours to echo in a caption or a footer line.
 
 ## Size and shape
 

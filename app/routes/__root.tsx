@@ -8,6 +8,7 @@ import {
   useRouterState,
 } from '@tanstack/react-router'
 import { Layout } from '../components/Layout'
+import { LiveRail } from '../components/LiveRail'
 import { css } from '../../styled-system/css'
 import type { ReactNode } from 'react'
 
@@ -45,6 +46,20 @@ const archiveLink = css({
   transition: 'color 0.2s ease',
   _hover: { color: 'accent' },
 })
+
+/**
+ * The live rail's inputs (#702), written in by the orchestrator.
+ *
+ * The run's date, never the visitor's clock: the rail says "Today, October 6"
+ * because that is the morning this design shipped, and a visitor in Auckland
+ * reading it a day later is still looking at October 6's design. PREV_DATE is
+ * the newest captured design before it (latestArchivedDateBefore in
+ * scripts/utils/archive-count.js), or null, which renders no `‹`.
+ * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
+ */
+const DESIGN_DATE = '2026-10-06'
+const PREV_DATE: string | null = '2026-10-05'
+const ARCHIVE_COUNT = 157
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -169,6 +184,21 @@ function isArchiveSurface(pathname: string) {
   return pathname === '/archive' || pathname.startsWith('/archive/') || pathname.startsWith('/how/')
 }
 
+/**
+ * The live rail renders on these alone (#702): home, about, and the project
+ * pages, where a first-time visitor lands. Not on the archive surfaces, which
+ * carry their own chrome, and not on /elements, /panel, /experiments, /work or
+ * /og, which are tooling, an index, or a card that is screenshotted.
+ *
+ * It sits before <Layout> and outside it, for the same reason the archive link
+ * does: the engineer rewrites the shell every night and may delete it. Being
+ * first in <body> and in normal flow, it pushes the day's design down 44px and
+ * scrolls away with it. app/components/LiveRail.tsx explains the rest.
+ */
+function showsLiveRail(pathname: string) {
+  return pathname === '/' || pathname === '/about' || pathname.startsWith('/work/')
+}
+
 function RootComponent() {
   const pathname = useRouterState({ select: (s) => s.location.pathname })
 
@@ -182,6 +212,9 @@ function RootComponent() {
 
   return (
     <RootDocument archiveLink={pathname !== '/'}>
+      {showsLiveRail(pathname) ? (
+        <LiveRail date={DESIGN_DATE} prevDate={PREV_DATE} archiveCount={ARCHIVE_COUNT} />
+      ) : null}
       <Layout>
         <Outlet />
       </Layout>

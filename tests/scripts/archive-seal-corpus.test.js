@@ -17,7 +17,11 @@ import { fileURLToPath } from 'node:url'
 
 import { beforeAll, describe, expect, it } from 'vitest'
 
-import { ESCAPE_ALLOWLIST, FRAME_MARKER } from '../../scripts/utils/archive-seal.js'
+import {
+  ESCAPE_ALLOWLIST,
+  FRAME_MARKER,
+  LIVE_FRAME_MARKER,
+} from '../../scripts/utils/archive-seal.js'
 import { listSnapshots } from '../../scripts/seal-archive.js'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
@@ -147,6 +151,11 @@ describe('the frame', () => {
       .map((p) => ({ p, n: p.html.split(`<div ${FRAME_MARKER}=`).length - 1 }))
       .filter(({ n }) => n !== 1)
       .map(({ p, n }) => `${label(p)} → ${n}`)
+    expect(wrong.slice(0, 20)).toEqual([])
+  })
+
+  it('never carries the live site rail, which would stack a second bar (#702)', () => {
+    const wrong = pages.filter((p) => p.html.includes(LIVE_FRAME_MARKER)).map(label)
     expect(wrong.slice(0, 20)).toEqual([])
   })
 

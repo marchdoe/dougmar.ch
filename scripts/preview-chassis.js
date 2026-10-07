@@ -17,6 +17,8 @@ import {
   buildFontSizes,
   renderRootTemplate,
 } from './utils/chassis.js'
+import { latestArchivedDateBefore } from './utils/archive-count.js'
+import { localDateString } from './utils/local-time.js'
 
 const arg = process.argv[2]
 
@@ -40,7 +42,9 @@ if (!chassis) {
 const url = buildGoogleFontsUrl(chassis)
 const fontTokens = buildFontTokens(chassis)
 const fontSizes = buildFontSizes(chassis)
-const rootTsx = renderRootTemplate(url)
+// The live rail needs a date (#702); a preview has no run, so it uses today's.
+const today = localDateString(new Date())
+const rootTsx = renderRootTemplate(url, '', 0, 'text', today, latestArchivedDateBefore(today))
 
 console.log(`\n=== Chassis: ${chassis.name} (${chassis.id}) ===`)
 console.log(`\n${chassis.description}`)

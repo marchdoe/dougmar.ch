@@ -49,6 +49,12 @@ Only after this sanity gate passes, proceed to the design evaluation below.
 - The approved mockup screenshot (if available)
 - The owner's highest-rated past build (if one exists), see Calibration below
 
+The dark 44px band across the top of `/`, `/about` and the case study is the
+site's rail: the same frame every day, drawn by the site above the day's
+design and left out of the mockup. It is not part of the design. Do not
+critique it, do not count it as the header or against it, and read the page's
+fold as starting below it.
+
 ## Evaluation Criteria
 
 Evaluate each area independently. Do not bundle issues.
@@ -144,7 +150,10 @@ Judge this section from the two header crops, not from the full-page
 screenshots. At 1024px for a 1440px page every CSS pixel of the header arrives
 as 0.71 image pixels, which is why a mark at a quarter of its declared size
 read as "the lockup is present" and shipped on 2026-08-30. The crops are the
-same region of the same viewport, mockup first, render second.
+same region of the same viewport, mockup first, render second. Where the
+render's crop reaches the top of the page it shows the site's rail above the
+header and the mockup's does not; that band, and the 44px it moves a top bar
+down, is not a fault in the header.
 
 - **Is the circular brand mark present** wherever the mockup shows it (nav
   rail, header, footer)? A render that keeps the wordmark text but drops the

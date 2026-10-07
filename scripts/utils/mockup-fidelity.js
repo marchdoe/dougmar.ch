@@ -157,6 +157,13 @@ export const SHORT_TEXT_MAX_CHARS = 3
  * the opacity it is stuck at. This mutates the page: run it last, or on a
  * page opened for it.
  *
+ * The site's rail (#702), `[data-live-frame]` above <Layout> on /, /about and
+ * /work/*, is set to `display: none` before the walk, for the same reason and
+ * on the same terms. The mockup is drawn without it, so left in, its labels
+ * would read as build text the mockup lacks and its 44px would push every
+ * segment below it down against the mockup's. A page with no rail (the
+ * mockup itself) is untouched.
+ *
  * @returns {Array<{ text: string, fontSize: number, fontWeight: string,
  *   fontFamily: string, rect: { x: number, y: number, w: number, h: number },
  *   opacity: number, visibleFraction: number }>}
@@ -168,6 +175,8 @@ export const SHORT_TEXT_MAX_CHARS = 3
 // are split would break that.
 // fallow-ignore-next-line complexity
 export function extractTextSegments() {
+  const hideRail = document.head.appendChild(document.createElement('style'))
+  hideRail.textContent = '[data-live-frame]{display:none!important}'
   for (const anim of document.getAnimations()) {
     if (anim.timeline && !(anim.timeline instanceof DocumentTimeline)) anim.cancel()
   }
