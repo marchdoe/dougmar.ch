@@ -44,6 +44,12 @@ const metaClass = css({
  * likes. On 2026-08-30 it chose a `1.35fr 1fr` split, so `clamp(40px, 8vw,
  * 100px)` measured 1440px and rendered into ~600px: the headline read
  * "EXPERI", the nav and every row's metadata sat off-screen. See #215.
+ *
+ * 10cqi, not 12. At 12 a wide uppercase display face still overran its own
+ * box at 360 and 820 on five of the twenty nights to 2026-10-07 (#705).
+ * Unbounded at 900, the face on 2026-10-04, needs 348px of a 312px box at
+ * 360 at 12cqi and 290px at 10cqi; at 820, 805 and 671 of 722. The 28px
+ * floor sits under 10cqi of a phone column, so it never overrides the fit.
  */
 function ExperimentsPage() {
   return (
@@ -65,7 +71,7 @@ function ExperimentsPage() {
         className={css({
           fontFamily: 'display',
           textTransform: 'uppercase',
-          fontSize: 'clamp(32px, 12cqi, 100px)',
+          fontSize: 'clamp(28px, 10cqi, 100px)',
           lineHeight: 'tight',
           letterSpacing: 'tight',
           color: 'text',

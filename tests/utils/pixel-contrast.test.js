@@ -189,6 +189,67 @@ describe('legibilityFindings', () => {
     expect(found[0].ratio).toBeCloseTo(1, 6)
   })
 
+  describe('a part over a ground painted from outside it (#705)', () => {
+    // 2026-10-02: the lockup's light ink on the page's dark bg, laid by the
+    // engineer over a green mesh layer.
+    const INK = { r: 0xb4, g: 0xe8, b: 0xd3, a: 1 }
+    const GREEN = [0x1e, 0xca, 0x87]
+    const partGround = (bg, outside = 'div.drift (positioned background)') => ({
+      fg: INK,
+      layers: [
+        { bg: null, opacity: 1 },
+        { bg, opacity: 1 },
+      ],
+      outside,
+    })
+    const lockup = (over) =>
+      probe({
+        fg: INK,
+        rows: band(0, GREEN),
+        part: 'BrandLockup',
+        unresolved: 'div.drift (positioned background)',
+        ...over,
+      })
+    const DARK = { r: 5, g: 12, b: 24, a: 1 }
+
+    it('is the engineer error when the part clears its floor on its own ground', () => {
+      const [f] = legibilityFindings(
+        m([lockup({ partGround: partGround(DARK) })]),
+        'react-engineer'
+      )
+      expect(f).toMatchObject({ kind: LEGIBILITY_KIND, severity: 'error', owner: 'react-engineer' })
+      expect(f.detail).toContain(
+        'BrandLockup is written by the orchestrator and its text colour is fixed'
+      )
+      expect(f.detail).toContain('Move or recolour div.drift (positioned background)')
+      expect(f.detail).not.toContain('not a revision')
+      expect(faultsForOwner([f], 'react-engineer')).toHaveLength(1)
+    })
+
+    it('stays the human finding when the part fails on its own ground too', () => {
+      const [f] = legibilityFindings(
+        m([lockup({ partGround: partGround({ r: 255, g: 255, b: 255, a: 1 }) })]),
+        'react-engineer'
+      )
+      expect(f.owner).toBe('human')
+      expect(f.detail).toContain('not a revision')
+    })
+
+    it('stays the human finding when nothing outside the part paints behind it', () => {
+      const [f] = legibilityFindings(
+        m([lockup({ partGround: partGround(DARK, null) })]),
+        'react-engineer'
+      )
+      expect(f.owner).toBe('human')
+    })
+
+    it('stays with a human-owned route', () => {
+      const [f] = legibilityFindings(m([lockup({ partGround: partGround(DARK) })]), 'human')
+      expect(f.owner).toBe('human')
+      expect(f.detail).toContain('Move or recolour')
+    })
+  })
+
   it('gives text inside an orchestrator part to the human', () => {
     const [f] = legibilityFindings(
       m([probe({ rows: band(100), part: 'SiteCallout' })]),

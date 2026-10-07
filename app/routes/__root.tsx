@@ -57,9 +57,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-10-06'
-const PREV_DATE: string | null = '2026-10-05'
-const ARCHIVE_COUNT = 157
+const DESIGN_DATE = '2026-10-07'
+const PREV_DATE: string | null = '2026-10-06'
+const ARCHIVE_COUNT = 158
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');

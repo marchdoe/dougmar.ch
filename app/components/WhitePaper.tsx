@@ -25,7 +25,14 @@ import { projects } from '../content/projects'
  * literal values. The chassis ramp runs from a 1.333 ratio to 1.618 and the
  * spacing scale is derived from the same chassis, so a step name here would
  * hand the hierarchy back to the night. The column is 40rem, about 70
- * characters of an ordinary text face at 1.125rem. Accent is only ever a mark
+ * characters of an ordinary text face at 1.125rem. Running copy is capped
+ * again at 32em inside it, because the face is the night's: a narrow one set
+ * 85 characters in the 40rem column and failed the 80-character line gate
+ * every night (#705). The narrowest face measured so far averages 0.418em a
+ * character, so 32em holds about 77. It is `em`, not `ch`, because `ch` is
+ * the width of a zero and overshoots in exactly the narrow faces that broke
+ * it (see line-length.js), and not `rem`, so the lede and the 1rem notes are
+ * each capped against their own size. Accent is only ever a mark
  * (a rule, an underline), never an ink, because nothing promises it clears
  * 4.5:1 on bg.
  *
@@ -231,6 +238,7 @@ const articleClass = css({
   paddingLeft: { base: '1.25rem', md: '2.5rem', lg: '4rem' },
   paddingRight: { base: '1.25rem', md: '2.5rem', lg: '4rem' },
   overflowWrap: 'break-word',
+  '& p, & li, & blockquote': { maxWidth: '32em' },
 })
 
 // The opening block sits in the text column, so it lines up with every
