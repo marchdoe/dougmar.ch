@@ -378,6 +378,42 @@ describe('who owns a finding', () => {
     }
   })
 
+  // #705: a part on the engineer's ground is the engineer's to fix. The page
+  // bg token is dark, and the lockup's white ink is chosen against it.
+  const BG = '<style>:root{--colors-bg:#050c18}</style>'
+  const lockup = (ink) =>
+    `<span><svg data-brand-mark="" width="20" height="20"></svg><span style="color:${ink};font-size:14px">Doug March</span></span>`
+
+  it('gives the engineer a lockup it set on a bright background of its own', async () => {
+    const result = await collect(
+      `${BG}<div style="background:#050c18"><div class="band" style="background:#1eca87">${lockup('#fff')}</div></div>`
+    )
+    const c = only(result)
+    expect(c.partGround.outside).toBe('div.band (background)')
+    const [f] = textContrastFindings({ textContrast: result }, 'react-engineer')
+    expect(f).toMatchObject({ kind: 'contrast', severity: 'error', owner: 'react-engineer' })
+    expect(f.detail).toContain('its text colour is fixed')
+    expect(f.detail).toContain('Move or recolour div.band (background)')
+  })
+
+  it('keeps a lockup that fails on the page bg itself with the owner', async () => {
+    const result = await collect(
+      `<style>:root{--colors-bg:#ffffff}</style><div style="background:#fff">${lockup('#ccc')}</div>`
+    )
+    const [f] = textContrastFindings({ textContrast: result }, 'react-engineer')
+    expect(f.owner).toBe('human')
+    expect(f.detail).toContain('is reported for the owner and is not a revision')
+  })
+
+  it("keeps text on the part's own background with the owner, whatever is behind the part", async () => {
+    const result = await collect(
+      `${BG}<div style="background:#1eca87"><aside data-site-callout style="background:#fff"><a href="/" style="color:#ccc;font-size:14px">Archive</a></aside></div>`
+    )
+    expect(only(result).partGround.outside).toBe('div (background)')
+    const [f] = textContrastFindings({ textContrast: result }, 'react-engineer')
+    expect(f.owner).toBe('human')
+  })
+
   it('keeps text outside every orchestrator part with the owner of the route', async () => {
     const result = await collect(`<p style="${lowContrast}">Kicker</p>`)
     const [finding] = textContrastFindings({ textContrast: result }, 'react-engineer')

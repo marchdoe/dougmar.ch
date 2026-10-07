@@ -38,7 +38,12 @@
  */
 
 import { contrastRatio, rgbToHex } from './contrast.js'
-import { compositeOver, ownerNote, TEXT_CONTRAST_OPTIONS } from './text-contrast.js'
+import {
+  compositeOver,
+  contrastFixLine,
+  contrastOwner,
+  TEXT_CONTRAST_OPTIONS,
+} from './text-contrast.js'
 
 /** The finding kind, and the one the lenient ship gate refuses on. */
 export const LEGIBILITY_KIND = 'legibility'
@@ -204,7 +209,10 @@ export function failingProbes(result) {
 /**
  * The legibility findings for one measurement, one per element chain at its
  * worst reading. Owner-aware the way `textContrastFindings` is: text inside
- * an orchestrator part is the human's.
+ * an orchestrator part is the human's, unless the pixels that fail it are
+ * painted from outside the part and it clears its floor on the page's own
+ * ground. Then the engineer laid something behind the orchestrator's text,
+ * and the finding is the route owner's error, naming the layer (#705).
  *
  * @param {{ pixelContrast?: { probes: Array<object> } }} m raw measurement
  * @param {'react-engineer'|'human'} surfaceOwner
@@ -215,17 +223,16 @@ export function legibilityFindings(m, surfaceOwner) {
   for (const { probe, measured } of failingProbes(m.pixelContrast)) {
     const prior = bySelector.get(probe.selector)
     if (prior && prior.gap >= measured.threshold - measured.ratio) continue
-    const owner = probe.part ? 'human' : surfaceOwner
     bySelector.set(probe.selector, {
       kind: LEGIBILITY_KIND,
       severity: 'error',
-      owner,
+      owner: contrastOwner(probe, measured.threshold, surfaceOwner),
       selector: probe.selector,
       ratio: measured.ratio,
       threshold: measured.threshold,
       gap: measured.threshold - measured.ratio,
       key: `${LEGIBILITY_KIND}|${probe.selector}`,
-      detail: `${describeLegibility(probe, measured)}${probe.part ? ownerNote(probe) : ` ${LEGIBILITY_FIX}`}`,
+      detail: `${describeLegibility(probe, measured)}${contrastFixLine(probe, measured.threshold, LEGIBILITY_FIX)}`,
     })
   }
   return [...bySelector.values()]

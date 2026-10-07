@@ -36,9 +36,11 @@ import { liveRail } from '../content/rail'
  * site loses this rail and gets the archive's instead. The unit test enforces
  * the no-div rule.
  *
- * WIDTHS. Over 640px: the whole sentence. 640px and under: the note goes, as on
- * the archive rail, and the two buttons take their short labels, because the
- * long ones and the count do not fit beside each other at 480px. Under 480px:
+ * WIDTHS. Over 720px: the whole sentence. 720px and under: the buttons take
+ * their short labels. With the long ones, everything but the note measured
+ * 642px in macOS's system face, so a 641px window cut 1px off "How it was
+ * made" (#705); 720 leaves room for a wider face. 640px and under: the note
+ * goes too, as on the archive rail. Under 480px:
  * the home link and the date shorten too and the arrow goes, which leaves
  * `Archive  Today  [White paper] [How]` and fits 320px. Every link is the
  * rail's full 44px tall at every width; the outline is drawn inside it.
@@ -166,9 +168,9 @@ const push = css({ marginLeft: 'auto' })
 const long = css({ '@media (max-width: 479px)': { display: 'none' } })
 const short = css({ display: 'none', '@media (max-width: 479px)': { display: 'inline' } })
 
-/** The buttons' labels, swapped at 640px, where the note goes. */
-const buttonLong = css({ '@media (max-width: 640px)': { display: 'none' } })
-const buttonShort = css({ display: 'none', '@media (max-width: 640px)': { display: 'inline' } })
+/** The buttons' labels, swapped at 720px, ahead of the note at 640. */
+const buttonLong = css({ '@media (max-width: 720px)': { display: 'none' } })
+const buttonShort = css({ display: 'none', '@media (max-width: 720px)': { display: 'inline' } })
 
 export function LiveRail({
   date,

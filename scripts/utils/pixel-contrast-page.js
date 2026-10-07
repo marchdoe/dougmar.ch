@@ -106,6 +106,7 @@ function pageProbeTarget(seen, c, box, kit) {
     fg: { ...c.fg, a: (c.fg.a ?? 1) * kit.groupOpacity(c.layers) },
     unresolved: c.unresolved,
     part: c.part,
+    partGround: c.partGround,
     outlined: c.outlined,
     box,
     lines: kit.lineBoxes(seen, box, c.sizePx),

@@ -175,6 +175,36 @@ describe('textContrastFindings', () => {
     expect(f.detail).not.toContain('Set it in a token')
   })
 
+  it('gives a part the engineer set on a ground of its own to the engineer (#705)', () => {
+    const DARK = rgb(5, 12, 24)
+    const GREEN = rgb(0x1e, 0xca, 0x87)
+    const lockup = (partGround) =>
+      candidate(255, {
+        part: 'BrandLockup',
+        layers: [
+          { bg: null, opacity: 1 },
+          { bg: GREEN, opacity: 1 },
+        ],
+        partGround,
+      })
+    const ground = (bg, outside) => ({
+      fg: rgb(255),
+      layers: [
+        { bg: null, opacity: 1 },
+        { bg, opacity: 1 },
+      ],
+      outside,
+    })
+
+    const [engineer] = find([lockup(ground(DARK, 'div.band (background)'))])
+    expect(engineer).toMatchObject({ severity: 'error', owner: 'react-engineer' })
+    expect(engineer.detail).toContain('Move or recolour div.band (background)')
+    // White on the page's own ground fails too: the ink is the orchestrator's.
+    expect(find([lockup(ground(rgb(255), 'div.band (background)'))])[0].owner).toBe('human')
+    // Nothing outside the part paints behind it.
+    expect(find([lockup(ground(DARK, null))])[0].owner).toBe('human')
+  })
+
   it('says nothing when the measurement carries no text block', () => {
     expect(textContrastFindings({}, 'react-engineer')).toEqual([])
   })

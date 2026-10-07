@@ -32,6 +32,13 @@
  * more of the text's own box is reported without any attempt at stacking
  * order: which of the two is on top is the question a ratio cannot answer.
  *
+ * Text inside an orchestrator part also carries `partGround` (#705): the
+ * layers it would sit on with nothing of the engineer's behind it, and the
+ * label of whatever outside the part paints behind it. On 2026-10-02 the
+ * engineer laid a positioned layer holding a green mesh behind the lockup;
+ * the lockup read 1.56:1 and the fault went to the owner, who could not fix
+ * it. `text-contrast.js` decides the owner from these two.
+ *
  * @module
  */
 
@@ -157,8 +164,8 @@ function pageIsVisible(el, cs, kit) {
   return true
 }
 
-/** The orchestrator part an element sits inside, by name, or null. */
-function pagePartOf(el, kit) {
+/** The orchestrator part an element sits inside, as its name and root element, or null. */
+function pagePartRootOf(el, kit) {
   const cache = kit.cache
   if (!cache.roots) {
     cache.roots = kit.options.parts.map((part) => ({
@@ -168,7 +175,62 @@ function pagePartOf(el, kit) {
       ),
     }))
   }
-  return cache.roots.find((p) => p.roots.some((r) => r?.contains(el)))?.name ?? null
+  for (const p of cache.roots) {
+    const root = p.roots.find((r) => r?.contains(el))
+    if (root) return { name: p.name, root }
+  }
+  return null
+}
+
+/** The orchestrator part an element sits inside, by name, or null. */
+function pagePartOf(el, kit) {
+  return kit.partRootOf(el)?.name ?? null
+}
+
+/**
+ * The first thing outside an orchestrator part that paints behind its text
+ * (#705), by label, or null when the ground is the part's own. The walk's
+ * unresolved layer when it is past the part's root; else the positioned
+ * painter over the text when the part does not hold it; else, on a flat
+ * ground, the first ancestor past the part with a background or an opacity.
+ */
+function pageGroundOutside(el, part, depth, walked, hit, kit) {
+  if (walked.unresolved) return walked.unresolvedDepth >= depth ? walked.unresolved : null
+  if (hit) return part.root.contains(hit.el) ? null : hit.label
+  return kit.layerOutside(el, depth, walked.layers)
+}
+
+/** The first ancestor past a part's `depth` layers that paints a background or dims, by label. */
+function pageLayerOutside(el, depth, layers, kit) {
+  let p = el
+  for (let i = 0; p; i++, p = p.parentElement) {
+    const layer = layers[i]
+    if (i < depth || !(layer.bg || layer.opacity < 1)) continue
+    return `${kit.describe(p)} (${layer.bg ? 'background' : `opacity: ${layer.opacity}`})`
+  }
+  return null
+}
+
+/**
+ * For text inside an orchestrator part (#705): the layers it would sit on
+ * with nothing of the engineer's behind it, which is the part's own layers
+ * over the page's `bg` token (the ground the lockup's ink is chosen
+ * against), and what outside the part paints behind it. The token is read
+ * off the part's root, so it is the scheme's value; a page without it falls
+ * back to body and html. Null outside every part.
+ */
+function pagePartGround(el, fg, walked, hit, kit) {
+  const part = kit.partRootOf(el)
+  if (!part) return null
+  let depth = 0
+  for (let p = el; p && p !== part.root.parentElement; p = p.parentElement) depth++
+  const token = kit.parseColor(getComputedStyle(part.root).getPropertyValue('--colors-bg'))
+  const page = token && token.a > 0 ? [{ bg: token, opacity: 1 }] : walked.layers.slice(-2)
+  return {
+    fg,
+    layers: [...walked.layers.slice(0, depth), ...page],
+    outside: kit.groundOutside(el, part, depth, walked, hit),
+  }
 }
 
 function pagePaints(ps, kit) {
@@ -215,20 +277,26 @@ function pageLayerOf(ps, kit) {
 
 /**
  * Layers from the element up to html, and the first thing the text cannot be
- * measured over. `covered` is "everything above the layers so far is hidden".
+ * measured over, with the index of its layer (`unresolvedDepth`, which says
+ * whether it sits inside an orchestrator part, #705). `covered` is
+ * "everything above the layers so far is hidden".
  */
 function pageWalkLayers(el, cs, kit) {
   const layers = []
   let unresolved = null
+  let unresolvedDepth = -1
   let covered = false
   for (let p = el; p; p = p.parentElement) {
     const ps = p === el ? cs : getComputedStyle(p)
     const layer = kit.layerOf(ps)
     layers.push(layer)
-    if (!unresolved && !covered) unresolved = kit.unresolvedAt(p, ps)
+    if (!unresolved && !covered) {
+      unresolved = kit.unresolvedAt(p, ps)
+      unresolvedDepth = layers.length - 1
+    }
     covered = layer.opacity >= 0.999 && ((layer.bg?.a ?? 0) >= 0.999 || covered)
   }
-  return { layers, unresolved }
+  return { layers, unresolved, unresolvedDepth }
 }
 
 function pagePaintKind(el, ps, kit) {
@@ -284,8 +352,8 @@ function pageOverlapShare(a, box) {
   return w > 0 && h > 0 ? (w * h) / ((box.right - box.left) * (box.bottom - box.top)) : 0
 }
 
-/** The first positioned painter over a quarter of the element's text, by label, or null. */
-function pageOverlayOver(el, kit) {
+/** The first positioned painter over a quarter of the element's text, or null. */
+function pageOverlayHit(el, kit) {
   const box = kit.textBox(el)
   if (!box) return null
   const cache = kit.cache
@@ -296,7 +364,7 @@ function pageOverlayOver(el, kit) {
       !el.contains(p.el) &&
       kit.overlapShare(p.r, box) >= kit.options.minOverlap
   )
-  return hit ? hit.label : null
+  return hit ?? null
 }
 
 /**
@@ -335,6 +403,7 @@ function pageIsLarge(cs, kit) {
 function pageBuildCandidate(seen, kit) {
   const { el, cs, text, fg, outlined } = seen
   const walked = kit.walkLayers(el, cs)
+  const hit = walked.unresolved ? null : kit.overlayHit(el)
   return {
     selector: kit.selector(el),
     text: text.slice(0, 40),
@@ -342,8 +411,9 @@ function pageBuildCandidate(seen, kit) {
     weight: Number.parseInt(cs.fontWeight, 10) || 400,
     fg,
     layers: walked.layers,
-    unresolved: walked.unresolved ?? kit.overlayOver(el),
+    unresolved: walked.unresolved ?? hit?.label ?? null,
     part: kit.partOf(el),
+    partGround: kit.partGround(el, fg, walked, hit),
     outlined,
     count: 1,
   }
@@ -381,7 +451,11 @@ export const TEXT_CONTRAST_PAGE_FUNCTIONS = {
   boxVisible: pageBoxVisible,
   layerHides: pageLayerHides,
   isVisible: pageIsVisible,
+  partRootOf: pagePartRootOf,
   partOf: pagePartOf,
+  groundOutside: pageGroundOutside,
+  layerOutside: pageLayerOutside,
+  partGround: pagePartGround,
   paints: pagePaints,
   pseudoCovers: pagePseudoCovers,
   findPseudo: pageFindPseudo,
@@ -394,7 +468,7 @@ export const TEXT_CONTRAST_PAGE_FUNCTIONS = {
   collectPainters: pageCollectPainters,
   textBox: pageTextBox,
   overlapShare: pageOverlapShare,
-  overlayOver: pageOverlayOver,
+  overlayHit: pageOverlayHit,
   inkOf: pageInkOf,
   inspect: pageInspect,
   isLarge: pageIsLarge,

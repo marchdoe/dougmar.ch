@@ -8,6 +8,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { WIDE_VIEWPORT } from '../../elements/chassis/viewports.js'
 import { legibilityFindings, measureProbe } from '../../scripts/utils/pixel-contrast.js'
 import { probePixelContrast } from '../../scripts/utils/pixel-contrast-page.js'
+import { faultsForOwner } from '../../scripts/utils/surface-gate.js'
 
 let browser
 beforeAll(async () => {
@@ -125,5 +126,56 @@ describe('probePixelContrast', () => {
       '<p class="label" style="background:#fff;color:#777;font-size:14px">Plain</p>'
     )
     expect(result).toEqual({ probes: [], probed: [] })
+  })
+})
+
+describe('who owns a failure inside an orchestrator part (#705)', () => {
+  // 2026-10-02, dark scheme: the lockup's ink was chosen against `bg`, and
+  // the engineer laid a positioned layer holding a green mesh behind it.
+  const BG = '<style>:root{--colors-bg:#050c18}</style>'
+  const DRIFT =
+    '<div class="drift" style="position:absolute;inset:-4%;z-index:0;background:#050c18">' +
+    '<div data-ground-material style="position:absolute;inset:0;background:#1eca87"></div></div>'
+  const lockup = (ink) =>
+    '<header style="position:relative;z-index:3"><span class="lockup">' +
+    '<svg data-brand-mark width="20" height="20"></svg>' +
+    `<span class="label" style="color:${ink};font-size:13px">Product Designer &amp; Developer</span>` +
+    '</span></header>'
+  const page = (ink, layer = DRIFT) =>
+    `${BG}<div style="position:relative;background:#050c18;padding:40px">${layer}${lockup(ink)}</div>`
+
+  it('gives the engineer an error when its positioned layer is what fails the lockup', async () => {
+    const { result } = await probe(page('#b4e8d3'))
+    const [p] = result.probes
+    expect(p.part).toBe('BrandLockup')
+    expect(p.partGround.outside).toBe('div.drift (positioned background)')
+    const [f] = legibilityFindings({ pixelContrast: result }, 'react-engineer')
+    expect(f).toMatchObject({ kind: 'legibility', severity: 'error', owner: 'react-engineer' })
+    expect(f.detail).toContain(
+      'BrandLockup is written by the orchestrator and its text colour is fixed'
+    )
+    expect(f.detail).toContain('Move or recolour div.drift (positioned background)')
+    expect(faultsForOwner([f], 'react-engineer')).toHaveLength(1)
+  })
+
+  it('keeps it with the owner when the lockup fails on the page bg as well', async () => {
+    // #2a6b52 is 3.10:1 on the bg and 2.96:1 on the green: the ink is wrong
+    // whatever the engineer lays behind it.
+    const { result } = await probe(page('#2a6b52'))
+    const [f] = legibilityFindings({ pixelContrast: result }, 'react-engineer')
+    expect(f.owner).toBe('human')
+    expect(f.detail).toContain('is reported for the owner and is not a revision')
+    expect(faultsForOwner([f], 'react-engineer')).toEqual([])
+  })
+
+  it('keeps it with the owner when the layer behind the text is inside the part', async () => {
+    const { result } = await probe(
+      `${BG}<aside data-site-callout style="position:relative;background:#050c18;padding:40px">` +
+        `${RULES}<span class="label" style="position:relative;color:#fff;font-size:12px">Archive</span></aside>`
+    )
+    const [p] = result.probes
+    expect(p.partGround.outside).toBeNull()
+    const [f] = legibilityFindings({ pixelContrast: result }, 'react-engineer')
+    expect(f.owner).toBe('human')
   })
 })

@@ -170,25 +170,87 @@ function describeText(c) {
   return `<${c.selector}> "${c.text}"${times} at ${c.sizePx}px${bold}`
 }
 
+const partName = (c) => `${c.part[0].toUpperCase()}${c.part.slice(1)}`
+
 export function ownerNote(c) {
   return c.part
-    ? ` ${c.part[0].toUpperCase()}${c.part.slice(1)} is written by the orchestrator, so this is reported for the owner and is not a revision.`
+    ? ` ${partName(c)} is written by the orchestrator, so this is reported for the owner and is not a revision.`
     : ''
 }
 
-function contrastFinding(c, measured, owner) {
+/**
+ * Whether text inside an orchestrator part fails because of a ground painted
+ * from outside the part (#705). On 2026-10-02 the engineer set a positioned
+ * layer holding a green mesh behind the brand lockup; its role line read
+ * 1.56:1, and the finding went to the owner as "not a revision" though only
+ * the engineer could fix it.
+ *
+ * True when the page walk found something outside the part painting behind
+ * the text (`partGround.outside`) and the text clears `floor` on its own
+ * ground: the part's own layers over the page's `bg` token
+ * (`text-contrast-page.js`). Both have to hold. A part that fails on `bg`
+ * itself, or on a background it paints, is the orchestrator's to fix, and
+ * stays with the owner whatever else is behind it.
+ *
+ * @param {{ part: string|null, partGround?: null | { fg: object, layers: Array<object>,
+ *   outside: string|null } }} c a page-walk candidate or pixel probe
+ * @param {number} floor the ratio the text failed
+ * @returns {boolean}
+ */
+export function foreignGround(c, floor) {
+  const pg = c.part ? c.partGround : null
+  if (!pg?.outside) return false
+  const own = flattenLayers(pg.fg, pg.layers)
+  return contrastRatio(own.fg, own.bg) >= floor
+}
+
+/**
+ * Who owns a contrast or legibility failure: the route's owner, except for
+ * text inside an orchestrator part on its own ground, which is the human's.
+ *
+ * @param {object} c candidate or probe
+ * @param {number} floor
+ * @param {'react-engineer'|'human'} surfaceOwner
+ * @returns {'react-engineer'|'human'}
+ */
+export function contrastOwner(c, floor, surfaceOwner) {
+  return c.part && !foreignGround(c, floor) ? 'human' : surfaceOwner
+}
+
+/**
+ * The sentence a contrast or legibility finding ends with: `fix` for the
+ * engineer's own text, the owner note for a part on its own ground, and for
+ * a part over a foreign ground the layer to move (#705).
+ *
+ * @param {object} c candidate or probe
+ * @param {number} floor
+ * @param {string} fix
+ * @returns {string}
+ */
+export function contrastFixLine(c, floor, fix) {
+  if (foreignGround(c, floor)) {
+    return (
+      ` ${partName(c)} is written by the orchestrator and its text colour is fixed; it clears ` +
+      `${floor}:1 on the page's own ground. Move or recolour ${c.partGround.outside} so it ` +
+      'no longer sits behind the text.'
+    )
+  }
+  return c.part ? ownerNote(c) : ` ${fix}`
+}
+
+function contrastFinding(c, measured, surfaceOwner) {
   const { ratio, fg, bg } = measured
   const error = ratio < TEXT_CONTRAST_ERROR_BELOW
   const floor = error ? TEXT_CONTRAST_ERROR_BELOW : TEXT_CONTRAST_WARN_BELOW
   return {
     kind: 'contrast',
     severity: error ? 'error' : 'warning',
-    owner,
+    owner: contrastOwner(c, TEXT_CONTRAST_WARN_BELOW, surfaceOwner),
     ratio,
     key: `contrast|${c.selector}|${rgbToHex(fg)}|${rgbToHex(bg)}`,
     detail:
       `${describeText(c)}: ${rgbToHex(fg)} on ${rgbToHex(bg)} is ${shown(ratio)}:1, under ` +
-      `${floor}:1.${c.part ? ownerNote(c) : ` ${CONTRAST_FIX}`}`,
+      `${floor}:1.${contrastFixLine(c, TEXT_CONTRAST_WARN_BELOW, CONTRAST_FIX)}`,
   }
 }
 
@@ -217,8 +279,11 @@ function unprobedCandidates(m) {
  * chain and colour pair; the run-wide cap is {@link collapseTextContrast}'s.
  *
  * A candidate inside an orchestrator-owned part is owned by 'human', the
- * owner the gate already uses for what no agent can edit. Everything else
- * takes the owner of the route. An unresolved candidate the pixel probe
+ * owner the gate already uses for what no agent can edit, unless it fails
+ * only because of a ground painted from outside the part
+ * ({@link foreignGround}, #705): then it is the route's owner's, like
+ * everything else. An unresolved candidate has no ratio to make that call
+ * on, so inside a part it stays the human's warning. An unresolved candidate the pixel probe
  * measured (`m.pixelContrast.probed`) is left to its findings.
  *
  * @param {{ textContrast?: { candidates: Array<object> },
@@ -229,13 +294,12 @@ function unprobedCandidates(m) {
 export function textContrastFindings(m, surfaceOwner) {
   const byKey = new Map()
   for (const c of unprobedCandidates(m)) {
-    const owner = c.part ? 'human' : surfaceOwner
     const measured = measureCandidate(c)
     if (!measured) {
-      const f = unresolvedFinding(c, owner)
+      const f = unresolvedFinding(c, c.part ? 'human' : surfaceOwner)
       if (!byKey.has(f.key)) byKey.set(f.key, f)
     } else if (measured.ratio < TEXT_CONTRAST_WARN_BELOW) {
-      const f = contrastFinding(c, measured, owner)
+      const f = contrastFinding(c, measured, surfaceOwner)
       const prior = byKey.get(f.key)
       if (!prior || f.ratio < prior.ratio) byKey.set(f.key, f)
     }

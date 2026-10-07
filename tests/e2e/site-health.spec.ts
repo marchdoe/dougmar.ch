@@ -722,9 +722,9 @@ test.describe('site health — the live rail (#702)', () => {
     })
   }
 
-  // 320 is the narrowest phone the site is held to; 479/480 and 640/641 sit
-  // either side of the two places the labels change.
-  for (const width of [320, 390, 479, 480, 560, 640, 641, 768, 1440]) {
+  // 320 is the narrowest phone the site is held to; 479/480, 640/641 and
+  // 720/721 sit either side of the three places the labels change.
+  for (const width of [320, 390, 479, 480, 560, 640, 641, 720, 721, 768, 1440]) {
     test(`fits ${width}px with nothing pushed off the edge`, async ({ page }) => {
       await page.setViewportSize({ width, height: 800 })
       await page.goto('/')
@@ -755,6 +755,9 @@ test.describe('site health — the live rail (#702)', () => {
       }
       if (width <= 640) {
         await expect(rail.getByText('A new design ships every morning.')).toBeHidden()
+      }
+      if (width <= 720) {
+        await expect(rail.getByText('White paper', { exact: true })).toBeVisible()
       } else {
         await expect(rail.getByText('Read the white paper')).toBeVisible()
       }
