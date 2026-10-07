@@ -16,6 +16,7 @@ import {
   WIDE_VIEWPORT,
 } from '../../elements/chassis/viewports.js'
 import { ROOT } from './file-manager.js'
+import { stripLiveFrame } from './archive-seal.js'
 import { STEP_BUDGETS } from './budgets.js'
 import { FINGERPRINT_VIEWPORT, collectGeometry } from './geometry-fingerprint.js'
 import { measureDesignFidelity } from './design-fidelity.js'
@@ -63,6 +64,12 @@ export async function processHtml(html, baseUrl) {
 
   // 2. Remove all <script> tags and their contents
   processed = processed.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+
+  // 2b. Drop the live site's rail (#702). It belongs to the site, not the day's
+  //     design, and the archive seal adds its own frame. Done before link
+  //     rewriting so the rail's `/how/<date>` and archive links are never
+  //     rewritten into dead snapshot-relative paths first.
+  processed = stripLiveFrame(processed)
 
   // 3. Rewrite nav links for self-contained browsing
   processed = processed.replace(/href="\/"(?=[^a-z])/g, 'href="index.html"')

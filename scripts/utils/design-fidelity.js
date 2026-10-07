@@ -55,6 +55,16 @@ export function measureDesignFidelity({ gridPx = 20 } = {}) {
   // with toString() and runs it inside the page, where the module's other
   // exports do not exist. Keep the two in sync by hand; DESIGN_FIDELITY_METHOD
   // below reads the same literal for the same reason.
+
+  // The site's rail (#702), the 44px band `__root` renders above <Layout> on
+  // /, /about and /work/*, is the site's frame and not the night's design;
+  // the mockup is drawn without it. Taken out of layout for the measurement
+  // so neither its paint nor its 44px push lands in the numbers, and put
+  // back before returning, because responsive-scorer.js measures this on a
+  // page it goes on using. A page with no rail (every mockup) is untouched.
+  const hideRail = document.head.appendChild(document.createElement('style'))
+  hideRail.textContent = '[data-live-frame]{display:none!important}'
+
   const vw = document.documentElement.clientWidth
   const vh = window.innerHeight
   const cols = Math.max(1, Math.ceil(vw / gridPx))
@@ -281,6 +291,8 @@ export function measureDesignFidelity({ gridPx = 20 } = {}) {
   }
 
   const pct = (n) => Math.round((n / total) * 1000) / 10
+
+  hideRail.remove()
 
   return {
     canvas_utilization: pct(coveredN),

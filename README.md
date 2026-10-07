@@ -61,7 +61,7 @@ app/                 TanStack Start app
                                                     <- written by the orchestrator, never by an agent
     panel/           the tabs of /panel
                      the rest of the files here are hand-written
-  content/           about, projects, timeline, callout, resume: the site's copy (authored; agents cannot write here)
+  content/           about, projects, timeline, callout, rail, resume: the site's copy (authored; agents cannot write here)
   lib/               archive calendar, eras, run records, signal readers (authored)
   server/            server functions for the archive and signals
   types/             types shared by the archive and the panel

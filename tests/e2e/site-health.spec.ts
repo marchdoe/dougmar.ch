@@ -393,7 +393,10 @@ test.describe('site health — the archive frame', () => {
     const frame = page.locator('[data-archive-frame]')
     await expect(frame).toBeVisible()
     await expect(frame).toContainText('June 28, 2026')
-    await expect(frame).toContainText('not the current site')
+    // 'Archived design' is the note since #702. Pages sealed before it said
+    // 'not the current site', and the nightly reseals every page, so after one
+    // night every snapshot carries the new note.
+    await expect(frame).toContainText('Archived design')
   })
 
   test('the rail is on the inner pages too, where the design invites the click', async ({
@@ -646,6 +649,117 @@ test.describe('site health — archive link (#155)', () => {
     await link.click()
     await expect(page).toHaveURL(/\/archive/, { timeout: 15000 })
   })
+})
+
+/**
+ * The live rail (#702): the archive's top rail on the live site, so a first-time
+ * visitor learns the site is redesigned every morning. It is hand-written and
+ * rendered from __root.tsx outside <Layout>, with fixed colours, so none of this
+ * depends on the night's design and all of it holds under NIGHTLY_RUN. The
+ * rail's date is the night's; tonight's /how/<date> is not in dist/ yet (the
+ * build runs before archive()), so the explainer link is checked by its href.
+ */
+const RAIL_ROUTES = ['/', '/about', '/work/spaceman']
+
+test.describe('site health — the live rail (#702)', () => {
+  for (const path of RAIL_ROUTES) {
+    test(`${path} shows the rail first, in flow, linking the day's explainer`, async ({ page }) => {
+      await page.goto(path)
+      const rail = page.locator('[data-live-frame]')
+      await expect(rail).toBeVisible({ timeout: 15000 })
+      await expect(rail).toHaveCount(1)
+
+      const date = await rail.getAttribute('data-live-frame')
+      expect(date).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+      await expect(rail.locator('a', { hasText: 'How it was made' })).toHaveAttribute(
+        'href',
+        `/how/${date}`
+      )
+      await expect(rail.locator('a', { hasText: 'Read the white paper' })).toHaveAttribute(
+        'href',
+        '/work/dougmar-ch'
+      )
+      await expect(rail).toContainText(/Archive · \d+ designs/)
+      await expect(rail).toContainText(/Today, [A-Z][a-z]+ \d{1,2}/)
+
+      // The rail carries no data-archive-link: the counts the #155 and #532
+      // tests hold are the footer's and the callout's alone.
+      await expect(rail.locator('[data-archive-link]')).toHaveCount(0)
+
+      const box = await rail.evaluate((el) => {
+        const r = el.getBoundingClientRect()
+        return {
+          top: r.top + window.scrollY,
+          height: r.height,
+          position: getComputedStyle(el).position,
+        }
+      })
+      expect(box.top).toBe(0)
+      expect(box.height).toBe(44)
+      expect(['static', 'relative']).toContain(box.position)
+    })
+  }
+
+  test('the previous-design arrow lands on a page', async ({ page }) => {
+    await page.goto('/')
+    const rail = page.locator('[data-live-frame]')
+    await expect(rail).toBeVisible({ timeout: 15000 })
+    const arrow = rail.locator('a[href^="/archive/20"]')
+    // The archive has held captured designs since March, so every night has a
+    // previous one; a missing arrow means the orchestrator wrote PREV_DATE null.
+    await expect(arrow).toHaveCount(1)
+    const href = (await arrow.getAttribute('href')) ?? ''
+    expect(href).toMatch(/^\/archive\/\d{4}-\d{2}-\d{2}\/$/)
+    const response = await page.request.get(href)
+    expect(response.status()).toBe(200)
+  })
+
+  for (const path of ['/archive', `/how/${CORPUS.built}`, '/elements', '/work']) {
+    test(`${path} carries no rail`, async ({ page }) => {
+      await page.goto(path)
+      await page.waitForLoadState('networkidle')
+      await expect(page.locator('[data-live-frame]')).toHaveCount(0)
+    })
+  }
+
+  // 320 is the narrowest phone the site is held to; 479/480 and 640/641 sit
+  // either side of the two places the labels change.
+  for (const width of [320, 390, 479, 480, 560, 640, 641, 768, 1440]) {
+    test(`fits ${width}px with nothing pushed off the edge`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 800 })
+      await page.goto('/')
+      const rail = page.locator('[data-live-frame]')
+      await expect(rail).toBeVisible({ timeout: 15000 })
+      const fit = await rail.evaluate((el) => ({
+        scroll: el.scrollWidth,
+        client: el.clientWidth,
+        right: Math.max(
+          ...[...el.children]
+            .filter((c) => getComputedStyle(c).display !== 'none')
+            .map((c) => c.getBoundingClientRect().right)
+        ),
+        links: [...el.querySelectorAll('a')]
+          .filter((a) => getComputedStyle(a).display !== 'none')
+          .map((a) => a.getBoundingClientRect().height),
+      }))
+      expect(fit.scroll).toBeLessThanOrEqual(fit.client)
+      expect(fit.right).toBeLessThanOrEqual(width)
+      for (const height of fit.links) expect(height).toBeGreaterThanOrEqual(44)
+
+      if (width < 480) {
+        await expect(rail).toContainText('Archive')
+        await expect(rail.locator('a[href^="/archive/20"]')).toBeHidden()
+        await expect(rail.getByText('Today', { exact: true })).toBeVisible()
+        await expect(rail.getByText('White paper', { exact: true })).toBeVisible()
+        await expect(rail.getByText('How', { exact: true })).toBeVisible()
+      }
+      if (width <= 640) {
+        await expect(rail.getByText('A new design ships every morning.')).toBeHidden()
+      } else {
+        await expect(rail.getByText('Read the white paper')).toBeVisible()
+      }
+    })
+  }
 })
 
 test.describe('site health — the home callout (#532)', () => {

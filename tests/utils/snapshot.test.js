@@ -174,6 +174,20 @@ describe('processHtml', () => {
     expect(await processHtml(html, baseUrl)).toBe(html)
   })
 
+  it('drops the live site rail before it rewrites links, and leaves inlined CSS alone (#702)', async () => {
+    const css = '[data-live-frame]{height:44px}'
+    stubFetch({ [`${baseUrl}/assets/a.css`]: css })
+    const html =
+      '<link rel="stylesheet" href="/assets/a.css"><body>' +
+      '<div data-live-frame="2026-10-07"><a href="/how/2026-10-07">How</a><a href="/archive/2026-10-06/">‹</a></div>' +
+      '<a href="/about">about</a></body>'
+    const out = await processHtml(html, baseUrl)
+    expect(out).not.toContain('<div data-live-frame')
+    expect(out).not.toContain('/how/')
+    expect(out).toContain(`<style>${css}</style>`)
+    expect(out).toContain('<a href="about.html">about</a>')
+  })
+
   it('still rewrites the nav links the way it always has', async () => {
     stubFetch({})
     const out = await processHtml('<a href="/">home</a><a href="/about">about</a>', baseUrl)

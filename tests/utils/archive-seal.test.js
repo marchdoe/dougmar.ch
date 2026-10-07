@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 
 import {
   FRAME_MARKER,
+  LIVE_FRAME_MARKER,
   buildFrame,
   depthOf,
   resolveHref,
@@ -11,6 +12,7 @@ import {
   sealPage,
   stripDeadPreloads,
   stripFrame,
+  stripLiveFrame,
 } from '../../scripts/utils/archive-seal.js'
 
 const CTX = { date: '2026-06-28', relPath: 'index.html', prev: '2026-06-27', next: '2026-06-30' }
@@ -281,5 +283,55 @@ describe('sealPage', () => {
     expect(nested).toContain('href="../about.html"')
     // The frame's own links stay site-absolute; they are the intended exits.
     expect(nested).toContain('href="/how/2026-06-28"')
+  })
+})
+
+describe('the archive note (#702)', () => {
+  const frame = buildFrame({ date: '2026-06-28', prev: null, next: null })
+
+  it('links to the live site by full URL and says what it is', () => {
+    expect(frame).toContain(
+      '<a class="af-note" href="https://dougmar.ch/">Archived design. See today&rsquo;s &rarr;</a>'
+    )
+    expect(frame).not.toContain('not the current site')
+  })
+
+  it('stays muted, ellipsised and hidden under 640px, and wins over the generic a rule', () => {
+    expect(frame).toMatch(/\.af-note\{color:rgba\(244,244,245,\.62\);[^}]*text-overflow:ellipsis/)
+    expect(frame).toMatch(/max-width:640px\)\{[^@]*\.af-note\{display:none\}/)
+  })
+
+  it('has no nested div, so stripFrame can cut at the first closing tag', () => {
+    expect(frame.match(/<div\b/g)).toHaveLength(1)
+  })
+})
+
+describe('stripLiveFrame (#702)', () => {
+  const RAIL = `<div ${LIVE_FRAME_MARKER}="2026-10-07"><span>Archive</span><a href="/how/2026-10-07">How</a></div>`
+
+  it('removes the live rail and nothing else', () => {
+    expect(stripLiveFrame(`<body>${RAIL}<main>x</main></body>`)).toBe('<body><main>x</main></body>')
+  })
+
+  it('removes a stacked pair', () => {
+    expect(stripLiveFrame(`<body>${RAIL}${RAIL}<p>y</p></body>`)).toBe('<body><p>y</p></body>')
+  })
+
+  it('leaves a page without a rail untouched, and does not eat the archive frame', () => {
+    const plain = `<body>${buildFrame({ date: '2026-06-28', prev: null, next: null })}<p>z</p></body>`
+    expect(stripLiveFrame(plain)).toBe(plain)
+  })
+
+  it('does not touch a stylesheet that mentions the attribute selector', () => {
+    const css = `<style>[${LIVE_FRAME_MARKER}]{height:44px}</style>`
+    expect(stripLiveFrame(css)).toBe(css)
+  })
+
+  it('sealing a page that carries a live rail yields exactly one rail', () => {
+    const page = `<!doctype html><html><head></head><body>${RAIL}<main>x</main></body></html>`
+    const out = sealPage(page, CTX)
+    expect(out.split(`<div ${FRAME_MARKER}=`)).toHaveLength(2)
+    expect(out).not.toContain(LIVE_FRAME_MARKER)
+    expect(out).toContain('<main>x</main>')
   })
 })

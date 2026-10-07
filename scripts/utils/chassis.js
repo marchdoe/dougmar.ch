@@ -10,7 +10,7 @@
  *   buildLineHeights(chassis)      → legacy named tokens, derived from the step table
  *   buildLetterSpacings(chassis)   → legacy named tokens, derived from the step table
  *   buildSpacing(chassis)          → theme.tokens.spacing, rhythm-derived
- *   renderRootTemplate(url)        → __root.tsx contents with URL substituted
+ *   renderRootTemplate(url, …)     → __root.tsx contents with placeholders substituted
  *   renderChassisPresetFile(c)     → elements/chassis-preset.ts contents
  *
  * The type system lives in the chassis (elements/chassis/*.js): each entry
@@ -269,8 +269,8 @@ export function stepPxAt(step, viewportPx) {
 
 /**
  * Read the frozen __root.tsx template and substitute its placeholders:
- * {{GOOGLE_FONTS_URL}}, {{OG_META}}, {{ARCHIVE_COUNT}} and
- * {{ARCHIVE_LINK_INK}}.
+ * {{GOOGLE_FONTS_URL}}, {{OG_META}}, {{ARCHIVE_COUNT}}, {{ARCHIVE_LINK_INK}},
+ * {{DESIGN_DATE}} and {{PREV_DATE}}.
  *
  * The template lives at scripts/templates/__root.tsx.template. Agents never
  * author it, which is why the archive link lives there (#155). The link's ink
@@ -278,14 +278,30 @@ export function stepPxAt(step, viewportPx) {
  * `archiveLinkInks` (archive-link-ink.js), so the caller passes its name in;
  * `text` is the default, and it clears 4.5:1 on `bg` by contract (#566).
  *
+ * The two dates feed the live rail (#702). `designDate` is the run's date
+ * (`runDate(signals)`, `state.today`) and has no default: a rail that names
+ * the wrong day is worse than a build that stops. `prevDate` is the newest
+ * captured design before it (`latestArchivedDateBefore` in archive-count.js),
+ * or null, which renders no `‹`. Both are written into the source as string
+ * literals, so both are checked against YYYY-MM-DD before they get there.
+ *
  * Read fresh on every call so a developer editing the template during a
  * dev loop sees changes without a node restart. Cost is negligible.
+ *
+ * @param {string} googleFontsUrl
+ * @param {string} [ogMeta]
+ * @param {number} [archiveCount]
+ * @param {string} [archiveLinkInk]
+ * @param {string} designDate YYYY-MM-DD
+ * @param {string|null} [prevDate] YYYY-MM-DD before `designDate`, or null
  */
 export function renderRootTemplate(
   googleFontsUrl,
   ogMeta = '',
   archiveCount = 0,
-  archiveLinkInk = 'text'
+  archiveLinkInk = 'text',
+  designDate = undefined,
+  prevDate = null
 ) {
   const template = readFileSync(TEMPLATE_PATH, 'utf8')
   for (const placeholder of [
@@ -293,16 +309,49 @@ export function renderRootTemplate(
     '{{OG_META}}',
     '{{ARCHIVE_COUNT}}',
     '{{ARCHIVE_LINK_INK}}',
+    '{{DESIGN_DATE}}',
+    '{{PREV_DATE}}',
   ]) {
     if (!template.includes(placeholder)) {
       throw new Error(`__root.tsx.template missing ${placeholder} placeholder`)
     }
   }
+  const date = assertRailDate(designDate, 'design date')
+  const prev = prevDate === null ? null : assertRailDate(prevDate, 'previous design date')
+  if (prev !== null && prev >= date) {
+    throw new Error(`previous design date ${prev} is not before the design date ${date}`)
+  }
   return template
     .replace('{{GOOGLE_FONTS_URL}}', googleFontsUrl)
     .replace('{{OG_META}}', ogMeta)
-    .replace('{{ARCHIVE_COUNT}}', String(archiveCount))
+    .replaceAll('{{ARCHIVE_COUNT}}', String(archiveCount))
     .replace('{{ARCHIVE_LINK_INK}}', assertArchiveLinkInk(archiveLinkInk))
+    .replace('{{DESIGN_DATE}}', date)
+    .replace('{{PREV_DATE}}', prev === null ? 'null' : `'${prev}'`)
+}
+
+/**
+ * A real calendar date in YYYY-MM-DD, or a throw. The value is written into
+ * __root.tsx as a string literal, so the shape check is also the escape.
+ *
+ * @param {unknown} value
+ * @param {string} name what the error calls it
+ * @returns {string}
+ */
+function assertRailDate(value, name) {
+  const match = typeof value === 'string' ? /^(\d{4})-(\d{2})-(\d{2})$/.exec(value) : null
+  if (match) {
+    const [y, m, d] = match.slice(1).map(Number)
+    const parsed = new Date(Date.UTC(y, m - 1, d))
+    if (
+      parsed.getUTCFullYear() === y &&
+      parsed.getUTCMonth() === m - 1 &&
+      parsed.getUTCDate() === d
+    ) {
+      return value
+    }
+  }
+  throw new Error(`${name} must be a YYYY-MM-DD date, got: ${JSON.stringify(value)}`)
 }
 
 function parseRem(value) {

@@ -252,4 +252,30 @@ describe('measureDesignFidelity', () => {
       expect(Number.isNaN(v)).toBe(false)
     }
   })
+
+  it("measures the design without the site's rail, and puts the rail back (#702)", async () => {
+    // A blue band whose bottom edge lands on the fold: with the rail's 44px
+    // pushing it down, its cells and the rail's dark paint would both count.
+    const design =
+      '<div style="height:150px;background:#2255dd"></div>' +
+      '<p style="margin:0;font-size:96px;line-height:1;color:#c02020">Hi</p>'
+    const rail =
+      '<div data-live-frame="2026-10-07" style="height:44px;background:#111;color:#eee;' +
+      'font-size:120px">Archive</div>'
+    const without = await measure(browser, design)
+    const page = await browser.newPage({ viewport: { width: 400, height: 300 } })
+    try {
+      await page.setContent(
+        '<!doctype html><html><head><style>html,body{margin:0;padding:0}</style></head>' +
+          `<body>${rail}${design}</body></html>`
+      )
+      expect(await page.evaluate(measureDesignFidelity)).toEqual(without)
+      const shown = await page.evaluate(
+        () => getComputedStyle(document.querySelector('[data-live-frame]')).display
+      )
+      expect(shown).toBe('block')
+    } finally {
+      await page.close()
+    }
+  })
 })
