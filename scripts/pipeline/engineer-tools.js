@@ -1,7 +1,7 @@
 /**
  * How the React Engineer's files reach disk, shared by the engineer phase,
  * the build repair and the gate's revisions (#221). A repair is a patch
- * (#432, docs/adr/0001-repair-as-a-patch.md): the repair and the post-critic
+ * (#432, sketchbook/wiki/pipeline/knowledge/ADR 0001 - Repair As A Patch.md): the repair and the post-critic
  * revision both go through `buildRepairBrief` and `applyEngineerPatch`.
  */
 import { MUTABLE_FILES, ORCHESTRATOR_FILES, ENGINEER_FILES } from '../utils/site-context.js'

@@ -89,11 +89,12 @@ signals/             profile.yml (yours), today.* (the last collection)
 references/          design references the Art Director is shown
 fixtures/agents/     the recorded night the swarm tests assert against (frozen)
 fixtures/canary/     the recorded night `pipeline:canary --mock` replays; `FIXTURE_DIR` picks either
+sketchbook/          the project's memory, an Obsidian vault; start at wiki/The Four Pillars.md
+  wiki/CONTEXT.md    the glossary
+  wiki/<area>/       spec/, plan/ and knowledge/ (ADRs, research) for taste, pipeline, site and core
 docs/
-  adr/               decisions that are hard to reverse
-  research/          dated analyses
-  specs/             numbered specs; some are marked superseded
   evidence/          screenshots and canary runs, kept per issue
+  agents/domain.md   where the engineering skills find the glossary and ADRs
 tests/               vitest, and tests/e2e for playwright
 ```
 

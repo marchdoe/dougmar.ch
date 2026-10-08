@@ -1,3 +1,13 @@
+---
+type: knowledge
+tags: [research, area/site]
+created: 2026-08-26
+updated: 2026-08-29
+aliases: []
+sources: []
+status: draft
+---
+
 # Open question: which CSP wins on an archived page
 
 **Status:** unresolved, parked deliberately. Everything else in PR #173 is verified.

@@ -1,3 +1,13 @@
+---
+type: spec
+tags: [spec, area/pipeline]
+created: 2026-04-27
+updated: 2026-04-27
+aliases: []
+sources: []
+status: ready
+---
+
 # Spec 01 — Awwwards screenshots via API image content blocks
 
 **Status:** ready to execute

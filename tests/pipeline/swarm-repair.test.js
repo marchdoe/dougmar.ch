@@ -4,7 +4,7 @@
  * reply that empties a required file, and the post-critic revision in all
  * three of its outcomes plus the surface gate forcing one on a SHIP.
  *
- * A repair is a patch (#432, docs/adr/0001-repair-as-a-patch.md): the
+ * A repair is a patch (#432, sketchbook/wiki/pipeline/knowledge/ADR 0001 - Repair As A Patch.md): the
  * engineer gets a brief listing the files it owns on disk and the error
  * verbatim, returns only the files that must change, and the swarm merges the
  * reply over what is on disk. An empty `===FILE:path===` block deletes that

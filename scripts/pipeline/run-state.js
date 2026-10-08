@@ -316,7 +316,7 @@ export async function archiveFailedSources(state) {
 
 /**
  * The one rollback. "A run either ships a night or fails and rolls the
- * checkout back" (CONTEXT.md), so every throw between the first write and
+ * checkout back" (sketchbook/wiki/CONTEXT.md), so every throw between the first write and
  * archive() ends here through runAgentSwarm's catch, whichever phase raised
  * it. Once archive() has returned the night shipped and there is nothing to
  * undo. A rollback that itself fails must not replace the error that ended

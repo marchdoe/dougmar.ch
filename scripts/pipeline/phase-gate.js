@@ -346,7 +346,7 @@ async function refuseKnownFaults(state, decision) {
   // (#633): the rounds run, and what they leave ships with the record
   // saying so, until the first pass measures few enough errors for the
   // loop to clear (#634). Unset, the gate refuses as #626 intended.
-  // Spec 11 (docs/specs/11-taste-and-cost.md, 1c): text that fails the pixel
+  // Spec 11 (sketchbook/wiki/taste/spec/Spec 11 - Taste And Cost.md, 1c): text that fails the pixel
   // contrast probe after the last round is the one fault lenient does not
   // wave through. Hard-to-read copy shipped on 2026-09-28 under this gate.
   const illegible = legibilityFaults(remainingFaults)

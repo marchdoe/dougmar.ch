@@ -1,3 +1,13 @@
+---
+type: spec
+tags: [spec, area/core]
+created: 2026-04-27
+updated: 2026-04-27
+aliases: []
+sources: []
+status: ready
+---
+
 # Spec 09 — Resolve dependabot alert #325 (follow-redirects)
 
 **Status:** ready to execute

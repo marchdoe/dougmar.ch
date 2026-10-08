@@ -1,3 +1,13 @@
+---
+type: knowledge
+tags: [research, area/site]
+created: 2026-08-23
+updated: 2026-08-23
+aliases: []
+sources: []
+status: published
+---
+
 # What escapes a sealed snapshot
 
 Research for [#156](https://github.com/marchdoe/doug-march.com/issues/156), part of the archive map [#152](https://github.com/marchdoe/doug-march.com/issues/152). Audited 2026-08-23 against the files in `public/archive/`, not against assumptions about them.

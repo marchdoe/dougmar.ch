@@ -1,3 +1,13 @@
+---
+type: knowledge
+tags: [glossary, area/core]
+created: 2026-09-03
+updated: 2026-09-03
+aliases: []
+sources: []
+status: living
+---
+
 # The nightly redesign
 
 Every night an agent swarm redesigns doug-march.com and archives what it shipped. This glossary fixes the words for how a night is built, checked, repaired and recorded.

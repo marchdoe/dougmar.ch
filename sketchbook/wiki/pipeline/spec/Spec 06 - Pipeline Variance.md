@@ -1,3 +1,13 @@
+---
+type: spec
+tags: [spec, area/pipeline]
+created: 2026-04-27
+updated: 2026-06-11
+aliases: []
+sources: []
+status: parked
+---
+
 > **PARTIALLY ABSORBED** — shell/archetype variance shipped as scripts/utils/shell-mandate.js (2026-06). The /dev/variance dashboard remains unimplemented and parked.
 
 # Spec 06 — Pipeline variance (instrumentation + soft guidance)

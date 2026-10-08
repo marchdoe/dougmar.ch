@@ -1,3 +1,13 @@
+---
+type: spec
+tags: [spec, area/pipeline]
+created: 2026-04-27
+updated: 2026-04-27
+aliases: []
+sources: []
+status: parked
+---
+
 # Spec 03 — Chaos mode (palette + typography)
 
 **Status:** ready to execute

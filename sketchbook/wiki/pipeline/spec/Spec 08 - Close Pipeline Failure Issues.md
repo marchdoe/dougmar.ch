@@ -1,3 +1,13 @@
+---
+type: spec
+tags: [spec, area/pipeline]
+created: 2026-04-27
+updated: 2026-04-27
+aliases: []
+sources: []
+status: ready
+---
+
 # Spec 08 — Close resolved pipeline-failure GitHub issues
 
 **Status:** ready to execute
