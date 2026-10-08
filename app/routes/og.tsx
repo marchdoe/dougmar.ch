@@ -19,73 +19,63 @@ function OgCard() {
     >
       <div
         className={css({
-          position: 'relative',
           width: '1200px',
           height: '630px',
           flexShrink: 0,
           bg: 'bg',
           color: 'text',
+          padding: '64px',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '24px',
-          paddingInline: '80px',
-          paddingBlock: '64px',
-          textAlign: 'center',
+          justifyContent: 'space-between',
+          borderBottomWidth: '12px',
+          borderBottomStyle: 'solid',
+          borderBottomColor: 'field',
         })}
       >
-        <div className={css({ position: 'absolute', top: '56px', left: '56px' })}>
-          <BrandLockup variant="mark-only-md" mode="original" />
+        <div className={css({ color: 'text' })}>
+          <BrandLockup variant="horizontal-md" mode="single-color" roleLine />
         </div>
-        <div
-          aria-hidden="true"
-          className={css({
-            fontFamily: 'display',
-            fontWeight: 'bold',
-            lineHeight: '0.82',
-            letterSpacing: '-0.01em',
-            fontSize: '230px',
-            display: 'flex',
-            alignItems: 'baseline',
-            justifyContent: 'center',
-            gap: '0.04em',
-          })}
-        >
-          <span className={css({ color: 'accent' })}>5</span>
+        <h1 className={css({ textAlign: 'right', fontFamily: 'display' })}>
           <span
             className={css({
-              color: 'textMuted',
+              display: 'block',
               fontWeight: 'normal',
-              fontSize: '0.6em',
-              transform: 'translateY(-0.12em)',
+              fontSize: '30px',
+              lineHeight: '1.15',
+              letterSpacing: 'tight',
+              color: 'textMuted',
+              maxWidth: '760px',
+              marginLeft: 'auto',
+              marginBottom: '14px',
             })}
           >
-            {'\u2013'}
+            If you want to find the secrets of the universe, think in terms of{' '}
           </span>
-          {/* steel #72819f maps to textFaint; stroke reads currentColor */}
           <span
             className={css({
-              color: 'textFaint',
-              WebkitTextFillColor: 'transparent',
-              WebkitTextStroke: '5px currentColor',
+              display: 'block',
+              fontWeight: 'bold',
+              fontSize: '56px',
+              lineHeight: '0.95',
+              letterSpacing: 'tight',
+              color: 'text',
             })}
           >
-            3
+            energy, frequency and{' '}
           </span>
-        </div>
-        <div aria-hidden="true" className={css({ width: '420px', height: '2px', bg: 'accent' })} />
-        <h1
-          className={css({
-            fontFamily: 'display',
-            fontWeight: 'bold',
-            textTransform: 'lowercase',
-            fontSize: '64px',
-            lineHeight: '0.95',
-            color: 'textMuted',
-          })}
-        >
-          <b className={css({ color: 'text', fontWeight: 'bold' })}>Red Wings</b> take it, 5–3.
+          <span
+            className={css({
+              display: 'block',
+              fontWeight: 'bold',
+              fontSize: '120px',
+              lineHeight: '0.9',
+              letterSpacing: 'tight',
+              color: 'accent',
+            })}
+          >
+            vibration.
+          </span>
         </h1>
       </div>
     </div>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — energy, frequency and vibration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F2AE2B; --bgAlt:#E2990F; --surface:#FBE8B4;
+    --text:#1A1308; --textMuted:#3E3119; --textFaint:#574726;
+    --accent:#A1320A; --accentDeep:#7E2708; --accentGlow:#CF5A28; --accentText:#FBF6EC;
+    --border:#BC7B0C; --borderStrong:#3E3119;
+    --field:#5C1D06; --fieldInk:#FBF6EC; --fieldInkMuted:#F8D583; --fieldBorder:#CF5A28;
+    --espresso:#2A2010;
+
+    --deck:clamp(20px,2.9vw,38px);
+    --xl:clamp(26px,3.6vw,46px);
+    --t2xl:clamp(32px,4.8vw,62px);
+    --t3xl:clamp(40px,6.4vw,84px);
+    --hero:clamp(56px,10vw,128px);
+    --lg:clamp(20px,2.2vw,28px);
+
+    --pad:clamp(24px,6vw,96px);
+    --sec:clamp(48px,7vw,112px);
+
+    --disp:'Bricolage Grotesque',system-ui,sans-serif;
+    --body:'Manrope',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:var(--body); font-weight:400;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility; font-kerning:normal;
+    font-variant-numeric:tabular-nums; overflow-x:hidden;
+  }
+  h1,h2,h3,h4{margin:0;font-weight:inherit;text-wrap:balance;}
+  p{margin:0;text-wrap:pretty;}
+  a{color:var(--text);text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:2px;transition:color 120ms ease,text-decoration-color 120ms ease;}
+  a:hover{color:var(--accent);text-decoration-color:var(--accent);}
+  ::selection{background:var(--accent);color:var(--accentText);}
+
+  /* ---------- HEADER ---------- */
+  header{position:relative;z-index:5;background:var(--bg);}
+  .bar{
+    display:flex;align-items:center;flex-wrap:wrap;
+    gap:14px 22px;
+    padding:10px var(--pad);
+    border-bottom:1px solid var(--borderStrong);
+  }
+  .brand{display:inline-flex;align-items:center;gap:12px;text-decoration:none;color:var(--espresso);line-height:1;}
+  .brand:hover{color:var(--espresso);}
+  .brand svg{height:44px;width:auto;display:block;color:var(--espresso);}
+  .brand .wm{display:flex;flex-direction:column;line-height:1;}
+  .brand .wm b{font-family:var(--disp);font-weight:700;font-size:clamp(20px,2.3vw,26px);letter-spacing:-0.015em;color:var(--espresso);}
+  .brand .wm small{font-family:var(--body);font-weight:500;text-transform:uppercase;letter-spacing:0.09em;font-size:13px;color:var(--textMuted);margin-top:4px;}
+  nav{flex-basis:100%;display:flex;gap:4px;}
+  nav a{
+    display:inline-flex;align-items:center;gap:6px;
+    min-height:44px;padding:4px 14px 4px 0;
+    text-decoration:none;color:var(--text);
+    font-variant-caps:small-caps;letter-spacing:0.08em;
+    font-size:15px;font-weight:500;
+  }
+  nav a .n{color:var(--textMuted);font-variant-numeric:tabular-nums;font-feature-settings:"tnum";font-size:13px;}
+  nav a:hover{color:var(--accent);}
+  .readout{display:none;}
+  @media(min-width:820px){
+    .bar{flex-wrap:nowrap;gap:28px;padding:0 var(--pad);height:64px;}
+    nav{flex-basis:auto;gap:10px;}
+    .readout{display:flex;flex-direction:column;align-items:flex-end;margin-left:auto;line-height:1.2;}
+    .readout b{font-size:13px;font-weight:600;letter-spacing:0.02em;}
+    .readout span{font-size:12px;color:var(--textMuted);font-variant-numeric:tabular-nums;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;overflow:hidden;padding:clamp(28px,5vw,72px) var(--pad) clamp(32px,5vw,72px);}
+  .halftone{position:absolute;inset:-100%;pointer-events:none;z-index:0;
+    background-image:radial-gradient(circle,#1A1308 1.5px,transparent 1.7px);
+    background-size:8px 8px;opacity:0.14;transform:rotate(8deg);}
+  .hero-grid{position:relative;z-index:1;display:flex;flex-direction:column;}
+  .hero-deck{font-family:var(--disp);font-weight:600;font-size:var(--deck);line-height:1.12;color:var(--textMuted);letter-spacing:-0.01em;text-align:right;max-width:24ch;margin-left:auto;margin-bottom:clamp(14px,2vw,22px);}
+  .w{display:block;font-family:var(--disp);font-weight:800;line-height:0.9;letter-spacing:-0.02em;color:var(--text);text-align:right;}
+  .w.e{font-size:var(--xl);}
+  .w.f{font-size:var(--t2xl);}
+  .w.a{font-size:var(--t3xl);}
+  .w.v{font-size:var(--hero);color:var(--accent);margin-top:0.02em;}
+  cite.by{display:block;text-align:right;font-style:normal;font-variant-caps:small-caps;letter-spacing:0.1em;font-size:clamp(14px,1.4vw,17px);color:var(--text);font-weight:600;margin-top:clamp(10px,1.4vw,18px);}
+  .by .by-pre{color:var(--textMuted);font-variant-caps:normal;letter-spacing:0.02em;font-weight:500;}
+
+  /* interleaved gutter readings in the hero — each on its own flat surface ground */
+  .hr-read{margin-top:22px;display:flex;flex-direction:column;gap:4px;background:var(--surface);border-radius:2px;padding:14px 16px;}
+  .hr-read .lbl{font-size:12px;text-transform:uppercase;letter-spacing:0.09em;color:var(--textMuted);font-weight:700;}
+  .hr-read .val{font-family:var(--disp);font-weight:600;font-size:clamp(18px,1.9vw,24px);letter-spacing:-0.01em;color:var(--text);}
+  .hr-read .val .tick{color:var(--accentDeep);}
+  .hr-read .meta{font-size:13px;color:var(--textFaint);}
+  table.board{border-collapse:collapse;font-variant-numeric:tabular-nums;width:100%;margin-top:2px;}
+  table.board td{padding:3px 8px 3px 0;font-size:14px;color:var(--text);}
+  table.board td.pos{color:var(--textFaint);width:1%;white-space:nowrap;}
+  table.board td.sc{text-align:right;color:var(--accentDeep);font-weight:700;}
+
+  @media(min-width:760px){
+    .hero{min-height:calc(90vh - 64px);display:flex;align-items:stretch;padding-top:clamp(36px,4vw,64px);padding-bottom:clamp(40px,5vw,80px);}
+    .hero-grid{
+      flex:1;display:grid;width:100%;
+      grid-template-columns:1fr 1fr 1.3fr;
+      column-gap:clamp(16px,2.4vw,40px);
+      row-gap:clamp(10px,1.4vw,20px);
+      align-content:space-between;
+    }
+    .hero-deck{grid-column:1/3;grid-row:1;margin:0;text-align:left;align-self:start;}
+    .w{text-align:left;}
+    .w.e{grid-column:1/2;grid-row:2;align-self:center;}
+    .w.f{grid-column:2/3;grid-row:3;align-self:center;}
+    .w.a{grid-column:3/4;grid-row:3;align-self:center;font-size:clamp(18px,1.8vw,28px);color:var(--textMuted);}
+    .w.v{grid-column:2/4;grid-row:4;align-self:end;margin:0;text-align:left;}
+    cite.by{grid-column:3/4;grid-row:5;align-self:start;text-align:left;margin:0;}
+    .hr-read{margin:0;}
+    .hr-read.mkt{grid-column:3/4;grid-row:1;align-self:end;}
+    .hr-read.wx{grid-column:2/3;grid-row:2;align-self:center;}
+    .hr-read.moon{grid-column:3/4;grid-row:2;align-self:center;}
+    .hr-read.golf{grid-column:1/2;grid-row:3 / 6;align-self:end;}
+  }
+
+  /* ---------- READINGS LEDGER ---------- */
+  .ledger{padding:var(--sec) var(--pad);border-top:1px solid var(--borderStrong);}
+  .sec-head{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:clamp(28px,4vw,48px);}
+  .sec-head h2{font-family:var(--disp);font-weight:800;font-size:var(--lg);letter-spacing:-0.01em;}
+  .sec-head .std{font-size:14px;color:var(--textMuted);max-width:52ch;}
+  .reads{display:grid;grid-template-columns:1fr;gap:0;}
+  @media(min-width:640px){.reads{grid-template-columns:1fr 1fr;column-gap:clamp(16px,2.4vw,40px);}}
+  @media(min-width:1000px){.reads{grid-template-columns:1fr 1fr 1.3fr 1.3fr;}}
+  .read{display:flex;flex-direction:column;gap:4px;padding:16px 0;border-top:1px solid var(--border);}
+  .read .lbl{font-size:12px;text-transform:uppercase;letter-spacing:0.09em;color:var(--textMuted);font-weight:600;}
+  .read .val{font-family:var(--disp);font-weight:600;font-size:clamp(18px,1.9vw,24px);letter-spacing:-0.01em;}
+  .read .meta{font-size:13px;color:var(--textMuted);font-variant-numeric:tabular-nums;}
+  .memorial{grid-column:1/-1;border-top:1px solid var(--borderStrong);margin-top:8px;padding-top:18px;}
+  .memorial p{font-family:var(--disp);font-weight:400;font-size:clamp(16px,1.7vw,20px);color:var(--textMuted);max-width:60ch;line-height:1.35;}
+  .memorial p b{color:var(--text);font-weight:600;}
+
+  /* ---------- WORK INDEX ---------- */
+  .work{padding:var(--sec) var(--pad);border-top:1px solid var(--borderStrong);}
+  .featured{background:var(--surface);border-radius:2px;padding:clamp(26px,4vw,56px);margin-bottom:clamp(36px,5vw,64px);}
+  .featured .fk{font-size:12px;text-transform:uppercase;letter-spacing:0.1em;color:var(--textMuted);font-weight:700;margin-bottom:14px;}
+  .featured h3{font-family:var(--disp);font-weight:800;font-size:clamp(36px,5.4vw,78px);letter-spacing:-0.025em;line-height:0.95;color:var(--text);}
+  .featured .frole{font-size:13px;letter-spacing:0.06em;text-transform:uppercase;color:var(--textMuted);font-weight:600;margin-top:12px;}
+  .featured .fprob{margin-top:20px;font-size:clamp(16px,1.5vw,18px);line-height:1.5;color:var(--textMuted);max-width:62ch;}
+  .featured .flink{display:inline-flex;align-items:center;gap:8px;margin-top:22px;min-height:44px;padding:10px 18px;background:var(--accent);color:var(--accentText);text-decoration:none;border-radius:3px;font-weight:600;font-size:15px;letter-spacing:0.01em;}
+  .featured .flink:hover{background:var(--accentDeep);color:var(--accentText);}
+  .idx-group h4{font-size:12px;text-transform:uppercase;letter-spacing:0.1em;color:var(--textMuted);font-weight:700;margin:0 0 6px;}
+  .row{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:8px 20px;padding:18px 0;border-top:1px solid var(--border);text-decoration:none;color:var(--text);}
+  .row:hover{color:var(--accent);}
+  .row:hover .rtitle{text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:3px;}
+  .rtitle{font-family:var(--disp);font-weight:600;font-size:clamp(24px,3vw,40px);letter-spacing:-0.02em;line-height:1;}
+  .rmeta{display:flex;gap:14px;align-items:baseline;font-size:13px;color:var(--textMuted);font-variant-numeric:tabular-nums;letter-spacing:0.02em;white-space:nowrap;}
+  .rmeta .ty{text-transform:uppercase;letter-spacing:0.08em;font-weight:600;}
+  .idx-group{margin-top:clamp(28px,4vw,48px);}
+
+  /* ---------- CALLOUT SLOT ---------- */
+  .callout{padding:clamp(28px,4vw,56px) var(--pad);background:var(--bgAlt);border-top:1px solid var(--borderStrong);}
+
+  /* ---------- FOOTER FIELD BAND ---------- */
+  footer{background:var(--field);color:var(--fieldInk);padding:var(--sec) var(--pad);}
+  .fgrid{display:grid;grid-template-columns:1fr;gap:28px;}
+  @media(min-width:720px){.fgrid{grid-template-columns:1fr 1fr 1.2fr;gap:40px;}}
+  .fcol .flbl{font-size:12px;text-transform:uppercase;letter-spacing:0.1em;color:var(--fieldInkMuted);font-weight:700;margin-bottom:10px;}
+  .fcol .fval{font-family:var(--disp);font-weight:600;font-size:clamp(22px,2.4vw,32px);letter-spacing:-0.01em;line-height:1.1;}
+  .fcol ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;}
+  .fcol li{font-size:16px;color:var(--fieldInk);}
+  .frule{border:0;border-top:1px solid var(--fieldBorder);margin:clamp(32px,5vw,56px) 0 24px;}
+  .fbottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--fieldInkMuted);font-variant-numeric:tabular-nums;letter-spacing:0.03em;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <a class="brand" href="/" aria-label="Doug March, home">
+      <svg viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="currentColor"/>
+        <circle cx="30.0829" cy="29.3002" r="0.98668" fill="currentColor"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="20.033" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="22.114" stroke="currentColor" stroke-width="0.25"/>
+        <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="currentColor"/>
+      </svg>
+      <span class="wm"><b>Doug March</b><small>Design &amp; Engineering</small></span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="/work"><span class="n">01</span>Work</a>
+      <a href="/about"><span class="n">02</span>About</a>
+      <a href="/contact"><span class="n">03</span>Contact</a>
+    </nav>
+    <div class="readout">
+      <b>Aldie, VA</b>
+      <span>Oct 8, 2026</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="halftone"></div>
+    <div class="hero-grid">
+      <h1 style="display:contents">
+        <span class="hero-deck">If you want to find the secrets of the universe, think in terms of</span>
+        <span class="w e">energy,</span>
+        <span class="w f">frequency</span>
+        <span class="w a">and</span>
+        <span class="w v">vibration.</span>
+      </h1>
+      <cite class="by"><span class="by-pre">— </span>Nikola Tesla</cite>
+
+      <div class="hr-read mkt">
+        <span class="lbl">Markets · SPY</span>
+        <span class="val">777.22 <span class="tick">−0.24%</span></span>
+        <span class="meta">Close, prior session</span>
+      </div>
+      <div class="hr-read wx">
+        <span class="lbl">Weather · Aldie</span>
+        <span class="val">Clear, 55°F</span>
+        <span class="meta">Light NW wind</span>
+      </div>
+      <div class="hr-read moon">
+        <span class="lbl">Moon</span>
+        <span class="val">Waning crescent</span>
+        <span class="meta">5% illuminated</span>
+      </div>
+      <div class="hr-read golf">
+        <span class="lbl">Baycurrent Classic · R3</span>
+        <table class="board" aria-label="Baycurrent Classic leaderboard">
+          <tr><td class="pos">1</td><td>Bridgeman</td><td class="sc">−8</td></tr>
+          <tr><td class="pos">T2</td><td>Hoshino</td><td class="sc">−6</td></tr>
+          <tr><td class="pos">T2</td><td>Kanaya</td><td class="sc">−6</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="ledger" aria-label="Readings of the day">
+    <div class="sec-head">
+      <h2>Readings of the day</h2>
+      <p class="std">The rest of the signals in rotation on Oct 8 — the calendar, the clock, and one name worth keeping.</p>
+    </div>
+    <div class="reads">
+      <div class="read">
+        <span class="lbl">Calendar</span>
+        <span class="val">Columbus Day</span>
+        <span class="meta">in 4 days</span>
+      </div>
+      <div class="read">
+        <span class="lbl">On the clock</span>
+        <span class="val">Oct 8, 2026</span>
+        <span class="meta">Week 41</span>
+      </div>
+      <div class="memorial">
+        <p><b>Margaret Hamilton, 1936–2026.</b> She named software engineering — the discipline this site is built to keep as one job with design.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="work" aria-label="Selected work">
+    <div class="sec-head">
+      <h2>The work</h2>
+      <p class="std">Tuning design and engineering until they ship in sync. Founder projects, shipping products, and experiments.</p>
+    </div>
+
+    <div class="featured">
+      <p class="fk">Featured — the proof</p>
+      <h3>Spaceman</h3>
+      <p class="frole">Founder · 2018</p>
+      <p class="fprob">Spaceman is the LLC Doug works through — partnering with companies and studios on product design, frontend engineering, design systems and brand. Sometimes as a solo contributor, sometimes embedded in a larger team, always closing the gap between how a thing is designed and how it is built.</p>
+      <a class="flink" href="/work/spaceman">View the case study →</a>
+    </div>
+
+    <div class="idx-group">
+      <h4>Selected work</h4>
+      <a class="row" href="/work/fishsticks">
+        <span class="rtitle">FishSticks</span>
+        <span class="rmeta"><span class="ty">SaaS</span><span>2025</span></span>
+      </a>
+      <a class="row" href="/work/15th-club">
+        <span class="rtitle">15th Club</span>
+        <span class="rmeta"><span class="ty">AI</span><span>2025</span></span>
+      </a>
+      <a class="row" href="/work/dougmar-ch">
+        <span class="rtitle">dougmar.ch</span>
+        <span class="rmeta"><span class="ty">AI</span><span>2026</span></span>
+      </a>
+    </div>
+
+    <div class="idx-group">
+      <h4>Experiments</h4>
+      <a class="row" href="/work/teeturn">
+        <span class="rtitle">TeeTurn</span>
+        <span class="rmeta"><span class="ty">Experiment</span><span>2020</span></span>
+      </a>
+      <a class="row" href="/work/politweets">
+        <span class="rtitle">Politweets</span>
+        <span class="rmeta"><span class="ty">Experiment</span><span>2008</span></span>
+      </a>
+      <a class="row" href="/work/twittertale">
+        <span class="rtitle">Twittertale</span>
+        <span class="rmeta"><span class="ty">Experiment</span><span>2008</span></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="callout" aria-label="Site callout"></section>
+
+  <footer>
+    <div class="fgrid">
+      <div class="fcol">
+        <p class="flbl">Based</p>
+        <p class="fval">Aldie, Virginia</p>
+      </div>
+      <div class="fcol">
+        <p class="flbl">Year</p>
+        <p class="fval">2026</p>
+      </div>
+      <div class="fcol">
+        <p class="flbl">On rotation</p>
+        <ul>
+          <li>My Morning Jacket</li>
+          <li>Wet Leg</li>
+        </ul>
+      </div>
+    </div>
+    <hr class="frule">
+    <div class="fbottom">
+      <span>Doug March — Design &amp; Engineering, shipped in sync.</span>
+      <span>energy · frequency · vibration</span>
+    </div>
+  </footer>
+</main>
+
+</body>
+</html>
