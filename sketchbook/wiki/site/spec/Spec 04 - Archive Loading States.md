@@ -1,3 +1,13 @@
+---
+type: spec
+tags: [spec, area/site]
+created: 2026-04-27
+updated: 2026-04-27
+aliases: []
+sources: []
+status: ready
+---
+
 # Spec 04 — Archive loading states
 
 **Status:** ready to execute

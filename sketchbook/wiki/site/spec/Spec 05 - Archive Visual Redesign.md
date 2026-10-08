@@ -1,3 +1,13 @@
+---
+type: spec
+tags: [spec, area/site]
+created: 2026-04-27
+updated: 2026-04-27
+aliases: []
+sources: []
+status: ready
+---
+
 # Spec 05 — Archive visual redesign + Mark-as-reference (owner-only)
 
 **Status:** ready to execute

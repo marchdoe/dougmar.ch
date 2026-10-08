@@ -1,3 +1,13 @@
+---
+type: adr
+tags: [adr, area/pipeline]
+created: 2026-09-03
+updated: 2026-09-22
+aliases: []
+sources: []
+status: accepted
+---
+
 # A repair is a patch, not a regeneration
 
 Date: 2026-09-03

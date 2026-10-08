@@ -1,7 +1,17 @@
+---
+type: plan
+tags: [plan, area/site]
+created: 2026-09-06
+updated: 2026-09-06
+aliases: []
+sources: []
+status: shipped
+---
+
 # Mobile-first fixes: phased plan
 
 **Date:** 2026-09-06
-**Source:** `docs/research/2026-09-06-mobile-first-analysis.md`
+**Source:** [[Mobile First Analysis]]
 **Rule:** one PR per issue, each branched from `origin/main`, no stacks. Merge only through the gate script once all five CI jobs pass.
 
 ## Batch 1: independent files, start now

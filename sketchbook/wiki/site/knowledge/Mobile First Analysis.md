@@ -1,3 +1,13 @@
+---
+type: knowledge
+tags: [research, area/site]
+created: 2026-09-06
+updated: 2026-09-06
+aliases: []
+sources: []
+status: published
+---
+
 # Where the phone gets lost: a mobile-first analysis of the daily redesign
 
 **Date:** 2026-09-06

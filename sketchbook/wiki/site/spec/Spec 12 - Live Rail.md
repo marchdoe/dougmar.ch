@@ -1,3 +1,13 @@
+---
+type: spec
+tags: [spec, area/site]
+created: 2026-10-07
+updated: 2026-10-07
+aliases: []
+sources: []
+status: in-progress
+---
+
 # 12. The live rail (#702)
 
 The archive's top rail, adapted for the live site, so a first-time visitor learns the site is redesigned every morning.

@@ -1,3 +1,13 @@
+---
+type: spec
+tags: [spec, area/pipeline]
+created: 2026-04-27
+updated: 2026-04-27
+aliases: []
+sources: []
+status: ready
+---
+
 # Spec 07 — Bump Claude CLI past 2.1.92
 
 **Status:** ready to execute

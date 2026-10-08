@@ -1,6 +1,6 @@
 /**
  * "A run either ships a night or fails and rolls the checkout back"
- * (CONTEXT.md), driven through the real swarm against a temp root.
+ * (sketchbook/wiki/CONTEXT.md), driven through the real swarm against a temp root.
  *
  * Each scenario ends the run with a throw from a different site after the
  * Art Director's preset and the orchestrator's chassis files are on disk, and

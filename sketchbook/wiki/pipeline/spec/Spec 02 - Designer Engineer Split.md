@@ -1,3 +1,13 @@
+---
+type: spec
+tags: [spec, area/pipeline]
+created: 2026-04-27
+updated: 2026-09-20
+aliases: []
+sources: []
+status: superseded
+---
+
 > **SUPERSEDED** by the design-quality pipeline spec of 2026-06-11 (implemented 2026-06). That spec lived under `docs/superpowers/`, which #550 removed; it stays in git history.
 
 # Spec 02 — Designer / React Engineer split
