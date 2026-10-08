@@ -3,91 +3,97 @@ import { identity } from '../content/about'
 import { BrandLockup } from './BrandLockup'
 
 const links = [
-  { label: 'Work', href: '/work' },
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: `mailto:${identity.email}` },
+  { n: '01', label: 'Work', href: '/work' },
+  { n: '02', label: 'About', href: '/about' },
 ]
+
+const linkClass = css({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '6px',
+  minHeight: '44px',
+  minWidth: '44px',
+  paddingBlock: '4px',
+  paddingInlineStart: '0',
+  paddingInlineEnd: '14px',
+  textDecoration: 'none',
+  color: 'text',
+  fontVariant: 'small-caps',
+  letterSpacing: 'wide',
+  fontSize: 'sm',
+  fontWeight: 'bold',
+  _hover: { color: 'accent' },
+})
+
+const numClass = css({ color: 'textMuted', fontSize: 'xs', fontVariantNumeric: 'tabular-nums' })
 
 export function Sidebar() {
   return (
-    <header
-      className={css({
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '2',
-        paddingInline: '20px',
-        paddingTop: '18px',
-        paddingBottom: '2',
-        bg: 'bgAlt',
-        borderBottomWidth: '1px',
-        borderBottomStyle: 'solid',
-        borderColor: 'borderStrong',
-        position: 'relative',
-        zIndex: 3,
-        lg: {
-          alignItems: 'center',
-          gridColumn: '1',
-          gridRow: '1 / span 2',
-          gap: '0',
-          borderBottomWidth: '0',
-          borderRightWidth: '1px',
-          borderRightStyle: 'solid',
-          paddingInline: '0',
-          paddingTop: '28px',
-          paddingBottom: '0',
-        },
-      })}
-    >
-      <div className={css({ display: 'flex', alignItems: 'center', lg: { marginBottom: '40px' } })}>
-        <BrandLockup variant="mark-only-md" mode="original" />
-      </div>
-      <nav
-        aria-label="Primary"
+    <header className={css({ position: 'relative', zIndex: 5, bg: 'bg' })}>
+      <div
         className={css({
           display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'nowrap',
-          columnGap: '5',
-          lg: { flexDirection: 'column', columnGap: '0', width: '100%' },
+          alignItems: 'center',
+          flexWrap: { base: 'wrap', lg: 'nowrap' },
+          rowGap: { base: '14px', lg: '0' },
+          columnGap: { base: '22px', lg: '28px' },
+          paddingBlock: { base: '10px', lg: '0' },
+          paddingInline: 'clamp(24px, 6vw, 96px)',
+          height: { lg: '64px' },
+          borderBottomWidth: '1px',
+          borderBottomStyle: 'solid',
+          borderBottomColor: 'borderStrong',
         })}
       >
-        {links.map((link) => (
-          <a
-            key={link.label}
-            href={link.href}
-            className={css({
-              display: 'inline-flex',
-              alignItems: 'center',
-              minHeight: '44px',
-              paddingBlock: '0',
-              paddingInline: '0',
-              textStyle: 'xs',
-              fontFamily: 'body',
-              fontWeight: 'bold',
-              letterSpacing: 'wider',
-              textTransform: 'uppercase',
-              color: 'textMuted',
-              transition: 'color .2s ease, border-color .2s ease, background .2s ease',
-              _hover: { color: 'accent' },
-              lg: {
-                display: 'flex',
-                justifyContent: 'center',
-                width: '100%',
-                minHeight: '52px',
-                textStyle: 'sm',
-                letterSpacing: 'wide',
-                borderTopWidth: '1px',
-                borderTopStyle: 'solid',
-                borderColor: 'borderStrong',
-                _hover: { bg: 'surface' },
-                _last: { borderBottomWidth: '1px', borderBottomStyle: 'solid' },
-              },
-            })}
-          >
-            {link.label}
+        {/* mockup espresso #2A2010 has no semantic token; nearest is text */}
+        {/* the lockup gets its own full row below lg and never shrinks, so its role line keeps its full width at 820 */}
+        <div
+          className={css({
+            display: 'flex',
+            alignItems: 'center',
+            flexShrink: 0,
+            flexBasis: { base: '100%', lg: 'auto' },
+            minWidth: { md: 'max-content' },
+            color: 'text',
+          })}
+        >
+          <BrandLockup variant="horizontal-md" mode="single-color" roleLine />
+        </div>
+        <nav
+          aria-label="Primary"
+          className={css({
+            flexBasis: { base: '100%', lg: 'auto' },
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: { base: '4px', lg: '10px' },
+          })}
+        >
+          {links.map((l) => (
+            <a key={l.href} href={l.href} className={linkClass}>
+              <span className={numClass}>{l.n}</span>
+              {l.label}
+            </a>
+          ))}
+          <a href={`mailto:${identity.email}`} className={linkClass}>
+            <span className={numClass}>03</span>
+            Contact
           </a>
-        ))}
-      </nav>
+        </nav>
+        <div
+          className={css({
+            display: { base: 'none', lg: 'flex' },
+            flexDirection: 'column',
+            alignItems: 'flex-end',
+            marginLeft: 'auto',
+            lineHeight: 'snug',
+          })}
+        >
+          <span className={css({ fontSize: 'xs', fontWeight: 'bold', letterSpacing: 'normal' })}>
+            Aldie, VA
+          </span>
+          <span className={css({ fontSize: '2xs', color: 'textMuted' })}>Oct 8, 2026</span>
+        </div>
+      </div>
     </header>
   )
 }

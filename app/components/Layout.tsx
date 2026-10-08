@@ -1,27 +1,23 @@
 import type { ReactNode } from 'react'
 import { css } from '../../styled-system/css'
 import { Sidebar } from './Sidebar'
-import { FootStrip } from './generated/FootStrip'
+import { SiteFooter } from './generated/SiteFooter'
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
     <div
       className={css({
-        display: 'grid',
-        gridTemplateColumns: '1fr',
-        minHeight: '100vh',
         bg: 'bg',
         color: 'text',
         fontFamily: 'body',
+        minHeight: '100vh',
         overflowX: 'clip',
-        lg: { gridTemplateColumns: '96px 1fr', gridTemplateRows: '1fr auto' },
+        fontVariantNumeric: 'tabular-nums',
       })}
     >
       <Sidebar />
-      <main className={css({ minWidth: '0', lg: { gridColumn: '2', gridRow: '1' } })}>
-        {children}
-      </main>
-      <FootStrip />
+      <main>{children}</main>
+      <SiteFooter />
     </div>
   )
 }

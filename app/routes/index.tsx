@@ -1,18 +1,17 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { SiteCallout } from '../components/SiteCallout'
-import { Field } from '../components/generated/Field'
 import { HomeHero } from '../components/generated/HomeHero'
-import { HomeSignals } from '../components/generated/HomeSignals'
+import { Ledger } from '../components/generated/Ledger'
+import { WorkIndex } from '../components/generated/WorkIndex'
 
 export const Route = createFileRoute('/')({ component: HomePage })
 
 function HomePage() {
   return (
     <>
-      <Field>
-        <HomeHero />
-        <HomeSignals />
-      </Field>
+      <HomeHero />
+      <Ledger />
+      <WorkIndex />
       <SiteCallout />
     </>
   )

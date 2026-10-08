@@ -1,0 +1,272 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "The mockup sets 'vibration' at 128px over 'spaceman' at 78px, a 1.6x lead; the build sets them at 160px and 160px. Restore the mockup's sizes so 'vibration' leads.",
+          "facts": {
+            "shape": "flattened",
+            "leader": {
+              "text": "vibration",
+              "mockupPx": 128,
+              "buildPx": 160
+            },
+            "runnerUp": {
+              "text": "spaceman",
+              "mockupPx": 78,
+              "buildPx": 160
+            },
+            "mockupGap": 1.6,
+            "buildGap": 1,
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' is 78px in the mockup and 160px in the build (2.06x). Set it back to 78px.",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 78,
+            "buildPx": 160,
+            "ratio": 2.06,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "mockup's largest ('vibration', 56px) leads its runner-up ('and', 40px) by 1.4x; in the build the same two lead by only 1.1x",
+          "facts": {
+            "shape": "flattened",
+            "leader": {
+              "text": "vibration",
+              "mockupPx": 56,
+              "buildPx": 63
+            },
+            "runnerUp": {
+              "text": "and",
+              "mockupPx": 40,
+              "buildPx": 55
+            },
+            "mockupGap": 1.4,
+            "buildGap": 1.1,
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman' is 36px in the mockup and 63px in the build (1.74x)",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 36,
+            "buildPx": 63,
+            "ratio": 1.74,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'777.22 -0.24' moved from (103, 446) in the mockup to (124, 609) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'clear 55°f' moved from (84, 561) in the mockup to (100, 741) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: The mockup sets 'vibration' at 56px over 'and' at 40px, a 1.4x lead; the build sets them at 63px and 55px. Restore the mockup's sizes so 'vibration' leads.",
+        "- / at 360px: 'spaceman' is 36px in the mockup and 63px in the build (1.74x). Set it back to 36px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'vibration' (56px); in build it is 'vibration' (56px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "and",
+                "mockupPx": 40
+              },
+              {
+                "text": "spaceman",
+                "mockupPx": 36
+              }
+            ],
+            "leader": {
+              "text": "vibration",
+              "mockupPx": 56
+            },
+            "buildLeader": {
+              "text": "vibration",
+              "buildPx": 56,
+              "mockupPx": 56
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'clear 55°f' moved from (84, 561) in the mockup to (100, 721) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: 'vibration' still leads, but the mockup's 'and' (40px), 'spaceman' (36px) fell out of the build's three largest texts. Restore the mockup's sizes."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'vibration' (56px); in build it is 'vibration' (56px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "and",
+                "mockupPx": 40
+              },
+              {
+                "text": "spaceman",
+                "mockupPx": 36
+              }
+            ],
+            "leader": {
+              "text": "vibration",
+              "mockupPx": 56
+            },
+            "buildLeader": {
+              "text": "vibration",
+              "buildPx": 56,
+              "mockupPx": 56
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'clear 55°f' moved from (84, 561) in the mockup to (100, 721) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: 'vibration' still leads, but the mockup's 'and' (40px), 'spaceman' (36px) fell out of the build's three largest texts. Restore the mockup's sizes."
+      ]
+    },
+    {
+      "round": 4,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'vibration' (56px); in build it is 'vibration' (56px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "and",
+                "mockupPx": 40
+              },
+              {
+                "text": "spaceman",
+                "mockupPx": 36
+              }
+            ],
+            "leader": {
+              "text": "vibration",
+              "mockupPx": 56
+            },
+            "buildLeader": {
+              "text": "vibration",
+              "buildPx": 56,
+              "mockupPx": 56
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'clear 55°f' moved from (84, 561) in the mockup to (100, 721) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: 'vibration' still leads, but the mockup's 'and' (40px), 'spaceman' (36px) fell out of the build's three largest texts. Restore the mockup's sizes."
+      ]
+    }
+  ]
+}
