@@ -248,8 +248,8 @@ jobs:
       # A red main used to be found after the paid run, by the same `pnpm test`
       # further down, and the night's $4 to $5 went with it (#574). Unit tests
       # only: the e2e run needs the night's build, so it stays after the run.
-      # No env on this step. ANTHROPIC_API_KEY is scoped to the run step
-      # below, and a test has no use for it.
+      # No env on this step. CLAUDE_CODE_OAUTH_TOKEN is scoped to the run
+      # step below, and a test has no use for it.
       - name: Stop here if main is red
         run: pnpm test
 
@@ -334,7 +334,15 @@ jobs:
       - name: Run daily redesign
         id: redesign
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # The run bills Doug's Max plan through the claude CLI, not the API
+          # (2026-10-09, after the API credit ran out). The token comes from
+          # `claude setup-token` and lasts a year. Without an API key models.js
+          # would cap every agent at Sonnet, so the tier is set here. To go
+          # back to the API, swap the token for
+          # `ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}` and drop
+          # PIPELINE_TIER; that secret is kept for it.
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          PIPELINE_TIER: prod
           DRY_RUN: ${{ inputs.dry_run || 'false' }}
           # Loosened 2026-09-21 (#633): a build with engineer-owned faults
           # left after the revision rounds ships with a SHIPPED-WITH-FAULTS
