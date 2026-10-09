@@ -1,0 +1,609 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'ten years of choosing the harder right build - buildable before the code faithful to the mockup after it' (22px in the mockup) has no match in the build",
+          "facts": {
+            "text": "ten years of choosing the harder right build - buildable before the code faithful to the mockup after it",
+            "mockupPx": 22,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'founder view ↗' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "founder view ↗",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "The mockup's largest text is 'spaceman' at 94px; the build sets 'fishsticks' at 120px. Restore the mockup's hierarchy: 'fishsticks' is 94px in the mockup.",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "spaceman",
+                "mockupPx": 94
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 94
+            },
+            "buildLeader": {
+              "text": "fishsticks",
+              "buildPx": 120,
+              "mockupPx": 94
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' moved from (821, 289) in the mockup to (328, 1230) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' moved from (319, 888) in the mockup to (944, 910) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2018' moved from (1318, 303) in the mockup to (1317, 1833) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2025' moved from (1318, 502) in the mockup to (993, 2014) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2025' moved from (1207, 701) in the mockup to (1317, 2195) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2026' moved from (1318, 902) in the mockup to (1301, 374) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dark times lie ahead of us and there will be a time when we must choose between what is easy and what is right' moved from (329, 692) in the mockup to (329, 1016) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'ten years of choosing the harder right build - buildable before the code faithful to the mockup after it' (18px in the mockup) has no match in the build",
+          "facts": {
+            "text": "ten years of choosing the harder right build - buildable before the code faithful to the mockup after it",
+            "mockupPx": 18,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'spaceman' (44px); in build it is 'what is easy and what is right' (46px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "spaceman",
+                "mockupPx": 44
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 44
+            },
+            "buildLeader": {
+              "text": "what is easy and what is right",
+              "buildPx": 46,
+              "mockupPx": 31
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' moved from (123, 174) in the mockup to (107, 3089) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: The mockup's largest text is 'spaceman' at 44px; the build sets 'what is easy and what is right' at 46px. Restore the mockup's hierarchy: 'what is easy and what is right' is 31px in the mockup.",
+        "- / at 1440px: The mockup sets 'ten years of choosing the harder right build - buildable ...' at 22px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'founder view ↗' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'ten years of choosing the harder right build - buildable ...' at 18px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'ten years of choosing the harder right build - buildable before the code faithful to the mockup after it' (22px in the mockup) has no match in the build",
+          "facts": {
+            "text": "ten years of choosing the harder right build - buildable before the code faithful to the mockup after it",
+            "mockupPx": 22,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'spaceman' (94px); in build it is 'spaceman' (94px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "fishsticks",
+                "mockupPx": 94
+              },
+              {
+                "text": "15th club",
+                "mockupPx": 94
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 94
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 94,
+              "mockupPx": 94
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' moved from (319, 888) in the mockup to (853, 1086) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2018' moved from (1318, 303) in the mockup to (1317, 1531) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2025' moved from (1318, 502) in the mockup to (993, 1712) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2025' moved from (1207, 701) in the mockup to (1317, 1893) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2026' moved from (1318, 902) in the mockup to (1301, 330) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'ai view ↗' moved from (665, 757) in the mockup to (666, 955) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'ten years of choosing the harder right build - buildable before the code faithful to the mockup after it' (18px in the mockup) has no match in the build",
+          "facts": {
+            "text": "ten years of choosing the harder right build - buildable before the code faithful to the mockup after it",
+            "mockupPx": 18,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'spaceman' (44px); in build it is 'fishsticks' (46px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "spaceman",
+                "mockupPx": 44
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 44
+            },
+            "buildLeader": {
+              "text": "fishsticks",
+              "buildPx": 46,
+              "mockupPx": 44
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' moved from (123, 174) in the mockup to (107, 2925) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'spaceman' still leads, but the mockup's 'fishsticks' (94px), '15th club' (94px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: The mockup's largest text is 'spaceman' at 44px; the build sets 'fishsticks' at 46px. Restore the mockup's hierarchy: 'fishsticks' is 44px in the mockup.",
+        "- / at 1440px: The mockup sets 'ten years of choosing the harder right build - buildable ...' at 22px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'ten years of choosing the harder right build - buildable ...' at 18px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'ten years of choosing the harder right build - buildable before the code faithful to the mockup after it' (22px in the mockup) has no match in the build",
+          "facts": {
+            "text": "ten years of choosing the harder right build - buildable before the code faithful to the mockup after it",
+            "mockupPx": 22,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' moved from (319, 888) in the mockup to (875, 1106) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2018' moved from (1318, 303) in the mockup to (1317, 1555) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2025' moved from (1318, 502) in the mockup to (993, 1736) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2025' moved from (1207, 701) in the mockup to (1317, 1917) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2026' moved from (1318, 902) in the mockup to (1301, 330) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dark times lie ahead of us and there will be a time when we must choose between what is easy and what is right' moved from (329, 692) in the mockup to (329, 906) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'ai view ↗' moved from (665, 757) in the mockup to (666, 971) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'ten years of choosing the harder right build - buildable before the code faithful to the mockup after it' (18px in the mockup) has no match in the build",
+          "facts": {
+            "text": "ten years of choosing the harder right build - buildable before the code faithful to the mockup after it",
+            "mockupPx": 18,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' moved from (123, 174) in the mockup to (107, 2918) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets 'ten years of choosing the harder right build - buildable ...' at 22px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'ten years of choosing the harder right build - buildable ...' at 18px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 4,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'ten years of choosing the harder right build - buildable before the code faithful to the mockup after it' (22px in the mockup) has no match in the build",
+          "facts": {
+            "text": "ten years of choosing the harder right build - buildable before the code faithful to the mockup after it",
+            "mockupPx": 22,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' moved from (319, 888) in the mockup to (875, 1106) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2018' moved from (1318, 303) in the mockup to (1317, 1555) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2025' moved from (1318, 502) in the mockup to (993, 1736) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2025' moved from (1207, 701) in the mockup to (1317, 1917) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2026' moved from (1318, 902) in the mockup to (1301, 330) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dark times lie ahead of us and there will be a time when we must choose between what is easy and what is right' moved from (329, 692) in the mockup to (329, 906) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'ai view ↗' moved from (665, 757) in the mockup to (666, 971) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'ten years of choosing the harder right build - buildable before the code faithful to the mockup after it' (18px in the mockup) has no match in the build",
+          "facts": {
+            "text": "ten years of choosing the harder right build - buildable before the code faithful to the mockup after it",
+            "mockupPx": 18,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' moved from (123, 174) in the mockup to (107, 2918) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets 'ten years of choosing the harder right build - buildable ...' at 22px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'ten years of choosing the harder right build - buildable ...' at 18px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

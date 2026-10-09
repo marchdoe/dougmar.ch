@@ -1,99 +1,120 @@
 import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
-import { BrandLockup } from './BrandLockup'
+import { SigRow } from './generated/SigRow'
 
-const links = [
-  { n: '01', label: 'Work', href: '/work' },
-  { n: '02', label: 'About', href: '/about' },
+const signals = [
+  { label: 'Weather', value: 'Aldie, Virginia · Overcast · 52°F' },
+  { label: 'Moon', value: 'New moon · 1.5% lit' },
+  { label: 'Market', value: 'SPY 773.93 ▾ 0.42%' },
+  { label: 'Golf', value: 'Baycurrent Classic · Mitchell −11 · Bridgeman −11' },
+  { label: 'Rotation', value: 'My Morning Jacket, Radiohead, The War on Drugs' },
 ]
 
-const linkClass = css({
+const linkCls = css({
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '6px',
   minHeight: '44px',
   minWidth: '44px',
-  paddingBlock: '4px',
-  paddingInlineStart: '0',
-  paddingInlineEnd: '14px',
-  textDecoration: 'none',
-  color: 'text',
-  fontVariant: 'small-caps',
-  letterSpacing: 'wide',
   fontSize: 'sm',
-  fontWeight: 'bold',
-  _hover: { color: 'accent' },
+  fontVariant: 'small-caps',
+  letterSpacing: 'wider',
+  color: 'accentAlt',
+  _hover: { color: 'text' },
 })
-
-const numClass = css({ color: 'textMuted', fontSize: 'xs', fontVariantNumeric: 'tabular-nums' })
 
 export function Sidebar() {
   return (
-    <header className={css({ position: 'relative', zIndex: 5, bg: 'bg' })}>
-      <div
+    <footer
+      className={css({
+        bg: 'bgAlt',
+        color: 'textMuted',
+        paddingTop: '44px',
+        paddingInline: '24px',
+        paddingBottom: '54px',
+        borderTop: '2px solid',
+        borderColor: 'borderStrong',
+        lg: {
+          display: 'grid',
+          gridTemplateColumns: 'repeat(12, minmax(0, 1fr))',
+          columnGap: '2vw',
+          rowGap: '0',
+          paddingTop: '60px',
+          paddingInline: '4vw',
+          paddingBottom: '68px',
+        },
+        xl: { paddingInline: '5vw' },
+      })}
+    >
+      <h2
         className={css({
-          display: 'flex',
-          alignItems: 'center',
-          flexWrap: { base: 'wrap', lg: 'nowrap' },
-          rowGap: { base: '14px', lg: '0' },
-          columnGap: { base: '22px', lg: '28px' },
-          paddingBlock: { base: '10px', lg: '0' },
-          paddingInline: 'clamp(24px, 6vw, 96px)',
-          height: { lg: '64px' },
-          borderBottomWidth: '1px',
-          borderBottomStyle: 'solid',
-          borderBottomColor: 'borderStrong',
+          fontFamily: 'display',
+          fontStyle: 'italic',
+          fontVariant: 'small-caps',
+          letterSpacing: 'wider',
+          fontSize: 'sm',
+          color: 'textFaint',
+          marginBottom: '18px',
+          lg: { gridColumn: '1 / 13' },
         })}
       >
-        {/* mockup espresso #2A2010 has no semantic token; nearest is text */}
-        {/* the lockup gets its own full row below lg and never shrinks, so its role line keeps its full width at 820 */}
+        Colophon · 09 October 2026
+      </h2>
+      <div className={css({ lg: { gridColumn: '1 / 9' } })}>
+        {signals.map((s) => (
+          <SigRow key={s.label} label={s.label} value={s.value} />
+        ))}
+      </div>
+      <div
+        className={css({
+          marginTop: '6',
+          lg: { gridColumn: '10 / 13', marginTop: '0', alignSelf: 'start' },
+        })}
+      >
         <div
           className={css({
-            display: 'flex',
-            alignItems: 'center',
-            flexShrink: 0,
-            flexBasis: { base: '100%', lg: 'auto' },
-            minWidth: { md: 'max-content' },
+            fontFamily: 'display',
+            fontStyle: 'italic',
+            fontVariant: 'small-caps',
+            letterSpacing: 'wide',
+            fontSize: 'lg',
             color: 'text',
           })}
         >
-          <BrandLockup variant="horizontal-md" mode="single-color" roleLine />
+          {identity.name}
         </div>
-        <nav
-          aria-label="Primary"
-          className={css({
-            flexBasis: { base: '100%', lg: 'auto' },
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: { base: '4px', lg: '10px' },
-          })}
-        >
-          {links.map((l) => (
-            <a key={l.href} href={l.href} className={linkClass}>
-              <span className={numClass}>{l.n}</span>
-              {l.label}
-            </a>
-          ))}
-          <a href={`mailto:${identity.email}`} className={linkClass}>
-            <span className={numClass}>03</span>
-            Contact
+        <div className={css({ fontSize: 'sm', color: 'textMuted', marginTop: '1' })}>
+          {identity.role}
+        </div>
+        <div className={css({ display: 'flex', flexWrap: 'wrap', columnGap: '5', marginTop: '2' })}>
+          <a href={`mailto:${identity.email}`} className={linkCls}>
+            {identity.email}
           </a>
-        </nav>
+          <a href="/about" className={linkCls}>
+            About
+          </a>
+        </div>
         <div
           className={css({
-            display: { base: 'none', lg: 'flex' },
-            flexDirection: 'column',
-            alignItems: 'flex-end',
-            marginLeft: 'auto',
-            lineHeight: 'snug',
+            marginTop: '22px',
+            fontSize: '2xs',
+            color: 'textFaint',
+            fontVariant: 'small-caps',
+            letterSpacing: 'wider',
           })}
         >
-          <span className={css({ fontSize: 'xs', fontWeight: 'bold', letterSpacing: 'normal' })}>
-            Aldie, VA
-          </span>
-          <span className={css({ fontSize: '2xs', color: 'textMuted' })}>Oct 8, 2026</span>
+          Columbus Day, Monday
+        </div>
+        <div
+          className={css({
+            marginTop: '14px',
+            fontSize: '2xs',
+            color: 'textFaint',
+            letterSpacing: 'wide',
+          })}
+        >
+          {identity.name} · Spectral &amp; Albert Sans · set in spruce and bone
         </div>
       </div>
-    </header>
+    </footer>
   )
 }

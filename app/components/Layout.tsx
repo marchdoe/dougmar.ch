@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react'
 import { css } from '../../styled-system/css'
 import { Sidebar } from './Sidebar'
-import { SiteFooter } from './generated/SiteFooter'
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
@@ -10,14 +9,13 @@ export function Layout({ children }: { children: ReactNode }) {
         bg: 'bg',
         color: 'text',
         fontFamily: 'body',
+        fontSize: 'base',
+        lineHeight: 'normal',
         minHeight: '100vh',
-        overflowX: 'clip',
-        fontVariantNumeric: 'tabular-nums',
       })}
     >
-      <Sidebar />
       <main>{children}</main>
-      <SiteFooter />
+      <Sidebar />
     </div>
   )
 }
