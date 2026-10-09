@@ -22,61 +22,47 @@ function OgCard() {
           width: '1200px',
           height: '630px',
           flexShrink: 0,
+          display: 'grid',
+          gridTemplateColumns: '900px 300px',
           bg: 'bg',
-          color: 'text',
-          padding: '64px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          borderBottomWidth: '12px',
-          borderBottomStyle: 'solid',
-          borderBottomColor: 'field',
         })}
       >
-        <div className={css({ color: 'text' })}>
-          <BrandLockup variant="horizontal-md" mode="single-color" roleLine />
+        <div
+          className={css({
+            bg: 'field',
+            color: 'fieldInk',
+            paddingBlock: '64px',
+            paddingInline: '72px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+          })}
+        >
+          <BrandLockup variant="stacked-lg" mode="original" />
+          <h1
+            className={css({
+              fontFamily: 'display',
+              fontStyle: 'italic',
+              fontWeight: 'light',
+              fontVariant: 'small-caps',
+              letterSpacing: 'wide',
+              fontSize: '74px',
+              lineHeight: 'tight',
+              color: 'fieldInk',
+              maxWidth: '740px',
+            })}
+          >
+            What is easy and what is right
+          </h1>
         </div>
-        <h1 className={css({ textAlign: 'right', fontFamily: 'display' })}>
-          <span
-            className={css({
-              display: 'block',
-              fontWeight: 'normal',
-              fontSize: '30px',
-              lineHeight: '1.15',
-              letterSpacing: 'tight',
-              color: 'textMuted',
-              maxWidth: '760px',
-              marginLeft: 'auto',
-              marginBottom: '14px',
-            })}
-          >
-            If you want to find the secrets of the universe, think in terms of{' '}
-          </span>
-          <span
-            className={css({
-              display: 'block',
-              fontWeight: 'bold',
-              fontSize: '56px',
-              lineHeight: '0.95',
-              letterSpacing: 'tight',
-              color: 'text',
-            })}
-          >
-            energy, frequency and{' '}
-          </span>
-          <span
-            className={css({
-              display: 'block',
-              fontWeight: 'bold',
-              fontSize: '120px',
-              lineHeight: '0.9',
-              letterSpacing: 'tight',
-              color: 'accent',
-            })}
-          >
-            vibration.
-          </span>
-        </h1>
+        <div
+          className={css({
+            bg: 'bg',
+            borderLeft: '6px solid',
+            borderColor: 'accent',
+          })}
+        />
       </div>
     </div>
   )

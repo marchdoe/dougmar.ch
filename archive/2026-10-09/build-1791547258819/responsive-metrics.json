@@ -1,0 +1,94 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 5
+    },
+    "tablet": {
+      "width": 820,
+      "height": 1180,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "SPAN",
+            "selector": "div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0",
+            "text": "A new design ships every morning.",
+            "cause": "text",
+            "right": 515,
+            "over": 40,
+            "boxWidth": 190
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "‹",
+            "w": 32,
+            "h": 44
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 5
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 5
+    }
+  },
+  "overallScore": 3,
+  "worstFailure": {
+    "viewport": "tablet",
+    "check": "clippedElements",
+    "detail": "1 element(s) clipped (first: <SPAN>)"
+  },
+  "buildId": "1791547258819",
+  "date": "2026-10-09",
+  "archetype": "a creed over a broadsheet index"
+}
