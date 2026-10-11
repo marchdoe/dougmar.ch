@@ -1,23 +1,24 @@
 import type { ReactNode } from 'react'
 import { css } from '../../styled-system/css'
 import { Sidebar } from './Sidebar'
-import { SiteFooter } from './generated/SiteFooter'
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
     <div
       className={css({
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
         bg: 'bg',
         color: 'text',
         fontFamily: 'body',
-        minHeight: '100vh',
+        fontSize: 'base',
+        lineHeight: 'normal',
         overflowX: 'clip',
-        fontVariantNumeric: 'tabular-nums',
       })}
     >
+      <main className={css({ flex: '1', minWidth: 0 })}>{children}</main>
       <Sidebar />
-      <main>{children}</main>
-      <SiteFooter />
     </div>
   )
 }

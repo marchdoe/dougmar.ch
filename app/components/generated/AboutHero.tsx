@@ -1,57 +1,37 @@
-import { css } from '../../../styled-system/css'
+import { css, cx } from '../../../styled-system/css'
 import { identity } from '../../content/about'
+import { HeroShell } from './HeroShell'
+import { Lab } from './Lab'
+import { wipeFirst, wipeSecond } from './motion'
 
 export function AboutHero() {
   return (
-    <section
-      className={css({
-        paddingInline: 'clamp(24px, 6vw, 96px)',
-        paddingTop: 'clamp(36px, 5vw, 72px)',
-        paddingBottom: 'clamp(40px, 5vw, 80px)',
-      })}
-    >
-      <div
-        className={css({
-          fontFamily: 'display',
-          fontWeight: 'bold',
-          fontSize: '3xl',
-          lineHeight: 'tight',
-          letterSpacing: 'tight',
-          color: 'text',
-          animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '0ms',
-        })}
-      >
-        {identity.name}
-      </div>
-      <p
-        className={css({
-          marginTop: '2',
-          fontSize: 'lg',
-          color: 'textMuted',
-          maxWidth: '48ch',
-          animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '80ms',
-        })}
-      >
-        {identity.role}
-      </p>
-      <h1
-        className={css({
-          marginTop: '6',
-          fontFamily: 'body',
-          fontWeight: 'normal',
-          fontSize: 'lede',
-          lineHeight: 'normal',
-          color: 'text',
-          maxWidth: '48ch',
-          textWrap: 'pretty',
-          animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '160ms',
-        })}
-      >
-        {identity.statement}
-      </h1>
-    </section>
+    <HeroShell
+      lead={
+        <>
+          <h1
+            className={cx(
+              wipeFirst,
+              css({
+                fontFamily: 'display',
+                fontStyle: 'italic',
+                fontWeight: 'normal',
+                fontSize: 'clamp(26px, 3.4vw, 46px)',
+                lineHeight: '1.15',
+                letterSpacing: 'tight',
+                color: 'text',
+                maxWidth: '26ch',
+                marginTop: 'clamp(26px, 4vw, 40px)',
+              })
+            )}
+          >
+            {identity.statement}
+          </h1>
+          <div className={cx(wipeSecond, css({ marginTop: '4', bg: 'bg', width: 'fit-content' }))}>
+            <Lab>{identity.role}</Lab>
+          </div>
+        </>
+      }
+    />
   )
 }

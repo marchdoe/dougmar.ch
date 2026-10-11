@@ -1,99 +1,142 @@
 import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
 import { BrandLockup } from './BrandLockup'
+import { Lab } from './generated/Lab'
+import { MetaGroup } from './generated/MetaGroup'
 
-const links = [
-  { n: '01', label: 'Work', href: '/work' },
-  { n: '02', label: 'About', href: '/about' },
-]
-
-const linkClass = css({
-  display: 'inline-flex',
+const navLink = css({
+  display: 'flex',
   alignItems: 'center',
-  gap: '6px',
-  minHeight: '44px',
-  minWidth: '44px',
-  paddingBlock: '4px',
-  paddingInlineStart: '0',
-  paddingInlineEnd: '14px',
+  minHeight: '56px',
+  paddingBlock: '2',
+  borderBottomWidth: '1px',
+  borderBottomStyle: 'solid',
+  borderColor: 'fieldBorder',
   textDecoration: 'none',
-  color: 'text',
-  fontVariant: 'small-caps',
-  letterSpacing: 'wide',
-  fontSize: 'sm',
+  fontFamily: 'body',
   fontWeight: 'bold',
-  _hover: { color: 'accent' },
+  fontVariantCaps: 'all-small-caps',
+  letterSpacing: 'wider',
+  textStyle: 'sm',
+  color: 'fieldInk',
+  _hover: { color: 'accentAlt' },
 })
 
-const numClass = css({ color: 'textMuted', fontSize: 'xs', fontVariantNumeric: 'tabular-nums' })
-
+// Colophon footer: shell_posture footer-only, the nav index lives here.
 export function Sidebar() {
   return (
-    <header className={css({ position: 'relative', zIndex: 5, bg: 'bg' })}>
-      <div
+    <footer
+      className={css({
+        bg: 'field',
+        color: 'fieldInk',
+        marginTop: 'clamp(48px, 6vw, 88px)',
+        paddingTop: 'clamp(40px, 6vw, 72px)',
+        paddingBottom: 'clamp(40px, 6vw, 64px)',
+        paddingInline: 'clamp(28px, 6vw, 108px)',
+        display: 'grid',
+        gridTemplateColumns: '1fr',
+        rowGap: '48px',
+        lg: { gridTemplateColumns: 'repeat(12, 1fr)', columnGap: '24px', rowGap: '40px' },
+      })}
+    >
+      <div className={css({ minWidth: 0, lg: { gridColumn: '1 / 5' } })}>
+        <BrandLockup
+          variant="stacked-lg"
+          mode="single-color"
+          className={css({ color: 'fieldInk' })}
+        />
+        <div className={css({ marginTop: '5' })}>
+          <Lab>{identity.role}</Lab>
+        </div>
+        <p
+          className={css({
+            marginTop: '3',
+            marginBottom: '0',
+            maxWidth: '34ch',
+            color: 'fieldInkMuted',
+            textStyle: 'sm',
+          })}
+        >
+          Independent product and brand design from Aldie, Virginia. Ten years of Spaceman, built on
+          my own terms.
+        </p>
+      </div>
+      <nav
+        aria-label="Primary"
         className={css({
           display: 'flex',
-          alignItems: 'center',
-          flexWrap: { base: 'wrap', lg: 'nowrap' },
-          rowGap: { base: '14px', lg: '0' },
-          columnGap: { base: '22px', lg: '28px' },
-          paddingBlock: { base: '10px', lg: '0' },
-          paddingInline: 'clamp(24px, 6vw, 96px)',
-          height: { lg: '64px' },
-          borderBottomWidth: '1px',
-          borderBottomStyle: 'solid',
-          borderBottomColor: 'borderStrong',
+          flexDirection: 'column',
+          borderTopWidth: '1px',
+          borderTopStyle: 'solid',
+          borderColor: 'fieldBorder',
+          lg: { gridColumn: '5 / 8' },
         })}
       >
-        {/* mockup espresso #2A2010 has no semantic token; nearest is text */}
-        {/* the lockup gets its own full row below lg and never shrinks, so its role line keeps its full width at 820 */}
-        <div
-          className={css({
-            display: 'flex',
-            alignItems: 'center',
-            flexShrink: 0,
-            flexBasis: { base: '100%', lg: 'auto' },
-            minWidth: { md: 'max-content' },
-            color: 'text',
-          })}
-        >
-          <BrandLockup variant="horizontal-md" mode="single-color" roleLine />
-        </div>
-        <nav
-          aria-label="Primary"
-          className={css({
-            flexBasis: { base: '100%', lg: 'auto' },
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: { base: '4px', lg: '10px' },
-          })}
-        >
-          {links.map((l) => (
-            <a key={l.href} href={l.href} className={linkClass}>
-              <span className={numClass}>{l.n}</span>
-              {l.label}
-            </a>
-          ))}
-          <a href={`mailto:${identity.email}`} className={linkClass}>
-            <span className={numClass}>03</span>
-            Contact
-          </a>
-        </nav>
-        <div
-          className={css({
-            display: { base: 'none', lg: 'flex' },
-            flexDirection: 'column',
-            alignItems: 'flex-end',
-            marginLeft: 'auto',
-            lineHeight: 'snug',
-          })}
-        >
-          <span className={css({ fontSize: 'xs', fontWeight: 'bold', letterSpacing: 'normal' })}>
-            Aldie, VA
-          </span>
-          <span className={css({ fontSize: '2xs', color: 'textMuted' })}>Oct 8, 2026</span>
-        </div>
+        <a href="/work" className={navLink}>
+          Work
+        </a>
+        <a href="/about" className={navLink}>
+          About
+        </a>
+        <a href={`mailto:${identity.email}`} className={navLink}>
+          Contact
+        </a>
+      </nav>
+      <div
+        className={css({
+          display: 'grid',
+          rowGap: '26px',
+          minWidth: 0,
+          lg: { gridColumn: '9 / 13' },
+        })}
+      >
+        <MetaGroup
+          label="Aldie, VA"
+          lines={[
+            ['Weather', 'Light rain · 61.5°F'],
+            ['Moon', 'New · 0.01'],
+            ['Today', 'Columbus Day · Oct 12'],
+          ]}
+        />
+        <MetaGroup
+          label="On rotation"
+          lines={[
+            ['Side A', 'The War on Drugs'],
+            ['Side B', 'Guided by Voices'],
+          ]}
+        />
       </div>
-    </header>
+      <div
+        className={css({
+          gridColumn: '1 / -1',
+          borderTopWidth: '1px',
+          borderTopStyle: 'solid',
+          borderColor: 'fieldBorder',
+          paddingTop: '5',
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          rowGap: '3',
+          columnGap: '6',
+          justifyContent: 'space-between',
+          textStyle: 'xs',
+          letterSpacing: 'wide',
+          color: 'textFaint',
+        })}
+      >
+        <span>© 2026 {identity.name}, Spaceman LLC</span>
+        <a
+          href={`mailto:${identity.email}`}
+          className={css({
+            color: 'fieldInk',
+            display: 'inline-flex',
+            alignItems: 'center',
+            minHeight: '44px',
+          })}
+        >
+          {identity.email}
+        </a>
+      </div>
+    </footer>
   )
 }
