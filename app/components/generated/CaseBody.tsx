@@ -1,68 +1,72 @@
-import { css } from '../../../styled-system/css'
+import { css, cx } from '../../../styled-system/css'
 import type { projects } from '../../content/projects'
-import { Band } from './Band'
-import { CaseLinks } from './CaseLinks'
+import { riseOnScroll } from './motion'
+import { textField } from './projectFields'
 
-type CaseProject = (typeof projects)[number]
+type Project = (typeof projects)[number]
 
-export function CaseBody({ project }: { project: CaseProject }) {
-  const blocks = [
-    { label: 'Problem', body: project.problem },
-    { label: 'Approach', body: project.approach },
-    { label: 'Outcome', body: project.outcome },
-    { label: 'About', body: project.problem ? undefined : project.description },
-  ].filter((b) => Boolean(b.body))
+// At lg the narrative sets as side-by-side columns across the full grid,
+// so the row is filled without stretching any line past its measure.
+export function CaseBody({ project }: { project: Project }) {
+  const sections = [
+    ['Problem', textField(project, 'problem')],
+    ['Approach', textField(project, 'approach')],
+    ['Outcome', textField(project, 'outcome')],
+    ['Overview', textField(project, 'description')],
+  ].filter(([, body]) => body !== '')
   return (
-    <Band label="Case study">
-      {blocks.map((b) => (
+    <section
+      className={cx(
+        riseOnScroll,
+        css({
+          paddingInline: 'clamp(28px, 6vw, 108px)',
+          paddingTop: 'clamp(16px, 3vw, 32px)',
+          paddingBottom: 'clamp(48px, 6vw, 80px)',
+          display: 'grid',
+          gridTemplateColumns: '1fr',
+          rowGap: '6',
+          lg: {
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            columnGap: '48px',
+          },
+        })
+      )}
+    >
+      {sections.map(([label, body]) => (
         <div
-          key={b.label}
+          key={label}
           className={css({
-            display: 'grid',
-            gridTemplateColumns: { base: '1fr', md: '160px minmax(0, 1fr)' },
-            columnGap: '6',
-            alignItems: 'start',
-            paddingTop: '6',
-            _first: { paddingTop: '0' },
+            minWidth: 0,
+            borderTopWidth: '1px',
+            borderTopStyle: 'solid',
+            borderColor: 'borderStrong',
+            paddingTop: '4',
           })}
         >
-          <span
+          <h2
             className={css({
-              display: 'block',
-              fontSize: { base: '2xs', md: 'sm' },
-              textTransform: 'uppercase',
-              letterSpacing: 'wider',
+              fontFamily: 'display',
+              fontStyle: 'italic',
+              fontWeight: 'normal',
+              textStyle: 'xl',
               color: 'text',
-              fontWeight: 'bold',
               marginBottom: '3',
-              paddingTop: { md: '5' },
             })}
           >
-            {b.label}
-          </span>
-          <div
+            {label}
+          </h2>
+          <p
             className={css({
-              bg: 'surface',
-              borderRadius: 'sm',
-              paddingBlock: '5',
-              paddingInline: '5',
+              marginBlock: '0',
+              textStyle: 'base',
+              color: 'text',
               maxWidth: '52ch',
             })}
           >
-            <p
-              className={css({
-                fontSize: { base: 'base', lg: 'lede' },
-                lineHeight: 'normal',
-                color: 'text',
-                maxWidth: '48ch',
-              })}
-            >
-              {b.body}
-            </p>
-          </div>
+            {body}
+          </p>
         </div>
       ))}
-      <CaseLinks stack={project.stack} liveUrl={project.liveUrl} githubUrl={project.githubUrl} />
-    </Band>
+    </section>
   )
 }

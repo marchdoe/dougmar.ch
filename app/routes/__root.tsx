@@ -36,7 +36,7 @@ import type { ReactNode } from 'react'
 const archiveLink = css({
   display: 'block',
   background: 'bg',
-  color: 'textFaint',
+  color: 'textMuted',
   fontSize: 'xs',
   letterSpacing: '0.08em',
   textAlign: 'center',
@@ -57,9 +57,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-10-08'
-const PREV_DATE: string | null = '2026-10-07'
-const ARCHIVE_COUNT = 159
+const DESIGN_DATE = '2026-10-11'
+const PREV_DATE: string | null = '2026-10-08'
+const ARCHIVE_COUNT = 160
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -72,21 +72,17 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      {
-        title:
-          'If you want to find the secrets of the universe, think in terms of energy, frequency and vibration.',
-      },
+      { title: 'Better to die fighting for freedom than be a prisoner all the days of your life.' },
       {
         property: 'og:title',
-        content:
-          'If you want to find the secrets of the universe, think in terms of energy, frequency and vibration.',
+        content: 'Better to die fighting for freedom than be a prisoner all the days of your life.',
       },
       {
         property: 'og:description',
         content:
-          "Saffron drench, Tesla's triad rising to a burnt-sienna VIBRATION, halftone drifting like a tuned signal.",
+          "Rust-terracotta founder's ledger, Spaceman at specimen scale, a Marley freedom line stamped as its caption, one ember stroke for the night's loss.",
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-08.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-11.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
@@ -94,17 +90,16 @@ export const Route = createRootRoute({
       { name: 'twitter:card', content: 'summary_large_image' },
       {
         name: 'twitter:title',
-        content:
-          'If you want to find the secrets of the universe, think in terms of energy, frequency and vibration.',
+        content: 'Better to die fighting for freedom than be a prisoner all the days of your life.',
       },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-08.png' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-11.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=Manrope:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Albert+Sans:wght@400;500;600&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -291,7 +286,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 159 designs
+            Archive · 160 designs
           </a>
         )}
         <ScrollRestoration />

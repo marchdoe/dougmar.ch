@@ -1,19 +1,19 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { WhitePaper } from '../components/WhitePaper'
 import { CaseBody } from '../components/generated/CaseBody'
-import { CaseHero } from '../components/generated/CaseHero'
-import { CaseMissing } from '../components/generated/CaseMissing'
+import { MissingProject } from '../components/generated/MissingProject'
+import { WorkHero } from '../components/generated/WorkHero'
 import { projects } from '../content/projects'
 
-export const Route = createFileRoute('/work/$slug')({ component: CaseStudyPage })
+export const Route = createFileRoute('/work/$slug')({ component: WorkPage })
 
-function CaseStudyPage() {
+function WorkPage() {
   const { slug } = Route.useParams()
-  const project = projects.find((p) => p.slug === slug)
-  if (!project) return <CaseMissing />
+  const project = projects.find((entry) => entry.slug === slug)
+  if (!project) return <MissingProject />
   return (
     <>
-      <CaseHero project={project} />
+      <WorkHero project={project} />
       {project.slug === 'dougmar-ch' ? <WhitePaper /> : <CaseBody project={project} />}
     </>
   )
