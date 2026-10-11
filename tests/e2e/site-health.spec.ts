@@ -722,9 +722,9 @@ test.describe('site health — the live rail (#702)', () => {
     })
   }
 
-  // 320 is the narrowest phone the site is held to; 479/480, 640/641 and
+  // 320 is the narrowest phone the site is held to; 559/560, 640/641 and
   // 720/721 sit either side of the three places the labels change.
-  for (const width of [320, 390, 479, 480, 560, 640, 641, 720, 721, 768, 1440]) {
+  for (const width of [320, 390, 480, 559, 560, 640, 641, 720, 721, 768, 1440]) {
     test(`fits ${width}px with nothing pushed off the edge`, async ({ page }) => {
       await page.setViewportSize({ width, height: 800 })
       await page.goto('/')
@@ -746,7 +746,7 @@ test.describe('site health — the live rail (#702)', () => {
       expect(fit.right).toBeLessThanOrEqual(width)
       for (const height of fit.links) expect(height).toBeGreaterThanOrEqual(44)
 
-      if (width < 480) {
+      if (width < 560) {
         await expect(rail).toContainText('Archive')
         await expect(rail.locator('a[href^="/archive/20"]')).toBeHidden()
         await expect(rail.getByText('Today', { exact: true })).toBeVisible()

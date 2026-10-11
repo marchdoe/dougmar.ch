@@ -13,7 +13,7 @@
  *
  * Every label has a long and a short form. The buttons take their short ones
  * at 640px and under, where the note goes; the archive link and the date take
- * theirs under 480px, where the rail has room for four things and no arrow.
+ * theirs under 560px, where the rail has room for four things and no arrow.
  */
 
 export type RailLabel = { long: string; short: string }
