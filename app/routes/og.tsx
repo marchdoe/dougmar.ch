@@ -21,62 +21,61 @@ function OgCard() {
         className={css({
           width: '1200px',
           height: '630px',
-          flexShrink: 0,
+          flex: '0 0 auto',
+          boxSizing: 'border-box',
           bg: 'bg',
           color: 'text',
-          padding: '64px',
+          borderTopWidth: '12px',
+          borderTopStyle: 'solid',
+          borderTopColor: 'accent',
+          paddingTop: '52px',
+          paddingBottom: '64px',
+          paddingInline: '72px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          borderBottomWidth: '12px',
-          borderBottomStyle: 'solid',
-          borderBottomColor: 'field',
         })}
       >
-        <div className={css({ color: 'text' })}>
-          <BrandLockup variant="horizontal-md" mode="single-color" roleLine />
-        </div>
-        <h1 className={css({ textAlign: 'right', fontFamily: 'display' })}>
-          <span
+        <BrandLockup variant="stacked-lg" mode="original" />
+        <div
+          className={css({
+            bg: 'bgAlt',
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            borderColor: 'border',
+            borderRadius: 'sm',
+            paddingBlock: '28px',
+            paddingInline: '32px',
+          })}
+        >
+          <p
             className={css({
-              display: 'block',
+              fontFamily: 'display',
+              fontStyle: 'italic',
               fontWeight: 'normal',
-              fontSize: '30px',
-              lineHeight: '1.15',
-              letterSpacing: 'tight',
-              color: 'textMuted',
-              maxWidth: '760px',
-              marginLeft: 'auto',
-              marginBottom: '14px',
-            })}
-          >
-            If you want to find the secrets of the universe, think in terms of{' '}
-          </span>
-          <span
-            className={css({
-              display: 'block',
-              fontWeight: 'bold',
-              fontSize: '56px',
-              lineHeight: '0.95',
-              letterSpacing: 'tight',
+              fontSize: '46px',
+              lineHeight: '1.12',
+              maxWidth: '980px',
               color: 'text',
             })}
           >
-            energy, frequency and{' '}
-          </span>
-          <span
+            Spend eighty percent of your time focusing on the opportunities of tomorrow rather than
+            the problems of yesterday.
+          </p>
+          <p
             className={css({
-              display: 'block',
+              marginTop: '16px',
+              fontFamily: 'body',
               fontWeight: 'bold',
-              fontSize: '120px',
-              lineHeight: '0.9',
-              letterSpacing: 'tight',
-              color: 'accent',
+              fontVariantCaps: 'all-small-caps',
+              letterSpacing: 'wider',
+              fontSize: 'lg',
+              color: 'textMuted',
             })}
           >
-            vibration.
-          </span>
-        </h1>
+            Brian Tracy
+          </p>
+        </div>
       </div>
     </div>
   )

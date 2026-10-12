@@ -1,26 +1,29 @@
 import { css } from '../../../styled-system/css'
+import { NavSentence } from './NavSentence'
 
 export function CaseMissing() {
   return (
     <section
       className={css({
-        paddingInline: 'clamp(24px, 6vw, 96px)',
-        paddingBlock: 'clamp(48px, 7vw, 112px)',
+        borderTopWidth: '2px',
+        borderTopStyle: 'solid',
+        borderTopColor: 'borderStrong',
+        paddingTop: '24px',
+        marginBottom: '48px',
       })}
     >
       <h1
         className={css({
           fontFamily: 'display',
-          fontWeight: 'bold',
-          fontSize: '3xl',
-          letterSpacing: 'tight',
+          fontStyle: 'italic',
+          fontWeight: 'normal',
+          textStyle: '2xl',
+          color: 'text',
         })}
       >
-        No project by that name
+        Not in the index.
       </h1>
-      <p className={css({ marginTop: '4', fontSize: 'base' })}>
-        <a href="/work">See all the work</a> or read <a href="/about">about Doug</a>.
-      </p>
+      <NavSentence className={css({ marginTop: '14px' })} />
     </section>
   )
 }
