@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — It is not as important how we start, but how we finish.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Libre+Franklin:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#45300F; --bgAlt:#35250B; --surface:#5E4A20;
+    --text:#F7F1E6; --textMuted:#D4BE96; --textFaint:#B99C68;
+    --accent:#E6A82A; --accentAlt:#EFC056; --accentText:#241904;
+    --border:#78602E; --borderStrong:#9A7D44;
+    --field:#E6A82A; --fieldInk:#241904; --fieldInkMuted:#45300F; --fieldBorder:#A06B0C;
+    --display:"Anybody", system-ui, sans-serif;
+    --body:"Libre Franklin", system-ui, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:var(--body); font-weight:400; line-height:1.5;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility; font-kerning:normal;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{margin:0; font-weight:inherit; text-wrap:balance;}
+  p{margin:0; text-wrap:pretty;}
+  a{color:var(--accent); text-decoration:none; transition:color 160ms ease;}
+  a:hover{color:var(--accentAlt);}
+  ::selection{background:var(--accent); color:var(--accentText);}
+
+  /* ---------- HERO FIELD ---------- */
+  .field{
+    position:relative; min-height:100vh; min-height:100dvh;
+    padding:7vh 6vw; overflow:hidden;
+  }
+  .mesh{
+    position:absolute; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      radial-gradient(at 12% 14%, var(--accent) 0, transparent 42%),
+      radial-gradient(at 88% 18%, var(--accentAlt) 0, transparent 38%),
+      radial-gradient(at 16% 86%, var(--accent) 0, transparent 40%),
+      radial-gradient(at 90% 88%, var(--bgAlt) 0, transparent 46%);
+    opacity:0.55;
+  }
+  .mark-lockup{
+    position:relative; z-index:3;
+    display:flex; flex-direction:column; align-items:flex-start; gap:8px;
+  }
+  .mark-lockup .wordmark{
+    background:var(--bg); padding:4px 10px; border-radius:2px;
+  }
+  .mark-lockup svg{ height:48px; width:auto; color:var(--text); display:block; }
+  .wordmark{
+    font-family:var(--display); font-weight:700; font-size:1.125rem;
+    letter-spacing:-0.015em; line-height:1; color:var(--text);
+  }
+
+  /* central statement */
+  .stage{
+    position:relative; z-index:2;
+    display:flex; flex-direction:column; align-items:center;
+    gap:clamp(40px,8vh,96px);
+    padding-top:clamp(40px,7vh,80px);
+  }
+  .statement-wrap{
+    max-width:22ch; text-align:center; margin-inline:auto;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.1rem;
+    min-height:calc(100dvh - 180px);
+  }
+  .statement{
+    font-family:var(--display); font-weight:900;
+    text-transform:uppercase; letter-spacing:0.005em;
+    font-size:clamp(38px,6vw,92px); line-height:1.02;
+    color:var(--text);
+  }
+  .statement .lit{ color:var(--accentAlt); }
+  .attribution{
+    font-family:var(--body); font-weight:500; font-size:0.875rem;
+    text-transform:uppercase; letter-spacing:0.12em; color:var(--textMuted);
+  }
+
+  /* orbit tiles — stacked on mobile (DOM order = mobile order) */
+  .orbit{
+    position:relative; z-index:2; width:100%;
+    display:flex; flex-direction:column; align-items:center; gap:20px;
+  }
+  .tile{
+    width:100%; max-width:340px; border-radius:4px; padding:20px 22px;
+    background:var(--surface); border:1px solid var(--border);
+  }
+  .tile .label{
+    font-family:var(--body); font-weight:700; font-size:0.75rem;
+    text-transform:uppercase; letter-spacing:0.1em; color:var(--textMuted);
+    margin-bottom:10px;
+  }
+  .tile .head{
+    font-family:var(--display); font-weight:900; line-height:1;
+    font-size:clamp(22px,2.6vw,30px); color:var(--text); margin-bottom:8px;
+  }
+  .tile .meta{ font-size:0.875rem; color:var(--textMuted); line-height:1.45; }
+  .tile .meta .sub{ display:block; color:var(--textMuted); font-size:0.8125rem; margin-top:4px; }
+
+  /* Lions — nearest, largest, gold plane */
+  .tile.lions{
+    background:var(--field); border:1px solid var(--fieldBorder); max-width:400px;
+  }
+  .tile.lions .label{ color:var(--fieldInkMuted); }
+  .tile.lions .figure{
+    font-family:var(--display); font-weight:900; line-height:0.9;
+    font-size:clamp(48px,8vw,80px); color:var(--fieldInk);
+    font-variant-numeric:tabular-nums; letter-spacing:-0.01em;
+  }
+  .tile.lions .meta{ color:var(--fieldInkMuted); font-weight:500; margin-top:8px; }
+
+  /* market — furthest, faintest */
+  .tile.market{ background:var(--bgAlt); border:1px solid var(--border); }
+  .tile.market .label{ color:var(--textFaint); }
+  .tile.market .head{ color:var(--textFaint); }
+  .tile.market .meta{ color:var(--textFaint); }
+
+  /* ---------- WORK INDEX ---------- */
+  .work{
+    position:relative; z-index:1; padding:9vh 6vw;
+    background:var(--bgAlt); border-top:2px solid var(--borderStrong);
+  }
+  .section-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    gap:16px; margin-bottom:40px; flex-wrap:wrap;
+  }
+  .section-head h2{
+    font-family:var(--display); font-weight:900; text-transform:uppercase;
+    letter-spacing:0.01em; font-size:clamp(26px,3.4vw,44px); line-height:1;
+  }
+  .section-head .eyebrow{
+    font-family:var(--body); font-weight:700; font-size:0.75rem;
+    text-transform:uppercase; letter-spacing:0.12em; color:var(--accentAlt);
+  }
+
+  .featured{
+    display:grid; gap:24px; margin-bottom:56px;
+    padding:28px; border:1px solid var(--borderStrong); border-radius:4px;
+    background:var(--surface);
+  }
+  .featured .ftitle{
+    font-family:var(--display); font-weight:900; text-transform:uppercase;
+    font-size:clamp(40px,7vw,92px); line-height:0.95; letter-spacing:-0.01em;
+    color:var(--text);
+  }
+  .featured .frole{
+    font-family:var(--body); font-weight:700; font-size:0.875rem;
+    text-transform:uppercase; letter-spacing:0.1em; color:var(--accentAlt);
+    margin-top:10px;
+  }
+  .featured .fproblem{
+    font-size:1.0625rem; line-height:1.55; color:var(--textMuted);
+    max-width:62ch; margin-top:6px;
+  }
+  .featured .flink{
+    display:inline-flex; align-items:center; gap:8px; margin-top:4px;
+    font-family:var(--body); font-weight:700; font-size:0.9375rem;
+    color:var(--accent); min-height:44px;
+  }
+  .featured .flink:hover{ color:var(--accentAlt); }
+  .featured .flink::after{ content:"\2197"; }
+
+  .index-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:16px;
+  }
+  .proj{
+    display:flex; flex-direction:column; gap:10px; min-height:44px;
+    padding:20px; border:1px solid var(--border); border-radius:4px;
+    background:var(--bg); transition:transform 160ms ease, border-color 160ms ease;
+  }
+  .proj:hover{ transform:translateY(-2px); border-color:var(--borderStrong); }
+  .proj .ptitle{
+    font-family:var(--display); font-weight:900; text-transform:uppercase;
+    font-size:clamp(22px,2.4vw,30px); line-height:1; color:var(--text);
+    letter-spacing:0.005em;
+  }
+  .proj .prow{
+    display:flex; justify-content:space-between; align-items:baseline; gap:12px;
+    font-family:var(--body); font-size:0.8125rem; text-transform:uppercase;
+    letter-spacing:0.08em;
+  }
+  .proj .ptype{ color:var(--textMuted); }
+  .proj .pyear{ color:var(--textFaint); font-variant-numeric:tabular-nums; }
+
+  .exp-grid{ margin-top:14px; }
+  .exp .ptitle{ color:var(--textMuted); }
+
+  /* ---------- SITE CALLOUT SLOT ---------- */
+  .callout{
+    position:relative; z-index:1; padding:7vh 6vw;
+    background:var(--bg); border-top:1px solid var(--border);
+    display:flex; flex-direction:column; gap:12px; align-items:center;
+    text-align:center;
+  }
+  .callout .ctag{
+    font-family:var(--body); font-weight:700; font-size:0.75rem;
+    text-transform:uppercase; letter-spacing:0.12em; color:var(--accentAlt);
+  }
+  .callout .cline{
+    font-family:var(--display); font-weight:700; text-transform:uppercase;
+    font-size:clamp(20px,2.4vw,30px); line-height:1.1; color:var(--text);
+    max-width:28ch;
+  }
+  .callout .clink{
+    font-family:var(--body); font-weight:700; font-size:0.9375rem;
+    min-height:44px; display:inline-flex; align-items:center;
+  }
+
+  /* ---------- FOOTER NAV BAND ---------- */
+  .foot{
+    position:relative; z-index:1; min-height:180px;
+    padding:8vh 6vw; background:var(--bgAlt);
+    border-top:2px solid var(--borderStrong);
+    display:grid; gap:40px;
+  }
+  .foot-lockup{ display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center; }
+  .foot-lockup svg{ height:48px; width:auto; color:var(--text); display:block; }
+  .foot-lockup .wordmark{ font-size:1.125rem; }
+  .foot-nav{ display:flex; flex-direction:column; }
+  .foot-nav a{
+    display:flex; align-items:center; min-height:52px;
+    font-family:var(--display); font-weight:700; text-transform:uppercase;
+    letter-spacing:0.08em; font-size:clamp(20px,3vw,26px); color:var(--text);
+    border-top:1px solid var(--borderStrong);
+  }
+  .foot-nav a:last-child{ border-bottom:1px solid var(--borderStrong); }
+  .foot-nav a:hover{ color:var(--accentAlt); }
+  .foot-meta{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:18px 24px;
+  }
+  .foot-meta .mk{
+    font-family:var(--body); font-weight:700; font-size:0.6875rem;
+    text-transform:uppercase; letter-spacing:0.12em; color:var(--textFaint);
+    margin-bottom:6px;
+  }
+  .foot-meta .mv{ font-size:0.875rem; color:var(--textMuted); line-height:1.4; }
+
+  /* ---------- DESKTOP: RADIAL ORBIT ---------- */
+  @media (min-width:1024px){
+    .mark-lockup{ position:absolute; top:7vh; left:6vw; }
+    .stage{ padding-top:0; min-height:86vh; justify-content:center; }
+    .statement-wrap{ max-width:18ch; min-height:auto; }
+    .orbit{
+      position:absolute; inset:0; display:block; pointer-events:none;
+    }
+    .tile{ position:absolute; max-width:none; pointer-events:auto; }
+    .tile.lions{ width:290px; top:19%; right:15%; }
+    .tile.golf{ width:260px; bottom:20%; left:12%; }
+    .tile.weather{ width:220px; bottom:14%; right:6%; }
+    .tile.market{ width:210px; top:6%; left:2%; }
+  }
+
+  @media (min-width:1024px){
+    .index-grid{ grid-template-columns:repeat(3,1fr); }
+    .foot{ grid-template-columns:1fr 1fr 1.4fr; align-items:start; }
+    .foot-lockup{ align-items:flex-start; text-align:left; }
+    .foot-nav{ max-width:420px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ===================== HERO FIELD ===================== -->
+  <header class="field">
+    <div class="mesh" aria-hidden="true"></div>
+
+    <div class="mark-lockup" aria-label="Doug March">
+      <svg viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Doug March logo</title>
+        <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="currentColor"/>
+        <circle cx="30.0829" cy="29.3002" r="0.98668" fill="currentColor"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="20.033" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="22.114" stroke="currentColor" stroke-width="0.25"/>
+        <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="currentColor"/>
+      </svg>
+      <span class="wordmark">Doug March</span>
+    </div>
+
+    <div class="stage">
+      <div class="statement-wrap">
+        <h1 class="statement">It is not as important how we start, but how we <span class="lit">finish.</span></h1>
+        <p class="attribution">Joyce Meyer</p>
+      </div>
+
+      <!-- orbit: nearest-finish first -->
+      <div class="orbit">
+        <article class="tile lions">
+          <p class="label">Nearest finish &mdash; Win</p>
+          <div class="figure">45&ndash;21</div>
+          <p class="meta">Lions closed it out. A blowout is a finish.</p>
+        </article>
+
+        <article class="tile golf">
+          <p class="label">Baycurrent Classic &mdash; Final</p>
+          <h3 class="head">16 under</h3>
+          <p class="meta">Michael Brennan takes it.
+            <span class="sub">Keith Mitchell &amp; Jacob Bridgeman, 15 under.</span>
+          </p>
+        </article>
+
+        <article class="tile weather">
+          <p class="label">Aldie, VA</p>
+          <h3 class="head">56&deg;F</h3>
+          <p class="meta">Clear afternoon. Air good.</p>
+        </article>
+
+        <article class="tile market">
+          <p class="label">Furthest &mdash; Not a finish</p>
+          <h3 class="head">SPY 778.10</h3>
+          <p class="meta">Down 0.06%. A soft day stays faint.</p>
+        </article>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== WORK INDEX ===================== -->
+  <main>
+    <section class="work" id="work">
+      <div class="section-head">
+        <h2>Selected Work</h2>
+        <span class="eyebrow">Judged by the finish</span>
+      </div>
+
+      <article class="featured" id="spaceman">
+        <div>
+          <h3 class="ftitle">Spaceman</h3>
+          <p class="frole">Founder &middot; 2018</p>
+        </div>
+        <p class="fproblem">The LLC Doug has operated under since 2018 &mdash; partnering with companies and studios across industries on product design, frontend engineering, design systems, and brand, sometimes as a solo contributor, sometimes embedded in a larger team.</p>
+        <a class="flink" href="https://dougmar.ch/work/spaceman">Read the case</a>
+      </article>
+
+      <div class="index-grid">
+        <a class="proj" href="#fishsticks">
+          <div class="ptitle">FishSticks</div>
+          <div class="prow"><span class="ptype">SaaS</span><span class="pyear">2025</span></div>
+        </a>
+        <a class="proj" href="#15th-club">
+          <div class="ptitle">15th Club</div>
+          <div class="prow"><span class="ptype">AI</span><span class="pyear">2025</span></div>
+        </a>
+        <a class="proj" href="#dougmar-ch">
+          <div class="ptitle">dougmar.ch</div>
+          <div class="prow"><span class="ptype">AI</span><span class="pyear">2026</span></div>
+        </a>
+      </div>
+
+      <div class="section-head" style="margin-top:56px;">
+        <h2>Experiments</h2>
+        <span class="eyebrow">Shipped, then let go</span>
+      </div>
+
+      <div class="index-grid exp-grid">
+        <a class="proj exp" href="#teeturn">
+          <div class="ptitle">TeeTurn</div>
+          <div class="prow"><span class="ptype">Experiment</span><span class="pyear">2020</span></div>
+        </a>
+        <a class="proj exp" href="#politweets">
+          <div class="ptitle">Politweets</div>
+          <div class="prow"><span class="ptype">Experiment</span><span class="pyear">2008</span></div>
+        </a>
+        <a class="proj exp" href="#twittertale">
+          <div class="ptitle">Twittertale</div>
+          <div class="prow"><span class="ptype">Experiment</span><span class="pyear">2008</span></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== SITE CALLOUT SLOT ===================== -->
+    <section class="callout" aria-label="Site callout">
+      <p class="ctag">dougmar.ch</p>
+      <p class="cline">A new design finishes every morning. Same mark, new composition.</p>
+      <a class="clink" href="/about">How this works &rarr;</a>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER NAV BAND ===================== -->
+  <footer class="foot">
+    <div class="foot-lockup" aria-label="Doug March">
+      <svg viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Doug March logo</title>
+        <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="currentColor"/>
+        <circle cx="30.0829" cy="29.3002" r="0.98668" fill="currentColor"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="20.033" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="currentColor" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="22.114" stroke="currentColor" stroke-width="0.25"/>
+        <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="currentColor"/>
+      </svg>
+      <span class="wordmark">Doug March</span>
+    </div>
+
+    <nav class="foot-nav" aria-label="Primary">
+      <a href="/work">Work</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </nav>
+
+    <div class="foot-meta">
+      <div>
+        <p class="mk">Location</p>
+        <p class="mv">Aldie, Virginia</p>
+      </div>
+      <div>
+        <p class="mk">Date</p>
+        <p class="mv">13 October 2026</p>
+      </div>
+      <div>
+        <p class="mk">Moon</p>
+        <p class="mv">Waxing crescent, 9% lit</p>
+      </div>
+      <div>
+        <p class="mk">In rotation</p>
+        <p class="mv">Radiohead &middot; My Morning Jacket</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

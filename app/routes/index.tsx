@@ -1,5 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { css } from '../../styled-system/css'
 import { SiteCallout } from '../components/SiteCallout'
 import { HomeHero } from '../components/generated/HomeHero'
 import { WorkIndex } from '../components/generated/WorkIndex'
@@ -11,20 +10,7 @@ function HomePage() {
     <>
       <HomeHero />
       <WorkIndex />
-      <div
-        className={css({
-          marginTop: '48px',
-          marginInline: { base: '-16px', md: '-32px', lg: '-6vw', xl: '-7vw' },
-          '@supports (animation-timeline: view())': {
-            animationName: 'rise',
-            animationTimeline: 'view()',
-            animationRange: 'entry 0% entry 40%',
-            animationFillMode: 'both',
-          },
-        })}
-      >
-        <SiteCallout />
-      </div>
+      <SiteCallout />
     </>
   )
 }

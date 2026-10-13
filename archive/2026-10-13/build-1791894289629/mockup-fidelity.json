@@ -1,0 +1,332 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "The mockup's largest text is 'spaceman' at 92px; the build sets 'it is not as important how we start but how we finish' at 160px. Restore the mockup's hierarchy: 'it is not as important how we start but how we finish' is 86px in the mockup.",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 92
+            },
+            "buildLeader": {
+              "text": "it is not as important how we start but how we finish",
+              "buildPx": 160,
+              "mockupPx": 86
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' is 92px in the mockup and 160px in the build (1.74x)",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 92,
+            "buildPx": 160,
+            "ratio": 1.74,
+            "mockupRank": 0
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'it is not as important how we start but how we finish' is 86px in the mockup and 160px in the build (1.85x)",
+          "facts": {
+            "text": "it is not as important how we start but how we finish",
+            "mockupPx": 86,
+            "buildPx": 160,
+            "ratio": 1.85,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'16 under' moved from (339, 576) in the mockup to (388, 818) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'56°f' moved from (1112, 664) in the mockup to (1072, 921) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'joyce meyer' moved from (720, 767) in the mockup to (720, 1146) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'michael brennan takes it' moved from (342, 609) in the mockup to (354, 862) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'clear afternoon air good' moved from (1162, 697) in the mockup to (1112, 965) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 18px in the mockup and 32px in the build (1.78x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 18,
+            "buildPx": 32,
+            "ratio": 1.78,
+            "mockupRank": 3
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'it is not as important how we start but how we finish' is 86px in the mockup and 160px in the build (1.85x). Set it back to 86px.",
+        "- / at 360px: 'doug march' is 18px in the mockup and 32px in the build (1.78x). Set it back to 18px.",
+        "- / at 1440px: 'spaceman' is 92px in the mockup and 160px in the build (1.74x). Set it back to 92px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "The mockup's largest text is 'spaceman' at 92px; the build sets '45-21' at 128px. Restore the mockup's hierarchy: '45-21' is 80px in the mockup.",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 92
+            },
+            "buildLeader": {
+              "text": "45-21",
+              "buildPx": 128,
+              "mockupPx": 80
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is '45-21' (48px); in build it is '45-21' (56px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "it is not as important how we start but how we finish",
+                "mockupPx": 38
+              }
+            ],
+            "leader": {
+              "text": "45-21",
+              "mockupPx": 48
+            },
+            "buildLeader": {
+              "text": "45-21",
+              "buildPx": 56,
+              "mockupPx": 48
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 18px in the mockup and 32px in the build (1.78x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 18,
+            "buildPx": 32,
+            "ratio": 1.78,
+            "mockupRank": 3
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: '45-21' still leads, but the mockup's 'it is not as important how we start but how we finish' (38px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'doug march' is 18px in the mockup and 32px in the build (1.78x). Set it back to 18px."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is '45-21' (48px); in build it is 'selected work' (42px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "45-21",
+                "mockupPx": 48
+              },
+              {
+                "text": "it is not as important how we start but how we finish",
+                "mockupPx": 38
+              }
+            ],
+            "leader": {
+              "text": "45-21",
+              "mockupPx": 48
+            },
+            "buildLeader": {
+              "text": "selected work",
+              "buildPx": 42,
+              "mockupPx": 26
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 18px in the mockup and 32px in the build (1.78x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 18,
+            "buildPx": 32,
+            "ratio": 1.78,
+            "mockupRank": 3
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: The mockup's largest text is '45-21' at 48px; the build sets 'selected work' at 42px. Restore the mockup's hierarchy: 'selected work' is 26px in the mockup.",
+        "- / at 360px: 'doug march' is 18px in the mockup and 32px in the build (1.78x). Set it back to 18px."
+      ]
+    },
+    {
+      "round": 4,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is '45-21' (48px); in build it is '45-21' (48px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "spaceman",
+                "mockupPx": 40
+              }
+            ],
+            "leader": {
+              "text": "45-21",
+              "mockupPx": 48
+            },
+            "buildLeader": {
+              "text": "45-21",
+              "buildPx": 48,
+              "mockupPx": 48
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 18px in the mockup and 32px in the build (1.78x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 18,
+            "buildPx": 32,
+            "ratio": 1.78,
+            "mockupRank": 3
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: '45-21' still leads, but the mockup's 'spaceman' (40px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'doug march' is 18px in the mockup and 32px in the build (1.78x). Set it back to 18px."
+      ]
+    }
+  ]
+}
