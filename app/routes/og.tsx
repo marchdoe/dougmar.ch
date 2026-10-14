@@ -1,85 +1,86 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { css } from '../../styled-system/css'
 import { BrandLockup } from '../components/BrandLockup'
-import { Ground } from '../components/Material'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
-const coverCss = css({
-  position: 'fixed',
-  inset: '0',
-  zIndex: 9999,
-  bg: 'bg',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-})
-
-const cardCss = css({
-  position: 'relative',
-  width: '1200px',
-  height: '630px',
-  flexShrink: 0,
-  bg: 'bg',
-  color: 'text',
-})
-
-const contentCss = css({
-  position: 'relative',
-  zIndex: 1,
-  width: '100%',
-  height: '100%',
-  padding: '64px',
-  display: 'flex',
-  flexDirection: 'column',
-})
-
-const lockupCss = css({
-  display: 'inline-flex',
-  alignSelf: 'flex-start',
-  bg: 'bg',
-  color: 'text',
-  paddingBlock: '2',
-  paddingInline: '3',
-  borderRadius: 'sm',
-})
-
-const stageCss = css({
-  flex: '1',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-})
-
-const h1Css = css({
-  fontFamily: 'display',
-  fontWeight: 'bold',
-  textTransform: 'uppercase',
-  textAlign: 'center',
-  fontSize: '64px',
-  lineHeight: '1.04',
-  color: 'text',
-  maxWidth: '960px',
-})
-
-const litCss = css({ color: 'accentAlt' })
-
 function OgCard() {
   return (
-    <div className={coverCss}>
-      <div className={cardCss}>
-        <Ground material="mesh" seed={993929583} />
-        <div className={contentCss}>
-          <div className={lockupCss}>
-            <BrandLockup variant="stacked-md" mode="single-color" />
-          </div>
-          <div className={stageCss}>
-            <h1 className={h1Css}>
-              It is not as important how we start, but how we{' '}
-              <span className={litCss}>finish.</span>
-            </h1>
-          </div>
+    <div
+      className={css({
+        position: 'fixed',
+        inset: '0',
+        zIndex: 9999,
+        bg: 'bg',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      })}
+    >
+      <div
+        className={css({
+          position: 'relative',
+          isolation: 'isolate',
+          boxSizing: 'border-box',
+          width: '1200px',
+          height: '630px',
+          flexShrink: 0,
+          bg: 'bg',
+          color: 'text',
+          paddingBlock: '64px',
+          paddingInline: '80px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+        })}
+      >
+        {/* ember glow: mockup's accent-at-20% radial maps to bgAlt through a radial mask */}
+        <div
+          aria-hidden="true"
+          className={css({
+            position: 'absolute',
+            inset: '0',
+            zIndex: -1,
+            bg: 'bgAlt',
+            maskImage: 'radial-gradient(44% 42% at 88% 94%, black 0%, transparent 62%)',
+          })}
+        />
+        <div className={css({ color: 'text' })}>
+          <BrandLockup variant="mark-only-md" mode="single-color" />
         </div>
+        <h1 className={css({ display: 'block', textAlign: 'left', maxWidth: '1040px' })}>
+          <span
+            className={css({
+              display: 'block',
+              fontFamily: 'display',
+              fontStyle: 'italic',
+              fontWeight: 'bold',
+              textTransform: 'lowercase',
+              fontSize: '144px',
+              lineHeight: '0.86',
+              letterSpacing: 'tight',
+              color: 'accent',
+            })}
+          >
+            thousands
+          </span>
+          <span
+            className={css({
+              display: 'block',
+              marginTop: '20px',
+              maxWidth: '900px',
+              fontFamily: 'body',
+              fontStyle: 'normal',
+              fontWeight: 'normal',
+              fontSize: '30px',
+              lineHeight: 'snug',
+              color: 'text',
+            })}
+          >
+            of kids practicing spelling from the list the teacher sent home.
+          </span>
+        </h1>
       </div>
     </div>
   )

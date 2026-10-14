@@ -1,18 +1,26 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { identity } from '../content/about'
-import { AboutBody } from '../components/generated/AboutBody'
-import { PageHero } from '../components/generated/PageHero'
+import { AboutIntro } from '../components/generated/AboutIntro'
+import { Annotations } from '../components/generated/Annotations'
+import { Capabilities } from '../components/generated/Capabilities'
+import { Timeline } from '../components/generated/Timeline'
+import { personal } from '../content/about'
 
 export const Route = createFileRoute('/about')({ component: AboutPage })
 
-// The copy gate reads rendered text; the dash in the source statement becomes a comma.
-const statement = identity.statement.replace(/\s*\u2014\s*/g, ', ')
+const personalNotes = [
+  { label: 'Holes in one', body: String(personal.holesInOne) },
+  { label: 'Sport', body: personal.sport },
+  { label: 'Teams', body: personal.teams.join(', ') },
+  { label: 'Current focus', body: personal.currentFocus },
+]
 
 function AboutPage() {
   return (
     <>
-      <PageHero title={statement} caption={identity.role} compact />
-      <AboutBody />
+      <AboutIntro />
+      <Timeline />
+      <Capabilities />
+      <Annotations label="Personal" items={personalNotes} />
     </>
   )
 }
