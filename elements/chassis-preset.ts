@@ -1,7 +1,7 @@
 import { definePreset } from '@pandacss/dev'
 
 /**
- * Generated from elements/chassis/fraunces-karla.js by scripts/utils/chassis.js.
+ * Generated from elements/chassis/unbounded-figtree.js by scripts/utils/chassis.js.
  * Listed LAST in panda.config.ts so the chassis type system — fonts,
  * fontSizes, fontWeights, lineHeights, letterSpacings, spacing, textStyles —
  * wins over any values the Art Director emits in elements/preset.ts.
@@ -36,8 +36,8 @@ export const chassisPreset = definePreset({
       },
       tokens: {
         fonts: {
-          display: { value: "Fraunces, Georgia, serif" },
-          body: { value: "Karla, system-ui, -apple-system, sans-serif" },
+          display: { value: "Unbounded, Arial, sans-serif" },
+          body: { value: "Figtree, system-ui, -apple-system, sans-serif" },
         },
         fontSizes: {
           '2xs': { value: "0.75rem" },
@@ -55,14 +55,14 @@ export const chassisPreset = definePreset({
           hero: { value: "clamp(5.063rem, 3.417rem + 7.314vw, 10rem)" },
         },
         fontWeights: {
-          light: { value: "300" },
+          light: { value: "400" },
           normal: { value: "400" },
           medium: { value: "500" },
-          semibold: { value: "600" },
+          semibold: { value: "700" },
           bold: { value: "900" },
         },
         lineHeights: {
-          tight: { value: "0.9" },
+          tight: { value: "0.95" },
           snug: { value: "1.1" },
           normal: { value: "1.5" },
           loose: { value: "1.7" },
@@ -96,10 +96,10 @@ export const chassisPreset = definePreset({
         lg: { value: { fontSize: "lg", lineHeight: "1.3", letterSpacing: "-0.005em" } },
         xl: { value: { fontSize: "xl", lineHeight: "1.2", letterSpacing: "-0.01em" } },
         '2xl': { value: { fontSize: "2xl", lineHeight: "1.1", letterSpacing: "-0.01em" } },
-        '3xl': { value: { fontSize: "3xl", lineHeight: "1.05", letterSpacing: "-0.015em" } },
-        '4xl': { value: { fontSize: "4xl", lineHeight: "1", letterSpacing: "-0.02em" } },
-        '5xl': { value: { fontSize: "5xl", lineHeight: "0.95", letterSpacing: "-0.025em" } },
-        hero: { value: { fontSize: "hero", lineHeight: "0.9", letterSpacing: "-0.015em" } },
+        '3xl': { value: { fontSize: "3xl", lineHeight: "1.05", letterSpacing: "-0.01em" } },
+        '4xl': { value: { fontSize: "4xl", lineHeight: "1", letterSpacing: "-0.01em" } },
+        '5xl': { value: { fontSize: "5xl", lineHeight: "0.95", letterSpacing: "-0.01em" } },
+        hero: { value: { fontSize: "hero", lineHeight: "0.95", letterSpacing: "-0.01em" } },
       },
     },
   },

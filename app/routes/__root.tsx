@@ -36,7 +36,7 @@ import type { ReactNode } from 'react'
 const archiveLink = css({
   display: 'block',
   background: 'bg',
-  color: 'textFaint',
+  color: 'text',
   fontSize: 'xs',
   letterSpacing: '0.08em',
   textAlign: 'center',
@@ -57,9 +57,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-10-14'
-const PREV_DATE: string | null = '2026-10-13'
-const ARCHIVE_COUNT = 162
+const DESIGN_DATE = '2026-10-15'
+const PREV_DATE: string | null = '2026-10-14'
+const ARCHIVE_COUNT = 163
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -72,17 +72,17 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Thousands of kids practicing spelling from the list the teacher sent home.' },
+      { title: 'Just get out and do it. You will be very, very glad that you did.' },
       {
         property: 'og:title',
-        content: 'Thousands of kids practicing spelling from the list the teacher sent home.',
+        content: 'Just get out and do it. You will be very, very glad that you did.',
       },
       {
         property: 'og:description',
         content:
-          'Ember-vermilion "thousands" glowing in fat italic Fraunces over a warm kitchen-dusk void, one quiet line about the list the teacher sent home reading out beside it.',
+          'Jade drench, the imperative stacked like a trailhead sign, one gold mark for the glad.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-14.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-15.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
@@ -90,16 +90,16 @@ export const Route = createRootRoute({
       { name: 'twitter:card', content: 'summary_large_image' },
       {
         name: 'twitter:title',
-        content: 'Thousands of kids practicing spelling from the list the teacher sent home.',
+        content: 'Just get out and do it. You will be very, very glad that you did.',
       },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-14.png' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-15.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,900;1,300;1,400;1,600;1,900&family=Karla:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Figtree:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -286,7 +286,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 162 designs
+            Archive · 163 designs
           </a>
         )}
         <ScrollRestoration />

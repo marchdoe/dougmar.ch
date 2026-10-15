@@ -1,113 +1,56 @@
 import { css } from '../../../styled-system/css'
-import type { projects } from '../../content/projects'
+import { experiments, projects, selectedWork } from '../../content/projects'
+import { FeaturedCard } from './FeaturedCard'
+import { IndexGroup } from './IndexGroup'
 
-type Proj = (typeof projects)[number]
-
-export function WorkIndex({ heading, items }: { heading: string; items: Proj[] }) {
+export function WorkIndex() {
+  const years = projects.map((p) => p.year)
+  const range = `${Math.min(...years)}–${Math.max(...years)}`
   return (
     <section
       id="work"
-      className={css({
-        bg: 'bgAlt',
-        paddingBlock: { base: '44px', lg: '60px' },
-        paddingLeft: { base: '20px', lg: '48px' },
-        paddingRight: { base: '20px', lg: '6vw' },
-        '@supports (animation-timeline: view())': {
-          animationName: 'rise',
-          animationTimeline: 'view()',
-          animationRange: 'entry 0% entry 40%',
-          animationFillMode: 'both',
-        },
-      })}
+      className={css({ bg: 'surface', paddingTop: '7', paddingBottom: '8', paddingInline: '6vw' })}
     >
-      <h2
-        className={css({
-          fontFamily: 'display',
-          fontStyle: 'italic',
-          fontWeight: 'normal',
-          textTransform: 'lowercase',
-          fontSize: { base: '26px', lg: '42px' },
-          lineHeight: 'tight',
-          color: 'text',
-          marginBottom: '28px',
-        })}
-      >
-        {heading}
-      </h2>
-      <div className={css({ display: 'flex', flexDirection: 'column' })}>
-        {items.map((p) => (
-          <a
-            key={p.slug}
-            href={`/work/${p.slug}`}
+      <div className={css({ maxWidth: '1400px', marginInline: 'auto', minWidth: '0' })}>
+        <div
+          className={css({
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'baseline',
+            flexWrap: 'wrap',
+            gap: '12px',
+            borderBottomWidth: '1px',
+            borderBottomStyle: 'solid',
+            borderBottomColor: 'borderStrong',
+            paddingBottom: '3',
+            marginBottom: '6',
+          })}
+        >
+          <h2
             className={css({
-              position: 'relative',
-              display: 'flex',
-              alignItems: 'baseline',
-              justifyContent: 'space-between',
-              gap: '4',
-              paddingBlock: '4',
-              minHeight: '44px',
-              borderTopWidth: '1px',
-              borderTopStyle: 'solid',
-              borderTopColor: 'fieldBorder',
-              _last: {
-                borderBottomWidth: '1px',
-                borderBottomStyle: 'solid',
-                borderBottomColor: 'fieldBorder',
-              },
-              _after: {
-                content: '""',
-                position: 'absolute',
-                left: '0',
-                right: '0',
-                bottom: '-1px',
-                height: '2px',
-                bg: 'accentAlt',
-                transform: 'scaleX(0)',
-                transformOrigin: 'left',
-                transition: 'transform 160ms ease',
-              },
-              '&:hover::after': { transform: 'scaleX(1)' },
-              '&:hover [data-row-title]': { color: 'accentAlt' },
+              fontFamily: 'display',
+              textStyle: { base: 'lg', md: '2xl' },
+              fontWeight: 'normal',
+              color: 'text',
+              minWidth: '0',
             })}
           >
-            <span
-              data-row-title=""
-              className={css({
-                minWidth: '0',
-                fontFamily: 'body',
-                fontWeight: 'bold',
-                fontSize: { base: 'lede', lg: 'md' },
-                color: 'text',
-                transition: 'color 120ms ease',
-              })}
-            >
-              {p.title}
-            </span>
-            <span
-              className={css({
-                display: 'flex',
-                gap: '3',
-                flexShrink: 0,
-                fontFamily: 'body',
-                fontSize: 'sm',
-                color: 'textMuted',
-                fontVariantNumeric: 'tabular-nums',
-              })}
-            >
-              <span>{p.year}</span>
-              <span
-                className={css({
-                  fontVariant: 'small-caps',
-                  letterSpacing: 'wide',
-                  color: 'textFaint',
-                })}
-              >
-                {p.type}
-              </span>
-            </span>
-          </a>
-        ))}
+            Selected work &amp; experiments
+          </h2>
+          <span
+            className={css({
+              fontSize: 'xs',
+              letterSpacing: 'wide',
+              textTransform: 'uppercase',
+              color: 'textFaint',
+            })}
+          >
+            {projects.length} entries · {range}
+          </span>
+        </div>
+        <FeaturedCard />
+        <IndexGroup label="Selected work" items={selectedWork} offset={0} />
+        <IndexGroup label="Experiments" items={experiments} offset={selectedWork.length} />
       </div>
     </section>
   )

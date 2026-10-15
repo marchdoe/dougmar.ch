@@ -1,33 +1,49 @@
 import { css } from '../../../styled-system/css'
-import type { projects } from '../../content/projects'
-import { CaseFacts } from './CaseFacts'
-import { CaseLinks } from './CaseLinks'
-import { CaseNarrative } from './CaseNarrative'
+import type { Project } from '../../content/projects'
+import { CaseLinks, CaseStack } from './CaseExtras'
 
-type Proj = (typeof projects)[number]
-
-export function CaseBody({ project }: { project: Proj }) {
+export function CaseBody({ project }: { project: Project }) {
+  const blocks = [
+    { label: 'Overview', text: project.description },
+    { label: 'Problem', text: project.problem },
+    { label: 'Approach', text: project.approach },
+    { label: 'Outcome', text: project.outcome },
+  ].filter((b) => b.text)
   return (
     <section
-      className={css({
-        bg: 'bgAlt',
-        paddingBlock: { base: '44px', lg: '60px' },
-        paddingLeft: { base: '20px', lg: '48px' },
-        paddingRight: { base: '20px', lg: '6vw' },
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '7',
-        '@supports (animation-timeline: view())': {
-          animationName: 'rise',
-          animationTimeline: 'view()',
-          animationRange: 'entry 0% entry 40%',
-          animationFillMode: 'both',
-        },
-      })}
+      className={css({ bg: 'surface', paddingTop: '6', paddingBottom: '8', paddingInline: '6vw' })}
     >
-      <CaseFacts project={project} />
-      <CaseNarrative project={project} />
-      <CaseLinks project={project} />
+      <div className={css({ maxWidth: '1400px', marginInline: 'auto' })}>
+        {blocks.map((b) => (
+          <div key={b.label}>
+            <div
+              className={css({
+                fontWeight: 'bold',
+                fontSize: '2xs',
+                letterSpacing: 'widest',
+                textTransform: 'uppercase',
+                color: 'accentAlt',
+                marginTop: '6',
+                marginBottom: '4',
+              })}
+            >
+              {b.label}
+            </div>
+            <p
+              className={css({
+                fontSize: 'lede',
+                lineHeight: 'normal',
+                color: 'textMuted',
+                maxWidth: '60ch',
+              })}
+            >
+              {b.text}
+            </p>
+          </div>
+        ))}
+        <CaseStack stack={project.stack ?? []} />
+        <CaseLinks project={project} />
+      </div>
     </section>
   )
 }

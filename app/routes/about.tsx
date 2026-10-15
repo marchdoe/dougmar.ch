@@ -1,26 +1,40 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { AboutIntro } from '../components/generated/AboutIntro'
-import { Annotations } from '../components/generated/Annotations'
-import { Capabilities } from '../components/generated/Capabilities'
-import { Timeline } from '../components/generated/Timeline'
-import { personal } from '../content/about'
+import { AboutCapabilities } from '../components/generated/AboutCapabilities'
+import { AboutEducation } from '../components/generated/AboutEducation'
+import { AboutPersonal } from '../components/generated/AboutPersonal'
+import { AboutStatement } from '../components/generated/AboutStatement'
+import { AboutTimeline } from '../components/generated/AboutTimeline'
+import { FieldHero } from '../components/generated/FieldHero'
+import { HeroGrid } from '../components/generated/HeroGrid'
+import { Rail } from '../components/generated/Rail'
+import { Reveal } from '../components/generated/Reveal'
 
 export const Route = createFileRoute('/about')({ component: AboutPage })
-
-const personalNotes = [
-  { label: 'Holes in one', body: String(personal.holesInOne) },
-  { label: 'Sport', body: personal.sport },
-  { label: 'Teams', body: personal.teams.join(', ') },
-  { label: 'Current focus', body: personal.currentFocus },
-]
 
 function AboutPage() {
   return (
     <>
-      <AboutIntro />
-      <Timeline />
-      <Capabilities />
-      <Annotations label="Personal" items={personalNotes} />
+      <HeroGrid
+        field={
+          <FieldHero>
+            <AboutStatement />
+          </FieldHero>
+        }
+        rail={
+          <Rail label="Off the clock">
+            <AboutPersonal />
+          </Rail>
+        }
+      />
+      <Reveal>
+        <AboutTimeline />
+      </Reveal>
+      <Reveal>
+        <AboutCapabilities />
+      </Reveal>
+      <Reveal>
+        <AboutEducation />
+      </Reveal>
     </>
   )
 }
