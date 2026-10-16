@@ -36,7 +36,7 @@ import type { ReactNode } from 'react'
 const archiveLink = css({
   display: 'block',
   background: 'bg',
-  color: 'text',
+  color: 'textFaint',
   fontSize: 'xs',
   letterSpacing: '0.08em',
   textAlign: 'center',
@@ -57,9 +57,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-10-15'
-const PREV_DATE: string | null = '2026-10-14'
-const ARCHIVE_COUNT = 163
+const DESIGN_DATE = '2026-10-16'
+const PREV_DATE: string | null = '2026-10-15'
+const ARCHIVE_COUNT = 164
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -72,17 +72,21 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Just get out and do it. You will be very, very glad that you did.' },
+      {
+        title:
+          "Do you want to know who you are? Don't ask. Act! Action will delineate and define you.",
+      },
       {
         property: 'og:title',
-        content: 'Just get out and do it. You will be very, very glad that you did.',
+        content:
+          "Do you want to know who you are? Don't ask. Act! Action will delineate and define you.",
       },
       {
         property: 'og:description',
         content:
-          'Jade drench, the imperative stacked like a trailhead sign, one gold mark for the glad.',
+          'Clay-split broadsheet: Jefferson\'s imperative carved in cream beside the work flooded on terracotta, "ACT" the field it all stands on.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-15.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-16.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
@@ -90,16 +94,17 @@ export const Route = createRootRoute({
       { name: 'twitter:card', content: 'summary_large_image' },
       {
         name: 'twitter:title',
-        content: 'Just get out and do it. You will be very, very glad that you did.',
+        content:
+          "Do you want to know who you are? Don't ask. Act! Action will delineate and define you.",
       },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-15.png' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-16.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Figtree:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Bitter:wght@500;700;900&family=Mulish:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -286,7 +291,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 163 designs
+            Archive · 164 designs
           </a>
         )}
         <ScrollRestoration />
