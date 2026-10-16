@@ -216,7 +216,8 @@ test.describe('/dev panel — signals pane', () => {
     await expect(pane.getByText('Fixture Championship')).toBeVisible()
     await expect(pane.getByText('Round 3')).toBeVisible()
     await expect(pane.getByText('Golfer One')).toBeVisible()
-    await expect(pane.getByText('-16')).toBeVisible()
+    // exact: the panel also prints today's date, which ends in -16 on the 16th.
+    await expect(pane.getByText('-16', { exact: true })).toBeVisible()
 
     await expect(pane.getByRole('heading', { name: '// GITHUB TRENDING' })).toBeVisible()
     await expect(pane.getByText('fixture/typed-repo')).toBeVisible()

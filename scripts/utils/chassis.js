@@ -451,6 +451,11 @@ export const REDUCED_MOTION_RULE = {
  * Director's background, colour and margin along with it. Under `extend` the
  * two objects deep-merge and only `fontFamily` is taken.
  *
+ * `margin: 0` rides along for the same reason. The live rail (#702) renders
+ * above the design and must sit at the top of the page, and on 2026-10-16 the
+ * Art Director's body rule left the margin out, the browser's 8px default
+ * pushed the rail down, and the night failed its render gate.
+ *
  * Since #506 it also carries the motion keyframes under `theme.extend.keyframes`
  * and the reduced-motion rule under the same `globalCss.extend`, for the same
  * reason the ramp lives here: the engineer declares `animation: 'rise 500ms
@@ -482,8 +487,10 @@ export const chassisPreset = definePreset({
     extend: {
       // lineHeight rides along with the font: the spacing scale is derived
       // from the base step's size times its leading, and rhythm only means
-      // something if the body actually renders at that leading.
-      body: { fontFamily: 'body', lineHeight: 'normal' },
+      // something if the body actually renders at that leading. margin: 0
+      // keeps the live rail at the top of the page (#702) when the Art
+      // Director's body rule leaves the browser's 8px default in place.
+      body: { fontFamily: 'body', lineHeight: 'normal', margin: 0 },
       // Every animation and transition collapses to its end state when the
       // visitor asks for reduced motion (#506). See scripts/utils/chassis.js.
 ${formatNestedBlock(REDUCED_MOTION_RULE, 6)}

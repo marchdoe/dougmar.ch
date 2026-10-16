@@ -569,7 +569,12 @@ describe('renderChassisPresetFile', () => {
   const source = renderChassisPresetFile(TEST_CHASSIS)
 
   it('pins the body font and leading so rhythm is real, not aspirational', () => {
-    expect(source).toContain("body: { fontFamily: 'body', lineHeight: 'normal' }")
+    expect(source).toContain("body: { fontFamily: 'body', lineHeight: 'normal', margin: 0 }")
+  })
+
+  it("zeroes the body margin so the live rail sits at the page's top whatever the Art Director wrote", () => {
+    const globalCss = source.slice(source.indexOf('globalCss'), source.indexOf('theme:'))
+    expect(globalCss).toMatch(/body: \{[^}]*margin: 0[^}]*\}/)
   })
 
   it('puts the body rule under globalCss.extend', () => {
