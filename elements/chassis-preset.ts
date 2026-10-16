@@ -16,8 +16,10 @@ export const chassisPreset = definePreset({
     extend: {
       // lineHeight rides along with the font: the spacing scale is derived
       // from the base step's size times its leading, and rhythm only means
-      // something if the body actually renders at that leading.
-      body: { fontFamily: 'body', lineHeight: 'normal' },
+      // something if the body actually renders at that leading. margin: 0
+      // keeps the live rail at the top of the page (#702) when the Art
+      // Director's body rule leaves the browser's 8px default in place.
+      body: { fontFamily: 'body', lineHeight: 'normal', margin: 0 },
       // Every animation and transition collapses to its end state when the
       // visitor asks for reduced motion (#506). See scripts/utils/chassis.js.
       '@media (prefers-reduced-motion: reduce)': {
