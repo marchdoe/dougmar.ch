@@ -4,15 +4,14 @@ import { recencyMandate } from './recency-mandate.js'
  * Hero-source variance mandate — applied to where today's hero phrase came
  * from (quote, composed, content-lifted, signal-event). Reads the
  * hero-source.json artifact persisted in recent build dirs (see HERO_SOURCE
- * block, Art Director) and soft-forbids repeating the same non-quote lane
- * on two consecutive days.
+ * block, Art Director) and soft-forbids repeating the same lane on two
+ * consecutive days.
  *
- * Quote is the preferred lane now (#531): the Art Director reads for it
- * first and reaches past it only when today's quote can't carry a page.
- * Flagging a quote-sourced streak would fight that preference directly, so
- * quote is exempt from the repeat check. The other three lanes keep the
- * streak rule this mandate has always applied — two of the same lane
- * running is the sameness signal, not a quote three days ago with
+ * All four lanes are equal (spec 13, 2026-10-17). #531 made quote the
+ * preferred lane and exempted it from this check; a stranger's quote then led
+ * 14 of the 20 nights from 09-25 to 10-17, against taste.md's "the subject is
+ * Doug". Quote is back under the streak rule like the other three: two of the
+ * same lane running is the sameness signal, not a quote three days ago with
  * something else in between. The read and the prose scaffolding live in
  * recency-mandate.js, shared with palette-formula-mandate (#225).
  */
@@ -21,22 +20,21 @@ const mandate = recencyMandate({
   field: 'source',
   valueKey: 'source',
   historyKey: 'recentHeroSources',
-  // Not "the last N distinct": two of the same lane running is the signal,
-  // and quote is exempt from it entirely now that it is the preferred lane.
+  // Not "the last N distinct": two of the same lane running is the signal.
   forbid: (history) => {
     const lastTwo = history.slice(0, 2)
     if (lastTwo.length !== 2) return []
     const [latest, prior] = lastTwo
-    return latest.source === prior.source && latest.source !== 'quote' ? [latest.source] : []
+    return latest.source === prior.source ? [latest.source] : []
   },
   title: 'Hero Source Mandate',
-  intro: `Computed from recent builds. Quote is the preferred hero lane: reach for it first, and reach past it only when today's quote genuinely can't carry a page. Repeating quote on consecutive days is not a fault; repeating any other lane two days running is.`,
+  intro: `Computed from recent builds. The four hero lanes are equal; none is the default. Repeating any lane two days running is a fault.`,
   rationaleLabel: 'hero sources',
   emptyRationale: 'No recent hero-source history available; the source is open.',
   forbiddenBullet: (forbidden) =>
     `- **Hero sources used recently (avoid repeating):** ${forbidden.join(', ')} — the last two consecutive days both used this lane.`,
-  emptyBullet: `- **Hero sources:** no non-quote streak to avoid.`,
-  closing: `Quote first, and a quote-sourced streak needs no justification. If you reach past today's quote, or land on the same non-quote lane as yesterday, justify why in your hero rationale.`,
+  emptyBullet: `- **Hero sources:** no streak to avoid.`,
+  closing: `If you land on the same lane as yesterday, justify why in your hero rationale.`,
 })
 
 /**
