@@ -1,65 +1,47 @@
 import { css } from '../../../styled-system/css'
 import { personal } from '../../content/about'
 import { education } from '../../content/timeline'
-import { LedgerRow } from './LedgerRow'
+import { Reveal } from './Reveal'
+import { SigGrid } from './SigGrid'
 
-const head = css({
-  fontSize: 'xs',
-  fontWeight: 'bold',
-  letterSpacing: 'widest',
-  textTransform: 'uppercase',
-  color: 'accent',
-  paddingBottom: '12px',
-  borderBottom: '2px solid',
-  borderBottomColor: 'borderStrong',
-})
+const educationItems = [
+  { label: 'School', value: education.school },
+  { label: 'Degree', value: education.degree },
+  { label: 'Concentration', value: education.concentration },
+  { label: 'Years', value: education.years },
+]
+
+const personalItems = [
+  { label: 'Holes in one', value: String(personal.holesInOne) },
+  { label: 'Sport', value: personal.sport },
+  { label: 'Teams', value: personal.teams.join(', ') },
+  { label: 'Current focus', value: personal.currentFocus },
+]
 
 export function AboutLedger() {
-  const school = [
-    { label: 'School', value: education.school },
-    { label: 'Degree', value: education.degree },
-    { label: 'Concentration', value: education.concentration },
-    { label: 'Years', value: education.years },
-  ].filter((r) => Boolean(r.value))
-  const life = [
-    { label: 'Holes in one', value: String(personal.holesInOne) },
-    { label: 'Sport', value: personal.sport },
-    { label: 'Teams', value: personal.teams.join(', ') },
-    { label: 'Current focus', value: personal.currentFocus },
-  ]
   return (
-    <section
-      className={css({
-        bg: 'bg',
-        paddingBlock: { base: '64px', md: '80px' },
-        paddingInline: { base: '4', md: '6vw' },
-        display: 'grid',
-        gridTemplateColumns: { base: '1fr', md: '1fr 1fr' },
-        gap: { base: '44px', md: '64px' },
-        '@supports (animation-timeline: view())': {
-          animationName: 'rise',
-          animationTimeline: 'view()',
-          animationRange: 'entry 0% entry 40%',
-          animationFillMode: 'both',
-        },
-      })}
-    >
-      <div>
-        <h2 className={head}>Education</h2>
-        {school.map((r) => (
-          <LedgerRow key={r.label} label={r.label}>
-            {r.value}
-          </LedgerRow>
-        ))}
+    <Reveal label="Education and personal">
+      <div
+        className={css({
+          bg: 'surface',
+          paddingInline: 'clamp(24px, 6vw, 112px)',
+          paddingBlock: 'clamp(22px, 3vw, 34px)',
+          borderTopWidth: '3px',
+          borderTopStyle: 'solid',
+          borderTopColor: 'borderStrong',
+        })}
+      >
+        <SigGrid title="Education" items={educationItems} />
+        <div
+          className={css({
+            borderTopWidth: '2px',
+            borderTopStyle: 'solid',
+            borderTopColor: 'borderStrong',
+          })}
+        >
+          <SigGrid title="Off the clock" items={personalItems} />
+        </div>
       </div>
-      <div>
-        <h2 className={head}>Off the clock</h2>
-        {life.map((r) => (
-          <LedgerRow key={r.label} label={r.label} lead={r.label === 'Holes in one'}>
-            {r.value}
-          </LedgerRow>
-        ))}
-      </div>
-    </section>
+    </Reveal>
   )
 }

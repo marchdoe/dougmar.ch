@@ -1,0 +1,213 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2008 - 2026' (30px in the mockup) has no match in the build",
+          "facts": {
+            "text": "2008 - 2026",
+            "mockupPx": 30,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'seven projects 2008-2026. none of them waited for permission' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "seven projects 2008-2026. none of them waited for permission",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'twittertale' moved from (983, 868) in the mockup to (1057, 914) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'2008 - 2026' (20px in the mockup) has no match in the build",
+          "facts": {
+            "text": "2008 - 2026",
+            "mockupPx": 20,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'seven projects 2008-2026. none of them waited for permission' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "seven projects 2008-2026. none of them waited for permission",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'twittertale' moved from (184, 645) in the mockup to (212, 676) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets '2008 - 2026' at 30px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'seven projects 2008-2026. none of them waited for permission' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets '2008 - 2026' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'seven projects 2008-2026. none of them waited for permission' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2008 - 2026' (30px in the mockup) has no match in the build",
+          "facts": {
+            "text": "2008 - 2026",
+            "mockupPx": 30,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'twittertale' moved from (983, 868) in the mockup to (1057, 914) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'2008 - 2026' (20px in the mockup) has no match in the build",
+          "facts": {
+            "text": "2008 - 2026",
+            "mockupPx": 20,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'twittertale' moved from (184, 645) in the mockup to (212, 677) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets '2008 - 2026' at 30px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets '2008 - 2026' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 4,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2008 - 2026' (30px in the mockup) has no match in the build",
+          "facts": {
+            "text": "2008 - 2026",
+            "mockupPx": 30,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'twittertale' moved from (983, 868) in the mockup to (1057, 914) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'2008 - 2026' (20px in the mockup) has no match in the build",
+          "facts": {
+            "text": "2008 - 2026",
+            "mockupPx": 20,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'twittertale' moved from (184, 645) in the mockup to (212, 674) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets '2008 - 2026' at 30px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets '2008 - 2026' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

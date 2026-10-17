@@ -1,0 +1,106 @@
+import { definePreset } from '@pandacss/dev'
+
+export const elementsPreset = definePreset({
+  name: 'elements',
+  globalCss: {
+    body: {
+      background: 'bg',
+      color: 'text',
+      fontKerning: 'normal',
+      WebkitFontSmoothing: 'antialiased',
+      MozOsxFontSmoothing: 'grayscale',
+      textRendering: 'optimizeLegibility',
+    },
+    'h1, h2, h3, h4, h5, h6': {
+      margin: 0,
+      textWrap: 'balance',
+      color: 'text',
+    },
+    'p, li, blockquote': {
+      textWrap: 'pretty',
+    },
+    a: {
+      color: 'accent',
+      textDecoration: 'none',
+      _hover: { textDecoration: 'underline' },
+    },
+    'p, ul, ol, figure': { margin: 0 },
+    '::selection': {
+      background: 'accent',
+      color: 'accentText',
+    },
+  },
+  conditions: {
+    _light: '[data-theme="light"] &',
+    _dark: '[data-theme="dark"] &',
+    _hover: '&:hover',
+  },
+  theme: {
+    tokens: {
+      colors: {
+        violet: {
+          50: { value: '#f7f0fc' },
+          100: { value: '#eddcf8' },
+          200: { value: '#dcbdf0' },
+          300: { value: '#c597e5' },
+          400: { value: '#a96bd6' },
+          500: { value: '#8b43c4' },
+          600: { value: '#6e2db0' },
+          700: { value: '#561f8e' },
+          800: { value: '#3e176a' },
+          900: { value: '#2a1142' },
+        },
+        amber: {
+          50: { value: '#fdf4dc' },
+          100: { value: '#fae7b4' },
+          200: { value: '#f3d27a' },
+          300: { value: '#e9b946' },
+          400: { value: '#d99a1e' },
+          500: { value: '#b87d12' },
+          600: { value: '#94630e' },
+          700: { value: '#70490c' },
+          800: { value: '#4d3208' },
+          900: { value: '#2e1e05' },
+        },
+        sand: {
+          50: { value: '#faf3e2' },
+          100: { value: '#f2e6c4' },
+          200: { value: '#e9d6a8' },
+          300: { value: '#e0c88e' },
+          400: { value: '#c9b483' },
+          500: { value: '#a8925f' },
+          600: { value: '#8a6f3e' },
+          700: { value: '#5f4d30' },
+          800: { value: '#4a3c25' },
+          900: { value: '#2b2213' },
+        },
+      },
+      radii: {
+        none: { value: '0' },
+        sm: { value: '2px' },
+        md: { value: '4px' },
+        lg: { value: '8px' },
+        full: { value: '9999px' },
+      },
+    },
+    semanticTokens: {
+      colors: {
+        bg: { value: '{colors.sand.200}' },
+        bgAlt: { value: '{colors.sand.300}' },
+        surface: { value: '{colors.sand.100}' },
+        text: { value: '{colors.violet.900}' },
+        textMuted: { value: '{colors.violet.700}' },
+        textFaint: { value: '{colors.sand.700}' },
+        accent: { value: '{colors.violet.600}' },
+        accentText: { value: '{colors.violet.50}' },
+        accentAlt: { value: '{colors.violet.800}' },
+        border: { value: '{colors.sand.400}' },
+        borderStrong: { value: '{colors.sand.600}' },
+        field: { value: '{colors.violet.800}' },
+        fieldInk: { value: '{colors.sand.50}' },
+        fieldInkMuted: { value: '{colors.violet.300}' },
+        fieldBorder: { value: '{colors.violet.600}' },
+      },
+    },
+  },
+})
