@@ -9,6 +9,7 @@ import { createPipelineRunner } from './pipeline-runner'
 import { collectSignalsHandler, devOverridesHandler } from './signals-endpoints'
 
 export { archiveStaticPlugin } from './archive-static'
+export { pipelineMapStaticPlugin } from './pipeline-map-static'
 export { browserStorageContextStub } from './storage-context-stub'
 
 /**

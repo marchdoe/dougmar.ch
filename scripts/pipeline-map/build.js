@@ -31,6 +31,10 @@ export const KINDS = {
 const SWAPS = [
   ['<title>super-board skill map</title>', '<title>Pipeline Map</title>'],
   [
+    '<meta name="viewport" content="width=device-width, initial-scale=1">',
+    '<meta name="viewport" content="width=device-width, initial-scale=1">\n<meta name="robots" content="noindex">',
+  ],
+  [
     '  Section layout adapted from BuilderIO',
     "  Page template from EricTechPro/super-board diagrams/visual (MIT); map data is dougmar.ch's own.\n  Section layout adapted from BuilderIO",
   ],
