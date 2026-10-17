@@ -67,6 +67,8 @@ const SWAPS = [
 /** Pure transform: template HTML + parsed map -> page HTML. Throws on any drift. */
 export function renderPipelineMap(template, map) {
   const d = structuredClone(map)
+  // The commit the map was last checked against is for stale.js, not for readers.
+  delete d.basis
 
   const bad = [...new Set(d.nodes.map((n) => n.kind))].filter((k) => !(k in KINDS)).sort()
   if (bad.length) throw new Error(`unknown kinds: ${bad.join(', ')}`)
