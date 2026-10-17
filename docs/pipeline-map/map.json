@@ -213,7 +213,7 @@
    "kind": "script",
    "what": "Loads the prompts, references, a backup of yesterday's files, archive history and the mandates the later agents read.",
    "when": "First phase of [[design-agents-js]].",
-   "how": "Builds the recent-ratings block, the permanent [[taste-md]], the owner's `voice.md`, and the mobile record of recent nights. Signals are wrapped as data with a per-run boundary id (`data-boundary.js`).",
+   "how": "Builds the recent-ratings block, the permanent [[taste-md]], the owner's `signals/voice.md`, and the mobile record of recent nights. `buildVoiceBlock` (`taste-memory.js`) reads voice.md the same way as the taste file, trimmed and capped at 16 KB, into an \"Owner Voice\" block that goes only to the [[art-director]], after the taste block in its prompt, so hero and deck copy has a register to match. Signals are wrapped as data with a per-run boundary id (`data-boundary.js`).",
    "source": [
     "scripts/pipeline/context.js",
     "scripts/utils/ratings.js",
@@ -271,7 +271,7 @@
    "label": "MOCK_MODE fixtures",
    "kind": "script",
    "what": "Replays recorded agent responses at the CLI seam so the whole swarm runs without model calls.",
-   "when": "`MOCK_MODE=true`, used by tests and `pnpm canary --mock`. `FIXTURE_DIR` picks the corpus (`fixtures/agents/` or `fixtures/canary/`).",
+   "when": "`MOCK_MODE=true`, used by tests and `node scripts/canary.js --mock`. package.json has no `canary` script; `pnpm pipeline:canary` runs the same file. `FIXTURE_DIR` picks the corpus (`fixtures/agents/` or `fixtures/canary/`).",
    "how": "Fixtures are indexed per agent per process, so a second engineer call replays its own response. Parsers, validators, gates and archive writes all run for real.",
    "source": [
     "scripts/utils/agent-fixtures.js",
@@ -378,7 +378,7 @@
    "sublabel": "Opus 5.5",
    "what": "Translates the approved mockup into the production TSX files (Layout, Sidebar, routes, components) using Panda CSS and the day's tokens.",
    "when": "Phase 4, after the mockup settles.",
-   "how": "Model `claude-opus-5-5`, effort `high` (a trial since 2026-09-22 after Sonnet 5 started at 37 gate errors against 4). One retry on a stall. A reply that is incomplete or breaks the declared shell posture is repaired by a patch, not asked for again in full. Unused generated components are swept.",
+   "how": "Model `claude-opus-5-5`, effort `high`. Live: `PROD_MODELS` still maps it to the `opus-5-5` tier. The `models.js` header calls it a one-week trial from 2026-09-22, after Sonnet 5 started at 37 gate errors against 4; reverting means setting it back to `opus`. One retry on a stall. A reply that is incomplete or breaks the declared shell posture is repaired by a patch, not asked for again in full. Unused generated components are swept.",
    "source": [
     "scripts/pipeline/phase-engineer.js",
     "scripts/prompts/react-engineer.md",
@@ -443,7 +443,7 @@
    "kind": "gate",
    "what": "`biome check --write` on generated paths, `tsc --noEmit`, and `fallow audit --base HEAD`.",
    "when": "Inside [[build-gate]].",
-   "how": "Biome auto-fixes what it can; remaining lint or any tsc error fails the gate, and fallow is run against HEAD. Output is written to `archive/<date>/last-static-checks.txt`, which the failure artifact carries.",
+   "how": "Biome auto-fixes what it can; remaining lint, any tsc error, or a fallow verdict of `fail` fails the gate; the fallow error lists the introduced complexity findings and unused exports. Fallow output that does not parse is logged as a warning and does not fail the gate. Output is written to `archive/<date>/last-static-checks.txt`, which the failure artifact carries.",
    "source": [
     "scripts/utils/build-validator.js"
    ]
@@ -551,7 +551,7 @@
    "kind": "gate",
    "what": "`pnpm test` then `pnpm test:e2e:site` against the night just built, with `NIGHTLY_RUN=1`.",
    "when": "The `Verify the night's output renders` step in [[redesign-job]]; skipped on a dry run.",
-   "how": "Playwright runs [[site-health-spec]]. Any failure fails the job, which routes to [[notify-job]] and leaves a [[failure-artifact]] with the handoff for a resume.",
+   "how": "Playwright runs [[site-health-spec]] in its `site-health` project, whose `baseURL` is `PREVIEW_URL` or `http://localhost:4173`. The workflow sets no `PREVIEW_URL`, so Playwright starts `vite preview --port 4173` on the `dist/` the pipeline built. Any failure fails the job, which routes to [[notify-job]] and leaves a [[failure-artifact]] with the handoff for a resume.",
    "source": [
     ".github/workflows/daily-redesign.yml",
     "tests/e2e/site-health.spec.ts"
@@ -1685,6 +1685,21 @@
     "publish-job": {
      "opensView": "v-archive"
     }
+   },
+   "layout": {
+    "nightly-backstop-wf": [0, 1],
+    "daily-redesign-wf": [0.5, 0],
+    "collect-signals": [1, 1],
+    "art-director": [1.5, 0],
+    "mockup-designer": [2, 1],
+    "mockup-critic": [2.5, 0],
+    "react-engineer": [3, 1],
+    "build-gate": [3.5, 0],
+    "ship-gate": [4, 1],
+    "render-gate": [4.5, 0],
+    "publish-job": [5, 1],
+    "failure-artifact": [5, 2],
+    "rating-issue": [5.5, 0]
    }
   },
   {
@@ -1735,7 +1750,28 @@
     "e30-orchestrator-codegen-preset-ts",
     "e31-orchestrator-codegen-chassis-preset-ts",
     "e32-orchestrator-codegen-art-director"
-   ]
+   ],
+   "layout": {
+    "failure-issue": [0, 0],
+    "redesign-job": [0, 1],
+    "rating-issue": [0, 2],
+    "taste-md": [0, 3],
+    "models-tiers": [0, 4],
+    "main-red-check": [1, 1],
+    "collect-ratings": [2, 1],
+    "collect-signals": [3, 1],
+    "rating-json": [3, 2],
+    "collect-references": [4, 0],
+    "signals-today": [4, 2],
+    "prior-attempts": [5, 0],
+    "references-md": [5, 1],
+    "context-phase": [5, 3],
+    "art-director": [6, 1],
+    "hero-repeat-check": [7, 0],
+    "orchestrator-codegen": [7, 2],
+    "preset-ts": [8, 5],
+    "chassis-preset-ts": [8, 6]
+   }
   },
   {
    "id": "v-mockup",
@@ -1767,7 +1803,20 @@
     "e40-mockup-critic-react-engineer",
     "e42-preset-ts-react-engineer",
     "e63-run-budget-mockup-designer"
-   ]
+   ],
+   "layout": {
+    "legibility-probe": [0, 0],
+    "run-budget": [0, 1],
+    "taste-md": [0, 3],
+    "preset-ts": [0, 5],
+    "mockup-designer": [1, 0],
+    "call-tape": [1, 4],
+    "art-director": [2, 1],
+    "mockup-html": [2, 4],
+    "mockup-precheck": [3, 1],
+    "mockup-critic": [4, 0],
+    "react-engineer": [5, 2]
+   }
   },
   {
    "id": "v-engineer",
@@ -1807,7 +1856,22 @@
     "e58-engineer-revision-screenshot-critic",
     "e59-gate-phase-ship-gate",
     "e62-run-budget-engineer-revision"
-   ]
+   ],
+   "layout": {
+    "chassis-preset-ts": [0, 0],
+    "preset-ts": [0, 1],
+    "react-engineer": [1, 0],
+    "generated-app": [2, 0],
+    "run-budget": [2, 1],
+    "build-gate": [3, 1],
+    "static-checks": [4, 0],
+    "engineer-repair": [4, 1],
+    "gate-phase": [4, 3],
+    "surface-gate": [5, 0],
+    "ship-gate": [5, 1],
+    "screenshot-critic": [6, 0],
+    "engineer-revision": [7, 1]
+   }
   },
   {
    "id": "v-gates",
@@ -1851,7 +1915,25 @@
     "e98-ci-wf-site-health-spec",
     "e99-ci-wf-main-red-check",
     "e102-live-rail-site-health-spec"
-   ]
+   ],
+   "layout": {
+    "live-rail": [0, 0],
+    "surface-gate": [0, 1],
+    "ship-gate": [0, 3],
+    "ci-wf": [0, 4],
+    "screenshot-critic": [1, 1],
+    "mockup-drift-gate": [1, 2],
+    "archive-phase": [1, 3],
+    "main-red-check": [1, 4],
+    "legibility-probe": [1, 5],
+    "copy-gate": [2, 0],
+    "engineer-revision": [2, 1],
+    "render-gate": [2, 2],
+    "build-gate": [3, 0],
+    "failure-artifact": [3, 4],
+    "static-checks": [4, 1],
+    "site-health-spec": [4, 2]
+   }
   },
   {
    "id": "v-resume",
@@ -1900,7 +1982,27 @@
     "e93-failure-artifact-backstop-script",
     "e94-archive-dir-backstop-script",
     "e101-canary-mock-mode"
-   ]
+   ],
+   "layout": {
+    "call-tape": [0, 0],
+    "nightly-backstop-wf": [0, 1],
+    "archive-dir": [0, 2],
+    "canary": [0, 3],
+    "rollback-wf": [0, 4],
+    "handoff-json": [1, 0],
+    "mock-mode": [1, 1],
+    "resume-steps": [2, 0],
+    "daily-redesign-js": [3, 0],
+    "design-agents-js": [4, 0],
+    "trace-json": [5, 0],
+    "failure-artifact": [6, 0],
+    "backstop-script": [7, 0],
+    "notify-job": [7, 1],
+    "daily-redesign-wf": [8, 0],
+    "failure-issue": [8, 1],
+    "guard-job": [9, 0],
+    "prior-attempts": [9, 1]
+   }
   },
   {
    "id": "v-cost",
@@ -1934,7 +2036,24 @@
     "e63-run-budget-mockup-designer",
     "e70-cost-ledger-cost-json",
     "e100-mock-mode-art-director"
-   ]
+   ],
+   "layout": {
+    "mockup-critic": [0, 0],
+    "models-tiers": [0, 1],
+    "prior-attempts": [0, 2],
+    "run-budget": [0, 3],
+    "mock-mode": [0, 4],
+    "call-tape": [0, 5],
+    "engineer-repair": [0, 6],
+    "notify-job": [0, 7],
+    "cost-ledger": [0, 8],
+    "react-engineer": [1, 0],
+    "mockup-designer": [1, 2],
+    "engineer-revision": [1, 3],
+    "art-director": [1, 4],
+    "cost-json": [1, 9],
+    "screenshot-critic": [2, 0]
+   }
   },
   {
    "id": "v-archive",
@@ -1974,12 +2093,27 @@
     "e96-verdicts-json-rating-issue",
     "e102-live-rail-site-health-spec",
     "e103-live-rail-archive-seal"
-   ]
+   ],
+   "layout": {
+    "ship-gate": [0, 2],
+    "archive-phase": [1, 2],
+    "live-rail": [1, 3],
+    "archive-dir": [2, 0],
+    "archive-seal": [2, 3],
+    "render-gate": [2, 4],
+    "cost-json": [3, 0],
+    "verdicts-json": [3, 1],
+    "public-archive": [3, 2],
+    "site-health-spec": [3, 4],
+    "nightly-patch": [4, 2],
+    "publish-job": [5, 2],
+    "rating-issue": [7, 1]
+   }
   }
  ],
  "notes": [
   "Built 2026-10-17 from origin/main e362a4f0 by reading the two workflows, scripts/pipeline/*, scripts/agents/*, scripts/utils/{models,budgets,call-tape,handoff,surface-gate,build-validator}.js, tests/e2e/site-health.spec.ts and LiveRail.tsx. Nothing was run and no model was called.",
-  "Models are from scripts/utils/models.js PROD_MODELS: Art Director and Mockup Designer claude-opus-4-8; Mockup Critic and React Engineer claude-opus-5-5; Screenshot Critic claude-sonnet-5. The react-engineer entry is marked a one-week trial from 2026-09-22 in the source comment; it was still in place on this commit. Dev tier caps all at claude-sonnet-5.",
+  "Models are from scripts/utils/models.js PROD_MODELS: Art Director and Mockup Designer claude-opus-4-8; Mockup Critic and React Engineer claude-opus-5-5; Screenshot Critic claude-sonnet-5. The react-engineer entry is live on this commit; the source comment still calls it a one-week trial from 2026-09-22. Dev tier caps all at claude-sonnet-5.",
   "Round counts: mockup revisions 2 (3 designer calls), build repairs 3, critic-driven engineer revisions 3 with a fourth when earned, hard cap 4.",
   "The workflow sets SHIP_GATE=lenient, so faults other than legibility ship with a SHIPPED-WITH-FAULTS verdict. PIPELINE_TIER is not set in the workflow; the API key selects prod."
  ],
