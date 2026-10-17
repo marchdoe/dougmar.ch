@@ -1,6 +1,6 @@
 # Design Reference Library
 
-A curated collection of design references used by the daily redesign pipeline. Each day, the pipeline selects 3–5 relevant references from this library based on the current brief and feeds them to the design agents as inspiration.
+A curated collection of design references used by the daily redesign pipeline. With a fresh brief the pipeline scores the library against it and keeps the top 5; with no brief (the normal case) the Art Director gets up to 12 entries and picks from them. Entries are text-only unless flagged `gold: true` (see below).
 
 ---
 
@@ -19,7 +19,7 @@ A curated collection of design references used by the daily redesign pipeline. E
     density: sparse
 ```
 
-3. Commit `index.yml`. The image file is gitignored — it stays local only.
+3. Commit `index.yml`. Image files are gitignored, except `own-*.png`, which are tracked.
 
 ---
 
@@ -66,6 +66,28 @@ How much information is packed into the space.
 
 ## How the Pipeline Uses References
 
-When the daily brief is generated, the pipeline reads `index.yml` and scores each reference against the brief's intent. The 3–5 highest-scoring references are passed as context to the Layout Architect and Design Director agents. References influence layout composition, typographic mood, and spacing decisions — they do not override the brief, they inform it.
+The pipeline reads `index.yml` and, when a fresh brief exists, scores each reference against it. The highest-scoring references go to the Art Director as context. References influence layout composition, typographic mood, and spacing decisions. They do not override the brief, they inform it.
 
-The image files themselves are gitignored so this library stays lightweight in the repo. Only the YAML index is tracked.
+For ordinary entries only the YAML text is sent. The `description` carries the whole signal.
+
+---
+
+## Gold Standards
+
+Add `gold: true` to an entry to mark it as a gold standard, one of the owner's best nights.
+
+```yaml
+- file: own-2026-06-13-fairway-split.png
+  gold: true
+  description: "..."
+```
+
+Gold entries are always included first, never dropped by the 12-entry cap or by brief scoring, and later pipeline stages also send their images to the models. `scripts/utils/gold-standards.js` (`loadGoldStandards({ root })`) is the single loader; entries whose image is missing are skipped and returned in `missing`.
+
+Render a gold standard from an archived night (first fold, 1440x900, needs network for web fonts):
+
+```sh
+node scripts/render-gold-standard.js --date 2026-06-13 --out references/own-2026-06-13-fairway-split.png
+```
+
+Look at the result before committing it. The archive viewer frame is hidden in the render, so the page can start 44px down.

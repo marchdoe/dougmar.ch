@@ -2,6 +2,10 @@
 # Add screenshots to this directory and index them here.
 # Entries are TEXT-ONLY as far as the models are concerned — the description
 # carries the entire taste signal, so write the concrete design move, not vibes.
+# The one exception is `gold: true`: gold entries are also sent as images by
+# the later pipeline stages (loaded by scripts/utils/gold-standards.js), and
+# are never dropped by the library cap or by brief scoring. Nothing else is
+# ever sent as an image.
 #
 # When a fresh brief exists, the pipeline scores entries against it and picks
 # the top 5. With no fresh brief (the normal case since the Art Director now
@@ -15,13 +19,17 @@
 
 references:
   # --- Own archive gold standards (from recorded ratings) ---
+  # Image pending: public/archive/2026-04-28 is an Index in warm yellow-green,
+  # not this terracotta Specimen, so it cannot be re-rendered from the archive.
   - file: own-2026-04-28-terracotta-specimen.png
+    gold: true
     description: "OWN GOLD STANDARD (2026-04-28, risk 8): drenched terracotta Specimen — a single hue committed across ~70% of the viewport, type waterfall reversed out of the field, labels and size markers treated as design material. Rated the benchmark: committed gestures, not hedges."
     tags:
       composition: specimen
       mood: warm
       density: moderate
   - file: own-2026-06-13-fairway-split.png
+    gold: true
     description: "OWN HIGH-WATER MARK (2026-06-13): Split as argument — left panel is the thesis (one enormous word, 178px Anton, fairway green drench), right panel is the evidence (clean cataloged rows in pine-white). The split earns itself because the two halves NEED each other; productive irony (the word for smallness is the biggest object on the page)."
     tags:
       composition: split
@@ -92,6 +100,7 @@ references:
   - file: own-2026-09-08.png
     description: "OWN (2026-09-08, grade B): I rebuilt myself overnight is a real line. The violet two-field holds together."
   - file: own-2026-09-06.png
+    gold: true
     description: "OWN (2026-09-06, grade A): Gold split, condensed caps at poster scale, the box-score column earns its half. Best of the week."
   - file: own-2026-09-05.png
     description: "OWN (2026-09-05, grade B): Ochre drench with the serif reversed out is a committed gesture."
