@@ -35,6 +35,12 @@ Cost:
 - Cache writes are 36% of a night and almost never read back. The CLI writes a 5-minute cache, and the first calls run 5 to 9 minutes.
 - Since 10-08, engineer rounds 2 and 3 have been stuck on one 9px LiveRail clip at 820px, a component the engineer doesn't own.
 
+## Map
+
+![[Pipeline Map 2026-10-17.png]]
+
+The source is `sketchbook/wiki/pipeline/knowledge/Pipeline Map 2026-10-17.excalidraw`. Open it in excalidraw.com. It traces every input and feedback link on main at e362a4f0 against the nights from 09-30 to 10-17. Red marks a broken or empty link, and amber a degraded or stale one.
+
 ## Decisions (Doug, 2026-10-17)
 
 - The daily quote feed stays, as one of four equal hero lanes rather than the preferred one. The Art Director argues for a quote the way it argues for any other lane. A quote library Doug curates comes later, once the rest of Phase 1 holds.
