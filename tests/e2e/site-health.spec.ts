@@ -131,6 +131,7 @@ test.describe('site health — the white paper holds its layout', () => {
     await expect(paper.locator('ol > li h3').first()).toHaveText('Signals')
     await expect(paper.locator('ol > li h3').last()).toHaveText('Archive')
     await expect(paper.locator('a[href^="https://chadfowler.com/"]')).toHaveCount(3)
+    await expect(paper.locator('a[href="/pipeline-map/"]')).toHaveCount(1)
 
     // The title stays the route's, and there is one of it.
     await expect(page.locator('h1')).toHaveCount(1)

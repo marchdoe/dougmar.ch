@@ -146,6 +146,11 @@ export const projects: Project[] = [
         produces: 'Provenance',
       },
     ],
+    processMap: {
+      text: 'Every agent, check and file a night touches is drawn on one map, with what each does and where its code lives.',
+      linkLabel: 'Open the pipeline map',
+      href: '/pipeline-map/',
+    },
     decisions: [
       {
         decision: 'A composition grammar instead of named layouts',
