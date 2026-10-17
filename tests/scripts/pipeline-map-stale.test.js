@@ -80,8 +80,8 @@ function seed() {
   const base = commit('seed')
   const map = { ...MAP, basis: base }
   put('docs/pipeline-map/map.json', JSON.stringify(map))
-  commit('basis')
-  return { base, map }
+  const checked = commit('basis')
+  return { base, checked, map }
 }
 
 beforeEach(() => {
@@ -134,15 +134,36 @@ describe('stale.js', () => {
   })
 
   it('writes an issue body with the range and every list', () => {
-    const { map } = seed()
+    const { checked, map } = seed()
     put('scripts/pipeline/a.js', '// a, changed\n')
     put('scripts/utils/new-helper.js', '// new\n')
     commit('change')
     const body = toMarkdown(staleReport({ cwd: dir, map }), 'o/r')
-    expect(body).toContain(`https://github.com/o/r/compare/${map.basis}...`)
+    expect(body).toContain(`https://github.com/o/r/compare/${checked}...`)
     expect(body).toContain('- `a`: `scripts/pipeline/a.js`')
     expect(body).toContain('- `scripts/utils/new-helper.js`')
     expect(body).toContain('pnpm pipeline-map:refresh')
+  })
+
+  it('counts a later map edit as a check of everything before it', () => {
+    const { map } = seed()
+    put('scripts/pipeline/a.js', '// a, changed alongside the map\n')
+    put('docs/pipeline-map/map.json', JSON.stringify({ ...map, title: 'edited' }))
+    const edited = commit('map and code together')
+    put('scripts/utils/d.js', '// d, changed later\n')
+    commit('d')
+    const r = staleReport({ cwd: dir, map })
+    expect(r.base).toBe(edited)
+    expect(r.changedNodes.map((n) => n.id)).toEqual(['d'])
+  })
+
+  it("leaves the map's own upkeep files out of the uncited list", () => {
+    const { map } = seed()
+    put('.github/workflows/pipeline-map-stale.yml', 'name: x\n')
+    put('scripts/utils/pipeline-map-helper.js', '// upkeep\n')
+    put('scripts/utils/other-helper.js', '// pipeline code\n')
+    commit('new files')
+    expect(staleReport({ cwd: dir, map }).uncitedFiles).toEqual(['scripts/utils/other-helper.js'])
   })
 
   it('matches globs the way the workflow paths filter does', () => {

@@ -3,7 +3,8 @@
  * checked against (`basis` in docs/pipeline-map/map.json).
  *
  * usage: node scripts/pipeline-map/stale.js [--base <sha>] [--head <ref>] [--json | --markdown]
- *   --base      the commit to diff from (default: the map's `basis`)
+ *   --base      the commit to diff from (default: `basis`, or the last commit that
+ *               changed map.json when that is newer; see checkedAt)
  *   --head      the commit to diff to (default: HEAD)
  *   --json      the report as JSON, with `stale: true|false`
  *   --markdown  the body of the "Pipeline map is out of date" issue
@@ -39,6 +40,7 @@ export const NIGHTLY_OUTPUT = [
 export const UNCITED_DIRS = ['scripts/pipeline/', 'scripts/utils/', '.github/workflows/']
 
 const REPO = 'marchdoe/dougmar.ch'
+const MAP_REL = 'docs/pipeline-map/map.json'
 
 /** A path glob (`*` within a segment, `**` across them) as a RegExp. */
 export function globToRegExp(glob) {
@@ -60,6 +62,9 @@ export const isNightlyOutput = (file) => NIGHTLY_RE.some((re) => re.test(file))
 const isTestOrFixture = (file) =>
   /(^|\/)(tests?|__tests__|fixtures?|__fixtures__)\//.test(file) ||
   /\.(test|spec)\.[jt]sx?$/.test(file)
+
+/** The map's own upkeep (this check, the refresh, their workflow) is not part of the pipeline. */
+const isMapUpkeep = (file) => /(^|\/)pipeline-map[^/]*(\/|\.|$)/.test(file)
 
 const git = (cwd, args) =>
   execFileSync('git', args, {
@@ -119,6 +124,7 @@ export function computeStale(map, changes, headFiles) {
     .map((c) => c.path)
     .filter((f) => UNCITED_DIRS.some((d) => f.startsWith(d)))
     .filter((f) => !isTestOrFixture(f))
+    .filter((f) => !isMapUpkeep(f))
     .filter((f) => !cited.some((p) => cites(p, f)))
     .sort()
 
@@ -128,13 +134,37 @@ export function computeStale(map, changes, headFiles) {
 export const isStale = (r) =>
   r.changedNodes.length + r.missingPaths.length + r.uncitedFiles.length > 0
 
+/**
+ * The commit the map was last checked against: `basis`, or the last commit at `head`
+ * that changed map.json when that is newer. Whoever last edited the map, by hand or
+ * through the refresh, checked it against everything before that commit. That also
+ * covers a stack of PRs, whose merge commit nobody can record in advance.
+ */
+export function checkedAt(cwd, map, head = 'HEAD') {
+  let last = ''
+  try {
+    last = git(cwd, ['log', '-1', '--format=%H', head, '--', MAP_REL]).trim()
+  } catch {
+    return map.basis
+  }
+  if (!last) return map.basis
+  if (!map.basis) return last
+  try {
+    git(cwd, ['merge-base', '--is-ancestor', map.basis, last])
+    return last
+  } catch {
+    return map.basis
+  }
+}
+
 /** Read the repo at `cwd` and build the report for base..head. */
 export function staleReport({
   cwd = ROOT,
   map = readMap(path.join(cwd, 'docs/pipeline-map/map.json')),
-  base = map.basis,
+  base,
   head = 'HEAD',
 } = {}) {
+  base ??= checkedAt(cwd, map, head)
   if (!base) throw new Error('map.json has no basis and no --base was given')
   try {
     git(cwd, ['cat-file', '-e', `${base}^{commit}`])

@@ -1,8 +1,9 @@
 name: Pipeline Map Stale
 
-# The pipeline map (docs/pipeline-map/map.json) records the commit it was last
-# checked against as `basis`. On every push to main that touches a file the map
-# cites, scripts/pipeline-map/stale.js diffs basis..HEAD and lists the nodes
+# The pipeline map (docs/pipeline-map/map.json) was last checked against its
+# `basis` commit, or against the last commit that changed map.json when that is
+# newer. On every push to main that touches a file the map cites,
+# scripts/pipeline-map/stale.js diffs from there to HEAD and lists the nodes
 # whose sources changed, cited paths that no longer exist and new files under
 # scripts/pipeline/, scripts/utils/ or .github/workflows/ that no node cites.
 # If any list is non-empty this opens one `pipeline-map` issue, or rewrites the
