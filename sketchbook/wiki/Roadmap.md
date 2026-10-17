@@ -2,7 +2,7 @@
 type: roadmap
 tags: [roadmap]
 created: 2026-10-08
-updated: 2026-10-08
+updated: 2026-10-17
 aliases: []
 sources: []
 status: living
@@ -17,6 +17,7 @@ A dashboard that links to issues. [GitHub issues](https://github.com/marchdoe/do
 - **Pillars into the agents** (pillar 2). Quote the pillars in `signals/taste.md` and in the Art Director and critic prompts. Before merging, do a canary run with a same-signals before/after. In progress, PR 2 of the pillars work.
 - **Rating backlog** (pillar 3). Fifteen `daily-rating` issues are open, covering 2026-09-23 to 10-07. Batch-rate them side by side with Claude. Blocked on Doug's time.
 - **Taste and cost** (pillars 1 and 3). [[Spec 11 - Taste And Cost]]. In progress.
+- **Better nights on budget** (pillars 1, 2 and 4). [[Spec 13 - Better Nights On Budget]]. Proposed; Phase 1 is next.
 - **Live rail.** [[Spec 12 - Live Rail]], #702. In progress.
 
 ## Waiting on Doug
