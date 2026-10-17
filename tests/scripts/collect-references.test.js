@@ -29,4 +29,26 @@ describe('selectCuratedReferences', () => {
     const big = Array.from({ length: 20 }, (_, i) => ({ description: `ref ${i}`, tags: {} }))
     expect(selectCuratedReferences(big, null)).toHaveLength(12)
   })
+
+  it('keeps tiered entries first and past the 12-entry cap when there is no brief', () => {
+    const big = Array.from({ length: 20 }, (_, i) => ({ description: `ref ${i}`, tags: {} }))
+    big.push({ description: 'floor late', tier: 'floor', tags: {} })
+    const picked = selectCuratedReferences(big, null)
+    expect(picked).toHaveLength(12)
+    expect(picked[0].description).toBe('floor late')
+    expect(picked.slice(1).map((r) => r.description)).toEqual(
+      big.slice(0, 11).map((r) => r.description)
+    )
+  })
+
+  it('keeps tiered entries even when they score zero against the brief', () => {
+    const lib = [
+      ...LIB,
+      { description: 'floor ref', tier: 'floor', tags: { composition: 'stack' } },
+    ]
+    const picked = selectCuratedReferences(lib, 'A dramatic split layout with a calm right panel')
+    expect(picked[0].description).toBe('floor ref')
+    expect(picked[0].score).toBeUndefined()
+    expect(picked[1].description).toBe('split ref')
+  })
 })
