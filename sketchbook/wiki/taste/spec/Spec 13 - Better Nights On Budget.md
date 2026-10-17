@@ -37,7 +37,7 @@ Cost:
 
 ## Decisions (Doug, 2026-10-17)
 
-- Quotes come from a list Doug curates in `signals/voice.md`. The Art Director may use one of those lines. Nothing else from the quote API.
+- The daily quote feed stays, as one of four equal hero lanes rather than the preferred one. The Art Director argues for a quote the way it argues for any other lane. A quote library Doug curates comes later, once the rest of Phase 1 holds.
 - The Message Batches API goes in for the Art Director and mockup stages first, proven against a control night, then extends to the rest of the chain.
 - The Art Director and mockup designer stay on Opus 4.8.
 - One PR per item. Each one runs a same-signals control before merge, as in [[Spec 11 - Taste And Cost]]. A cost change that weakens the design doesn't ship.
@@ -46,7 +46,7 @@ Cost:
 
 Expected cost change: about zero.
 
-1. Hero source. Replace the quote preference with the curated list in `signals/voice.md`. The `quote` lane draws only from it.
+1. Hero source. End the quote preference. `quote` becomes one of the four lanes on equal footing, and a night that picks it says why in `===HERO_RATIONALE===`.
 2. Hero scale. Allow 290 to 380px when the lead object is one word, a figure, or three words or fewer. Longer lines keep the 160px cap.
 3. First fold. The fold holds the mark, the nav, one object and one supporting line. Ledgers and cards move below it.
 4. Materials. Retire `mesh`. The default material is none.
