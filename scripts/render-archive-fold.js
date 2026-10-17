@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 /**
- * Render a gold standard — the first fold of an archived night — to a PNG.
+ * Render a reference — the first fold of an archived night — to a PNG.
  *
  * Usage:
- *   node scripts/render-gold-standard.js --date 2026-04-28 --out references/own-2026-04-28-terracotta-specimen.png
+ *   node scripts/render-archive-fold.js --date 2026-04-28 --out references/own-2026-04-28-terracotta-specimen.png
  *
  * Serves public/ from a throwaway static server (archived pages reference
  * assets by absolute path), loads /archive/<date>/ at 1440x900, device scale 1,
@@ -106,7 +106,7 @@ if (isMain(import.meta.url)) {
   const date = flag('date')
   const out = flag('out')
   if (!date || !out) {
-    console.error('Usage: node scripts/render-gold-standard.js --date YYYY-MM-DD --out <file.png>')
+    console.error('Usage: node scripts/render-archive-fold.js --date YYYY-MM-DD --out <file.png>')
     process.exit(1)
   }
   await renderGoldStandard({ date, out })

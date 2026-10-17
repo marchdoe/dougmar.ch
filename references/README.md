@@ -1,6 +1,6 @@
 # Design Reference Library
 
-A curated collection of design references used by the daily redesign pipeline. With a fresh brief the pipeline scores the library against it and keeps the top 5; with no brief (the normal case) the Art Director gets up to 12 entries and picks from them. Entries are text-only unless flagged `gold: true` (see below).
+A curated collection of design references used by the daily redesign pipeline. With a fresh brief the pipeline scores the library against it and keeps the top 5; with no brief (the normal case) the Art Director gets up to 12 entries and picks from them. Entries are text-only unless they carry a `tier` (see below).
 
 ---
 
@@ -72,22 +72,25 @@ For ordinary entries only the YAML text is sent. The `description` carries the w
 
 ---
 
-## Gold Standards
+## Tiers
 
-Add `gold: true` to an entry to mark it as a gold standard, one of the owner's best nights.
+Add `tier: floor` or `tier: gold` to an entry to send its image to the models, not just its text.
+
+- `floor`: Doug's minimum bar. Every night must be at least this good. Currently 2026-06-13, 2026-09-12 and 2026-10-17.
+- `gold`: aspirational. Empty until Doug names one.
 
 ```yaml
 - file: own-2026-06-13-fairway-split.png
-  gold: true
+  tier: floor
   description: "..."
 ```
 
-Gold entries are always included first, never dropped by the 12-entry cap or by brief scoring, and later pipeline stages also send their images to the models. `scripts/utils/gold-standards.js` (`loadGoldStandards({ root })`) is the single loader; entries whose image is missing are skipped and returned in `missing`.
+Tiered entries are always included first, never dropped by the 12-entry cap or by brief scoring, and later pipeline stages send their images. `scripts/utils/reference-tiers.js` (`loadTier({ root, tier })`) is the single loader; entries whose image is missing are skipped and returned in `missing`.
 
-Render a gold standard from an archived night (first fold, 1440x900, needs network for web fonts):
+`own-2026-06-13-fairway-split.png` is rendered from the archive. The 2026-10-17 image is the shipped build's `screenshot.png`, so it includes the archive viewer bar along the top. To render a night from the archive (first fold, 1440x900, needs network for web fonts):
 
 ```sh
-node scripts/render-gold-standard.js --date 2026-06-13 --out references/own-2026-06-13-fairway-split.png
+node scripts/render-archive-fold.js --date 2026-06-13 --out references/own-2026-06-13-fairway-split.png
 ```
 
-Look at the result before committing it. The archive viewer frame is hidden in the render, so the page can start 44px down.
+Look at the result before committing it. The viewer frame is hidden in the render, so the page can start 44px down.

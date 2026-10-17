@@ -46,24 +46,25 @@ function scoreReference(ref, briefLower) {
 }
 
 /**
- * Pick the references for the Art Director. Gold standards (`gold: true`) go
- * first and are never dropped: not by the 12-entry cap, not by brief scoring.
+ * Pick the references for the Art Director. Tiered entries (`tier: floor` or
+ * `tier: gold`) go first and are never dropped: not by the 12-entry cap, not by
+ * brief scoring.
  * The remaining slots are filled as before.
  */
 export function selectCuratedReferences(references, briefText) {
-  const gold = references.filter((ref) => ref.gold === true)
-  const rest = references.filter((ref) => ref.gold !== true)
+  const tiered = references.filter((ref) => ref.tier === 'floor' || ref.tier === 'gold')
+  const rest = references.filter((ref) => ref.tier !== 'floor' && ref.tier !== 'gold')
   // No fresh brief (the normal case — the Art Director ingests raw signals
   // directly and writes the brief AFTER deciding): hand over the whole
   // library and let the AD select what serves today's direction.
-  if (!briefText) return [...gold, ...rest.slice(0, Math.max(0, 12 - gold.length))]
+  if (!briefText) return [...tiered, ...rest.slice(0, Math.max(0, 12 - tiered.length))]
   const briefLower = briefText.toLowerCase()
   const scored = rest
     .map((ref) => ({ ...ref, score: scoreReference(ref, briefLower) }))
     .filter((ref) => ref.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, 5)
-  return [...gold, ...scored]
+  return [...tiered, ...scored]
 }
 
 // --- Formatting ---
