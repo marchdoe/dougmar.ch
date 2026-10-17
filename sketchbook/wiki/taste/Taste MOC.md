@@ -2,7 +2,7 @@
 type: moc
 tags: [moc, area/taste]
 created: 2026-10-08
-updated: 2026-10-08
+updated: 2026-10-17
 aliases: []
 sources: []
 status: living
@@ -21,3 +21,4 @@ The source files stay where the pipeline reads them: `signals/taste.md`, `signal
 ## Specs
 
 - [[Spec 11 - Taste And Cost]]
+- [[Spec 13 - Better Nights On Budget]]
