@@ -282,7 +282,7 @@ export async function callClaudeCLI(agentName, systemPrompt, promptText, options
   // the full parent env, leaking every GitHub Actions secret (WEATHER_API_KEY,
   // NEWS_API_KEY, ALPHA_VANTAGE_API_KEY, PRODUCT_HUNT_CLIENT_ID, GITHUB_TOKEN,
   // etc.) to the Claude CLI. The CLI needs almost nothing from the env —
-  // only ANTHROPIC_API_KEY, basic shell vars, and Node.js options.
+  // only a credential, basic shell vars, and Node.js options.
   const cliEnv = {
     PATH: process.env.PATH,
     HOME: process.env.HOME,
@@ -294,6 +294,11 @@ export async function callClaudeCLI(agentName, systemPrompt, promptText, options
     // Pass ANTHROPIC_API_KEY only if set. Locally without a key, claude
     // falls back to Max plan auth via its own config file.
     ...(process.env.ANTHROPIC_API_KEY ? { ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY } : {}),
+    // The nightly's Max-plan login: a `claude setup-token` token, since a CI
+    // runner has no config file to fall back to.
+    ...(process.env.CLAUDE_CODE_OAUTH_TOKEN
+      ? { CLAUDE_CODE_OAUTH_TOKEN: process.env.CLAUDE_CODE_OAUTH_TOKEN }
+      : {}),
   }
   // Remove any undefined values (e.g., TMPDIR may not be set)
   for (const k of Object.keys(cliEnv)) {

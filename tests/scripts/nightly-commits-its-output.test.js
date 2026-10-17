@@ -253,17 +253,21 @@ describe('a red main stops the night before it is paid for (#574)', () => {
     expect(after).toBeGreaterThan(paid)
   })
 
-  it('keeps the Anthropic key out of that step, and out of the job', () => {
-    // The key is scoped to the run step. Tests do not need it, and generated
+  it('keeps the Claude credential out of that step, and out of the job', () => {
+    // The token is scoped to the run step. Tests do not need it, and generated
     // code has no business seeing it before the run either.
     expect(steps[guard].env).toBeUndefined()
     expect(steps[guard]['working-directory']).toBeUndefined()
     const jobEnv = yaml.load(src).jobs.redesign.env
-    expect(Object.keys(jobEnv)).not.toContain('ANTHROPIC_API_KEY')
+    expect(Object.keys(jobEnv)).not.toContain('CLAUDE_CODE_OAUTH_TOKEN')
     expect(JSON.stringify(jobEnv)).not.toContain('secrets.')
-    expect(steps[paid].env.ANTHROPIC_API_KEY).toMatch(/secrets\.ANTHROPIC_API_KEY/)
-    const holders = steps.filter((step) => JSON.stringify(step).includes('ANTHROPIC_API_KEY'))
+    expect(steps[paid].env.CLAUDE_CODE_OAUTH_TOKEN).toMatch(/secrets\.CLAUDE_CODE_OAUTH_TOKEN/)
+    expect(steps[paid].env.PIPELINE_TIER).toBe('prod')
+    const holders = steps.filter((step) => JSON.stringify(step).includes('CLAUDE_CODE_OAUTH_TOKEN'))
     expect(holders).toEqual([steps[paid]])
+    // The API key secret is kept for switching back, and no step reads it:
+    // with both set, the CLI would bill the API ahead of the Max plan.
+    expect(src).not.toMatch(/^\s*ANTHROPIC_API_KEY:/m)
   })
 
   it('has no credential in the checkout the tests run in, and runs on a dry run too', () => {
