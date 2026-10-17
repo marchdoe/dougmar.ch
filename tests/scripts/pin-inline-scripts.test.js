@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   REACT_REVEAL_TIMESTAMP_SCRIPT,
@@ -10,9 +10,11 @@ import {
   STREAM_BOUNDARY_SCRIPT,
   classifyScript,
   cspHash,
+  PIPELINE_MAP_PAGE,
   inlineScripts,
   pinBuildOutput,
   pinHtml,
+  pipelineMapScripts,
   readThemeInitScript,
   shouldPin,
 } from '../../scripts/pin-inline-scripts.js'
@@ -330,5 +332,57 @@ describe('pinBuildOutput', () => {
     // Neither file was touched — a refused build should fail clean.
     expect(readFileSync(join(distClient, 'index.html'), 'utf8')).toBe(good)
     expect(readFileSync(join(distClient, '_shell.html'), 'utf8')).toBe(bad)
+  })
+})
+
+describe('the pipeline map page (#737)', () => {
+  const committed = readFileSync(join('public', PIPELINE_MAP_PAGE), 'utf8')
+  const mapScripts = pipelineMapScripts()
+
+  it('carries scripts none of the known shapes accept', () => {
+    expect(inlineScripts(committed).scripts.length).toBeGreaterThan(0)
+    expect(pinHtml(committed).rejected.length).toBeGreaterThan(0)
+  })
+
+  it('pins every script on the committed page when given its own allowlist', () => {
+    const { rejected, hashes } = pinHtml(committed, { allowed: mapScripts })
+    expect(rejected).toEqual([])
+    expect(hashes.length).toBe(inlineScripts(committed).scripts.length)
+  })
+
+  it('still refuses a script that differs from the render by one byte', () => {
+    const tampered = committed.replace('(() => {', "(() => {fetch('https://evil.example.com');")
+    expect(tampered).not.toBe(committed)
+    expect(pinHtml(tampered, { allowed: mapScripts }).rejected).toHaveLength(1)
+  })
+
+  describe('in pinBuildOutput', () => {
+    let root
+    beforeEach(() => {
+      root = mkdtempSync(join(tmpdir(), 'pin-pipeline-map-'))
+      for (const rel of ['scripts/pipeline-map/template.html', 'docs/pipeline-map/map.json']) {
+        mkdirSync(dirname(join(root, rel)), { recursive: true })
+        writeFileSync(join(root, rel), readFileSync(rel))
+      }
+    })
+    afterEach(() => rmSync(root, { recursive: true, force: true }))
+
+    it('pins the map page at its own path', () => {
+      const out = join(root, 'dist', 'client', PIPELINE_MAP_PAGE)
+      mkdirSync(dirname(out), { recursive: true })
+      writeFileSync(out, committed)
+      const result = pinBuildOutput({ root })
+      expect(result.success).toBe(true)
+      expect(readFileSync(out, 'utf8')).toContain('Content-Security-Policy')
+    })
+
+    it('refuses the same scripts on any other page', () => {
+      const out = join(root, 'dist', 'client', 'elsewhere', 'index.html')
+      mkdirSync(dirname(out), { recursive: true })
+      writeFileSync(out, committed)
+      const result = pinBuildOutput({ root })
+      expect(result.success).toBe(false)
+      expect(result.rejected.every((r) => r.file === 'elsewhere/index.html')).toBe(true)
+    })
   })
 })
