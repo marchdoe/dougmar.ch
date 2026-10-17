@@ -43,7 +43,7 @@ const MIME = {
  * @param {string} dir directory to serve
  * @returns {Promise<import('node:http').Server>}
  */
-function serveDir(dir) {
+export function serveDir(dir) {
   const server = createServer(async (req, res) => {
     try {
       let rel = decodeURIComponent(new URL(req.url ?? '/', 'http://x').pathname)
