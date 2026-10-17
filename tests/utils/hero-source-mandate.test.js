@@ -31,21 +31,21 @@ describe('hero-source-mandate', () => {
     expect(sources[0].source).toBe('composed')
   })
 
-  it('does not forbid quote after two consecutive quote-sourced days', () => {
+  it('forbids quote after two consecutive quote-sourced days, like any lane', () => {
     seedBuild(archiveDir, '2026-08-03', { source: 'quote' })
     seedBuild(archiveDir, '2026-08-04', { source: 'quote' })
     const m = computeHeroSourceMandate({ archiveDir, lookbackDays: 7 })
-    expect(m.softForbidden).toEqual([])
+    expect(m.softForbidden).toEqual(['quote'])
   })
 
-  it('still forbids a repeated non-quote lane after two consecutive days', () => {
+  it('forbids a repeated non-quote lane after two consecutive days', () => {
     seedBuild(archiveDir, '2026-08-03', { source: 'composed' })
     seedBuild(archiveDir, '2026-08-04', { source: 'composed' })
     const m = computeHeroSourceMandate({ archiveDir, lookbackDays: 7 })
     expect(m.softForbidden).toEqual(['composed'])
   })
 
-  it('does not forbid a non-quote lane when the streak is broken', () => {
+  it('does not forbid a lane when the streak is broken', () => {
     seedBuild(archiveDir, '2026-08-02', { source: 'composed' })
     seedBuild(archiveDir, '2026-08-03', { source: 'quote' })
     seedBuild(archiveDir, '2026-08-04', { source: 'composed' })
