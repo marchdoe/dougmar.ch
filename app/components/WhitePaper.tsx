@@ -58,6 +58,20 @@ function hostOf(url: string): string {
   }
 }
 
+type ProcessMap = NonNullable<(typeof projects)[number]['processMap']>
+
+function ProcessMapNote({ note }: { note: ProcessMap | undefined }) {
+  if (!note) return null
+  return (
+    <p className={processMapClass}>
+      {note.text}{' '}
+      <a href={note.href} className={linkClass}>
+        {note.linkLabel}
+      </a>
+    </p>
+  )
+}
+
 export function WhitePaper() {
   const paper = projects.find((p) => p.slug === WHITE_PAPER_SLUG)
   if (!paper) return null
@@ -125,23 +139,26 @@ export function WhitePaper() {
           <h2 id="wp-process" className={sideHeadClass}>
             Process
           </h2>
-          <ol className={plainListClass}>
-            {paper.process.map((step, i) => (
-              <li key={step.phase} className={phaseClass}>
-                <span className={phaseNumberClass} aria-hidden="true">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <div>
-                  <h3 className={phaseNameClass}>{step.phase}</h3>
-                  <p className={phaseDoesClass}>{step.does}</p>
-                  <p className={producesClass}>
-                    <span className={labelClass}>Produces</span>
-                    <span>{step.produces}</span>
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ol>
+          <div>
+            <ol className={plainListClass}>
+              {paper.process.map((step, i) => (
+                <li key={step.phase} className={phaseClass}>
+                  <span className={phaseNumberClass} aria-hidden="true">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <div>
+                    <h3 className={phaseNameClass}>{step.phase}</h3>
+                    <p className={phaseDoesClass}>{step.does}</p>
+                    <p className={producesClass}>
+                      <span className={labelClass}>Produces</span>
+                      <span>{step.produces}</span>
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            <ProcessMapNote note={paper.processMap} />
+          </div>
         </section>
       )}
 
@@ -395,6 +412,15 @@ const producesClass = css({
   fontSize: '1rem',
   lineHeight: '1.5',
   color: 'textMuted',
+})
+
+const processMapClass = css({
+  margin: '0',
+  marginTop: '1.5rem',
+  paddingTop: '1.25rem',
+  borderTop: '1px solid',
+  borderColor: 'border',
+  textWrap: 'pretty',
 })
 
 const decisionsClass = css({

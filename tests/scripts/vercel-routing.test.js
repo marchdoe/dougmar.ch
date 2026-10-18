@@ -79,3 +79,22 @@ describe('the immutable header that made the trap permanent', () => {
     expect(shellRule.source).toContain('assets/')
   })
 })
+
+describe('the pipeline map (#738)', () => {
+  const rule = config.rewrites.find((r) => r.source === '/pipeline-map')
+
+  it('answers the slash-less path with the static page', () => {
+    expect(rule?.destination).toBe('/pipeline-map/index.html')
+  })
+
+  it('sits before the catch-all, which would otherwise return the shell', () => {
+    expect(config.rewrites.indexOf(rule)).toBeLessThan(config.rewrites.indexOf(shellRule))
+  })
+
+  it('is left to the filesystem with its slash, so the catch-all never sees it', () => {
+    // A static file wins before rewrites run; this only checks the page ships.
+    expect(readFileSync(path.join(ROOT, 'public', 'pipeline-map', 'index.html'), 'utf8')).toContain(
+      '<meta name="robots" content="noindex">'
+    )
+  })
+})
