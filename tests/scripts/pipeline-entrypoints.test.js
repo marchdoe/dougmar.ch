@@ -126,10 +126,12 @@ describe('the nightly stages references/ (#340)', () => {
 describe('the workflows hold the least token they can (#544)', () => {
   const daily = yaml.load(read('.github/workflows/daily-redesign.yml'))
   const rollback = yaml.load(read('.github/workflows/rollback.yml'))
+  const mapStale = yaml.load(read('.github/workflows/pipeline-map-stale.yml'))
 
   it.each([
     ['daily-redesign.yml', daily],
     ['rollback.yml', rollback],
+    ['pipeline-map-stale.yml', mapStale],
   ])('%s grants nothing at the top level, so every job has to ask', (_name, doc) => {
     expect(doc.permissions).toEqual({})
   })
@@ -137,6 +139,7 @@ describe('the workflows hold the least token they can (#544)', () => {
   it.each([
     ['daily-redesign.yml', daily],
     ['rollback.yml', rollback],
+    ['pipeline-map-stale.yml', mapStale],
   ])('%s declares permissions on every job', (_name, doc) => {
     for (const [id, job] of Object.entries(doc.jobs)) {
       expect(job.permissions, `job ${id}`).toBeDefined()
@@ -166,7 +169,7 @@ describe('the workflows hold the least token they can (#544)', () => {
 })
 
 describe('every action is pinned to a commit SHA (#544)', () => {
-  const workflows = ['ci.yml', 'daily-redesign.yml', 'rollback.yml']
+  const workflows = ['ci.yml', 'daily-redesign.yml', 'rollback.yml', 'pipeline-map-stale.yml']
   const uses = workflows.flatMap((file) =>
     [...read(`.github/workflows/${file}`).matchAll(/^\s*(?:- )?uses:\s*(\S.*)$/gm)].map((m) => [
       file,

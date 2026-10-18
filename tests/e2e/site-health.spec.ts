@@ -131,6 +131,7 @@ test.describe('site health — the white paper holds its layout', () => {
     await expect(paper.locator('ol > li h3').first()).toHaveText('Signals')
     await expect(paper.locator('ol > li h3').last()).toHaveText('Archive')
     await expect(paper.locator('a[href^="https://chadfowler.com/"]')).toHaveCount(3)
+    await expect(paper.locator('a[href="/pipeline-map/"]')).toHaveCount(1)
 
     // The title stays the route's, and there is one of it.
     await expect(page.locator('h1')).toHaveCount(1)
@@ -899,6 +900,58 @@ function serveDistClient(root: string): Promise<{ server: Server; baseURL: strin
     })
   })
 }
+
+test.describe('site health — the pipeline map (#738)', () => {
+  // The page is static and vendored; it does not depend on the night, so these
+  // hold with NIGHTLY_RUN=1 as well. The slash-less path is a vercel.json
+  // rewrite that `vite preview` does not run; tests/scripts/vercel-routing.test.js
+  // holds it.
+  test('/pipeline-map/ loads with no console errors', async ({ page }) => {
+    const errors: string[] = []
+    page.on('console', (msg) => {
+      if (msg.type() === 'error') errors.push(msg.text())
+    })
+    page.on('pageerror', (err) => errors.push(String(err)))
+
+    const response = await page.goto('/pipeline-map/')
+    expect(response?.status()).toBe(200)
+    await expect(page.locator('svg.map-svg .node').first()).toBeVisible()
+    // The page asks Google Fonts for Inter; offline runs refuse it, which says
+    // nothing about the map.
+    expect(errors.filter((e) => !/fonts\.(googleapis|gstatic)\.com|ERR_/.test(e))).toEqual([])
+  })
+
+  test('the root view draws 13 nodes', async ({ page }) => {
+    await page.goto('/pipeline-map/')
+    await expect(page.locator('svg.map-svg .node')).toHaveCount(13)
+  })
+
+  test('clicking a node opens the details strip', async ({ page }) => {
+    await page.goto('/pipeline-map/')
+    await page.locator('svg.map-svg .node').first().click()
+    await expect(page.locator('#m-panel')).toBeVisible()
+  })
+
+  test('#view=v-gates opens the gates view', async ({ page }) => {
+    await page.goto('/pipeline-map/#view=v-gates')
+    await expect(page.locator('body')).toContainText('The gates')
+  })
+
+  test('it fits a 390px screen', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/pipeline-map/')
+    await expect(page.locator('svg.map-svg .node').first()).toBeVisible()
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - window.innerWidth
+    )
+    expect(overflow).toBeLessThanOrEqual(0)
+  })
+
+  test('it is marked noindex', async ({ page }) => {
+    await page.goto('/pipeline-map/')
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex')
+  })
+})
 
 test.describe('site health — inline script pinning (#332)', () => {
   let server: Server
