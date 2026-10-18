@@ -1,26 +1,36 @@
 import { css } from '../../../styled-system/css'
+import { Masthead } from './Masthead'
 
 export function CaseMissing() {
   return (
-    <section
-      className={css({
-        paddingInline: 'clamp(24px, 6vw, 96px)',
-        paddingBlock: 'clamp(48px, 7vw, 112px)',
-      })}
-    >
+    <Masthead>
       <h1
         className={css({
           fontFamily: 'display',
           fontWeight: 'bold',
-          fontSize: '3xl',
-          letterSpacing: 'tight',
+          textStyle: '3xl',
+          textTransform: 'uppercase',
+          textAlign: 'right',
+          color: 'fieldInk',
+          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          animationDelay: '0ms',
         })}
       >
-        No project by that name
+        Not found
       </h1>
-      <p className={css({ marginTop: '4', fontSize: 'base' })}>
-        <a href="/work">See all the work</a> or read <a href="/about">about Doug</a>.
+      <p
+        className={css({
+          marginTop: '4',
+          textStyle: 'sm',
+          color: 'fieldInkMuted',
+          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          animationDelay: '80ms',
+        })}
+      >
+        <a href="/work" className={css({ color: 'fieldInk', textDecoration: 'underline' })}>
+          Back to the work index
+        </a>
       </p>
-    </section>
+    </Masthead>
   )
 }

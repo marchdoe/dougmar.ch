@@ -1,0 +1,752 @@
+{
+  "date": "2026-10-13",
+  "era": "header-declared",
+  "generatedAt": "2026-10-13T12:24:58.253Z",
+  "buildId": "1791894289629",
+  "attempts": 1,
+  "brief": "Roasted-amber orbit, burnt gold on brown, the finish at dead center with the day's three finishes circling it.",
+  "rationale": "The phrase is Joyce Meyer's line about finishing, and the day handed it three real finishes: a Lions blowout, a tournament won at 16 under, a market that just slipped. So the composition makes the finish the thing everything revolves around. The statement sits at dead center of a full-bleed field and the day's finishes orbit it at radii that mean significance, the decisive win nearest and largest, the down market furthest and faintest. Radial is the only axis that renders \"how we finish\" as a destination rather than a sequence.\n\nanybody-franklin carries it because the signals are athletic and the register is confident, not fashion-elegant: a wide squarish grotesk set in heavy caps reads like a scoreboard, and Libre Franklin answers its construction for every tile, caption and the foot index so the body never reads as a default page pasted under a poster. It is off the recent-three chassis, and its width gives the centered marquee presence without reaching for another condensed-caps face.\n\nThe palette commits one hue at volume: a roasted amber-brown ground with a single burnt gold turned on for the wins. Triumph wants a saturated single hue, so there is no second accent; the Lions figure gets the one bright gold plane, the down market gets the faintest ink. Duotone and mesh keep it off the recent light-ground/drench/dark-void formulas, and the mesh blooms drift slowly so the gravitational center quite literally breathes. The single-color cream mark sits top-left of the field where it clears the ground, and the nav defers to a foot index so nothing competes with the finish at the center.",
+  "filesChanged": [
+    "elements/preset.ts",
+    "app/components/Layout.tsx",
+    "app/components/Sidebar.tsx",
+    "app/components/generated/FootMeta.tsx",
+    "app/components/generated/HeroField.tsx",
+    "app/components/generated/LockupBadge.tsx",
+    "app/components/generated/HomeHero.tsx",
+    "app/components/generated/HomeStatement.tsx",
+    "app/components/generated/SignalOrbit.tsx",
+    "app/components/generated/SectionHead.tsx",
+    "app/components/generated/FeaturedProject.tsx",
+    "app/components/generated/ProjectGrid.tsx",
+    "app/components/generated/WorkIndex.tsx",
+    "app/components/generated/PageHero.tsx",
+    "app/components/generated/TimelineList.tsx",
+    "app/components/generated/EducationRow.tsx",
+    "app/components/generated/CapabilityTags.tsx",
+    "app/components/generated/AboutBody.tsx",
+    "app/components/generated/CaseStudy.tsx",
+    "app/routes/index.tsx",
+    "app/routes/about.tsx",
+    "app/routes/work.$slug.tsx",
+    "app/routes/og.tsx"
+  ],
+  "legacyArchetype": null,
+  "signals": {
+    "air_quality": {
+      "aqi_index": 1,
+      "uv_index": 0,
+      "air_quality_label": "Good"
+    },
+    "awwwards": {
+      "sites_of_the_day": [
+        {
+          "title": "The Culture Index",
+          "description": "Bringing together cultural strategists, data scientists, researchers, writers, and designers to decode what people listen to and what it reveals about...",
+          "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/10/6ac6f0cf84462220675422.jpg"
+        },
+        {
+          "title": "The Design Society",
+          "description": "Founded by 5 designers, The Design Society organizes events that bring Lyon's designers together. Through talks, it creates the missing chances to meet...",
+          "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/09/6aba5b95c3225060256728.png"
+        },
+        {
+          "title": "Chladni · A Geometry of Sound",
+          "description": "An interactive study of Chladni figures: a vibrating plate driven by real thin-plate physics, where bouncing sand finds the nodal lines and draws the...",
+          "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/09/6ab65b7adc7bf836089288.png"
+        }
+      ]
+    },
+    "books": {
+      "currently_reading": []
+    },
+    "day_of_week": {
+      "day": "Tuesday",
+      "is_weekend": false,
+      "day_index": 2
+    },
+    "github": {
+      "repos": [
+        {
+          "name": "morluto/rea/stargazers",
+          "description": "",
+          "language": "TypeScript",
+          "stars": null
+        },
+        {
+          "name": "bilawalsidhu/gods-eye-view/stargazers",
+          "description": "",
+          "language": "JavaScript",
+          "stars": null
+        },
+        {
+          "name": "debpalash/VoiceStudio/stargazers",
+          "description": "",
+          "language": "Python",
+          "stars": null
+        },
+        {
+          "name": "sponsors/mksglu",
+          "description": "",
+          "language": "TypeScript",
+          "stars": null
+        },
+        {
+          "name": "sponsors/cathrynlavery",
+          "description": "",
+          "language": "HTML",
+          "stars": null
+        }
+      ]
+    },
+    "golf": {
+      "tournament": "Baycurrent Classic",
+      "status": "Final",
+      "leaders": [
+        {
+          "name": "Michael Brennan",
+          "position": "1",
+          "score": "-16"
+        },
+        {
+          "name": "Keith Mitchell",
+          "position": "2",
+          "score": "-15"
+        },
+        {
+          "name": "Jacob Bridgeman",
+          "position": "3",
+          "score": "-15"
+        },
+        {
+          "name": "Xander Schauffele",
+          "position": "4",
+          "score": "-13"
+        },
+        {
+          "name": "Brian Harman",
+          "position": "5",
+          "score": "-13"
+        }
+      ]
+    },
+    "hacker_news": {
+      "stories": [
+        {
+          "title": "11 year old unsoundness bugs found in Rust borrow checker",
+          "url": "https://github.com/rust-lang/rust/issues/164250",
+          "score": 134,
+          "by": "formerly_proven"
+        },
+        {
+          "title": "An hour of audio transcribed in about 13s on MacBook Air",
+          "url": "https://eg2.haku.sh/",
+          "score": 24,
+          "by": "amrrs"
+        },
+        {
+          "title": "Show HN: Use your OpenAI subscription to create audiobooks",
+          "url": "https://pdftomp3.com/connect-ai/",
+          "score": 31,
+          "by": "janpmz"
+        },
+        {
+          "title": "Hittite royal archive found in Turkey",
+          "url": "https://www.thehistoryblog.com/archives/77107",
+          "score": 99,
+          "by": "benbreen"
+        },
+        {
+          "title": "The baffling intelligence of a single cell (2024)",
+          "url": "https://jsomers.net/e-coli-chemotaxis/",
+          "score": 313,
+          "by": "jsomers"
+        }
+      ]
+    },
+    "holidays": {
+      "today": null,
+      "upcoming": []
+    },
+    "lunar": {
+      "phase": "waxing crescent",
+      "illumination": 0.09,
+      "days_into_cycle": 2.87
+    },
+    "market": {
+      "symbol": "SPY",
+      "price": "778.1000",
+      "change": "-0.4700",
+      "change_percent": "-0.0604%",
+      "direction": "down"
+    },
+    "music": {
+      "bands": [
+        "Radiohead",
+        "My Morning Jacket"
+      ],
+      "rotation": true
+    },
+    "news": {
+      "headlines": [
+        {
+          "title": "Russell Brand appears in a London court for trial on rape and sexual assault charges - AP News",
+          "source": "Associated Press",
+          "url": "https://apnews.com/article/russell-brand-sexual-assault-trial-london-9af46957bdc5839644976b2710257d28"
+        },
+        {
+          "title": "Kelly Clarkson says a Brooklyn store snubbed her. The shop says the item she wanted wasn’t for sale. - NBC News",
+          "source": "NBC News",
+          "url": "https://www.nbcnews.com/pop-culture/pop-culture-news/kelly-clarkson-says-brooklyn-store-snubbed-shop-says-item-wanted-wasnt-rcna602840"
+        },
+        {
+          "title": "Magic Johnson makes rare critical post after Commanders' head-scratching tie against Giants - Fox News",
+          "source": "Fox News",
+          "url": "https://www.foxnews.com/outkick-sports/magic-johnson-makes-rare-critical-post-commanders-head-scratching-tie-giants"
+        },
+        {
+          "title": "How to take care of your knees in your 20s, 30s, 40s and beyond - The Washington Post",
+          "source": "The Washington Post",
+          "url": "https://www.washingtonpost.com/wellness/interactive/2026/10/12/how-take-care-your-knees-your-20s-30s-40s-beyond/"
+        },
+        {
+          "title": "One killed after Riyadh airport hit again, a day after deadly strike killed 13 - CBS News",
+          "source": "CBS News",
+          "url": "https://www.cbsnews.com/news/houthis-threat-saudi-airspace-attack-riyadh-airport/"
+        }
+      ]
+    },
+    "quote": {
+      "text": "It is not as important how we start, but how we finish.",
+      "author": "Joyce Meyer"
+    },
+    "season": {
+      "season": "fall",
+      "month": 10,
+      "day": 13,
+      "day_of_year": 286,
+      "month_name": "October"
+    },
+    "sidebar": {
+      "links": [
+        {
+          "title": "The convergence of design",
+          "url": "https://www.lukew.com/ff/2166/the-convergence-of-design",
+          "source": "lukew.com",
+          "description": "You don't have to squint to see the pattern... but why?"
+        },
+        {
+          "title": "Designing Michelangelus",
+          "url": "https://microsoft.design/articles/designing-michelangelus/",
+          "source": "microsoft.design",
+          "description": "Inside the making of Michelangelus, a contemporary serif shaped by handwriting, architecture, and stone."
+        },
+        {
+          "title": "Is AI the end of math as we know it?",
+          "url": "https://www.quantamagazine.org/is-ai-the-end-of-math-as-we-know-it-20261005/",
+          "source": "quantamagazine.org",
+          "description": "Mathematicians are facing the sudden shift with grief, anger, and a desperate search for fresh ideas."
+        },
+        {
+          "title": "Native page transitions on the web",
+          "url": "https://ssgoi.dev/",
+          "source": "ssgoi.dev",
+          "description": "Router-agnostic page transitions for React, Svelte, Vue, Solid, Angular, and Qwik."
+        },
+        {
+          "title": "The people holding up the internet",
+          "url": "https://sheets.works/data-viz/holding-up-the-internet",
+          "source": "sheets.works",
+          "description": "Four billion phones ask one text file what time it is. One lecturer keeps it in his spare time. We counted the rest."
+        }
+      ]
+    },
+    "sports": {
+      "teams": [
+        {
+          "name": "Detroit Lions",
+          "league": "NFL",
+          "last_game": "2026-10-11T20:25Z",
+          "result": "win",
+          "score": "45-21"
+        },
+        {
+          "name": "Detroit Red Wings",
+          "league": "NHL",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Pistons",
+          "league": "NBA",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Tigers",
+          "league": "MLB",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        }
+      ]
+    },
+    "sun": {
+      "sunrise": "07:25",
+      "sunset": "18:26",
+      "daylight_hours": 11
+    },
+    "weather": {
+      "location": "Aldie, Virginia",
+      "conditions": "Clear",
+      "temp_f": 55.8,
+      "temp_c": 13.2,
+      "humidity": 88,
+      "wind_mph": 2.2,
+      "wind_dir": "WNW",
+      "feels_like_f": 55.4
+    },
+    "date": "2026-10-13"
+  },
+  "hero": {
+    "copy": "It is not as important how we start, but how we finish.",
+    "rationale": "This is `signals.quote` (Joyce Meyer), and today's signals are a page full of finishes: the Lions closed out 45-21, Michael Brennan finished the Baycurrent Classic at 16 under, the moon is barely two days into its cycle. The quote lane is the preferred one and this quote carries because the day agrees with it. Doug judges work by the finish, not the pitch: buildable before the first line of code, faithful after the last. Owner's voice: Doug lives by the finish, a score is a score and a ship is a ship, and he'd point at a 45-21 blowout and a tournament won and say the same thing about shipping.",
+    "source": "quote"
+  },
+  "chassis": "anybody-franklin",
+  "adBrief": {
+    "visualSpecification": "**1. Color Specification**\n- **Primary hue**: 48° (burnt gold). Fall, a clear 56°F afternoon, and a day of decisive finishes want a warm triumphant single hue, and 48° sits squarely inside the 40–80° mandate while stepping off the recent 44° saffron and 36° burnt amber by pushing to a deeper, more roasted gold.\n- **Neutral palette** (roasted amber-brown): 50 `#F7F1E6`, 100 `#EADCC4`, 200 `#D4BE96`, 300 `#B99C68`, 400 `#9A7D44`, 500 `#78602E`, 600 `#5E4A20`, 700 `#45300F`, 800 `#35250B`, 900 `#241904`\n- **Accent color** (gold): light `#EFC056`, default `#E6A82A`, dark `#A06B0C`, glow `#EFC056`\n- **Secondary accent**: none. One hue carries the page at volume.\n- **Background**: page bg `#45300F`, card/surface `#5E4A20`, second ground `#35250B`\n- **Text colors**: primary `#F7F1E6`, secondary `#D4BE96`, muted `#B99C68`\n\n**2. Typography** (chassis: anybody-franklin, wide squarish grotesk + Libre Franklin)\n- **Hero phrase rendering**: `display` face at the `hero` ramp step, capped by MEASURABLES at `clamp(38px, 6vw, 92px)`. Caps, roman, heavy, centred on the field — the phrase wraps to four or five lines and sits as the gravitational anchor at the optical center. Libre Franklin answers the wide grotesk's construction for every supporting line (shared skeleton).\n- **Type treatment**: hero at `hero`; the Lions figure `45-21` at `4xl` (the one poster figure besides the hero); orbit tile labels at `xl`/`2xl`; deck and body at `lg` (held to 60–68ch, leading 1.5); captions and attribution at `sm`; micro metadata at `xs`, never below 12px. The middle of the scale is spent: a `4xl` figure and `2xl` tile heads sit between the hero and the body so no page jumps from marquee to small.\n\n**3. Layout Specification**\n- **Composition**: masonry / radial / symmetric / full-bleed / crowded / syncopated / footer-only / field-dominant / hero-only / statement. The finish is the center of gravity; the day's finishes orbit it at distances read as significance, which is exactly what a radial field with the statement at dead center does for a line about finishing.\n- **CSS grid/flex structure**: `display: grid; place-items: center; min-height: 100vh` for the hero field, with signal tiles absolutely positioned on concentric radii at ≥1024px and a `grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))` masonry fallback below that.\n- **Major dimensions**:\n  - Hero field: `min-height: 100vh`, full-bleed\n  - Max content width: `max-width: none`; `padding: 7vh 6vw`\n  - Central statement block capped at ~22ch so it wraps tall, not wide\n  - Section padding: 7vh vertical, 6vw horizontal\n- **Nav placement**: footer-only. The nav lives as a vertical index in the foot band (Work / About / Contact, one rule per row).\n- **Hero phrase grid zone**: the optical center of the first viewport, a centered column ~22ch wide, rows spanning the middle third, at `clamp(38px, 6vw, 92px)`.\n- **Home callout slot**: on `/`, place `<SiteCallout />` below the radial orbit section and above the footer nav band, between the signal orbit and the footer. No copy or styling from me.\n\n**4. Component Character**\n- **Border radius**: cards 4px, buttons 4px, tags 2px. Tight, grounded, athletic.\n- **Border treatment**: hairlines in `border`; the strong orbit-ring rule and foot rule in `borderStrong`.\n- **Shadow**: none. Depth comes from surface lightness (surface is lighter than bg).\n- **Density**: crowded in the orbit ring, airy at the center.\n- **Interactive states**: links in `accent`, hover to `accentAlt` with a 2px underline offset; tiles lift 2px on hover.\n\n**5. Signal Integration**\n- **Where signal elements live**: the orbit ring around the hero; nearest/largest is the decisive finish, furthest/faintest is the non-finish.\n- **Sports scores**: Lions `45-21` is the nearest tile, set on the gold `field` plane, `fieldInk` dark, figure at `4xl` — the biggest orbiting object. Caption \"Lions 45-21. Win.\"\n- **Golf**: a mid-distance tile. \"Baycurrent Classic, final. Michael Brennan, 16 under.\" with runners \"Keith Mitchell and Jacob Bridgeman, 15 under.\" at `sm`.\n- **Weather / air**: a smaller tile. \"Aldie, clear. 56°F. Air good.\"\n- **Market**: furthest, faintest tile in `textFaint`. \"SPY 778.10, down 0.06%.\" A down day is not a finish worth lighting.\n- **Quote**: it IS the hero; \"Joyce Meyer\" renders as the attribution caption at `sm` directly beneath the centered line.\n- **Music**: rotation, so it sits quiet in the foot band as taste, not an event. \"In rotation: Radiohead, My Morning Jacket.\"\n- **Moon**: foot band. \"Waxing crescent, 9% lit.\"",
+    "selfCheck": "1. Hero quotability: Yes — a complete attributed aphorism, screenshot-ready in isolation.\n2. Because-of chain: Yes — finish-as-anchor drove radial center, which drove the orbiting-finishes signal treatment, the warm triumphant gold, and the full-bleed field.\n3. Render feasibility: Yes — 92px cap sits well under anybody-franklin's 160px ceiling; 12 words centered wrap to ~5 lines in a 22ch column without overflow.\n4. Canvas floor feasible: Yes — a full-bleed amber-brown field with a crowded orbit ring clears 80%.\n5. Phone: Yes — hero-only first fold sets the phrase at `3xl` (~40px), ~6 wrapped lines plus the mark land inside 640px with no cut word.",
+    "rationale": "The phrase is Joyce Meyer's line about finishing, and the day handed it three real finishes: a Lions blowout, a tournament won at 16 under, a market that just slipped. So the composition makes the finish the thing everything revolves around. The statement sits at dead center of a full-bleed field and the day's finishes orbit it at radii that mean significance, the decisive win nearest and largest, the down market furthest and faintest. Radial is the only axis that renders \"how we finish\" as a destination rather than a sequence.\n\nanybody-franklin carries it because the signals are athletic and the register is confident, not fashion-elegant: a wide squarish grotesk set in heavy caps reads like a scoreboard, and Libre Franklin answers its construction for every tile, caption and the foot index so the body never reads as a default page pasted under a poster. It is off the recent-three chassis, and its width gives the centered marquee presence without reaching for another condensed-caps face.\n\nThe palette commits one hue at volume: a roasted amber-brown ground with a single burnt gold turned on for the wins. Triumph wants a saturated single hue, so there is no second accent; the Lions figure gets the one bright gold plane, the down market gets the faintest ink. Duotone and mesh keep it off the recent light-ground/drench/dark-void formulas, and the mesh blooms drift slowly so the gravitational center quite literally breathes. The single-color cream mark sits top-left of the field where it clears the ground, and the nav defers to a foot index so nothing competes with the finish at the center.",
+    "compositionRationale": "\"How we finish\" names a destination, so the finish sits at dead center as the gravitational anchor and the day's actual finishes (Lions 45-21 nearest, the Baycurrent win mid-ring, a down market furthest) orbit it at distances read as significance — radial is the one axis that renders that literally. I moved columns onto `masonry` (off the suggested two-asymmetric) because orbiting tiles want irregular packing, and `rhythm` onto `syncopated` because satellites at varying radii are the opposite of an even interval; I moved `collapse` onto `hero-only` (off rail-to-band) because there is no rail here and the phone wants the finish line to lead alone. Symmetric and full-bleed stayed because a centered radial genuinely balances about its center and the field should fill edge to edge."
+  },
+  "tokens": {
+    "colors": {
+      "ramps": {
+        "amber": {
+          "50": "#FDF6E6",
+          "100": "#FAEAC2",
+          "200": "#F3D484",
+          "300": "#EFC056",
+          "400": "#E6A82A",
+          "500": "#CC8E14",
+          "600": "#A06B0C",
+          "700": "#7A5009",
+          "800": "#543807",
+          "900": "#382505"
+        },
+        "brown": {
+          "50": "#F7F1E6",
+          "100": "#EADCC4",
+          "200": "#D4BE96",
+          "300": "#B99C68",
+          "400": "#9A7D44",
+          "500": "#78602E",
+          "600": "#5E4A20",
+          "700": "#45300F",
+          "800": "#35250B",
+          "900": "#241904"
+        }
+      },
+      "semantic": {
+        "bg": "{colors.brown.700}",
+        "bgAlt": "{colors.brown.800}",
+        "surface": "{colors.brown.600}",
+        "text": "{colors.brown.50}",
+        "textMuted": "{colors.brown.200}",
+        "textFaint": "{colors.brown.300}",
+        "accent": "{colors.amber.400}",
+        "accentText": "{colors.brown.900}",
+        "accentAlt": "{colors.amber.300}",
+        "border": "{colors.brown.500}",
+        "borderStrong": "{colors.brown.400}",
+        "field": "{colors.amber.400}",
+        "fieldInk": "{colors.brown.900}",
+        "fieldInkMuted": "{colors.brown.700}",
+        "fieldBorder": "{colors.amber.600}"
+      }
+    },
+    "radii": {
+      "none": "0",
+      "sm": "2px",
+      "md": "4px",
+      "lg": "6px",
+      "full": "9999px"
+    }
+  },
+  "colorScheme": {
+    "primary_hue": {
+      "h": 48,
+      "s": 80,
+      "l": 53,
+      "name": "burnt gold"
+    },
+    "secondary_accent": null,
+    "neutral_family": {
+      "tinted_toward": "amber-brown",
+      "name": "roasted amber"
+    },
+    "mood_word": "triumphant",
+    "color_story": "A single committed gold warms a deep amber-brown ground so the three finishes of the day read as wins, not a list."
+  },
+  "shell": {
+    "nav": null,
+    "footer": "nav band — a vertical Work/About/Contact index with the stacked mark, location, date, moon and the music rotation, one strong foot rule above",
+    "brand_lockup": "stacked-md",
+    "brand_color_mode": "single-color",
+    "ground_strategy": "duotone",
+    "ground_material": "mesh"
+  },
+  "header": {
+    "placement": "footer-only",
+    "height_px": 180,
+    "mark_px": 48,
+    "wordmark_step": "lg",
+    "wordmark_weight": 700,
+    "role_line": "absent",
+    "nav_step": "sm",
+    "nav_case": "upper",
+    "nav_form": "list",
+    "nav": "Nav deferred to the foot band as a vertical index, Work / About / Contact, one borderStrong rule per row, uppercase and tracked. The single-color cream mark (stacked-md) sits top-left of the amber-brown hero field, inside the first fold at 1440 and 360."
+  },
+  "verdicts": [
+    {
+      "critic": "mockup-precheck",
+      "round": 0,
+      "verdict": "REVISE",
+      "feedback": "[check 5] Legibility: At 1440px, <div.orbit > article.tile.market > p.meta> \"Down 0.06%. A soft day stays faint.\" at 14px over div.mesh (positioned background-image): #b99c68 is under 4.5:1 across 100% of one pixel row through its glyphs (2.28:1 on #815d19). At 1440px, <div.orbit > article.tile.market > p.label> \"Furthest — Not a finish\" at 12px over div.mesh (positioned background-image): #d4be96 is under 4.5:1 across 100% of one pixel row through its glyphs (3.09:1 on #87611a). At 1440px, <article.tile.golf > p.meta > span.sub> \"Keith Mitchell & Jacob Bridgeman, 15 und\" at 13px over div.mesh (positioned background-image): #b99c68 is under 4.5:1 across 100% of one pixel row through its glyphs (3.23:1 on #5e4a20). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text.",
+      "findings": [
+        {
+          "check": 5,
+          "key": "legibility",
+          "gap": 2.22
+        }
+      ],
+      "ts": 1791892905092
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 0,
+      "verdict": "REVISE",
+      "feedback": "1. (Judgment 2) At 1440 the Lions 45–21 tile overlaps the hero: the final T of \"IMPORTANT\" runs under the tile's left edge. Pull the tile outward on its radius, or narrow the centred column, so every hero line sits clear of the orbit tiles.\n2. (Judgment 5) The Spaceman card reads \"The company that proved an idea could carry all the way through — built, funded and shipped as founder… a product in the market that stood on its own.\" The record describes Spaceman as the LLC Doug has operated under since 2018 for independent design and engineering work, partnering with companies and studios. It mentions no funding and no single market product. Replace the text with copy drawn from the record.\n3. (Judgment 4) At 360, fold 1 shows the top of the Lions 45–21 tile below the attribution, but `first_fold` declares only the hero phrase and the mark in the first 640px. Push the orbit stack below the fold so the statement carries fold 1 alone.",
+      "channel": "sdk-vision",
+      "ts": 1791892923306
+    },
+    {
+      "critic": "mockup-precheck",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "[check 5] Legibility: At 1440px, <header.field > div.mark-lockup > span.wordmark> \"Doug March\" at 18px over div.mesh (positioned background-image): #f7f1e6 is under 4.5:1 across 100% of one pixel row through its glyphs (4.20:1 on #956c1c). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text.",
+      "findings": [
+        {
+          "check": 5,
+          "key": "legibility",
+          "gap": 0.29
+        }
+      ],
+      "ts": 1791893016782
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "1. (Judgment 5) The Spaceman card says \"partnering with companies and studios to carry projects from the brief all the way to a finished ship.\" The records don't make that claim. They say Spaceman partners \"with companies and studios across industries\" on \"product design, frontend engineering, design systems, and brand — sometimes as a solo contributor, sometimes embedded in a larger team.\" Replace the brief-to-ship line with wording taken from the record.\n\n2. (Judgment 3) At 1440 the four tiles sit at roughly equal distance from the statement, one in each quadrant. The radial order the brief intends (Lions nearest, Baycurrent mid-ring, market furthest and faintest) doesn't read. The SPY tile sits upper-left, as close to the hero as the Lions tile. Its light tan figure on a dark surface also makes it one of the more legible tiles, not the faintest. Push the market tile out to the far edge and set its text in `textFaint`. Pull the Lions tile in closest to the line.",
+      "channel": "sdk-vision",
+      "ts": 1791893037499
+    },
+    {
+      "critic": "mockup-precheck",
+      "round": 2,
+      "verdict": "APPROVE",
+      "feedback": "",
+      "findings": [],
+      "ts": 1791893080147
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 2,
+      "verdict": "REVISE",
+      "feedback": "1. (Judgment 2/3) At 1440 the gold Lions 45-21 tile sits on top of the hero. It cuts \"IMPORTANT\" to \"IMPORTA\" and \"HOW WE\" to \"HOW W\", so the phrase meant to lead is partly hidden behind a satellite. Move the orbit radius out until the tile clears the statement's ~22ch column. The tiles should orbit the finish, not cover it.\n2. (Judgment 2/3) At 1440 the Baycurrent Classic tile covers the \"S\" of \"START, BUT\", so the hero reads \"TART, BUT\". Push this tile clear of the centred column as well, so every word of the phrase is intact.\n3. (Judgment 2) Top-left at 1440, the cream mark and its \"Doug March\" label sit over the SPY tile. They hide that tile's \"FURTHEST — NOT A FINISH\" label, which now reads \"— NOT / A FINISH\". Give the mark its own clear corner, and drop the market tile lower on its outer ring.",
+      "channel": "sdk-vision",
+      "ts": 1791893094443
+    },
+    {
+      "critic": "surface-gate",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "/ @820: <div.d_grid.gap_4 > a.d_flex.flex-d_column.gap_2.min-h_44px > div.ff_display.fw_bold.tt_uppercase.fs_xl> holds text wider than its own box: \"Twittertale...\" needs 297px and the box is 283px, so 14px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @820: <div.d_grid.gap_4 > a.d_flex.flex-d_column.gap_2.min-h_44px > div.ff_display.fw_bold.tt_uppercase.fs_xl> holds text wider than its own box: \"dougmar.ch...\" needs 290px and the box is 283px, so 7px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @820: <div.d_grid.gap_4 > a.d_flex.flex-d_column.gap_2.min-h_44px > div.ff_display.fw_bold.tt_uppercase.fs_xl> holds text wider than its own box: \"Twittertale...\" needs 297px and the box is 283px, so 14px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @820: <div.d_grid.gap_4 > a.d_flex.flex-d_column.gap_2.min-h_44px > div.ff_display.fw_bold.tt_uppercase.fs_xl> holds text wider than its own box: \"dougmar.ch...\" needs 290px and the box is 283px, so 7px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: document is 4px wider than the 360px viewport (scrollWidth 364)\n/ @360: <div.d_grid.gap_4 > a.d_flex.flex-d_column.gap_2.min-h_44px > div.ff_display.fw_bold.tt_uppercase.fs_xl> holds text wider than its own box: \"Twittertale...\" needs 269px and the box is 251px, so 18px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <div.d_grid.gap_4 > a.d_flex.flex-d_column.gap_2.min-h_44px > div.ff_display.fw_bold.tt_uppercase.fs_xl> holds text wider than its own box: \"dougmar.ch...\" needs 268px and the box is 251px, so 17px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <div.pos_relative.z_2.d_flex.flex-d_column > div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bdr_md.bd-w_1px> is cut off: its right edge lands at 371px, 11px past the 360px viewport, severing \"Nearest finish · Win45–21Lions closed it out. A bl...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/ @360: document is 4px wider than the 360px viewport (scrollWidth 364)\n/ @360: <div.d_grid.gap_4 > a.d_flex.flex-d_column.gap_2.min-h_44px > div.ff_display.fw_bold.tt_uppercase.fs_xl> holds text wider than its own box: \"Twittertale...\" needs 269px and the box is 251px, so 18px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <div.d_grid.gap_4 > a.d_flex.flex-d_column.gap_2.min-h_44px > div.ff_display.fw_bold.tt_uppercase.fs_xl> holds text wider than its own box: \"dougmar.ch...\" needs 268px and the box is 251px, so 17px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <div.pos_relative.z_2.d_flex.flex-d_column > div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bdr_md.bd-w_1px> is cut off: its right edge lands at 371px, 11px past the 360px viewport, severing \"Nearest finish · Win45–21Lions closed it out. A bl...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/about @360: <header.pos_relative.ov_hidden.bg_bg.c_text > div.pos_relative.z_1 > div.mt_7.mx_auto.w_fit-content.max-w_100%> is cut off: its right edge lands at 378px, 18px past the 360px viewport, severing \"I work at the intersection of design and engineeri...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/about @360: <header.pos_relative.ov_hidden.bg_bg.c_text > div.pos_relative.z_1 > div.mt_7.mx_auto.w_fit-content.max-w_100%> is cut off: its right edge lands at 378px, 18px past the 360px viewport, severing \"I work at the intersection of design and engineeri...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/ @1440: <div.pos_relative.z_2.d_flex.flex-d_column > div.d_flex.flex-d_column.ai_center.jc_center > h1.ff_display.fw_bold.tt_uppercase.ta_center> holds text wider than its own box: \"It is not as important how we start, but how we fi...\" needs 1028px and the box is 1023px, so 5px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <div.pos_relative.z_2.d_flex.flex-d_column > div.d_flex.flex-d_column.ai_center.jc_center > h1.ff_display.fw_bold.tt_uppercase.ta_center> holds text wider than its own box: \"It is not as important how we start, but how we fi...\" needs 1028px and the box is 1023px, so 5px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @1440: 340 characters of running copy set at 64px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: <div.d_flex.flex-d_column.gap_7.min-w_0 > div > h2.ff_display.fw_bold.tt_uppercase.fs_2xl> holds text wider than its own box: \"Capabilities...\" needs 462px and the box is 450px, so 12px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @1440: 340 characters of running copy set at 64px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: <div.d_flex.flex-d_column.gap_7.min-w_0 > div > h2.ff_display.fw_bold.tt_uppercase.fs_2xl> holds text wider than its own box: \"Capabilities...\" needs 462px and the box is 450px, so 12px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @1440: em dash in rendered copy: \"...INTERSECTION OF DESIGN AND ENGINEERING — NOT AS A GENERALIST, BUT AS SOMEONE WH...\". Use a period or a comma.\n/work/spaceman @360: document is 44px wider than the 360px viewport (scrollWidth 404)\n/work/spaceman @360: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 404px, 44px past the 360px viewport, severing \"RoleFounderTimeline2018 — PresentStatusActiveTypeF...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/spaceman @360: <header.pos_relative.ov_hidden.bg_bg.c_text > div.pos_relative.z_1 > div.mt_7.mx_auto.w_fit-content.max-w_100%> is cut off: its right edge lands at 381px, 21px past the 360px viewport, severing \"SpacemanFounder · 2018 · Founder...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/spaceman @360: document is 44px wider than the 360px viewport (scrollWidth 404)\n/work/spaceman @360: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 404px, 44px past the 360px viewport, severing \"RoleFounderTimeline2018 — PresentStatusActiveTypeF...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/spaceman @360: <header.pos_relative.ov_hidden.bg_bg.c_text > div.pos_relative.z_1 > div.mt_7.mx_auto.w_fit-content.max-w_100%> is cut off: its right edge lands at 381px, 21px past the 360px viewport, severing \"SpacemanFounder · 2018 · Founder...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/spaceman @820: document is 17px wider than the 820px viewport (scrollWidth 837)\n/work/spaceman @820: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 837px, 17px past the 820px viewport, severing \"RoleFounderTimeline2018 — PresentStatusActiveTypeF...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/spaceman @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/spaceman @820: document is 17px wider than the 820px viewport (scrollWidth 837)\n/work/spaceman @820: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 837px, 17px past the 820px viewport, severing \"RoleFounderTimeline2018 — PresentStatusActiveTypeF...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/spaceman @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/fishsticks @360: document is 44px wider than the 360px viewport (scrollWidth 404)\n/work/fishsticks @360: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 404px, 44px past the 360px viewport, severing \"RoleFounder & BuilderTimelineOngoingStatusLiveType...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/fishsticks @360: <header.pos_relative.ov_hidden.bg_bg.c_text > div.pos_relative.z_1 > div.mt_7.mx_auto.w_fit-content.max-w_100%> is cut off: its right edge lands at 392px, 32px past the 360px viewport, severing \"FishSticksSaaS · 2025 · Founder & Builder...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/fishsticks @360: document is 44px wider than the 360px viewport (scrollWidth 404)\n/work/fishsticks @360: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 404px, 44px past the 360px viewport, severing \"RoleFounder & BuilderTimelineOngoingStatusLiveType...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/fishsticks @360: <header.pos_relative.ov_hidden.bg_bg.c_text > div.pos_relative.z_1 > div.mt_7.mx_auto.w_fit-content.max-w_100%> is cut off: its right edge lands at 392px, 32px past the 360px viewport, severing \"FishSticksSaaS · 2025 · Founder & Builder...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/fishsticks @820: document is 17px wider than the 820px viewport (scrollWidth 837)\n/work/fishsticks @820: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 837px, 17px past the 820px viewport, severing \"RoleFounder & BuilderTimelineOngoingStatusLiveType...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/fishsticks @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/fishsticks @820: document is 17px wider than the 820px viewport (scrollWidth 837)\n/work/fishsticks @820: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 837px, 17px past the 820px viewport, severing \"RoleFounder & BuilderTimelineOngoingStatusLiveType...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/fishsticks @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/15th-club @360: document is 44px wider than the 360px viewport (scrollWidth 404)\n/work/15th-club @360: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 404px, 44px past the 360px viewport, severing \"RoleFounder & BuilderTimelineOngoingStatusIn Devel...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/15th-club @360: document is 44px wider than the 360px viewport (scrollWidth 404)\n/work/15th-club @360: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 404px, 44px past the 360px viewport, severing \"RoleFounder & BuilderTimelineOngoingStatusIn Devel...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/15th-club @820: document is 17px wider than the 820px viewport (scrollWidth 837)\n/work/15th-club @820: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 837px, 17px past the 820px viewport, severing \"RoleFounder & BuilderTimelineOngoingStatusIn Devel...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/15th-club @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/15th-club @820: document is 17px wider than the 820px viewport (scrollWidth 837)\n/work/15th-club @820: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 837px, 17px past the 820px viewport, severing \"RoleFounder & BuilderTimelineOngoingStatusIn Devel...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/15th-club @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: <header.pos_relative.ov_hidden.bg_bg.c_text > div.pos_relative.z_1 > div.mt_7.mx_auto.w_fit-content.max-w_100%> is cut off: its right edge lands at 402px, 42px past the 360px viewport, severing \"dougmar.chAI · 2026 · Designer & Builder...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/dougmar-ch @360: 'dougmar.ch' is a 100x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 147x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 194x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 292x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: <header.pos_relative.ov_hidden.bg_bg.c_text > div.pos_relative.z_1 > div.mt_7.mx_auto.w_fit-content.max-w_100%> is cut off: its right edge lands at 402px, 42px past the 360px viewport, severing \"dougmar.chAI · 2026 · Designer & Builder...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/dougmar-ch @360: 'dougmar.ch' is a 100x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 147x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 194x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 292x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/teeturn @360: document is 44px wider than the 360px viewport (scrollWidth 404)\n/work/teeturn @360: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 404px, 44px past the 360px viewport, severing \"TypeExperimentYear2020Stack...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/teeturn @360: document is 44px wider than the 360px viewport (scrollWidth 404)\n/work/teeturn @360: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 404px, 44px past the 360px viewport, severing \"TypeExperimentYear2020Stack...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/teeturn @820: document is 17px wider than the 820px viewport (scrollWidth 837)\n/work/teeturn @820: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 837px, 17px past the 820px viewport, severing \"TypeExperimentYear2020Stack...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/teeturn @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/teeturn @820: document is 17px wider than the 820px viewport (scrollWidth 837)\n/work/teeturn @820: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 837px, 17px past the 820px viewport, severing \"TypeExperimentYear2020Stack...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/teeturn @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @360: document is 44px wider than the 360px viewport (scrollWidth 404)\n/work/politweets @360: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 404px, 44px past the 360px viewport, severing \"TypeExperimentYear2008Stack...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/politweets @360: <header.pos_relative.ov_hidden.bg_bg.c_text > div.pos_relative.z_1 > div.mt_7.mx_auto.w_fit-content.max-w_100%> is cut off: its right edge lands at 402px, 42px past the 360px viewport, severing \"PolitweetsExperiment · 2008...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/politweets @360: document is 44px wider than the 360px viewport (scrollWidth 404)\n/work/politweets @360: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 404px, 44px past the 360px viewport, severing \"TypeExperimentYear2008Stack...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/politweets @360: <header.pos_relative.ov_hidden.bg_bg.c_text > div.pos_relative.z_1 > div.mt_7.mx_auto.w_fit-content.max-w_100%> is cut off: its right edge lands at 402px, 42px past the 360px viewport, severing \"PolitweetsExperiment · 2008...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/politweets @820: document is 17px wider than the 820px viewport (scrollWidth 837)\n/work/politweets @820: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 837px, 17px past the 820px viewport, severing \"TypeExperimentYear2008Stack...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/politweets @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @820: document is 17px wider than the 820px viewport (scrollWidth 837)\n/work/politweets @820: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 837px, 17px past the 820px viewport, severing \"TypeExperimentYear2008Stack...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/politweets @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @360: document is 44px wider than the 360px viewport (scrollWidth 404)\n/work/twittertale @360: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 404px, 44px past the 360px viewport, severing \"TypeExperimentYear2008Stack...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/twittertale @360: <header.pos_relative.ov_hidden.bg_bg.c_text > div.pos_relative.z_1 > div.mt_7.mx_auto.w_fit-content.max-w_100%> is cut off: its right edge lands at 402px, 42px past the 360px viewport, severing \"TwittertaleExperiment · 2008...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/twittertale @360: document is 44px wider than the 360px viewport (scrollWidth 404)\n/work/twittertale @360: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 404px, 44px past the 360px viewport, severing \"TypeExperimentYear2008Stack...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/twittertale @360: <header.pos_relative.ov_hidden.bg_bg.c_text > div.pos_relative.z_1 > div.mt_7.mx_auto.w_fit-content.max-w_100%> is cut off: its right edge lands at 402px, 42px past the 360px viewport, severing \"TwittertaleExperiment · 2008...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/twittertale @820: document is 17px wider than the 820px viewport (scrollWidth 837)\n/work/twittertale @820: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 837px, 17px past the 820px viewport, severing \"TypeExperimentYear2008Stack...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/twittertale @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @820: document is 17px wider than the 820px viewport (scrollWidth 837)\n/work/twittertale @820: <div > section.pos_relative.z_1.bg_bg.py_8 > div.w_100%.lg:w_80%.mx_auto.bg_surface> is cut off: its right edge lands at 837px, 17px past the 820px viewport, severing \"TypeExperimentYear2008Stack...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/work/twittertale @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bdr_md.bd-w_1px > span.d_block.ff_body.fw_bold.fs_xs> \"Nearest finish · Win\" at 13.2px bold sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bdr_md.bd-w_1px > p.ff_body.fs_sm.lh_snug.c_fieldInkMuted> \"Lions closed it out. A blowout is a fini\" at 14.5px sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bdr_md.bd-w_1px > p.ff_body.fs_sm.lh_snug.c_textMuted> \"Michael Brennan takes it.\" (x2) at 14.5px sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: 2 more distinct texts over a textured ground are not listed.\n/ @1440: <div.pos_relative.z_2.d_flex.flex-d_column > div.d_flex.flex-d_column.ai_center.jc_center > h1.ff_display.fw_bold.tt_uppercase.ta_center> \"It is not as important how we start, but\" at 160px over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background): #f7f1e6 is under 3:1 across 97% of one pixel row through its glyphs (1.86:1 on #e6a82a). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text. Also on / at 360px.\n/ @360: <div.d_flex.flex-d_column.ai_center.jc_center > h1.ff_display.fw_bold.tt_uppercase.ta_center > span.c_accentAlt> \"finish.\" at 48.5px over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background): #efc056 is under 3:1 across 94% of one pixel row through its glyphs (2.18:1 on #a47f31). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text. Also on / at 1440px.\n/ @1440: The mockup's largest text is 'spaceman' at 92px; the build sets 'it is not as important how we start but how we finish' at 160px. Restore the mockup's hierarchy: 'it is not as important how we start but how we finish' is 86px in the mockup.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1791893519854
+    },
+    {
+      "critic": "screenshot-critic",
+      "verdict": "REVISE",
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 2/5/7 — react-engineer: The hero headline renders at ~160px against the spec's `clamp(38px, 6vw, 92px)` ceiling and the mockup's 86px. This overflows its own box (measured: needs 1028px, box is 1023px) and physically collides with the orbit tiles — the leading \"I\" of \"IT IS NOT\" is sheared off into \"'T IS NOT\" and \"IMPORTANT\" runs behind the 45-21 tile, both visible in the 1440 screenshot. Cap the hero at the declared clamp so it wraps cleanly inside its ~22ch column and clears the tiles, matching the mockup's scale.\n- Section 3 — react-engineer: In dark scheme, the hero line fails contrast against its background — \"It is not as important how we start, but\" measures 1.86:1 across 97% of a glyph row, and the accent word \"finish.\" measures 2.18:1 — both below the 3:1 floor. Give the hero text a flat, contrast-safe ground rather than letting it sit directly on the drifting mesh at full size.\n- Section 10 — react-engineer: At 360px, the orbit tile reading \"Nearest finish · Win / 45–21 / Lions closed it out. A bl...\" is clipped — its right edge lands 11px past the 360px viewport and the caption is permanently severed, not scrollable. The mobile `order` requires this tile fully legible in the vertical stack beneath the hero; scale it to the column instead of carrying the desktop card width down.\n- Section 12 — react-engineer: The motion strip shows the orbit tiles (SPY, 45-21, Baycurrent) fading and lifting in progressively alongside the hero across the 0/200/500/1000ms frames, rather than the hero alone animating while the rest of the page holds static. The `entrance: rise` declaration should govern the hero only; the tiles entering on a staggered timeline is a cascade, not the declared entrance.\n- Section 5 — react-engineer: Minor but present: the page is 4px wider than the 360px viewport (scrollWidth 364px), a horizontal-overflow fault that compounds the clipped tile above into a less-than-clean mobile build.\n===END===",
+      "channel": "sdk-vision",
+      "ts": 1791893622213
+    },
+    {
+      "critic": "surface-gate",
+      "round": 2,
+      "verdict": "REVISE",
+      "feedback": "/ @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: document is 4px wider than the 360px viewport (scrollWidth 364)\n/ @360: <section#work.pos_relative.z_1.bg_bgAlt.c_text > article.bx-s_border-box.d_grid.gap_5.mb_56px > div> is cut off: its right edge lands at 364px, 4px past the 360px viewport, severing \"SpacemanFounder · 2018...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/ @360: <section#work.pos_relative.z_1.bg_bgAlt.c_text > article.bx-s_border-box.d_grid.gap_5.mb_56px > p.ff_body.fs_lede.lh_normal.c_textMuted> is cut off: its right edge lands at 364px, 4px past the 360px viewport, severing \"Independent design and engineering work doesn't al...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/ @360: <section#work.pos_relative.z_1.bg_bgAlt.c_text > article.bx-s_border-box.d_grid.gap_5.mb_56px > div> is cut off: its right edge lands at 364px, 4px past the 360px viewport, severing \"Read the case...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/ @360: document is 4px wider than the 360px viewport (scrollWidth 364)\n/ @360: <section#work.pos_relative.z_1.bg_bgAlt.c_text > article.bx-s_border-box.d_grid.gap_5.mb_56px > div> is cut off: its right edge lands at 364px, 4px past the 360px viewport, severing \"SpacemanFounder · 2018...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/ @360: <section#work.pos_relative.z_1.bg_bgAlt.c_text > article.bx-s_border-box.d_grid.gap_5.mb_56px > p.ff_body.fs_lede.lh_normal.c_textMuted> is cut off: its right edge lands at 364px, 4px past the 360px viewport, severing \"Independent design and engineering work doesn't al...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/ @360: <section#work.pos_relative.z_1.bg_bgAlt.c_text > article.bx-s_border-box.d_grid.gap_5.mb_56px > div> is cut off: its right edge lands at 364px, 4px past the 360px viewport, severing \"Read the case...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/ @1440: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bx-s_border-box.min-w_0 > div.ff_display.fw_bold.lh_tight.mb_2> holds text wider than its own box: \"45–21...\" needs 251px and the box is 224px, so 27px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bx-s_border-box.min-w_0 > div.ff_display.fw_bold.lh_tight.mb_2> holds text wider than its own box: \"SPY 778.10...\" needs 159px and the box is 144px, so 15px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bx-s_border-box.min-w_0 > div.ff_display.fw_bold.lh_tight.mb_2> holds text wider than its own box: \"45–21...\" needs 251px and the box is 224px, so 27px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bx-s_border-box.min-w_0 > div.ff_display.fw_bold.lh_tight.mb_2> holds text wider than its own box: \"SPY 778.10...\" needs 159px and the box is 144px, so 15px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/spaceman @360: <div.pos_relative.z_1 > div.bx-s_border-box.mt_7.mx_auto.w_fit-content > h1.ff_display.fw_bold.tt_uppercase.ta_center> holds text wider than its own box: \"Spaceman...\" needs 258px and the box is 253px, so 5px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/spaceman @360: <div.pos_relative.z_1 > div.bx-s_border-box.mt_7.mx_auto.w_fit-content > h1.ff_display.fw_bold.tt_uppercase.ta_center> holds text wider than its own box: \"Spaceman...\" needs 258px and the box is 253px, so 5px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/spaceman @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/spaceman @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/fishsticks @360: <div.pos_relative.z_1 > div.bx-s_border-box.mt_7.mx_auto.w_fit-content > h1.ff_display.fw_bold.tt_uppercase.ta_center> holds text wider than its own box: \"FishSticks...\" needs 268px and the box is 253px, so 15px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/fishsticks @360: <div.pos_relative.z_1 > div.bx-s_border-box.mt_7.mx_auto.w_fit-content > h1.ff_display.fw_bold.tt_uppercase.ta_center> holds text wider than its own box: \"FishSticks...\" needs 268px and the box is 253px, so 15px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/fishsticks @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/fishsticks @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/15th-club @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/15th-club @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: <div.pos_relative.z_1 > div.bx-s_border-box.mt_7.mx_auto.w_fit-content > h1.ff_display.fw_bold.tt_uppercase.ta_center> holds text wider than its own box: \"dougmar.ch...\" needs 307px and the box is 253px, so 54px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: 'dougmar.ch' is a 100x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 147x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 194x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 292x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: <div.pos_relative.z_1 > div.bx-s_border-box.mt_7.mx_auto.w_fit-content > h1.ff_display.fw_bold.tt_uppercase.ta_center> holds text wider than its own box: \"dougmar.ch...\" needs 307px and the box is 253px, so 54px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: 'dougmar.ch' is a 100x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 147x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 194x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 292x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/teeturn @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/teeturn @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @360: <div.pos_relative.z_1 > div.bx-s_border-box.mt_7.mx_auto.w_fit-content > h1.ff_display.fw_bold.tt_uppercase.ta_center> holds text wider than its own box: \"Politweets...\" needs 288px and the box is 253px, so 35px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @360: <div.pos_relative.z_1 > div.bx-s_border-box.mt_7.mx_auto.w_fit-content > h1.ff_display.fw_bold.tt_uppercase.ta_center> holds text wider than its own box: \"Politweets...\" needs 288px and the box is 253px, so 35px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @360: <div.pos_relative.z_1 > div.bx-s_border-box.mt_7.mx_auto.w_fit-content > h1.ff_display.fw_bold.tt_uppercase.ta_center> holds text wider than its own box: \"Twittertale...\" needs 311px and the box is 253px, so 58px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @360: <div.pos_relative.z_1 > div.bx-s_border-box.mt_7.mx_auto.w_fit-content > h1.ff_display.fw_bold.tt_uppercase.ta_center> holds text wider than its own box: \"Twittertale...\" needs 311px and the box is 253px, so 58px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bx-s_border-box.min-w_0 > span.d_block.ff_body.fw_bold.fs_xs> \"Nearest finish · Win\" at 13.2px bold sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bx-s_border-box.min-w_0 > p.ff_body.fs_sm.lh_snug.c_fieldInkMuted> \"Lions closed it out. A blowout is a fini\" at 14.5px sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bx-s_border-box.min-w_0 > p.ff_body.fs_sm.lh_snug.c_textMuted> \"Michael Brennan takes it.\" (x2) at 14.5px sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: 2 more distinct texts over a textured ground are not listed.\n/ @1440: The mockup's largest text is 'spaceman' at 92px; the build sets '45-21' at 128px. Restore the mockup's hierarchy: '45-21' is 80px in the mockup.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1791893803900
+    },
+    {
+      "critic": "surface-gate",
+      "round": 3,
+      "verdict": "REVISE",
+      "feedback": "/ @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <article.bx-s_border-box.w_100%.max-w_100%.min-w_0 > div > h3.ff_display.fw_bold.tt_uppercase.fs_2xl> holds text wider than its own box: \"Spaceman...\" needs 256px and the box is 251px, so 5px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <article.bx-s_border-box.w_100%.max-w_100%.min-w_0 > div > h3.ff_display.fw_bold.tt_uppercase.fs_2xl> holds text wider than its own box: \"Spaceman...\" needs 256px and the box is 251px, so 5px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bx-s_border-box.min-w_0 > div.ff_display.fw_bold.lh_tight.mb_2> holds text wider than its own box: \"SPY 778.10...\" needs 267px and the box is 184px, so 83px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bx-s_border-box.min-w_0 > div.ff_display.fw_bold.lh_tight.mb_2> holds text wider than its own box: \"16 under...\" needs 234px and the box is 194px, so 40px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bx-s_border-box.min-w_0 > div.ff_display.fw_bold.lh_tight.mb_2> holds text wider than its own box: \"45–21...\" needs 270px and the box is 234px, so 36px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bx-s_border-box.min-w_0 > div.ff_display.fw_bold.lh_tight.mb_2> holds text wider than its own box: \"SPY 778.10...\" needs 267px and the box is 184px, so 83px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bx-s_border-box.min-w_0 > div.ff_display.fw_bold.lh_tight.mb_2> holds text wider than its own box: \"16 under...\" needs 234px and the box is 194px, so 40px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bx-s_border-box.min-w_0 > div.ff_display.fw_bold.lh_tight.mb_2> holds text wider than its own box: \"45–21...\" needs 270px and the box is 234px, so 36px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/spaceman @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/spaceman @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/fishsticks @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/fishsticks @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/15th-club @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/15th-club @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: 'dougmar.ch' is a 100x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 147x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 194x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 292x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 100x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 147x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 194x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 292x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/teeturn @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/teeturn @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bx-s_border-box.min-w_0 > span.d_block.ff_body.fw_bold.fs_xs> \"Nearest finish · Win\" at 13.2px bold sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bx-s_border-box.min-w_0 > p.ff_body.fs_sm.lh_snug.c_fieldInkMuted> \"Lions closed it out. A blowout is a fini\" at 14.5px sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bx-s_border-box.min-w_0 > p.ff_body.fs_sm.lh_snug.c_textMuted> \"Michael Brennan takes it.\" (x2) at 14.5px sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: 2 more distinct texts over a textured ground are not listed.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1791893930230
+    },
+    {
+      "critic": "surface-gate",
+      "round": 4,
+      "verdict": "REVISE",
+      "feedback": "/ @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/spaceman @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/spaceman @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/fishsticks @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/fishsticks @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/15th-club @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/15th-club @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: 'dougmar.ch' is a 100x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 147x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 194x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 292x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 100x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 147x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 194x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 292x21px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/teeturn @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/teeturn @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bx-s_border-box.min-w_0 > span.d_block.ff_body.fw_bold.fs_xs> \"Nearest finish · Win\" at 13.2px bold sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bx-s_border-box.min-w_0 > p.ff_body.fs_sm.lh_snug.c_fieldInkMuted> \"Lions closed it out. A blowout is a fini\" at 14.5px sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: <div.pos_relative.lg:pos_absolute.lg:inset_0.z_2 > article.pos_relative.lg:pos_absolute.bx-s_border-box.min-w_0 > p.ff_body.fs_sm.lh_snug.c_textMuted> \"Michael Brennan takes it.\" (x2) at 14.5px sits over div.pos_absolute.inset_-4%.z_0.bg_bg (positioned background); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground.\n/ @360: 2 more distinct texts over a textured ground are not listed.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1791894063544
+    },
+    {
+      "critic": "screenshot-critic",
+      "round": "final",
+      "verdict": "UNVERIFIED",
+      "feedback": "[screenshot-critic] response truncated at max_tokens (16000 output tokens, cap 16000)",
+      "channel": "sdk-vision-truncated",
+      "ts": 1791894286168
+    },
+    {
+      "critic": "ship-gate",
+      "verdict": "SHIPPED-WITH-FAULTS",
+      "feedback": "## Measured layout faults\n\nThese are measurements taken from the live render, not observations from the images below.\nThey are exact. Do not re-litigate them against the screenshots, and do not count one fault\ntwice because it appears at more than one viewport.\n\n- [error] / at 820px (both schemes): <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n- [error] /about at 820px (both schemes): <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n- [error] /work/spaceman at 820px (both schemes): <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n- [error] /work/fishsticks at 820px (both schemes): <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n- [error] /work/15th-club at 820px (both schemes): <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing ",
+      "ts": 1791894286169
+    }
+  ],
+  "composition": {
+    "columns": "masonry",
+    "axis": "radial",
+    "symmetry": "symmetric",
+    "hero_zone": "full-bleed",
+    "density": "crowded",
+    "rhythm": "syncopated",
+    "shell_posture": "footer-only",
+    "field_ratio": "field-dominant",
+    "collapse": "hero-only",
+    "hero_object": "statement"
+  },
+  "lane": {
+    "laneId": "pinterest",
+    "register": "light-masonry-mosaic"
+  },
+  "cost": {
+    "total_usd": 5.087654,
+    "estimated": true,
+    "partial": false,
+    "calls": 13,
+    "retries": 5,
+    "byAgent": [
+      {
+        "agent": "art-director",
+        "purpose": "first",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 36483,
+        "cache_read": 0,
+        "cache_write": 46145,
+        "cost_usd": 1.20049125,
+        "estimated": false,
+        "ms": 541081,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "first",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 14827,
+        "cache_read": 0,
+        "cache_write": 41173,
+        "cost_usd": 0.6280162499999999,
+        "estimated": false,
+        "ms": 177558,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "first",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 14013,
+        "output": 1402,
+        "cache_read": 0,
+        "cache_write": 6988,
+        "cost_usd": 0.119032,
+        "estimated": true,
+        "ms": 18210,
+        "num_turns": null
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "revision",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 5849,
+        "cache_read": 22863,
+        "cache_write": 29878,
+        "cost_usd": 0.34440400000000004,
+        "estimated": false,
+        "ms": 79137,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "rejudge",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 14013,
+        "output": 1839,
+        "cache_read": 6988,
+        "cache_write": 0,
+        "cost_usd": 0.0956272,
+        "estimated": true,
+        "ms": 20715,
+        "num_turns": null
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "revision",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 2115,
+        "cache_read": 22863,
+        "cache_write": 29761,
+        "cost_usd": 0.25032275,
+        "estimated": false,
+        "ms": 28239,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "rejudge",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 14013,
+        "output": 1375,
+        "cache_read": 6988,
+        "cache_write": 0,
+        "cost_usd": 0.08634719999999999,
+        "estimated": true,
+        "ms": 14294,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "first",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 39307,
+        "cache_read": 0,
+        "cache_write": 41606,
+        "cost_usd": 0.994178,
+        "estimated": false,
+        "ms": 337455,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "first",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 24280,
+        "output": 6446,
+        "cache_read": 0,
+        "cache_write": 13700,
+        "cost_usd": 0.14727,
+        "estimated": true,
+        "ms": 72046,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 13009,
+        "cache_read": 0,
+        "cache_write": 51203,
+        "cost_usd": 0.516203,
+        "estimated": false,
+        "ms": 100844,
+        "num_turns": 1
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 5777,
+        "cache_read": 24600,
+        "cache_write": 22575,
+        "cost_usd": 0.233343,
+        "estimated": false,
+        "ms": 46414,
+        "num_turns": 1
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 6430,
+        "cache_read": 24600,
+        "cache_write": 21449,
+        "cost_usd": 0.24077300000000001,
+        "estimated": false,
+        "ms": 54810,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "rejudge",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 18698,
+        "output": 16000,
+        "cache_read": 0,
+        "cache_write": 13700,
+        "cost_usd": 0.23164600000000002,
+        "estimated": true,
+        "ms": 192544,
+        "num_turns": null
+      }
+    ]
+  },
+  "measurables": {
+    "declared": {
+      "canvas_utilization_min": 80,
+      "hero_scale": "clamp(38px, 6vw, 92px)",
+      "color_coverage_min": 70
+    },
+    "declaredAt": "2026-10-13T12:24:49.628Z",
+    "measured": {
+      "canvas_utilization": 100,
+      "color_coverage": 100,
+      "hero_px": 86
+    },
+    "measuredAt": "2026-10-13T12:24:58.250Z",
+    "method": "Measured at 1440x900 on a 20px grid over the viewport at scroll position zero. canvas_utilization: % of grid cells touched by an element carrying designed content (visible text, an image/SVG/video/canvas, a background colour distinct from the page background and not transparent, or a background image such as a gradient). A background set on html or body counts as painting the page, unless it is opaque white; ::before and ::after boxes count on the same terms. color_coverage: % of grid cells whose sampled background, background-image stops or text colour is chromatic (HSL saturation > 12%, lightness 8-92%). hero_px: the largest computed font-size among first-fold elements that set visible text."
+  },
+  "surfaceGate": {
+    "ran": true,
+    "error": null,
+    "round": null
+  }
+}

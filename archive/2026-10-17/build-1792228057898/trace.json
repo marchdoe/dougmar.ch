@@ -1,0 +1,1996 @@
+{
+  "date": "2026-10-17",
+  "startedAt": "2026-10-17T08:35:22.052Z",
+  "completedAt": "2026-10-17T09:07:46.700Z",
+  "steps": [
+    {
+      "name": "signals-loaded",
+      "phase": 0,
+      "input": {
+        "providersAvailable": 19
+      },
+      "output": {
+        "air_quality": {
+          "aqi_index": 1,
+          "uv_index": 0,
+          "air_quality_label": "Good"
+        },
+        "awwwards": {
+          "sites_of_the_day": [
+            {
+              "title": "Half the Sky",
+              "description": "Half the Sky features 32 pioneering women, carved in plaster relief on a memorial wall. Visitors can read what each one achieved, then talk with her.",
+              "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/09/6abc7094c6533850406805.jpg"
+            },
+            {
+              "title": "The boring blog",
+              "description": "A personal blog sharing some boring ideas about various stuff engineering and art/design/gtm ...",
+              "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/09/6abb7d3f07910313616432.jpg"
+            },
+            {
+              "title": "April the Lantern",
+              "description": "Step into the world of April the Lantern. An immersive digital experience blending 3D storytelling, meditation and self-discovery to invite people to...",
+              "screenshot_url": "https://assets.awwwards.com/awards/submissions/2026/09/6abc43e1a388f009039076.png"
+            }
+          ]
+        },
+        "books": {
+          "currently_reading": []
+        },
+        "day_of_week": {
+          "day": "Saturday",
+          "is_weekend": true,
+          "day_index": 6
+        },
+        "github": {
+          "repos": [
+            {
+              "name": "anthropics/claude-plugins-official/stargazers",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            },
+            {
+              "name": "K-Dense-AI/scientific-agent-skills/stargazers",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            },
+            {
+              "name": "sponsors/affaan-m",
+              "description": "",
+              "language": "JavaScript",
+              "stars": null
+            },
+            {
+              "name": "HKUDS/CLI-Anything/stargazers",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            },
+            {
+              "name": "sponsors/mksglu",
+              "description": "",
+              "language": "TypeScript",
+              "stars": null
+            }
+          ]
+        },
+        "golf": {
+          "tournament": "Butterfield Bermuda Championship",
+          "status": "Scheduled",
+          "leaders": []
+        },
+        "hacker_news": {
+          "stories": [
+            {
+              "title": "Ultramarine 1 Flash",
+              "url": "https://www.paperinstruments.com/ultramarine",
+              "score": 220,
+              "by": "i_rush_carriers"
+            },
+            {
+              "title": "Tesla Roadster",
+              "url": "https://www.tesla.com/roadster",
+              "score": 1405,
+              "by": "shekhar101"
+            },
+            {
+              "title": "Show HN: Llmspeed – feel how fast a local LLM runs before you buy the hardware",
+              "url": "https://llmspeed.dev/",
+              "score": 51,
+              "by": "albinstman"
+            },
+            {
+              "title": "Intuitive concurrent programming in any language",
+              "url": "https://www.lf-lang.org/",
+              "score": 26,
+              "by": "mpweiher"
+            },
+            {
+              "title": "[filtered: potential prompt injection]",
+              "url": "https://github.com/cobanov/PS5LM",
+              "score": 279,
+              "by": "Anon84"
+            }
+          ]
+        },
+        "holidays": {
+          "today": null,
+          "upcoming": []
+        },
+        "lunar": {
+          "phase": "first quarter",
+          "illumination": 0.431,
+          "days_into_cycle": 6.73
+        },
+        "market": {
+          "symbol": "SPY",
+          "price": "763.2500",
+          "change": "-8.5400",
+          "change_percent": "-1.1065%",
+          "direction": "down"
+        },
+        "music": {
+          "bands": [
+            "Guided by Voices",
+            "Wet Leg"
+          ],
+          "rotation": true
+        },
+        "news": {
+          "headlines": [
+            {
+              "title": "Teen shooter kills 3 children, teacher in Oregon elementary school before being shot by bystander - CNN",
+              "source": "CNN",
+              "url": "https://www.cnn.com/2026/10/16/us/live-news/bend-oregon-school-shooting"
+            },
+            {
+              "title": "Dodgers tip cap to Brewers as title reign ends in NLCS sweep - ESPN",
+              "source": "ESPN",
+              "url": "https://www.espn.com/mlb/story/_/id/50194595/dodgers-tip-cap-brewers-title-reign-ends-nlcs-sweep"
+            },
+            {
+              "title": "Katie Zacharia confirms she didn’t pass the bar exam - The Washington Post",
+              "source": "The Washington Post",
+              "url": "https://www.washingtonpost.com/business/2026/10/15/press-secretary-katie-zacharia-appears-confirm-she-didnt-pass-california-bar-exam/"
+            },
+            {
+              "title": "Fed's Warsh withholds Fed rate signal, praises recent global tightening with 'no free riders' - CNBC",
+              "source": "CNBC",
+              "url": "https://www.cnbc.com/2026/10/16/feds-warsh-says-ai-development-path-will-be-very-bumpy-.html"
+            },
+            {
+              "title": "APOD: 2026 October 16 – Chasing the International Space Station - NASA Science (.gov)",
+              "source": "Google News",
+              "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOakZ6aVlBRWRrM2kwZlh5M21xUUZKZWlQZkl4WUEtUE9PbDQyVWhuQUM1ckVZN2RkNDlWUFFXcklleE5ZQVBRMDFOV2tOV25SbnNpUTBfZDdPNFp0RUI2M3lTT3NDYWVYenY3LVc1OWdNZEtfX3lsNlZaYUQyUkFZeFFmd0N5ck9ZdUo5WEtGekRNanI3azJuT1YwMkdVZkpEUGc"
+            }
+          ]
+        },
+        "quote": {
+          "text": "If you're waiting until you feel talented enough to make it, you'll never make it.",
+          "author": "Criss Jami"
+        },
+        "season": {
+          "season": "fall",
+          "month": 10,
+          "day": 17,
+          "day_of_year": 290,
+          "month_name": "October"
+        },
+        "sidebar": {
+          "links": [
+            {
+              "title": "Design owns coherence",
+              "url": "https://www.petermerholz.com/newsletter/newsletter-design-owns-coherence/",
+              "source": "petermerholz.com",
+              "description": "There exists an actual business problem that the C-suite now acknowledges, but no function has stepped up to address it."
+            },
+            {
+              "title": "Pure UI in the Agentic Era",
+              "url": "https://mattrothenberg.com/notes/pure-ui-agentic-era/",
+              "source": "mattrothenberg.com",
+              "description": "I stopped thinking of UI as event handlers that change the DOM and started thinking of it as a snapshot of data at a point in time."
+            },
+            {
+              "title": "117 CSS text effects & animations",
+              "url": "https://text-effects.colorion.co/",
+              "source": "text-effects.colorion.co",
+              "description": "Glitch, neon, gradient, typewriter, 3D and more. Pure CSS, no JavaScript. Copy & paste the code."
+            },
+            {
+              "title": "Prompt Motion",
+              "url": "https://prompt-motion.com/",
+              "source": "prompt-motion.com",
+              "description": "A collection of motion videos made with Claude Opus 5.5, with the prompts and skills behind them."
+            },
+            {
+              "title": "The “disability dongle”: Why Silicon Valley hates me and you",
+              "url": "https://sightlessscribbles.com/posts/disability-dongle/",
+              "source": "sightlessscribbles.com",
+              "description": "Mood: Wanting to throw a $30,000 prototype into a lake."
+            }
+          ]
+        },
+        "sports": {
+          "teams": [
+            {
+              "name": "Detroit Lions",
+              "league": "NFL",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            },
+            {
+              "name": "Detroit Red Wings",
+              "league": "NHL",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            },
+            {
+              "name": "Detroit Pistons",
+              "league": "NBA",
+              "last_game": "2026-10-16T23:00Z",
+              "result": "win",
+              "score": "129-125"
+            },
+            {
+              "name": "Detroit Tigers",
+              "league": "MLB",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            }
+          ]
+        },
+        "sun": {
+          "sunrise": "07:29",
+          "sunset": "18:21",
+          "daylight_hours": 10.9
+        },
+        "weather": {
+          "location": "Aldie, Virginia",
+          "conditions": "Moderate rain",
+          "temp_f": 52.3,
+          "temp_c": 11.3,
+          "humidity": 92,
+          "wind_mph": 13,
+          "wind_dir": "NNW",
+          "feels_like_f": 46.8
+        },
+        "date": "2026-10-17"
+      },
+      "durationMs": 0,
+      "timestamp": "2026-10-17T08:35:22.094Z"
+    },
+    {
+      "name": "art-director",
+      "phase": 1,
+      "input": {
+        "compositionMandate": "## Composition Mandate\n\nRecency is tracked per axis, not per whole tuple: a value used on any of the last 3 builds is discouraged for that axis. The starting values below are derived from today's date — they are a specific place to begin, not an instruction.\n\n- **columns** — start from `irregular-twelve` (avoid `two-equal`, `two-asymmetric`, `single`)\n- **axis** — start from `radial` (avoid `vertical`, `diagonal`, `horizontal`)\n- **symmetry** — start from `mirrored` (avoid `broken`, `right-weigh"
+      },
+      "output": {
+        "hero_copy": "If you're waiting until you feel talented enough to make it, you'll never make it.",
+        "archetype": "an index-specimen under a violet masthead, the work flushed right as proof",
+        "composition": {
+          "columns": "irregular-twelve",
+          "axis": "vertical",
+          "symmetry": "right-weighted",
+          "hero_zone": "full-bleed",
+          "density": "crowded",
+          "rhythm": "syncopated",
+          "shell_posture": "footer-only",
+          "field_ratio": "field-dominant",
+          "collapse": "hero-only",
+          "hero_object": "list"
+        },
+        "mobile": {
+          "carrier": "At 360 the full-bleed violet masthead carries the dare alone, then the work index follows as full-width flush-right ruled rows, the proof reading as a scroll.",
+          "first_fold": "The violet quote masthead alone — \"If you're waiting until you feel talented enough to make it, you'll never make it.\" with Criss Jami beneath and the mark top-left.",
+          "order": "quote masthead, work index, site callout, footer nav + signals",
+          "hero_step_360": "2xl",
+          "nav_360": "Mark stays top-left of the masthead; nav becomes a stacked numbered list in the foot (01/02/03 on their own rows) with the signals ledger below."
+        },
+        "chassisId": "zilla-worksans",
+        "specLength": 4931,
+        "specPreview": "### 1. Color Specification\n- **Primary hue**: 288° (grape violet). The quote is a confident dare, not a shout and not a chill; violet is warm-blooded but distinct from the terracotta the mandate targeted and the last two builds shipped. I deviate from the 15–40° target because terracotta ran 2026-10-16 (24°) and 2026-10-14 (10°) and the repetition check demands ≥60° distance; 288° sits in the available 252–340° window and is 66° off the nearest recent hue (222°).\n- **Neutral palette (sand, gold-",
+        "selfCheck": "1. Hero quotability: Yes — a complete, screenshot-worthy aphorism that stands alone.\n2. Because-of chain: Yes — the dare demands proof, so the work index leads as evidence (list), violet masthead states it, gold-tan answers it.\n3. Render feasibility: Yes — quote at 4xl right-aligned fits a 58vh mast"
+      },
+      "durationMs": 456001,
+      "timestamp": "2026-10-17T08:42:58.119Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 0
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "1. (Judgment 4) At 360 the lead element, the first project title \"Politweets\", is not in fold 1. Only its \"01 EXPERIMENT 2008\" meta line sits at the bottom edge, and the title is cut onto fold 2. Tighten the masthead's bottom padding and move or compress the \"Selected work / 2008 — 2026 / 07\" summary block so the full Politweets title lands inside the first 640px. At 1440 it already sits fully in the fold, around y≈465–525.\n\n2. (Judgment 5) The Spaceman row reads \"A founder-built consumer produc"
+      },
+      "durationMs": 369433,
+      "timestamp": "2026-10-17T08:49:09.315Z"
+    },
+    {
+      "name": "mockup-patch",
+      "phase": 2,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "edits": 7,
+        "bytes": 16353
+      },
+      "durationMs": 40094,
+      "timestamp": "2026-10-17T08:49:49.409Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "verdict": "APPROVE",
+        "feedback": "The dare sits reversed out in a violet halftone masthead as a right-set caps standfirst, and directly beneath it the project titles in poster-scale heavy Zilla Slab lead the page from Politweets down to dougmar.ch, flush to a hard right edge, so the list visibly answers the quote at both widths."
+      },
+      "durationMs": 69797,
+      "timestamp": "2026-10-17T08:50:19.112Z"
+    },
+    {
+      "name": "react-engineer",
+      "phase": 3,
+      "input": {
+        "tokenContext": 3118,
+        "briefLength": 8721,
+        "mockupLength": 16353
+      },
+      "output": {
+        "files": [
+          "app/components/Layout.tsx",
+          "app/components/Sidebar.tsx",
+          "app/components/generated/Reveal.tsx",
+          "app/components/generated/Masthead.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/WorkRow.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/TimelineRow.tsx",
+          "app/components/generated/TimelineSection.tsx",
+          "app/components/generated/CapabilitiesSection.tsx",
+          "app/components/generated/SigGrid.tsx",
+          "app/components/generated/AboutLedger.tsx",
+          "app/components/generated/CaseHero.tsx",
+          "app/components/generated/CaseStudy.tsx",
+          "app/components/generated/CaseExtras.tsx",
+          "app/components/generated/CaseMissing.tsx",
+          "app/routes/index.tsx",
+          "app/routes/about.tsx",
+          "app/routes/work.$slug.tsx",
+          "app/routes/og.tsx"
+        ],
+        "rationale": ""
+      },
+      "durationMs": 281183,
+      "timestamp": "2026-10-17T08:55:00.368Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 3,
+      "input": {
+        "after": "react-engineer"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/AboutLedger.tsx",
+          "app/components/generated/CapabilitiesSection.tsx",
+          "app/components/generated/CaseExtras.tsx",
+          "app/components/generated/CaseHero.tsx",
+          "app/components/generated/CaseMissing.tsx",
+          "app/components/generated/CaseStudy.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/Masthead.tsx",
+          "app/components/generated/Reveal.tsx",
+          "app/components/generated/SigGrid.tsx",
+          "app/components/generated/TimelineRow.tsx",
+          "app/components/generated/TimelineSection.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/WorkRow.tsx"
+        ],
+        "removed": [
+          "app/components/generated/AboutThesis.tsx",
+          "app/components/generated/ActPhrase.tsx",
+          "app/components/generated/CaseNarrative.tsx",
+          "app/components/generated/Colophon.tsx",
+          "app/components/generated/CornerHeader.tsx",
+          "app/components/generated/EvidencePanel.tsx",
+          "app/components/generated/FeaturedMeta.tsx",
+          "app/components/generated/HomeThesis.tsx",
+          "app/components/generated/LedgerRow.tsx",
+          "app/components/generated/Panels.tsx",
+          "app/components/generated/Roster.tsx",
+          "app/components/generated/TimelinePanel.tsx",
+          "app/components/generated/WorkHero.tsx",
+          "app/components/generated/WorkMeta.tsx",
+          "app/components/generated/WorkMissing.tsx"
+        ]
+      },
+      "durationMs": 12,
+      "timestamp": "2026-10-17T08:55:00.381Z"
+    },
+    {
+      "name": "build-validation",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "success": true
+      },
+      "durationMs": 0,
+      "timestamp": "2026-10-17T08:55:15.247Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "measured": 73,
+        "errorCount": 20,
+        "findings": [
+          {
+            "surface": "/",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Open project ↗' is a 125x42px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Open project ↗' is a 125x42px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/about",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/about",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "340 characters of running copy set at 51px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/about",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "340 characters of running copy set at 51px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live site ↗' is a 84x42px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live site ↗' is a 84x42px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live site ↗' is a 84x42px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live site ↗' is a 84x42px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live site ↗' is a 84x42px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live site ↗' is a 84x42px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'dougmar.ch' is a 102x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Deletion Test' is a 155x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Phoenix Primitives' is a 201x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Evaluations Are the Real Codebase' is a 306x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'dougmar.ch' is a 102x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Deletion Test' is a 155x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Phoenix Primitives' is a 201x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Evaluations Are the Real Codebase' is a 306x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|a.d_flex.flex-d_column.sm:flex-d_row.ai_flex-end > span.d_flex.flex-d_row.sm:flex-d_column.ai_baseline > span.fw_bold.ls_wide.c_textMuted.fv-num_tabular-nums|div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image)",
+            "detail": "<a.d_flex.flex-d_column.sm:flex-d_row.ai_flex-end > span.d_flex.flex-d_row.sm:flex-d_column.ai_baseline > span.fw_bold.ls_wide.c_textMuted.fv-num_tabular-nums> \"01\" (x7) at 12px bold sits over div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|a.d_flex.flex-d_column.sm:flex-d_row.ai_flex-end > span.d_flex.flex-d_row.sm:flex-d_column.ai_baseline > span.fw_normal.ls_wider.c_textFaint|div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image)",
+            "detail": "<a.d_flex.flex-d_column.sm:flex-d_row.ai_flex-end > span.d_flex.flex-d_row.sm:flex-d_column.ai_baseline > span.fw_normal.ls_wider.c_textFaint> \"Experiment\" (x7) at 12px sits over div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|a.d_flex.flex-d_column.sm:flex-d_row.ai_flex-end > span.d_flex.flex-d_row.sm:flex-d_column.ai_baseline > span.fw_normal.ls_wide.c_textFaint.fv-num_tabular-nums|div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image)",
+            "detail": "<a.d_flex.flex-d_column.sm:flex-d_row.ai_flex-end > span.d_flex.flex-d_row.sm:flex-d_column.ai_baseline > span.fw_normal.ls_wide.c_textFaint.fv-num_tabular-nums> \"2008\" (x7) at 12px sits over div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|summary|react-engineer",
+            "detail": "14 more distinct texts over a textured ground are not listed."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "human",
+            "key": "contrast-unresolved|aside.d_block.bg_bgAlt.c_text.bd-t_1px_solid > div.d_grid.grid-tc_1fr.jc_space-between.ai_end > p.m_0.ff_body.fs_base.md:fs_md|div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image)",
+            "detail": "<aside.d_block.bg_bgAlt.c_text.bd-t_1px_solid > div.d_grid.grid-tc_1fr.jc_space-between.ai_end > p.m_0.ff_body.fs_base.md:fs_md> \"This design is a day old at most. A pipe\" at 16px sits over div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image); contrast is not measured because the ground is not a flat colour. SiteCallout is written by the orchestrator, so this is reported for the owner and is not a revision."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "human",
+            "key": "contrast-unresolved|div.d_grid.grid-tc_1fr.jc_space-between.ai_end > div.d_flex.flex-wrap_wrap.ai_center.cg_5 > a.d_inline-flex.ai_center.min-h_44px.td_underline|div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image)",
+            "detail": "<div.d_grid.grid-tc_1fr.jc_space-between.ai_end > div.d_flex.flex-wrap_wrap.ai_center.cg_5 > a.d_inline-flex.ai_center.min-h_44px.td_underline> \"Read the white paper\" at 14.5px bold sits over div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image); contrast is not measured because the ground is not a flat colour. SiteCallout is written by the orchestrator, so this is reported for the owner and is not a revision."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "human",
+            "key": "contrast-unresolved|dl.d_grid.md:jc_space-between.cg_1.5rem.rg_1.25rem > div > dt.d_block.ff_display.fw_normal.fs_0.75rem|div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image)",
+            "detail": "<dl.d_grid.md:jc_space-between.cg_1.5rem.rg_1.25rem > div > dt.d_block.ff_display.fw_normal.fs_0.75rem> \"Role\" (x5) at 12px sits over div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image); contrast is not measured because the ground is not a flat colour. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "human",
+            "key": "contrast-unresolved|summary|human",
+            "detail": "6 more distinct texts over a textured ground are not listed."
+          },
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 1,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'2008 - 2026' (30px in the mockup) has no match in the build",
+              "facts": {
+                "text": "2008 - 2026",
+                "mockupPx": 30,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'seven projects 2008-2026. none of them waited for permission' (15px in the mockup) has no match in the build",
+              "facts": {
+                "text": "seven projects 2008-2026. none of them waited for permission",
+                "mockupPx": 15,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'twittertale' moved from (983, 868) in the mockup to (1057, 914) in the build; crossed the fold"
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'2008 - 2026' (20px in the mockup) has no match in the build",
+              "facts": {
+                "text": "2008 - 2026",
+                "mockupPx": 20,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'seven projects 2008-2026. none of them waited for permission' (15px in the mockup) has no match in the build",
+              "facts": {
+                "text": "seven projects 2008-2026. none of them waited for permission",
+                "mockupPx": 15,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'twittertale' moved from (184, 645) in the mockup to (212, 676) in the build; crossed the fold"
+            }
+          ],
+          "briefed": [
+            "- / at 1440px: The mockup sets '2008 - 2026' at 30px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 1440px: The mockup sets 'seven projects 2008-2026. none of them waited for permission' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: The mockup sets '2008 - 2026' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: The mockup sets 'seven projects 2008-2026. none of them waited for permission' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+          ]
+        }
+      },
+      "durationMs": 78872,
+      "timestamp": "2026-10-17T08:56:34.161Z"
+    },
+    {
+      "name": "screenshot-critic",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "verdict": "UNVERIFIED",
+        "feedback": "[screenshot-critic] response truncated at max_tokens (16000 output tokens, cap 16000)"
+      },
+      "durationMs": 222011,
+      "timestamp": "2026-10-17T09:00:16.172Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 5,
+      "input": {
+        "after": "React Engineer revision"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/AboutLedger.tsx",
+          "app/components/generated/CapabilitiesSection.tsx",
+          "app/components/generated/CaseExtras.tsx",
+          "app/components/generated/CaseHero.tsx",
+          "app/components/generated/CaseMissing.tsx",
+          "app/components/generated/CaseStudy.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/Masthead.tsx",
+          "app/components/generated/Reveal.tsx",
+          "app/components/generated/SigGrid.tsx",
+          "app/components/generated/TimelineRow.tsx",
+          "app/components/generated/TimelineSection.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/WorkRow.tsx"
+        ],
+        "removed": []
+      },
+      "durationMs": 3,
+      "timestamp": "2026-10-17T09:01:08.451Z"
+    },
+    {
+      "name": "revision",
+      "phase": 4,
+      "input": {
+        "round": 1,
+        "verdict": "UNVERIFIED",
+        "responsibleAgent": "react-engineer",
+        "gateForced": true,
+        "engineerFaults": 20,
+        "feedback": "## Measured layout faults\n\nThese are measurements taken from the live render, not observations from the images below.\nThey are exact. Do not re-litigate them against the screenshots, and do not count one fault\ntwice because it appears at more than one viewport.\n\n- [error] / at 820px (both schemes): <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206p"
+      },
+      "output": {
+        "outcome": "rebuilt",
+        "replied": 4,
+        "written": 4,
+        "deleted": 0,
+        "merged": 21
+      },
+      "durationMs": 64476,
+      "timestamp": "2026-10-17T09:01:20.650Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "measured": 73,
+        "errorCount": 18,
+        "findings": [
+          {
+            "surface": "/",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/about",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/about",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'dougmar.ch' is a 102x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Deletion Test' is a 155x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Phoenix Primitives' is a 201x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Evaluations Are the Real Codebase' is a 306x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'dougmar.ch' is a 102x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Deletion Test' is a 155x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Phoenix Primitives' is a 201x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Evaluations Are the Real Codebase' is a 306x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|a.d_flex.flex-d_column.sm:flex-d_row.ai_flex-end > span.d_flex.flex-d_row.sm:flex-d_column.ai_baseline > span.fw_bold.ls_wide.c_textMuted.fv-num_tabular-nums|div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image)",
+            "detail": "<a.d_flex.flex-d_column.sm:flex-d_row.ai_flex-end > span.d_flex.flex-d_row.sm:flex-d_column.ai_baseline > span.fw_bold.ls_wide.c_textMuted.fv-num_tabular-nums> \"01\" (x7) at 12px bold sits over div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|a.d_flex.flex-d_column.sm:flex-d_row.ai_flex-end > span.d_flex.flex-d_row.sm:flex-d_column.ai_baseline > span.fw_normal.ls_wider.c_textFaint|div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image)",
+            "detail": "<a.d_flex.flex-d_column.sm:flex-d_row.ai_flex-end > span.d_flex.flex-d_row.sm:flex-d_column.ai_baseline > span.fw_normal.ls_wider.c_textFaint> \"Experiment\" (x7) at 12px sits over div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|a.d_flex.flex-d_column.sm:flex-d_row.ai_flex-end > span.d_flex.flex-d_row.sm:flex-d_column.ai_baseline > span.fw_normal.ls_wide.c_textFaint.fv-num_tabular-nums|div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image)",
+            "detail": "<a.d_flex.flex-d_column.sm:flex-d_row.ai_flex-end > span.d_flex.flex-d_row.sm:flex-d_column.ai_baseline > span.fw_normal.ls_wide.c_textFaint.fv-num_tabular-nums> \"2008\" (x7) at 12px sits over div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|summary|react-engineer",
+            "detail": "12 more distinct texts over a textured ground are not listed."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "human",
+            "key": "contrast-unresolved|aside.d_block.bg_bgAlt.c_text.bd-t_1px_solid > div.d_grid.grid-tc_1fr.jc_space-between.ai_end > p.m_0.ff_body.fs_base.md:fs_md|div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image)",
+            "detail": "<aside.d_block.bg_bgAlt.c_text.bd-t_1px_solid > div.d_grid.grid-tc_1fr.jc_space-between.ai_end > p.m_0.ff_body.fs_base.md:fs_md> \"This design is a day old at most. A pipe\" at 16px sits over div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image); contrast is not measured because the ground is not a flat colour. SiteCallout is written by the orchestrator, so this is reported for the owner and is not a revision."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "human",
+            "key": "contrast-unresolved|div.d_grid.grid-tc_1fr.jc_space-between.ai_end > div.d_flex.flex-wrap_wrap.ai_center.cg_5 > a.d_inline-flex.ai_center.min-h_44px.td_underline|div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image)",
+            "detail": "<div.d_grid.grid-tc_1fr.jc_space-between.ai_end > div.d_flex.flex-wrap_wrap.ai_center.cg_5 > a.d_inline-flex.ai_center.min-h_44px.td_underline> \"Read the white paper\" at 14.5px bold sits over div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image); contrast is not measured because the ground is not a flat colour. SiteCallout is written by the orchestrator, so this is reported for the owner and is not a revision."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "human",
+            "key": "contrast-unresolved|dl.d_grid.md:jc_space-between.cg_1.5rem.rg_1.25rem > div > dt.d_block.ff_display.fw_normal.fs_0.75rem|div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image)",
+            "detail": "<dl.d_grid.md:jc_space-between.cg_1.5rem.rg_1.25rem > div > dt.d_block.ff_display.fw_normal.fs_0.75rem> \"Role\" (x5) at 12px sits over div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image); contrast is not measured because the ground is not a flat colour. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "human",
+            "key": "contrast-unresolved|summary|human",
+            "detail": "6 more distinct texts over a textured ground are not listed."
+          },
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 2,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'2008 - 2026' (30px in the mockup) has no match in the build",
+              "facts": {
+                "text": "2008 - 2026",
+                "mockupPx": 30,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'twittertale' moved from (983, 868) in the mockup to (1057, 914) in the build; crossed the fold"
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'2008 - 2026' (20px in the mockup) has no match in the build",
+              "facts": {
+                "text": "2008 - 2026",
+                "mockupPx": 20,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'twittertale' moved from (184, 645) in the mockup to (212, 677) in the build; crossed the fold"
+            }
+          ],
+          "briefed": [
+            "- / at 1440px: The mockup sets '2008 - 2026' at 30px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: The mockup sets '2008 - 2026' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+          ]
+        }
+      },
+      "durationMs": 74859,
+      "timestamp": "2026-10-17T09:02:35.509Z"
+    },
+    {
+      "name": "revision",
+      "phase": 4,
+      "input": {
+        "round": 2,
+        "verdict": "UNVERIFIED",
+        "responsibleAgent": "react-engineer",
+        "gateForced": true,
+        "engineerFaults": 20,
+        "feedback": "## Measured layout faults\n\nThese are measurements taken from the live render, not observations from the images below.\nThey are exact. Do not re-litigate them against the screenshots, and do not count one fault\ntwice because it appears at more than one viewport.\n\n- [error] / at 820px (both schemes): <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206p"
+      },
+      "output": {
+        "outcome": "failed",
+        "error": "[react-engineer] response is neither a ===VERDICT=== block nor ===FILE:=== delimited\nFirst 300 chars: No file changes are returned: the failing element is not rendered by any file I'm allowed to write.\n\n**The fault is in the site rail.** The repeated error on `/`, `/about` and every `/work/*` slug at 820px is the span `div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_a"
+      },
+      "durationMs": 26247,
+      "timestamp": "2026-10-17T09:03:01.764Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 5,
+      "input": {
+        "after": "React Engineer revision"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/AboutLedger.tsx",
+          "app/components/generated/CapabilitiesSection.tsx",
+          "app/components/generated/CaseExtras.tsx",
+          "app/components/generated/CaseHero.tsx",
+          "app/components/generated/CaseMissing.tsx",
+          "app/components/generated/CaseStudy.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/Masthead.tsx",
+          "app/components/generated/Reveal.tsx",
+          "app/components/generated/SigGrid.tsx",
+          "app/components/generated/TimelineRow.tsx",
+          "app/components/generated/TimelineSection.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/WorkRow.tsx"
+        ],
+        "removed": []
+      },
+      "durationMs": 4,
+      "timestamp": "2026-10-17T09:03:29.369Z"
+    },
+    {
+      "name": "revision",
+      "phase": 4,
+      "input": {
+        "round": 3,
+        "verdict": "UNVERIFIED",
+        "responsibleAgent": "react-engineer",
+        "gateForced": true,
+        "engineerFaults": 20,
+        "feedback": "## Measured layout faults\n\nThese are measurements taken from the live render, not observations from the images below.\nThey are exact. Do not re-litigate them against the screenshots, and do not count one fault\ntwice because it appears at more than one viewport.\n\n- [error] / at 820px (both schemes): <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206p"
+      },
+      "output": {
+        "outcome": "rebuilt",
+        "replied": 1,
+        "written": 1,
+        "deleted": 0,
+        "merged": 21
+      },
+      "durationMs": 40130,
+      "timestamp": "2026-10-17T09:03:41.904Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 4
+      },
+      "output": {
+        "measured": 73,
+        "errorCount": 18,
+        "findings": [
+          {
+            "surface": "/",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/about",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/about",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'dougmar.ch' is a 102x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Deletion Test' is a 155x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Phoenix Primitives' is a 201x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Evaluations Are the Real Codebase' is a 306x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'dougmar.ch' is a 102x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Deletion Test' is a 155x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'The Phoenix Primitives' is a 201x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Evaluations Are the Real Codebase' is a 306x21px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|a.d_flex.flex-d_column.sm:flex-d_row.ai_flex-end > span.d_flex.flex-d_row.sm:flex-d_column.ai_baseline > span.fw_bold.ls_wide.c_textMuted.fv-num_tabular-nums|div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image)",
+            "detail": "<a.d_flex.flex-d_column.sm:flex-d_row.ai_flex-end > span.d_flex.flex-d_row.sm:flex-d_column.ai_baseline > span.fw_bold.ls_wide.c_textMuted.fv-num_tabular-nums> \"01\" (x7) at 12px bold sits over div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|a.d_flex.flex-d_column.sm:flex-d_row.ai_flex-end > span.d_flex.flex-d_row.sm:flex-d_column.ai_baseline > span.fw_normal.ls_wider.c_textFaint|div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image)",
+            "detail": "<a.d_flex.flex-d_column.sm:flex-d_row.ai_flex-end > span.d_flex.flex-d_row.sm:flex-d_column.ai_baseline > span.fw_normal.ls_wider.c_textFaint> \"Experiment\" (x7) at 12px sits over div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|a.d_flex.flex-d_column.sm:flex-d_row.ai_flex-end > span.d_flex.flex-d_row.sm:flex-d_column.ai_baseline > span.fw_normal.ls_wide.c_textFaint.fv-num_tabular-nums|div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image)",
+            "detail": "<a.d_flex.flex-d_column.sm:flex-d_row.ai_flex-end > span.d_flex.flex-d_row.sm:flex-d_column.ai_baseline > span.fw_normal.ls_wide.c_textFaint.fv-num_tabular-nums> \"2008\" (x7) at 12px sits over div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image); contrast is not measured because the ground is not a flat colour. Keep small text on a flat ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "key": "contrast-unresolved|summary|react-engineer",
+            "detail": "12 more distinct texts over a textured ground are not listed."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "human",
+            "key": "contrast-unresolved|aside.d_block.bg_bgAlt.c_text.bd-t_1px_solid > div.d_grid.grid-tc_1fr.jc_space-between.ai_end > p.m_0.ff_body.fs_base.md:fs_md|div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image)",
+            "detail": "<aside.d_block.bg_bgAlt.c_text.bd-t_1px_solid > div.d_grid.grid-tc_1fr.jc_space-between.ai_end > p.m_0.ff_body.fs_base.md:fs_md> \"This design is a day old at most. A pipe\" at 16px sits over div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image); contrast is not measured because the ground is not a flat colour. SiteCallout is written by the orchestrator, so this is reported for the owner and is not a revision."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "human",
+            "key": "contrast-unresolved|div.d_grid.grid-tc_1fr.jc_space-between.ai_end > div.d_flex.flex-wrap_wrap.ai_center.cg_5 > a.d_inline-flex.ai_center.min-h_44px.td_underline|div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image)",
+            "detail": "<div.d_grid.grid-tc_1fr.jc_space-between.ai_end > div.d_flex.flex-wrap_wrap.ai_center.cg_5 > a.d_inline-flex.ai_center.min-h_44px.td_underline> \"Read the white paper\" at 14.5px bold sits over div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image); contrast is not measured because the ground is not a flat colour. SiteCallout is written by the orchestrator, so this is reported for the owner and is not a revision."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "human",
+            "key": "contrast-unresolved|dl.d_grid.md:jc_space-between.cg_1.5rem.rg_1.25rem > div > dt.d_block.ff_display.fw_normal.fs_0.75rem|div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image)",
+            "detail": "<dl.d_grid.md:jc_space-between.cg_1.5rem.rg_1.25rem > div > dt.d_block.ff_display.fw_normal.fs_0.75rem> \"Role\" (x5) at 12px sits over div.pos_absolute.inset_-100%.c_text.op_0.14 (positioned background-image); contrast is not measured because the ground is not a flat colour. WhitePaper is written by the orchestrator, so this is reported for the owner and is not a revision."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "contrast-unresolved",
+            "severity": "warning",
+            "owner": "human",
+            "key": "contrast-unresolved|summary|human",
+            "detail": "6 more distinct texts over a textured ground are not listed."
+          },
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 4,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'2008 - 2026' (30px in the mockup) has no match in the build",
+              "facts": {
+                "text": "2008 - 2026",
+                "mockupPx": 30,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'twittertale' moved from (983, 868) in the mockup to (1057, 914) in the build; crossed the fold"
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'2008 - 2026' (20px in the mockup) has no match in the build",
+              "facts": {
+                "text": "2008 - 2026",
+                "mockupPx": 20,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'twittertale' moved from (184, 645) in the mockup to (212, 674) in the build; crossed the fold"
+            }
+          ],
+          "briefed": [
+            "- / at 1440px: The mockup sets '2008 - 2026' at 30px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: The mockup sets '2008 - 2026' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+          ]
+        }
+      },
+      "durationMs": 75374,
+      "timestamp": "2026-10-17T09:04:57.278Z"
+    },
+    {
+      "name": "screenshot-critic-final",
+      "phase": 4,
+      "input": {
+        "remainingFaults": 18
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 6 — react-engineer: On the `/work/spaceman` case study (desktop filmstrip), the \"PROBLEM\" and \"OUTCOME\" body copy sits in a narrow ~500px column roughly centered in the 1440px row (fold 1 of 3 and fold 2 of 3), leaving ~60-65% of each row as unstyled cream field with no other content. The 62ch body cap is fine for line length, but nothing else occupies the rest of the row (no pull quote, image, or metadata rail), so it reads as dead canvas fold after f",
+        "channel": "sdk-vision"
+      },
+      "durationMs": 157223,
+      "timestamp": "2026-10-17T09:07:34.509Z"
+    }
+  ]
+}

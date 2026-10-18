@@ -1,33 +1,34 @@
 import { css } from '../../../styled-system/css'
 import type { projects } from '../../content/projects'
+import { Masthead } from './Masthead'
 
-type CaseProject = (typeof projects)[number] & { timeline?: string; status?: string }
+type Project = (typeof projects)[number]
+type Extras = { timeline?: string; status?: string }
 
-export function CaseHero({ project }: { project: CaseProject }) {
-  const facts = [
-    { label: 'Year', value: String(project.year) },
-    { label: 'Type', value: project.type },
-    { label: 'Role', value: project.role },
-    { label: 'Timeline', value: project.timeline },
-    { label: 'Status', value: project.status },
-  ].filter((f) => Boolean(f.value))
+export function CaseHero({ project }: { project: Project }) {
+  const extra = project as Project & Extras
+  const facts: [string, string | undefined][] = [
+    ['Year', String(project.year)],
+    ['Type', project.type],
+    ['Role', project.role],
+    ['Timeline', extra.timeline],
+    ['Status', extra.status],
+    ['Clients', project.clients?.map((c) => c.name).join(', ')],
+  ]
+  const shown = facts.filter(([, value]) => Boolean(value))
   return (
-    <section
-      className={css({
-        paddingInline: 'clamp(24px, 6vw, 96px)',
-        paddingTop: 'clamp(36px, 5vw, 72px)',
-        paddingBottom: 'clamp(40px, 5vw, 80px)',
-      })}
-    >
+    <Masthead>
       <h1
         className={css({
           fontFamily: 'display',
           fontWeight: 'bold',
-          fontSize: 'clamp(40px, 5.4vw, 78px)',
-          letterSpacing: 'tight',
-          lineHeight: '0.95',
-          color: 'text',
-          animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          textStyle: 'hero',
+          fontSize: 'clamp(36px, 9vw, 128px)',
+          lineHeight: '0.98',
+          textTransform: 'uppercase',
+          textAlign: 'right',
+          color: 'fieldInk',
+          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
           animationDelay: '0ms',
         })}
       >
@@ -35,45 +36,52 @@ export function CaseHero({ project }: { project: CaseProject }) {
       </h1>
       <div
         className={css({
-          display: 'grid',
-          gridTemplateColumns: { base: '1fr 1fr', md: 'repeat(5, minmax(0, 1fr))' },
-          columnGap: '5',
-          marginTop: '6',
-          animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          marginTop: 'clamp(16px, 2vw, 26px)',
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'flex-end',
+          rowGap: '3',
+          columnGap: '6',
+          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
           animationDelay: '80ms',
         })}
       >
-        {facts.map((f) => (
+        {shown.map(([label, value]) => (
           <div
-            key={f.label}
+            key={label}
             className={css({
               display: 'flex',
               flexDirection: 'column',
-              gap: '4px',
-              paddingBlock: '12px',
-              borderTopWidth: '1px',
-              borderTopStyle: 'solid',
-              borderTopColor: 'border',
+              gap: '1',
+              alignItems: 'flex-end',
               minWidth: '0',
             })}
           >
             <span
               className={css({
-                fontSize: '2xs',
-                textTransform: 'uppercase',
-                letterSpacing: 'wider',
-                color: 'textMuted',
+                fontFamily: 'body',
                 fontWeight: 'bold',
+                textStyle: '2xs',
+                letterSpacing: 'wider',
+                textTransform: 'uppercase',
+                color: 'fieldInkMuted',
               })}
             >
-              {f.label}
+              {label}
             </span>
-            <span className={css({ fontFamily: 'display', fontWeight: 'bold', fontSize: 'base' })}>
-              {f.value}
+            <span
+              className={css({
+                fontFamily: 'body',
+                textStyle: 'sm',
+                color: 'fieldInk',
+                textAlign: 'right',
+              })}
+            >
+              {value}
             </span>
           </div>
         ))}
       </div>
-    </section>
+    </Masthead>
   )
 }

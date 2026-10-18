@@ -11,7 +11,7 @@ function OgCard() {
         position: 'fixed',
         inset: '0',
         zIndex: 9999,
-        bg: 'bg',
+        bg: 'field',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -22,61 +22,48 @@ function OgCard() {
           width: '1200px',
           height: '630px',
           flexShrink: 0,
-          bg: 'bg',
-          color: 'text',
-          padding: '64px',
+          boxSizing: 'border-box',
+          bg: 'field',
+          color: 'fieldInk',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          borderBottomWidth: '12px',
-          borderBottomStyle: 'solid',
-          borderBottomColor: 'field',
+          paddingBlock: '64px',
+          paddingInline: '72px',
         })}
       >
-        <div className={css({ color: 'text' })}>
-          <BrandLockup variant="horizontal-md" mode="single-color" roleLine />
+        <div className={css({ alignSelf: 'flex-start', color: 'fieldInk' })}>
+          <BrandLockup variant="stacked-md" mode="single-color" />
         </div>
-        <h1 className={css({ textAlign: 'right', fontFamily: 'display' })}>
-          <span
+        <div className={css({ alignSelf: 'flex-end', textAlign: 'right', maxWidth: '980px' })}>
+          <h1
             className={css({
-              display: 'block',
-              fontWeight: 'normal',
-              fontSize: '30px',
-              lineHeight: '1.15',
-              letterSpacing: 'tight',
-              color: 'textMuted',
-              maxWidth: '760px',
-              marginLeft: 'auto',
-              marginBottom: '14px',
-            })}
-          >
-            If you want to find the secrets of the universe, think in terms of{' '}
-          </span>
-          <span
-            className={css({
-              display: 'block',
+              fontFamily: 'display',
               fontWeight: 'bold',
-              fontSize: '56px',
-              lineHeight: '0.95',
-              letterSpacing: 'tight',
-              color: 'text',
+              fontSize: '58px',
+              lineHeight: '1.04',
+              letterSpacing: '0.008em',
+              textTransform: 'uppercase',
+              color: 'fieldInk',
             })}
           >
-            energy, frequency and{' '}
-          </span>
-          <span
+            If you're waiting until you feel talented enough to make it, you'll{' '}
+            {/* mockup gold (amber.400) has no semantic token; fieldInkMuted is the nearest light accent ink on field */}
+            <span className={css({ color: 'fieldInkMuted' })}>never make it.</span>
+          </h1>
+          <p
             className={css({
-              display: 'block',
-              fontWeight: 'bold',
-              fontSize: '120px',
-              lineHeight: '0.9',
-              letterSpacing: 'tight',
-              color: 'accent',
+              marginTop: '20px',
+              fontFamily: 'body',
+              fontSize: '16px',
+              letterSpacing: 'wider',
+              textTransform: 'uppercase',
+              color: 'fieldInkMuted',
             })}
           >
-            vibration.
-          </span>
-        </h1>
+            Criss Jami
+          </p>
+        </div>
       </div>
     </div>
   )

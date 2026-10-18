@@ -57,9 +57,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-10-08'
-const PREV_DATE: string | null = '2026-10-07'
-const ARCHIVE_COUNT = 159
+const DESIGN_DATE = '2026-10-17'
+const PREV_DATE: string | null = '2026-10-16'
+const ARCHIVE_COUNT = 165
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -73,20 +73,19 @@ export const Route = createRootRoute({
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
-        title:
-          'If you want to find the secrets of the universe, think in terms of energy, frequency and vibration.',
+        title: "If you're waiting until you feel talented enough to make it, you'll never make it.",
       },
       {
         property: 'og:title',
         content:
-          'If you want to find the secrets of the universe, think in terms of energy, frequency and vibration.',
+          "If you're waiting until you feel talented enough to make it, you'll never make it.",
       },
       {
         property: 'og:description',
         content:
-          "Saffron drench, Tesla's triad rising to a burnt-sienna VIBRATION, halftone drifting like a tuned signal.",
+          "Grape-violet masthead dare over a gold-tan work index flushed hard right, project names at poster scale as the proof, Criss Jami's line the standfirst above them.",
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-08.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-17.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
@@ -95,16 +94,16 @@ export const Route = createRootRoute({
       {
         name: 'twitter:title',
         content:
-          'If you want to find the secrets of the universe, think in terms of energy, frequency and vibration.',
+          "If you're waiting until you feel talented enough to make it, you'll never make it.",
       },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-08.png' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-17.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=Manrope:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Work+Sans:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -291,7 +290,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 159 designs
+            Archive · 165 designs
           </a>
         )}
         <ScrollRestoration />

@@ -1,0 +1,61 @@
+{
+  "rounds": [
+    {
+      "round": 0,
+      "measured": {
+        "canvas_utilization": 100,
+        "color_coverage": 68.2,
+        "hero_px": 50
+      },
+      "measuredAt": "2026-10-12T22:26:13.697Z",
+      "precheck": [
+        {
+          "check": 2,
+          "key": "hero",
+          "gap": 65.2
+        },
+        {
+          "check": 4,
+          "key": "lockup",
+          "gap": 1
+        },
+        {
+          "check": 6,
+          "key": "overflow-360",
+          "gap": 6
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "measured": {
+        "canvas_utilization": 100,
+        "color_coverage": 72.7,
+        "hero_px": 115
+      },
+      "measuredAt": "2026-10-12T22:30:17.352Z",
+      "precheck": [
+        {
+          "check": 5,
+          "key": "legibility",
+          "gap": 0.13
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "measured": {
+        "canvas_utilization": 100,
+        "color_coverage": 68.1,
+        "hero_px": 115
+      },
+      "measuredAt": "2026-10-12T22:34:21.223Z",
+      "precheck": []
+    }
+  ],
+  "declared": {
+    "canvas_utilization_min": 72,
+    "hero_scale": "clamp(52px, 8vw, 116px)",
+    "color_coverage_min": 35
+  }
+}

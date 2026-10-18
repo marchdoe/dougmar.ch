@@ -32,6 +32,14 @@
  *   - tsr-stream-boundary:     STREAM_BOUNDARY_SCRIPT, verbatim
  *   - react-suspense-reveal:   REACT_SUSPENSE_REVEAL_SCRIPT, verbatim
  *   - react-reveal-timestamp:  REACT_REVEAL_TIMESTAMP_SCRIPT, verbatim
+ *   - pipeline-map:            on `pipeline-map/index.html` only, the scripts
+ *                              `renderPipelineMap` writes from the vendored
+ *                              template, verbatim. They are read from a fresh
+ *                              render of scripts/pipeline-map/ and
+ *                              docs/pipeline-map/map.json, so a page edited by
+ *                              hand, or built from another template, is refused.
+ *                              The map data rides in a JSON block, which is not
+ *                              hashed, so editing the map moves no hash (#737).
  *
  * `dist/client/404.html` is copied verbatim from `public/404.html` — a
  * deliberately static page (see the comment on `notFoundComponent` in
@@ -45,6 +53,7 @@
 import { createHash } from 'node:crypto'
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
+import { renderPipelineMap } from './pipeline-map/build.js'
 import { isMain } from './utils/cli.js'
 import { ROOT } from './utils/file-manager.js'
 
@@ -211,14 +220,19 @@ export function cspHash(body) {
  * hashes. Idempotent: re-running on already-pinned HTML replaces the old meta
  * with the same one, rather than stacking a second.
  *
+ * `allowed` is the page's own extra allowlist: exact script bodies this page
+ * may carry beyond the known shapes. Only `pinBuildOutput` passes one, for the
+ * pipeline map.
+ *
  * @param {string} html
+ * @param {{ allowed?: Set<string> }} [options]
  * @returns {{
  *   html: string,
  *   hashes: string[],
  *   rejected: Array<{ start: number, end: number, preview: string }>,
  * }}
  */
-export function pinHtml(html) {
+export function pinHtml(html, { allowed = new Set() } = {}) {
   const { scripts } = inlineScripts(html)
 
   const hashes = []
@@ -226,7 +240,7 @@ export function pinHtml(html) {
   const rejected = []
 
   for (const script of scripts) {
-    const kind = classifyScript(script)
+    const kind = classifyScript(script) ?? (allowed.has(script.body) ? 'pipeline-map' : null)
     if (kind === null) {
       rejected.push({
         start: script.start,
@@ -280,6 +294,21 @@ export function shouldPin(relativePath) {
   return true
 }
 
+export const PIPELINE_MAP_PAGE = 'pipeline-map/index.html'
+
+/**
+ * The script bodies the pipeline map page may carry: the ones in a fresh
+ * render of its committed sources. See the `pipeline-map` shape above.
+ *
+ * @param {{ root?: string }} [options]
+ * @returns {Set<string>}
+ */
+export function pipelineMapScripts({ root = ROOT } = {}) {
+  const template = readFileSync(path.join(root, 'scripts/pipeline-map/template.html'), 'utf8')
+  const map = JSON.parse(readFileSync(path.join(root, 'docs/pipeline-map/map.json'), 'utf8'))
+  return new Set(inlineScripts(renderPipelineMap(template, map)).scripts.map((s) => s.body))
+}
+
 /**
  * Walk `dist/client`, pin every eligible HTML file, and report the outcome.
  *
@@ -306,7 +335,8 @@ export function pinBuildOutput({ root = ROOT } = {}) {
   for (const relativePath of relativePaths) {
     const filePath = path.join(distClient, relativePath)
     const html = readFileSync(filePath, 'utf8')
-    const { html: pinned, hashes, rejected } = pinHtml(html)
+    const allowed = relativePath === PIPELINE_MAP_PAGE ? pipelineMapScripts({ root }) : undefined
+    const { html: pinned, hashes, rejected } = pinHtml(html, { allowed })
     files.push({ file: relativePath, hashCount: hashes.length })
     writes.push({ filePath, pinned })
     for (const r of rejected) allRejected.push({ file: relativePath, ...r })

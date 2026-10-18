@@ -1,0 +1,593 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman is the limited company doug has operated under for ten years - product design frontend engineering design systems and brand acted out across the clients below each name is a thing shipped not a thing claimed' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is the limited company doug has operated under for ten years - product design frontend engineering design systems and brand acted out across the clients below each name is a thing shipped not a thing claimed",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'doug builds things start with the' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "doug builds things start with the",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'hello' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "hello",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'framebridge' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "framebridge",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'spaceman' (128px); in build it is 'spaceman' (115px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "doug march",
+                "mockupPx": 45
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 128
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 115,
+              "mockupPx": 128
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'do you want to know who you are dont ask act action will ...' is 44px in the mockup and 90px in the build (2.06x). Set it back to 44px.",
+          "facts": {
+            "text": "do you want to know who you are dont ask act action will delineate and define you",
+            "mockupPx": 44,
+            "buildPx": 90,
+            "ratio": 2.06,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the rest of the evidence' is 44px in the mockup and 90px in the build (2.06x)",
+          "facts": {
+            "text": "the rest of the evidence",
+            "mockupPx": 44,
+            "buildPx": 90,
+            "ratio": 2.06,
+            "mockupRank": 3
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'do you want to know who you are dont ask act action will delineate and define you' moved from (282, 419) in the mockup to (360, 699) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'thomas jefferson' moved from (139, 624) in the mockup to (133, 1140) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'spaceman' (64px); in build it is 'spaceman' (54px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "do you want to know who you are dont ask act action will delineate and define you",
+                "mockupPx": 27
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 64
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 54,
+              "mockupPx": 64
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'thomas jefferson' moved from (93, 493) in the mockup to (100, 688) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'spaceman' still leads, but the mockup's 'doug march' (45px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'spaceman' still leads, but the mockup's 'do you want to know who you are dont ask act action will ...' (27px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'spaceman is the limited company doug has operated under f...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'doug builds things start with the' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'hello' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'framebridge' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: 'the rest of the evidence' is 44px in the mockup and 90px in the build (2.06x). Set it back to 44px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman is the limited company doug has operated under for ten years - product design frontend engineering design systems and brand acted out across the clients below each name is a thing shipped not a thing claimed' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is the limited company doug has operated under for ten years - product design frontend engineering design systems and brand acted out across the clients below each name is a thing shipped not a thing claimed",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'doug builds things start with the' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "doug builds things start with the",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'hello' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "hello",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'framebridge' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "framebridge",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'spaceman' (128px); in build it is 'spaceman' (115px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "do you want to know who you are dont ask act action will delineate and define you",
+                "mockupPx": 44
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 128
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 115,
+              "mockupPx": 128
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'spaceman' (64px); in build it is 'spaceman' (54px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "do you want to know who you are dont ask act action will delineate and define you",
+                "mockupPx": 27
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 64
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 54,
+              "mockupPx": 64
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'spaceman' still leads, but the mockup's 'do you want to know who you are dont ask act action will ...' (44px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'spaceman' still leads, but the mockup's 'do you want to know who you are dont ask act action will ...' (27px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'spaceman is the limited company doug has operated under f...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'doug builds things start with the' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'hello' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'framebridge' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman is the limited company doug has operated under for ten years - product design frontend engineering design systems and brand acted out across the clients below each name is a thing shipped not a thing claimed' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is the limited company doug has operated under for ten years - product design frontend engineering design systems and brand acted out across the clients below each name is a thing shipped not a thing claimed",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'doug builds things start with the' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "doug builds things start with the",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'hello' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "hello",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'framebridge' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "framebridge",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'spaceman' (128px); in build it is 'spaceman' (115px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "do you want to know who you are dont ask act action will delineate and define you",
+                "mockupPx": 44
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 128
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 115,
+              "mockupPx": 128
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'spaceman' (64px); in build it is 'spaceman' (54px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "do you want to know who you are dont ask act action will delineate and define you",
+                "mockupPx": 27
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 64
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 54,
+              "mockupPx": 64
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'spaceman' still leads, but the mockup's 'do you want to know who you are dont ask act action will ...' (44px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'spaceman' still leads, but the mockup's 'do you want to know who you are dont ask act action will ...' (27px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'spaceman is the limited company doug has operated under f...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'doug builds things start with the' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'hello' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'framebridge' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 4,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman is the limited company doug has operated under for ten years - product design frontend engineering design systems and brand acted out across the clients below each name is a thing shipped not a thing claimed' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is the limited company doug has operated under for ten years - product design frontend engineering design systems and brand acted out across the clients below each name is a thing shipped not a thing claimed",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'doug builds things start with the' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "doug builds things start with the",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'hello' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "hello",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'framebridge' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "framebridge",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'spaceman' (128px); in build it is 'spaceman' (115px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "do you want to know who you are dont ask act action will delineate and define you",
+                "mockupPx": 44
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 128
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 115,
+              "mockupPx": 128
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'spaceman' (64px); in build it is 'spaceman' (54px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "do you want to know who you are dont ask act action will delineate and define you",
+                "mockupPx": 27
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 64
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 54,
+              "mockupPx": 64
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'spaceman' still leads, but the mockup's 'do you want to know who you are dont ask act action will ...' (44px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'spaceman' still leads, but the mockup's 'do you want to know who you are dont ask act action will ...' (27px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'spaceman is the limited company doug has operated under f...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'doug builds things start with the' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'hello' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'framebridge' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

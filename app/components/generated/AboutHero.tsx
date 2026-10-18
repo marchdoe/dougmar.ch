@@ -1,57 +1,42 @@
 import { css } from '../../../styled-system/css'
 import { identity } from '../../content/about'
+import { Masthead } from './Masthead'
 
 export function AboutHero() {
+  const byline = [identity.name, identity.role].filter(Boolean).join(', ')
   return (
-    <section
-      className={css({
-        paddingInline: 'clamp(24px, 6vw, 96px)',
-        paddingTop: 'clamp(36px, 5vw, 72px)',
-        paddingBottom: 'clamp(40px, 5vw, 80px)',
-      })}
-    >
-      <div
+    <Masthead>
+      <h1
         className={css({
           fontFamily: 'display',
           fontWeight: 'bold',
-          fontSize: '3xl',
-          lineHeight: 'tight',
-          letterSpacing: 'tight',
-          color: 'text',
-          animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          textStyle: 'xl',
+          fontSize: 'clamp(22px, 2.8vw, 40px)',
+          lineHeight: 'snug',
+          textAlign: 'right',
+          color: 'fieldInk',
+          maxWidth: '26em',
+          marginInlineStart: 'auto',
+          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
           animationDelay: '0ms',
-        })}
-      >
-        {identity.name}
-      </div>
-      <p
-        className={css({
-          marginTop: '2',
-          fontSize: 'lg',
-          color: 'textMuted',
-          maxWidth: '48ch',
-          animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '80ms',
-        })}
-      >
-        {identity.role}
-      </p>
-      <h1
-        className={css({
-          marginTop: '6',
-          fontFamily: 'body',
-          fontWeight: 'normal',
-          fontSize: 'lede',
-          lineHeight: 'normal',
-          color: 'text',
-          maxWidth: '48ch',
-          textWrap: 'pretty',
-          animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '160ms',
         })}
       >
         {identity.statement}
       </h1>
-    </section>
+      <p
+        className={css({
+          marginTop: 'clamp(16px, 2vw, 26px)',
+          fontFamily: 'body',
+          textStyle: 'sm',
+          letterSpacing: 'wider',
+          textTransform: 'uppercase',
+          color: 'fieldInkMuted',
+          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          animationDelay: '80ms',
+        })}
+      >
+        {byline}
+      </p>
+    </Masthead>
   )
 }
