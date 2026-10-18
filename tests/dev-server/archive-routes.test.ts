@@ -99,3 +99,22 @@ describe('archive preview', () => {
     )
   })
 })
+
+describe('the pipeline map route, in dev and on Vercel', () => {
+  it('the dev middleware serves the page with or without the slash and ignores the rest', async () => {
+    const { pipelineMapMiddleware } = await import('../../app/dev-server/pipeline-map-static')
+    const mw = pipelineMapMiddleware([resolve(import.meta.dirname, '../../public/pipeline-map')])
+    for (const url of ['/pipeline-map', '/pipeline-map/', '/pipeline-map/?x=1']) {
+      const res = { writeHead: vi.fn(), end: vi.fn() }
+      const next = vi.fn()
+      mw({ url } as never, res as never, next)
+      expect(res.writeHead, url).toHaveBeenCalledWith(200, expect.anything())
+      expect(next).not.toHaveBeenCalled()
+    }
+    for (const url of ['/pipeline-map-x', '/about', '/archive/']) {
+      const next = vi.fn()
+      mw({ url } as never, { writeHead: vi.fn(), end: vi.fn() } as never, next)
+      expect(next, url).toHaveBeenCalled()
+    }
+  })
+})
