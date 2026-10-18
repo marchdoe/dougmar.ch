@@ -24,6 +24,7 @@
     "codegen:watch": "panda codegen --watch",
     "pipeline": "node scripts/run-pipeline.js",
     "pipeline:collect": "node scripts/collect-signals.js",
+    "pipeline-map": "node scripts/pipeline-map/build.js",
     "pipeline:canary": "node scripts/canary.js",
     "pipeline:replay": "node scripts/replay-mockup.js",
     "taste": "node scripts/taste-note.js",
