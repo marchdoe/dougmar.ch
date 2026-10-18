@@ -1,0 +1,103 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 5
+    },
+    "tablet": {
+      "width": 820,
+      "height": 1180,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "selector": "main.flex_1.min-w_0.pl_20px.pr_20px > section.pos_relative.ov_hidden.bg_bg.min-h_72vh > div.pos_absolute.inset_-4%.z_0.pointer-events_none",
+            "text": "",
+            "cause": "viewport",
+            "right": 848,
+            "over": 28,
+            "boxWidth": 842
+          },
+          {
+            "tag": "SPAN",
+            "selector": "div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0",
+            "text": "A new design ships every morning.",
+            "cause": "text",
+            "right": 529,
+            "over": 9,
+            "boxWidth": 206
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 18,
+          "passing": true
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "‹",
+            "w": 32,
+            "h": 44
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 20.5,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 5
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 22,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 5
+    }
+  },
+  "overallScore": 3,
+  "worstFailure": {
+    "viewport": "tablet",
+    "check": "clippedElements",
+    "detail": "2 element(s) clipped (first: <DIV>)"
+  },
+  "buildId": "1792315753048",
+  "date": "2026-10-18",
+  "archetype": "a cold-rink scoreboard rendered in neon didone"
+}

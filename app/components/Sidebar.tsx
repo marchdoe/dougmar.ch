@@ -1,135 +1,91 @@
 import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
+import { BrandLockup } from './BrandLockup'
 
-const valCls = css({
-  fontFamily: 'display',
-  fontWeight: 'normal',
-  textStyle: 'md',
-  color: 'text',
-  fontVariantNumeric: 'tabular-nums',
-})
-const scoreCls = css({
-  fontFamily: 'display',
-  fontWeight: 'bold',
-  textStyle: 'md',
-  color: 'accent',
-  fontVariantNumeric: 'tabular-nums',
-})
-const softCls = css({
-  fontFamily: 'display',
-  fontWeight: 'normal',
-  textStyle: 'base',
-  color: 'textFaint',
-  fontVariantNumeric: 'tabular-nums',
-})
-
-const signals = [
-  { label: 'Pistons · Win', value: '129–125', cls: scoreCls },
-  { label: 'SPY', value: '763.25 ▼ 1.11%', cls: softCls },
-  { label: 'Aldie, VA · Moderate rain', value: '52°F', cls: valCls },
-  { label: 'Moon · First quarter', value: '43% lit', cls: valCls },
-  { label: 'In rotation', value: 'Guided by Voices, Wet Leg', cls: softCls },
-]
-
-const navLink = css({
-  display: 'inline-flex',
+// Light scheme: accent (chartreuse.600) is 2.2:1 on bg, so small links take text
+// and the mark takes accentAlt (chartreuse.700), which clears 3:1.
+const linkClass = css({
+  display: 'flex',
   alignItems: 'center',
-  gap: '12px',
-  paddingBlock: '12px',
-  paddingInline: '0',
-  minHeight: '44px',
+  minHeight: { base: '44px', lg: '56px' },
   minWidth: '44px',
-  fontFamily: 'body',
-  fontWeight: 'bold',
-  textStyle: 'sm',
-  letterSpacing: 'wider',
-  textTransform: 'uppercase',
-  color: 'text',
-  _hover: { color: 'accent', textDecoration: 'none' },
+  paddingLeft: { base: '12px', lg: '22px' },
+  paddingRight: { base: '12px', lg: '8px' },
+  fontSize: '14px',
+  fontVariant: 'small-caps',
+  letterSpacing: 'wide',
+  color: { base: 'accent', _light: 'text' },
+  whiteSpace: 'nowrap',
+  transition: 'color 0.18s ease',
+  borderBottom: { base: 'none', lg: '1px solid' },
+  borderColor: 'border',
+  _hover: { color: 'accentAlt' },
 })
-const navNum = css({ color: 'accent', fontVariantNumeric: 'tabular-nums' })
-const lblCls = css({
-  fontFamily: 'body',
-  fontWeight: 'bold',
-  textStyle: '2xs',
-  letterSpacing: 'wider',
-  textTransform: 'uppercase',
-  color: 'textMuted',
-})
-const sigCls = css({ display: 'flex', flexDirection: 'column', gap: '5px', minWidth: '0' })
 
 export function Sidebar() {
-  const mail = `mailto:${identity.email}`
+  const links = [
+    { label: 'Work', href: '/work' },
+    { label: 'About', href: '/about' },
+    { label: 'Contact', href: `mailto:${identity.email}` },
+  ]
   return (
-    <footer
+    <header
       className={css({
-        bg: 'surface',
-        paddingInline: 'clamp(24px, 6vw, 112px)',
-        paddingBottom: 'clamp(32px, 4vw, 56px)',
-        borderTopWidth: '3px',
-        borderTopStyle: 'solid',
-        borderTopColor: 'borderStrong',
+        position: 'relative',
+        zIndex: 5,
+        bg: 'bg',
+        borderBottom: { base: '1px solid', lg: 'none' },
+        borderRight: { base: 'none', lg: '1px solid' },
+        borderColor: 'border',
       })}
     >
-      <nav
-        aria-label="Primary"
-        className={css({
-          display: 'flex',
-          flexDirection: { base: 'column', sm: 'row' },
-          flexWrap: { sm: 'wrap' },
-          gap: { base: '2px', sm: 'clamp(20px, 4vw, 56px)' },
-          paddingBlock: 'clamp(22px, 3vw, 34px)',
-        })}
-      >
-        <a href="/work" className={navLink}>
-          <span className={navNum}>01</span> Work
-        </a>
-        <a href="/about" className={navLink}>
-          <span className={navNum}>02</span> About
-        </a>
-        <a href={mail} className={navLink}>
-          <span className={navNum}>03</span> Contact
-        </a>
-      </nav>
       <div
         className={css({
-          display: 'grid',
-          gridTemplateColumns: { base: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
-          rowGap: 'clamp(16px, 2.4vw, 28px)',
-          columnGap: 'clamp(24px, 3vw, 48px)',
-          paddingTop: 'clamp(22px, 3vw, 30px)',
-          borderTopWidth: '2px',
-          borderTopStyle: 'solid',
-          borderTopColor: 'borderStrong',
+          display: 'flex',
+          flexDirection: { base: 'row', lg: 'column' },
+          alignItems: { base: 'center', lg: 'flex-start' },
+          justifyContent: { base: 'space-between', lg: 'flex-start' },
+          gap: { base: '16px', lg: '48px' },
+          paddingTop: { base: '16px', lg: '40px' },
+          paddingBottom: { base: '16px', lg: '40px' },
+          paddingLeft: { base: '20px', lg: '0' },
+          paddingRight: { base: '20px', lg: '0' },
+          position: { base: 'static', lg: 'sticky' },
+          top: '0',
+          bg: 'bg',
         })}
       >
-        <div className={sigCls}>
-          <span className={lblCls}>{identity.name}</span>
-          <span className={valCls}>{identity.role}</span>
-        </div>
-        <div className={sigCls}>
-          <span className={lblCls}>Write</span>
-          <a
-            href={mail}
-            className={css({
-              fontFamily: 'display',
-              fontWeight: 'bold',
-              textStyle: 'md',
-              color: 'accent',
-              overflowWrap: 'anywhere',
-              minHeight: '44px',
-            })}
-          >
-            {identity.email}
-          </a>
-        </div>
-        {signals.map((s) => (
-          <div key={s.label} className={sigCls}>
-            <span className={lblCls}>{s.label}</span>
-            <span className={s.cls}>{s.value}</span>
-          </div>
-        ))}
+        <a
+          href="/"
+          aria-label="Doug March, home"
+          className={css({
+            display: 'block',
+            color: { base: 'accent', _light: 'accentAlt' },
+            paddingLeft: { base: '0', lg: '22px' },
+            _hover: { color: { base: 'accentAlt', _light: 'accentAlt' } },
+          })}
+        >
+          <BrandLockup variant="mark-only-md" mode="single-color" />
+        </a>
+        <nav
+          aria-label="Primary"
+          className={css({
+            display: 'flex',
+            flexDirection: { base: 'row', lg: 'column' },
+            alignItems: { base: 'center', lg: 'stretch' },
+            gap: { base: '2px', lg: '0' },
+            width: { base: 'auto', lg: '100%' },
+            borderTop: { base: 'none', lg: '1px solid' },
+            borderColor: 'border',
+          })}
+        >
+          {links.map((link) => (
+            <a key={link.label} href={link.href} className={linkClass}>
+              {link.label}
+            </a>
+          ))}
+        </nav>
       </div>
-    </footer>
+    </header>
   )
 }

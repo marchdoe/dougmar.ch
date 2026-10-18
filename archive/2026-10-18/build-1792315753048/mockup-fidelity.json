@@ -1,0 +1,293 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'red wings edge it 4-3' (44px in the mockup) has no match in the build",
+          "facts": {
+            "text": "red wings edge it 4-3",
+            "mockupPx": 44,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'one goal in it' moved from (223, 409) in the mockup to (223, 922) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a score is a score the rest is the work - a decade of founding and building with side projects going back to 2008 indexed below' moved from (430, 897) in the mockup to (430, 1321) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'red wings edge it 4-3' is 30px in the mockup and 58px in the build (1.91x)",
+          "facts": {
+            "text": "red wings edge it 4-3",
+            "mockupPx": 30,
+            "buildPx": 58,
+            "ratio": 1.91,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'red wings edge it 4-3' moved from (95, 301) in the mockup to (165, 468) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'one goal in it' moved from (75, 363) in the mockup to (75, 558) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'a score is a score the rest is the work - a decade of founding and building with side projects going back to 2008 indexed below' moved from (178, 653) in the mockup to (179, 811) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets 'red wings edge it 4-3' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: 'red wings edge it 4-3' is 30px in the mockup and 58px in the build (1.91x). Set it back to 30px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'red wings edge it 4-3' moved from (262, 330) in the mockup to (262, 627) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'one goal in it' moved from (223, 409) in the mockup to (223, 707) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a score is a score the rest is the work - a decade of founding and building with side projects going back to 2008 indexed below' moved from (430, 897) in the mockup to (430, 1159) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'red wings edge it 4-3' moved from (95, 301) in the mockup to (95, 465) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'one goal in it' moved from (75, 363) in the mockup to (75, 527) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'a score is a score the rest is the work - a decade of founding and building with side projects going back to 2008 indexed below' moved from (178, 653) in the mockup to (179, 794) in the build; crossed the fold"
+        }
+      ],
+      "briefed": []
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'red wings edge it 4-3' moved from (262, 330) in the mockup to (262, 635) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'one goal in it' moved from (223, 409) in the mockup to (223, 723) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a score is a score the rest is the work - a decade of founding and building with side projects going back to 2008 indexed below' moved from (430, 897) in the mockup to (430, 1159) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'red wings edge it 4-3' moved from (95, 301) in the mockup to (95, 473) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'one goal in it' moved from (75, 363) in the mockup to (75, 543) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'a score is a score the rest is the work - a decade of founding and building with side projects going back to 2008 indexed below' moved from (178, 653) in the mockup to (179, 795) in the build; crossed the fold"
+        }
+      ],
+      "briefed": []
+    },
+    {
+      "round": 4,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'red wings edge it 4-3' moved from (262, 330) in the mockup to (262, 635) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'one goal in it' moved from (223, 409) in the mockup to (223, 723) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a score is a score the rest is the work - a decade of founding and building with side projects going back to 2008 indexed below' moved from (430, 897) in the mockup to (430, 1159) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'red wings edge it 4-3' moved from (95, 301) in the mockup to (95, 473) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'one goal in it' moved from (75, 363) in the mockup to (75, 543) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'a score is a score the rest is the work - a decade of founding and building with side projects going back to 2008 indexed below' moved from (178, 653) in the mockup to (179, 795) in the build; crossed the fold"
+        }
+      ],
+      "briefed": []
+    }
+  ]
+}
