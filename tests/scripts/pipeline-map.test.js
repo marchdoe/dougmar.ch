@@ -1,53 +1,51 @@
-import { existsSync, readFileSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { renderPipelineMap } from '../../scripts/pipeline-map/build.js'
+import {
+  checkBasis,
+  checkEdges,
+  checkKinds,
+  checkSources,
+  checkUniqueIds,
+  checkViews,
+  serializeMap,
+} from '../../scripts/pipeline-map/validate.js'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const read = (p) => readFileSync(path.join(ROOT, p), 'utf8')
 
 const map = JSON.parse(read('docs/pipeline-map/map.json'))
 const template = read('scripts/pipeline-map/template.html')
-const KINDS = ['agent', 'gate', 'workflow', 'state', 'script']
-
-const nodeIds = new Set(map.nodes.map((n) => n.id))
-const edgeIds = new Set(map.edges.map((e) => e.id))
-const viewIds = new Set(map.views.map((v) => v.id))
 
 describe('pipeline map data', () => {
   it('has unique node, edge and view ids', () => {
-    expect(nodeIds.size).toBe(map.nodes.length)
-    expect(edgeIds.size).toBe(map.edges.length)
-    expect(viewIds.size).toBe(map.views.length)
+    expect(checkUniqueIds(map)).toEqual([])
   })
 
   it('uses only known node kinds', () => {
-    for (const n of map.nodes) expect(KINDS, `${n.id}: ${n.kind}`).toContain(n.kind)
+    expect(checkKinds(map)).toEqual([])
   })
 
   it('points every edge at real nodes', () => {
-    for (const e of map.edges) {
-      expect(nodeIds.has(e.from), `${e.id} from ${e.from}`).toBe(true)
-      expect(nodeIds.has(e.to), `${e.id} to ${e.to}`).toBe(true)
-    }
+    expect(checkEdges(map)).toEqual([])
   })
 
   it('resolves every view node, edge and parent', () => {
-    for (const v of map.views) {
-      for (const id of v.nodeIds ?? []) expect(nodeIds.has(id), `${v.id} node ${id}`).toBe(true)
-      for (const id of v.edges ?? []) expect(edgeIds.has(id), `${v.id} edge ${id}`).toBe(true)
-      if (v.parent) expect(viewIds.has(v.parent), `${v.id} parent ${v.parent}`).toBe(true)
-    }
+    expect(checkViews(map)).toEqual([])
   })
 
   it('names a source path that exists for every local source', () => {
-    for (const n of map.nodes) {
-      for (const p of n.source ?? []) {
-        if (p.startsWith('http')) continue
-        expect(existsSync(path.join(ROOT, p.replace(/^\/+/, ''))), `${n.id}: ${p}`).toBe(true)
-      }
-    }
+    expect(checkSources(map)).toEqual([])
+  })
+
+  it('records the full commit sha it was last checked against', () => {
+    expect(checkBasis(map)).toEqual([])
+  })
+
+  it('is stored in the layout the refresh writes, so a refresh diff is only its edits', () => {
+    expect(serializeMap(map)).toBe(read('docs/pipeline-map/map.json'))
   })
 })
 
@@ -65,6 +63,10 @@ describe('pipeline map build', () => {
     expect(() => renderPipelineMap(template.replace('super-board skill map', 'x'), map)).toThrow(
       /anchor not found/
     )
+  })
+
+  it('leaves the basis commit out of the page', () => {
+    expect(renderPipelineMap(template, map)).not.toContain(map.basis)
   })
 
   it('keeps the data block inert: no closing tag can end the script early', () => {

@@ -26,6 +26,8 @@
     "pipeline:collect": "node scripts/collect-signals.js",
     "pipeline-map": "node scripts/pipeline-map/build.js",
     "pipeline-map:audit": "node scripts/pipeline-map/audit.js",
+    "pipeline-map:refresh": "node scripts/pipeline-map/refresh.js",
+    "pipeline-map:stale": "node scripts/pipeline-map/stale.js",
     "pipeline:canary": "node scripts/canary.js",
     "pipeline:replay": "node scripts/replay-mockup.js",
     "taste": "node scripts/taste-note.js",

@@ -1,0 +1,95 @@
+name: Pipeline Map Stale
+
+# The pipeline map (docs/pipeline-map/map.json) was last checked against its
+# `basis` commit, or against the last commit that changed map.json when that is
+# newer. On every push to main that touches a file the map cites,
+# scripts/pipeline-map/stale.js diffs from there to HEAD and lists the nodes
+# whose sources changed, cited paths that no longer exist and new files under
+# scripts/pipeline/, scripts/utils/ or .github/workflows/ that no node cites.
+# If any list is non-empty this opens one `pipeline-map` issue, or rewrites the
+# body of the one already open (#740).
+#
+# No model call happens here and no secret is read. The update runs locally,
+# `pnpm pipeline-map:refresh`, on the Max plan.
+#
+# The paths below cover every `source` in map.json, kept broad. The nightly
+# rewrites the `!` globs every morning; stale.js ignores the same set
+# (NIGHTLY_OUTPUT), so a nightly commit never fires this on its own. `paths`
+# and `paths-ignore` cannot both be set on one event, hence the negations.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/**'
+      - '.github/workflows/**'
+      - 'elements/**'
+      - 'tests/e2e/**'
+      - 'app/components/**'
+      - 'app/content/**'
+      - 'playwright.config.ts'
+      - 'package.json'
+      - 'docs/pipeline-map/map.json'
+      - '!elements/preset.ts'
+      - '!elements/chassis-preset.ts'
+      - '!app/components/generated/**'
+      - '!app/routes/**'
+      - '!archive/**'
+      - '!public/**'
+  workflow_dispatch:
+
+# One run at a time, none cancelled, so two pushes never open two issues.
+concurrency:
+  group: pipeline-map-stale
+  cancel-in-progress: false
+
+# No job inherits a token. The one job below asks for what it uses (#544).
+permissions: {}
+
+jobs:
+  check:
+    name: Check the pipeline map
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read  # checkout and git history back to the map's basis
+      issues: write   # open or update the one staleness issue
+    steps:
+      # Full history: the basis can be any number of commits back.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      # stale.js uses node built-ins and git only, so there is nothing to install.
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: '.node-version'
+
+      - name: Find stale entries
+        id: stale
+        run: |
+          node scripts/pipeline-map/stale.js --json > "$RUNNER_TEMP/stale.json"
+          node scripts/pipeline-map/stale.js
+          echo "stale=$(jq -r .stale "$RUNNER_TEMP/stale.json")" >> "$GITHUB_OUTPUT"
+
+      - name: Open or update the issue
+        if: steps.stale.outputs.stale == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TITLE: Pipeline map is out of date
+        run: |
+          node scripts/pipeline-map/stale.js --markdown > "$RUNNER_TEMP/body.md"
+          gh label create pipeline-map --repo "$GITHUB_REPOSITORY" --color 0e8a16 \
+            --description 'docs/pipeline-map/map.json needs a refresh' 2>/dev/null || true
+          # Exact title match, from a list rather than search, which lags.
+          NUMBER=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --label pipeline-map \
+            --limit 100 --json number,title \
+            --jq "[.[] | select(.title == \"$TITLE\")][0].number // empty")
+          if [ -n "$NUMBER" ]; then
+            gh issue edit "$NUMBER" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/body.md"
+            echo "updated #$NUMBER" | tee -a "$GITHUB_STEP_SUMMARY"
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$TITLE" --label pipeline-map \
+              --body-file "$RUNNER_TEMP/body.md" | tee -a "$GITHUB_STEP_SUMMARY"
+          fi
