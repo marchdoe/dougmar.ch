@@ -35,6 +35,8 @@ export type Project = {
   constraints?: string[]
   /** The workflow, in the order it runs. */
   process?: { phase: string; does: string; produces: string }[]
+  /** A pointer from the process section to a page that draws it. */
+  processMap?: { text: string; linkLabel: string; href: string }
   /** The forks that were live, and what settled them. */
   decisions?: { decision: string; why: string }[]
   /** External lineage worth reading. */
