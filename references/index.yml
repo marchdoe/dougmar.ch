@@ -2,11 +2,12 @@
 # Add screenshots to this directory and index them here.
 # Entries are TEXT-ONLY as far as the models are concerned — the description
 # carries the entire taste signal, so write the concrete design move, not vibes.
-#
-# When a fresh brief exists, the pipeline scores entries against it and picks
-# the top 5. With no fresh brief (the normal case since the Art Director now
-# ingests raw signals directly), the whole library is handed to the AD to
-# select from.
+# The one exception is `tier`: tiered entries are also sent as images by the
+# later pipeline stages (loaded by scripts/utils/reference-tiers.js), and are
+# never dropped by the library cap or by brief scoring. Nothing else is ever
+# sent as an image.
+#   tier: floor — Doug's minimum bar. Every night must be at least this good.
+#   tier: gold  — aspirational. Empty until Doug names one.
 #
 # Tags:
 #   composition: poster | broadsheet | gallery | scroll | split | stack | specimen | index
@@ -14,7 +15,9 @@
 #   density: sparse | moderate | dense
 
 references:
-  # --- Own archive gold standards (from recorded ratings) ---
+  # --- Own archive references (from recorded ratings) ---
+  # Pending Doug: this description matches no archived page. public/archive/2026-04-28
+  # is an Index in warm yellow-green, not a terracotta Specimen, and no image exists.
   - file: own-2026-04-28-terracotta-specimen.png
     description: "OWN GOLD STANDARD (2026-04-28, risk 8): drenched terracotta Specimen — a single hue committed across ~70% of the viewport, type waterfall reversed out of the field, labels and size markers treated as design material. Rated the benchmark: committed gestures, not hedges."
     tags:
@@ -22,7 +25,8 @@ references:
       mood: warm
       density: moderate
   - file: own-2026-06-13-fairway-split.png
-    description: "OWN HIGH-WATER MARK (2026-06-13): Split as argument — left panel is the thesis (one enormous word, 178px Anton, fairway green drench), right panel is the evidence (clean cataloged rows in pine-white). The split earns itself because the two halves NEED each other; productive irony (the word for smallness is the biggest object on the page)."
+    tier: floor
+    description: "FLOOR (2026-06-13): Split as argument on a teal-on-near-black field. Left half is the thesis, the Tolkien quote with ADVENTURE at about 136px in condensed Big Shoulders caps and the rest of the line smaller around it. Right half is the evidence, a featured project card above hairline-ruled rows of selected work and experiments. The two halves need each other."
     tags:
       composition: split
       mood: energetic
@@ -84,7 +88,8 @@ references:
       mood: minimal
       density: dense
   - file: own-2026-09-12.png
-    description: "OWN (2026-09-12, grade B): Spectral on emerald, the italic pulse on hardest."
+    tier: floor
+    description: "FLOOR (2026-09-12): The quote alone on a deep emerald field, set in a large Spectral serif at about 80px, with the last phrase in pale-mint italic. A small caps label top left, date and weather top right, attribution below. No other furniture above the fold."
   - file: own-2026-09-10.png
     description: "OWN (2026-09-10, grade B): The didone at that scale is the best type of the week."
   - file: own-2026-09-09.png
@@ -99,3 +104,10 @@ references:
     description: "OWN (2026-09-17, grade B): A restrained gold drench, with small caps that feel chosen."
   - file: own-2026-09-14.png
     description: "OWN (2026-09-14, grade B): Heavy slab poster line; the signal sidebar reads like a colophon."
+  - file: own-2026-10-17.png
+    tier: floor
+    description: "FLOOR (2026-10-17): Violet field with the quote in right-aligned slab-serif caps at poster scale, the closing phrase in lilac. Wordmark top left, attribution in small tracked caps. Below the fold line a cream band opens the selected-work index with POLITWEETS set as a huge right-aligned title between hairline rules."
+    tags:
+      composition: stack
+      mood: dramatic
+      density: moderate

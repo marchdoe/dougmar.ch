@@ -1,6 +1,6 @@
 # Design Reference Library
 
-A curated collection of design references used by the daily redesign pipeline. Each day, the pipeline selects 3–5 relevant references from this library based on the current brief and feeds them to the design agents as inspiration.
+A curated collection of design references used by the daily redesign pipeline. With a fresh brief the pipeline scores the library against it and keeps the top 5; with no brief (the normal case) the Art Director gets up to 12 entries and picks from them. Entries are text-only unless they carry a `tier` (see below).
 
 ---
 
@@ -19,7 +19,7 @@ A curated collection of design references used by the daily redesign pipeline. E
     density: sparse
 ```
 
-3. Commit `index.yml`. The image file is gitignored — it stays local only.
+3. Commit `index.yml`. Image files are gitignored, except `own-*.png`, which are tracked.
 
 ---
 
@@ -66,6 +66,31 @@ How much information is packed into the space.
 
 ## How the Pipeline Uses References
 
-When the daily brief is generated, the pipeline reads `index.yml` and scores each reference against the brief's intent. The 3–5 highest-scoring references are passed as context to the Layout Architect and Design Director agents. References influence layout composition, typographic mood, and spacing decisions — they do not override the brief, they inform it.
+The pipeline reads `index.yml` and, when a fresh brief exists, scores each reference against it. The highest-scoring references go to the Art Director as context. References influence layout composition, typographic mood, and spacing decisions. They do not override the brief, they inform it.
 
-The image files themselves are gitignored so this library stays lightweight in the repo. Only the YAML index is tracked.
+For ordinary entries only the YAML text is sent. The `description` carries the whole signal.
+
+---
+
+## Tiers
+
+Add `tier: floor` or `tier: gold` to an entry to send its image to the models, not just its text.
+
+- `floor`: Doug's minimum bar. Every night must be at least this good. Currently 2026-06-13, 2026-09-12 and 2026-10-17.
+- `gold`: aspirational. Empty until Doug names one.
+
+```yaml
+- file: own-2026-06-13-fairway-split.png
+  tier: floor
+  description: "..."
+```
+
+Tiered entries are always included first, never dropped by the 12-entry cap or by brief scoring, and later pipeline stages send their images. `scripts/utils/reference-tiers.js` (`loadTier({ root, tier })`) is the single loader; entries whose image is missing are skipped and returned in `missing`.
+
+`own-2026-06-13-fairway-split.png` is rendered from the archive. The 2026-10-17 image is the shipped build's `screenshot.png`, so it includes the archive viewer bar along the top. To render a night from the archive (first fold, 1440x900, needs network for web fonts):
+
+```sh
+node scripts/render-archive-fold.js --date 2026-06-13 --out references/own-2026-06-13-fairway-split.png
+```
+
+Look at the result before committing it. The viewer frame is hidden in the render, so the page can start 44px down.
