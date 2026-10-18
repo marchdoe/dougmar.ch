@@ -2,7 +2,12 @@ import path from 'node:path'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
-import { archiveStaticPlugin, browserStorageContextStub, devPanelPlugin } from './app/dev-server'
+import {
+  archiveStaticPlugin,
+  browserStorageContextStub,
+  devPanelPlugin,
+  pipelineMapStaticPlugin,
+} from './app/dev-server'
 import { archivedDates, datesWithOgImage } from './scripts/utils/archive-fs.js'
 
 // The dev panel's HTTP surface — /dev, its data endpoints, the pipeline
@@ -31,6 +36,7 @@ export default defineConfig({
   },
   plugins: [
     archiveStaticPlugin(),
+    pipelineMapStaticPlugin(),
     devPanelPlugin(),
     browserStorageContextStub(),
     tanstackStart({
