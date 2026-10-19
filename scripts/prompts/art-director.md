@@ -271,8 +271,10 @@ contradiction.
 The page shell (footer, brand lockup) is a design decision, not a default.
 Consult the Shell Mandate in your inputs: recently-used treatments are listed.
 Choose differently unless today's brief demands repetition (then justify it
-in your rationale). Pick the brand lockup and color mode from the Brand
-Contract. The header is declared separately, below.
+in your rationale). Pick the brand lockup from the Brand Contract. The color
+mode is `original` unless the full-colour mark fails the Brand Contract's
+contrast test on the ground the header sits on; only then declare
+`single-color`. The header is declared separately, below.
 
 `ground_material` is the texture the hero's colour field carries. The built
 site draws it from a component the engineer places and cannot redraw, so
@@ -505,7 +507,7 @@ color_coverage_min: <integer %>       # >=60 when color strategy is Committed/Dr
 ===SHELL===
 footer: <treatment, e.g. data strip / colophon block / folded-into-nav / none>
 brand_lockup: <one id from the Brand Contract table>
-brand_color_mode: original | single-color
+brand_color_mode: original | single-color   # original unless it fails the Brand Contract's contrast test on the header's ground
 ground_strategy: light-ground | dark-void | drench | duotone | split-field
 ground_material: none | grain | mesh | halftone | rule | dots
 

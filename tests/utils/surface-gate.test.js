@@ -643,19 +643,23 @@ describe('formatAdvisoryForRepairBrief', () => {
   })
 })
 
-describe('brand-fold and brand-contrast findings (#503)', () => {
+describe('brand-fold, brand-contrast and brand-mode findings (#503)', () => {
   // 2026-09-08 and 2026-09-12 declared footer-only and shipped with no mark
   // in the first fold at either rung; 2026-09-09 and 09-10 set the
   // single-colour mark on a ground it sank into. Nothing measured any of it.
+  // The passing mark is single-colour on a chartreuse field (#a4cf24), a
+  // ground the full-colour mark fails (best 1.9:1), so mono is allowed there.
   const markInFold = {
     x: 40,
     y: 32,
     width: 48,
     height: 40,
     mode: 'single-color',
-    ink: { r: 243, g: 247, b: 244 },
-    ground: { r: 10, g: 70, b: 47 },
+    ink: { r: 26, g: 26, b: 26 },
+    ground: { r: 164, g: 207, b: 36 },
   }
+  // Grey ink on a mid grey: under 3:1, and a ground the full-colour mark fails too.
+  const sunkInk = { ink: { r: 170, g: 170, b: 170 }, ground: { r: 153, g: 153, b: 153 } }
   const brandOk = { count: 1, viewportHeight: 900, nearestY: 32, inFold: markInFold }
   const kinds = (m) => evaluateMeasurement(m).map((f) => f.kind)
 
@@ -726,16 +730,16 @@ describe('brand-fold and brand-contrast findings (#503)', () => {
       ...ok,
       brand: {
         ...brandOk,
-        inFold: { ...markInFold, ink: { r: 26, g: 47, b: 26 }, ground: { r: 11, g: 61, b: 46 } },
+        inFold: { ...markInFold, ...sunkInk },
       },
     })
     expect(f).toMatchObject({ kind: 'brand-contrast', severity: 'error' })
-    expect(f.detail).toContain('single-colour mark #1a2f1a on #0b3d2e')
+    expect(f.detail).toContain('single-colour mark #aaaaaa on #999999')
     expect(f.detail).toMatch(/\d\.\d:1 \(floor 3:1\)/)
     expect(f.detail).toContain(`floor ${BRAND_CONTRAST_MIN}:1`)
   })
 
-  it('leaves an original-mode mark alone whatever its ground: it carries its own disc', () => {
+  it('leaves an original-mode mark alone on a ground its white disc passes', () => {
     expect(
       kinds({
         ...ok,
@@ -758,15 +762,59 @@ describe('brand-fold and brand-contrast findings (#503)', () => {
         ...ok,
         brand: {
           ...brandOk,
-          inFold: {
-            ...markInFold,
-            height: 20,
-            ink: { r: 26, g: 47, b: 26 },
-            ground: { r: 11, g: 61, b: 46 },
-          },
+          inFold: { ...markInFold, height: 20, ...sunkInk },
         },
       })
     ).toEqual(['brand-fold', 'brand-contrast'])
+  })
+
+  it('sends a single-colour mark on a ground the full-colour mark passes to original', () => {
+    const findings = evaluateMeasurement({
+      ...ok,
+      brand: { ...brandOk, inFold: { ...markInFold, ground: { r: 11, g: 26, b: 51 } } },
+    })
+    expect(findings).toHaveLength(1)
+    expect(findings[0]).toMatchObject({ kind: 'brand-mode', severity: 'error' })
+    expect(findings[0].detail).toBe(
+      'single-colour mark on #0b1a33 at 1440 (light), where the full-colour mark passes ' +
+        'contrast (best 17.3:1, its white disc). Render <BrandLockup mode="original" />.'
+    )
+  })
+
+  it('reports brand-mode, not brand-contrast, when that mono ink also sinks', () => {
+    // 2026-09-10's shape: a dark ink on a dark field. The fix is the full-colour mark.
+    expect(
+      kinds({
+        ...ok,
+        brand: {
+          ...brandOk,
+          inFold: { ...markInFold, ink: { r: 26, g: 47, b: 26 }, ground: { r: 11, g: 61, b: 46 } },
+        },
+      })
+    ).toEqual(['brand-mode'])
+  })
+
+  it('says single-colour is needed for a full-colour mark on a ground it fails', () => {
+    const [f] = evaluateMeasurement({
+      ...ok,
+      brand: { ...brandOk, inFold: { ...markInFold, mode: 'original' } },
+    })
+    expect(f).toMatchObject({ kind: 'brand-mode', severity: 'error' })
+    expect(f.detail).toContain(
+      'full-colour mark on #a4cf24 at 1440 (light) fails contrast (best 1.9:1, its blue, under 3:1), ' +
+        'so single-color is allowed and needed here'
+    )
+  })
+
+  it('passes a full-colour mark on white and on cream, where its blue reaches 3:1', () => {
+    for (const ground of [
+      { r: 255, g: 255, b: 255 },
+      { r: 245, g: 239, b: 224 },
+    ]) {
+      expect(
+        kinds({ ...ok, brand: { ...brandOk, inFold: { ...markInFold, mode: 'original', ground } } })
+      ).toEqual([])
+    }
   })
 
   it('only fires on engineer-owned routes', () => {
@@ -781,14 +829,16 @@ describe('brand-fold and brand-contrast findings (#503)', () => {
     expect(evaluateMeasurement(ok)).toEqual([])
   })
 
-  it('forces a revision: faultsForOwner keeps both kinds', () => {
+  it('forces a revision: faultsForOwner keeps all three kinds', () => {
     const findings = [
       { ...ok, surface: '/', kind: 'brand-fold', severity: 'error', detail: 'x' },
       { ...ok, surface: '/', kind: 'brand-contrast', severity: 'error', detail: 'y' },
+      { ...ok, surface: '/', kind: 'brand-mode', severity: 'error', detail: 'z' },
     ]
     expect(faultsForOwner(findings, 'react-engineer').map((f) => f.kind)).toEqual([
       'brand-fold',
       'brand-contrast',
+      'brand-mode',
     ])
   })
 

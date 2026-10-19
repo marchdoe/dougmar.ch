@@ -123,6 +123,43 @@ describe('evaluateMockupPrecheck', () => {
     ).toEqual(['mark-mode'])
   })
 
+  describe('the colour mode the contrast test rules (2026-10-18)', () => {
+    const NAVY = { r: 11, g: 26, b: 51 }
+    const MID_GREY = { r: 153, g: 153, b: 153 }
+    const on = (ground, original) => ({ ...wideOk, mark: { ...wideOk.mark, original, ground } })
+    const mono = { ...DECL, colorMode: 'single-color' }
+
+    it('sends a single-color mark on a ground the full-colour mark passes back to original', () => {
+      const f = evaluateMockupPrecheck({ wide: on(NAVY, false), declared: mono })
+      expect(keys(f)).toEqual(['mark-mode-contrast'])
+      expect(f[0]).toMatchObject({ check: 4, gap: 1 })
+      expect(f[0].detail).toContain(
+        'The full-colour mark passes contrast on this ground (#0b1a33, best 17.3:1, its white disc). Use brand_color_mode original'
+      )
+    })
+
+    it('says single-color is needed when the declared original fails on the ground', () => {
+      const f = evaluateMockupPrecheck({ wide: on(MID_GREY, true), declared: DECL })
+      expect(keys(f)).toEqual(['mark-mode-contrast'])
+      expect(f[0].detail).toContain(
+        'The full-colour mark fails contrast on this ground (#999999, best 2.8:1, its white disc, under 3:1), so single-color is allowed and needed here'
+      )
+    })
+
+    it('leaves a page alone that already paints the mode the test rules', () => {
+      expect(evaluateMockupPrecheck({ wide: on(NAVY, true), declared: mono })).toEqual([])
+      expect(evaluateMockupPrecheck({ wide: on(MID_GREY, false), declared: DECL })).toEqual([])
+    })
+
+    it('agrees with a declaration the test upholds, and still catches the wrong SVG source', () => {
+      expect(evaluateMockupPrecheck({ wide: on(NAVY, true), declared: DECL })).toEqual([])
+      expect(evaluateMockupPrecheck({ wide: on(MID_GREY, false), declared: mono })).toEqual([])
+      expect(keys(evaluateMockupPrecheck({ wide: on(NAVY, false), declared: DECL }))).toEqual([
+        'mark-mode',
+      ])
+    })
+  })
+
   it('reports a lockup the page does not set', () => {
     const stacked = { ...wideOk, wordmark: { orientation: 'column', gapPx: 8 } }
     expect(evaluateMockupPrecheck({ wide: stacked, declared: DECL })[0].detail).toMatch(
@@ -266,6 +303,31 @@ describe('readMockupFacts (Chromium)', () => {
   it('reads a mark sized by width alone at its circle height', async () => {
     const f = await facts(sized(LOGO, 'width:71px;height:auto'))
     expect(f.mark.heightPx).toBeCloseTo(59, 0)
+  })
+
+  it('reads the ground behind the mark: the nearest painted ancestor, else body, else white', async () => {
+    const onNavy = await facts(
+      `<header style="background:#0b1a33;padding:20px"><div>${sized(LOGO_MONO, 'height:44px;color:#f5efe0')}</div></header>`
+    )
+    expect(onNavy.mark.ground).toEqual({ r: 11, g: 26, b: 51 })
+    const onBody = await facts(
+      `<style>body{background:#999}</style><header style="padding:20px">${sized(LOGO, 'height:44px')}</header>`
+    )
+    expect(onBody.mark.ground).toEqual({ r: 153, g: 153, b: 153 })
+    const bare = await facts(sized(LOGO, 'height:44px'))
+    expect(bare.mark.ground).toEqual({ r: 255, g: 255, b: 255 })
+  })
+
+  it('turns a single-color mark on navy into a finding to use the original', async () => {
+    const wide = await facts(
+      `<header style="background:#0b1a33;padding:20px">${sized(LOGO_MONO, 'height:44px;color:#f5efe0')}</header>`
+    )
+    const f = evaluateMockupPrecheck({
+      wide,
+      declared: { markPx: 44, colorMode: 'single-color' },
+    })
+    expect(keys(f)).toEqual(['mark-mode-contrast'])
+    expect(f[0].detail).toContain('Use brand_color_mode original')
   })
 
   it('reports no mark, and a mark below the fold', async () => {

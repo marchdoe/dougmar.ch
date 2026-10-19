@@ -33,6 +33,8 @@
  * @module
  */
 
+import { formatMarkRatio, MARK_CONTRAST_MIN, originalMarkContrast } from './brand-mark-contrast.js'
+import { rgbToHex } from './contrast.js'
 import { heroPxAt } from './mockup-rounds.js'
 import { describeLegibility, failingProbes, LEGIBILITY_FIX } from './pixel-contrast.js'
 
@@ -65,7 +67,10 @@ const MAX_CUT_TEXTS = 3
  * nights drop the data attribute on the way). Its height is the circle's:
  * the smaller of the box's height and its width scaled by the viewBox, so a
  * mark sized by width alone still measures right. `original` is true when a
- * shape inside it paints the mark's own green (#7AC042).
+ * shape inside it paints the mark's own green (#7AC042). `ground` is what
+ * it sits on, read the way the surface gate's `findBrandMark` reads it: the
+ * first ancestor whose background colour has alpha above zero, then
+ * `body`'s, then white.
  *
  * The wordmark is the smallest visible element whose text reads "Doug
  * March", nearest the mark, measured with a Range over its text so a
@@ -75,7 +80,8 @@ const MAX_CUT_TEXTS = 3
  * `aria-hidden`) whose own run crosses the viewport's left or right edge.
  *
  * @returns {{ width: number, height: number, scrollWidth: number, markCount: number,
- *   mark: null | { heightPx: number, top: number, inFold: boolean, original: boolean },
+ *   mark: null | { heightPx: number, top: number, inFold: boolean, original: boolean,
+ *     ground: { r: number, g: number, b: number } },
  *   wordmark: null | { orientation: 'row'|'column'|'apart'|'unclear', gapPx: number },
  *   cutText: Array<{ text: string, left: number, right: number }> }}
  */
@@ -108,6 +114,21 @@ export function readMockupFacts() {
     .filter(({ el, r }) => r.width > 0 && r.height > 0 && shown(el))
   const hit = marks.find(({ r }) => inFold(r)) ?? marks[0] ?? null
 
+  const parseRgb = (str) => {
+    const m = /rgba?\(([^)]+)\)/.exec(str || '')
+    if (!m) return null
+    const parts = m[1].split(/[\s,/]+/).map((s) => Number.parseFloat(s))
+    return { r: parts[0], g: parts[1], b: parts[2], a: parts.length > 3 ? parts[3] : 1 }
+  }
+  const groundFor = (el) => {
+    for (let p = el.parentElement; p; p = p.parentElement) {
+      const rgb = parseRgb(getComputedStyle(p).backgroundColor)
+      if (rgb && rgb.a > 0) return { r: rgb.r, g: rgb.g, b: rgb.b }
+    }
+    const body = parseRgb(getComputedStyle(document.body).backgroundColor)
+    return body && body.a > 0 ? { r: body.r, g: body.g, b: body.b } : { r: 255, g: 255, b: 255 }
+  }
+
   let mark = null
   if (hit) {
     const fills = new Set()
@@ -120,6 +141,7 @@ export function readMockupFacts() {
       top: Math.round(hit.r.top),
       inFold: inFold(hit.r),
       original: fills.has(GREEN),
+      ground: groundFor(hit.el),
     }
   }
 
@@ -322,11 +344,33 @@ const MODE_RULES = {
   },
 }
 
+/**
+ * Check 4: the mark's colour mode. The owner's rule (2026-10-18) decides it
+ * when the ground behind the mark was measured: `original` wherever the
+ * full-colour mark passes the contrast test in brand-mark-contrast.js,
+ * `single-color` only where it fails. A declaration the test overrules is
+ * one finding, `mark-mode-contrast`; a page that already paints the mode
+ * the test asks for is left alone, since the designer cannot change the
+ * declaration and a finding it cannot clear would only end the loop.
+ * Without a measured ground the declared mode stands, as before.
+ */
 function markModeRule({ wide, declared }) {
-  const rule = MODE_RULES[declared.colorMode]
   const mark = wide?.mark
-  if (!rule || !mark || !rule.wrong(mark)) return null
-  return finding(4, 'mark-mode', 1, rule.detail)
+  if (!MODE_RULES[declared.colorMode] || !mark) return null
+  const test = mark.ground ? originalMarkContrast(mark.ground) : null
+  const ruled = test ? (test.passes ? 'original' : 'single-color') : declared.colorMode
+  if (!MODE_RULES[ruled].wrong(mark)) return null
+  if (ruled === declared.colorMode) return finding(4, 'mark-mode', 1, MODE_RULES[ruled].detail)
+  return finding(4, 'mark-mode-contrast', 1, modeContrastDetail(test, mark.ground))
+}
+
+/** The instruction for a declared colour mode the contrast test overrules. */
+function modeContrastDetail(test, ground) {
+  const best = `best ${formatMarkRatio(test.best.ratio)}:1, its ${test.best.name}`
+  if (test.passes) {
+    return `The full-colour mark passes contrast on this ground (${rgbToHex(ground)}, ${best}). Use brand_color_mode original: paste the original-colour mark SVG source, unmodified.`
+  }
+  return `The full-colour mark fails contrast on this ground (${rgbToHex(ground)}, ${best}, under ${MARK_CONTRAST_MIN}:1), so single-color is allowed and needed here: paste the currentColor mark SVG source and set its colour to a token that reaches ${MARK_CONTRAST_MIN}:1 on this ground.`
 }
 
 const SIDE = { row: 'beside', column: 'under' }

@@ -152,7 +152,11 @@ against, so match it.
 
 The brand mark is an inline SVG in the mockup. Copy the provided SVG source;
 never redraw it. Use the original-color source for `brand_color_mode: original`
-and the `currentColor` source for `single-color`.
+and the `currentColor` source for `single-color`. The browser also runs the
+Brand Contract's contrast test on the ground behind your mark: if the
+full-colour mark passes there, the mark is `original` whatever was declared,
+and if it fails, `single-color` is needed. A mark in the mode the test rules
+out comes back as a measured fault.
 
 The mark sits inside the first fold at {{NARROW_PX}} and at 1440 whatever the placement;
 `footer-only` and `none` move the nav, never the mark.

@@ -40,8 +40,9 @@ Orientation (horizontal vs stacked) may follow the day's header placement: a
 
 The mark sits inside the first fold at {{NARROW_PX}} and at 1440, whatever the
 placement. `footer-only` and `none` move the nav, never the mark; the `nav`
-line says where in the hero it lives. A `single-color` mark needs 3:1
-against its ground. Both are measured on the built page.
+line says where in the hero it lives. The colour mode follows the contrast
+test below, and a `single-color` mark needs 3:1 against its ground. All of it
+is measured on the built page.
 
 ### The wordmark
 
@@ -78,13 +79,24 @@ role line under a `stacked-lg` lockup competes with the hero.
 No other treatment is permitted: no gradients over the mark, no per-shape
 recolors, no opacity tricks, no outlines.
 
-Pick the mode that sits better on today's palette, but know that across 17
-builds carrying a shell declaration, `single-color` was chosen 16 times, so the
-green-and-blue mark has effectively never reached the page. `original` is the
-better choice whenever the palette gives it somewhere to sit: a light or paper
-ground, a neutral field, any page that is not already drenched in a hue that
-fights green and blue. On a `drench` or hard `duotone` day, `single-color` is
-the honest answer. On a `light-ground` day, reach for `original` first.
+`original` is the default. Use `single-color` only when the original fails
+this contrast test on the ground the mark sits on:
+
+- The test is WCAG 1.4.11 non-text contrast, 3:1.
+- The original passes when at least one of its defining colours reaches 3:1
+  against the ground: the white disc `#FFFFFF`, the green `#7AC042` or the
+  blue `#008ED3`.
+- If none of the three reaches 3:1, the original fails, and `single-color` is
+  allowed. Its one colour must then reach 3:1 against the ground itself.
+
+In practice the original passes on dark grounds (the white disc carries it)
+and on white, paper and cream grounds (the blue carries it). It fails on
+mid-tone grounds: a mid grey, a saturated mid green, a pale blue, a
+chartreuse field. Declare `brand_color_mode` for the ground the mark will
+actually sit on, which is the header's ground, not necessarily the page's.
+The rule is the owner's (2026-10-18), and it replaces choosing the mode by
+taste: before it, `single-color` won 16 of 17 builds and the green-and-blue
+mark almost never reached the page.
 
 ### Declaration and enforcement
 
@@ -96,6 +108,10 @@ the honest answer. On a `light-ground` day, reach for `original` first.
 - `scripts/utils/build-validator.js` fails the build on a direct logo import,
   on inline mark path data, and on a declared lockup that nothing renders.
 - The mockup's mark is measured in code against the declared `mark_px`, its
-  colour mode and its lockup (`scripts/utils/mockup-precheck.js`). The
+  colour mode and its lockup (`scripts/utils/mockup-precheck.js`), and the
+  ground behind it is run through the contrast test
+  (`scripts/utils/brand-mark-contrast.js`): a declared mode the test
+  overrules comes back as a measured fault. The surface gate runs the same
+  test on the built page at both widths and in both schemes. The
   screenshot critic receives a 2x crop of the built header and measures the
   rendered mark against `mark_px`.

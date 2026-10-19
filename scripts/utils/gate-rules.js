@@ -431,10 +431,13 @@ export function collectSurfaceRules() {
     },
     {
       gate: 'brand-mark',
-      kinds: ['brand-fold', 'brand-contrast'],
+      kinds: ['brand-fold', 'brand-contrast', 'brand-mode'],
       rule:
         `The brand mark sits inside the first fold at ${both}, at least ${BRAND_MARK_MIN_PX}px ` +
-        `tall at ${desktop}; a single-color mark reaches ${BRAND_CONTRAST_MIN}:1 on its ground.`,
+        `tall at ${desktop}. It renders mode="original" wherever the full-colour mark passes ` +
+        `contrast on its ground (its white disc, #7AC042 or #008ED3 at ${BRAND_CONTRAST_MIN}:1), ` +
+        `and mode="single-color" only where it fails, in a colour that reaches ` +
+        `${BRAND_CONTRAST_MIN}:1 on its ground.`,
     },
     {
       gate: 'og-card-fit',

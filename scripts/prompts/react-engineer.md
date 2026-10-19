@@ -433,7 +433,9 @@ import { BrandLockup } from '../BrandLockup'              // from app/components
 - `variant` is the `brand_lockup` id from the SHELL declaration. Pass it
   verbatim.
 - `mode` is `brand_color_mode` from the same block: `original` or
-  `single-color`.
+  `single-color`. The Brand Contract's contrast test outranks it: where the
+  full-colour mark passes on the ground behind it, render `original`; where
+  it fails, `single-color`. The approved mockup's mark already shows which.
 - `roleLine` is a boolean, on when the HEADER declaration says
   `role_line: present`.
 - `color` is optional and takes `text`, `bg` or `accent`. Only those three,
@@ -458,7 +460,8 @@ and every `/work/<slug>`, at {{NARROW_PX}} and at 1440. `footer-only` means the 
 in the footer; the lockup still sits up top, where the HEADER `nav` line says.
 The surface gate measures the rendered mark's box against the viewport at
 scroll position zero, and a mark outside the fold, or under 32px tall at 1440,
-or a `single-color` mark under 3:1 against its ground, forces a revision.
+or a `single-color` mark under 3:1 against its ground, or a mark in the mode
+the contrast test rules out on its ground, forces a revision.
 
 **All pages:** Today's hero phrase is the page's one `<h1>`, on `/` and on every other route (a case study's title, the about page's statement). The surface gate fails a route that renders no `h1`. The contact address renders on every page as a real `mailto:` link built from `identity.email`, never hardcoded, never a `/#contact` page anchor. Where it sits is yours (footer, nav, hero); that it is reachable and clickable is not. Name and role render on every page, in whatever form today's SHELL declaration and `shell_posture` call for. Nav links render alongside them. **Except when `shell_posture: none`: render zero `<nav>` elements anywhere in the output.** Projects and other routes stay reachable through in-content `<a>` links instead. `folded-into-hero` and `footer-only` move the nav out of its usual Sidebar slot (into the hero composition, or to the page foot). The mockup shows where; match it.
 
