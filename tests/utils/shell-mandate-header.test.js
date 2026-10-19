@@ -110,6 +110,22 @@ describe('shell mandate — the header half (#254)', () => {
     expect(formatShellMandateForPrompt(m)).not.toContain('Color mode:')
   })
 
+  it('counts a per-scheme declaration that shows original in one scheme', () => {
+    seedBuild(archiveDir, '2026-08-28', {
+      shell: { footer: 'x', brand_lockup: 'horizontal-md', brand_color_mode: 'single-color' },
+      header: { placement: 'top-bar', mark_px: 40, nav: 'x' },
+    })
+    seedBuild(archiveDir, '2026-08-29', {
+      shell: {
+        footer: 'y',
+        brand_lockup: 'stacked-md',
+        brand_color_mode: 'light=single-color dark=original',
+      },
+      header: { placement: 'corner', mark_px: 48, nav: 'y' },
+    })
+    expect(computeShellMandate({ archiveDir, lookbackDays: 30 }).colorModeNudge).toBeNull()
+  })
+
   it('says nothing about color mode with no history at all', () => {
     const m = computeShellMandate({ archiveDir, lookbackDays: 30 })
     expect(m.colorModeNudge).toBeNull()

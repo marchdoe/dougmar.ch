@@ -474,6 +474,41 @@ describe('findBrandMark', () => {
     expect(out.nearestY).toBe(1500)
   })
 
+  it('reports the mark a per-scheme lockup shows in each scheme', async () => {
+    // BrandLockup's per-scheme form: both marks render, and the theme class on
+    // <html> hides one (the rule Panda emits for `_light`). Grounds differ per
+    // scheme the way the semantic `bg` token does.
+    // MARK pins display:block inline, which would beat the theme rule.
+    const svg = (cls, mode) =>
+      `<svg data-brand-mark="" class="${cls}" data-brand-mode="${mode}" viewBox="0 0 71 59" ` +
+      'style="width:48px;height:40px"><circle r="20" cx="30" cy="30" fill="currentColor"/></svg>'
+    const page = await browser.newPage({ viewport: { width: 1440, height: 900 } })
+    const modeIn = async (scheme) => {
+      await page.setContent(
+        `<!doctype html><html class="${scheme}"><head><style>` +
+          'html,body{margin:0}.hdr{background:rgb(164,207,36)}.light .hdr{background:rgb(250,250,242)}' +
+          '.only-light{display:none}.light .only-light{display:block}.light .only-dark{display:none}' +
+          `</style></head><body><div class="hdr">` +
+          svg('only-light', 'original') +
+          svg('only-dark', 'single-color') +
+          '</div></body></html>'
+      )
+      return page.evaluate(
+        ([src]) => new Function(`return ${src}`)()(window.innerWidth, {}),
+        [findBrandMark.toString()]
+      )
+    }
+    try {
+      const light = await modeIn('light')
+      expect(light.count).toBe(2)
+      expect(light.inFold).toMatchObject({ mode: 'original', ground: { r: 250, g: 250, b: 242 } })
+      const dark = await modeIn('dark')
+      expect(dark.inFold).toMatchObject({ mode: 'single-color', ground: { r: 164, g: 207, b: 36 } })
+    } finally {
+      await page.close()
+    }
+  })
+
   it('measures the phone rung at its own viewport height', async () => {
     const out = await brand(`<div style="height:700px"></div>${MARK()}`, {
       width: 360,

@@ -72,6 +72,17 @@ describe('parseShellBlock', () => {
     expect(s.brand_color_mode).toBe('single-color')
   })
 
+  it('spells a per-scheme brand_color_mode one way, and keeps an unreadable one as written', () => {
+    expect(
+      parseShellBlock('brand_color_mode: Dark = Single-Color, Light = Original # schemes differ')
+        .brand_color_mode
+    ).toBe('light=original dark=single-color')
+    expect(parseShellBlock('brand_color_mode: light=original dark=original').brand_color_mode).toBe(
+      'original'
+    )
+    expect(parseShellBlock('brand_color_mode: Neon').brand_color_mode).toBe('neon')
+  })
+
   it('parses ground_strategy and normalizes to lowercase', () => {
     const s = parseShellBlock('ground_strategy: Dark-Void')
     expect(s.ground_strategy).toBe('dark-void')

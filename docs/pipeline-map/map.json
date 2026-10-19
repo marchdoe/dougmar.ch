@@ -350,11 +350,12 @@
    "id": "mockup-precheck",
    "label": "Mockup pre-check",
    "kind": "gate",
-   "what": "Measures in code what the critic used to estimate: canvas, colour and hero scale against the Art Director's declarations, mark size, and the pixel-contrast probe on text.",
+   "what": "Measures in code what the critic used to estimate: canvas, colour and hero scale against the Art Director's declarations, mark size, the mark's colour mode against the full-colour contrast test on its ground, and the pixel-contrast probe on text.",
    "when": "Each mockup round, after the screenshot at 1440 and phone width and before the critic.",
    "how": "Findings carry a check number, key, gap and instruction. Recorded as a `mockup-precheck` verdict (REVISE or APPROVE). A fault whose gap shrank under 25% since the last round counts as no progress and ends the loop.",
    "source": [
     "scripts/utils/mockup-precheck.js",
+    "scripts/utils/brand-mark-contrast.js",
     "scripts/utils/pixel-contrast.js"
    ]
   },
@@ -455,9 +456,10 @@
    "kind": "gate",
    "what": "Measures every generated route at 3 widths (360x640, 820x1180, 1440x900) in light and dark, with no model tokens.",
    "when": "Round 1 before the screenshot critic; again after each revision that rebuilt.",
-   "how": "Finding kinds include unreachable, status, overflow, running-copy, clipped, console errors, shell-overlap, og-fit, brand-fold, brand-contrast, nav-reach, heading, hero-fold, plus mockup drift. Tap targets at 360 are warnings. An error on a surface the engineer owns forces a revision whatever the critic says. Errors on hand-written routes become a `NEEDS-HUMAN` verdict. If the gate itself throws it records that and does not block.",
+   "how": "Finding kinds include unreachable, status, overflow, running-copy, clipped, console errors, shell-overlap, og-fit, brand-fold, brand-contrast, brand-mode, nav-reach, heading, hero-fold, plus mockup drift. Tap targets at 360 are warnings. An error on a surface the engineer owns forces a revision whatever the critic says. Errors on hand-written routes become a `NEEDS-HUMAN` verdict. If the gate itself throws it records that and does not block.",
    "source": [
     "scripts/utils/surface-gate.js",
+    "scripts/utils/brand-mark-contrast.js",
     "elements/chassis/viewports.js",
     "scripts/pipeline/phase-gate.js"
    ]

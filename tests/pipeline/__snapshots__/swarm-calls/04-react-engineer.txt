@@ -450,13 +450,21 @@ import { BrandLockup } from '../components/BrandLockup'   // from a route
 import { BrandLockup } from './BrandLockup'               // from Layout or Sidebar
 import { BrandLockup } from '../BrandLockup'              // from app/components/generated/
 
-<BrandLockup variant="horizontal-md" mode="single-color" roleLine />
+<BrandLockup variant="horizontal-md" mode="original" roleLine />
 ```
 
 - `variant` is the `brand_lockup` id from the SHELL declaration. Pass it
   verbatim.
 - `mode` is `brand_color_mode` from the same block: `original` or
-  `single-color`.
+  `single-color`, or one per scheme. `light=original dark=single-color`
+  becomes `mode={{ light: 'original', dark: 'single-color' }}`: the component
+  renders both marks and the site's light/dark class shows the right one.
+  The Brand Contract's contrast test outranks the declaration in each scheme:
+  where the full-colour mark passes on the ground behind it, render
+  `original`; where it fails, `single-color`. When your header's ground
+  passes in one scheme and fails in the other, use the per-scheme form even
+  if the declaration gave one mode. The approved mockup's mark already shows
+  which for its scheme.
 - `roleLine` is a boolean, on when the HEADER declaration says
   `role_line: present`.
 - `color` is optional and takes `text`, `bg` or `accent`. Only those three,
@@ -481,7 +489,9 @@ and every `/work/<slug>`, at 360 and at 1440. `footer-only` means the nav goes
 in the footer; the lockup still sits up top, where the HEADER `nav` line says.
 The surface gate measures the rendered mark's box against the viewport at
 scroll position zero, and a mark outside the fold, or under 32px tall at 1440,
-or a `single-color` mark under 3:1 against its ground, forces a revision.
+or a `single-color` mark under 3:1 against its ground, or a mark in the mode
+the contrast test rules out on its ground, forces a revision. Each scheme is
+measured against the mark that renders in it.
 
 **All pages:** Today's hero phrase is the page's one `<h1>`, on `/` and on every other route (a case study's title, the about page's statement). The surface gate fails a route that renders no `h1`. The contact address renders on every page as a real `mailto:` link built from `identity.email`, never hardcoded, never a `/#contact` page anchor. Where it sits is yours (footer, nav, hero); that it is reachable and clickable is not. Name and role render on every page, in whatever form today's SHELL declaration and `shell_posture` call for. Nav links render alongside them. **Except when `shell_posture: none`: render zero `<nav>` elements anywhere in the output.** Projects and other routes stay reachable through in-content `<a>` links instead. `folded-into-hero` and `footer-only` move the nav out of its usual Sidebar slot (into the hero composition, or to the page foot). The mockup shows where; match it.
 
@@ -638,7 +648,7 @@ The surface gate renders every route at 360, 820 and 1440 in both colour schemes
 - Every route renders an h1, and at 1440 its top sits inside the first 900px. Every route shows a visible link to /about at 360 and 1440.
 - At 360, 820 and 1440, no text in Layout or Sidebar at opacity 0.05 or more lands on the text of a hand-written route (/work, /experiments, /elements). Fix: move the shell's text off the page's content, or give the route the room the shell takes.
 - At 360 and 1440, at scroll 0, no position: fixed element sits on the site's rail ([data-live-frame], the top 44px of /, /about and /work/*). Fix: pin a top bar with `position: sticky; top: 0`, never `position: fixed`; sticky stays in flow below the rail until the rail scrolls away. Do not style, move or hide the rail.
-- The brand mark sits inside the first fold at 360 and 1440, at least 32px tall at 1440; a single-color mark reaches 3:1 on its ground.
+- The brand mark sits inside the first fold at 360 and 1440, at least 32px tall at 1440. It renders mode="original" wherever the full-colour mark passes contrast on its ground (its white disc, #7AC042 or #008ED3 at 3:1), and mode="single-color" only where it fails, in a colour that reaches 3:1 on its ground. Each scheme is judged on its own, so a ground that passes in one scheme and fails in the other takes one mode per scheme, an object with light and dark keys.
 - The share card (/og) is measured once, at 1200x630 in the light scheme, the size it is captured at: every visible line of text and the whole brand lockup, mark and wordmark, sit at least 40px inside every edge of the card, and no ancestor's overflow cuts any of it. Type inside an aria-hidden layer at opacity 0.2 or less is texture and exempt. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text.
 
 ## Self-check before responding

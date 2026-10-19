@@ -5,6 +5,8 @@
  * lives in the caller (validateArtDirectorResult), not here.
  */
 
+import { formatBrandColorMode, parseBrandColorMode } from './brand-mark-contrast.js'
+
 function parseKeyValues(text) {
   const out = {}
   for (const rawLine of String(text || '').split('\n')) {
@@ -37,6 +39,12 @@ export function parseMeasurablesBlock(text) {
   }
 }
 
+/** `brand_color_mode` in its canonical spelling, or lower-cased as written. */
+function colorModeOf(value) {
+  const modes = parseBrandColorMode(value)
+  return modes ? formatBrandColorMode(modes) : value.toLowerCase().trim()
+}
+
 /**
  * `nav` moved to the HEADER block on 2026-08-30 (#254) — the header stopped
  * being one line of prose inside SHELL and became its own measurable
@@ -52,7 +60,10 @@ export function parseShellBlock(text) {
     nav: kv.nav ?? null,
     footer: kv.footer ?? null,
     brand_lockup: kv.brand_lockup ?? null,
-    brand_color_mode: kv.brand_color_mode ? kv.brand_color_mode.toLowerCase().trim() : null,
+    // A bare mode or the per-scheme form, spelled one way whatever spacing
+    // the Art Director used (brand-mark-contrast.js). An unreadable value is
+    // kept as written so the validator can name it.
+    brand_color_mode: kv.brand_color_mode ? colorModeOf(kv.brand_color_mode) : null,
     // Palette-formula mandate (2026-08-23): the "ground" a palette commits
     // to — added as a SHELL field rather than a new block since it's a
     // structural declaration like nav/footer, not a poetic color spec.
