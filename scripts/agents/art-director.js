@@ -33,6 +33,7 @@ import { isValidMotion } from '../utils/motion-grammar.js'
 import { specFindings } from '../utils/ad-spec-checks.js'
 import { CHASSIS_CATALOG } from '../../elements/chassis/index.js'
 import { LOCKUP_IDS } from '../utils/brand-lockup.js'
+import { parseBrandColorMode } from '../utils/brand-mark-contrast.js'
 import { MATERIAL_NAMES, isMaterialName } from '../utils/material.js'
 import { modelFor } from '../utils/models.js'
 import { budgetFor } from '../utils/budgets.js'
@@ -202,10 +203,13 @@ export function validateArtDirectorResult(parsed, { enforceSpec = true } = {}) {
   for (const key of ['footer', 'brand_lockup', 'brand_color_mode']) {
     if (!shell[key]) throw rejectBlock('SHELL', `SHELL block missing ${key}`)
   }
-  if (!['original', 'single-color'].includes(shell.brand_color_mode)) {
+  // A bare mode, or one per scheme when the header's ground passes the
+  // contrast test in one scheme and fails it in the other (owner, 2026-10-19).
+  if (!parseBrandColorMode(shell.brand_color_mode)) {
     throw rejectBlock(
       'SHELL',
-      `SHELL brand_color_mode must be "original" or "single-color", got "${shell.brand_color_mode}"`
+      `SHELL brand_color_mode must be "original", "single-color" or per scheme ` +
+        `("light=original dark=single-color"), got "${shell.brand_color_mode}"`
     )
   }
   if (!BRAND_LOCKUP_IDS.has(shell.brand_lockup)) {

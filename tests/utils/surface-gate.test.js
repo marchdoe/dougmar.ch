@@ -777,8 +777,52 @@ describe('brand-fold, brand-contrast and brand-mode findings (#503)', () => {
     expect(findings[0]).toMatchObject({ kind: 'brand-mode', severity: 'error' })
     expect(findings[0].detail).toBe(
       'single-colour mark on #0b1a33 at 1440 (light), where the full-colour mark passes ' +
-        'contrast (best 17.3:1, its white disc). Render <BrandLockup mode="original" />.'
+        'contrast (best 17.3:1, its white disc). Render the full-colour mark in the light scheme: ' +
+        `<BrandLockup mode="original" />, or mode={{ light: 'original', dark: 'single-color' }} ` +
+        "if the other scheme's ground fails it."
     )
+  })
+
+  describe('per scheme (2026-10-19)', () => {
+    // One header, two grounds: cream in light, where the full-colour mark's
+    // blue reaches 3:1, and chartreuse in dark, where nothing of it does. A
+    // per-scheme lockup shows the full-colour mark in light and mono in dark.
+    const CREAM = { r: 250, g: 250, b: 242 }
+    const CHARTREUSE = { r: 164, g: 207, b: 36 }
+    const inScheme = (scheme, mark) => ({
+      ...ok,
+      scheme,
+      brand: { ...brandOk, inFold: { ...markInFold, ...mark } },
+    })
+
+    it('passes each scheme that renders the mode its own ground calls for', () => {
+      expect(evaluateMeasurement(inScheme('light', { mode: 'original', ground: CREAM }))).toEqual(
+        []
+      )
+      expect(
+        evaluateMeasurement(inScheme('dark', { mode: 'single-color', ground: CHARTREUSE }))
+      ).toEqual([])
+    })
+
+    it('fails only the scheme whose mark is in the wrong mode, and names it in the fix', () => {
+      expect(kinds(inScheme('light', { mode: 'single-color', ground: CREAM }))).toEqual([
+        'brand-mode',
+      ])
+      const [dark] = evaluateMeasurement(inScheme('dark', { mode: 'original', ground: CHARTREUSE }))
+      expect(dark.kind).toBe('brand-mode')
+      expect(dark.detail).toContain('at 1440 (dark) fails contrast')
+      expect(dark.detail).toContain(
+        "or mode={{ light: 'original', dark: 'single-color' }} if the other scheme's ground passes."
+      )
+    })
+
+    it('gives the dark scheme its own mode in the per-scheme fix', () => {
+      const [f] = evaluateMeasurement(
+        inScheme('dark', { mode: 'single-color', ground: { r: 13, g: 13, b: 8 } })
+      )
+      expect(f.detail).toContain('Render the full-colour mark in the dark scheme')
+      expect(f.detail).toContain("mode={{ light: 'single-color', dark: 'original' }}")
+    })
   })
 
   it('reports brand-mode, not brand-contrast, when that mono ink also sinks', () => {

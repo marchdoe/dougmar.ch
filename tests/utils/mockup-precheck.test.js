@@ -151,6 +151,19 @@ describe('evaluateMockupPrecheck', () => {
       expect(evaluateMockupPrecheck({ wide: on(MID_GREY, false), declared: DECL })).toEqual([])
     })
 
+    it('takes either mode a per-scheme declaration names, as the test rules on the ground', () => {
+      const perScheme = { ...DECL, colorMode: 'light=single-color dark=original' }
+      expect(evaluateMockupPrecheck({ wide: on(NAVY, true), declared: perScheme })).toEqual([])
+      expect(evaluateMockupPrecheck({ wide: on(MID_GREY, false), declared: perScheme })).toEqual([])
+      // The test wants original on navy; the declaration names it, so the fault is the SVG source.
+      expect(keys(evaluateMockupPrecheck({ wide: on(NAVY, false), declared: perScheme }))).toEqual([
+        'mark-mode',
+      ])
+      // With no measured ground, a declaration naming both modes holds the mockup to neither.
+      const unmeasured = { ...wideOk, mark: { ...wideOk.mark, original: false } }
+      expect(evaluateMockupPrecheck({ wide: unmeasured, declared: perScheme })).toEqual([])
+    })
+
     it('agrees with a declaration the test upholds, and still catches the wrong SVG source', () => {
       expect(evaluateMockupPrecheck({ wide: on(NAVY, true), declared: DECL })).toEqual([])
       expect(evaluateMockupPrecheck({ wide: on(MID_GREY, false), declared: mono })).toEqual([])

@@ -725,6 +725,10 @@ export function findTapTargetFailures(_viewportWidth, thresholds) {
  * fires for a `single-color` mark on a ground the full-colour mark passes,
  * and then stands in for `brand-contrast`, since the fix is the other mode
  * rather than another ink; and for an `original` mark on a ground it fails.
+ * Each scheme is judged on its own: `mode` is the `data-brand-mode` of the
+ * mark that renders in the scheme this measurement ran in, so a per-scheme
+ * lockup (`mode={{ light, dark }}`) passes when each scheme shows the mode
+ * its own ground calls for, and the fix names that scheme.
  *
  * @param {object} m - raw measurement from {@link measureRoute}
  * @returns {Array<{ kind: string, severity: 'error', detail: string }>}
@@ -736,7 +740,7 @@ function brandMarkFindings(m) {
   const where = `at ${rung} (${m.scheme})`
 
   if (!brand.inFold) return [brandMissingFinding(brand, where)]
-  const mode = brandModeFinding(brand.inFold, where)
+  const mode = brandModeFinding(brand.inFold, where, m.scheme)
   return [
     brandHeightFinding(brand.inFold, rung, where),
     mode ? null : brandContrastFinding(brand.inFold, where),
@@ -781,9 +785,11 @@ function brandContrastFinding(inFold, where) {
 
 /**
  * The `brand-mode` finding for a mark in the mode the contrast test rules
- * out on its ground, else null. Severity matches `brand-contrast`.
+ * out on its ground, else null. Severity matches `brand-contrast`. The fix
+ * names the scheme: when the other scheme rules the other way, the lockup
+ * takes one mode per scheme rather than one for both.
  */
-function brandModeFinding(inFold, where) {
+function brandModeFinding(inFold, where, scheme) {
   const { mode, ground } = inFold
   if (!ground || (mode !== 'single-color' && mode !== 'original')) return null
   const test = originalMarkContrast(ground)
@@ -794,7 +800,9 @@ function brandModeFinding(inFold, where) {
       severity: 'error',
       detail:
         `single-colour mark on ${rgbToHex(ground)} ${where}, where the full-colour mark passes ` +
-        `contrast (${best}). Render <BrandLockup mode="original" />.`,
+        `contrast (${best}). Render the full-colour mark in the ${scheme} scheme: ` +
+        `<BrandLockup mode="original" />, or ${perSchemeMode(scheme, 'original')} ` +
+        `if the other scheme's ground fails it.`,
     }
   }
   if (mode === 'original' && !test.passes) {
@@ -804,10 +812,19 @@ function brandModeFinding(inFold, where) {
       detail:
         `full-colour mark on ${rgbToHex(ground)} ${where} fails contrast (${best}, under ` +
         `${BRAND_CONTRAST_MIN}:1), so single-color is allowed and needed here: render ` +
-        `<BrandLockup mode="single-color" /> in a colour that reaches ${BRAND_CONTRAST_MIN}:1 on it.`,
+        `<BrandLockup mode="single-color" /> in a colour that reaches ${BRAND_CONTRAST_MIN}:1 on it, ` +
+        `or ${perSchemeMode(scheme, 'single-color')} if the other scheme's ground passes.`,
     }
   }
   return null
+}
+
+/** The per-scheme `mode` prop that gives `scheme` this mode and the other scheme the other. */
+function perSchemeMode(scheme, mode) {
+  const other = mode === 'original' ? 'single-color' : 'original'
+  const light = scheme === 'light' ? mode : other
+  const dark = scheme === 'light' ? other : mode
+  return `mode={{ light: '${light}', dark: '${dark}' }}`
 }
 
 /**

@@ -94,6 +94,13 @@ and on white, paper and cream grounds (the blue carries it). It fails on
 mid-tone grounds: a mid grey, a saturated mid green, a pale blue, a
 chartreuse field. Declare `brand_color_mode` for the ground the mark will
 actually sit on, which is the header's ground, not necessarily the page's.
+
+The test runs in each colour scheme. When the header's ground passes in one
+and fails in the other, declare the mode per scheme:
+`brand_color_mode: light=original dark=single-color` (or the reverse). The
+lockup then renders the full-colour mark in the passing scheme and the mono
+mark in the failing one. When both schemes agree, declare the one mode.
+
 The rule is the owner's (2026-10-18), and it replaces choosing the mode by
 taste: before it, `single-color` won 16 of 17 builds and the green-and-blue
 mark almost never reached the page.
@@ -112,6 +119,7 @@ mark almost never reached the page.
   ground behind it is run through the contrast test
   (`scripts/utils/brand-mark-contrast.js`): a declared mode the test
   overrules comes back as a measured fault. The surface gate runs the same
-  test on the built page at both widths and in both schemes. The
+  test on the built page at both widths and in both schemes, each scheme
+  against the mark that renders in it. The
   screenshot critic receives a 2x crop of the built header and measures the
   rendered mark against `mark_px`.

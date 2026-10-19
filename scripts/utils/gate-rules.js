@@ -437,7 +437,9 @@ export function collectSurfaceRules() {
         `tall at ${desktop}. It renders mode="original" wherever the full-colour mark passes ` +
         `contrast on its ground (its white disc, #7AC042 or #008ED3 at ${BRAND_CONTRAST_MIN}:1), ` +
         `and mode="single-color" only where it fails, in a colour that reaches ` +
-        `${BRAND_CONTRAST_MIN}:1 on its ground.`,
+        `${BRAND_CONTRAST_MIN}:1 on its ground. Each scheme is judged on its own, so a ground ` +
+        `that passes in one scheme and fails in the other takes one mode per scheme, ` +
+        `an object with light and dark keys.`,
     },
     {
       gate: 'og-card-fit',

@@ -274,7 +274,10 @@ Choose differently unless today's brief demands repetition (then justify it
 in your rationale). Pick the brand lockup from the Brand Contract. The color
 mode is `original` unless the full-colour mark fails the Brand Contract's
 contrast test on the ground the header sits on; only then declare
-`single-color`. The header is declared separately, below.
+`single-color`. When that ground passes in one colour scheme and fails in the
+other, declare one mode per scheme, `light=original dark=single-color` (or the
+reverse), and the site shows each scheme its own mark. The header is declared
+separately, below.
 
 `ground_material` is the texture the hero's colour field carries. The built
 site draws it from a component the engineer places and cannot redraw, so
@@ -507,7 +510,7 @@ color_coverage_min: <integer %>       # >=60 when color strategy is Committed/Dr
 ===SHELL===
 footer: <treatment, e.g. data strip / colophon block / folded-into-nav / none>
 brand_lockup: <one id from the Brand Contract table>
-brand_color_mode: original | single-color   # original unless it fails the Brand Contract's contrast test on the header's ground
+brand_color_mode: original | single-color | light=<mode> dark=<mode>   # original unless it fails the Brand Contract's contrast test on the header's ground; per scheme when the schemes disagree
 ground_strategy: light-ground | dark-void | drench | duotone | split-field
 ground_material: none | grain | mesh | halftone | rule | dots
 

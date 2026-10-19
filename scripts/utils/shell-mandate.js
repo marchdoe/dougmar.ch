@@ -1,3 +1,4 @@
+import { parseBrandColorMode } from './brand-mark-contrast.js'
 import { lastDistinct, readRecentArtifacts } from './recency.js'
 import { FORBID_WINDOW } from './recency-mandate.js'
 
@@ -86,9 +87,14 @@ export function computeShellMandate({ archiveDir, lookbackDays = 7 }) {
   // owner's rule (2026-10-18) made `original` the default; the measured
   // checks enforce it, and this nudge restates it only when the window has
   // none of it, since a nudge that fires every night is a nudge nobody reads.
+  // A per-scheme declaration that shows `original` in either scheme counts.
   const modes = recentShells.map((s) => s.brand_color_mode).filter(Boolean)
+  const usedOriginal = modes.some((m) => {
+    const parsed = parseBrandColorMode(m)
+    return parsed && (parsed.light === 'original' || parsed.dark === 'original')
+  })
   const colorModeNudge =
-    modes.length > 0 && !modes.includes('original')
+    modes.length > 0 && !usedOriginal
       ? `\`brand_color_mode: original\` has not been used in the last ${modes.length} builds. The mark's own green and blue is half the brand contract and it almost never reaches the page — it is the default, so choose it today unless it fails the Brand Contract's contrast test on the header's ground.`
       : null
 

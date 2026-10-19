@@ -5,9 +5,11 @@
  */
 import { describe, expect, it } from 'vitest'
 import {
+  formatBrandColorMode,
   formatMarkRatio,
   MARK_CONTRAST_MIN,
   originalMarkContrast,
+  parseBrandColorMode,
 } from '../../scripts/utils/brand-mark-contrast.js'
 
 const hex = (s) => ({
@@ -60,5 +62,44 @@ describe('formatMarkRatio', () => {
     expect(formatMarkRatio(2.97)).toBe('2.9')
     expect(formatMarkRatio(3.61)).toBe('3.6')
     expect(formatMarkRatio(17.36)).toBe('17.3')
+  })
+})
+
+describe('parseBrandColorMode (mode per scheme, 2026-10-19)', () => {
+  it('reads a bare mode as the same mode in both schemes', () => {
+    expect(parseBrandColorMode('original')).toEqual({ light: 'original', dark: 'original' })
+    expect(parseBrandColorMode(' Single-Color ')).toEqual({
+      light: 'single-color',
+      dark: 'single-color',
+    })
+  })
+
+  it('reads the per-scheme form in either order, with = or :, spaces or commas', () => {
+    const want = { light: 'original', dark: 'single-color' }
+    expect(parseBrandColorMode('light=original dark=single-color')).toEqual(want)
+    expect(parseBrandColorMode('dark=single-color, light=original')).toEqual(want)
+    expect(parseBrandColorMode('light: original dark : single-color')).toEqual(want)
+  })
+
+  it('rejects a missing scheme, a repeated scheme, an unknown mode or scheme, and nothing', () => {
+    for (const bad of [
+      'light=original',
+      'light=original light=single-color',
+      'light=original dark=neon',
+      'light=original dusk=single-color',
+      'rainbow',
+      '',
+      null,
+      undefined,
+    ]) {
+      expect(parseBrandColorMode(bad)).toBeNull()
+    }
+  })
+
+  it('spells a declaration one way: the bare mode when the schemes agree', () => {
+    expect(formatBrandColorMode({ light: 'original', dark: 'original' })).toBe('original')
+    expect(formatBrandColorMode(parseBrandColorMode('dark=original,light=single-color'))).toBe(
+      'light=single-color dark=original'
+    )
   })
 })

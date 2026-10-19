@@ -33,7 +33,12 @@
  * @module
  */
 
-import { formatMarkRatio, MARK_CONTRAST_MIN, originalMarkContrast } from './brand-mark-contrast.js'
+import {
+  formatMarkRatio,
+  MARK_CONTRAST_MIN,
+  originalMarkContrast,
+  parseBrandColorMode,
+} from './brand-mark-contrast.js'
 import { rgbToHex } from './contrast.js'
 import { heroPxAt } from './mockup-rounds.js'
 import { describeLegibility, failingProbes, LEGIBILITY_FIX } from './pixel-contrast.js'
@@ -353,15 +358,32 @@ const MODE_RULES = {
  * the test asks for is left alone, since the designer cannot change the
  * declaration and a finding it cannot clear would only end the loop.
  * Without a measured ground the declared mode stands, as before.
+ *
+ * A per-scheme declaration (`light=original dark=single-color`) names both
+ * modes, and the mockup shows one scheme, so either mode it names counts as
+ * declared: the test on the measured ground picks which one the mockup
+ * should show, and without a ground there is nothing to hold it to.
  */
 function markModeRule({ wide, declared }) {
   const mark = wide?.mark
-  if (!MODE_RULES[declared.colorMode] || !mark) return null
-  const test = mark.ground ? originalMarkContrast(mark.ground) : null
-  const ruled = test ? (test.passes ? 'original' : 'single-color') : declared.colorMode
-  if (!MODE_RULES[ruled].wrong(mark)) return null
-  if (ruled === declared.colorMode) return finding(4, 'mark-mode', 1, MODE_RULES[ruled].detail)
+  const modes = parseBrandColorMode(declared.colorMode)
+  if (!modes || !mark) return null
+  const named = new Set([modes.light, modes.dark])
+  const { ruled, test } = ruledMode(mark.ground, named)
+  if (!ruled || !MODE_RULES[ruled].wrong(mark)) return null
+  if (named.has(ruled)) return finding(4, 'mark-mode', 1, MODE_RULES[ruled].detail)
   return finding(4, 'mark-mode-contrast', 1, modeContrastDetail(test, mark.ground))
+}
+
+/**
+ * The mode the mockup's mark should show: the contrast test's on a measured
+ * ground, else the declared mode when the declaration names only one, else
+ * null.
+ */
+function ruledMode(ground, named) {
+  if (!ground) return { ruled: named.size === 1 ? [...named][0] : null, test: null }
+  const test = originalMarkContrast(ground)
+  return { ruled: test.passes ? 'original' : 'single-color', test }
 }
 
 /** The instruction for a declared colour mode the contrast test overrules. */

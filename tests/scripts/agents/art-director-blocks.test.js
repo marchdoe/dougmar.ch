@@ -79,6 +79,26 @@ describe('validateArtDirectorResult — MEASURABLES + SHELL', () => {
     expect(() => validateArtDirectorResult(r)).toThrow(/brand_color_mode/)
   })
 
+  it('accepts brand_color_mode per scheme, and both bare modes', () => {
+    for (const mode of [
+      'light=original dark=single-color',
+      'dark=original, light=single-color',
+      'single-color',
+    ]) {
+      const r = valid()
+      r.shell = r.shell.replace('brand_color_mode: original', `brand_color_mode: ${mode}`)
+      expect(() => validateArtDirectorResult(r)).not.toThrow()
+    }
+  })
+
+  it('rejects a per-scheme brand_color_mode that names one scheme or an unknown mode', () => {
+    for (const mode of ['light=original', 'light=original dark=neon']) {
+      const r = valid()
+      r.shell = r.shell.replace('brand_color_mode: original', `brand_color_mode: ${mode}`)
+      expect(() => validateArtDirectorResult(r)).toThrow(/per scheme/)
+    }
+  })
+
   it('does NOT throw for an off-contract brand_lockup (warn-only)', () => {
     const r = valid()
     r.shell = r.shell.replace('horizontal-md', 'diagonal-xl')

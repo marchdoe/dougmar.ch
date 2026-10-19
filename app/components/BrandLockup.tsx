@@ -37,6 +37,16 @@ type BrandLockupVariant = 'mark-only-md' | 'horizontal-md' | 'stacked-md' | 'sta
 type BrandLockupMode = 'original' | 'single-color'
 
 /**
+ * One mode per colour scheme, for a header whose ground passes the Brand
+ * Contract's contrast test in one scheme and fails it in the other (owner,
+ * 2026-10-19). Both marks render; the site's theme class on <html> (`.light`
+ * or `.dark`, set by the init script in __root.tsx) shows the one for the
+ * scheme in force. With no class, the dark mark shows, the way the semantic
+ * tokens fall back to their base value.
+ */
+type BrandLockupSchemeModes = { light: BrandLockupMode; dark: BrandLockupMode }
+
+/**
  * Colour tokens the lockup will accept for single-color mode.
  *
  * Deliberately only three. Semantic token sets are re-authored nightly and
@@ -52,7 +62,8 @@ type BrandLockupColor = 'text' | 'bg' | 'accent'
 
 type BrandLockupProps = {
   variant?: BrandLockupVariant
-  mode?: BrandLockupMode
+  /** `original` unless the full-colour mark fails the contrast test on its ground. */
+  mode?: BrandLockupMode | BrandLockupSchemeModes
   color?: BrandLockupColor
   /** Render identity.role beneath the wordmark. Declared per day in ===HEADER===. */
   roleLine?: boolean
@@ -111,9 +122,16 @@ const rootMark = css({ display: 'inline-flex' })
 const markStyle = css({
   height: '1.68em',
   width: 'calc(1.68em * 71 / 59)',
-  display: 'block',
   flexShrink: 0,
 })
+
+/** Which scheme a mark shows in. `_light` is `.light &, [data-theme=light] &`;
+ * everything else, `.dark` and no class at all, is the base. */
+const markShown: Record<'both' | 'light' | 'dark', string> = {
+  both: css({ display: 'block' }),
+  light: css({ display: 'none', _light: { display: 'block' } }),
+  dark: css({ display: 'block', _light: { display: 'none' } }),
+}
 
 /** Cap-height alignment for the horizontal variants: half the mark (0.84em)
  * minus the 0.45em from text-box top to cap-band centre. See the note above. */
@@ -165,7 +183,15 @@ const roleLineStyle = css({
  * scripts/utils/snapshot.js centres on it; `data-brand-mode` tells the gate's
  * contrast check which marks have no disc of their own (#503).
  */
-function Mark({ mode, labelled }: { mode: BrandLockupMode; labelled: boolean }) {
+function Mark({
+  mode,
+  labelled,
+  scheme = 'both',
+}: {
+  mode: BrandLockupMode
+  labelled: boolean
+  scheme?: 'both' | 'light' | 'dark'
+}) {
   const original = mode === 'original'
   const ink = original ? '#7AC042' : 'currentColor'
   const hairline = original ? '#DADADA' : 'currentColor'
@@ -174,12 +200,13 @@ function Mark({ mode, labelled }: { mode: BrandLockupMode; labelled: boolean }) 
   return (
     <svg
       viewBox="0 0 71 59"
-      className={markStyle}
+      className={cx(markStyle, markShown[scheme])}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       focusable="false"
       data-brand-mark=""
       data-brand-mode={mode}
+      data-brand-scheme={scheme === 'both' ? undefined : scheme}
       role={labelled ? 'img' : undefined}
       aria-label={labelled ? `${identity.name} logo` : undefined}
       aria-hidden={labelled ? undefined : true}
@@ -214,9 +241,31 @@ function Mark({ mode, labelled }: { mode: BrandLockupMode; labelled: boolean }) 
   )
 }
 
+/**
+ * The mark in the declared mode: one <svg>, or for a per-scheme mode whose
+ * schemes differ, one per scheme with the other hidden (`display: none`, so
+ * the gates, the header crop and assistive tech all see only the shown one).
+ */
+function Marks({
+  mode,
+  labelled,
+}: {
+  mode: BrandLockupMode | BrandLockupSchemeModes
+  labelled: boolean
+}) {
+  if (typeof mode === 'string') return <Mark mode={mode} labelled={labelled} />
+  if (mode.light === mode.dark) return <Mark mode={mode.light} labelled={labelled} />
+  return (
+    <>
+      <Mark mode={mode.light} labelled={labelled} scheme="light" />
+      <Mark mode={mode.dark} labelled={labelled} scheme="dark" />
+    </>
+  )
+}
+
 export function BrandLockup({
   variant = 'horizontal-md',
-  mode = 'single-color',
+  mode = 'original',
   color,
   roleLine = false,
   className,
@@ -227,7 +276,7 @@ export function BrandLockup({
   if (variant === 'mark-only-md') {
     return (
       <span className={cx(rootMark, sizing, tint, className)}>
-        <Mark mode={mode} labelled />
+        <Marks mode={mode} labelled />
       </span>
     )
   }
@@ -236,7 +285,7 @@ export function BrandLockup({
 
   return (
     <span className={cx(stacked ? rootColumn : rootRow, sizing, tint, className)}>
-      <Mark mode={mode} labelled={false} />
+      <Marks mode={mode} labelled={false} />
       <span className={stacked ? textColumnStacked : textColumnRow}>
         <span className={wordmark}>{identity.name}</span>
         {roleLine ? <span className={roleLineStyle}>{identity.role}</span> : null}

@@ -61,3 +61,47 @@ export function originalMarkContrast(ground) {
 export function formatMarkRatio(ratio) {
   return (Math.floor(ratio * 10) / 10).toFixed(1)
 }
+
+/** The two colour modes the mark has. */
+export const BRAND_COLOR_MODES = Object.freeze(['original', 'single-color'])
+
+/**
+ * Read a `brand_color_mode` declaration into one mode per colour scheme.
+ *
+ * Two forms are valid. A bare mode (`original`, `single-color`) holds in
+ * both schemes. The per-scheme form, `light=original dark=single-color`
+ * (either order, comma or space between), is for a header whose ground
+ * passes the contrast test in one scheme and fails it in the other (owner,
+ * 2026-10-19): `<BrandLockup>` then renders both marks and the site's
+ * `.light`/`.dark` class shows the one for the scheme in force.
+ *
+ * @param {string|null|undefined} value
+ * @returns {{ light: string, dark: string }|null} null when it is neither form
+ */
+export function parseBrandColorMode(value) {
+  const text = String(value ?? '')
+    .toLowerCase()
+    .trim()
+  if (BRAND_COLOR_MODES.includes(text)) return { light: text, dark: text }
+  const out = {}
+  for (const part of text
+    .replace(/\s*[=:]\s*/g, '=')
+    .split(/[\s,]+/)
+    .filter(Boolean)) {
+    const m = /^(light|dark)=(.+)$/.exec(part)
+    if (!m || !BRAND_COLOR_MODES.includes(m[2]) || out[m[1]]) return null
+    out[m[1]] = m[2]
+  }
+  return out.light && out.dark ? { light: out.light, dark: out.dark } : null
+}
+
+/**
+ * The canonical spelling of a parsed declaration: the bare mode when both
+ * schemes agree, else `light=<mode> dark=<mode>`.
+ *
+ * @param {{ light: string, dark: string }} modes
+ * @returns {string}
+ */
+export function formatBrandColorMode({ light, dark }) {
+  return light === dark ? light : `light=${light} dark=${dark}`
+}

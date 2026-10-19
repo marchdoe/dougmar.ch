@@ -2,8 +2,10 @@ import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
 import { BrandLockup } from './BrandLockup'
 
-// Light scheme: accent (chartreuse.600) is 2.2:1 on bg, so small links take text
-// and the mark takes accentAlt (chartreuse.700), which clears 3:1.
+// Light scheme: accent (chartreuse.600) is 2.2:1 on bg, so small links take text.
+// The mark is full colour in both schemes: on bg its blue reaches 3.4:1 in light
+// (warmblack.50) and its white disc 19.5:1 in dark (warmblack.900), so it passes
+// the Brand Contract's contrast test and mono is not needed.
 const linkClass = css({
   display: 'flex',
   alignItems: 'center',
@@ -65,7 +67,7 @@ export function Sidebar() {
             _hover: { color: { base: 'accentAlt', _light: 'accentAlt' } },
           })}
         >
-          <BrandLockup variant="mark-only-md" mode="single-color" />
+          <BrandLockup variant="mark-only-md" mode="original" />
         </a>
         <nav
           aria-label="Primary"

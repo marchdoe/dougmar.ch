@@ -39,7 +39,8 @@ function OgCard() {
             color: { base: 'accent', _light: 'accentAlt' },
           })}
         >
-          <BrandLockup variant="mark-only-md" mode="single-color" />
+          {/* Full colour: on bg its blue reaches 3.4:1 in light (warmblack.50), the card's scheme. */}
+          <BrandLockup variant="mark-only-md" mode="original" />
         </div>
         <div
           className={css({
