@@ -1,17 +1,20 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { SiteCallout } from '../components/SiteCallout'
-import { HeroScore } from '../components/generated/HeroScore'
-import { HomeWork } from '../components/generated/HomeWork'
-import { experiments, featuredProject, selectedWork } from '../content/projects'
+import { FeaturedWork } from '../components/generated/FeaturedWork'
+import { HomeHero } from '../components/generated/HomeHero'
+import { PageFrame } from '../components/generated/PageFrame'
+import { WorkIndex } from '../components/generated/WorkIndex'
 
 export const Route = createFileRoute('/')({ component: HomePage })
 
 function HomePage() {
-  const selected = featuredProject ? [featuredProject, ...selectedWork] : selectedWork
   return (
     <>
-      <HeroScore />
-      <HomeWork selected={selected} experiments={experiments} />
+      <PageFrame>
+        <HomeHero />
+        <FeaturedWork />
+        <WorkIndex />
+      </PageFrame>
       <SiteCallout />
     </>
   )
