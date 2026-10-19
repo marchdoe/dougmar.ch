@@ -1,31 +1,25 @@
 import { css } from '../../../styled-system/css'
 
-export function CaseMissing() {
+export function CaseMissing({ slug }: { slug: string }) {
   return (
-    <section className={css({ paddingTop: { base: '40px', lg: '80px' }, paddingBottom: '64px' })}>
+    <section className={css({ paddingBlock: '8', paddingInline: { base: '24px', sm: '6vw' } })}>
       <h1
         className={css({
+          textStyle: '3xl',
           fontFamily: 'display',
           fontWeight: 'normal',
-          textStyle: '3xl',
+          textTransform: 'lowercase',
           color: 'text',
         })}
       >
-        No project by that name
+        no project called {slug}
       </h1>
-      <a
-        href="/work"
-        className={css({
-          display: 'inline-flex',
-          alignItems: 'center',
-          minHeight: '44px',
-          marginTop: '20px',
-          color: 'accent',
-          _hover: { color: 'accentAlt' },
-        })}
+      <p
+        className={css({ textStyle: 'base', color: 'textMuted', marginTop: '4', maxWidth: '48ch' })}
       >
-        See all work
-      </a>
+        The index lists every project with a page of its own.{' '}
+        <a href="/#index">Back to the index</a>.
+      </p>
     </section>
   )
 }

@@ -57,9 +57,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-10-18'
-const PREV_DATE: string | null = '2026-10-17'
-const ARCHIVE_COUNT = 166
+const DESIGN_DATE = '2026-10-19'
+const PREV_DATE: string | null = '2026-10-18'
+const ARCHIVE_COUNT = 167
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -72,28 +72,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Red Wings edge it, 4–3' },
-      { property: 'og:title', content: 'Red Wings edge it, 4–3' },
+      { title: 'What ships should look like what was designed.' },
+      { property: 'og:title', content: 'What ships should look like what was designed.' },
       {
         property: 'og:description',
         content:
-          'A one-goal Red Wings win carved as a neon didone 4–3, acid chartreuse floating on a cold warm-black rink.',
+          'Marigold seam across warm paper, one grotesk carrying the whole thesis, the work cataloged like a specimen below.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-18.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-19.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Red Wings edge it, 4–3' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-18.png' },
+      { name: 'twitter:title', content: 'What ships should look like what was designed.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-19.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital,wght@0,400;1,400&family=Public+Sans:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,600;0,800;1,400;1,600;1,800&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -280,7 +280,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 166 designs
+            Archive · 167 designs
           </a>
         )}
         <ScrollRestoration />

@@ -1,0 +1,534 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning' (22px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning",
+            "mockupPx": 22,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman is the llc doug has run for a decade partnering with companies and studios on product design frontend engineering design systems and brand - sometimes solo sometimes embedded in a larger team it is where the thesis started working both sides of the handoff taught him where the gap between design and engineering opens and made him better at closing it' (17px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is the llc doug has run for a decade partnering with companies and studios on product design frontend engineering design systems and brand - sometimes solo sometimes embedded in a larger team it is where the thesis started working both sides of the handoff taught him where the gap between design and engineering opens and made him better at closing it",
+            "mockupPx": 17,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "mockup's largest ('what ships should look like what was designed', 104px) leads its runner-up ('spaceman', 44px) by 2.4x; in the build the same two lead by only 1.1x",
+          "facts": {
+            "shape": "flattened",
+            "leader": {
+              "text": "what ships should look like what was designed",
+              "mockupPx": 104,
+              "buildPx": 104
+            },
+            "runnerUp": {
+              "text": "spaceman",
+              "mockupPx": 44,
+              "buildPx": 90
+            },
+            "mockupGap": 2.4,
+            "buildGap": 1.1,
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' is 44px in the mockup and 90px in the build (2.06x). Set it back to 44px.",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 44,
+            "buildPx": 90,
+            "ratio": 2.06,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' moved from (184, 921) in the mockup to (291, 957) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning' (18px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning",
+            "mockupPx": 18,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'what ships should look like what was designed' (44px); in build it is 'spaceman' (48px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "doug march",
+                "mockupPx": 20
+              },
+              {
+                "text": "the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning",
+                "mockupPx": 18
+              }
+            ],
+            "leader": {
+              "text": "what ships should look like what was designed",
+              "mockupPx": 44
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 48,
+              "mockupPx": 28
+            },
+            "leaderLost": true
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets 'what ships should look like what was designed' at 104px over 'spaceman' at 44px, a 2.4x lead; the build sets them at 104px and 90px. Restore the mockup's sizes so 'what ships should look like what was designed' leads.",
+        "- / at 360px: The mockup's largest text is 'what ships should look like what was designed' at 44px; the build sets 'spaceman' at 48px. Restore the mockup's hierarchy: 'spaceman' is 28px in the mockup.",
+        "- / at 1440px: The mockup sets 'the gap between the mockup and the build is the whole job...' at 22px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'spaceman is the llc doug has run for a decade partnering ...' at 17px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'the gap between the mockup and the build is the whole job...' at 18px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning' (22px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning",
+            "mockupPx": 22,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman is the llc doug has run for a decade partnering with companies and studios on product design frontend engineering design systems and brand - sometimes solo sometimes embedded in a larger team it is where the thesis started working both sides of the handoff taught him where the gap between design and engineering opens and made him better at closing it' (17px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is the llc doug has run for a decade partnering with companies and studios on product design frontend engineering design systems and brand - sometimes solo sometimes embedded in a larger team it is where the thesis started working both sides of the handoff taught him where the gap between design and engineering opens and made him better at closing it",
+            "mockupPx": 17,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'what ships should look like what was designed' (104px); in build it is 'what ships should look like what was designed' (104px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "spaceman",
+                "mockupPx": 44
+              }
+            ],
+            "leader": {
+              "text": "what ships should look like what was designed",
+              "mockupPx": 104
+            },
+            "buildLeader": {
+              "text": "what ships should look like what was designed",
+              "buildPx": 104,
+              "mockupPx": 104
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' moved from (184, 921) in the mockup to (185, 935) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning' (18px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning",
+            "mockupPx": 18,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'what ships should look like what was designed' (44px); in build it is 'what ships should look like what was designed' (42px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "doug march",
+                "mockupPx": 20
+              },
+              {
+                "text": "the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning",
+                "mockupPx": 18
+              }
+            ],
+            "leader": {
+              "text": "what ships should look like what was designed",
+              "mockupPx": 44
+            },
+            "buildLeader": {
+              "text": "what ships should look like what was designed",
+              "buildPx": 42,
+              "mockupPx": 44
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'what ships should look like what was designed' still leads, but the mockup's 'spaceman' (44px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'what ships should look like what was designed' still leads, but the mockup's 'doug march' (20px), 'the gap between the mockup and the build is the whole job...' (18px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'the gap between the mockup and the build is the whole job...' at 22px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'spaceman is the llc doug has run for a decade partnering ...' at 17px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'the gap between the mockup and the build is the whole job...' at 18px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning' (22px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning",
+            "mockupPx": 22,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman is the llc doug has run for a decade partnering with companies and studios on product design frontend engineering design systems and brand - sometimes solo sometimes embedded in a larger team it is where the thesis started working both sides of the handoff taught him where the gap between design and engineering opens and made him better at closing it' (17px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is the llc doug has run for a decade partnering with companies and studios on product design frontend engineering design systems and brand - sometimes solo sometimes embedded in a larger team it is where the thesis started working both sides of the handoff taught him where the gap between design and engineering opens and made him better at closing it",
+            "mockupPx": 17,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'what ships should look like what was designed' (104px); in build it is 'what ships should look like what was designed' (104px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "spaceman",
+                "mockupPx": 44
+              }
+            ],
+            "leader": {
+              "text": "what ships should look like what was designed",
+              "mockupPx": 104
+            },
+            "buildLeader": {
+              "text": "what ships should look like what was designed",
+              "buildPx": 104,
+              "mockupPx": 104
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' moved from (184, 921) in the mockup to (185, 935) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning' (18px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning",
+            "mockupPx": 18,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'what ships should look like what was designed' (44px); in build it is 'what ships should look like what was designed' (42px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "doug march",
+                "mockupPx": 20
+              },
+              {
+                "text": "the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning",
+                "mockupPx": 18
+              }
+            ],
+            "leader": {
+              "text": "what ships should look like what was designed",
+              "mockupPx": 44
+            },
+            "buildLeader": {
+              "text": "what ships should look like what was designed",
+              "buildPx": 42,
+              "mockupPx": 44
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'what ships should look like what was designed' still leads, but the mockup's 'spaceman' (44px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'what ships should look like what was designed' still leads, but the mockup's 'doug march' (20px), 'the gap between the mockup and the build is the whole job...' (18px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'the gap between the mockup and the build is the whole job...' at 22px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'spaceman is the llc doug has run for a decade partnering ...' at 17px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'the gap between the mockup and the build is the whole job...' at 18px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 4,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning' (22px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning",
+            "mockupPx": 22,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman is the llc doug has run for a decade partnering with companies and studios on product design frontend engineering design systems and brand - sometimes solo sometimes embedded in a larger team it is where the thesis started working both sides of the handoff taught him where the gap between design and engineering opens and made him better at closing it' (17px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is the llc doug has run for a decade partnering with companies and studios on product design frontend engineering design systems and brand - sometimes solo sometimes embedded in a larger team it is where the thesis started working both sides of the handoff taught him where the gap between design and engineering opens and made him better at closing it",
+            "mockupPx": 17,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'what ships should look like what was designed' (104px); in build it is 'what ships should look like what was designed' (104px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "spaceman",
+                "mockupPx": 44
+              }
+            ],
+            "leader": {
+              "text": "what ships should look like what was designed",
+              "mockupPx": 104
+            },
+            "buildLeader": {
+              "text": "what ships should look like what was designed",
+              "buildPx": 104,
+              "mockupPx": 104
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' moved from (184, 921) in the mockup to (185, 935) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning' (18px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning",
+            "mockupPx": 18,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'what ships should look like what was designed' (44px); in build it is 'what ships should look like what was designed' (42px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "doug march",
+                "mockupPx": 20
+              },
+              {
+                "text": "the gap between the mockup and the build is the whole job this site closes it in public - one skeleton for the design and the engineering redrawn every morning",
+                "mockupPx": 18
+              }
+            ],
+            "leader": {
+              "text": "what ships should look like what was designed",
+              "mockupPx": 44
+            },
+            "buildLeader": {
+              "text": "what ships should look like what was designed",
+              "buildPx": 42,
+              "mockupPx": 44
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'what ships should look like what was designed' still leads, but the mockup's 'spaceman' (44px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'what ships should look like what was designed' still leads, but the mockup's 'doug march' (20px), 'the gap between the mockup and the build is the whole job...' (18px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'the gap between the mockup and the build is the whole job...' at 22px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'spaceman is the llc doug has run for a decade partnering ...' at 17px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'the gap between the mockup and the build is the whole job...' at 18px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}
