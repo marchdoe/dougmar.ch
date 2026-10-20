@@ -19,9 +19,11 @@ import { Route } from '../../app/routes/elements'
 
 const read = (file: string) => readFileSync(path.join(process.cwd(), file), 'utf8')
 
+type Ramp = string | { [step: string]: Ramp }
+
 type Parsed = Record<string, Record<string, unknown>> & {
   colors: {
-    ramps: Record<string, Record<string, string> | string>
+    ramps: Record<string, Ramp>
     semantic: Record<string, string>
   }
 }
@@ -31,10 +33,12 @@ type Parsed = Record<string, Record<string, unknown>> & {
  * colour (`white: { value: '#FFFFFF' }`), which the parser returns as a bare
  * hex; walking that string as an object read it as steps `white.0` to
  * `white.6`, and the night of 2026-09-22 would have failed its verify step.
+ * Scales can nest deeper too: 2026-10-20 grouped them as
+ * `colors.ramps.primary.500`, so the walk goes down to every hex.
  */
-function colourPaths(scale: string, steps: Record<string, string> | string): [string, string][] {
+function colourPaths(scale: string, steps: Ramp): [string, string][] {
   if (typeof steps === 'string') return [[scale, steps]]
-  return Object.entries(steps).map(([step, hex]) => [`${scale}.${step}`, hex])
+  return Object.entries(steps).flatMap(([step, child]) => colourPaths(`${scale}.${step}`, child))
 }
 
 // Chassis is listed last in panda.config.ts, so it wins per name.
@@ -95,10 +99,12 @@ describe('/elements token tables', () => {
     // A semantic colour written as `{colors.scale.step}` shows that step's hex.
     // No name is assumed: the night's preset may not use references at all, so
     // this loop is what checks them on the nights that do.
+    const hexByPath = new Map(
+      Object.entries(elements.colors.ramps).flatMap(([scale, steps]) => colourPaths(scale, steps))
+    )
     for (const [name, value] of Object.entries(elements.colors.semantic)) {
-      const ref = /^\{colors\.([^.]+)\.([^}]+)\}$/.exec(value)
-      const scale = ref ? elements.colors.ramps[ref[1]] : undefined
-      if (ref && typeof scale !== 'string') expect(hexOf(`semantic.${name}`)).toBe(scale?.[ref[2]])
+      const ref = /^\{colors\.([^}]+)\}$/.exec(value)
+      if (ref) expect(hexOf(`semantic.${name}`)).toBe(hexByPath.get(ref[1]))
       else if (/^#[0-9a-f]{6}$/i.test(value)) expect(hexOf(`semantic.${name}`)).toBe(value)
     }
   })
