@@ -1,25 +1,49 @@
 import { css } from '../../../styled-system/css'
+import { BrandLockup } from '../BrandLockup'
 
-export function CaseMissing({ slug }: { slug: string }) {
+export function CaseMissing() {
   return (
-    <section className={css({ paddingBlock: '8', paddingInline: { base: '24px', sm: '6vw' } })}>
+    <header
+      className={css({
+        bg: 'bg',
+        paddingTop: 'clamp(34px, 6vw, 76px)',
+        paddingInline: 'clamp(28px, 6vw, 112px)',
+        paddingBottom: 'clamp(48px, 6vw, 96px)',
+      })}
+    >
+      <BrandLockup variant="stacked-lg" mode="original" />
       <h1
         className={css({
-          textStyle: '3xl',
+          marginTop: 'clamp(28px, 5vw, 60px)',
           fontFamily: 'display',
           fontWeight: 'normal',
-          textTransform: 'lowercase',
           color: 'text',
+          fontSize: 'clamp(26px, 3.4vw, 42px)',
+          lineHeight: '1.12',
+          maxWidth: '22ch',
+          marginBottom: '20px',
         })}
       >
-        no project called {slug}
+        No project lives at this address.
       </h1>
-      <p
-        className={css({ textStyle: 'base', color: 'textMuted', marginTop: '4', maxWidth: '48ch' })}
+      <a
+        href="/#work"
+        className={css({
+          fontFamily: 'display',
+          fontSize: '15px',
+          fontVariant: 'small-caps',
+          letterSpacing: 'wide',
+          color: 'text',
+          display: 'inline-flex',
+          alignItems: 'center',
+          minHeight: '44px',
+          textDecoration: 'underline',
+          textDecorationColor: 'accent',
+          textUnderlineOffset: '0.18em',
+        })}
       >
-        The index lists every project with a page of its own.{' '}
-        <a href="/#index">Back to the index</a>.
-      </p>
-    </section>
+        Back to the work
+      </a>
+    </header>
   )
 }

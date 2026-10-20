@@ -36,7 +36,7 @@ import type { ReactNode } from 'react'
 const archiveLink = css({
   display: 'block',
   background: 'bg',
-  color: 'textFaint',
+  color: 'textMuted',
   fontSize: 'xs',
   letterSpacing: '0.08em',
   textAlign: 'center',
@@ -57,9 +57,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-10-19'
-const PREV_DATE: string | null = '2026-10-18'
-const ARCHIVE_COUNT = 167
+const DESIGN_DATE = '2026-10-20'
+const PREV_DATE: string | null = '2026-10-19'
+const ARCHIVE_COUNT = 168
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -72,28 +72,34 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'What ships should look like what was designed.' },
-      { property: 'og:title', content: 'What ships should look like what was designed.' },
+      { title: 'Closing the gap between what gets designed and what gets built.' },
+      {
+        property: 'og:title',
+        content: 'Closing the gap between what gets designed and what gets built.',
+      },
       {
         property: 'og:description',
         content:
-          'Marigold seam across warm paper, one grotesk carrying the whole thesis, the work cataloged like a specimen below.',
+          'Azure drench, Spaceman set like a departure board, the client roster ruled beneath it and one amber mark for the designed half.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-19.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-20.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'What ships should look like what was designed.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-19.png' },
+      {
+        name: 'twitter:title',
+        content: 'Closing the gap between what gets designed and what gets built.',
+      },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-20.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,600;0,800;1,400;1,600;1,800&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -280,7 +286,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 167 designs
+            Archive · 168 designs
           </a>
         )}
         <ScrollRestoration />

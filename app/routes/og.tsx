@@ -19,71 +19,35 @@ function OgCard() {
     >
       <div
         className={css({
-          position: 'relative',
           width: '1200px',
           height: '630px',
-          flexShrink: 0,
+          flex: '0 0 auto',
           bg: 'bg',
-          overflow: 'hidden',
-          isolation: 'isolate',
-          fontFamily: 'display',
+          color: 'text',
+          paddingBlock: '64px',
+          paddingInline: '64px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          borderTopWidth: '6px',
+          borderTopStyle: 'solid',
+          borderTopColor: 'accent',
         })}
       >
-        <div
-          aria-hidden="true"
+        <BrandLockup variant="stacked-lg" mode="original" />
+        <h1
           className={css({
-            position: 'absolute',
-            left: '-10%',
-            right: '-10%',
-            top: '29%',
-            height: '42%',
-            bg: 'field',
-            borderBlockWidth: '1px',
-            borderBlockStyle: 'solid',
-            borderColor: 'fieldBorder',
-            transform: 'rotate(-8deg)',
-            zIndex: -1,
-          })}
-        />
-        <div
-          className={css({
-            position: 'absolute',
-            top: '56px',
-            left: '64px',
-            zIndex: 2,
+            fontFamily: 'display',
+            fontWeight: 'normal',
+            fontSize: '60px',
+            lineHeight: '1.08',
+            letterSpacing: '-0.01em',
             color: 'text',
+            maxWidth: '1060px',
           })}
         >
-          <BrandLockup variant="horizontal-md" mode="original" />
-        </div>
-        <div
-          className={css({
-            position: 'absolute',
-            top: '120px',
-            bottom: '72px',
-            left: '96px',
-            right: '96px',
-            zIndex: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          })}
-        >
-          <h1
-            className={css({
-              fontSize: '80px',
-              lineHeight: '1.02',
-              letterSpacing: 'tight',
-              fontWeight: 'normal',
-              textTransform: 'lowercase',
-              textAlign: 'center',
-              color: 'fieldInk',
-              maxWidth: '980px',
-            })}
-          >
-            what ships should look like what was designed
-          </h1>
-        </div>
+          Closing the gap between what gets designed and what gets built.
+        </h1>
       </div>
     </div>
   )
