@@ -1,124 +1,111 @@
 import { css } from '../../styled-system/css'
-import { identity } from '../content/about'
+import { identity, personal } from '../content/about'
 
-const signals = [
-  { label: 'Detroit', value: 'Lions, Tigers, Pistons, Red Wings, off-season', note: '' },
-  { label: 'Markets · SPY', value: '763.25', note: '▼1.1%' },
-  { label: 'Moon', value: 'First quarter, 65% lit', note: '' },
-  { label: 'On the tour', value: 'Butterfield Bermuda Championship, scheduled', note: '' },
-  { label: 'On rotation', value: 'Tobin Sprout, Radiohead', note: '' },
-  { label: 'Sky', value: 'Aldie, Virginia, 40°F, clear', note: '' },
-]
-
-const footLink = css({
-  display: 'inline-block',
+const linkClass = css({
+  fontFamily: 'display',
+  fontSize: '14px',
+  color: 'fieldInk',
+  textDecoration: 'underline',
+  textDecorationColor: 'accent',
+  textUnderlineOffset: '0.18em',
+  display: 'inline-flex',
+  alignItems: 'center',
   minHeight: '44px',
   minWidth: '44px',
-  paddingBlock: '10px',
-  lineHeight: '24px',
-  fontSize: 'sm',
-  fontWeight: 'bold',
+  paddingInline: '4px',
+  _hover: { color: 'fieldInk' },
 })
 
 export function Sidebar() {
+  const rows = [
+    { key: 'Detroit', value: `${personal.teams.join(', ')}. Off-season.` },
+    { key: 'Golf', value: 'Butterfield Bermuda Championship, scheduled. No leaders yet.' },
+    { key: 'Market', value: 'SPY 766.48, up 0.42%.' },
+    { key: 'Aldie, VA', value: 'Clear, 46°F. Waxing gibbous, 74% lit.' },
+    { key: 'On rotation', value: 'The War on Drugs, My Morning Jacket.' },
+  ]
+  const credit = [identity.name, identity.role].filter(Boolean).join(', ')
   return (
     <footer
+      id="contact"
       className={css({
-        borderTopWidth: '2px',
+        bg: 'field',
+        color: 'fieldInk',
+        borderTopWidth: '1px',
         borderTopStyle: 'solid',
         borderTopColor: 'borderStrong',
-        paddingTop: '40px',
-        paddingBottom: '56px',
-        paddingInline: { base: '24px', sm: '6vw' },
-        fontVariantNumeric: 'tabular-nums',
-        fontFamily: 'body',
-        bg: 'bg',
+        paddingTop: 'clamp(40px, 5vw, 72px)',
+        paddingBottom: 'clamp(44px, 5vw, 64px)',
+        paddingInline: 'clamp(28px, 6vw, 112px)',
+        '@supports (animation-timeline: view())': {
+          animationName: 'rise',
+          animationTimeline: 'view()',
+          animationRange: 'entry 0% entry 40%',
+          animationFillMode: 'both',
+        },
       })}
     >
-      <div
-        className={css({
-          display: 'grid',
-          gridTemplateColumns: { base: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
-          rowGap: { base: '26px', lg: '34px' },
-          columnGap: { base: '32px', lg: '40px' },
-        })}
-      >
-        {signals.map((s) => (
-          <div key={s.label}>
-            <div
+      <div className={css({ display: 'grid', rowGap: '4px', maxWidth: '860px' })}>
+        {rows.map((row) => (
+          <div
+            key={row.key}
+            className={css({
+              display: 'flex',
+              gap: '14px',
+              alignItems: 'baseline',
+              paddingBlock: '10px',
+              borderBottomWidth: '1px',
+              borderBottomStyle: 'solid',
+              borderBottomColor: 'fieldBorder',
+            })}
+          >
+            <span
               className={css({
-                fontSize: '2xs',
-                letterSpacing: 'widest',
+                fontFamily: 'display',
+                fontSize: '12px',
+                letterSpacing: 'wider',
                 textTransform: 'uppercase',
-                color: 'textMuted',
-                fontWeight: 'bold',
-                marginBottom: '6px',
+                color: 'fieldInkMuted',
+                flex: '0 0 118px',
               })}
             >
-              {s.label}
-            </div>
-            <p className={css({ textStyle: 'base', color: 'text', lineHeight: 'snug' })}>
-              {s.value}{' '}
-              <span className={css({ color: 'accent', fontWeight: 'bold' })}>{s.note}</span>
-            </p>
+              {row.key}
+            </span>
+            <span
+              className={css({
+                fontFamily: 'body',
+                fontSize: '14px',
+                color: 'fieldInk',
+                lineHeight: '1.4',
+                minWidth: '0',
+              })}
+            >
+              {row.value}
+            </span>
           </div>
         ))}
-        <div
-          className={css({
-            gridColumn: '1 / -1',
-            borderTopWidth: '1px',
-            borderTopStyle: 'solid',
-            borderTopColor: 'border',
-            paddingTop: '22px',
-            marginTop: '4px',
-          })}
-        >
-          <blockquote
-            className={css({
-              margin: '0',
-              textStyle: 'base',
-              lineHeight: 'normal',
-              color: 'text',
-              maxWidth: '56ch',
-              fontStyle: 'italic',
-            })}
-          >
-            Wise men speak because they have something to say; fools because they have to say
-            something.
-          </blockquote>
-          <cite
-            className={css({
-              display: 'block',
-              marginTop: '10px',
-              fontSize: 'xs',
-              color: 'textMuted',
-              fontStyle: 'normal',
-              letterSpacing: 'wide',
-            })}
-          >
-            Plato
-          </cite>
-        </div>
       </div>
       <div
         className={css({
-          marginTop: '34px',
-          fontSize: 'xs',
-          color: 'textFaint',
-          letterSpacing: 'wide',
+          marginTop: '28px',
           display: 'flex',
           flexWrap: 'wrap',
           alignItems: 'center',
-          columnGap: '4',
+          columnGap: '16px',
+          fontFamily: 'display',
+          fontSize: '13px',
+          letterSpacing: '0.04em',
+          color: 'fieldInkMuted',
         })}
       >
-        <span>
-          {identity.name}, {identity.role}
-        </span>
-        <a href="/about" className={footLink}>
-          about
+        <span>{credit}. © 2026.</span>
+        <a href="/about" className={linkClass}>
+          About
         </a>
-        <a href={`mailto:${identity.email}`} className={footLink}>
+        <a href="/#work" className={linkClass}>
+          Work
+        </a>
+        <a href={`mailto:${identity.email}`} className={linkClass}>
           {identity.email}
         </a>
       </div>
