@@ -1,20 +1,20 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { AboutHero } from '../components/generated/AboutHero'
-import { CapabilityStrip } from '../components/generated/CapabilityStrip'
-import { EducationBlock } from '../components/generated/EducationBlock'
-import { PersonalLedger } from '../components/generated/PersonalLedger'
-import { TimelineLedger } from '../components/generated/TimelineLedger'
+import { AboutPlane } from '../components/generated/AboutPlane'
+import { CapabilitiesBand } from '../components/generated/CapabilitiesBand'
+import { EducationRows } from '../components/generated/EducationRows'
+import { PersonalTail } from '../components/generated/PersonalTail'
+import { TimelineIndex } from '../components/generated/TimelineIndex'
 
 export const Route = createFileRoute('/about')({ component: AboutPage })
 
 function AboutPage() {
   return (
     <>
-      <AboutHero />
-      <TimelineLedger />
-      <CapabilityStrip />
-      <EducationBlock />
-      <PersonalLedger />
+      <AboutPlane />
+      <TimelineIndex />
+      <CapabilitiesBand />
+      <EducationRows />
+      <PersonalTail />
     </>
   )
 }

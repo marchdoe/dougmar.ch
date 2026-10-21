@@ -1,0 +1,680 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman is my llc - the shell for independent design and engineering since 2018 handling the pressure between what gets designed and what gets built for jeffrey zeldman rolex the nature conservancy sapient razorfish bswift rtic coolers framebridge intuit lastpass and workaround' (19px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is my llc - the shell for independent design and engineering since 2018 handling the pressure between what gets designed and what gets built for jeffrey zeldman rolex the nature conservancy sapient razorfish bswift rtic coolers framebridge intuit lastpass and workaround",
+            "mockupPx": 19,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman llc' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman llc",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'open case ↗' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "open case ↗",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'spaceman' (150px); in build it is 'spaceman' (150px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "dougmarch",
+                "mockupPx": 150
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 150
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 150,
+              "mockupPx": 150
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' moved from (1071, 883) in the mockup to (1074, 1580) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman is my llc - the shell for independent design and engineering since 2018 handling the pressure between what gets designed and what gets built for jeffrey zeldman rolex the nature conservancy sapient razorfish bswift rtic coolers framebridge intuit lastpass and workaround' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is my llc - the shell for independent design and engineering since 2018 handling the pressure between what gets designed and what gets built for jeffrey zeldman rolex the nature conservancy sapient razorfish bswift rtic coolers framebridge intuit lastpass and workaround",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'index of work - the evidence 07 entries 2008-2026' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "index of work - the evidence 07 entries 2008-2026",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman llc' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman llc",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman' moved from (107, 512) in the mockup to (106, 783) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'unknown' moved from (94, 359) in the mockup to (99, 603) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'2018 founder' moved from (76, 555) in the mockup to (76, 828) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'spaceman' still leads, but the mockup's 'dougmarch' (150px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'spaceman is my llc - the shell for independent design and...' at 19px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'spaceman llc' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'open case ↗' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'spaceman is my llc - the shell for independent design and...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'index of work - the evidence 07 entries 2008-2026' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'spaceman llc' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman is my llc - the shell for independent design and engineering since 2018 handling the pressure between what gets designed and what gets built for jeffrey zeldman rolex the nature conservancy sapient razorfish bswift rtic coolers framebridge intuit lastpass and workaround' (19px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is my llc - the shell for independent design and engineering since 2018 handling the pressure between what gets designed and what gets built for jeffrey zeldman rolex the nature conservancy sapient razorfish bswift rtic coolers framebridge intuit lastpass and workaround",
+            "mockupPx": 19,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman llc' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman llc",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'open case ↗' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "open case ↗",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'spaceman' (150px); in build it is 'spaceman' (150px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "dougmarch",
+                "mockupPx": 150
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 150
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 150,
+              "mockupPx": 150
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' moved from (1071, 883) in the mockup to (1074, 1580) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman is my llc - the shell for independent design and engineering since 2018 handling the pressure between what gets designed and what gets built for jeffrey zeldman rolex the nature conservancy sapient razorfish bswift rtic coolers framebridge intuit lastpass and workaround' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is my llc - the shell for independent design and engineering since 2018 handling the pressure between what gets designed and what gets built for jeffrey zeldman rolex the nature conservancy sapient razorfish bswift rtic coolers framebridge intuit lastpass and workaround",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'index of work - the evidence 07 entries 2008-2026' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "index of work - the evidence 07 entries 2008-2026",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman llc' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman llc",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman' moved from (107, 512) in the mockup to (106, 783) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'unknown' moved from (94, 359) in the mockup to (99, 603) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'2018 founder' moved from (76, 555) in the mockup to (76, 828) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'spaceman' still leads, but the mockup's 'dougmarch' (150px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'spaceman is my llc - the shell for independent design and...' at 19px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'spaceman llc' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'open case ↗' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'spaceman is my llc - the shell for independent design and...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'index of work - the evidence 07 entries 2008-2026' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'spaceman llc' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman is my llc - the shell for independent design and engineering since 2018 handling the pressure between what gets designed and what gets built for jeffrey zeldman rolex the nature conservancy sapient razorfish bswift rtic coolers framebridge intuit lastpass and workaround' (19px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is my llc - the shell for independent design and engineering since 2018 handling the pressure between what gets designed and what gets built for jeffrey zeldman rolex the nature conservancy sapient razorfish bswift rtic coolers framebridge intuit lastpass and workaround",
+            "mockupPx": 19,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman llc' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman llc",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'open case ↗' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "open case ↗",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'spaceman' (150px); in build it is 'spaceman' (150px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "dougmarch",
+                "mockupPx": 150
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 150
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 150,
+              "mockupPx": 150
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' moved from (1071, 883) in the mockup to (1074, 1580) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman is my llc - the shell for independent design and engineering since 2018 handling the pressure between what gets designed and what gets built for jeffrey zeldman rolex the nature conservancy sapient razorfish bswift rtic coolers framebridge intuit lastpass and workaround' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is my llc - the shell for independent design and engineering since 2018 handling the pressure between what gets designed and what gets built for jeffrey zeldman rolex the nature conservancy sapient razorfish bswift rtic coolers framebridge intuit lastpass and workaround",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'index of work - the evidence 07 entries 2008-2026' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "index of work - the evidence 07 entries 2008-2026",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman llc' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman llc",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman' moved from (107, 512) in the mockup to (106, 783) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'unknown' moved from (94, 359) in the mockup to (99, 603) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'2018 founder' moved from (76, 555) in the mockup to (76, 828) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'spaceman' still leads, but the mockup's 'dougmarch' (150px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'spaceman is my llc - the shell for independent design and...' at 19px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'spaceman llc' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'open case ↗' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'spaceman is my llc - the shell for independent design and...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'index of work - the evidence 07 entries 2008-2026' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'spaceman llc' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 4,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman is my llc - the shell for independent design and engineering since 2018 handling the pressure between what gets designed and what gets built for jeffrey zeldman rolex the nature conservancy sapient razorfish bswift rtic coolers framebridge intuit lastpass and workaround' (19px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is my llc - the shell for independent design and engineering since 2018 handling the pressure between what gets designed and what gets built for jeffrey zeldman rolex the nature conservancy sapient razorfish bswift rtic coolers framebridge intuit lastpass and workaround",
+            "mockupPx": 19,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman llc' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman llc",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'spaceman' (150px); in build it is 'spaceman' (150px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "dougmarch",
+                "mockupPx": 150
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 150
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 150,
+              "mockupPx": 150
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' moved from (1071, 883) in the mockup to (1074, 1576) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman is my llc - the shell for independent design and engineering since 2018 handling the pressure between what gets designed and what gets built for jeffrey zeldman rolex the nature conservancy sapient razorfish bswift rtic coolers framebridge intuit lastpass and workaround' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is my llc - the shell for independent design and engineering since 2018 handling the pressure between what gets designed and what gets built for jeffrey zeldman rolex the nature conservancy sapient razorfish bswift rtic coolers framebridge intuit lastpass and workaround",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'index of work - the evidence 07 entries 2008-2026' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "index of work - the evidence 07 entries 2008-2026",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman llc' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman llc",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman' moved from (107, 512) in the mockup to (106, 783) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'unknown' moved from (94, 359) in the mockup to (99, 603) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'2018 founder' moved from (76, 555) in the mockup to (76, 828) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'spaceman' still leads, but the mockup's 'dougmarch' (150px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'spaceman is my llc - the shell for independent design and...' at 19px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'spaceman llc' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'spaceman is my llc - the shell for independent design and...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'index of work - the evidence 07 entries 2008-2026' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'spaceman llc' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

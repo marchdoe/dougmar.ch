@@ -1,29 +1,18 @@
 import { css } from '../../../styled-system/css'
-import { experiments, selectedWork } from '../../content/projects'
-import { WorkList } from './WorkList'
+import { experiments, featuredProject, projects, selectedWork } from '../../content/projects'
+import { FeaturedEntry } from './FeaturedEntry'
+import { IndexRow } from './IndexRow'
 
 export function WorkIndex() {
-  const work = selectedWork.map((p) => ({
-    slug: p.slug,
-    title: p.title,
-    type: p.type,
-    year: p.year,
-    href: `/work/${p.slug}`,
-  }))
-  const lab = experiments.map((p) => ({
-    slug: p.slug,
-    title: p.title,
-    type: p.type,
-    year: p.year,
-    href: p.externalUrl ?? `/work/${p.slug}`,
-  }))
+  const years = projects.map((p) => p.year)
+  const span = `${Math.min(...years)}\u2013${Math.max(...years)}`
+  const count = String(projects.length).padStart(2, '0')
   return (
     <section
-      id="work"
+      aria-label="Selected work"
       className={css({
-        bg: 'bgAlt',
-        paddingBlock: 'clamp(48px, 6vw, 88px)',
-        paddingInline: 'clamp(28px, 6vw, 112px)',
+        paddingInline: '5vw',
+        minWidth: '0',
         '@supports (animation-timeline: view())': {
           animationName: 'rise',
           animationTimeline: 'view()',
@@ -34,13 +23,49 @@ export function WorkIndex() {
     >
       <div
         className={css({
-          display: 'grid',
-          gap: 'clamp(36px, 5vw, 72px)',
-          gridTemplateColumns: { base: 'minmax(0, 1fr)', md: '1fr 1fr' },
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'baseline',
+          flexWrap: 'wrap',
+          gap: '16px',
+          paddingTop: 'clamp(14px, 3vw, 40px)',
+          paddingBottom: '8px',
+          borderBottomWidth: '1px',
+          borderBottomStyle: 'solid',
+          borderColor: 'borderStrong',
+          fontSize: '14px',
+          letterSpacing: 'widest',
+          textTransform: 'uppercase',
         })}
       >
-        <WorkList label="Selected Work" items={work} />
-        <WorkList label="Experiments" items={lab} />
+        <span className={css({ color: 'textMuted' })}>Index of work</span>
+        <span className={css({ color: 'textFaint' })}>{`${count} entries · ${span}`}</span>
+      </div>
+      {featuredProject ? <FeaturedEntry project={featuredProject} /> : null}
+      <div>
+        {selectedWork.map((project) => (
+          <IndexRow key={project.slug} project={project} />
+        ))}
+      </div>
+      <div
+        className={css({
+          fontSize: '13px',
+          letterSpacing: 'widest',
+          textTransform: 'uppercase',
+          color: 'textFaint',
+          paddingTop: 'clamp(22px, 2.6vw, 34px)',
+          paddingBottom: '2px',
+          borderBottomWidth: '1px',
+          borderBottomStyle: 'solid',
+          borderColor: 'borderStrong',
+        })}
+      >
+        Experiments
+      </div>
+      <div>
+        {experiments.map((project) => (
+          <IndexRow key={project.slug} project={project} />
+        ))}
       </div>
     </section>
   )

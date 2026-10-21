@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { css } from '../../styled-system/css'
 import { BrandLockup } from '../components/BrandLockup'
+import { heroAttribution, heroPhrase } from '../components/generated/copy'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
@@ -11,7 +12,7 @@ function OgCard() {
         position: 'fixed',
         inset: '0',
         zIndex: 9999,
-        bg: 'bg',
+        bg: 'field',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -22,32 +23,65 @@ function OgCard() {
           width: '1200px',
           height: '630px',
           flex: '0 0 auto',
-          bg: 'bg',
-          color: 'text',
-          paddingBlock: '64px',
-          paddingInline: '64px',
+          boxSizing: 'border-box',
+          bg: 'field',
+          color: 'fieldInk',
+          paddingInline: '72px',
+          paddingBlock: '60px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          borderTopWidth: '6px',
-          borderTopStyle: 'solid',
-          borderTopColor: 'accent',
         })}
       >
-        <BrandLockup variant="stacked-lg" mode="original" />
+        <div
+          className={css({
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+            gap: '32px',
+          })}
+        >
+          <span
+            className={css({
+              fontSize: '20px',
+              letterSpacing: 'widest',
+              textTransform: 'uppercase',
+              color: 'fieldInkMuted',
+            })}
+          >
+            The thesis
+          </span>
+          {/* On the gold field the full-colour mark fails 3:1, so it renders single-color in fieldInk. */}
+          <BrandLockup
+            variant="stacked-md"
+            mode="single-color"
+            roleLine
+            className={css({ color: 'fieldInk', textAlign: 'right' })}
+          />
+        </div>
         <h1
           className={css({
             fontFamily: 'display',
             fontWeight: 'normal',
-            fontSize: '60px',
-            lineHeight: '1.08',
-            letterSpacing: '-0.01em',
-            color: 'text',
-            maxWidth: '1060px',
+            fontSize: '84px',
+            lineHeight: '0.95',
+            letterSpacing: 'normal',
+            color: 'fieldInk',
+            maxWidth: '1000px',
           })}
         >
-          Closing the gap between what gets designed and what gets built.
+          {heroPhrase}
         </h1>
+        <span
+          className={css({
+            fontSize: '20px',
+            letterSpacing: 'widest',
+            textTransform: 'uppercase',
+            color: 'fieldInkMuted',
+          })}
+        >
+          {heroAttribution}
+        </span>
       </div>
     </div>
   )

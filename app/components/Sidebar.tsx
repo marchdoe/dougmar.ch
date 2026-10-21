@@ -1,114 +1,91 @@
 import { css } from '../../styled-system/css'
-import { identity, personal } from '../content/about'
-
-const linkClass = css({
-  fontFamily: 'display',
-  fontSize: '14px',
-  color: 'fieldInk',
-  textDecoration: 'underline',
-  textDecorationColor: 'accent',
-  textUnderlineOffset: '0.18em',
-  display: 'inline-flex',
-  alignItems: 'center',
-  minHeight: '44px',
-  minWidth: '44px',
-  paddingInline: '4px',
-  _hover: { color: 'fieldInk' },
-})
+import { identity } from '../content/about'
+import { BrandLockup } from './BrandLockup'
 
 export function Sidebar() {
-  const rows = [
-    { key: 'Detroit', value: `${personal.teams.join(', ')}. Off-season.` },
-    { key: 'Golf', value: 'Butterfield Bermuda Championship, scheduled. No leaders yet.' },
-    { key: 'Market', value: 'SPY 766.48, up 0.42%.' },
-    { key: 'Aldie, VA', value: 'Clear, 46°F. Waxing gibbous, 74% lit.' },
-    { key: 'On rotation', value: 'The War on Drugs, My Morning Jacket.' },
+  const links = [
+    { href: '/work', label: 'Work' },
+    { href: '/about', label: 'About' },
+    { href: `mailto:${identity.email}`, label: 'Contact' },
   ]
-  const credit = [identity.name, identity.role].filter(Boolean).join(', ')
   return (
-    <footer
-      id="contact"
+    <header
+      data-shell-margin=""
       className={css({
-        bg: 'field',
-        color: 'fieldInk',
-        borderTopWidth: '1px',
-        borderTopStyle: 'solid',
-        borderTopColor: 'borderStrong',
-        paddingTop: 'clamp(40px, 5vw, 72px)',
-        paddingBottom: 'clamp(44px, 5vw, 64px)',
-        paddingInline: 'clamp(28px, 6vw, 112px)',
-        '@supports (animation-timeline: view())': {
-          animationName: 'rise',
-          animationTimeline: 'view()',
-          animationRange: 'entry 0% entry 40%',
-          animationFillMode: 'both',
-        },
+        gridColumn: { md: '9 / 13', lg: '10 / 13' },
+        gridRow: { md: '1' },
+        minWidth: '0',
+        // bg ground: the full-colour mark clears 3:1 on it in both schemes (bgAlt failed in light)
+        bg: 'bg',
+        color: 'text',
+        paddingInline: { base: '5vw', md: 'clamp(20px, 2.5vw, 40px)' },
+        paddingTop: { base: '14px', md: 'clamp(28px, 3.4vw, 44px)' },
+        paddingBottom: '14px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: { base: 'flex-start', md: 'flex-end' },
+        justifyContent: 'flex-start',
+        gap: { base: '10px', md: 'clamp(20px, 3vw, 40px)' },
+        borderStyle: 'solid',
+        borderColor: 'borderStrong',
+        borderTopWidth: '0',
+        borderRightWidth: '0',
+        borderBottomWidth: { base: '1px', md: '0' },
+        borderLeftWidth: { base: '0', md: '1px' },
       })}
     >
-      <div className={css({ display: 'grid', rowGap: '4px', maxWidth: '860px' })}>
-        {rows.map((row) => (
-          <div
-            key={row.key}
-            className={css({
-              display: 'flex',
-              gap: '14px',
-              alignItems: 'baseline',
-              paddingBlock: '10px',
-              borderBottomWidth: '1px',
-              borderBottomStyle: 'solid',
-              borderBottomColor: 'fieldBorder',
-            })}
-          >
-            <span
-              className={css({
-                fontFamily: 'display',
-                fontSize: '12px',
-                letterSpacing: 'wider',
-                textTransform: 'uppercase',
-                color: 'fieldInkMuted',
-                flex: '0 0 118px',
-              })}
-            >
-              {row.key}
-            </span>
-            <span
-              className={css({
-                fontFamily: 'body',
-                fontSize: '14px',
-                color: 'fieldInk',
-                lineHeight: '1.4',
-                minWidth: '0',
-              })}
-            >
-              {row.value}
-            </span>
-          </div>
-        ))}
-      </div>
-      <div
+      <BrandLockup
+        variant="stacked-md"
+        mode="original"
+        roleLine
+        className={css({ textAlign: { base: 'left', md: 'right' } })}
+      />
+      <nav
+        aria-label="Primary"
         className={css({
-          marginTop: '28px',
           display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          columnGap: '16px',
-          fontFamily: 'display',
-          fontSize: '13px',
-          letterSpacing: '0.04em',
-          color: 'fieldInkMuted',
+          flexDirection: { base: 'row', md: 'column' },
+          flexWrap: { base: 'wrap', md: 'nowrap' },
+          columnGap: { base: '18px', md: '0' },
+          width: { base: '100%', md: 'auto' },
+          minWidth: { md: '140px' },
         })}
       >
-        <span>{credit}. © 2026.</span>
-        <a href="/about" className={linkClass}>
-          About
-        </a>
-        <a href="/#work" className={linkClass}>
-          Work
-        </a>
-        <a href={`mailto:${identity.email}`} className={linkClass}>
-          {identity.email}
-        </a>
-      </div>
-    </footer>
+        {links.map((link) => (
+          <a
+            key={link.label}
+            href={link.href}
+            className={css({
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: { base: 'flex-start', md: 'flex-end' },
+              minHeight: '44px',
+              minWidth: '44px',
+              paddingBlock: '6px',
+              paddingInline: { base: '2px', md: '0' },
+              color: 'text',
+              textStyle: 'sm',
+              fontVariant: 'small-caps',
+              letterSpacing: 'wide',
+              borderTopStyle: 'solid',
+              borderTopWidth: { base: '0', md: '1px' },
+              borderColor: 'accentAlt',
+              _last: {
+                borderBottomStyle: 'solid',
+                borderBottomWidth: { base: '0', md: '1px' },
+              },
+              _hover: {
+                color: 'accent',
+                textDecoration: 'underline',
+                textDecorationColor: 'accent',
+                textUnderlineOffset: '4px',
+              },
+            })}
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+    </header>
   )
 }

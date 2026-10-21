@@ -36,7 +36,7 @@ import type { ReactNode } from 'react'
 const archiveLink = css({
   display: 'block',
   background: 'bg',
-  color: 'textMuted',
+  color: 'textFaint',
   fontSize: 'xs',
   letterSpacing: '0.08em',
   textAlign: 'center',
@@ -57,9 +57,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-10-20'
-const PREV_DATE: string | null = '2026-10-19'
-const ARCHIVE_COUNT = 168
+const DESIGN_DATE = '2026-10-21'
+const PREV_DATE: string | null = '2026-10-20'
+const ARCHIVE_COUNT = 169
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -72,17 +72,17 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Closing the gap between what gets designed and what gets built.' },
+      { title: 'A diamond is a piece of charcoal that handled stress exceptionally well.' },
       {
         property: 'og:title',
-        content: 'Closing the gap between what gets designed and what gets built.',
+        content: 'A diamond is a piece of charcoal that handled stress exceptionally well.',
       },
       {
         property: 'og:description',
         content:
-          'Azure drench, Spaceman set like a departure board, the client roster ruled beneath it and one amber mark for the designed half.',
+          'A foundry specimen of a decade of work, the diamond maxim inscribed small-caps in gold over a carbon index, halftone carbon underfoot.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-20.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-21.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
@@ -90,16 +90,16 @@ export const Route = createRootRoute({
       { name: 'twitter:card', content: 'summary_large_image' },
       {
         name: 'twitter:title',
-        content: 'Closing the gap between what gets designed and what gets built.',
+        content: 'A diamond is a piece of charcoal that handled stress exceptionally well.',
       },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-20.png' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-21.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -286,7 +286,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 168 designs
+            Archive · 169 designs
           </a>
         )}
         <ScrollRestoration />

@@ -1,0 +1,133 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "selector": "section.md:grid-c_1_/_9.lg:grid-c_1_/_10.md:grid-r_1.min-w_0 > div.pos_absolute.inset_0px.z_0.pointer-events_none > div.pos_absolute.inset_-100%.c_text.op_0.14",
+            "text": "",
+            "cause": "viewport",
+            "right": 864,
+            "over": 504,
+            "boxWidth": 1080
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "tablet": {
+      "width": 820,
+      "height": 1180,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "selector": "section.md:grid-c_1_/_9.lg:grid-c_1_/_10.md:grid-r_1.min-w_0 > div.pos_absolute.inset_0px.z_0.pointer-events_none > div.pos_absolute.inset_-100%.c_text.op_0.14",
+            "text": "",
+            "cause": "viewport",
+            "right": 1284,
+            "over": 464,
+            "boxWidth": 1640
+          },
+          {
+            "tag": "SPAN",
+            "selector": "div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0",
+            "text": "A new design ships every morning.",
+            "cause": "text",
+            "right": 529,
+            "over": 9,
+            "boxWidth": 206
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 19,
+          "passing": true
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "‹",
+            "w": 32,
+            "h": 44
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "selector": "section.md:grid-c_1_/_9.lg:grid-c_1_/_10.md:grid-r_1.min-w_0 > div.pos_absolute.inset_0px.z_0.pointer-events_none > div.pos_absolute.inset_-100%.c_text.op_0.14",
+            "text": "",
+            "cause": "viewport",
+            "right": 1685,
+            "over": 661,
+            "boxWidth": 2304
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 19,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "selector": "section.md:grid-c_1_/_9.lg:grid-c_1_/_10.md:grid-r_1.min-w_0 > div.pos_absolute.inset_0px.z_0.pointer-events_none > div.pos_absolute.inset_-100%.c_text.op_0.14",
+            "text": "",
+            "cause": "viewport",
+            "right": 2289,
+            "over": 849,
+            "boxWidth": 3240
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 19,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    }
+  },
+  "overallScore": 3,
+  "worstFailure": {
+    "viewport": "tablet",
+    "check": "clippedElements",
+    "detail": "2 element(s) clipped (first: <DIV>)"
+  },
+  "buildId": "1792577377520",
+  "date": "2026-10-21",
+  "archetype": "a foundry specimen of the work, the maxim inscribed in gold over a carbon index"
+}

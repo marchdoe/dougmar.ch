@@ -1,49 +1,45 @@
 import { css } from '../../../styled-system/css'
-import { BrandLockup } from '../BrandLockup'
 
 export function CaseMissing() {
   return (
-    <header
+    <section
+      data-beside-margin=""
       className={css({
+        gridColumn: { md: '1 / 9', lg: '1 / 10' },
+        gridRow: { md: '1' },
+        minWidth: '0',
         bg: 'bg',
-        paddingTop: 'clamp(34px, 6vw, 76px)',
-        paddingInline: 'clamp(28px, 6vw, 112px)',
-        paddingBottom: 'clamp(48px, 6vw, 96px)',
+        paddingBlock: 'clamp(32px, 5vw, 72px)',
+        paddingInline: '5vw',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '16px',
       })}
     >
-      <BrandLockup variant="stacked-lg" mode="original" />
       <h1
         className={css({
-          marginTop: 'clamp(28px, 5vw, 60px)',
           fontFamily: 'display',
           fontWeight: 'normal',
-          color: 'text',
-          fontSize: 'clamp(26px, 3.4vw, 42px)',
-          lineHeight: '1.12',
-          maxWidth: '22ch',
-          marginBottom: '20px',
+          fontSize: { base: 'clamp(44px, 12vw, 72px)', md: 'clamp(72px, 8vw, 120px)' },
+          lineHeight: '0.9',
+          color: 'accent',
+          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          animationDelay: '0ms',
         })}
       >
-        No project lives at this address.
+        No project here
       </h1>
       <a
-        href="/#work"
+        href="/work"
         className={css({
-          fontFamily: 'display',
           fontSize: '15px',
-          fontVariant: 'small-caps',
-          letterSpacing: 'wide',
-          color: 'text',
-          display: 'inline-flex',
-          alignItems: 'center',
-          minHeight: '44px',
-          textDecoration: 'underline',
-          textDecorationColor: 'accent',
-          textUnderlineOffset: '0.18em',
+          letterSpacing: 'wider',
+          textTransform: 'uppercase',
+          color: 'accent',
         })}
       >
-        Back to the work
+        Back to the index of work
       </a>
-    </header>
+    </section>
   )
 }
