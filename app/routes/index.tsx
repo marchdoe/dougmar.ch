@@ -1,17 +1,24 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { SiteCallout } from '../components/SiteCallout'
-import { HomePlane } from '../components/generated/HomePlane'
-import { SignalsBand } from '../components/generated/SignalsBand'
+import { HomeHeading } from '../components/generated/Headings'
+import { SplitGrid } from '../components/generated/Panel'
+import { ThesisPanel } from '../components/generated/Thesis'
 import { WorkIndex } from '../components/generated/WorkIndex'
+import { experiments, featuredProject, selectedWork } from '../content/projects'
 
 export const Route = createFileRoute('/')({ component: HomePage })
+
+const items = [...(featuredProject ? [featuredProject] : []), ...selectedWork, ...experiments]
 
 function HomePage() {
   return (
     <>
-      <HomePlane />
-      <WorkIndex />
-      <SignalsBand />
+      <SplitGrid>
+        <ThesisPanel pinned>
+          <HomeHeading />
+        </ThesisPanel>
+        <WorkIndex items={items} />
+      </SplitGrid>
       <SiteCallout />
     </>
   )

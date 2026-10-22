@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { css } from '../../styled-system/css'
 import { BrandLockup } from '../components/BrandLockup'
-import { heroAttribution, heroPhrase } from '../components/generated/copy'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
@@ -12,7 +11,7 @@ function OgCard() {
         position: 'fixed',
         inset: '0',
         zIndex: 9999,
-        bg: 'field',
+        bg: 'bg',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -20,68 +19,63 @@ function OgCard() {
     >
       <div
         className={css({
+          position: 'relative',
           width: '1200px',
           height: '630px',
-          flex: '0 0 auto',
-          boxSizing: 'border-box',
+          flexShrink: 0,
           bg: 'field',
           color: 'fieldInk',
-          paddingInline: '72px',
-          paddingBlock: '60px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
+          padding: '64px',
         })}
       >
-        <div
-          className={css({
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            gap: '32px',
-          })}
-        >
+        <div className={css({ color: 'fieldInk' })}>
+          <BrandLockup variant="mark-only-md" mode="original" />
+        </div>
+        <h1 className={css({ textAlign: 'right', lineHeight: '1' })}>
           <span
             className={css({
-              fontSize: '20px',
-              letterSpacing: 'widest',
+              display: 'block',
+              fontFamily: 'body',
+              fontWeight: 'bold',
               textTransform: 'uppercase',
-              color: 'fieldInkMuted',
+              letterSpacing: 'widest',
+              fontSize: '16px',
+              color: 'accentAlt',
+              marginBottom: '3',
             })}
           >
-            The thesis
+            Doug March
           </span>
-          {/* On the gold field the full-colour mark fails 3:1, so it renders single-color in fieldInk. */}
-          <BrandLockup
-            variant="stacked-md"
-            mode="single-color"
-            roleLine
-            className={css({ color: 'fieldInk', textAlign: 'right' })}
-          />
-        </div>
-        <h1
-          className={css({
-            fontFamily: 'display',
-            fontWeight: 'normal',
-            fontSize: '84px',
-            lineHeight: '0.95',
-            letterSpacing: 'normal',
-            color: 'fieldInk',
-            maxWidth: '1000px',
-          })}
-        >
-          {heroPhrase}
+          <span
+            className={css({
+              display: 'block',
+              fontFamily: 'display',
+              fontWeight: 'bold',
+              fontSize: '80px',
+              lineHeight: '1',
+              letterSpacing: 'tight',
+              color: 'fieldInk',
+              marginBottom: '3',
+            })}
+          >
+            Ten years independent.
+          </span>
+          <span
+            className={css({
+              display: 'block',
+              fontFamily: 'display',
+              fontWeight: 'normal',
+              fontSize: '42px',
+              lineHeight: '1.12',
+              color: 'fieldInk',
+            })}
+          >
+            Still the vehicle for the next experiment.
+          </span>
         </h1>
-        <span
-          className={css({
-            fontSize: '20px',
-            letterSpacing: 'widest',
-            textTransform: 'uppercase',
-            color: 'fieldInkMuted',
-          })}
-        >
-          {heroAttribution}
-        </span>
       </div>
     </div>
   )

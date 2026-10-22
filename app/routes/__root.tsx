@@ -57,9 +57,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-10-21'
-const PREV_DATE: string | null = '2026-10-20'
-const ARCHIVE_COUNT = 169
+const DESIGN_DATE = '2026-10-22'
+const PREV_DATE: string | null = '2026-10-21'
+const ARCHIVE_COUNT = 170
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -72,17 +72,17 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'A diamond is a piece of charcoal that handled stress exceptionally well.' },
+      { title: 'Ten years independent. Still the vehicle for the next experiment.' },
       {
         property: 'og:title',
-        content: 'A diamond is a piece of charcoal that handled stress exceptionally well.',
+        content: 'Ten years independent. Still the vehicle for the next experiment.',
       },
       {
         property: 'og:description',
         content:
-          'A foundry specimen of a decade of work, the diamond maxim inscribed small-caps in gold over a carbon index, halftone carbon underfoot.',
+          'Claret-and-bone split, one heavy slab word facing ten years of evidence, burnt-gold at the seam.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-21.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-22.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
@@ -90,16 +90,16 @@ export const Route = createRootRoute({
       { name: 'twitter:card', content: 'summary_large_image' },
       {
         name: 'twitter:title',
-        content: 'A diamond is a piece of charcoal that handled stress exceptionally well.',
+        content: 'Ten years independent. Still the vehicle for the next experiment.',
       },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-21.png' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-22.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Bitter:wght@500;700;900&family=Mulish:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -286,7 +286,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 169 designs
+            Archive · 170 designs
           </a>
         )}
         <ScrollRestoration />

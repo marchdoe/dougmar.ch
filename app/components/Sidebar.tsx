@@ -2,53 +2,59 @@ import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
 import { BrandLockup } from './BrandLockup'
 
+const links = [
+  { label: 'Work', href: '/work' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: `mailto:${identity.email}` },
+]
+
 export function Sidebar() {
-  const links = [
-    { href: '/work', label: 'Work' },
-    { href: '/about', label: 'About' },
-    { href: `mailto:${identity.email}`, label: 'Contact' },
-  ]
   return (
     <header
-      data-shell-margin=""
       className={css({
-        gridColumn: { md: '9 / 13', lg: '10 / 13' },
-        gridRow: { md: '1' },
-        minWidth: '0',
-        // bg ground: the full-colour mark clears 3:1 on it in both schemes (bgAlt failed in light)
-        bg: 'bg',
-        color: 'text',
-        paddingInline: { base: '5vw', md: 'clamp(20px, 2.5vw, 40px)' },
-        paddingTop: { base: '14px', md: 'clamp(28px, 3.4vw, 44px)' },
-        paddingBottom: '14px',
         display: 'flex',
-        flexDirection: 'column',
-        alignItems: { base: 'flex-start', md: 'flex-end' },
-        justifyContent: 'flex-start',
-        gap: { base: '10px', md: 'clamp(20px, 3vw, 40px)' },
-        borderStyle: 'solid',
-        borderColor: 'borderStrong',
-        borderTopWidth: '0',
-        borderRightWidth: '0',
-        borderBottomWidth: { base: '1px', md: '0' },
-        borderLeftWidth: { base: '0', md: '1px' },
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: '3',
+        paddingBlock: '3',
+        paddingInline: '20px',
+        bg: 'bg',
+        borderBottomWidth: '1px',
+        borderBottomStyle: 'solid',
+        borderColor: 'border',
+        lg: {
+          gridColumn: '1',
+          gridRow: '1',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          gap: '0',
+          paddingBlock: '28px',
+          paddingInline: '10px',
+          borderBottomWidth: '0',
+          borderRightWidth: '1px',
+          borderRightStyle: 'solid',
+        },
       })}
     >
-      <BrandLockup
-        variant="stacked-md"
-        mode="original"
-        roleLine
-        className={css({ textAlign: { base: 'left', md: 'right' } })}
-      />
+      <a
+        href="/"
+        aria-label="Doug March, home"
+        className={css({
+          display: 'block',
+          flexShrink: 0,
+          color: 'text',
+          lg: { marginBottom: '40px' },
+        })}
+      >
+        <BrandLockup variant="mark-only-md" mode="original" />
+      </a>
       <nav
         aria-label="Primary"
         className={css({
           display: 'flex',
-          flexDirection: { base: 'row', md: 'column' },
-          flexWrap: { base: 'wrap', md: 'nowrap' },
-          columnGap: { base: '18px', md: '0' },
-          width: { base: '100%', md: 'auto' },
-          minWidth: { md: '140px' },
+          alignItems: 'center',
+          gap: '1',
+          lg: { flexDirection: 'column', gap: '0', width: '100%' },
         })}
       >
         {links.map((link) => (
@@ -56,30 +62,27 @@ export function Sidebar() {
             key={link.label}
             href={link.href}
             className={css({
-              display: 'inline-flex',
+              display: 'flex',
               alignItems: 'center',
-              justifyContent: { base: 'flex-start', md: 'flex-end' },
+              justifyContent: 'center',
               minHeight: '44px',
-              minWidth: '44px',
-              paddingBlock: '6px',
-              paddingInline: { base: '2px', md: '0' },
-              color: 'text',
+              minWidth: '48px',
+              paddingBlock: '12px',
+              paddingInline: '10px',
+              fontFamily: 'body',
+              fontWeight: 'bold',
               textStyle: 'sm',
-              fontVariant: 'small-caps',
-              letterSpacing: 'wide',
-              borderTopStyle: 'solid',
-              borderTopWidth: { base: '0', md: '1px' },
-              borderColor: 'accentAlt',
-              _last: {
-                borderBottomStyle: 'solid',
-                borderBottomWidth: { base: '0', md: '1px' },
-              },
-              _hover: {
-                color: 'accent',
-                textDecoration: 'underline',
-                textDecorationColor: 'accent',
-                textUnderlineOffset: '4px',
-              },
+              lineHeight: '1',
+              color: 'text',
+              borderStyle: 'solid',
+              borderColor: 'borderStrong',
+              borderLeftWidth: { base: '1px', lg: '0' },
+              borderTopWidth: { base: '0', lg: '1px' },
+              borderRightWidth: '0',
+              borderBottomWidth: '0',
+              _first: { borderLeftWidth: '0', borderTopWidth: '0' },
+              _hover: { color: 'accent', boxShadow: 'inset 0 -2px 0 currentColor' },
+              lg: { width: '100%', paddingBlock: '18px', paddingInline: '4px' },
             })}
           >
             {link.label}

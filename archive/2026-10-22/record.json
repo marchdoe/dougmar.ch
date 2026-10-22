@@ -1,0 +1,765 @@
+{
+  "date": "2026-10-22",
+  "era": "header-declared",
+  "generatedAt": "2026-10-22T10:06:21.396Z",
+  "buildId": "1792663573497",
+  "attempts": 1,
+  "brief": "Claret-and-bone split, one heavy slab word facing ten years of evidence, burnt-gold at the seam.",
+  "rationale": "The hero is Doug's own sentence about Spaceman: ten years independent, still the vehicle for the next experiment. On a day whose sidebar is full of \"everyone is starting over,\" his answer is stability, not churn, and that answer is a thesis. A thesis wants an argument, so the composition is a two-equal split: the word carved into the left panel, the decade of actual work cataloged on the right, each half meaningless without the other. That is the gold-standard Split logic, which I have not repeated in the recent window.\n\nThe chassis is bitter-mulish because the line is grounded and established, not loud. Bitter's real heavy slab cuts make \"Independent\" a solid brick of a word, physical and weighted, while Mulish answers it with a humanist body that shares its screen-slab skeleton, so the inner pages will not read as a headline pasted onto default text. The palette is a deep claret field against a warm bone plane, a split-field strategy that fits the two-panel argument and deliberately walks away from the week's parade of golds; claret reads as autumnal, mature and settled, which is the register of \"ten years.\" Burnt gold is the single accent, used as fills, year markers and small type on the claret field where it reaches full contrast.\n\nLayout follows: a marginal left rail carries the mark-only mark and a title-case nav index, so the chrome stays out of the argument; at 360 that rail becomes a top band and the split stacks, claret panel first with the word at 3xl. The hero holds the top two-thirds of the claret panel open and lands the word low, right-aligned to the seam so it pushes toward the evidence. Nothing animates on load because all three recent entrances are spent and because a slab thesis should arrive fully formed; only the evidence index below the fold rises on scroll.",
+  "filesChanged": [
+    "elements/preset.ts",
+    "app/components/Layout.tsx",
+    "app/components/Sidebar.tsx",
+    "app/components/generated/SignalFooter.tsx",
+    "app/components/generated/Panel.tsx",
+    "app/components/generated/Thesis.tsx",
+    "app/components/generated/Headings.tsx",
+    "app/components/generated/WorkIndex.tsx",
+    "app/components/generated/TimelineList.tsx",
+    "app/components/generated/AboutDetails.tsx",
+    "app/components/generated/CaseBody.tsx",
+    "app/components/generated/CaseLinks.tsx",
+    "app/components/generated/MissingProject.tsx",
+    "app/routes/index.tsx",
+    "app/routes/about.tsx",
+    "app/routes/work.$slug.tsx",
+    "app/routes/og.tsx"
+  ],
+  "legacyArchetype": null,
+  "signals": {
+    "air_quality": {
+      "aqi_index": 1,
+      "uv_index": 0,
+      "air_quality_label": "Good"
+    },
+    "books": {
+      "currently_reading": []
+    },
+    "day_of_week": {
+      "day": "Thursday",
+      "is_weekend": false,
+      "day_index": 4
+    },
+    "github": {
+      "repos": [
+        {
+          "name": "cloudflare/security-audit-skill/stargazers",
+          "description": "",
+          "language": "JavaScript",
+          "stars": null
+        },
+        {
+          "name": "sponsors/vllm-project",
+          "description": "",
+          "language": "Python",
+          "stars": null
+        },
+        {
+          "name": "stablyai/orca/stargazers",
+          "description": "",
+          "language": "TypeScript",
+          "stars": null
+        },
+        {
+          "name": "headroomlabs-ai/headroom/stargazers",
+          "description": "",
+          "language": "Python",
+          "stars": null
+        },
+        {
+          "name": "sponsors/DietrichGebert",
+          "description": "",
+          "language": "JavaScript",
+          "stars": null
+        }
+      ]
+    },
+    "golf": {
+      "tournament": "Butterfield Bermuda Championship",
+      "status": "Scheduled",
+      "leaders": []
+    },
+    "hacker_news": {
+      "stories": [
+        {
+          "title": "CVE-2026-111943: Compromised Intermediate Certificate Authority",
+          "url": "https://nvd.nist.gov/vuln/detail/cve-2026-111943",
+          "score": 26,
+          "by": "keks24"
+        },
+        {
+          "title": "WorldTUI: I trained a 360M model to pretend to be a terminal",
+          "url": "https://simedw.com/2026/10/21/world-model-terminal/",
+          "score": 187,
+          "by": "alphax314"
+        },
+        {
+          "title": "The recently proposed o(n log n) integer multiplication algorithm [pdf]",
+          "url": "https://web.maths.unsw.edu.au/~davidharvey/research/subnlogn.pdf",
+          "score": 197,
+          "by": "craigcitro"
+        },
+        {
+          "title": "Security Disclosure",
+          "url": "https://blog.railway.com/p/security-disclosure-wednesday-october-21st",
+          "score": 455,
+          "by": "passenger"
+        },
+        {
+          "title": "OpenAI CLI",
+          "url": "https://github.com/openai/openai-cli",
+          "score": 111,
+          "by": "armcat"
+        }
+      ]
+    },
+    "holidays": {
+      "today": null,
+      "upcoming": []
+    },
+    "lunar": {
+      "phase": "waxing gibbous",
+      "illumination": 0.902,
+      "days_into_cycle": 11.77
+    },
+    "market": {
+      "symbol": "SPY",
+      "price": "773.0900",
+      "change": "4.0400",
+      "change_percent": "0.5253%",
+      "direction": "up"
+    },
+    "music": {
+      "bands": [
+        "My Morning Jacket",
+        "Wet Leg"
+      ],
+      "rotation": true
+    },
+    "news": {
+      "headlines": [
+        {
+          "title": "Witkoff to present Putin with peace proposal after talks with Zelensky - Axios",
+          "source": "Axios",
+          "url": "https://www.axios.com/2026/10/20/putin-witkoff-russia-ukraine-war"
+        },
+        {
+          "title": "PHP2Shell: Two Unpatched Critical PHP RCE Flaws (CVSS 9.2) Trigger Emergency Security Alert - The Hacker News",
+          "source": "Internet",
+          "url": "https://thehackernews.com/2026/10/php2shell-two-unpatched-critical-php.html"
+        },
+        {
+          "title": "Texas couple charged in shooting death of Missouri high schooler on her way to the zoo - NBC News",
+          "source": "NBC News",
+          "url": "https://www.nbcnews.com/news/us-news/texas-couple-charged-shooting-death-missouri-high-schooler-way-zoo-rcna604703"
+        },
+        {
+          "title": "Tyler Cameron fiancée Tate Madden reveals pregnancy on 'DWTS' Dedication Night - USA Today",
+          "source": "USA Today",
+          "url": "https://www.usatoday.com/story/entertainment/tv-streaming/2026/10/20/dwts-tyler-cameron-tate-madden-pregnant-expecting-first-baby/92337744007/"
+        },
+        {
+          "title": "How a photo of a person’s face could help predict whether they’ll survive cancer treatment - CNN",
+          "source": "CNN",
+          "url": "https://www.cnn.com/2026/10/20/health/ai-models-cancer-survival-biological-age"
+        }
+      ]
+    },
+    "quote": {
+      "text": "Live as if you were to die tomorrow. Learn as if you were to live forever.",
+      "author": "Mahatma Gandhi"
+    },
+    "season": {
+      "season": "fall",
+      "month": 10,
+      "day": 22,
+      "day_of_year": 295,
+      "month_name": "October"
+    },
+    "sidebar": {
+      "links": [
+        {
+          "title": "The fastest gun in UX",
+          "url": "https://www.doc.cc/articles/fastest-gun",
+          "source": "doc.cc",
+          "description": "Designers are skipping steps of the process in a rush for faster outputs. But the contest that really matters is stakeholder alignment."
+        },
+        {
+          "title": "Interfere Design System",
+          "url": "https://design.interfere.com/",
+          "source": "design.interfere.com",
+          "description": "Components, styles and guidelines for building Interfere products."
+        },
+        {
+          "title": "Everyone is starting over",
+          "url": "https://www.gabrielvaldivia.com/notes/everybody-is-starting-over",
+          "source": "gabrielvaldivia.com",
+          "description": "The careers that thrive now are the ones willing to become someone new, over and over."
+        },
+        {
+          "title": "The Lightbulb Computer",
+          "url": "https://lightbulbcomputer.com/",
+          "source": "lightbulbcomputer.com",
+          "description": "A device that combines a projector and computer vision in the shape of a large lightbulb."
+        },
+        {
+          "title": "How employment is changing at Anthropic",
+          "url": "https://www.anthropic.com/research/employment-at-anthropic",
+          "source": "anthropic.com",
+          "description": "Anthropic could be a leading indicator of how AI will shift work organization, hiring, and labor demand across the economy."
+        }
+      ]
+    },
+    "sports": {
+      "teams": [
+        {
+          "name": "Detroit Lions",
+          "league": "NFL",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Red Wings",
+          "league": "NHL",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Pistons",
+          "league": "NBA",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Tigers",
+          "league": "MLB",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        }
+      ]
+    },
+    "sun": {
+      "sunrise": "07:34",
+      "sunset": "18:14",
+      "daylight_hours": 10.7
+    },
+    "weather": {
+      "location": "Aldie, Virginia",
+      "conditions": "Clear",
+      "temp_f": 44.2,
+      "temp_c": 6.8,
+      "humidity": 75,
+      "wind_mph": 5.6,
+      "wind_dir": "NNW",
+      "feels_like_f": 41
+    },
+    "date": "2026-10-22"
+  },
+  "hero": {
+    "copy": "Ten years independent. Still the vehicle for the next experiment.",
+    "rationale": "This is Doug's own line about Spaceman, the LLC he has worked under for ten years. The sidebar today is full of \"everyone is starting over\" career churn; his counter is quiet and grounded, ten years in the same vehicle, still pointed at the next thing. It reads as a thesis, which is why the page argues it: the word on the left, the decade of evidence on the right. I chose content-lifted over the Gandhi quote so the page speaks in Doug's register rather than borrowing a maxim on a day his own narrative is the stronger line.\nOwner's voice: Doug wrote this one himself, about running Spaceman for a decade and still using it to ship the next experiment.",
+    "source": "content-lifted"
+  },
+  "chassis": "bitter-mulish",
+  "adBrief": {
+    "visualSpecification": "### 1. Color Specification\n- **Primary hue**: 340° (claret/wine). Chosen because the last week drowned in golds (46, 52, 48, 44, 69, 80); a deep claret is warm-family, autumnal, and mature, and it carries the \"ten years, established\" register without shouting. This deviates from the mandate's 40–80° target, justified in the color story: the target hue band is exactly the gold band that has repeated, and the repetition check demands distance from 46/52.\n- **Neutral palette (bone)**: 50 `#FBF6EE`, 100 `#F3EADF`, 200 `#E8D8C8`, 300 `#D6C0AC`, 400 `#B9997E`, 500 `#94715C`, 600 `#6E4C40`, 700 `#4F322C`, 800 `#341C1E`, 900 `#221016`\n- **Accent (burnt gold)**: light `#E3A94A`, default `#BD7A24`, dark `#9E6A20`, glow `#F2C878`\n- **Secondary accent**: none beyond accent family; accentAlt `#E3A94A` is the lighter register of the same gold, used for small type on the claret field.\n- **Background**: page bg (light) `#F3EADF` bone; card/surface `#FBF6EE`; claret field panel `#451221`; dark-scheme page bg `#2C0B15`.\n- **Text colors**: primary text `#2C0B15`, secondary `#611830`, faint `#7A5A48`; on the claret field, ink `#F3EADF`, muted `#ECA0B8`.\n\n### 2. Typography\n- **Hero phrase rendering**: Chassis `display` (Bitter heavy). The word **Independent** is set at the `hero` ramp step (clamp sized to ~128px at 1440), right-aligned to the split seam. \"Ten years\" sits above it at `lg`, and \"Still the vehicle for the next experiment.\" runs beneath as the deck at `2xl`. The full sentence is the single h1 for semantics; the word is the largest object.\n- **Type treatment**: `hero` for the word, `2xl` for the deck line, `xl` for the ten-year standfirst in the evidence panel, `lg` for project titles and year markers, `base` (Mulish) for timeline body held at 60–68ch, `sm` for roles/clients, `xs` for the signal baseline. Mid-register is deliberately spent: standfirst at `xl`, section heads at `lg`, year figures at `lg` so no page jumps from marquee straight to body.\n\n### 3. Layout Specification\n- **Composition**: two-equal / horizontal / left-weighted / lower-third / sparse / accelerating / marginal / type-dominant / rail-to-band / word. The split makes the phrase an argument: the word is the thesis, the decade of work is the evidence, and the two panels need each other the way the gold-standard Split does.\n- **CSS grid**: `display: grid; grid-template-columns: 88px 1fr 1fr;` (rail | claret thesis | bone evidence). Inside each panel, flex column.\n- **Major dimensions**: hero split `min-height: 100vh`. Left rail `width: 88px`. Claret panel and bone panel each `1fr`. `max-width: none`; panel padding `clamp(32px, 5vw, 80px)`. Top two-thirds of the claret panel held open; word lands in the lower third.\n- **Nav placement**: left rail, full height. Mark at top of rail; nav index below it.\n- **Hero phrase grid zone**: claret panel = column 2, rows 1–full; the word occupies the lower third of that panel (roughly rows 7–9 of a 9-row panel), right-aligned to the seam, intended ~128px at 1440.\n- **Home callout slot**: on `/`, full width below the hero split and above the signal footer, sitting between the work index and the footer baseline. Placed, not designed.\n\n### 4. Component Character\n- **Border radius**: cards/panels 4px (md), buttons/tags 2px (sm), the mark full. Grounded, squared, slab-appropriate.\n- **Border treatment**: bordered with hairlines; `border` on the bone side, `fieldBorder` inside the claret panel, `borderStrong` (claret) for the one strong rule under the standfirst.\n- **Shadow**: none. Depth is value and seam, not shadow.\n- **Density**: sparse at the hero fold, measured in the evidence index below.\n- **Interactive states**: links shift to accent dark on hover with a 2px gold underline; no motion on the hero.\n\n### 5. Signal Integration\n- **Where signals live**: a single ruled signal baseline across the foot, plus a small attributed pull-quote low in the evidence panel.\n- **Sports scores**: all four Detroit teams are off-season; no scoreboard. A quiet one-line \"All four off-season\" note in the footer, no false score treatment.\n- **Quote**: the Gandhi line (\"Learn as if you were to live forever.\") set small and attributed low in the bone evidence panel, as a note on reinvention, not as the hero.\n- **Holiday**: none today; no holiday element.\n- **Music**: \"On rotation: My Morning Jacket, Wet Leg\" in the footer baseline, set as taste in `textFaint`, never beside a score as an event.\n- **Golf**: \"On the tee: Butterfield Bermuda Championship\" in the footer, no fabricated leaders.\n- **Market / weather / lunar / air**: footer baseline row — Aldie 44°F clear, waxing gibbous 90%, SPY 773.09 up 0.53%, AQI good.",
+    "selfCheck": "1. Hero quotability: Yes — \"Ten years independent. Still the vehicle for the next experiment.\" stands alone as Doug's claim.\n2. Because-of chain: Yes — thesis phrase → split composition → heavy slab Bitter → claret/bone split-field → word on left panel, decade on right.\n3. Render feasibility: Yes — one word \"Independent\" at 128px fits the claret panel at 1440 without overflow.\n4. Canvas floor feasible: Yes — the split fills both panels; 70% is reachable with the claret field plus the evidence index.\n5. Phone: Yes — claret panel stacks first, the word at `3xl` with \"Independent\" (one word) fitting 360 width without a cut.",
+    "rationale": "The hero is Doug's own sentence about Spaceman: ten years independent, still the vehicle for the next experiment. On a day whose sidebar is full of \"everyone is starting over,\" his answer is stability, not churn, and that answer is a thesis. A thesis wants an argument, so the composition is a two-equal split: the word carved into the left panel, the decade of actual work cataloged on the right, each half meaningless without the other. That is the gold-standard Split logic, which I have not repeated in the recent window.\n\nThe chassis is bitter-mulish because the line is grounded and established, not loud. Bitter's real heavy slab cuts make \"Independent\" a solid brick of a word, physical and weighted, while Mulish answers it with a humanist body that shares its screen-slab skeleton, so the inner pages will not read as a headline pasted onto default text. The palette is a deep claret field against a warm bone plane, a split-field strategy that fits the two-panel argument and deliberately walks away from the week's parade of golds; claret reads as autumnal, mature and settled, which is the register of \"ten years.\" Burnt gold is the single accent, used as fills, year markers and small type on the claret field where it reaches full contrast.\n\nLayout follows: a marginal left rail carries the mark-only mark and a title-case nav index, so the chrome stays out of the argument; at 360 that rail becomes a top band and the split stacks, claret panel first with the word at 3xl. The hero holds the top two-thirds of the claret panel open and lands the word low, right-aligned to the seam so it pushes toward the evidence. Nothing animates on load because all three recent entrances are spent and because a slab thesis should arrive fully formed; only the evidence index below the fold rises on scroll.",
+    "compositionRationale": "The phrase is a thesis, so the page argues it as a two-equal split: the word on the claret left panel, ten years of work on the bone right panel, each needing the other. I moved columns off the mandate's `masonry` start to `two-equal` because a packed rag would fragment a single quiet claim, and I set the hero alignment to `right` (off the recently-used left/centred) so the word reaches across the seam toward the evidence it produced. Kept horizontal, left-weighted, lower-third, sparse, accelerating, marginal, type-dominant, rail-to-band and word where they genuinely fit; this diverges from 2026-10-18 on columns, hero_zone and hero_object plus the whole split structure.",
+    "signalIntegration": "- **Where signals live**: a single ruled signal baseline across the foot, plus a small attributed pull-quote low in the evidence panel.\n- **Sports scores**: all four Detroit teams are off-season; no scoreboard. A quiet one-line \"All four off-season\" note in the footer, no false score treatment.\n- **Quote**: the Gandhi line (\"Learn as if you were to live forever.\") set small and attributed low in the bone evidence panel, as a note on reinvention, not as the hero.\n- **Holiday**: none today; no holiday element.\n- **Music**: \"On rotation: My Morning Jacket, Wet Leg\" in the footer baseline, set as taste in `textFaint`, never beside a score as an event.\n- **Golf**: \"On the tee: Butterfield Bermuda Championship\" in the footer, no fabricated leaders.\n- **Market / weather / lunar / air**: footer baseline row — Aldie 44°F clear, waxing gibbous 90%, SPY 773.09 up 0.53%, AQI good."
+  },
+  "tokens": {
+    "colors": {
+      "ramps": {
+        "claret": {
+          "50": "#FCEAF1",
+          "100": "#F7CDDC",
+          "200": "#ECA0B8",
+          "300": "#DC7092",
+          "400": "#C44A6E",
+          "500": "#A42F53",
+          "600": "#822340",
+          "700": "#611830",
+          "800": "#451221",
+          "900": "#2C0B15"
+        },
+        "amber": {
+          "50": "#FCF1DC",
+          "100": "#F8E0B4",
+          "200": "#F2C878",
+          "300": "#EBB14A",
+          "400": "#E3A94A",
+          "500": "#BD7A24",
+          "600": "#9E6A20",
+          "700": "#764E1A",
+          "800": "#513614",
+          "900": "#33220D"
+        },
+        "bone": {
+          "50": "#FBF6EE",
+          "100": "#F3EADF",
+          "200": "#E8D8C8",
+          "300": "#D6C0AC",
+          "400": "#B9997E",
+          "500": "#94715C",
+          "600": "#6E4C40",
+          "700": "#4F322C",
+          "800": "#341C1E",
+          "900": "#221016"
+        }
+      },
+      "semantic": {
+        "bg": {
+          "base": "{colors.claret.900}",
+          "_light": "{colors.bone.100}"
+        },
+        "bgAlt": {
+          "base": "{colors.bone.900}",
+          "_light": "{colors.bone.200}"
+        },
+        "surface": {
+          "base": "{colors.claret.800}",
+          "_light": "{colors.bone.50}"
+        },
+        "text": {
+          "base": "{colors.bone.100}",
+          "_light": "{colors.claret.900}"
+        },
+        "textMuted": {
+          "base": "{colors.claret.200}",
+          "_light": "{colors.claret.700}"
+        },
+        "textFaint": {
+          "base": "{colors.bone.400}",
+          "_light": "{colors.bone.700}"
+        },
+        "accent": {
+          "base": "{colors.amber.300}",
+          "_light": "{colors.amber.500}"
+        },
+        "accentText": {
+          "base": "{colors.claret.900}",
+          "_light": "{colors.claret.900}"
+        },
+        "accentAlt": {
+          "base": "{colors.amber.200}",
+          "_light": "{colors.amber.400}"
+        },
+        "border": {
+          "base": "{colors.claret.700}",
+          "_light": "{colors.bone.300}"
+        },
+        "borderStrong": {
+          "base": "{colors.amber.400}",
+          "_light": "{colors.claret.600}"
+        },
+        "field": {
+          "base": "{colors.claret.800}",
+          "_light": "{colors.claret.800}"
+        },
+        "fieldInk": {
+          "base": "{colors.bone.100}",
+          "_light": "{colors.bone.100}"
+        },
+        "fieldInkMuted": {
+          "base": "{colors.claret.200}",
+          "_light": "{colors.claret.200}"
+        },
+        "fieldBorder": {
+          "base": "{colors.claret.600}",
+          "_light": "{colors.claret.700}"
+        }
+      }
+    },
+    "radii": {
+      "none": "0",
+      "sm": "2px",
+      "md": "4px",
+      "lg": "8px",
+      "full": "9999px"
+    }
+  },
+  "colorScheme": {
+    "primary_hue": {
+      "h": 340,
+      "s": 62,
+      "l": 36,
+      "name": "claret"
+    },
+    "secondary_accent": {
+      "h": 42,
+      "s": 68,
+      "l": 44,
+      "name": "burnt gold"
+    },
+    "neutral_family": {
+      "tinted_toward": "warm red-brown",
+      "name": "bone"
+    },
+    "mood_word": "established",
+    "color_story": "A deep claret panel for the decade behind the word and a warm bone plane for the work it produced, so 'ten years independent' reads as something grounded, not another gold headline."
+  },
+  "shell": {
+    "nav": null,
+    "footer": "signal baseline band — a single hairline-ruled row of the day's facts across the foot, no nav, no field reversal",
+    "brand_lockup": "mark-only-md",
+    "brand_color_mode": "original",
+    "ground_strategy": "split-field",
+    "ground_material": "grain"
+  },
+  "header": {
+    "placement": "left-rail",
+    "height_px": 600,
+    "mark_px": 48,
+    "wordmark_step": "none",
+    "wordmark_weight": 600,
+    "role_line": "absent",
+    "nav_step": "sm",
+    "nav_case": "title",
+    "nav_form": "list",
+    "nav": "Left rail on the bone margin. The mark-only circular mark sits at the top of the rail, inside the first fold at 1440 and 360. Beneath it, Work / About / Contact stack as a vertical title-case index, one claret hairline per row. Not a top bar."
+  },
+  "verdicts": [
+    {
+      "critic": "mockup-precheck",
+      "round": 0,
+      "verdict": "APPROVE",
+      "feedback": "",
+      "findings": [],
+      "ts": 1792661801294
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 0,
+      "verdict": "REVISE",
+      "feedback": "1. (Judgment 4/3) At 1440 the lead word is cut. It reads \"lependent.\" because the claret panel's left edge clips the \"Ind\", so the hero is not fully inside the first fold. Size or place \"Independent.\" so the whole word sits inside the claret panel and stays right-aligned to the seam. At 360 it sits whole in fold 1 and is fine.\n2. (Judgment 1) This reads as a rerun of 2026-10-16. Both nights use a two-equal thesis-and-evidence split, a split-field ground and the bitter-mulish heavy chassis on a warm red-brown field (24° then, 340° now). A returning visitor would take it for that night. Break at least the chassis or the split silhouette so the repetition is down to one trait.\n3. (Judgment 5) The callout says \"Say hello: doug@dougmar.ch\". The record's contact email is hello@dougmar.ch.\n4. (Judgment 5) The index header reads \"ROLE · YEAR\", but the column shows project types: \"SAAS\", \"AI\", \"EXPERIMENT\". The records give FishSticks and 15th Club the role \"Founder & Builder\" and dougmar.ch \"Designer & Builder\", while TeeTurn, Politweets and Twittertale have no role at all. Either relabel the column \"Type\" or show the actual roles.\n5. (Judgment 5) \"THE EVIDENCE — ONE STUDIO, SINCE 2018\" sits above Politweets and Twittertale (2008). The records say those were built with the Character140 collective, not under Spaceman. Reword the label so it does not claim everything listed came from one studio since 2018.\n6. (Judgment 6) SHELL declares `ground_material: grain`, but the claret hero field renders as a flat fill in both the 1440 image and the 2x crop. Put a visible grain on the hero field.",
+      "channel": "sdk-vision",
+      "ts": 1792661818930
+    },
+    {
+      "critic": "mockup-precheck",
+      "round": 1,
+      "verdict": "APPROVE",
+      "feedback": "",
+      "findings": [],
+      "ts": 1792662149803
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "1. Judgment 3: The declared word is \"Independent,\" but the page leads with \"vehicle.\" at hero scale. \"Ten years independent.\" has been shrunk to a small gold caps label, and the deck then says \"vehicle\" a second time. Set \"Independent\" as the lead word, right-aligned to the seam. Put \"Ten years\" above it at `lg` and \"Still the vehicle for the next experiment.\" beneath it as the deck. Make the same change at 360, where `first_fold` names \"Independent\" at 3xl.\n\n2. Judgment 5: The label above the hero reads \"BITTER 900 · 128PT.\" That is a spec annotation left on the page, not copy. Remove it at both widths.\n\n3. Judgment 1: This reads as a rerun of 2026-10-16. That night was also a two-equal thesis-and-evidence split on a split-field, in the bitter-mulish chassis at heavy roman, with a warm red-earth field (terracotta 24°) against a pale evidence panel. Tonight shares its silhouette, chassis, type register and ground strategy. Keep the claret, but break at least the split silhouette or the chassis so a returning visitor cannot mistake the two nights.\n\n4. Judgment 6: SHELL declares `ground_material: grain`, but the claret hero field renders as flat colour at 1440 and at 360. Put a visible grain on the claret panel, and keep it fine enough that it does not read as a grey box.",
+      "channel": "sdk-vision",
+      "ts": 1792662167726
+    },
+    {
+      "critic": "mockup-precheck",
+      "round": 2,
+      "verdict": "REVISE",
+      "feedback": "[check 2] The largest first-fold text measures 28px at 1440; the declared hero_scale clamp(64px, 11vw, 128px) resolves to 128px there (22%, under the 75-125% band). Set the hero element's font-size to exactly clamp(64px, 11vw, 128px).",
+      "findings": [
+        {
+          "check": 2,
+          "key": "hero",
+          "gap": 100
+        }
+      ],
+      "ts": 1792662503042
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 2,
+      "verdict": "REVISE",
+      "feedback": "1. (Judgment 4) At 1440 the word \"Independent\" is nowhere in the 900px fold. The claret panel is empty, and the only type in view is the evidence card's standfirst. At 360, fold 1 opens on the evidence panel, and \"Ten years / Independent.\" does not arrive until the foot of fold 2, where the deck is cut by the fold edge. Set the word low in the claret panel at 1440, right-aligned to the seam. At 360, stack the claret thesis panel directly under the brand band, as `first_fold` and `order` declare.\n2. (Judgment 3) With the hero missing, the standfirst \"Everyone in the feed is starting over…\" and the project index lead the page. `hero_object: word` is not executed. \"Independent\" must be the dominant object, set heavy, roman, mixed case and right-aligned, with the evidence panel as the answer to it, not the lead.\n3. (Judgment 6 / SHELL `ground_strategy: split-field`, `ground_material: grain`) At 1440 there is no bone evidence panel. A floating card sits over one continuous field, so the two-equal split never forms. That field reads as a flat greyed mauve, not the deep `#451221` claret, which suggests the grain is washing it out into a grey box. Build the claret | bone split edge to edge, and keep the grain subtle enough that the claret stays claret.\n4. (Judgment 2) At 1440 the Gandhi quote and its attribution \"— Gandhi, on reinvention\" spill below the card's bottom edge onto the mauve field. The attribution there is close to invisible. Keep the quote inside the bone panel.\n5. (Judgment 1) Tonight repeats 2026-10-16 too closely. That night was a two-equal thesis-and-evidence split on a split-field ground, in Bitter/Mulish set heavy and roman. Hue and alignment differ, but the silhouette, archetype and type register all repeat. Push at least one of these clearly away from 10-16, for example the panel proportion or seam treatment, or the way the evidence is set, so a returning visitor cannot mistake the two nights.",
+      "channel": "sdk-vision",
+      "ts": 1792662521103
+    },
+    {
+      "critic": "surface-gate",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "/ @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/spaceman @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/fishsticks @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/fishsticks @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/fishsticks @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/15th-club @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: 'dougmar.ch' is a 100x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 146x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Open the pipeline map' is a 191x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 192x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 295x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 100x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 146x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Open the pipeline map' is a 191x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 192x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 295x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/teeturn @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/teeturn @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1792662874328
+    },
+    {
+      "critic": "screenshot-critic",
+      "verdict": "SHIP",
+      "feedback": "===VERDICT===\nSHIP\n===END===",
+      "channel": "sdk-vision",
+      "ts": 1792663065786
+    },
+    {
+      "critic": "surface-gate",
+      "round": 3,
+      "verdict": "REVISE",
+      "feedback": "/ @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/spaceman @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/fishsticks @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/fishsticks @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/15th-club @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/15th-club @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: 'dougmar.ch' is a 100x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 146x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Open the pipeline map' is a 191x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 192x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 295x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 100x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 146x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Open the pipeline map' is a 191x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 192x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 295x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/teeturn @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/teeturn @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1792663250051
+    },
+    {
+      "critic": "surface-gate",
+      "round": 4,
+      "verdict": "REVISE",
+      "feedback": "/ @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/spaceman @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/fishsticks @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/fishsticks @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/15th-club @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/15th-club @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: 'dougmar.ch' is a 100x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 146x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Open the pipeline map' is a 191x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 192x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 295x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'dougmar.ch' is a 100x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Deletion Test' is a 146x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Open the pipeline map' is a 191x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'The Phoenix Primitives' is a 192x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Evaluations Are the Real Codebase' is a 295x23px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/teeturn @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/teeturn @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'hello@dougmar.ch' is a 117x20px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @820: <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1792663385586
+    },
+    {
+      "critic": "screenshot-critic",
+      "round": "final",
+      "verdict": "SHIP",
+      "feedback": "===VERDICT===\nSHIP\n===END===",
+      "channel": "sdk-vision",
+      "ts": 1792663570218
+    },
+    {
+      "critic": "ship-gate",
+      "verdict": "SHIPPED-WITH-FAULTS",
+      "feedback": "## Measured layout faults\n\nThese are measurements taken from the live render, not observations from the images below.\nThey are exact. Do not re-litigate them against the screenshots, and do not count one fault\ntwice because it appears at more than one viewport.\n\n- [error] / at 820px (both schemes): <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n- [error] /about at 820px (both schemes): <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n- [error] /work/spaceman at 820px (both schemes): <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n- [error] /work/fishsticks at 820px (both schemes): <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n- [error] /work/15th-club at 820px (both schemes): <div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0> holds text wider than its own box: \"A new design ships every morning....\" needs 215px and the box is 206px, so 9px of it is cut off. The box does not scroll, and nothing ",
+      "ts": 1792663570218
+    }
+  ],
+  "composition": {
+    "columns": "two-equal",
+    "axis": "horizontal",
+    "symmetry": "left-weighted",
+    "hero_zone": "lower-third",
+    "density": "sparse",
+    "rhythm": "accelerating",
+    "shell_posture": "marginal",
+    "field_ratio": "type-dominant",
+    "collapse": "rail-to-band",
+    "hero_object": "word"
+  },
+  "lane": {
+    "laneId": "vercel-geist",
+    "register": "dev-precision-specimen"
+  },
+  "cost": {
+    "total_usd": 5.97255,
+    "estimated": true,
+    "partial": false,
+    "calls": 14,
+    "retries": 6,
+    "byAgent": [
+      {
+        "agent": "art-director",
+        "purpose": "first",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 27774,
+        "cache_read": 0,
+        "cache_write": 46407,
+        "cost_usd": 0.98440375,
+        "estimated": false,
+        "ms": 406905,
+        "num_turns": 1
+      },
+      {
+        "agent": "art-director",
+        "purpose": "block-retry",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 396,
+        "cache_read": 0,
+        "cache_write": 52586,
+        "cost_usd": 0.3385725,
+        "estimated": false,
+        "ms": 6907,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "first",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 13489,
+        "cache_read": 0,
+        "cache_write": 40085,
+        "cost_usd": 0.58776625,
+        "estimated": false,
+        "ms": 175302,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "first",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 16730,
+        "output": 1688,
+        "cache_read": 0,
+        "cache_write": 6988,
+        "cost_usd": 0.13562,
+        "estimated": true,
+        "ms": 17631,
+        "num_turns": null
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "revision",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 23423,
+        "cache_read": 21128,
+        "cache_write": 27678,
+        "cost_usd": 0.7691364999999999,
+        "estimated": false,
+        "ms": 320462,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "rejudge",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 16730,
+        "output": 1860,
+        "cache_read": 0,
+        "cache_write": 6988,
+        "cost_usd": 0.13906,
+        "estimated": true,
+        "ms": 17921,
+        "num_turns": null
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "revision",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 23067,
+        "cache_read": 0,
+        "cache_write": 49070,
+        "cost_usd": 0.8833725,
+        "estimated": false,
+        "ms": 324863,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "rejudge",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 16730,
+        "output": 1740,
+        "cache_read": 0,
+        "cache_write": 6988,
+        "cost_usd": 0.13666,
+        "estimated": true,
+        "ms": 18059,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "first",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 32862,
+        "cache_read": 0,
+        "cache_write": 39930,
+        "cost_usd": 0.856898,
+        "estimated": false,
+        "ms": 279801,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "first",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 21752,
+        "output": 13974,
+        "cache_read": 0,
+        "cache_write": 13700,
+        "cost_usd": 0.21749400000000002,
+        "estimated": true,
+        "ms": 165544,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 3011,
+        "cache_read": 0,
+        "cache_write": 44229,
+        "cost_usd": 0.281373,
+        "estimated": false,
+        "ms": 34067,
+        "num_turns": 1
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 5035,
+        "cache_read": 24956,
+        "cache_write": 19452,
+        "cost_usd": 0.2029592,
+        "estimated": false,
+        "ms": 55020,
+        "num_turns": 1
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 6223,
+        "cache_read": 24956,
+        "cache_write": 19707,
+        "cost_usd": 0.22799419999999998,
+        "estimated": false,
+        "ms": 66443,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "rejudge",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 21955,
+        "output": 13308,
+        "cache_read": 0,
+        "cache_write": 13700,
+        "cost_usd": 0.21124,
+        "estimated": true,
+        "ms": 159862,
+        "num_turns": null
+      }
+    ]
+  },
+  "measurables": {
+    "declared": {
+      "canvas_utilization_min": 70,
+      "hero_scale": "clamp(64px, 11vw, 128px)",
+      "color_coverage_min": 45
+    },
+    "declaredAt": "2026-10-22T10:06:13.496Z",
+    "measured": {
+      "canvas_utilization": 100,
+      "color_coverage": 100,
+      "hero_px": 122
+    },
+    "measuredAt": "2026-10-22T10:06:21.394Z",
+    "method": "Measured at 1440x900 on a 20px grid over the viewport at scroll position zero. canvas_utilization: % of grid cells touched by an element carrying designed content (visible text, an image/SVG/video/canvas, a background colour distinct from the page background and not transparent, or a background image such as a gradient). A background set on html or body counts as painting the page, unless it is opaque white; ::before and ::after boxes count on the same terms. color_coverage: % of grid cells whose sampled background, background-image stops or text colour is chromatic (HSL saturation > 12%, lightness 8-92%). hero_px: the largest computed font-size among first-fold elements that set visible text."
+  },
+  "surfaceGate": {
+    "ran": true,
+    "error": null,
+    "round": null
+  }
+}

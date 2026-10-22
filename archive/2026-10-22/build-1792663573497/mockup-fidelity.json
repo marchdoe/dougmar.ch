@@ -1,0 +1,265 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'vehicle' (128px); in build it is 'vehicle' (122px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "everyone in the feed is starting over ive run spaceman for a decade - the same vehicle that ships whatever comes next without rebuilding the chassis each time",
+                "mockupPx": 28
+              }
+            ],
+            "leader": {
+              "text": "vehicle",
+              "mockupPx": 128
+            },
+            "buildLeader": {
+              "text": "vehicle",
+              "buildPx": 122,
+              "mockupPx": 128
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'vehicle' moved from (481, 683) in the mockup to (481, 416) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'still the vehicle for the next experiment' moved from (571, 796) in the mockup to (571, 526) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'vehicle' (56px); in build it is 'vehicle' (56px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "everyone in the feed is starting over ive run spaceman for a decade - the same vehicle that ships whatever comes next without rebuilding the chassis each time",
+                "mockupPx": 20
+              }
+            ],
+            "leader": {
+              "text": "vehicle",
+              "mockupPx": 56
+            },
+            "buildLeader": {
+              "text": "vehicle",
+              "buildPx": 56,
+              "mockupPx": 56
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'vehicle' still leads, but the mockup's 'everyone in the feed is starting over ive run spaceman fo...' (28px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'vehicle' still leads, but the mockup's 'everyone in the feed is starting over ive run spaceman fo...' (20px) fell out of the build's three largest texts. Restore the mockup's sizes."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'vehicle' (128px); in build it is 'vehicle' (122px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "everyone in the feed is starting over ive run spaceman for a decade - the same vehicle that ships whatever comes next without rebuilding the chassis each time",
+                "mockupPx": 28
+              }
+            ],
+            "leader": {
+              "text": "vehicle",
+              "mockupPx": 128
+            },
+            "buildLeader": {
+              "text": "vehicle",
+              "buildPx": 122,
+              "mockupPx": 128
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'vehicle' moved from (481, 683) in the mockup to (481, 416) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'still the vehicle for the next experiment' moved from (571, 796) in the mockup to (571, 526) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'vehicle' (56px); in build it is 'vehicle' (56px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "everyone in the feed is starting over ive run spaceman for a decade - the same vehicle that ships whatever comes next without rebuilding the chassis each time",
+                "mockupPx": 20
+              }
+            ],
+            "leader": {
+              "text": "vehicle",
+              "mockupPx": 56
+            },
+            "buildLeader": {
+              "text": "vehicle",
+              "buildPx": 56,
+              "mockupPx": 56
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'vehicle' still leads, but the mockup's 'everyone in the feed is starting over ive run spaceman fo...' (28px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'vehicle' still leads, but the mockup's 'everyone in the feed is starting over ive run spaceman fo...' (20px) fell out of the build's three largest texts. Restore the mockup's sizes."
+      ]
+    },
+    {
+      "round": 4,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'vehicle' (128px); in build it is 'vehicle' (122px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "everyone in the feed is starting over ive run spaceman for a decade - the same vehicle that ships whatever comes next without rebuilding the chassis each time",
+                "mockupPx": 28
+              }
+            ],
+            "leader": {
+              "text": "vehicle",
+              "mockupPx": 128
+            },
+            "buildLeader": {
+              "text": "vehicle",
+              "buildPx": 122,
+              "mockupPx": 128
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'vehicle' moved from (481, 683) in the mockup to (481, 416) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'still the vehicle for the next experiment' moved from (571, 796) in the mockup to (571, 526) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'vehicle' (56px); in build it is 'vehicle' (56px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "everyone in the feed is starting over ive run spaceman for a decade - the same vehicle that ships whatever comes next without rebuilding the chassis each time",
+                "mockupPx": 20
+              }
+            ],
+            "leader": {
+              "text": "vehicle",
+              "mockupPx": 56
+            },
+            "buildLeader": {
+              "text": "vehicle",
+              "buildPx": 56,
+              "mockupPx": 56
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'vehicle' still leads, but the mockup's 'everyone in the feed is starting over ive run spaceman fo...' (28px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'vehicle' still leads, but the mockup's 'everyone in the feed is starting over ive run spaceman fo...' (20px) fell out of the build's three largest texts. Restore the mockup's sizes."
+      ]
+    }
+  ]
+}
