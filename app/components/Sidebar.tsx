@@ -3,91 +3,54 @@ import { identity } from '../content/about'
 import { BrandLockup } from './BrandLockup'
 
 const links = [
-  { label: 'Work', href: '/work' },
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: `mailto:${identity.email}` },
+  { label: 'work', href: '/#work' },
+  { label: 'about', href: '/about' },
 ]
+
+const linkClass = css({
+  display: 'flex',
+  alignItems: 'center',
+  minHeight: '46px',
+  fontSize: '15px',
+  color: 'textMuted',
+  textTransform: 'lowercase',
+  borderTopWidth: '1px',
+  borderTopStyle: 'solid',
+  borderTopColor: 'accent',
+  transition: 'color 0.2s ease, padding 0.2s ease',
+  _hover: { color: 'accent', paddingLeft: '6px' },
+  _last: { borderBottomWidth: '1px', borderBottomStyle: 'solid', borderBottomColor: 'accent' },
+})
 
 export function Sidebar() {
   return (
     <header
       className={css({
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: '3',
-        paddingBlock: '3',
-        paddingInline: '20px',
-        bg: 'bg',
-        borderBottomWidth: '1px',
-        borderBottomStyle: 'solid',
-        borderColor: 'border',
-        lg: {
-          gridColumn: '1',
-          gridRow: '1',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          gap: '0',
-          paddingBlock: '28px',
-          paddingInline: '10px',
-          borderBottomWidth: '0',
-          borderRightWidth: '1px',
-          borderRightStyle: 'solid',
-        },
+        position: 'relative',
+        zIndex: 1,
+        paddingTop: 'clamp(20px, 5vw, 40px)',
+        paddingInline: 'clamp(24px, 6vw, 112px)',
+        paddingBottom: { base: 'clamp(36px, 7vw, 64px)', lg: 'clamp(40px, 5vw, 72px)' },
       })}
     >
-      <a
-        href="/"
-        aria-label="Doug March, home"
-        className={css({
-          display: 'block',
-          flexShrink: 0,
-          color: 'text',
-          lg: { marginBottom: '40px' },
-        })}
-      >
-        <BrandLockup variant="mark-only-md" mode="original" />
-      </a>
+      <BrandLockup variant="horizontal-md" mode="original" roleLine />
       <nav
         aria-label="Primary"
         className={css({
+          marginTop: '22px',
+          maxWidth: '240px',
           display: 'flex',
-          alignItems: 'center',
-          gap: '1',
-          lg: { flexDirection: 'column', gap: '0', width: '100%' },
+          flexDirection: 'column',
         })}
       >
         {links.map((link) => (
-          <a
-            key={link.label}
-            href={link.href}
-            className={css({
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              minHeight: '44px',
-              minWidth: '48px',
-              paddingBlock: '12px',
-              paddingInline: '10px',
-              fontFamily: 'body',
-              fontWeight: 'bold',
-              textStyle: 'sm',
-              lineHeight: '1',
-              color: 'text',
-              borderStyle: 'solid',
-              borderColor: 'borderStrong',
-              borderLeftWidth: { base: '1px', lg: '0' },
-              borderTopWidth: { base: '0', lg: '1px' },
-              borderRightWidth: '0',
-              borderBottomWidth: '0',
-              _first: { borderLeftWidth: '0', borderTopWidth: '0' },
-              _hover: { color: 'accent', boxShadow: 'inset 0 -2px 0 currentColor' },
-              lg: { width: '100%', paddingBlock: '18px', paddingInline: '4px' },
-            })}
-          >
+          <a key={link.href} href={link.href} className={linkClass}>
             {link.label}
           </a>
         ))}
+        <a href={`mailto:${identity.email}`} className={linkClass}>
+          contact
+        </a>
       </nav>
     </header>
   )

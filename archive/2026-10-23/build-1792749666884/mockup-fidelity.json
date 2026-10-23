@@ -1,0 +1,520 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a new design ships here every morning - same mark same work a different composition reasoning from the days golf scores and weather read how it works' (38px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a new design ships here every morning - same mark same work a different composition reasoning from the days golf scores and weather read how it works",
+            "mockupPx": 38,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'15th club' (34px in the mockup) has no match in the build",
+          "facts": {
+            "text": "15th club",
+            "mockupPx": 34,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'this one is not' (144px); in build it is 'this one is not' (144px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "15th club",
+                "mockupPx": 64
+              }
+            ],
+            "leader": {
+              "text": "this one is not",
+              "mockupPx": 144
+            },
+            "buildLeader": {
+              "text": "this one is not",
+              "buildPx": 144,
+              "mockupPx": 144
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'15th club' is 64px in the mockup and 34px in the build (0.53x)",
+          "facts": {
+            "text": "15th club",
+            "mockupPx": 64,
+            "buildPx": 34,
+            "ratio": 0.53,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "text-cut",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'most golf apps are digital scorecards this one is not' shows 0% of itself in the build",
+          "facts": {
+            "text": "most golf apps are digital scorecards this one is not",
+            "buildPx": 32,
+            "visiblePct": 0
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'this one is not' (44px); in build it is 'this one is not' (44px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "15th club",
+                "mockupPx": 34
+              },
+              {
+                "text": "most golf apps are digital scorecards",
+                "mockupPx": 27
+              }
+            ],
+            "leader": {
+              "text": "this one is not",
+              "mockupPx": 44
+            },
+            "buildLeader": {
+              "text": "this one is not",
+              "buildPx": 44,
+              "mockupPx": 44
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "text-cut",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'most golf apps are digital scorecards this one is not' shows 0% of itself in the build",
+          "facts": {
+            "text": "most golf apps are digital scorecards this one is not",
+            "buildPx": 32,
+            "visiblePct": 0
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'this one is not' still leads, but the mockup's '15th club' (64px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'this one is not' still leads, but the mockup's '15th club' (34px), 'most golf apps are digital scorecards' (27px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'a new design ships here every morning - same mark same wo...' at 38px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets '15th club' at 34px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: '15th club' is 64px in the mockup and 34px in the build (0.53x). Set it back to 64px.",
+        "- / at 1440px: 'most golf apps are digital scorecards this one is not' shows 0% of itself; its box cuts the rest off. Let it wrap or give its box the room.",
+        "- / at 360px: 'most golf apps are digital scorecards this one is not' shows 0% of itself; its box cuts the rest off. Let it wrap or give its box the room."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a new design ships here every morning - same mark same work a different composition reasoning from the days golf scores and weather read how it works' (38px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a new design ships here every morning - same mark same work a different composition reasoning from the days golf scores and weather read how it works",
+            "mockupPx": 38,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'15th club' (34px in the mockup) has no match in the build",
+          "facts": {
+            "text": "15th club",
+            "mockupPx": 34,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'this one is not' (144px); in build it is 'this one is not' (144px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "15th club",
+                "mockupPx": 64
+              }
+            ],
+            "leader": {
+              "text": "this one is not",
+              "mockupPx": 144
+            },
+            "buildLeader": {
+              "text": "this one is not",
+              "buildPx": 144,
+              "mockupPx": 144
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'15th club' is 64px in the mockup and 34px in the build (0.53x)",
+          "facts": {
+            "text": "15th club",
+            "mockupPx": 64,
+            "buildPx": 34,
+            "ratio": 0.53,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'this one is not' (44px); in build it is 'this one is not' (44px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "15th club",
+                "mockupPx": 34
+              },
+              {
+                "text": "most golf apps are digital scorecards",
+                "mockupPx": 27
+              }
+            ],
+            "leader": {
+              "text": "this one is not",
+              "mockupPx": 44
+            },
+            "buildLeader": {
+              "text": "this one is not",
+              "buildPx": 44,
+              "mockupPx": 44
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'this one is not' still leads, but the mockup's '15th club' (64px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'this one is not' still leads, but the mockup's '15th club' (34px), 'most golf apps are digital scorecards' (27px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'a new design ships here every morning - same mark same wo...' at 38px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets '15th club' at 34px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: '15th club' is 64px in the mockup and 34px in the build (0.53x). Set it back to 64px."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a new design ships here every morning - same mark same work a different composition reasoning from the days golf scores and weather read how it works' (38px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a new design ships here every morning - same mark same work a different composition reasoning from the days golf scores and weather read how it works",
+            "mockupPx": 38,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'15th club' (34px in the mockup) has no match in the build",
+          "facts": {
+            "text": "15th club",
+            "mockupPx": 34,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'this one is not' (144px); in build it is 'this one is not' (144px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "15th club",
+                "mockupPx": 64
+              }
+            ],
+            "leader": {
+              "text": "this one is not",
+              "mockupPx": 144
+            },
+            "buildLeader": {
+              "text": "this one is not",
+              "buildPx": 144,
+              "mockupPx": 144
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'15th club' is 64px in the mockup and 34px in the build (0.53x)",
+          "facts": {
+            "text": "15th club",
+            "mockupPx": 64,
+            "buildPx": 34,
+            "ratio": 0.53,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'this one is not' (44px); in build it is 'this one is not' (44px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "15th club",
+                "mockupPx": 34
+              },
+              {
+                "text": "most golf apps are digital scorecards",
+                "mockupPx": 27
+              }
+            ],
+            "leader": {
+              "text": "this one is not",
+              "mockupPx": 44
+            },
+            "buildLeader": {
+              "text": "this one is not",
+              "buildPx": 44,
+              "mockupPx": 44
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'this one is not' still leads, but the mockup's '15th club' (64px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'this one is not' still leads, but the mockup's '15th club' (34px), 'most golf apps are digital scorecards' (27px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'a new design ships here every morning - same mark same wo...' at 38px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets '15th club' at 34px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: '15th club' is 64px in the mockup and 34px in the build (0.53x). Set it back to 64px."
+      ]
+    },
+    {
+      "round": 4,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a new design ships here every morning - same mark same work a different composition reasoning from the days golf scores and weather read how it works' (38px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a new design ships here every morning - same mark same work a different composition reasoning from the days golf scores and weather read how it works",
+            "mockupPx": 38,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'15th club' (34px in the mockup) has no match in the build",
+          "facts": {
+            "text": "15th club",
+            "mockupPx": 34,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'this one is not' (144px); in build it is 'this one is not' (144px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "15th club",
+                "mockupPx": 64
+              }
+            ],
+            "leader": {
+              "text": "this one is not",
+              "mockupPx": 144
+            },
+            "buildLeader": {
+              "text": "this one is not",
+              "buildPx": 144,
+              "mockupPx": 144
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'15th club' is 64px in the mockup and 34px in the build (0.53x)",
+          "facts": {
+            "text": "15th club",
+            "mockupPx": 64,
+            "buildPx": 34,
+            "ratio": 0.53,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'this one is not' (44px); in build it is 'this one is not' (44px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "15th club",
+                "mockupPx": 34
+              },
+              {
+                "text": "most golf apps are digital scorecards",
+                "mockupPx": 27
+              }
+            ],
+            "leader": {
+              "text": "this one is not",
+              "mockupPx": 44
+            },
+            "buildLeader": {
+              "text": "this one is not",
+              "buildPx": 44,
+              "mockupPx": 44
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'this one is not' still leads, but the mockup's '15th club' (64px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'this one is not' still leads, but the mockup's '15th club' (34px), 'most golf apps are digital scorecards' (27px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'a new design ships here every morning - same mark same wo...' at 38px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets '15th club' at 34px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: '15th club' is 64px in the mockup and 34px in the build (0.53x). Set it back to 64px."
+      ]
+    }
+  ]
+}

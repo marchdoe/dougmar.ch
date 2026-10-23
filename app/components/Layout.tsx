@@ -1,46 +1,61 @@
 import type { ReactNode } from 'react'
 import { css } from '../../styled-system/css'
 import { Sidebar } from './Sidebar'
-import { SignalFooter } from './generated/SignalFooter'
 
+// The clipped "A new design ships every morning" line reported at 820px is in the
+// rail that __root.tsx renders above this Layout. That file is orchestrator-owned,
+// and the rules forbid styling, moving or hiding the rail from here. Nothing in this
+// shell sits beside the rail or narrows it, so the fix belongs in __root.tsx.
 export function Layout({ children }: { children: ReactNode }) {
   return (
     <div
       className={css({
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh',
         bg: 'bg',
         color: 'text',
         fontFamily: 'body',
-        // The viewport scrollbar takes width from the top row at mid widths, and the
-        // day's body face sets wide at the root size. Between md and lg the root steps
-        // down a touch so the row above the shell keeps its full line of type.
-        // Panda resolves `&` anywhere in a nested selector; its types only accept it at either end.
-        // @ts-expect-error nested selector with `&` inside :has()
-        'html:has(&)': {
-          scrollbarWidth: { base: 'none', xl: 'auto' },
-          fontSize: { mdOnly: '93.75%' },
-          letterSpacing: { mdOnly: '-0.01em' },
-        },
-        lg: {
-          display: 'grid',
-          gridTemplateColumns: '88px minmax(0, 1fr)',
-          gridTemplateRows: '1fr auto',
-        },
+        lineHeight: '1.5',
+        minHeight: '100vh',
+        overflowX: 'clip',
       })}
     >
       <Sidebar />
-      <main
+      <main>{children}</main>
+      <footer
         className={css({
-          flexGrow: 1,
-          minWidth: 0,
-          lg: { gridColumn: '2', gridRow: '1' },
+          borderTopWidth: '1px',
+          borderTopStyle: 'solid',
+          borderTopColor: 'border',
+          paddingBlock: 'clamp(28px, 4vw, 40px)',
+          paddingInline: 'clamp(24px, 6vw, 112px)',
         })}
       >
-        {children}
-      </main>
-      <SignalFooter />
+        <div
+          className={css({
+            display: 'flex',
+            flexWrap: 'wrap',
+            rowGap: '12px',
+            columnGap: '28px',
+            alignItems: 'baseline',
+            fontSize: '13px',
+            color: 'textFaint',
+          })}
+        >
+          <span className={css({ color: 'textMuted' })}>Aldie, VA</span>
+          <span className={css({ color: 'textMuted' })}>23 Oct 2026</span>
+          <span className={css({ display: 'flex', gap: '8px', alignItems: 'baseline' })}>
+            <span className={css({ color: 'textMuted' })}>SPY</span>
+            <span className={css({ fontVariantNumeric: 'tabular-nums' })}>763.96</span>
+            <span className={css({ color: 'accentAlt', fontVariantNumeric: 'tabular-nums' })}>
+              ▼1.18%
+            </span>
+          </span>
+          <span>
+            <span className={css({ color: 'textMuted' })}>in rotation:</span> Radiohead, My Morning
+            Jacket, Tobin Sprout
+          </span>
+          <span>© Doug March</span>
+        </div>
+      </footer>
     </div>
   )
 }

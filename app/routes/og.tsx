@@ -19,61 +19,55 @@ function OgCard() {
     >
       <div
         className={css({
-          position: 'relative',
           width: '1200px',
           height: '630px',
           flexShrink: 0,
-          bg: 'field',
-          color: 'fieldInk',
+          bg: 'bg',
+          color: 'text',
+          padding: '64px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          padding: '64px',
+          borderBottomWidth: '12px',
+          borderBottomStyle: 'solid',
+          borderBottomColor: 'field',
         })}
       >
-        <div className={css({ color: 'fieldInk' })}>
-          <BrandLockup variant="mark-only-md" mode="original" />
-        </div>
-        <h1 className={css({ textAlign: 'right', lineHeight: '1' })}>
+        <BrandLockup variant="horizontal-md" mode="original" roleLine />
+        <h1
+          className={css({
+            fontFamily: 'display',
+            fontWeight: 'light',
+            textTransform: 'lowercase',
+            textAlign: 'left',
+          })}
+        >
           <span
             className={css({
               display: 'block',
-              fontFamily: 'body',
-              fontWeight: 'bold',
-              textTransform: 'uppercase',
-              letterSpacing: 'widest',
-              fontSize: '16px',
-              color: 'accentAlt',
-              marginBottom: '3',
+              fontSize: '60px',
+              lineHeight: '0.98',
+              letterSpacing: '-0.02em',
+              color: 'textMuted',
+              WebkitTextFillColor: 'transparent',
+              WebkitTextStroke: '1.6px currentColor',
+              marginBottom: '8px',
             })}
           >
-            Doug March
+            most golf apps are
+            <br />
+            digital scorecards.
           </span>
           <span
             className={css({
               display: 'block',
-              fontFamily: 'display',
-              fontWeight: 'bold',
-              fontSize: '80px',
-              lineHeight: '1',
-              letterSpacing: 'tight',
-              color: 'fieldInk',
-              marginBottom: '3',
+              fontSize: '104px',
+              lineHeight: '0.92',
+              letterSpacing: '-0.035em',
+              color: 'accent',
             })}
           >
-            Ten years independent.
-          </span>
-          <span
-            className={css({
-              display: 'block',
-              fontFamily: 'display',
-              fontWeight: 'normal',
-              fontSize: '42px',
-              lineHeight: '1.12',
-              color: 'fieldInk',
-            })}
-          >
-            Still the vehicle for the next experiment.
+            this one is not.
           </span>
         </h1>
       </div>

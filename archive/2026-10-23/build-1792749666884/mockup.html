@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dougmar.ch — most golf apps are digital scorecards. this one is not.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF7F0; --bgAlt:#EDE4D2; --surface:#F3EEE3;
+  --cream200:#E7DFCE; --cream300:#D4C9B1;
+  --text:#2B2820; --textMuted:#5E543D; --textFaint:#7C7154;
+  --accent:#2A7048; --accentAlt:#1F5637; --accentLight:#3E9263; --glow:#CFE6D6;
+  --border:#DCD3BE; --borderStrong:#4A4332;
+  --field:#2A7048; --fieldDeep:#1F5637; --fieldInk:#FAF7F0; --fieldInkMuted:#CFE6D6; --fieldBorder:#4E8F6A;
+  --disp:"Bricolage Grotesque",system-ui,sans-serif;
+  --body:"Manrope",system-ui,sans-serif;
+  --pad:clamp(24px,6vw,112px);
+  --sect:clamp(48px,7vw,112px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);color:var(--text);font-family:var(--body);
+  font-weight:400;line-height:1.5;-webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;font-kerning:normal;overflow-x:hidden;
+}
+h1,h2,h3,h4{font-weight:inherit;margin:0}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--accent);color:var(--fieldInk)}
+.tab{font-variant-numeric:tabular-nums}
+
+/* ============ HERO ============ */
+.hero{
+  position:relative;
+  padding:clamp(20px,5vw,40px) var(--pad) var(--sect);
+}
+.hero-left{position:relative;z-index:1}
+.ground{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.ground::after{
+  content:"";position:absolute;inset:0;
+  background-image:
+    radial-gradient(at 12% 20%, rgba(42,112,72,0.14) 0, transparent 45%),
+    radial-gradient(at 70% 8%, rgba(31,86,55,0.10) 0, transparent 42%),
+    radial-gradient(at 40% 80%, rgba(62,146,99,0.10) 0, transparent 50%),
+    radial-gradient(at 90% 60%, rgba(250,247,240,0.6) 0, transparent 40%);
+}
+
+/* lockup + nav */
+.head{position:relative;z-index:1;margin-bottom:clamp(36px,7vw,64px)}
+.lockup{display:flex;align-items:center;gap:14px}
+.lockup svg{height:40px;width:auto;display:block;flex:none}
+.wordmark{
+  font-family:var(--disp);font-weight:600;font-size:20px;line-height:1;
+  letter-spacing:-0.015em;color:var(--text);
+}
+.role{
+  font-family:var(--body);font-weight:500;font-size:13px;line-height:1.1;
+  text-transform:uppercase;letter-spacing:0.09em;color:var(--textFaint);
+  margin-top:7px;
+}
+nav{margin-top:22px;max-width:240px}
+nav a{
+  display:flex;align-items:center;min-height:46px;
+  font-size:15px;color:var(--textMuted);
+  border-top:1px solid var(--accent);
+  text-transform:lowercase;letter-spacing:0;transition:color .2s ease,padding .2s ease;
+}
+nav a:last-child{border-bottom:1px solid var(--accent)}
+nav a:hover{color:var(--accent);padding-left:6px}
+nav a .n{font-size:12px;color:var(--textFaint);margin-right:12px;font-variant-numeric:tabular-nums}
+
+/* statement */
+.statement{position:relative;z-index:1}
+.setup{
+  font-family:var(--disp);font-weight:400;line-height:0.98;
+  font-size:clamp(27px,7.2vw,76px);letter-spacing:-0.02em;
+  text-transform:lowercase;
+  color:transparent;
+  -webkit-text-stroke:1.6px var(--textMuted);
+  text-stroke:1.6px var(--textMuted);
+  margin-bottom:0.12em;
+}
+.punch{
+  font-family:var(--disp);font-weight:400;line-height:0.92;
+  font-size:clamp(44px,10vw,148px);letter-spacing:-0.035em;
+  text-transform:lowercase;color:var(--accent);
+}
+.standfirst{
+  position:relative;z-index:1;
+  margin-top:clamp(28px,4vw,40px);max-width:52ch;
+  font-size:clamp(17px,2.1vw,22px);line-height:1.45;color:var(--textMuted);
+  font-weight:500;
+}
+.standfirst b{color:var(--text);font-weight:700}
+.rule{height:2px;background:var(--borderStrong);border:0;margin-top:clamp(32px,4vw,48px);position:relative;z-index:1}
+
+/* ============ SCORECARD / SIGNAL FIELD ============ */
+.field{
+  background:transparent;color:var(--text);
+  margin:clamp(32px,5vw,0) 0 0 0;
+  padding:0;
+  position:relative;z-index:1;border-radius:0;
+}
+.field .flabel{
+  font-size:12px;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--accent);font-weight:700;
+}
+.card{
+  margin-top:18px;background:transparent;border:1px solid var(--accent);
+  border-radius:4px;overflow:hidden;
+}
+.card .chead{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:12px 14px;border-bottom:1px solid var(--accent);
+  background:var(--glow);
+}
+.card .chead .t{font-family:var(--disp);font-weight:600;font-size:15px;letter-spacing:-0.01em;color:var(--accentAlt)}
+.card .chead .m{font-size:12px;color:var(--accentAlt)}
+.lb-row{
+  display:grid;grid-template-columns:22px 1fr auto;align-items:baseline;
+  gap:12px;padding:9px 14px;border-bottom:1px solid var(--border);
+  font-size:14px;
+}
+.lb-row:last-child{border-bottom:0}
+.lb-row .pos{font-size:12px;color:var(--textFaint);font-variant-numeric:tabular-nums}
+.lb-row .nm{color:var(--text)}
+.lb-row .sc{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:700}
+.lb-row.lead .nm{color:var(--accentAlt);font-weight:700}
+.lb-row.lead .sc{color:var(--accentAlt);font-weight:700}
+.lb-row.lead{background:var(--glow)}
+
+.markers{margin-top:22px;display:flex;flex-direction:column;gap:14px}
+.marker{border-top:1px solid var(--border);padding-top:12px}
+.marker .mk{font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--textFaint);margin-bottom:5px}
+.marker .mv{font-size:15px;font-variant-numeric:tabular-nums;color:var(--text)}
+.marker .mv .w{color:var(--accent);font-weight:700}
+
+/* ============ BELOW FOLD SECTIONS ============ */
+.section{padding:var(--sect) var(--pad)}
+.eyebrow{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:28px}
+
+.featured{display:grid;gap:clamp(24px,4vw,56px)}
+.feat-title{font-family:var(--disp);font-weight:600;font-size:clamp(34px,6vw,64px);letter-spacing:-0.03em;line-height:1;color:var(--text);text-transform:lowercase}
+.feat-meta{font-size:13px;letter-spacing:0.06em;text-transform:uppercase;color:var(--textFaint);margin-top:14px}
+.feat-body{max-width:60ch;font-size:clamp(16px,1.6vw,18px);line-height:1.55;color:var(--textMuted);margin-top:22px}
+.feat-link{display:inline-flex;align-items:center;gap:8px;margin-top:26px;font-size:15px;font-weight:700;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:3px;transition:gap .2s ease}
+.feat-link:hover{gap:14px}
+
+/* index */
+.idx-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--borderStrong);padding-bottom:12px;margin-bottom:0}
+.idx-head h2{font-family:var(--disp);font-weight:600;font-size:clamp(20px,2.4vw,26px);letter-spacing:-0.01em;text-transform:lowercase}
+.idx-head .count{font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--textFaint)}
+.row{
+  display:grid;grid-template-columns:1fr auto auto;align-items:baseline;gap:16px;
+  padding:clamp(16px,2vw,22px) 0;border-bottom:1px solid var(--border);
+  transition:padding-left .2s ease;
+}
+.row:hover{padding-left:10px}
+.row .rt{font-family:var(--disp);font-weight:600;font-size:clamp(22px,3vw,34px);letter-spacing:-0.02em;color:var(--text);text-transform:lowercase;line-height:1.05;transition:color .2s ease}
+.row:hover .rt{color:var(--accent)}
+.row .rtype{font-size:13px;letter-spacing:0.06em;text-transform:uppercase;color:var(--textMuted);justify-self:end}
+.row .ryear{font-size:14px;font-variant-numeric:tabular-nums;color:var(--textFaint);justify-self:end;min-width:3.4ch;text-align:right}
+.idx-block + .idx-block{margin-top:var(--sect)}
+
+/* callout */
+.callout{background:var(--bgAlt);padding:var(--sect) var(--pad)}
+.callout .ci{max-width:62ch}
+.callout .cl{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:20px}
+.callout p{font-family:var(--disp);font-weight:400;font-size:clamp(22px,3.2vw,38px);line-height:1.18;letter-spacing:-0.02em;color:var(--text);text-transform:lowercase}
+.callout a{color:var(--accent);border-bottom:2px solid var(--accent)}
+
+/* footer */
+footer{border-top:1px solid var(--border);padding:clamp(28px,4vw,40px) var(--pad)}
+.colophon{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:baseline;font-size:13px;color:var(--textFaint)}
+.colophon .seg{display:flex;gap:8px;align-items:baseline}
+.colophon .k{color:var(--textMuted)}
+.colophon .tab{font-variant-numeric:tabular-nums}
+.colophon .dn{color:var(--accentAlt)}
+
+/* ============ DESKTOP ============ */
+@media (min-width:900px){
+  .hero{
+    display:grid;
+    grid-template-columns:minmax(0,1.9fr) minmax(280px,1fr);
+    column-gap:5vw;
+    min-height:88vh;
+    padding-right:0;
+    align-items:stretch;
+  }
+  .ground{right:0;}
+  .head{margin-bottom:clamp(40px,5vw,72px)}
+  .hero-left{display:flex;flex-direction:column;justify-content:flex-start;padding-bottom:40px}
+  .field{
+    margin:0;
+    padding:clamp(40px,4vw,64px) var(--pad) clamp(40px,4vw,64px) clamp(28px,3vw,44px);
+    align-self:stretch;display:flex;flex-direction:column;
+  }
+  .featured{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:start}
+}
+@media (min-width:1200px){
+  nav{display:flex;gap:0;flex-direction:column}
+}
+@media (prefers-reduced-motion:no-preference){
+  .hero-left>*{animation:settle .7s cubic-bezier(.2,.7,.2,1) both}
+  .head{animation-delay:.02s}
+  .statement{animation-delay:.08s}
+  .standfirst{animation-delay:.16s}
+  @keyframes settle{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="ground" aria-hidden="true"></div>
+  <div class="hero-left">
+
+    <div class="head">
+      <a class="lockup" href="/" aria-label="dougmar.ch home">
+        <svg viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Doug March logo">
+          <title>Doug March logo</title>
+          <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+          <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+          <circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+          <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+        </svg>
+        <span>
+          <span class="wordmark">Doug March</span>
+          <span class="role" style="display:block">product designer &amp; developer</span>
+        </span>
+      </a>
+      <nav aria-label="Primary">
+        <a href="#work">work</a>
+        <a href="#about">about</a>
+        <a href="#contact">contact</a>
+      </nav>
+    </div>
+
+    <h1 class="statement">
+      <span class="setup" aria-hidden="true">most golf apps are<br>digital scorecards.</span>
+      <span class="punch">this one is not.</span>
+      <span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Most golf apps are digital scorecards. This one is not.</span>
+    </h1>
+
+    <p class="standfirst"><b>15th&nbsp;Club</b> is a platform for AI experiments through the lens of golf. The scorecard is the first experiment — shareable, real-time, no app install required.</p>
+    <hr class="rule">
+  </div>
+
+  <aside class="field" aria-label="Today, on the wire">
+    <div class="flabel">today · on the wire</div>
+
+    <div class="card">
+      <div class="chead">
+        <span class="t">Butterfield Bermuda</span>
+        <span class="m">in progress</span>
+      </div>
+      <div class="lb-row lead">
+        <span class="pos">1</span><span class="nm">Blanchet</span><span class="sc">&minus;9</span>
+      </div>
+      <div class="lb-row">
+        <span class="pos">T2</span><span class="nm">Kohles</span><span class="sc">&minus;8</span>
+      </div>
+      <div class="lb-row">
+        <span class="pos">T2</span><span class="nm">Silverman</span><span class="sc">&minus;8</span>
+      </div>
+      <div class="lb-row">
+        <span class="pos">T2</span><span class="nm">Walker</span><span class="sc">&minus;8</span>
+      </div>
+      <div class="lb-row">
+        <span class="pos">T2</span><span class="nm">Conners</span><span class="sc">&minus;8</span>
+      </div>
+    </div>
+
+    <div class="markers">
+      <div class="marker">
+        <div class="mk">red wings</div>
+        <div class="mv">DET 5 · OPP 2 · <span class="w">W</span></div>
+      </div>
+      <div class="marker">
+        <div class="mk">weather</div>
+        <div class="mv">47&deg;F clear · Aldie VA</div>
+      </div>
+      <div class="marker">
+        <div class="mk">moon</div>
+        <div class="mv">waxing gibbous · 95%</div>
+      </div>
+    </div>
+  </aside>
+</header>
+
+<main>
+  <!-- FEATURED -->
+  <section class="section" id="work-15th-club">
+    <div class="eyebrow">featured work</div>
+    <div class="featured">
+      <div>
+        <h2 class="feat-title">15th club</h2>
+        <div class="feat-meta">AI · 2025 · a platform for golf experiments</div>
+        <a class="feat-link" href="#work-15th-club">visit 15th club <span aria-hidden="true">&rarr;</span></a>
+      </div>
+      <div>
+        <p class="feat-body">A platform for AI experiments seen through the lens of golf. The scorecard is the first one to ship — shareable, real-time, and running in the browser with no app install required. Most golf apps stop at recording the round; this is the groundwork for the AI that reasons about it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SELECTED WORK -->
+  <section class="section" id="work">
+    <div class="idx-block">
+      <div class="idx-head">
+        <h2>selected work</h2>
+        <span class="count">04 projects</span>
+      </div>
+      <a class="row" href="#work-15th-club">
+        <span class="rt">15th club</span><span class="rtype">AI</span><span class="ryear tab">2025</span>
+      </a>
+      <a class="row" href="#work-dougmar-ch">
+        <span class="rt">dougmar.ch</span><span class="rtype">AI</span><span class="ryear tab">2026</span>
+      </a>
+      <a class="row" href="#work-fishsticks">
+        <span class="rt">fishsticks</span><span class="rtype">SaaS</span><span class="ryear tab">2025</span>
+      </a>
+      <a class="row" href="#work-spaceman">
+        <span class="rt">spaceman</span><span class="rtype">Founder</span><span class="ryear tab">2018</span>
+      </a>
+    </div>
+
+    <div class="idx-block">
+      <div class="idx-head">
+        <h2>experiments</h2>
+        <span class="count">03 things</span>
+      </div>
+      <a class="row" href="#work-teeturn">
+        <span class="rt">teeturn</span><span class="rtype">Experiment</span><span class="ryear tab">2020</span>
+      </a>
+      <a class="row" href="#work-politweets">
+        <span class="rt">politweets</span><span class="rtype">Experiment</span><span class="ryear tab">2008</span>
+      </a>
+      <a class="row" href="#work-twittertale">
+        <span class="rt">twittertale</span><span class="rtype">Experiment</span><span class="ryear tab">2008</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- CALLOUT -->
+  <section class="callout" id="contact">
+    <div class="ci">
+      <div class="cl">about this site</div>
+      <p>a new design ships here every morning — same mark, same work, a different composition reasoning from the day's golf, scores and weather. <a href="#about">read how it works</a>.</p>
+    </div>
+  </section>
+</main>
+
+<footer id="about">
+  <div class="colophon">
+    <span class="seg"><span class="k">Aldie, VA</span></span>
+    <span class="seg"><span class="k">23 Oct 2026</span></span>
+    <span class="seg"><span class="k">SPY</span> <span class="tab">763.96</span> <span class="dn">&#9660;1.18%</span></span>
+    <span class="seg"><span class="k">in rotation:</span> Radiohead, My Morning Jacket, Tobin Sprout</span>
+    <span class="seg">&copy; Doug March</span>
+  </div>
+</footer>
+
+</body>
+</html>
