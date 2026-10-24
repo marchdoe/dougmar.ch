@@ -1,101 +1,91 @@
 import { css } from '../../../styled-system/css'
 import { featuredProject } from '../../content/projects'
+import { rangeText, textField } from './projectFields'
+
+const linkCls = css({
+  display: 'inline-flex',
+  alignItems: 'center',
+  minHeight: '44px',
+  width: 'fit-content',
+  fontWeight: 'bold',
+  textStyle: 'sm',
+  color: 'text',
+  borderBottom: '2px solid',
+  borderBottomColor: 'text',
+  _hover: { textDecoration: 'none', borderBottomWidth: '4px' },
+})
 
 export function FeaturedWork() {
   const p = featuredProject
   if (!p) return null
-  const href = p.externalUrl ?? p.liveUrl ?? `/work/${p.slug}`
+  const meta = [p.role ?? '', rangeText(textField(p, 'timeline'))].filter((v) => v !== '')
+  const body = p.problem ?? p.description ?? ''
+  const outbound = p.externalUrl ?? p.liveUrl ?? ''
   return (
-    <section
+    <article
       className={css({
-        paddingBlock: 'clamp(48px, 7vw, 112px)',
-        paddingInline: 'clamp(24px, 6vw, 112px)',
-        '@supports (animation-timeline: view())': {
-          animationName: 'rise',
-          animationTimeline: 'view()',
-          animationRange: 'entry 0% entry 40%',
-          animationFillMode: 'both',
-        },
+        borderTop: '2px solid',
+        borderTopColor: 'text',
+        paddingTop: '5',
+        display: 'grid',
+        gap: '4',
+        marginBottom: '7',
       })}
     >
-      <div
+      <span
         className={css({
-          fontSize: '12px',
-          letterSpacing: '0.12em',
-          textTransform: 'uppercase',
-          color: 'accent',
+          textStyle: '2xs',
           fontWeight: 'bold',
-          marginBottom: '28px',
+          letterSpacing: 'widest',
+          textTransform: 'uppercase',
+          color: 'text',
         })}
       >
-        featured work
-      </div>
-      <div
+        Featured
+      </span>
+      <h2
         className={css({
-          display: 'grid',
-          gap: 'clamp(24px, 4vw, 56px)',
-          gridTemplateColumns: { lg: 'minmax(0, 1.5fr) minmax(0, 1fr)' },
-          alignItems: 'start',
+          fontFamily: 'display',
+          fontSize: { base: '44px', md: '64px', lg: '80px' },
+          lineHeight: '0.9',
+          letterSpacing: '-0.01em',
+          color: 'text',
         })}
       >
-        <div>
-          <h2
-            className={css({
-              fontFamily: 'display',
-              fontWeight: '600',
-              fontSize: 'clamp(34px, 6vw, 64px)',
-              letterSpacing: '-0.03em',
-              lineHeight: '1',
-              color: 'text',
-              textTransform: 'lowercase',
-            })}
-          >
-            {p.title}
-          </h2>
-          <div
-            className={css({
-              fontSize: '13px',
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              color: 'textFaint',
-              marginTop: '14px',
-            })}
-          >
-            {p.type} · {p.year}
-          </div>
-          <a
-            href={href}
-            className={css({
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              minHeight: '44px',
-              marginTop: '18px',
-              fontSize: '15px',
-              fontWeight: 'bold',
-              color: 'accent',
-              textTransform: 'lowercase',
-              borderBottomWidth: '2px',
-              borderBottomStyle: 'solid',
-              borderBottomColor: 'accent',
-              transition: 'gap 0.2s ease',
-              _hover: { gap: '14px' },
-            })}
-          >
-            visit {p.title} <span aria-hidden="true">→</span>
-          </a>
-        </div>
-        <p
+        {p.title}
+      </h2>
+      {meta.length > 0 ? (
+        <div
           className={css({
-            maxWidth: '50ch',
-            fontSize: 'clamp(16px, 1.6vw, 18px)',
-            lineHeight: '1.55',
-            color: 'textMuted',
+            display: 'flex',
+            flexWrap: 'wrap',
+            columnGap: '5',
+            rowGap: '1',
+            textStyle: 'sm',
+            fontWeight: 'bold',
+            letterSpacing: 'wide',
+            textTransform: 'uppercase',
+            color: 'text',
           })}
         >
-          {p.problem}
-        </p>
+          {meta.map((m) => (
+            <span key={m}>{m}</span>
+          ))}
+        </div>
+      ) : null}
+      {body ? (
+        <p className={css({ textStyle: 'lede', color: 'text', maxWidth: '48ch' })}>{body}</p>
+      ) : null}
+      <div className={css({ display: 'flex', flexWrap: 'wrap', columnGap: '5', rowGap: '2' })}>
+        <a href={`/work/${p.slug}`} className={linkCls}>
+          Read the case →
+        </a>
+        {outbound ? (
+          <a href={outbound} className={linkCls}>
+            Visit the site ↗
+          </a>
+        ) : null}
       </div>
-    </section>
+    </article>
   )
 }

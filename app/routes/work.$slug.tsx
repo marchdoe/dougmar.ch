@@ -1,8 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { WhitePaper } from '../components/WhitePaper'
-import { CaseHeader } from '../components/generated/CaseHeader'
+import { CaseBody } from '../components/generated/CaseBody'
+import { CaseHero } from '../components/generated/CaseHero'
 import { CaseMissing } from '../components/generated/CaseMissing'
-import { CaseStudy } from '../components/generated/CaseStudy'
 import { projects } from '../content/projects'
 
 export const Route = createFileRoute('/work/$slug')({ component: WorkPage })
@@ -13,8 +13,8 @@ function WorkPage() {
   if (!project) return <CaseMissing />
   return (
     <>
-      <CaseHeader project={project} />
-      {project.slug === 'dougmar-ch' ? <WhitePaper /> : <CaseStudy project={project} />}
+      <CaseHero project={project} />
+      {project.slug === 'dougmar-ch' ? <WhitePaper /> : <CaseBody project={project} />}
     </>
   )
 }

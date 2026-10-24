@@ -1,0 +1,142 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "selector": "main.flex_1.min-w_0 > section.pos_relative.ov_hidden.pt_3.pb_7 > div.pos_absolute.inset_-4%.bg_bg.z_0",
+            "text": "",
+            "cause": "viewport",
+            "right": 382,
+            "over": 22,
+            "boxWidth": 389
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "tablet": {
+      "width": 820,
+      "height": 1180,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "selector": "main.flex_1.min-w_0 > section.pos_relative.ov_hidden.pt_3.pb_7 > div.pos_absolute.inset_-4%.bg_bg.z_0",
+            "text": "",
+            "cause": "viewport",
+            "right": 871,
+            "over": 51,
+            "boxWidth": 886
+          },
+          {
+            "tag": "SPAN",
+            "selector": "div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0",
+            "text": "A new design ships every morning.",
+            "cause": "text",
+            "right": 529,
+            "over": 9,
+            "boxWidth": 206
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 20,
+          "passing": true
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "‹",
+            "w": 32,
+            "h": 44
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "selector": "main.flex_1.min-w_0 > section.pos_relative.ov_hidden.pt_3.pb_7 > div.pos_absolute.inset_-4%.bg_bg.z_0",
+            "text": "",
+            "cause": "viewport",
+            "right": 1087,
+            "over": 63,
+            "boxWidth": 1106
+          },
+          {
+            "tag": "DIV",
+            "selector": "div.d_grid.gap_1px.bg_fieldBorder.bd_1px_solid > div.bg_field.p_4.min-w_0 > div.ff_display.textStyle_md.sm:textStyle_lg.lh_1",
+            "text": "759.97",
+            "cause": "text",
+            "right": 764,
+            "over": 13,
+            "boxWidth": 135
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 20,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "selector": "main.flex_1.min-w_0 > section.pos_relative.ov_hidden.pt_3.pb_7 > div.pos_absolute.inset_-4%.bg_bg.z_0",
+            "text": "",
+            "cause": "viewport",
+            "right": 1529,
+            "over": 89,
+            "boxWidth": 1555
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 20,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    }
+  },
+  "overallScore": 3,
+  "worstFailure": {
+    "viewport": "tablet",
+    "check": "clippedElements",
+    "detail": "2 element(s) clipped (first: <DIV>)"
+  },
+  "buildId": "1792834563886",
+  "date": "2026-10-24",
+  "archetype": "a trophy-amber scoreboard, the score as the sun and the day orbiting it"
+}

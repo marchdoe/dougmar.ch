@@ -4,37 +4,38 @@ export function CaseMissing() {
   return (
     <section
       className={css({
-        paddingInline: 'clamp(24px, 6vw, 112px)',
-        paddingBottom: 'clamp(48px, 7vw, 112px)',
+        paddingTop: '7',
+        paddingBottom: '9',
+        paddingInline: '5vw',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        textAlign: 'center',
+        gap: '5',
       })}
     >
       <h1
         className={css({
           fontFamily: 'display',
-          fontWeight: '600',
-          fontSize: 'clamp(34px, 6vw, 64px)',
-          letterSpacing: '-0.03em',
-          lineHeight: '1',
-          textTransform: 'lowercase',
+          fontWeight: 'normal',
+          textStyle: '3xl',
+          textTransform: 'uppercase',
+          color: 'text',
         })}
       >
-        no such project
+        No project by that name
       </h1>
       <a
-        href="/#work"
+        href="/"
         className={css({
-          display: 'inline-flex',
-          marginTop: '26px',
-          fontSize: '15px',
           fontWeight: 'bold',
-          color: 'accent',
-          borderBottomWidth: '2px',
-          borderBottomStyle: 'solid',
-          borderBottomColor: 'accent',
-          paddingBottom: '3px',
+          textStyle: 'sm',
+          color: 'text',
+          borderBottom: '2px solid',
+          borderBottomColor: 'text',
         })}
       >
-        back to the work
+        Back to the work
       </a>
     </section>
   )

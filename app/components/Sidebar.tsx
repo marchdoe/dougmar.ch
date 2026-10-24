@@ -1,57 +1,105 @@
 import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
-import { BrandLockup } from './BrandLockup'
-
-const links = [
-  { label: 'work', href: '/#work' },
-  { label: 'about', href: '/about' },
-]
-
-const linkClass = css({
-  display: 'flex',
-  alignItems: 'center',
-  minHeight: '46px',
-  fontSize: '15px',
-  color: 'textMuted',
-  textTransform: 'lowercase',
-  borderTopWidth: '1px',
-  borderTopStyle: 'solid',
-  borderTopColor: 'accent',
-  transition: 'color 0.2s ease, padding 0.2s ease',
-  _hover: { color: 'accent', paddingLeft: '6px' },
-  _last: { borderBottomWidth: '1px', borderBottomStyle: 'solid', borderBottomColor: 'accent' },
-})
+import { BoxScore } from './generated/BoxScore'
+import { FootNav } from './generated/FootNav'
 
 export function Sidebar() {
   return (
-    <header
+    <footer
       className={css({
-        position: 'relative',
-        zIndex: 1,
-        paddingTop: 'clamp(20px, 5vw, 40px)',
-        paddingInline: 'clamp(24px, 6vw, 112px)',
-        paddingBottom: { base: 'clamp(36px, 7vw, 64px)', lg: 'clamp(40px, 5vw, 72px)' },
+        bg: 'field',
+        color: 'fieldInk',
+        paddingTop: '52px',
+        paddingBottom: '64px',
+        paddingInline: '5vw',
       })}
     >
-      <BrandLockup variant="horizontal-md" mode="original" roleLine />
-      <nav
-        aria-label="Primary"
+      <div
         className={css({
-          marginTop: '22px',
-          maxWidth: '240px',
-          display: 'flex',
-          flexDirection: 'column',
+          maxWidth: '1180px',
+          marginInline: 'auto',
+          display: 'grid',
+          gridTemplateColumns: 'minmax(0, 1fr)',
+          gap: '40px',
         })}
       >
-        {links.map((link) => (
-          <a key={link.href} href={link.href} className={linkClass}>
-            {link.label}
+        <FootNav />
+        <BoxScore />
+        <blockquote
+          className={css({
+            borderLeft: '3px solid',
+            borderLeftColor: 'accent',
+            paddingLeft: '18px',
+            maxWidth: '48ch',
+            minWidth: '0',
+          })}
+        >
+          <p className={css({ textStyle: 'lede', fontStyle: 'italic', color: 'fieldInk' })}>
+            “Opportunity often comes disguised in the form of misfortune or temporary defeat.”
+          </p>
+          <cite
+            className={css({
+              display: 'block',
+              marginTop: '10px',
+              fontStyle: 'normal',
+              textStyle: '2xs',
+              fontWeight: 'bold',
+              letterSpacing: 'widest',
+              textTransform: 'uppercase',
+              color: 'fieldInkMuted',
+            })}
+          >
+            Napoleon Hill
+          </cite>
+        </blockquote>
+        <div
+          className={css({
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            rowGap: '2',
+            columnGap: '28px',
+            borderTop: '1px solid',
+            borderTopColor: 'fieldBorder',
+            paddingTop: '5',
+            textStyle: 'xs',
+            color: 'fieldInkMuted',
+          })}
+        >
+          <span>
+            <strong className={css({ color: 'fieldInk', fontWeight: 'bold', marginRight: '2' })}>
+              In rotation
+            </strong>
+            The War on Drugs · Guided by Voices
+          </span>
+          <span>
+            <strong className={css({ color: 'fieldInk', fontWeight: 'bold', marginRight: '2' })}>
+              Upcoming
+            </strong>
+            Halloween in 7 days
+          </span>
+          <span>
+            <strong className={css({ color: 'fieldInk', fontWeight: 'bold', marginRight: '2' })}>
+              {identity.name}
+            </strong>
+            {identity.role}
+          </span>
+          <span>Aldie, VA</span>
+          <a
+            href={`mailto:${identity.email}`}
+            className={css({
+              display: 'inline-flex',
+              alignItems: 'center',
+              minHeight: '44px',
+              color: 'fieldInk',
+              textDecoration: 'underline',
+              textUnderlineOffset: '3px',
+            })}
+          >
+            {identity.email}
           </a>
-        ))}
-        <a href={`mailto:${identity.email}`} className={linkClass}>
-          contact
-        </a>
-      </nav>
-    </header>
+        </div>
+      </div>
+    </footer>
   )
 }

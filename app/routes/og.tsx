@@ -4,6 +4,8 @@ import { BrandLockup } from '../components/BrandLockup'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
+const ghostWord = css({ display: 'block', fontSize: '190px', whiteSpace: 'nowrap' })
+
 function OgCard() {
   return (
     <div
@@ -19,55 +21,83 @@ function OgCard() {
     >
       <div
         className={css({
+          position: 'relative',
           width: '1200px',
           height: '630px',
           flexShrink: 0,
           bg: 'bg',
           color: 'text',
-          padding: '64px',
+          overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'space-between',
-          borderBottomWidth: '12px',
-          borderBottomStyle: 'solid',
-          borderBottomColor: 'field',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '24px',
+          paddingBlock: '56px',
+          paddingInline: '64px',
+          textAlign: 'center',
         })}
       >
-        <BrandLockup variant="horizontal-md" mode="original" roleLine />
+        <div
+          aria-hidden="true"
+          className={css({
+            position: 'absolute',
+            top: '50%',
+            left: '0',
+            right: '0',
+            transform: 'translateY(-50%)',
+            fontFamily: 'display',
+            lineHeight: '0.86',
+            letterSpacing: '-0.02em',
+            color: 'bgAlt',
+            opacity: 0.18,
+            textAlign: 'center',
+            pointerEvents: 'none',
+          })}
+        >
+          <span className={ghostWord}>DETROIT</span>
+          <span className={ghostWord}>DETROIT</span>
+          <span className={ghostWord}>DETROIT</span>
+        </div>
+        <BrandLockup
+          variant="stacked-lg"
+          mode="original"
+          className={css({ position: 'relative', zIndex: 1 })}
+        />
         <h1
           className={css({
-            fontFamily: 'display',
-            fontWeight: 'light',
-            textTransform: 'lowercase',
-            textAlign: 'left',
+            position: 'relative',
+            zIndex: 1,
+            fontWeight: 'normal',
+            textAlign: 'center',
           })}
         >
           <span
             className={css({
               display: 'block',
-              fontSize: '60px',
-              lineHeight: '0.98',
-              letterSpacing: '-0.02em',
-              color: 'textMuted',
-              WebkitTextFillColor: 'transparent',
-              WebkitTextStroke: '1.6px currentColor',
-              marginBottom: '8px',
+              fontFamily: 'display',
+              fontSize: '160px',
+              lineHeight: '0.88',
+              letterSpacing: '-0.01em',
+              color: 'text',
             })}
           >
-            most golf apps are
-            <br />
-            digital scorecards.
-          </span>
+            128–111
+          </span>{' '}
           <span
             className={css({
               display: 'block',
-              fontSize: '104px',
-              lineHeight: '0.92',
-              letterSpacing: '-0.035em',
-              color: 'accent',
+              marginTop: '16px',
+              marginInline: 'auto',
+              maxWidth: '20ch',
+              fontFamily: 'display',
+              fontSize: '48px',
+              lineHeight: '1',
+              textTransform: 'uppercase',
+              color: 'text',
             })}
           >
-            this one is not.
+            Pistons run away with it
           </span>
         </h1>
       </div>
