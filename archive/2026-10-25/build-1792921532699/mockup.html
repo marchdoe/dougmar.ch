@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — Dreams have only one owner at a time</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Albert+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#14101f; --bgAlt:#1e1a2e; --surface:#2f153e; --field:#4b2062;
+    --text:#f5f3f8; --textMuted:#cfcbd9; --textFaint:#aaa4ba;
+    --accent:#ad77d6; --accentAlt:#c69ce3; --glow:#dcc0ee;
+    --border:#302b40; --borderStrong:#8339ad;
+    --am700:#682c89; --am500:#9a52c8; --am800:#4b2062;
+    --pad:clamp(22px,6vw,112px);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:"Albert Sans",system-ui,sans-serif;
+    font-optical-sizing:auto; -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility; overflow-x:hidden;
+  }
+  a{color:var(--accent); text-decoration:none; transition:color .2s ease;}
+  a:hover{color:var(--accentAlt);}
+  ::selection{background:var(--accent); color:var(--surface);}
+
+  /* ---- Header / brand lockup, corner top-left ---- */
+  .masthead{
+    min-height:72px; display:flex; align-items:center;
+    padding:14px var(--pad) 0;
+    position:relative; z-index:5;
+  }
+  .lockup{display:flex; flex-direction:column; align-items:center; gap:7px;}
+  .lockup .mark{height:48px; width:auto; display:block;}
+  .lockup .wordmark{
+    font-family:"Spectral",serif; font-weight:500; font-size:20px;
+    letter-spacing:-0.015em; line-height:1; color:var(--text);
+  }
+
+  /* ---- Main grid: hero + meta rail ---- */
+  .stage{
+    display:grid; grid-template-columns:1fr;
+  }
+  .hero{
+    position:relative; overflow:hidden;
+    padding:clamp(32px,8vw,72px) var(--pad) clamp(56px,9vw,96px);
+    min-height:70vh; display:flex; flex-direction:column; justify-content:flex-start;
+  }
+  /* dots ground material = stars */
+  .hero .ground{
+    position:absolute; inset:0; pointer-events:none; z-index:0;
+    background-image:radial-gradient(circle, var(--accent) 1.5px, transparent 1.8px);
+    background-size:20px 20px; opacity:0.30;
+  }
+  /* moon + glow pooling lower-right */
+  .hero .moon{
+    position:absolute; right:-4vw; bottom:6vw; z-index:0; pointer-events:none;
+    width:clamp(240px,58vw,620px); aspect-ratio:1/1; border-radius:9999px;
+    background:radial-gradient(circle at 38% 36%,
+      var(--glow) 0%, var(--accentAlt) 18%, var(--accent) 38%,
+      var(--am500) 54%, var(--am700) 68%, rgba(75,32,98,0) 78%);
+  }
+  .hero .halo{
+    position:absolute; right:-18vw; bottom:-14vw; z-index:0; pointer-events:none;
+    width:clamp(420px,92vw,1000px); aspect-ratio:1/1; border-radius:9999px;
+    background:radial-gradient(circle, rgba(131,57,173,0.40) 0%, rgba(104,44,137,0.20) 40%, rgba(20,16,31,0) 66%);
+  }
+  .hero-content{position:relative; z-index:2; max-width:min(100%,600px);}
+
+  h1.quote{
+    font-family:"Spectral",serif; font-style:italic; font-weight:400;
+    line-height:1.07; letter-spacing:-0.005em; text-wrap:balance;
+    margin:0;
+  }
+  .quote .line1{
+    display:block; font-size:clamp(30px,8.6vw,42px); color:var(--text);
+  }
+  .quote .line2{
+    display:block; margin-top:0.32em;
+    font-size:clamp(22px,5.2vw,30px); color:var(--textMuted);
+  }
+  .quote .lonely{color:var(--glow); font-style:italic;}
+  .cite{
+    margin-top:clamp(24px,4vw,38px); position:relative; z-index:2;
+    font-family:"Albert Sans",sans-serif; font-weight:500;
+    font-size:15px; letter-spacing:0.02em; color:var(--textMuted);
+  }
+
+  /* ---- Meta rail / band ---- */
+  .rail{
+    position:relative; border-top:1px solid var(--borderStrong);
+    padding:clamp(28px,6vw,40px) var(--pad);
+    display:flex; flex-direction:column; gap:22px; z-index:3;
+  }
+  .rail .vcite{display:none;}
+  .rail-moon{
+    font-family:"Spectral",serif; font-style:italic; font-weight:400;
+    font-size:clamp(19px,4.5vw,22px); line-height:1.4; color:var(--text);
+    max-width:28ch;
+  }
+  .rail-nav{
+    font-size:15px; line-height:1.6; color:var(--textMuted); max-width:34ch;
+  }
+  .rail-nav a{font-weight:500;}
+  .rail-nav--rail{display:none;}
+  .microlabel{
+    font-family:"Albert Sans",sans-serif; font-weight:600;
+    font-size:13px; letter-spacing:0.14em; text-transform:uppercase;
+    font-variant-caps:all-small-caps; color:var(--accentAlt);
+  }
+
+  /* ---- Site callout slot ---- */
+  .callout{
+    border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+    padding:clamp(26px,5vw,40px) var(--pad);
+    display:flex; align-items:center; justify-content:center;
+    background:var(--bgAlt);
+  }
+  .callout span{
+    font-family:"Spectral",serif; font-weight:500; font-size:14px;
+    letter-spacing:0.22em; text-transform:uppercase;
+    font-variant-caps:all-small-caps; color:var(--textMuted);
+  }
+
+  /* ---- Footer colophon ---- */
+  .colophon{
+    background:var(--surface);
+    padding:clamp(34px,6vw,56px) var(--pad) clamp(40px,6vw,64px);
+  }
+  .colophon .rule{
+    border:0; border-top:1px solid var(--borderStrong);
+    margin:0 0 clamp(26px,4vw,34px);
+  }
+  .colo-grid{
+    display:grid; grid-template-columns:1fr; gap:16px 48px;
+  }
+  .colo-item .k{
+    display:block; font-weight:600; font-size:11px; letter-spacing:0.14em;
+    text-transform:uppercase; font-variant-caps:all-small-caps;
+    color:var(--accentAlt); margin-bottom:5px;
+  }
+  .colo-item .v{
+    display:block; font-size:15px; line-height:1.5; color:var(--textMuted);
+  }
+  .colo-item .v.num{font-variant-numeric:tabular-nums;}
+  .colo-nav{margin-top:clamp(28px,4vw,36px);}
+  .colo-nav p{
+    font-size:15px; line-height:1.6; color:var(--textMuted); max-width:40ch; margin:0;
+  }
+  .colo-nav a{font-weight:500;}
+  .colo-foot{
+    margin-top:clamp(26px,4vw,34px);
+    font-size:14px; letter-spacing:0.02em; color:var(--textMuted);
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ================= TABLET ================= */
+  @media (min-width:768px){
+    .colo-grid{grid-template-columns:repeat(3,1fr);}
+    .quote .line1{font-size:clamp(48px,7vw,96px);}
+    .quote .line2{font-size:clamp(32px,4.6vw,52px);}
+  }
+
+  /* ================= DESKTOP ================= */
+  @media (min-width:1000px){
+    .stage{
+      grid-template-columns:minmax(0,1.55fr) minmax(220px,0.45fr);
+      min-height:calc(100vh - 72px);
+    }
+    .hero{min-height:calc(100vh - 72px); padding-top:clamp(40px,6vw,88px);}
+    .hero-content{max-width:min(100%,820px);}
+    .hero .moon{right:-8vw; bottom:5vh; width:clamp(320px,34vw,580px);}
+    .hero .halo{right:-18vw; bottom:-10vh; width:clamp(560px,64vw,1040px);}
+    .rail{
+      border-top:0; border-left:1px solid var(--borderStrong);
+      padding-right:clamp(48px,4.5vw,68px);
+    }
+    .rail .vcite{
+      display:block; position:absolute; top:clamp(48px,9vw,110px); right:20px;
+      writing-mode:vertical-rl; text-orientation:mixed;
+      font-family:"Albert Sans",sans-serif; font-weight:600;
+      font-size:16px; letter-spacing:0.2em; text-transform:uppercase;
+      font-variant-caps:all-small-caps; color:var(--textMuted);
+    }
+    .rail-top{margin-top:clamp(28px,5vw,64px);}
+    .rail-nav--rail{display:block; margin-top:clamp(40px,8vh,96px);}
+    .rail-nav--foot{display:none;}
+    .colo-nav{display:none;}
+  }
+  @media (min-width:1280px){
+    .colo-grid{grid-template-columns:repeat(4,1fr);}
+  }
+</style>
+</head>
+<body>
+  <header class="masthead">
+    <div class="lockup" aria-label="Doug March">
+      <svg class="mark" viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Doug March logo">
+        <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+        <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+        <circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+        <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+      </svg>
+      <span class="wordmark">Doug March</span>
+    </div>
+  </header>
+
+  <div class="stage">
+    <section class="hero">
+      <div class="ground" aria-hidden="true"></div>
+      <div class="halo" aria-hidden="true"></div>
+      <div class="moon" aria-hidden="true"></div>
+      <div class="hero-content">
+        <h1 class="quote">
+          <span class="line1">Dreams have only one owner at a time.</span>
+          <span class="line2">That&rsquo;s why dreamers are <span class="lonely">lonely</span>.</span>
+        </h1>
+        <p class="cite">&mdash; William Faulkner</p>
+      </div>
+    </section>
+
+    <aside class="rail">
+      <span class="vcite" aria-hidden="true">William Faulkner</span>
+      <div class="rail-top">
+        <p class="microlabel">Tonight</p>
+        <p class="rail-moon">Full moon over Aldie. 43&deg; and clear.</p>
+      </div>
+      <nav class="rail-nav rail-nav--rail" aria-label="Primary">
+        <p>There&rsquo;s the <a href="/work">work</a>, a little <a href="/about">about</a>, and a way to make <a href="/contact">contact</a>.</p>
+      </nav>
+    </aside>
+  </div>
+
+  <div class="callout" aria-hidden="true"><span>dougmar.ch</span></div>
+
+  <footer class="colophon">
+    <hr class="rule">
+    <div class="colo-grid">
+      <div class="colo-item">
+        <span class="k">Moon</span>
+        <span class="v">Full moon over Aldie. 43&deg; and clear.</span>
+      </div>
+      <div class="colo-item">
+        <span class="k">Red Wings</span>
+        <span class="v num">Red Wings fall, 1&ndash;4.</span>
+      </div>
+      <div class="colo-item">
+        <span class="k">Markets</span>
+        <span class="v num">SPY 759.97, down 0.52%.</span>
+      </div>
+      <div class="colo-item">
+        <span class="k">Golf</span>
+        <span class="v">The long off-season.</span>
+      </div>
+      <div class="colo-item">
+        <span class="k">On rotation</span>
+        <span class="v">My Morning Jacket, The War on Drugs, Tobin Sprout.</span>
+      </div>
+      <div class="colo-item">
+        <span class="k">Ahead</span>
+        <span class="v">Halloween, 6 days.</span>
+      </div>
+    </div>
+    <nav class="colo-nav rail-nav--foot" aria-label="Primary">
+      <p>There&rsquo;s the <a href="/work">work</a>, a little <a href="/about">about</a>, and a way to make <a href="/contact">contact</a>.</p>
+    </nav>
+    <p class="colo-foot">Aldie, Virginia &middot; Sunday, 25 October 2026.</p>
+  </footer>
+</body>
+</html>

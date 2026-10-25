@@ -4,8 +4,7 @@ import { BrandLockup } from '../components/BrandLockup'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
-const ghostWord = css({ display: 'block', fontSize: '190px', whiteSpace: 'nowrap' })
-
+// Moon gradient substitutions as on home: amethyst 500 to borderStrong, amethyst 700 to field.
 function OgCard() {
   return (
     <div
@@ -28,78 +27,64 @@ function OgCard() {
           bg: 'bg',
           color: 'text',
           overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '24px',
-          paddingBlock: '56px',
-          paddingInline: '64px',
-          textAlign: 'center',
         })}
       >
         <div
           aria-hidden="true"
           className={css({
             position: 'absolute',
-            top: '50%',
-            left: '0',
-            right: '0',
-            transform: 'translateY(-50%)',
-            fontFamily: 'display',
-            lineHeight: '0.86',
-            letterSpacing: '-0.02em',
-            color: 'bgAlt',
-            opacity: 0.18,
-            textAlign: 'center',
-            pointerEvents: 'none',
+            right: '-60px',
+            bottom: '-40px',
+            width: '480px',
+            height: '480px',
+            borderRadius: 'full',
+            backgroundImage:
+              'radial-gradient(circle at 38% 36%, token(colors.fieldInkMuted) 0%, token(colors.accentAlt) 18%, token(colors.accent) 38%, token(colors.borderStrong) 54%, token(colors.field) 68%, transparent 78%)',
           })}
-        >
-          <span className={ghostWord}>DETROIT</span>
-          <span className={ghostWord}>DETROIT</span>
-          <span className={ghostWord}>DETROIT</span>
-        </div>
-        <BrandLockup
-          variant="stacked-lg"
-          mode="original"
-          className={css({ position: 'relative', zIndex: 1 })}
         />
-        <h1
+        <div
           className={css({
             position: 'relative',
             zIndex: 1,
-            fontWeight: 'normal',
-            textAlign: 'center',
+            height: '100%',
+            paddingTop: '64px',
+            paddingBottom: '56px',
+            paddingLeft: '72px',
+            paddingRight: '72px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
           })}
         >
-          <span
+          <h1
             className={css({
-              display: 'block',
               fontFamily: 'display',
-              fontSize: '160px',
-              lineHeight: '0.88',
-              letterSpacing: '-0.01em',
-              color: 'text',
+              fontStyle: 'italic',
+              fontWeight: 'light',
+              lineHeight: '1.07',
+              letterSpacing: '-0.005em',
+              maxWidth: '700px',
             })}
           >
-            128–111
-          </span>{' '}
-          <span
-            className={css({
-              display: 'block',
-              marginTop: '16px',
-              marginInline: 'auto',
-              maxWidth: '20ch',
-              fontFamily: 'display',
-              fontSize: '48px',
-              lineHeight: '1',
-              textTransform: 'uppercase',
-              color: 'text',
-            })}
-          >
-            Pistons run away with it
-          </span>
-        </h1>
+            <span className={css({ display: 'block', fontSize: '68px', color: 'text' })}>
+              Dreams have only one owner at a time.
+            </span>
+            <span
+              className={css({
+                display: 'block',
+                marginTop: '0.32em',
+                fontSize: '40px',
+                color: 'textMuted',
+              })}
+            >
+              That’s why dreamers are{' '}
+              <span className={css({ color: 'fieldInkMuted' })}>lonely</span>.
+            </span>
+          </h1>
+          <div className={css({ color: 'text', display: 'flex' })}>
+            <BrandLockup variant="stacked-md" mode="original" />
+          </div>
+        </div>
       </div>
     </div>
   )

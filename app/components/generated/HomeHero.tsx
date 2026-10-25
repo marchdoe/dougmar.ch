@@ -1,69 +1,6 @@
 import { css } from '../../../styled-system/css'
-import { Pod } from './Pod'
-
-const signals: {
-  key: 'golf' | 'moon' | 'market' | 'weather'
-  label: string
-  value: string
-  sub: string
-  solid: boolean
-  down: boolean
-}[] = [
-  {
-    key: 'golf',
-    label: 'Golf',
-    value: '−13',
-    sub: 'Butterfield Bermuda · Hirata / Blanchet, tied',
-    solid: false,
-    down: false,
-  },
-  {
-    key: 'moon',
-    label: 'Moon · Full',
-    value: '98.8%',
-    sub: 'Late October',
-    solid: true,
-    down: false,
-  },
-  {
-    key: 'market',
-    label: 'SPY · Close',
-    value: '759.97',
-    sub: '▼ −0.52%',
-    solid: false,
-    down: true,
-  },
-  {
-    key: 'weather',
-    label: 'Aldie · Clear',
-    value: '41.7°F',
-    sub: 'Virginia sky',
-    solid: false,
-    down: false,
-  },
-]
-
-const early = css({
-  animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-  animationDelay: '160ms',
-})
-const late = css({
-  animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-  animationDelay: '240ms',
-})
-
-const ghostWord = css({
-  display: 'block',
-  fontSize: 'clamp(56px, 11vw, 150px)',
-  whiteSpace: 'nowrap',
-})
-
-// trailing room so the rotated +17 badge stays inside its own box
-const scoreWord = css({
-  display: 'inline-block',
-  whiteSpace: 'nowrap',
-  paddingInlineEnd: '0.06em',
-})
+import { Ground } from '../Material'
+import { Sky } from './Sky'
 
 export function HomeHero() {
   return (
@@ -71,194 +8,81 @@ export function HomeHero() {
       className={css({
         position: 'relative',
         overflow: 'hidden',
-        paddingTop: '3',
-        paddingBottom: '7',
-        paddingInline: { base: '5vw', lg: '6vw' },
+        bg: 'bg',
+        paddingTop: { base: 'clamp(32px, 8vw, 72px)', lg: 'clamp(40px, 6vw, 88px)' },
+        paddingBottom: 'clamp(56px, 9vw, 96px)',
+        paddingLeft: 'clamp(22px, 6vw, 112px)',
+        paddingRight: 'clamp(22px, 6vw, 112px)',
+        minHeight: { base: '70vh', lg: 'calc(100vh - 72px)' },
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
-        textAlign: 'center',
+        justifyContent: 'flex-start',
       })}
     >
-      <div
-        aria-hidden="true"
-        className={css({
-          position: 'absolute',
-          inset: '-4%',
-          bg: 'bg',
-          zIndex: 0,
-          animation: 'drift 40s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate',
-        })}
-      />
-      <div
-        aria-hidden="true"
-        className={css({
-          position: 'absolute',
-          top: '50%',
-          left: '0',
-          right: '0',
-          transform: 'translateY(-50%)',
-          fontFamily: 'display',
-          lineHeight: '0.86',
-          letterSpacing: '-0.02em',
-          color: 'bgAlt',
-          opacity: 0.3,
-          textAlign: 'center',
-          pointerEvents: 'none',
-          userSelect: 'none',
-          zIndex: 0,
-        })}
-      >
-        <span className={ghostWord}>DETROIT</span>
-        <span className={ghostWord}>DETROIT</span>
-        <span className={ghostWord}>DETROIT</span>
-      </div>
-
+      <Ground material="dots" seed={625314833} />
+      <Sky />
       <div
         className={css({
           position: 'relative',
           zIndex: 1,
-          width: '100%',
-          display: { base: 'flex', lg: 'block' },
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '34px',
-          marginTop: { base: '3', lg: '0' },
-          minHeight: { lg: '84vh' },
+          maxWidth: { base: 'min(100%, 600px)', lg: 'min(100%, 820px)' },
         })}
       >
-        <div
+        <h1
           className={css({
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            textAlign: 'center',
-            gap: '20px',
-            lg: {
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: 'min(680px, 88%)',
-            },
-            xl: { width: 'min(820px, 88%)' },
+            fontFamily: 'display',
+            fontStyle: 'italic',
+            fontWeight: 'light',
+            lineHeight: '1.07',
+            letterSpacing: '-0.005em',
+            textAlign: 'left',
+            textWrap: 'balance',
+            margin: '0',
+            animationName: 'rise',
+            animationDuration: '500ms',
+            animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            animationFillMode: 'both',
+            animationDelay: '0ms',
           })}
         >
-          <h1
+          <span
             className={css({
-              paddingTop: '3',
-              fontWeight: 'normal',
-              textAlign: 'center',
-              animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-              animationDelay: '0ms',
+              display: 'block',
+              fontSize: { base: 'clamp(30px, 8.6vw, 42px)', md: 'clamp(48px, 7vw, 96px)' },
+              color: 'text',
             })}
           >
-            <span
-              className={css({
-                display: 'flex',
-                flexDirection: { base: 'column', lg: 'row' },
-                alignItems: { base: 'center', lg: 'baseline' },
-                justifyContent: 'center',
-                gap: { base: '0', lg: '0.1em' },
-                fontFamily: 'display',
-                fontSize: { base: '96px', md: '128px', lg: '132px', xl: '160px' },
-                lineHeight: '0.84',
-                letterSpacing: '-0.01em',
-                color: 'text',
-              })}
-            >
-              <span className={scoreWord}>
-                128
-                <span
-                  className={css({
-                    display: 'inline-block',
-                    verticalAlign: 'top',
-                    marginLeft: '0.06em',
-                    fontFamily: 'body',
-                    fontWeight: 'bold',
-                    fontSize: 'max(12px, 0.19em)',
-                    letterSpacing: '0.02em',
-                    lineHeight: '1',
-                    paddingBlock: '0.4em',
-                    paddingInline: '0.55em',
-                    bg: 'accent',
-                    color: 'accentText',
-                    borderRadius: 'sm',
-                    transform: 'rotate(-6deg)',
-                    whiteSpace: 'nowrap',
-                  })}
-                >
-                  +17
-                </span>
-              </span>
-              <span className={scoreWord}>
-                <span
-                  className={css({
-                    display: { base: 'none', lg: 'inline' },
-                    marginRight: '0.1em',
-                  })}
-                >
-                  –
-                </span>
-                111
-              </span>
-            </span>{' '}
-            <span
-              className={css({
-                display: 'block',
-                marginTop: '3',
-                marginInline: 'auto',
-                maxWidth: '14ch',
-                fontFamily: 'display',
-                fontSize: { base: '30px', md: '40px', lg: '52px' },
-                lineHeight: '1',
-                letterSpacing: '0.004em',
-                textTransform: 'uppercase',
-                color: 'text',
-              })}
-            >
-              Pistons run away with it
-            </span>
-          </h1>
-          <p
+            Dreams have only one owner at a time.
+          </span>
+          <span
             className={css({
-              textStyle: 'lede',
+              display: 'block',
+              marginTop: '0.32em',
+              fontSize: { base: 'clamp(22px, 5.2vw, 30px)', md: 'clamp(32px, 4.6vw, 52px)' },
               color: 'textMuted',
-              maxWidth: '44ch',
-              animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-              animationDelay: '80ms',
             })}
           >
-            Final, Saturday. Seventeen points of daylight, wire to wire. A Pistons win is a Pistons
-            win, and I just say the score.
-          </p>
-        </div>
-
-        <div
+            That’s why dreamers are{' '}
+            <span className={css({ color: 'fieldInkMuted', fontStyle: 'italic' })}>lonely</span>.
+          </span>
+        </h1>
+        <p
           className={css({
-            display: { base: 'flex', lg: 'contents' },
-            flexDirection: { base: 'column', sm: 'row' },
-            flexWrap: { sm: 'wrap' },
-            justifyContent: { sm: 'center' },
-            alignItems: 'center',
-            rowGap: { base: '22px', sm: '28px' },
-            columnGap: { sm: '44px' },
-            width: '100%',
+            marginTop: 'clamp(24px, 4vw, 38px)',
+            fontFamily: 'body',
+            fontWeight: '500',
+            fontSize: '15px',
+            letterSpacing: '0.02em',
+            color: 'textMuted',
+            animationName: 'rise',
+            animationDuration: '500ms',
+            animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            animationFillMode: 'both',
+            animationDelay: '80ms',
           })}
         >
-          {signals.map((s, i) => (
-            <Pod
-              key={s.key}
-              at={s.key}
-              label={s.label}
-              value={s.value}
-              sub={s.sub}
-              down={s.down}
-              solid={s.solid}
-              className={i < 2 ? early : late}
-            />
-          ))}
-        </div>
+          William Faulkner
+        </p>
       </div>
     </section>
   )

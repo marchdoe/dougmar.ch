@@ -1,70 +1,71 @@
 import { css } from '../../../styled-system/css'
 import { timeline } from '../../content/timeline'
-import { Kicker } from './Kicker'
+import { RevealSection } from './RevealSection'
+
+type Entry = (typeof timeline)[number]
+
+function TimelineRow({ entry }: { entry: Entry }) {
+  const who = [entry.role, entry.company].filter((part) => part.length > 0).join(', ')
+  return (
+    <li
+      className={css({
+        display: 'grid',
+        gridTemplateColumns: { base: '1fr', lg: '140px minmax(0, 1fr)' },
+        columnGap: '6',
+        rowGap: '2',
+        paddingBlock: '5',
+        borderBottomWidth: '1px',
+        borderBottomStyle: 'solid',
+        borderColor: 'border',
+      })}
+    >
+      <span
+        className={css({
+          fontFamily: 'body',
+          fontSize: 'sm',
+          color: 'accentAlt',
+          fontVariantNumeric: 'tabular-nums',
+          minWidth: { lg: '140px' },
+        })}
+      >
+        {entry.year}
+      </span>
+      <div className={css({ minWidth: '0' })}>
+        <p
+          className={css({
+            fontFamily: 'body',
+            fontSize: { base: 'base', lg: 'lede' },
+            color: 'text',
+            maxWidth: '48ch',
+          })}
+        >
+          {who}
+        </p>
+        {entry.description ? (
+          <p
+            className={css({
+              marginTop: '2',
+              fontSize: 'base',
+              color: 'textMuted',
+              maxWidth: '48ch',
+            })}
+          >
+            {entry.description}
+          </p>
+        ) : null}
+      </div>
+    </li>
+  )
+}
 
 export function TimelineSection() {
   return (
-    <section
-      className={css({
-        paddingInline: '5vw',
-        paddingBottom: '8',
-        '@supports (animation-timeline: view())': {
-          animationName: 'rise',
-          animationTimeline: 'view()',
-          animationRange: 'entry 0% entry 40%',
-          animationFillMode: 'both',
-        },
-      })}
-    >
-      <div className={css({ maxWidth: '1180px', marginInline: 'auto' })}>
-        <Kicker>Experience</Kicker>
+    <RevealSection label="Experience">
+      <ol className={css({ listStyle: 'none', margin: '0', padding: '0' })}>
         {timeline.map((entry) => (
-          <div
-            key={`${entry.year}-${entry.company}-${entry.role}`}
-            className={css({
-              display: 'grid',
-              gridTemplateColumns: { base: 'minmax(0, 1fr)', lg: '300px minmax(0, 1fr)' },
-              columnGap: '6',
-              rowGap: '2',
-              paddingBlock: '5',
-              borderTop: '1px solid',
-              borderTopColor: 'border',
-            })}
-          >
-            <span
-              className={css({
-                fontFamily: { base: 'body', lg: 'display' },
-                fontSize: { base: 'sm', lg: 'md' },
-                fontWeight: { base: 'bold', lg: 'normal' },
-                lineHeight: '1.1',
-                color: 'text',
-              })}
-            >
-              {entry.year}
-            </span>
-            <div
-              className={css({ display: 'flex', flexDirection: 'column', gap: '1', minWidth: '0' })}
-            >
-              <span className={css({ textStyle: 'base', fontWeight: 'bold', color: 'text' })}>
-                {entry.role}
-              </span>
-              <span className={css({ textStyle: 'sm', color: 'textMuted' })}>{entry.company}</span>
-              {entry.description ? (
-                <p
-                  className={css({
-                    textStyle: 'sm',
-                    color: 'text',
-                    maxWidth: '48ch',
-                    marginTop: '1',
-                  })}
-                >
-                  {entry.description}
-                </p>
-              ) : null}
-            </div>
-          </div>
+          <TimelineRow key={`${entry.year}-${entry.company}-${entry.role}`} entry={entry} />
         ))}
-      </div>
-    </section>
+      </ol>
+    </RevealSection>
   )
 }
