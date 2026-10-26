@@ -36,7 +36,7 @@ import type { ReactNode } from 'react'
 const archiveLink = css({
   display: 'block',
   background: 'bg',
-  color: 'textMuted',
+  color: 'textFaint',
   fontSize: 'xs',
   letterSpacing: '0.08em',
   textAlign: 'center',
@@ -57,9 +57,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-10-25'
-const PREV_DATE: string | null = '2026-10-24'
-const ARCHIVE_COUNT = 173
+const DESIGN_DATE = '2026-10-26'
+const PREV_DATE: string | null = '2026-10-25'
+const ARCHIVE_COUNT = 174
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -72,34 +72,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: "Dreams have only one owner at a time. That's why dreamers are lonely." },
-      {
-        property: 'og:title',
-        content: "Dreams have only one owner at a time. That's why dreamers are lonely.",
-      },
+      { title: 'Deep in both. Not a generalist.' },
+      { property: 'og:title', content: 'Deep in both. Not a generalist.' },
       {
         property: 'og:description',
         content:
-          'Faulkner alone on a full-moon field: violet-black void, moon-silver italic Spectral, one amethyst glow pooled under "lonely."',
+          'A brass-and-umber foundry specimen, the work stacked at marquee under a reversed-out thesis: deep in both.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-25.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-26.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      {
-        name: 'twitter:title',
-        content: "Dreams have only one owner at a time. That's why dreamers are lonely.",
-      },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-25.png' },
+      { name: 'twitter:title', content: 'Deep in both. Not a generalist.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-26.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Albert+Sans:wght@400;500;600&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;700;900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -286,7 +280,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 173 designs
+            Archive · 174 designs
           </a>
         )}
         <ScrollRestoration />

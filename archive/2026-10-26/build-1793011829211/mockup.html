@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — Deep in both. Not a generalist.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;700;900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f9f5ec; --paper2:#f0e9d8; --surface:#ffffff;
+    --ink:#1b1710; --ink-muted:#5e4e31; --ink-faint:#7c6844;
+    --field:#1b1710; --field2:#2d2615; --field3:#443820;
+    --field-ink:#f9f5ec; --field-ink-muted:#ecd389; --field-border:#5e4e31;
+    --brass:#96691f; --brass-mid:#cda235; --brass-lt:#ddb954; --brass-glow:#ecd389; --brass-200:#ecd389;
+    --border:#e0d4ba; --border-strong:#a08a63;
+    --disp:'Big Shoulders Display', 'Arial Narrow', sans-serif;
+    --body:'Atkinson Hyperlegible', system-ui, sans-serif;
+    --pad:clamp(20px,6vw,96px);
+    --hero:clamp(38px,10vw,144px);
+    --4xl:clamp(30px,4.4vw,56px);
+    --2xl:clamp(22px,2.4vw,30px);
+    --lg:clamp(16px,1.3vw,19px);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;max-width:100%;overflow-x:hidden;}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:var(--body); font-size:16px; line-height:1.55;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    font-kerning:normal;
+  }
+  h1,h2,h3{margin:0;font-weight:inherit;}
+  p{margin:0;}
+  a{color:inherit;text-decoration:none;}
+
+  /* ===== MASTHEAD ===== */
+  .masthead{
+    position:relative; overflow:hidden;
+    background:var(--field);
+    min-height:46vh;
+    padding:clamp(20px,5vw,48px) var(--pad) clamp(28px,5vw,52px);
+    display:flex; flex-direction:column; justify-content:space-between;
+    gap:clamp(28px,5vw,40px);
+    border-bottom:3px solid var(--border-strong);
+  }
+  /* ground material: ruled lines (differentiates from the halftone night) */
+  .halftone{
+    position:absolute; inset:-100%; pointer-events:none; z-index:0;
+    background-image:radial-gradient(circle, var(--field-ink) 1.5px, transparent 1.8px);
+    background-size:9px 9px; opacity:0.18; transform:rotate(8deg);
+  }
+  .halftone.on-paper{
+    background-image:radial-gradient(circle, var(--ink) 1.5px, transparent 1.8px);
+    opacity:0.09;
+  }
+  .mast-top{
+    position:relative; z-index:1;
+    display:flex; justify-content:space-between; align-items:flex-start;
+    gap:16px; flex-wrap:wrap;
+  }
+  .mark{display:block;}
+  .mark svg{height:48px;width:auto;display:block;}
+  .mast-meta{
+    text-align:right; font-size:13px; line-height:1.5;
+    color:var(--field-ink-muted); letter-spacing:0.04em;
+    font-variant-numeric:tabular-nums;
+  }
+  .mast-meta .pl{color:var(--field-ink);}
+  h1.standfirst{
+    position:relative; z-index:1;
+    font-family:var(--disp); font-weight:900;
+    font-size:var(--4xl); line-height:0.98;
+    letter-spacing:0.03em; font-variant:small-caps;
+    color:var(--field-ink);
+    width:100%; max-width:none;
+    text-align:justify; text-align-last:justify;
+  }
+  h1.standfirst em{font-style:normal;color:var(--brass-lt);}
+  @media (min-width:1000px){
+    h1.standfirst{letter-spacing:0.05em;}
+  }
+
+  /* ===== WORK INDEX / MASONRY ===== */
+  .index{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:0;
+  }
+  @media (min-width:640px){
+    .index{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (min-width:1000px){
+    .index{
+      grid-template-columns:repeat(3,1fr);
+      grid-auto-rows:minmax(118px,auto);
+      grid-auto-flow:dense;
+    }
+  }
+  .block{
+    position:relative; overflow:hidden;
+    display:flex; flex-direction:column; justify-content:space-between;
+    gap:14px;
+    padding:clamp(20px,2.6vw,34px) var(--pad);
+    border-bottom:1px solid var(--border);
+    border-right:1px solid var(--border);
+    min-height:150px;
+    transition:background-color .2s ease;
+  }
+  @media (min-width:1000px){
+    .block{padding:clamp(22px,2vw,34px) clamp(22px,2.2vw,40px);}
+  }
+  .block.paper{background:var(--surface); color:var(--ink); border-color:var(--border);}
+  .block.paper2{background:var(--paper2); color:var(--ink);}
+  .block.dark{background:var(--field); color:var(--field-ink); border-color:var(--field-border);}
+  .block.dark2{background:var(--field2); color:var(--field-ink); border-color:var(--field-border);}
+  .block.brass{background:var(--brass-mid); color:var(--ink); border-color:var(--brass);}
+  .block.brass2{background:var(--brass-lt); color:var(--ink); border-color:var(--brass-mid);}
+
+  /* spans (desktop masonry) */
+  @media (min-width:1000px){
+    .span-r2{grid-row:span 2;}
+    .span-r3{grid-row:span 3;}
+  }
+
+  .btitle{
+    position:relative; z-index:1;
+    font-family:var(--disp); font-weight:900;
+    font-size:var(--hero); line-height:0.82;
+    font-variant:small-caps; letter-spacing:0.01em;
+    display:flex; flex-direction:column;
+    word-break:break-word; hyphens:none;
+    transition:color .18s ease;
+  }
+  .btitle span{display:block;}
+  .block.paper .btitle,.block.paper2 .btitle{color:var(--ink);}
+  .block.dark .btitle,.block.dark2 .btitle{color:var(--field-ink);}
+  .block.brass .btitle,.block.brass2 .btitle{color:var(--ink);}
+  .block:hover .btitle{color:var(--brass);}
+  .block.brass:hover .btitle,.block.brass2:hover .btitle{color:var(--field);}
+  .block.dark:hover .btitle,.block.dark2:hover .btitle{color:var(--brass-lt);}
+
+  .bmeta{
+    position:relative; z-index:1;
+    display:flex; align-items:baseline; justify-content:space-between;
+    gap:12px; flex-wrap:wrap;
+    padding-top:12px;
+    border-top:1px solid var(--border);
+    font-size:14px; letter-spacing:0.08em; text-transform:uppercase;
+    transition:border-color .18s ease;
+  }
+  .block.dark .bmeta,.block.dark2 .bmeta{border-top-color:var(--field-border);}
+  .block.brass .bmeta,.block.brass2 .bmeta{border-top-color:var(--brass);}
+  .block:hover .bmeta{border-top-color:var(--border-strong);}
+  .block.dark:hover .bmeta,.block.dark2:hover .bmeta{border-top-color:var(--brass-mid);}
+  .bmeta .role{color:inherit; font-weight:700;}
+  .block.paper .bmeta .role,.block.paper2 .bmeta .role{color:var(--ink-muted);}
+  .block.dark .bmeta .role,.block.dark2 .bmeta .role{color:var(--field-ink-muted);}
+  .block.brass .bmeta .role,.block.brass2 .bmeta .role{color:var(--ink);}
+  .bmeta .yr{font-variant-numeric:tabular-nums; color:var(--brass);}
+  .block.paper .bmeta .yr,.block.paper2 .bmeta .yr{color:#74501b;}
+  .block.dark .bmeta .yr,.block.dark2 .bmeta .yr{color:var(--brass-lt);}
+  .block.brass .bmeta .yr,.block.brass2 .bmeta .yr{color:var(--field2);}
+
+  /* featured spaceman */
+  .featured .fprob{
+    position:relative; z-index:1;
+    font-size:15px; line-height:1.55; max-width:40ch;
+    color:var(--field-ink-muted);
+  }
+  .featured .flink{
+    display:inline-block; margin-top:2px;
+    font-size:13px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--brass-lt); border-bottom:1px solid var(--brass-mid);
+    padding-bottom:3px; align-self:flex-start;
+  }
+  .featured .ftag{
+    position:relative; z-index:1;
+    font-size:13px; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--brass-lt); margin-bottom:-4px;
+  }
+
+  /* ===== NAV LIST ===== */
+  .navlist{
+    background:var(--paper2);
+    border-bottom:3px solid var(--border-strong);
+  }
+  .navlist a{
+    display:flex; align-items:center; justify-content:space-between;
+    min-height:44px;
+    padding:18px var(--pad);
+    border-top:1px solid var(--brass);
+    font-family:var(--disp); font-weight:700; font-variant:small-caps;
+    font-size:var(--2xl); letter-spacing:0.05em;
+    color:var(--ink); transition:color .18s ease,background-color .18s ease;
+  }
+  .navlist a:first-child{border-top:none;}
+  .navlist a .ar{
+    font-family:var(--body); font-size:14px; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--ink-muted);
+  }
+  .navlist a:hover{color:var(--brass); background:var(--surface);}
+  .navlist a:hover .ar{color:var(--brass);}
+
+  /* ===== SITE CALLOUT ===== */
+  .callout{
+    background:var(--field3); color:var(--field-ink);
+    padding:clamp(32px,5vw,56px) var(--pad);
+    display:flex; flex-direction:column; gap:14px;
+    border-bottom:3px solid var(--border-strong);
+  }
+  .callout .ck{
+    font-size:13px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--brass-lt);
+  }
+  .callout h2{
+    font-family:var(--disp); font-weight:900; font-variant:small-caps;
+    font-size:var(--2xl); line-height:1.05; letter-spacing:0.02em;
+    max-width:24ch; color:var(--field-ink);
+  }
+  .callout p{font-size:15px; line-height:1.6; max-width:58ch; color:var(--field-ink-muted);}
+  .callout a.clink{
+    align-self:flex-start; margin-top:4px;
+    font-size:13px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--brass-glow); border-bottom:1px solid var(--brass-mid); padding-bottom:3px;
+  }
+
+  /* ===== COLOPHON ===== */
+  .colophon{
+    background:var(--field); color:var(--field-ink);
+    border-top:3px solid var(--border-strong);
+    padding:clamp(28px,4vw,48px) var(--pad) clamp(36px,5vw,64px);
+  }
+  .col-head{
+    font-family:var(--disp); font-weight:700; font-variant:small-caps;
+    font-size:var(--lg); letter-spacing:0.08em;
+    color:var(--field-ink); margin-bottom:22px;
+    padding-bottom:12px; border-bottom:1px solid var(--field-border);
+  }
+  .col-grid{
+    display:grid; grid-template-columns:1fr; gap:20px 40px;
+  }
+  @media (min-width:640px){.col-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (min-width:1000px){.col-grid{grid-template-columns:repeat(4,1fr);}}
+  .sig{font-size:14px; line-height:1.5;}
+  .sig .sl{
+    display:block; font-size:12px; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--brass-lt); margin-bottom:5px;
+  }
+  .sig .sv{color:var(--field-ink);}
+  .sig .score{color:var(--brass-lt); font-variant-numeric:tabular-nums; font-weight:700;}
+  .sig .faint{color:var(--brass-200); opacity:0.82;}
+  .sig.music .sv{font-family:var(--disp); font-weight:700; font-variant:small-caps; font-size:17px; letter-spacing:0.03em;}
+  .col-foot{
+    margin-top:28px; padding-top:20px; border-top:1px solid var(--field-border);
+    display:flex; flex-direction:column; gap:18px;
+  }
+  @media (min-width:1000px){
+    .col-foot{flex-direction:row; justify-content:space-between; align-items:flex-end;}
+  }
+  .quote{max-width:52ch; font-style:italic; font-size:15px; line-height:1.6; color:var(--field-ink-muted);}
+  .quote .qa{display:block; font-style:normal; margin-top:8px; font-variant:small-caps; letter-spacing:0.08em; font-size:13px; color:var(--brass-lt);}
+  .col-id{font-size:13px; letter-spacing:0.08em; color:var(--brass-200); font-variant-numeric:tabular-nums; text-align:left;}
+  @media (min-width:1000px){.col-id{text-align:right;}}
+</style>
+</head>
+<body>
+<main>
+
+  <header class="masthead">
+    <div class="halftone"></div>
+    <div class="mast-top">
+      <a href="#" class="mark" aria-label="Doug March — home">
+        <svg width="71" height="59" viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" data-brand-mark="">
+        <title>Doug March logo</title>
+        <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+        <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+        <circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+        <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+        </svg>
+      </a>
+      <div class="mast-meta">
+        <span class="pl">Aldie, Virginia.</span> Clear, 44°F.<br>
+        Full moon, 99%.
+      </div>
+    </div>
+    <h1 class="standfirst">Deep in both. Not a generalist.</h1>
+  </header>
+
+  <section class="index" aria-label="Selected work and experiments">
+
+    <article class="block dark featured span-r3">
+      <div class="halftone"></div>
+      <div class="ftag">Founder · Featured</div>
+      <h2 class="btitle"><span>Space</span><span>man</span></h2>
+      <p class="fprob">The studio Doug has run since 2018 — independent product design, frontend engineering, design systems and brand work, for clients from Rolex and Intuit to LastPass.</p>
+      <div class="bmeta">
+        <span class="role">Founder</span><span class="yr">2018</span>
+      </div>
+      <a class="flink" href="#work-spaceman">Open case →</a>
+    </article>
+
+    <a class="block brass span-r2" href="#work-fishsticks">
+      <div class="halftone on-paper"></div>
+      <h2 class="btitle"><span>Fish</span><span>sticks</span></h2>
+      <div class="bmeta"><span class="role">SaaS</span><span class="yr">2025</span></div>
+    </a>
+
+    <a class="block dark2 span-r2" href="#work-15th-club">
+      <div class="halftone"></div>
+      <h2 class="btitle"><span>15th</span><span>Club</span></h2>
+      <div class="bmeta"><span class="role">AI</span><span class="yr">2025</span></div>
+    </a>
+
+    <a class="block paper2" href="#work-dougmar-ch">
+      <div class="halftone on-paper"></div>
+      <h2 class="btitle"><span>Doug</span><span>mar.ch</span></h2>
+      <div class="bmeta"><span class="role">AI</span><span class="yr">2026</span></div>
+    </a>
+
+    <a class="block brass2 span-r2" href="#work-teeturn">
+      <div class="halftone on-paper"></div>
+      <h2 class="btitle"><span>Tee</span><span>turn</span></h2>
+      <div class="bmeta"><span class="role">Experiment</span><span class="yr">2020</span></div>
+    </a>
+
+    <a class="block paper" href="#work-politweets">
+      <div class="halftone on-paper"></div>
+      <h2 class="btitle"><span>Poli</span><span>tweets</span></h2>
+      <div class="bmeta"><span class="role">Experiment</span><span class="yr">2008</span></div>
+    </a>
+
+    <a class="block paper2" href="#work-twittertale">
+      <div class="halftone on-paper"></div>
+      <h2 class="btitle"><span>Twitter</span><span>tale</span></h2>
+      <div class="bmeta"><span class="role">Experiment</span><span class="yr">2008</span></div>
+    </a>
+
+  </section>
+
+  <nav class="navlist" aria-label="Site">
+    <a href="#work">Work <span class="ar">the full index →</span></a>
+    <a href="#about">About <span class="ar">design & engineering, both →</span></a>
+    <a href="#contact">Contact <span class="ar">start a conversation →</span></a>
+  </nav>
+
+  <section class="callout" id="site-callout">
+    <span class="ck">dougmar.ch · 2026</span>
+    <h2>This site rebuilds its own design every morning.</h2>
+    <p>One claim, re-argued nightly in a new composition: deep in both, design and engineering, proved by the work it catalogs above rather than described. Today it leads with the index.</p>
+    <a class="clink" href="#work-dougmar-ch">How it works →</a>
+  </section>
+
+  <footer class="colophon">
+    <h2 class="col-head">Colophon — the night of 26 October 2026</h2>
+    <div class="col-grid">
+      <div class="sig">
+        <span class="sl">Golf · Butterfield Bermuda</span>
+        <span class="sv">Smotherman &amp; Power, <span class="score">−16</span></span>
+      </div>
+      <div class="sig">
+        <span class="sl">Detroit</span>
+        <span class="sv">Lions <span class="score">20–17</span>. Pistons <span class="score">106–93</span>.</span>
+      </div>
+      <div class="sig">
+        <span class="sl">World Series</span>
+        <span class="sv faint">Brewers lead 2–0</span>
+      </div>
+      <div class="sig">
+        <span class="sl">Market</span>
+        <span class="sv faint">SPY 759.97, down 0.52%</span>
+      </div>
+      <div class="sig music">
+        <span class="sl">In rotation</span>
+        <span class="sv">The War on Drugs · Tobin Sprout</span>
+      </div>
+      <div class="sig">
+        <span class="sl">Moon</span>
+        <span class="sv">Full moon, 99%</span>
+      </div>
+      <div class="sig">
+        <span class="sl">Season</span>
+        <span class="sv faint">Halloween, 5 days</span>
+      </div>
+      <div class="sig">
+        <span class="sl">Place</span>
+        <span class="sv">Aldie, Virginia · Clear, 44°F</span>
+      </div>
+    </div>
+    <div class="col-foot">
+      <p class="quote">You can never cross the ocean until you have the courage to lose sight of the shore.
+        <span class="qa">Christopher Columbus</span>
+      </p>
+      <div class="col-id">Doug March — design &amp; engineering, both<br>dougmar.ch · built overnight</div>
+    </div>
+  </footer>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,473 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the studio doug has run since 2018 - independent product design frontend engineering design systems and brand work for clients from rolex and intuit to lastpass' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the studio doug has run since 2018 - independent product design frontend engineering design systems and brand work for clients from rolex and intuit to lastpass",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "The mockup's largest text is 'space' at 144px; the build sets 'deep in both not a generalist' at 160px. Restore the mockup's hierarchy: 'deep in both not a generalist' is 56px in the mockup.",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "fish",
+                "mockupPx": 144
+              }
+            ],
+            "leader": {
+              "text": "space",
+              "mockupPx": 144
+            },
+            "buildLeader": {
+              "text": "deep in both not a generalist",
+              "buildPx": 160,
+              "mockupPx": 56
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'doug' moved from (625, 845) in the mockup to (611, 910) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'march' moved from (668, 963) in the mockup to (664, 1015) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'tee' moved from (1065, 845) in the mockup to (1063, 910) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'turn' moved from (1092, 963) in the mockup to (1097, 1015) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the studio doug has run since 2018 - independent product design frontend engineering design systems and brand work for clients from rolex and intuit to lastpass' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the studio doug has run since 2018 - independent product design frontend engineering design systems and brand work for clients from rolex and intuit to lastpass",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'space' (38px); in build it is 'deep in both not a generalist' (58px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "space",
+                "mockupPx": 38
+              },
+              {
+                "text": "man",
+                "mockupPx": 38
+              },
+              {
+                "text": "fish",
+                "mockupPx": 38
+              }
+            ],
+            "leader": {
+              "text": "space",
+              "mockupPx": 38
+            },
+            "buildLeader": {
+              "text": "deep in both not a generalist",
+              "buildPx": 58,
+              "mockupPx": 30
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'fish' moved from (46, 659) in the mockup to (48, 723) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: The mockup's largest text is 'space' at 38px; the build sets 'deep in both not a generalist' at 58px. Restore the mockup's hierarchy: 'deep in both not a generalist' is 30px in the mockup.",
+        "- / at 1440px: The mockup sets 'the studio doug has run since 2018 - independent product ...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'the studio doug has run since 2018 - independent product ...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the studio doug has run since 2018 - independent product design frontend engineering design systems and brand work for clients from rolex and intuit to lastpass' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the studio doug has run since 2018 - independent product design frontend engineering design systems and brand work for clients from rolex and intuit to lastpass",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'march' moved from (668, 963) in the mockup to (664, 935) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'turn' moved from (1092, 963) in the mockup to (1097, 935) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the studio doug has run since 2018 - independent product design frontend engineering design systems and brand work for clients from rolex and intuit to lastpass' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the studio doug has run since 2018 - independent product design frontend engineering design systems and brand work for clients from rolex and intuit to lastpass",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'space' (38px); in build it is 'work' (52px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "space",
+                "mockupPx": 38
+              },
+              {
+                "text": "man",
+                "mockupPx": 38
+              },
+              {
+                "text": "fish",
+                "mockupPx": 38
+              }
+            ],
+            "leader": {
+              "text": "space",
+              "mockupPx": 38
+            },
+            "buildLeader": {
+              "text": "work",
+              "buildPx": 52,
+              "mockupPx": 22
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'fish' moved from (46, 659) in the mockup to (48, 739) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: The mockup's largest text is 'space' at 38px; the build sets 'work' at 52px. Restore the mockup's hierarchy: 'work' is 22px in the mockup.",
+        "- / at 1440px: The mockup sets 'the studio doug has run since 2018 - independent product ...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'the studio doug has run since 2018 - independent product ...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the studio doug has run since 2018 - independent product design frontend engineering design systems and brand work for clients from rolex and intuit to lastpass' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the studio doug has run since 2018 - independent product design frontend engineering design systems and brand work for clients from rolex and intuit to lastpass",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'march' moved from (668, 963) in the mockup to (664, 935) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'turn' moved from (1092, 963) in the mockup to (1097, 935) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the studio doug has run since 2018 - independent product design frontend engineering design systems and brand work for clients from rolex and intuit to lastpass' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the studio doug has run since 2018 - independent product design frontend engineering design systems and brand work for clients from rolex and intuit to lastpass",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'space' (38px); in build it is 'work' (52px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "space",
+                "mockupPx": 38
+              },
+              {
+                "text": "man",
+                "mockupPx": 38
+              },
+              {
+                "text": "fish",
+                "mockupPx": 38
+              }
+            ],
+            "leader": {
+              "text": "space",
+              "mockupPx": 38
+            },
+            "buildLeader": {
+              "text": "work",
+              "buildPx": 52,
+              "mockupPx": 22
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'fish' moved from (46, 659) in the mockup to (48, 739) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: The mockup's largest text is 'space' at 38px; the build sets 'work' at 52px. Restore the mockup's hierarchy: 'work' is 22px in the mockup.",
+        "- / at 1440px: The mockup sets 'the studio doug has run since 2018 - independent product ...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'the studio doug has run since 2018 - independent product ...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 4,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the studio doug has run since 2018 - independent product design frontend engineering design systems and brand work for clients from rolex and intuit to lastpass' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the studio doug has run since 2018 - independent product design frontend engineering design systems and brand work for clients from rolex and intuit to lastpass",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'march' moved from (668, 963) in the mockup to (664, 935) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'turn' moved from (1092, 963) in the mockup to (1097, 935) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the studio doug has run since 2018 - independent product design frontend engineering design systems and brand work for clients from rolex and intuit to lastpass' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the studio doug has run since 2018 - independent product design frontend engineering design systems and brand work for clients from rolex and intuit to lastpass",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'space' (38px); in build it is 'colophon the night of 26 october 2026' (42px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "fish",
+                "mockupPx": 38
+              }
+            ],
+            "leader": {
+              "text": "space",
+              "mockupPx": 38
+            },
+            "buildLeader": {
+              "text": "colophon the night of 26 october 2026",
+              "buildPx": 42,
+              "mockupPx": null
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'fish' moved from (46, 659) in the mockup to (48, 739) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: The mockup's largest text is 'space' at 38px; the build sets 'colophon the night of 26 october 2026' at 42px. Restore the mockup's hierarchy: 'space' should be the largest text on the page.",
+        "- / at 1440px: The mockup sets 'the studio doug has run since 2018 - independent product ...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'the studio doug has run since 2018 - independent product ...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

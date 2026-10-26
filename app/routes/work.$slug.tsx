@@ -1,58 +1,51 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { css } from '../../styled-system/css'
 import { WhitePaper } from '../components/WhitePaper'
-import { CaseStudy, caseMeta } from '../components/generated/CaseStudy'
-import type { CaseProject } from '../components/generated/CaseStudy'
-import { InteriorHead } from '../components/generated/InteriorHead'
-import { KeyValueGrid } from '../components/generated/KeyValueGrid'
+import { CaseBody } from '../components/generated/CaseBody'
+import { CaseHero } from '../components/generated/CaseHero'
+import { FootIndex } from '../components/generated/FootIndex'
+import { Masthead } from '../components/generated/Masthead'
 import { projects } from '../content/projects'
 
-export const Route = createFileRoute('/work/$slug')({ component: WorkPage })
+export const Route = createFileRoute('/work/$slug')({ component: WorkDetail })
 
-const titleCls = css({
-  fontFamily: 'display',
-  fontStyle: 'italic',
-  fontWeight: 'light',
-  textStyle: '4xl',
-  color: 'text',
-  maxWidth: '18ch',
-})
+type Project = (typeof projects)[number]
 
-const backLink = css({
-  color: 'accent',
-  fontWeight: '500',
-  fontSize: 'base',
-  _hover: { color: 'accentAlt' },
-})
-
-function NotFound() {
+function CaseStudy({ project }: { project: Project }) {
   return (
-    <InteriorHead
-      eyebrow="Work"
-      title="No project by that name"
-      titleClassName={titleCls}
-      meta={
-        <a href="/work" className={backLink}>
-          See all the work
-        </a>
-      }
-    />
+    <>
+      <CaseHero project={project} />
+      {project.slug === 'dougmar-ch' ? <WhitePaper /> : <CaseBody project={project} />}
+      <FootIndex />
+    </>
   )
 }
 
-function WorkPage() {
-  const { slug } = Route.useParams()
-  const project: CaseProject | undefined = projects.find((p) => p.slug === slug)
-  if (!project) return <NotFound />
+function CaseMissing() {
   return (
     <>
-      <InteriorHead
-        eyebrow={project.type}
-        title={project.title}
-        titleClassName={titleCls}
-        meta={<KeyValueGrid items={caseMeta(project)} />}
-      />
-      {project.slug === 'dougmar-ch' ? <WhitePaper /> : <CaseStudy project={project} />}
+      <Masthead>
+        <h1
+          className={css({
+            fontFamily: 'display',
+            fontWeight: 'bold',
+            fontSize: 'clamp(38px, 9vw, 128px)',
+            lineHeight: '0.9',
+            fontVariant: 'small-caps',
+            letterSpacing: 'wide',
+            color: 'fieldInk',
+          })}
+        >
+          Not found
+        </h1>
+      </Masthead>
+      <FootIndex />
     </>
   )
+}
+
+function WorkDetail() {
+  const { slug } = Route.useParams()
+  const project = projects.find((p) => p.slug === slug)
+  return project ? <CaseStudy project={project} /> : <CaseMissing />
 }
