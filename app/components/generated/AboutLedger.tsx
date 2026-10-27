@@ -1,26 +1,24 @@
+import { css } from '../../../styled-system/css'
 import { personal } from '../../content/about'
 import { education } from '../../content/timeline'
-import { css } from '../../../styled-system/css'
+import { LedgerCell } from './LedgerCell'
 
 export function AboutLedger() {
   const cells = [
-    { label: 'School', value: education.school },
-    { label: 'Degree', value: education.degree },
-    { label: 'Concentration', value: education.concentration },
-    { label: 'Years', value: education.years },
-    { label: 'Holes in one', value: String(personal.holesInOne) },
-    { label: 'Sport', value: personal.sport },
+    {
+      label: 'Education',
+      value: education.school,
+      sub: [education.degree, education.concentration, education.years].filter(Boolean).join(', '),
+    },
+    { label: 'Holes in one', value: String(personal.holesInOne), sub: personal.sport },
     { label: 'Teams', value: personal.teams.join(', ') },
     { label: 'Current focus', value: personal.currentFocus },
-  ].filter((c) => c.value !== '')
+  ]
   return (
     <section
-      aria-label="Education and personal"
       className={css({
         bg: 'field',
         color: 'fieldInk',
-        paddingInline: 'clamp(20px, 6vw, 96px)',
-        paddingBlock: 'clamp(28px, 4vw, 48px)',
         '@supports (animation-timeline: view())': {
           animationName: 'rise',
           animationTimeline: 'view()',
@@ -29,50 +27,21 @@ export function AboutLedger() {
         },
       })}
     >
-      <h2
-        className={css({
-          fontFamily: 'display',
-          fontWeight: 'bold',
-          fontVariant: 'small-caps',
-          textStyle: 'lg',
-          letterSpacing: 'wider',
-          marginBottom: '22px',
-          paddingBottom: '3',
-          borderBottomWidth: '1px',
-          borderBottomStyle: 'solid',
-          borderBottomColor: 'fieldBorder',
-        })}
-      >
-        Education and the rest
-      </h2>
       <div
         className={css({
           display: 'grid',
           gridTemplateColumns: {
-            base: '1fr',
-            sm: 'repeat(2, minmax(0, 1fr))',
+            base: 'repeat(2, minmax(0, 1fr))',
             lg: 'repeat(4, minmax(0, 1fr))',
           },
-          rowGap: '20px',
-          columnGap: '40px',
+          borderTop: '1px solid',
+          borderTopColor: 'fieldBorder',
+          borderLeft: '1px solid',
+          borderLeftColor: 'fieldBorder',
         })}
       >
         {cells.map((c) => (
-          <div key={c.label} className={css({ textStyle: 'sm' })}>
-            <span
-              className={css({
-                display: 'block',
-                fontSize: '12px',
-                letterSpacing: 'widest',
-                textTransform: 'uppercase',
-                color: 'fieldInkMuted',
-                marginBottom: '5px',
-              })}
-            >
-              {c.label}
-            </span>
-            <span className={css({ color: 'fieldInk' })}>{c.value}</span>
-          </div>
+          <LedgerCell key={c.label} label={c.label} value={c.value} sub={c.sub} />
         ))}
       </div>
     </section>

@@ -1,0 +1,303 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a new design drawn from the days signals every morning' (32px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a new design drawn from the days signals every morning",
+            "mockupPx": 32,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "mockup's largest ('detroit', 160px) leads its runner-up ('20-17', 52px) by 3.1x; in the build the same two lead by only 1.0x",
+          "facts": {
+            "shape": "flattened",
+            "leader": {
+              "text": "detroit",
+              "mockupPx": 160,
+              "buildPx": 128
+            },
+            "runnerUp": {
+              "text": "20-17",
+              "mockupPx": 52,
+              "buildPx": 128
+            },
+            "mockupGap": 3.1,
+            "buildGap": 1,
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'20-17' is 52px in the mockup and 128px in the build (2.46x). Set it back to 52px.",
+          "facts": {
+            "text": "20-17",
+            "mockupPx": 52,
+            "buildPx": 128,
+            "ratio": 2.46,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'4-3' is 52px in the mockup and 128px in the build (2.46x). Set it back to 52px.",
+          "facts": {
+            "text": "4-3",
+            "mockupPx": 52,
+            "buildPx": 128,
+            "ratio": 2.46,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' is 44px in the mockup and 90px in the build (2.06x)",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 44,
+            "buildPx": 90,
+            "ratio": 2.06,
+            "mockupRank": 3
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'went two for two this weekend' is 40px in the mockup and 90px in the build (2.26x)",
+          "facts": {
+            "text": "went two for two this weekend",
+            "mockupPx": 40,
+            "buildPx": 90,
+            "ratio": 2.26,
+            "mockupRank": 4
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "mockup's largest ('detroit', 72px) leads its runner-up ('20-17', 34px) by 2.1x; in the build the same two lead by only 1.1x",
+          "facts": {
+            "shape": "flattened",
+            "leader": {
+              "text": "detroit",
+              "mockupPx": 72,
+              "buildPx": 64
+            },
+            "runnerUp": {
+              "text": "20-17",
+              "mockupPx": 34,
+              "buildPx": 56
+            },
+            "mockupGap": 2.1,
+            "buildGap": 1.1,
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'20-17' is 34px in the mockup and 56px in the build (1.64x)",
+          "facts": {
+            "text": "20-17",
+            "mockupPx": 34,
+            "buildPx": 56,
+            "ratio": 1.64,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'4-3' is 34px in the mockup and 56px in the build (1.64x)",
+          "facts": {
+            "text": "4-3",
+            "mockupPx": 34,
+            "buildPx": 56,
+            "ratio": 1.64,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'went two for two this weekend' is 26px in the mockup and 48px in the build (1.87x)",
+          "facts": {
+            "text": "went two for two this weekend",
+            "mockupPx": 26,
+            "buildPx": 48,
+            "ratio": 1.87,
+            "mockupRank": 3
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'lions' is 22px in the mockup and 42px in the build (1.92x)",
+          "facts": {
+            "text": "lions",
+            "mockupPx": 22,
+            "buildPx": 42,
+            "ratio": 1.92,
+            "mockupRank": 4
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'4-3' moved from (284, 546) in the mockup to (285, 735) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'red wings' moved from (109, 536) in the mockup to (123, 725) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "text-cut",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'20-17' shows 80% of itself in the build",
+          "facts": {
+            "text": "20-17",
+            "buildPx": 56,
+            "visiblePct": 80
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets 'detroit' at 160px over '20-17' at 52px, a 3.1x lead; the build sets them at 128px and 128px. Restore the mockup's sizes so 'detroit' leads.",
+        "- / at 360px: The mockup sets 'detroit' at 72px over '20-17' at 34px, a 2.1x lead; the build sets them at 64px and 56px. Restore the mockup's sizes so 'detroit' leads.",
+        "- / at 1440px: The mockup sets 'a new design drawn from the days signals every morning' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: 'went two for two this weekend' is 40px in the mockup and 90px in the build (2.26x). Set it back to 40px.",
+        "- / at 1440px: 'spaceman' is 44px in the mockup and 90px in the build (2.06x). Set it back to 44px.",
+        "- / at 360px: 'lions' is 22px in the mockup and 42px in the build (1.92x). Set it back to 22px.",
+        "- / at 360px: 'went two for two this weekend' is 26px in the mockup and 48px in the build (1.87x). Set it back to 26px.",
+        "- / at 360px: '20-17' is 34px in the mockup and 56px in the build (1.64x). Set it back to 34px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a new design drawn from the days signals every morning' (32px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a new design drawn from the days signals every morning",
+            "mockupPx": 32,
+            "hidden": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets 'a new design drawn from the days signals every morning' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 4,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a new design drawn from the days signals every morning' (32px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a new design drawn from the days signals every morning",
+            "mockupPx": 32,
+            "hidden": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets 'a new design drawn from the days signals every morning' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

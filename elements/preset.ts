@@ -2,96 +2,141 @@ import { definePreset } from '@pandacss/dev'
 
 export const elementsPreset = definePreset({
   name: 'elements',
+
   globalCss: {
     body: {
       background: 'bg',
       color: 'text',
-      fontKerning: 'normal',
       WebkitFontSmoothing: 'antialiased',
       MozOsxFontSmoothing: 'grayscale',
+      fontKerning: 'normal',
       textRendering: 'optimizeLegibility',
     },
-    '*': {
-      boxSizing: 'border-box',
+    a: {
+      color: 'accent',
+      textDecoration: 'none',
+    },
+    'a:hover': {
+      color: 'accentAlt',
     },
     'h1, h2, h3, h4, h5, h6': {
       margin: 0,
       fontWeight: 'inherit',
       textWrap: 'balance',
     },
-    p: {
-      margin: 0,
+    'h1': {
+      fontStyle: 'italic',
+    },
+    'p': {
       textWrap: 'pretty',
     },
-    a: {
-      color: 'inherit',
-      textDecoration: 'none',
-    },
-    'a:hover': {
-      color: 'accent',
-    },
-    'table': {
-      fontVariantNumeric: 'tabular-nums',
+    '*, *::before, *::after': {
+      boxSizing: 'border-box',
     },
   },
+
   conditions: {
     _light: '[data-theme=light] &',
     _dark: '[data-theme=dark] &',
     _hover: '&:hover',
   },
+
   theme: {
     tokens: {
       colors: {
-        brass: {
-          50: { value: '#fbf4df' },
-          100: { value: '#f6e8bd' },
-          200: { value: '#ecd389' },
-          300: { value: '#ddb954' },
-          400: { value: '#cda235' },
-          500: { value: '#b8882a' },
-          600: { value: '#96691f' },
-          700: { value: '#74501b' },
-          800: { value: '#553b18' },
-          900: { value: '#3a2911' },
+        lime: {
+          50: { value: '#f4fae0' },
+          100: { value: '#e8f4c8' },
+          200: { value: '#d9ed9e' },
+          300: { value: '#c9e675' },
+          400: { value: '#bfe36a' },
+          500: { value: '#a6d24a' },
+          600: { value: '#88b733' },
+          700: { value: '#6a9622' },
+          800: { value: '#4f7018' },
+          900: { value: '#35490f' },
         },
-        umber: {
-          50: { value: '#f9f5ec' },
-          100: { value: '#f0e9d8' },
-          200: { value: '#e0d4ba' },
-          300: { value: '#c5b291' },
-          400: { value: '#a08a63' },
-          500: { value: '#7c6844' },
-          600: { value: '#5e4e31' },
-          700: { value: '#443820' },
-          800: { value: '#2d2615' },
-          900: { value: '#1b1710' },
+        grass: {
+          50: { value: '#eef6d8' },
+          100: { value: '#dcefb6' },
+          200: { value: '#bfe285' },
+          300: { value: '#9ccd54' },
+          400: { value: '#6fa32b' },
+          500: { value: '#5e9e22' },
+          600: { value: '#4f8a18' },
+          700: { value: '#3e6f12' },
+          800: { value: '#2f540e' },
+          900: { value: '#213b0a' },
+        },
+        spruce: {
+          50: { value: '#eef4f0' },
+          100: { value: '#dce8e1' },
+          200: { value: '#bbd2c6' },
+          300: { value: '#95b4a4' },
+          400: { value: '#6c8e7c' },
+          500: { value: '#4c6d5a' },
+          600: { value: '#375143' },
+          700: { value: '#2a3f34' },
+          800: { value: '#1d2e26' },
+          900: { value: '#142019' },
         },
       },
       radii: {
         none: { value: '0' },
         sm: { value: '2px' },
         md: { value: '4px' },
-        lg: { value: '8px' },
+        lg: { value: '10px' },
         full: { value: '9999px' },
       },
     },
+
     semanticTokens: {
       colors: {
-        bg: { value: { base: '{colors.umber.50}', _light: '{colors.umber.50}', _dark: '{colors.umber.800}' } },
-        bgAlt: { value: { base: '{colors.umber.100}', _light: '{colors.umber.100}', _dark: '{colors.umber.900}' } },
-        surface: { value: { base: '#ffffff', _light: '#ffffff', _dark: '{colors.umber.700}' } },
-        text: { value: { base: '{colors.umber.900}', _light: '{colors.umber.900}', _dark: '{colors.umber.50}' } },
-        textMuted: { value: { base: '{colors.umber.600}', _light: '{colors.umber.600}', _dark: '{colors.umber.200}' } },
-        textFaint: { value: { base: '{colors.umber.500}', _light: '{colors.umber.500}', _dark: '{colors.umber.300}' } },
-        accent: { value: { base: '{colors.brass.600}', _light: '{colors.brass.600}', _dark: '{colors.brass.400}' } },
-        accentText: { value: { base: '{colors.umber.50}', _light: '{colors.umber.50}', _dark: '{colors.umber.900}' } },
-        accentAlt: { value: { base: '{colors.brass.700}', _light: '{colors.brass.700}', _dark: '{colors.brass.300}' } },
-        border: { value: { base: '{colors.umber.200}', _light: '{colors.umber.200}', _dark: '{colors.umber.600}' } },
-        borderStrong: { value: { base: '{colors.umber.400}', _light: '{colors.umber.400}', _dark: '{colors.umber.400}' } },
-        field: { value: { base: '{colors.umber.900}', _light: '{colors.umber.900}', _dark: '{colors.umber.900}' } },
-        fieldInk: { value: { base: '{colors.umber.50}', _light: '{colors.umber.50}', _dark: '{colors.umber.50}' } },
-        fieldInkMuted: { value: { base: '{colors.brass.200}', _light: '{colors.brass.200}', _dark: '{colors.brass.200}' } },
-        fieldBorder: { value: { base: '{colors.umber.600}', _light: '{colors.umber.600}', _dark: '{colors.umber.600}' } },
+        bg: {
+          value: { base: '{colors.spruce.900}', _light: '{colors.lime.400}' },
+        },
+        bgAlt: {
+          value: { base: '{colors.spruce.800}', _light: '{colors.lime.500}' },
+        },
+        surface: {
+          value: { base: '{colors.spruce.700}', _light: '{colors.lime.50}' },
+        },
+        text: {
+          value: { base: '{colors.lime.100}', _light: '{colors.spruce.900}' },
+        },
+        textMuted: {
+          value: { base: '{colors.spruce.300}', _light: '{colors.spruce.600}' },
+        },
+        textFaint: {
+          value: { base: '{colors.spruce.400}', _light: '{colors.spruce.500}' },
+        },
+        accent: {
+          value: { base: '{colors.lime.400}', _light: '{colors.grass.600}' },
+        },
+        accentText: {
+          value: { base: '{colors.spruce.900}', _light: '{colors.lime.50}' },
+        },
+        accentAlt: {
+          value: { base: '{colors.lime.300}', _light: '{colors.grass.400}' },
+        },
+        border: {
+          value: { base: '{colors.spruce.700}', _light: '{colors.lime.600}' },
+        },
+        borderStrong: {
+          value: { base: '{colors.spruce.500}', _light: '{colors.spruce.800}' },
+        },
+        field: {
+          value: { base: '{colors.lime.400}', _light: '{colors.spruce.900}' },
+        },
+        fieldInk: {
+          value: { base: '{colors.spruce.900}', _light: '{colors.lime.300}' },
+        },
+        fieldInkMuted: {
+          value: { base: '{colors.spruce.600}', _light: '{colors.spruce.300}' },
+        },
+        fieldBorder: {
+          value: { base: '{colors.lime.600}', _light: '{colors.spruce.600}' },
+        },
       },
     },
   },
