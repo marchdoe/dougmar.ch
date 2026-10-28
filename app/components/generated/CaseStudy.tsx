@@ -1,56 +1,24 @@
 import { css } from '../../../styled-system/css'
 import type { projects } from '../../content/projects'
-import { CaseMeta } from './CaseMeta'
 
-type CaseProject = (typeof projects)[number] & { timeline?: string; status?: string }
+type Project = (typeof projects)[number]
 
-const head = css({
-  fontFamily: 'display',
-  fontWeight: 'bold',
-  fontSize: '2xl',
-  lineHeight: 'tight',
-  color: 'text',
-  marginTop: '7',
-  marginBottom: '4',
-})
-
-// accent ink measured under 4.5:1 on surface; link set in text with an accent underline
-const linkClass = css({
-  fontFamily: 'body',
-  fontWeight: 'bold',
-  fontSize: 'sm',
-  color: 'text',
-  textDecoration: 'underline',
-  textDecorationColor: 'accent',
-  textDecorationThickness: '2px',
-  textUnderlineOffset: '4px',
-  display: 'inline-flex',
-  alignItems: 'center',
-  minHeight: '44px',
-  _hover: { color: 'text', textDecorationColor: 'text' },
-})
-
-export function CaseStudy({ project }: { project: CaseProject }) {
+export function CaseStudy({ project }: { project: Project }) {
   const narrative = [
-    { head: 'Summary', body: project.description },
-    { head: 'Problem', body: project.problem },
-    { head: 'Approach', body: project.approach },
-    { head: 'Outcome', body: project.outcome },
-  ].filter((part) => Boolean(part.body))
-  const links = [
-    { label: 'Live site →', url: project.liveUrl },
-    { label: 'Source on GitHub →', url: project.githubUrl },
-    { label: 'Visit →', url: project.externalUrl },
-  ].filter((link) => Boolean(link.url))
+    { label: 'Problem', body: project.problem ?? '' },
+    { label: 'Approach', body: project.approach ?? '' },
+    { label: 'Outcome', body: project.outcome ?? '' },
+  ].filter((n) => n.body !== '')
+  const stack = project.stack ?? []
   return (
     <section
       className={css({
-        bg: 'surface',
-        color: 'text',
-        borderTop: '2px solid',
-        borderTopColor: 'borderStrong',
-        paddingBlock: 'clamp(32px, 5vw, 72px)',
-        paddingInline: 'clamp(18px, 6vw, 96px)',
+        bg: 'bg',
+        paddingBlock: 'clamp(48px, 6vw, 112px)',
+        paddingInline: 'clamp(24px, 5vw, 80px)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '5',
         '@supports (animation-timeline: view())': {
           animationName: 'rise',
           animationTimeline: 'view()',
@@ -59,78 +27,81 @@ export function CaseStudy({ project }: { project: CaseProject }) {
         },
       })}
     >
-      <CaseMeta
-        items={[
-          { label: 'Year', value: String(project.year) },
-          { label: 'Type', value: project.type },
-          { label: 'Role', value: project.role },
-          { label: 'Timeline', value: project.timeline },
-          { label: 'Status', value: project.status },
-        ]}
-      />
-      {narrative.map((part) => (
-        <div key={part.head}>
-          <h2 className={head}>{part.head}</h2>
+      {narrative.map((n) => (
+        <article
+          key={n.label}
+          className={css({ bg: 'surface', padding: 'clamp(24px, 4vw, 56px)' })}
+        >
+          <h2
+            className={css({
+              fontSize: 'sm',
+              fontVariantCaps: 'all-small-caps',
+              letterSpacing: 'widest',
+              color: 'textMuted',
+              marginBottom: '3',
+            })}
+          >
+            {n.label}
+          </h2>
           <p
             className={css({
-              fontFamily: 'body',
-              fontSize: 'base',
-              lineHeight: '1.6',
+              fontSize: 'lede',
+              lineHeight: 'normal',
               color: 'text',
-              maxWidth: '48ch',
+              maxWidth: '58ch',
             })}
           >
-            {part.body}
+            {n.body}
           </p>
-        </div>
+        </article>
       ))}
-      {project.stack?.length ? (
-        <div>
-          <h2 className={head}>Stack</h2>
-          <ul
-            className={css({
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '2',
-              listStyle: 'none',
-              margin: '0',
-              padding: '0',
-            })}
-          >
-            {project.stack.map((item) => (
-              <li
-                key={item}
-                className={css({
-                  border: '1px solid',
-                  borderColor: 'border',
-                  borderRadius: 'sm',
-                  paddingBlock: '6px',
-                  paddingInline: '10px',
-                  fontFamily: 'body',
-                  fontSize: 'sm',
-                })}
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
+      {stack.length > 0 ? (
+        <ul
+          className={css({
+            listStyle: 'none',
+            margin: '0',
+            padding: '0',
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '2',
+          })}
+        >
+          {stack.map((s) => (
+            <li
+              key={s}
+              className={css({
+                fontSize: 'sm',
+                color: 'textMuted',
+                borderWidth: '1px',
+                borderStyle: 'solid',
+                borderColor: 'border',
+                paddingBlock: '1',
+                paddingInline: '3',
+              })}
+            >
+              {s}
+            </li>
+          ))}
+        </ul>
       ) : null}
-      <div
-        className={css({
-          display: 'flex',
-          flexWrap: 'wrap',
-          columnGap: '5',
-          rowGap: '0',
-          marginTop: '6',
-        })}
-      >
-        {links.map((link) => (
-          <a key={link.label} href={link.url} className={linkClass}>
-            {link.label}
-          </a>
-        ))}
-      </div>
+      {project.liveUrl ? (
+        <a
+          href={project.liveUrl}
+          target="_blank"
+          rel="noreferrer"
+          className={css({
+            alignSelf: 'flex-start',
+            fontSize: 'base',
+            color: 'text',
+            borderBottomWidth: '1px',
+            borderBottomStyle: 'solid',
+            borderColor: 'accent',
+            _hover: { color: 'accent' },
+          })}
+        >
+          Visit {project.title} ↗
+        </a>
+      ) : null}
     </section>
   )
 }

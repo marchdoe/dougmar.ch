@@ -19,77 +19,65 @@ function OgCard() {
     >
       <div
         className={css({
-          position: 'relative',
           width: '1200px',
           height: '630px',
+          minWidth: '1200px',
+          minHeight: '630px',
+          maxHeight: '630px',
+          boxSizing: 'border-box',
+          flexShrink: 0,
+          position: 'relative',
           bg: 'bg',
           color: 'text',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          paddingBlock: '56px',
-          paddingInline: '64px',
-          boxSizing: 'border-box',
+          fontFamily: 'display',
         })}
       >
-        <h1
+        <div
           className={css({
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-end',
-            gap: '2px',
-            textAlign: 'right',
-            textTransform: 'lowercase',
-            fontStyle: 'italic',
+            position: 'absolute',
+            top: '64px',
+            left: '64px',
             color: 'text',
           })}
         >
-          <span
-            className={css({
-              display: 'block',
-              fontFamily: 'display',
-              fontWeight: 'bold',
-              fontStyle: 'italic',
-              fontSize: '168px',
-              lineHeight: '0.86',
-              letterSpacing: '-0.02em',
-            })}
-          >
-            Detroit
-          </span>
-          <span
-            className={css({
-              display: 'block',
-              fontFamily: 'display',
-              fontWeight: 'bold',
-              fontStyle: 'italic',
-              fontSize: '52px',
-              lineHeight: '1.02',
-              letterSpacing: '-0.01em',
-              maxWidth: '16ch',
-              marginTop: '8px',
-            })}
-          >
-            went two for two this weekend
-          </span>
-        </h1>
+          <BrandLockup variant="stacked-lg" mode="original" />
+        </div>
         <div
           className={css({
-            alignSelf: 'flex-start',
-            bg: 'field',
-            color: 'fieldInk',
-            border: '1px solid',
-            borderColor: 'fieldBorder',
-            borderRadius: 'sm',
-            paddingBlock: '20px',
-            paddingInline: '24px',
+            position: 'absolute',
+            left: '64px',
+            right: '64px',
+            bottom: '64px',
+            textAlign: 'center',
           })}
         >
-          <BrandLockup
-            variant="horizontal-md"
-            mode={{ light: 'original', dark: 'single-color' }}
-            roleLine
-          />
+          <span
+            className={css({
+              display: 'block',
+              fontSize: 'md',
+              fontVariantCaps: 'all-small-caps',
+              letterSpacing: 'widest',
+              color: 'textMuted',
+              marginBottom: '3',
+            })}
+          >
+            Humidity · Aldie, 98%
+          </span>
+          <h1
+            className={css({
+              fontFamily: 'display',
+              fontWeight: 'light',
+              fontSize: '60px',
+              lineHeight: '1.05',
+              textTransform: 'uppercase',
+              textAlign: 'center',
+              color: 'text',
+              maxWidth: '1000px',
+              marginInline: 'auto',
+            })}
+          >
+            Fog, fifty degrees, calm.
+          </h1>
         </div>
       </div>
     </div>

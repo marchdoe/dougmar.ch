@@ -36,7 +36,7 @@ import type { ReactNode } from 'react'
 const archiveLink = css({
   display: 'block',
   background: 'bg',
-  color: 'textMuted',
+  color: 'textFaint',
   fontSize: 'xs',
   letterSpacing: '0.08em',
   textAlign: 'center',
@@ -57,9 +57,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-10-27'
-const PREV_DATE: string | null = '2026-10-26'
-const ARCHIVE_COUNT = 175
+const DESIGN_DATE = '2026-10-28'
+const PREV_DATE: string | null = '2026-10-27'
+const ARCHIVE_COUNT = 176
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -72,28 +72,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Detroit went two for two this weekend' },
-      { property: 'og:title', content: 'Detroit went two for two this weekend' },
+      { title: 'Fog, fifty degrees, calm.' },
+      { property: 'og:title', content: 'Fog, fifty degrees, calm.' },
       {
         property: 'og:description',
         content:
-          'Victory banner: "detroit" flung italic to the right edge of an acid-lime field, spruce spine down the left, both Detroit scores reversed in the dark.',
+          'Fog-teal drench, a 98% readout settling at the treeline, pale-mint light, the morning stated in three facts.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-27.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-28.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Detroit went two for two this weekend' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-27.png' },
+      { name: 'twitter:title', content: 'Fog, fifty degrees, calm.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-28.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Libre+Franklin:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -280,7 +280,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 175 designs
+            Archive · 176 designs
           </a>
         )}
         <ScrollRestoration />

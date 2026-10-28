@@ -1,93 +1,77 @@
 import { css } from '../../../styled-system/css'
-import type { timeline } from '../../content/timeline'
+import { timeline } from '../../content/timeline'
 
 type Entry = (typeof timeline)[number]
 
-export function TimelineList({ entries }: { entries: Entry[] }) {
+function TimelineRow({ entry }: { entry: Entry }) {
   return (
-    <section
+    <li
       className={css({
-        bg: 'field',
-        color: 'fieldInk',
-        paddingBlock: 'clamp(32px, 5vw, 72px)',
-        paddingInline: 'clamp(18px, 6vw, 96px)',
-        '@supports (animation-timeline: view())': {
-          animationName: 'rise',
-          animationTimeline: 'view()',
-          animationRange: 'entry 0% entry 40%',
-          animationFillMode: 'both',
-        },
+        display: 'grid',
+        gridTemplateColumns: { base: '1fr', md: '140px 1fr' },
+        columnGap: '5',
+        rowGap: '1',
+        paddingBlock: '4',
+        borderTopWidth: '1px',
+        borderTopStyle: 'solid',
+        borderColor: 'border',
       })}
     >
+      <span
+        className={css({
+          fontSize: 'sm',
+          fontVariantCaps: 'all-small-caps',
+          letterSpacing: 'wide',
+          color: 'textMuted',
+          fontVariantNumeric: 'tabular-nums',
+        })}
+      >
+        {entry.year}
+      </span>
+      <div className={css({ minWidth: '0' })}>
+        <span className={css({ display: 'block', fontSize: 'base', color: 'text' })}>
+          {entry.role}
+        </span>
+        <span className={css({ display: 'block', fontSize: 'sm', color: 'textMuted' })}>
+          {entry.company}
+        </span>
+        {entry.description ? (
+          <p
+            className={css({
+              marginTop: '2',
+              fontSize: 'sm',
+              lineHeight: 'normal',
+              color: 'textMuted',
+              maxWidth: '50ch',
+            })}
+          >
+            {entry.description}
+          </p>
+        ) : null}
+      </div>
+    </li>
+  )
+}
+
+export function TimelineList() {
+  return (
+    <div>
       <h2
         className={css({
-          fontFamily: 'body',
-          textTransform: 'uppercase',
-          letterSpacing: '0.11em',
-          fontSize: '2xs',
-          fontWeight: 'bold',
-          color: 'fieldInkMuted',
-          marginBottom: '4',
+          fontSize: 'sm',
+          fontVariantCaps: 'all-small-caps',
+          letterSpacing: 'widest',
+          color: 'textMuted',
+          marginBottom: '3',
         })}
       >
         Experience
       </h2>
-      <ol className={css({ listStyle: 'none', margin: '0', padding: '0' })}>
-        {entries.map((entry) => (
-          <li
-            key={`${entry.year}-${entry.company}-${entry.role}`}
-            className={css({
-              display: 'flex',
-              flexDirection: { base: 'column', lg: 'row' },
-              gap: { base: '1', lg: '5' },
-              paddingBlock: '16px',
-              borderTop: '1px solid',
-              borderTopColor: 'fieldBorder',
-              _last: { borderBottom: '1px solid', borderBottomColor: 'fieldBorder' },
-            })}
-          >
-            <span
-              className={css({
-                fontFamily: 'display',
-                fontWeight: 'bold',
-                fontSize: { base: 'base', lg: 'md' },
-                lineHeight: 'tight',
-                fontVariantNumeric: 'tabular-nums',
-                color: 'fieldInk',
-                lg: { width: '240px', minWidth: '240px', flexShrink: 0 },
-              })}
-            >
-              {entry.year}
-            </span>
-            <div
-              className={css({ display: 'flex', flexDirection: 'column', gap: '1', minWidth: '0' })}
-            >
-              <span
-                className={css({
-                  fontFamily: 'body',
-                  fontSize: 'base',
-                  fontWeight: 'bold',
-                  color: 'fieldInk',
-                })}
-              >
-                {[entry.role, entry.company].filter(Boolean).join(', ')}
-              </span>
-              {entry.description ? (
-                <p
-                  className={css({
-                    fontFamily: 'body',
-                    fontSize: 'sm',
-                    color: 'fieldInkMuted',
-                    maxWidth: '48ch',
-                  })}
-                >
-                  {entry.description}
-                </p>
-              ) : null}
-            </div>
-          </li>
+      <ul className={css({ listStyle: 'none', margin: '0', padding: '0' })}>
+        {timeline.map((entry) => (
+          <TimelineRow key={`${entry.year}-${entry.company}-${entry.role}`} entry={entry} />
         ))}
-      </ol>
-    </section>
+      </ul>
+    </div>
   )
 }
