@@ -1,77 +1,73 @@
 import { css } from '../../../styled-system/css'
 import { timeline } from '../../content/timeline'
 
-type Entry = (typeof timeline)[number]
-
-function TimelineRow({ entry }: { entry: Entry }) {
-  return (
-    <li
-      className={css({
-        display: 'grid',
-        gridTemplateColumns: { base: '1fr', md: '140px 1fr' },
-        columnGap: '5',
-        rowGap: '1',
-        paddingBlock: '4',
-        borderTopWidth: '1px',
-        borderTopStyle: 'solid',
-        borderColor: 'border',
-      })}
-    >
-      <span
-        className={css({
-          fontSize: 'sm',
-          fontVariantCaps: 'all-small-caps',
-          letterSpacing: 'wide',
-          color: 'textMuted',
-          fontVariantNumeric: 'tabular-nums',
-        })}
-      >
-        {entry.year}
-      </span>
-      <div className={css({ minWidth: '0' })}>
-        <span className={css({ display: 'block', fontSize: 'base', color: 'text' })}>
-          {entry.role}
-        </span>
-        <span className={css({ display: 'block', fontSize: 'sm', color: 'textMuted' })}>
-          {entry.company}
-        </span>
-        {entry.description ? (
-          <p
-            className={css({
-              marginTop: '2',
-              fontSize: 'sm',
-              lineHeight: 'normal',
-              color: 'textMuted',
-              maxWidth: '50ch',
-            })}
-          >
-            {entry.description}
-          </p>
-        ) : null}
-      </div>
-    </li>
-  )
-}
-
 export function TimelineList() {
   return (
-    <div>
+    <section className={css({ paddingInline: { base: '7vw', md: '6vw' }, paddingBottom: '7' })}>
       <h2
         className={css({
-          fontSize: 'sm',
-          fontVariantCaps: 'all-small-caps',
+          fontSize: 'xs',
           letterSpacing: 'widest',
-          color: 'textMuted',
-          marginBottom: '3',
+          textTransform: 'uppercase',
+          color: 'textFaint',
+          marginBottom: '4',
         })}
       >
         Experience
       </h2>
-      <ul className={css({ listStyle: 'none', margin: '0', padding: '0' })}>
+      <ul>
         {timeline.map((entry) => (
-          <TimelineRow key={`${entry.year}-${entry.company}-${entry.role}`} entry={entry} />
+          <li
+            key={`${entry.year}-${entry.company}-${entry.role}`}
+            className={css({
+              display: { base: 'block', md: 'grid' },
+              gridTemplateColumns: { md: '140px 1fr' },
+              columnGap: '6',
+              paddingBlock: '5',
+              borderTopWidth: '1px',
+              borderTopStyle: 'solid',
+              borderTopColor: 'borderStrong',
+            })}
+          >
+            <div
+              className={css({
+                fontSize: 'xs',
+                letterSpacing: 'wide',
+                color: 'textFaint',
+                marginBottom: { base: '2', md: '0' },
+              })}
+            >
+              {entry.year}
+            </div>
+            <div>
+              <h3
+                className={css({
+                  fontFamily: 'display',
+                  fontWeight: 'bold',
+                  fontSize: { base: 'base', md: 'md' },
+                  lineHeight: 'snug',
+                  color: 'text',
+                })}
+              >
+                {[entry.role, entry.company].filter(Boolean).join(', ')}
+              </h3>
+              {entry.description ? (
+                <p
+                  className={css({
+                    marginTop: '2',
+                    fontSize: '15px',
+                    lineHeight: '1.5',
+                    color: 'textMuted',
+                    maxWidth: '60ch',
+                  })}
+                >
+                  {entry.description}
+                </p>
+              ) : null}
+            </div>
+          </li>
         ))}
       </ul>
-    </div>
+    </section>
   )
 }

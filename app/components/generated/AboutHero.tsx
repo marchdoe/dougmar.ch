@@ -1,64 +1,51 @@
 import { css } from '../../../styled-system/css'
 import { identity } from '../../content/about'
-import { FogField } from './FogField'
-
-const statement = identity.statement.replace(/\s*\u2014\s*/g, ', ')
 
 export function AboutHero() {
+  const [lead, ...rest] = identity.statement.split('. ')
+  const tail = rest.join('. ')
   return (
-    <FogField>
-      <div className={css({ paddingTop: 'clamp(48px, 10vh, 120px)', textAlign: 'center' })}>
-        <h1
-          className={css({
-            fontFamily: 'display',
-            fontWeight: 'light',
-            textStyle: '3xl',
-            lineHeight: 'tight',
-            textTransform: 'uppercase',
-            textAlign: 'center',
-            color: 'text',
-            marginInline: 'auto',
-            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '0ms',
-          })}
-        >
-          {identity.name}
-        </h1>
-        <span
-          className={css({
-            display: 'inline-block',
-            marginTop: '4',
-            bg: 'bg',
-            paddingInline: '3',
-            paddingBlock: '1',
-            fontSize: 'sm',
-            fontVariantCaps: 'all-small-caps',
-            letterSpacing: 'widest',
-            color: 'textMuted',
-            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '80ms',
-          })}
-        >
-          {identity.role}
-        </span>
-        <p
-          className={css({
-            marginTop: '5',
-            marginInline: 'auto',
-            bg: 'bg',
-            padding: '4',
-            fontSize: 'lede',
-            lineHeight: 'normal',
-            textAlign: 'left',
-            color: 'text',
-            maxWidth: '46ch',
-            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '160ms',
-          })}
-        >
-          {statement}
-        </p>
-      </div>
-    </FogField>
+    <section
+      className={css({
+        position: 'relative',
+        paddingInline: { base: '7vw', md: '6vw' },
+        paddingTop: { base: '6', md: '7' },
+        paddingBottom: '7',
+      })}
+    >
+      <span
+        className={css({
+          display: 'block',
+          fontSize: 'xs',
+          letterSpacing: 'widest',
+          textTransform: 'uppercase',
+          color: 'textFaint',
+          marginBottom: '4',
+          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          animationDelay: '80ms',
+        })}
+      >
+        02 About
+      </span>
+      <h1
+        className={css({
+          fontFamily: 'display',
+          fontWeight: 'bold',
+          fontSize: 'clamp(28px, 3.6vw, 48px)',
+          lineHeight: '1.08',
+          letterSpacing: '-0.01em',
+          maxWidth: '24em',
+          color: 'text',
+          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          animationDelay: '0ms',
+        })}
+      >
+        <span className={css({ color: 'accent' })}>
+          {lead}
+          {tail ? '.' : ''}
+        </span>{' '}
+        {tail}
+      </h1>
+    </section>
   )
 }

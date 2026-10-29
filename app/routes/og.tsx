@@ -4,6 +4,8 @@ import { BrandLockup } from '../components/BrandLockup'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
+const cy = css({ color: 'accent' })
+
 function OgCard() {
   return (
     <div
@@ -19,66 +21,40 @@ function OgCard() {
     >
       <div
         className={css({
+          position: 'relative',
           width: '1200px',
           height: '630px',
-          minWidth: '1200px',
-          minHeight: '630px',
-          maxHeight: '630px',
-          boxSizing: 'border-box',
           flexShrink: 0,
-          position: 'relative',
+          boxSizing: 'border-box',
           bg: 'bg',
           color: 'text',
-          fontFamily: 'display',
+          padding: '64px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
         })}
       >
-        <div
+        <div className={css({ color: 'text' })}>
+          <BrandLockup variant="stacked-md" mode="original" />
+        </div>
+        <h1
           className={css({
-            position: 'absolute',
-            top: '64px',
-            left: '64px',
+            fontFamily: 'display',
+            fontWeight: 'bold',
+            fontSize: '66px',
+            lineHeight: '1',
+            letterSpacing: '-0.01em',
             color: 'text',
+            maxWidth: '1000px',
           })}
         >
-          <BrandLockup variant="stacked-lg" mode="original" />
-        </div>
-        <div
-          className={css({
-            position: 'absolute',
-            left: '64px',
-            right: '64px',
-            bottom: '64px',
-            textAlign: 'center',
-          })}
-        >
-          <span
-            className={css({
-              display: 'block',
-              fontSize: 'md',
-              fontVariantCaps: 'all-small-caps',
-              letterSpacing: 'widest',
-              color: 'textMuted',
-              marginBottom: '3',
-            })}
-          >
-            Humidity · Aldie, 98%
+          <span className={css({ display: 'block' })}>
+            Buildable <span className={cy}>before</span> the first line of code.
           </span>
-          <h1
-            className={css({
-              fontFamily: 'display',
-              fontWeight: 'light',
-              fontSize: '60px',
-              lineHeight: '1.05',
-              textTransform: 'uppercase',
-              textAlign: 'center',
-              color: 'text',
-              maxWidth: '1000px',
-              marginInline: 'auto',
-            })}
-          >
-            Fog, fifty degrees, calm.
-          </h1>
-        </div>
+          <span className={css({ display: 'block', marginTop: '3' })}>
+            Faithful <span className={cy}>after</span> the last.
+          </span>
+        </h1>
       </div>
     </div>
   )

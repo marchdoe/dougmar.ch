@@ -1,72 +1,44 @@
+import type { ReactNode } from 'react'
 import { css } from '../../../styled-system/css'
-import type { projects } from '../../content/projects'
-import { FogField } from './FogField'
 
-type CaseProject = (typeof projects)[number] & { timeline?: string; status?: string }
-
-export function CaseHero({ project }: { project: CaseProject }) {
-  const meta = [
-    { label: 'Type', value: project.type },
-    { label: 'Year', value: String(project.year) },
-    { label: 'Role', value: project.role ?? '' },
-    { label: 'Timeline', value: project.timeline ?? '' },
-    { label: 'Status', value: project.status ?? '' },
-  ].filter((m) => m.value !== '')
+export function CaseHero({ title, children }: { title: string; children?: ReactNode }) {
   return (
-    <FogField>
-      <div
+    <section
+      className={css({
+        display: 'grid',
+        gridTemplateColumns: { base: '1fr', lg: 'repeat(12, 1fr)' },
+        columnGap: '6',
+        rowGap: '5',
+        alignItems: 'end',
+        paddingInline: { base: '7vw', md: '6vw' },
+        paddingTop: { base: '6', md: '7' },
+        paddingBottom: '6',
+      })}
+    >
+      <h1
         className={css({
-          paddingTop: 'clamp(48px, 10vh, 120px)',
-          display: 'grid',
-          gridTemplateColumns: { base: '1fr', xl: '1fr 280px' },
-          columnGap: '7',
-          rowGap: '5',
-          alignItems: 'end',
+          gridColumn: { lg: '1 / 9' },
+          fontFamily: 'display',
+          fontWeight: 'bold',
+          fontSize: 'clamp(38px, 7vw, 96px)',
+          lineHeight: '0.98',
+          letterSpacing: '-0.01em',
+          color: 'text',
+          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          animationDelay: '0ms',
         })}
       >
-        <h1
-          className={css({
-            fontFamily: 'display',
-            fontWeight: 'light',
-            textStyle: { base: '4xl', md: '5xl' },
-            color: 'text',
-            minWidth: '0',
-            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '0ms',
-          })}
-        >
-          {project.title}
-        </h1>
-        <dl
-          className={css({
-            margin: '0',
-            bg: 'bg',
-            padding: '4',
-            display: 'grid',
-            gridTemplateColumns: 'auto 1fr',
-            columnGap: '4',
-            rowGap: '2',
-            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '80ms',
-          })}
-        >
-          {meta.map((m) => (
-            <div key={m.label} className={css({ display: 'contents' })}>
-              <dt
-                className={css({
-                  fontSize: 'sm',
-                  fontVariantCaps: 'all-small-caps',
-                  letterSpacing: 'wider',
-                  color: 'textMuted',
-                })}
-              >
-                {m.label}
-              </dt>
-              <dd className={css({ margin: '0', fontSize: 'sm', color: 'text' })}>{m.value}</dd>
-            </div>
-          ))}
-        </dl>
+        {title}
+      </h1>
+      <div
+        className={css({
+          gridColumn: { lg: '9 / 13' },
+          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          animationDelay: '80ms',
+        })}
+      >
+        {children}
       </div>
-    </FogField>
+    </section>
   )
 }

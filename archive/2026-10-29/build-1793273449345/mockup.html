@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — Buildable before the first line of code. Faithful after the last.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Work+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1A2E; --bgAlt:#13243B; --surface:#1D3250;
+    --text:#F1F5FB; --textMuted:#BFD0E4; --textFaint:#93AAC8;
+    --accent:#38B6FF; --accentAlt:#9CCDF6; --accentDeep:#156FBF;
+    --amber:#E8962A; --amberLight:#F0AD45;
+    --border:#1D3250; --borderStrong:#2E466B;
+    --field:#11568F;
+    --u:8px;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:"Work Sans",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility; font-variant-numeric:tabular-nums;
+    font-kerning:normal;
+  }
+  h1,h2,h3{margin:0; font-weight:inherit;}
+  p{margin:0; text-wrap:pretty;}
+  ul{margin:0; padding:0; list-style:none;}
+  svg,img{display:block; max-width:100%;}
+  a{color:var(--accent); text-decoration:none; transition:color 160ms ease,border-color 160ms ease;}
+  a:hover{color:var(--accentAlt);}
+  ::selection{background:var(--accent); color:#081322;}
+  *:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; overflow:hidden;
+    min-height:100vh;
+    background:var(--bg);
+    display:flex; flex-direction:column;
+    padding:28px 7vw 40px;
+  }
+  /* declared ground material: grain over the navy field */
+  .grain{position:absolute; inset:0; pointer-events:none; z-index:0; color:var(--text); opacity:0.22;}
+
+  /* corner brand cluster */
+  .cluster{position:relative; z-index:2; display:flex; flex-direction:column; gap:12px; align-items:flex-start;}
+  .lockup{display:flex; flex-direction:column; align-items:flex-start; gap:8px;}
+  .lockup .mark{height:48px; width:auto;}
+  .wordmark{
+    font-family:"Zilla Slab",serif; font-weight:700;
+    font-size:28px; line-height:1; letter-spacing:-0.015em; color:var(--text);
+  }
+  nav.numbered{display:flex; flex-wrap:wrap; gap:4px 20px;}
+  nav.numbered a{
+    display:inline-flex; align-items:center; min-height:44px; gap:7px;
+    font-size:14px; font-weight:500; color:var(--accent);
+    border-bottom:1px solid transparent;
+  }
+  nav.numbered a .n{font-family:"Zilla Slab",serif; color:var(--textFaint); font-size:13px; font-weight:500;}
+  nav.numbered a:hover{color:var(--accentAlt); border-bottom-color:var(--accentAlt);}
+
+  /* phrase grid */
+  .stage{position:relative; z-index:1; flex:1; display:flex; flex-direction:column; justify-content:center; padding:32px 0 0;}
+  .phrase{position:relative; z-index:1; font-family:"Zilla Slab",serif; font-weight:700; line-height:0.98; letter-spacing:-0.01em;}
+  .phrase .ln{display:block; font-size:clamp(38px,7vw,96px);}
+  .phrase .cy{color:var(--accent);}
+  .clauseOne{color:var(--text);}
+  .clauseTwo{color:var(--text);}
+
+  /* pivot band — the code written between before and after */
+  .pivot{
+    position:relative; z-index:1;
+    border-top:1px solid var(--borderStrong);
+    border-bottom:1px solid var(--borderStrong);
+    background:var(--bgAlt);
+    display:flex; flex-wrap:wrap; gap:16px 28px; align-items:baseline;
+    padding:16px 20px; margin:28px 0;
+  }
+  .pivot .lead{font-family:"Zilla Slab",serif; font-weight:500; font-size:19px; color:var(--text);}
+  .pivot .meta{font-size:14px; color:var(--textMuted); letter-spacing:0.01em;}
+  .pivot .up{color:var(--amberLight); font-weight:500;}
+  .pivot .tag{
+    font-size:12px; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--textFaint); border:1px solid var(--borderStrong);
+    border-radius:2px; padding:4px 8px;
+  }
+
+  /* ---------- CALLOUT ---------- */
+  .callout{
+    background:var(--bg); border-top:1px solid var(--border);
+    padding:48px 7vw;
+  }
+  .callout .k{font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--textFaint); margin-bottom:16px;}
+  .callout p{font-family:"Zilla Slab",serif; font-weight:400; font-size:clamp(20px,2.6vw,30px); line-height:1.35; max-width:30ch; color:var(--text);}
+  .callout .go{display:inline-flex; align-items:center; min-height:44px; margin-top:12px; font-weight:500; font-size:16px;}
+
+  /* ---------- COLOPHON ---------- */
+  .colophon{background:var(--bgAlt); border-top:1px solid var(--borderStrong); padding:48px 7vw 64px;}
+  .colophon .head{
+    font-size:12px; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--textFaint); padding-bottom:18px; margin-bottom:28px;
+    border-bottom:1px solid var(--borderStrong);
+    display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  }
+  .cgrid{display:grid; grid-template-columns:1fr; gap:24px 32px;}
+  .cell .lab{font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--textFaint); margin-bottom:6px;}
+  .cell .val{font-size:15px; color:var(--textMuted); line-height:1.45;}
+  .cell .val strong{color:var(--text); font-weight:500;}
+  .cell .val .amb{color:var(--amberLight); font-weight:500; font-variant-numeric:tabular-nums;}
+  .note{
+    margin-top:36px; padding-top:28px; border-top:1px solid var(--borderStrong);
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .note blockquote{
+    font-family:"Zilla Slab",serif; font-style:italic; font-weight:400;
+    font-size:clamp(17px,2vw,22px); line-height:1.4; color:var(--text);
+    max-width:52ch; margin:0;
+  }
+  .note cite{font-style:normal; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:var(--textFaint);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (min-width:768px){
+    .hero{padding:40px 6vw 56px;}
+    .cluster{position:absolute; top:40px; left:6vw;}
+    .lockup .mark{height:48px;}
+    .wordmark{font-size:30px;}
+    .stage{justify-content:flex-start; padding-top:204px;}
+    .phrase .clauseOne{display:grid; grid-template-columns:repeat(12,1fr);}
+    .phrase .clauseOne .ln{grid-column:1/9;}
+    .phrase .clauseTwo{display:grid; grid-template-columns:repeat(12,1fr);}
+    .phrase .clauseTwo .ln{grid-column:5/13; text-align:right;}
+    .pivot{padding:18px 24px;}
+    .cgrid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (min-width:1100px){
+    .cgrid{grid-template-columns:repeat(4,1fr);}
+    .callout p{max-width:38ch;}
+  }
+</style>
+</head>
+<body>
+
+  <section class="hero">
+    <!-- grain material over the navy field -->
+    <svg class="grain" aria-hidden="true" preserveAspectRatio="none" width="100%" height="100%">
+      <defs>
+        <filter id="grainF">
+          <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/>
+          <feColorMatrix type="luminanceToAlpha"/>
+          <feFlood flood-color="currentColor"/>
+          <feComposite operator="in" in2="SourceGraphic"/>
+        </filter>
+      </defs>
+      <rect width="100%" height="100%" filter="url(#grainF)"/>
+    </svg>
+    <!-- corner brand cluster -->
+    <div class="cluster">
+      <div class="lockup">
+        <svg class="mark" viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Doug March logo">
+          <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+          <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+          <circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+          <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+        </svg>
+        <span class="wordmark">Doug&nbsp;March</span>
+      </div>
+      <nav class="numbered" aria-label="Primary">
+        <a href="#work"><span class="n">01</span>Work</a>
+        <a href="#about"><span class="n">02</span>About</a>
+        <a href="#contact"><span class="n">03</span>Contact</a>
+      </nav>
+    </div>
+
+    <!-- the statement, mirrored across the pivot -->
+    <div class="stage">
+      <h1 class="phrase">
+        <span class="clauseOne">
+          <span class="ln">Buildable</span>
+          <span class="ln"><span class="cy">before</span> the first</span>
+          <span class="ln">line of code.</span>
+        </span>
+
+        <span class="pivot" aria-label="Written now, in the present">
+          <span class="lead">Aldie, Virginia</span>
+          <span class="meta">Oct 29, 2026 · fog, 48.8&deg;F</span>
+          <span class="meta">SPY <span class="up">+0.34%</span></span>
+          <span class="tag">the code, now</span>
+        </span>
+
+        <span class="clauseTwo">
+          <span class="ln">Faithful <span class="cy">after</span></span>
+          <span class="ln">the last.</span>
+        </span>
+      </h1>
+    </div>
+  </section>
+
+  <!-- home callout slot (placed, not designed) -->
+  <section class="callout">
+    <div class="k">Spaceman</div>
+    <p>Ten years of product design, frontend engineering, design systems and brand — operating as Spaceman, partnering with companies and studios.</p>
+    <a class="go" href="#about">About Doug &rarr;</a>
+  </section>
+
+  <!-- colophon: the day's signals -->
+  <footer class="colophon">
+    <div class="head">
+      <span>Colophon — October 29, 2026</span>
+      <span>Aldie, Virginia</span>
+    </div>
+    <div class="cgrid">
+      <div class="cell">
+        <div class="lab">Weather</div>
+        <div class="val"><strong>48.8&deg;F</strong>, fog<br>Aldie, VA</div>
+      </div>
+      <div class="cell">
+        <div class="lab">Pistons</div>
+        <div class="val"><strong>Win</strong> <span class="amb">97&ndash;89 &uarr;</span></div>
+      </div>
+      <div class="cell">
+        <div class="lab">World Series</div>
+        <div class="val">Rays force Game&nbsp;5, <strong>4&ndash;3</strong></div>
+      </div>
+      <div class="cell">
+        <div class="lab">Markets</div>
+        <div class="val">SPY <span class="amb">+0.34%</span></div>
+      </div>
+      <div class="cell">
+        <div class="lab">Golf</div>
+        <div class="val">VidantaWorld Mexico Open <strong>(scheduled)</strong></div>
+      </div>
+      <div class="cell">
+        <div class="lab">Moon</div>
+        <div class="val">Waning gibbous, <strong>82%</strong></div>
+      </div>
+      <div class="cell">
+        <div class="lab">In rotation</div>
+        <div class="val">My Morning Jacket · Guided by Voices · Tobin Sprout</div>
+      </div>
+      <div class="cell">
+        <div class="lab">Up next</div>
+        <div class="val">Halloween, <strong>2 days out</strong></div>
+      </div>
+    </div>
+    <div class="note">
+      <blockquote>&ldquo;I&rsquo;m a great believer in luck, and I find the harder I work, the more I have of it.&rdquo;</blockquote>
+      <cite>&mdash; Thomas Jefferson, the day&rsquo;s note</cite>
+    </div>
+  </footer>
+
+</body>
+</html>

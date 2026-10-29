@@ -1,7 +1,7 @@
 import { definePreset } from '@pandacss/dev'
 
 /**
- * Generated from elements/chassis/source-serif-text.js by scripts/utils/chassis.js.
+ * Generated from elements/chassis/zilla-worksans.js by scripts/utils/chassis.js.
  * Listed LAST in panda.config.ts so the chassis type system — fonts,
  * fontSizes, fontWeights, lineHeights, letterSpacings, spacing, textStyles —
  * wins over any values the Art Director emits in elements/preset.ts.
@@ -38,8 +38,8 @@ export const chassisPreset = definePreset({
       },
       tokens: {
         fonts: {
-          display: { value: "\"Source Serif 4\", Georgia, \"Times New Roman\", serif" },
-          body: { value: "\"Source Serif 4\", Georgia, \"Times New Roman\", serif" },
+          display: { value: "\"Zilla Slab\", Georgia, serif" },
+          body: { value: "\"Work Sans\", system-ui, -apple-system, sans-serif" },
         },
         fontSizes: {
           '2xs': { value: "0.75rem" },
@@ -59,15 +59,15 @@ export const chassisPreset = definePreset({
         fontWeights: {
           light: { value: "400" },
           normal: { value: "400" },
-          medium: { value: "600" },
-          semibold: { value: "600" },
+          medium: { value: "500" },
+          semibold: { value: "700" },
           bold: { value: "700" },
         },
         lineHeights: {
-          tight: { value: "1.05" },
-          snug: { value: "1.12" },
-          normal: { value: "1.55" },
-          loose: { value: "1.75" },
+          tight: { value: "1.02" },
+          snug: { value: "1.15" },
+          normal: { value: "1.5" },
+          loose: { value: "1.7" },
         },
         letterSpacings: {
           tight: { value: "-0.01em" },
@@ -78,30 +78,30 @@ export const chassisPreset = definePreset({
         },
         spacing: {
           '1': { value: "4px" },
-          '2': { value: "8.5px" },
-          '3': { value: "16.5px" },
-          '4': { value: "25px" },
-          '5': { value: "33px" },
-          '6': { value: "49.5px" },
-          '7': { value: "66px" },
-          '8': { value: "99px" },
-          '9': { value: "132.5px" },
+          '2': { value: "8px" },
+          '3': { value: "16px" },
+          '4': { value: "24px" },
+          '5': { value: "32px" },
+          '6': { value: "48px" },
+          '7': { value: "64px" },
+          '8': { value: "96px" },
+          '9': { value: "128px" },
         },
       },
       textStyles: {
         '2xs': { value: { fontSize: "2xs", lineHeight: "1.4", letterSpacing: "0.04em" } },
         xs: { value: { fontSize: "xs", lineHeight: "1.4", letterSpacing: "0.03em" } },
         sm: { value: { fontSize: "sm", lineHeight: "1.45", letterSpacing: "0.01em" } },
-        base: { value: { fontSize: "base", lineHeight: "1.55", letterSpacing: "0" } },
+        base: { value: { fontSize: "base", lineHeight: "1.5", letterSpacing: "0" } },
         lede: { value: { fontSize: "lede", lineHeight: "1.45", letterSpacing: "0" } },
-        md: { value: { fontSize: "md", lineHeight: "1.45", letterSpacing: "0" } },
+        md: { value: { fontSize: "md", lineHeight: "1.4", letterSpacing: "0" } },
         lg: { value: { fontSize: "lg", lineHeight: "1.3", letterSpacing: "-0.005em" } },
         xl: { value: { fontSize: "xl", lineHeight: "1.2", letterSpacing: "-0.01em" } },
-        '2xl': { value: { fontSize: "2xl", lineHeight: "1.12", letterSpacing: "-0.01em" } },
-        '3xl': { value: { fontSize: "3xl", lineHeight: "1.08", letterSpacing: "-0.01em" } },
+        '2xl': { value: { fontSize: "2xl", lineHeight: "1.15", letterSpacing: "-0.01em" } },
+        '3xl': { value: { fontSize: "3xl", lineHeight: "1.1", letterSpacing: "-0.01em" } },
         '4xl': { value: { fontSize: "4xl", lineHeight: "1", letterSpacing: "-0.02em" } },
         '5xl': { value: { fontSize: "5xl", lineHeight: "0.95", letterSpacing: "-0.025em" } },
-        hero: { value: { fontSize: "hero", lineHeight: "1.05", letterSpacing: "-0.005em" } },
+        hero: { value: { fontSize: "hero", lineHeight: "1.02", letterSpacing: "-0.005em" } },
       },
     },
   },

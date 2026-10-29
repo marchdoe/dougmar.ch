@@ -1,7 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { AboutFacts } from '../components/generated/AboutFacts'
 import { AboutHero } from '../components/generated/AboutHero'
-import { AboutRecord } from '../components/generated/AboutRecord'
-import { PersonalLedger } from '../components/generated/PersonalLedger'
+import { CapabilityRow } from '../components/generated/CapabilityRow'
+import { TimelineList } from '../components/generated/TimelineList'
 
 export const Route = createFileRoute('/about')({ component: AboutPage })
 
@@ -9,8 +10,9 @@ function AboutPage() {
   return (
     <>
       <AboutHero />
-      <AboutRecord />
-      <PersonalLedger />
+      <TimelineList />
+      <CapabilityRow />
+      <AboutFacts />
     </>
   )
 }

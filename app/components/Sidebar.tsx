@@ -1,134 +1,66 @@
 import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
-import { SignalIndex } from './generated/SignalIndex'
+import { BrandLockup } from './BrandLockup'
 
-const navLinks = [
-  { label: 'Work', href: '/work' },
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: `mailto:${identity.email}` },
+const links = [
+  { n: '01', label: 'Work', href: '/work' },
+  { n: '02', label: 'About', href: '/about' },
 ]
+
+const navLink = css({
+  display: 'inline-flex',
+  alignItems: 'center',
+  minHeight: '44px',
+  gap: '7px',
+  fontSize: 'sm',
+  fontWeight: 'normal',
+  textTransform: 'none',
+  color: 'accent',
+  borderBottomWidth: '1px',
+  borderBottomStyle: 'solid',
+  borderBottomColor: 'transparent',
+  _hover: { color: 'accentAlt', borderBottomColor: 'accentAlt' },
+})
+
+const navNum = css({
+  fontFamily: 'display',
+  fontSize: 'xs',
+  color: 'textFaint',
+})
 
 export function Sidebar() {
   return (
-    <footer
+    <header
       className={css({
-        bg: 'field',
-        color: 'fieldInk',
-        paddingBlock: 'clamp(48px, 6vw, 112px)',
-        paddingInline: 'clamp(24px, 5vw, 80px)',
-        display: 'grid',
-        gridTemplateColumns: { base: '1fr', md: 'auto 1fr', lg: '260px 1fr' },
-        gap: 'clamp(36px, 5vw, 72px)',
-        fontFamily: 'body',
+        position: 'relative',
+        zIndex: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        gap: '12px',
+        bg: 'bg',
+        paddingTop: { base: '28px', md: '40px' },
+        paddingInline: { base: '7vw', md: '6vw' },
       })}
     >
-      <nav aria-label="Primary">
-        <ul className={css({ listStyle: 'none', margin: '0', padding: '0' })}>
-          {navLinks.map((link) => (
-            <li
-              key={link.label}
-              className={css({
-                borderTopWidth: '1px',
-                borderTopStyle: 'solid',
-                borderColor: 'fieldBorder',
-                _last: { borderBottomWidth: '1px', borderBottomStyle: 'solid' },
-              })}
-            >
-              <a
-                href={link.href}
-                className={css({
-                  display: 'block',
-                  paddingBlock: '3',
-                  minHeight: '44px',
-                  textStyle: 'lg',
-                  fontVariantCaps: 'all-small-caps',
-                  letterSpacing: 'wider',
-                  color: 'fieldInk',
-                  transition: 'color .2s ease',
-                  _hover: { color: 'accent' },
-                })}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      <SignalIndex />
-
-      <div
-        className={css({
-          gridColumn: '1 / -1',
-          borderTopWidth: '1px',
-          borderTopStyle: 'solid',
-          borderColor: 'borderStrong',
-          paddingTop: '5',
-        })}
+      <a href="/" className={css({ color: 'text', _hover: { color: 'text' } })}>
+        <BrandLockup variant="stacked-md" mode="original" />
+      </a>
+      <nav
+        aria-label="Primary"
+        className={css({ display: 'flex', flexWrap: 'wrap', rowGap: '4px', columnGap: '20px' })}
       >
-        <blockquote
-          className={css({
-            margin: '0',
-            textStyle: 'xl',
-            lineHeight: 'snug',
-            fontStyle: 'italic',
-            fontFamily: 'display',
-            color: 'fieldInk',
-            maxWidth: '24ch',
-          })}
-        >
-          You are your best thing.
-        </blockquote>
-        <cite
-          className={css({
-            display: 'block',
-            marginTop: '3',
-            fontStyle: 'normal',
-            fontSize: 'sm',
-            fontVariantCaps: 'all-small-caps',
-            letterSpacing: 'wider',
-            color: 'fieldInkMuted',
-          })}
-        >
-          Toni Morrison
-        </cite>
-      </div>
-
-      <div
-        className={css({
-          gridColumn: '1 / -1',
-          borderTopWidth: '1px',
-          borderTopStyle: 'solid',
-          borderColor: 'fieldBorder',
-          paddingTop: '4',
-          fontSize: 'xs',
-          color: 'fieldInkMuted',
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          rowGap: '2',
-          columnGap: '4',
-        })}
-      >
-        <span>{identity.name}</span>
-        <span>{identity.role}</span>
-        <a
-          href={`mailto:${identity.email}`}
-          className={css({
-            display: 'inline-flex',
-            alignItems: 'center',
-            minHeight: '44px',
-            minWidth: '44px',
-            color: 'fieldInk',
-            _hover: { color: 'accent' },
-          })}
-        >
-          {identity.email}
+        {links.map((link) => (
+          <a key={link.href} href={link.href} className={navLink}>
+            <span className={navNum}>{link.n}</span>
+            {link.label}
+          </a>
+        ))}
+        <a href={`mailto:${identity.email}`} className={navLink}>
+          <span className={navNum}>03</span>
+          Contact
         </a>
-        <span>Aldie, Virginia</span>
-        <span>49.9°F · fog · wind 2.2 mph east</span>
-        <span>© 2026 {identity.name}</span>
-      </div>
-    </footer>
+      </nav>
+    </header>
   )
 }
