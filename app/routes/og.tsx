@@ -1,10 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { css } from '../../styled-system/css'
 import { BrandLockup } from '../components/BrandLockup'
+import { identity } from '../content/about'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
-
-const cy = css({ color: 'accent' })
 
 function OgCard() {
   return (
@@ -21,40 +20,50 @@ function OgCard() {
     >
       <div
         className={css({
-          position: 'relative',
           width: '1200px',
           height: '630px',
           flexShrink: 0,
-          boxSizing: 'border-box',
-          bg: 'bg',
-          color: 'text',
-          padding: '64px',
+          bg: 'field',
+          color: 'fieldInk',
+          borderWidth: '2px',
+          borderStyle: 'solid',
+          borderColor: 'fieldBorder',
+          paddingBlock: '64px',
+          paddingInline: '72px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
         })}
       >
-        <div className={css({ color: 'text' })}>
-          <BrandLockup variant="stacked-md" mode="original" />
-        </div>
+        <span
+          className={css({
+            fontFamily: 'body',
+            fontWeight: 'bold',
+            fontSize: '18px',
+            letterSpacing: '0.14em',
+            textTransform: 'uppercase',
+            color: 'fieldInk',
+          })}
+        >
+          {identity.name} · Spaceman
+        </span>
         <h1
           className={css({
             fontFamily: 'display',
             fontWeight: 'bold',
-            fontSize: '66px',
-            lineHeight: '1',
-            letterSpacing: '-0.01em',
-            color: 'text',
+            fontVariant: 'small-caps',
+            fontSize: '68px',
+            lineHeight: '1.08',
+            letterSpacing: 'wide',
+            color: 'fieldInk',
             maxWidth: '1000px',
           })}
         >
-          <span className={css({ display: 'block' })}>
-            Buildable <span className={cy}>before</span> the first line of code.
-          </span>
-          <span className={css({ display: 'block', marginTop: '3' })}>
-            Faithful <span className={cy}>after</span> the last.
-          </span>
+          Zeldman and Rolex hired one person for both.
         </h1>
+        <div className={css({ color: 'fieldInk' })}>
+          <BrandLockup variant="mark-only-md" mode="original" />
+        </div>
       </div>
     </div>
   )

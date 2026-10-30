@@ -1,0 +1,407 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'zeldman the nature conservancy lastpass' (20px in the mockup) has no match in the build",
+          "facts": {
+            "text": "zeldman the nature conservancy lastpass",
+            "mockupPx": 20,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'framebridge' (20px in the mockup) has no match in the build",
+          "facts": {
+            "text": "framebridge",
+            "mockupPx": 20,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'spaceman' (150px); in build it is 'spaceman' (135px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "zeldman the nature conservancy lastpass",
+                "mockupPx": 20
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 150
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 135,
+              "mockupPx": 150
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'zeldman' (20px in the mockup) has no match in the build",
+          "facts": {
+            "text": "zeldman",
+            "mockupPx": 20,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the nature conservancy' (20px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the nature conservancy",
+            "mockupPx": 20,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'lastpass' (20px in the mockup) has no match in the build",
+          "facts": {
+            "text": "lastpass",
+            "mockupPx": 20,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'spaceman' (32px); in build it is 'spaceman' (32px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "zeldman",
+                "mockupPx": 20
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 32
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 32,
+              "mockupPx": 32
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'spaceman' still leads, but the mockup's 'zeldman the nature conservancy lastpass' (20px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'spaceman' still leads, but the mockup's 'zeldman' (20px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'zeldman the nature conservancy lastpass' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'framebridge' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'zeldman' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'the nature conservancy' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'lastpass' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'zeldman the nature conservancy lastpass' (20px in the mockup) has no match in the build",
+          "facts": {
+            "text": "zeldman the nature conservancy lastpass",
+            "mockupPx": 20,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'framebridge' (20px in the mockup) has no match in the build",
+          "facts": {
+            "text": "framebridge",
+            "mockupPx": 20,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'spaceman' (150px); in build it is 'spaceman' (109px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "zeldman the nature conservancy lastpass",
+                "mockupPx": 20
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 150
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 109,
+              "mockupPx": 150
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'zeldman' (20px in the mockup) has no match in the build",
+          "facts": {
+            "text": "zeldman",
+            "mockupPx": 20,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the nature conservancy' (20px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the nature conservancy",
+            "mockupPx": 20,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'lastpass' (20px in the mockup) has no match in the build",
+          "facts": {
+            "text": "lastpass",
+            "mockupPx": 20,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'spaceman' (32px); in build it is 'spaceman' (32px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "zeldman",
+                "mockupPx": 20
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 32
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 32,
+              "mockupPx": 32
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'spaceman' still leads, but the mockup's 'zeldman the nature conservancy lastpass' (20px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'spaceman' still leads, but the mockup's 'zeldman' (20px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'zeldman the nature conservancy lastpass' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'framebridge' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'zeldman' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'the nature conservancy' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'lastpass' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'zeldman the nature conservancy lastpass' (20px in the mockup) has no match in the build",
+          "facts": {
+            "text": "zeldman the nature conservancy lastpass",
+            "mockupPx": 20,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'spaceman' (150px); in build it is 'spaceman' (109px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "zeldman the nature conservancy lastpass",
+                "mockupPx": 20
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 150
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 109,
+              "mockupPx": 150
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'zeldman' (20px in the mockup) has no match in the build",
+          "facts": {
+            "text": "zeldman",
+            "mockupPx": 20,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'spaceman' (32px); in build it is 'spaceman' (32px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "zeldman",
+                "mockupPx": 20
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 32
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 32,
+              "mockupPx": 32
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'lastpass' moved from (181, 624) in the mockup to (77, 753) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'spaceman' still leads, but the mockup's 'zeldman the nature conservancy lastpass' (20px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'spaceman' still leads, but the mockup's 'zeldman' (20px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'zeldman the nature conservancy lastpass' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'zeldman' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

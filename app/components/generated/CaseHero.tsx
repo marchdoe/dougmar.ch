@@ -1,44 +1,90 @@
-import type { ReactNode } from 'react'
 import { css } from '../../../styled-system/css'
+import type { projects } from '../../content/projects'
+import { ArtifactLabel } from './ArtifactLabel'
+import { HeroBand } from './HeroBand'
 
-export function CaseHero({ title, children }: { title: string; children?: ReactNode }) {
+type Project = (typeof projects)[number]
+
+function textField(p: Project, key: string): string {
+  const v = (p as unknown as Record<string, unknown>)[key]
+  return typeof v === 'string' ? v : ''
+}
+
+export function CaseHero({ project }: { project: Project }) {
+  const meta = [
+    { k: 'Year', v: String(project.year) },
+    { k: 'Role', v: project.role ?? '' },
+    { k: 'Timeline', v: textField(project, 'timeline') },
+    { k: 'Status', v: textField(project, 'status') },
+  ].filter((m) => m.v !== '')
   return (
-    <section
-      className={css({
-        display: 'grid',
-        gridTemplateColumns: { base: '1fr', lg: 'repeat(12, 1fr)' },
-        columnGap: '6',
-        rowGap: '5',
-        alignItems: 'end',
-        paddingInline: { base: '7vw', md: '6vw' },
-        paddingTop: { base: '6', md: '7' },
-        paddingBottom: '6',
-      })}
-    >
-      <h1
-        className={css({
-          gridColumn: { lg: '1 / 9' },
-          fontFamily: 'display',
-          fontWeight: 'bold',
-          fontSize: 'clamp(38px, 7vw, 96px)',
-          lineHeight: '0.98',
-          letterSpacing: '-0.01em',
-          color: 'text',
-          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '0ms',
-        })}
-      >
-        {title}
-      </h1>
-      <div
-        className={css({
-          gridColumn: { lg: '9 / 13' },
-          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '80ms',
-        })}
-      >
-        {children}
-      </div>
-    </section>
+    <>
+      <ArtifactLabel left={`Case Study · ${project.type}`} right={String(project.year)} />
+      <HeroBand>
+        <h1
+          className={css({
+            fontFamily: 'display',
+            fontWeight: 'bold',
+            fontSize: { base: 'clamp(26px, 7.6vw, 40px)', md: '68px', lg: 'min(6.6vw, 96px)' },
+            lineHeight: '0.96',
+            letterSpacing: '0.005em',
+            textTransform: 'uppercase',
+            color: 'fieldInk',
+          })}
+        >
+          {project.title}
+        </h1>
+        <div
+          className={css({
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '8px',
+            marginTop: { base: '18px', lg: '28px' },
+          })}
+        >
+          {meta.map((m) => (
+            <span
+              key={m.k}
+              className={css({
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '2px',
+                bg: 'field',
+                paddingBlock: '6px',
+                paddingInline: '10px',
+                borderWidth: '1px',
+                borderStyle: 'solid',
+                borderColor: 'fieldBorder',
+              })}
+            >
+              <span
+                className={css({
+                  fontFamily: 'body',
+                  fontWeight: 'bold',
+                  fontSize: '2xs',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: 'fieldInk',
+                })}
+              >
+                {m.k}
+              </span>
+              <span
+                className={css({
+                  fontFamily: 'display',
+                  fontWeight: 'bold',
+                  fontVariant: 'small-caps',
+                  letterSpacing: 'wide',
+                  fontSize: 'sm',
+                  color: 'fieldInk',
+                })}
+              >
+                {m.v}
+              </span>
+            </span>
+          ))}
+        </div>
+      </HeroBand>
+    </>
   )
 }

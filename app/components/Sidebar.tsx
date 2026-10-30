@@ -1,66 +1,55 @@
 import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
-import { BrandLockup } from './BrandLockup'
 
-const links = [
-  { n: '01', label: 'Work', href: '/work' },
-  { n: '02', label: 'About', href: '/about' },
-]
-
-const navLink = css({
-  display: 'inline-flex',
-  alignItems: 'center',
-  minHeight: '44px',
-  gap: '7px',
-  fontSize: 'sm',
-  fontWeight: 'normal',
-  textTransform: 'none',
-  color: 'accent',
-  borderBottomWidth: '1px',
-  borderBottomStyle: 'solid',
-  borderBottomColor: 'transparent',
-  _hover: { color: 'accentAlt', borderBottomColor: 'accentAlt' },
-})
-
-const navNum = css({
-  fontFamily: 'display',
-  fontSize: 'xs',
+const meta = css({
+  fontFamily: 'body',
+  fontWeight: 'bold',
+  fontSize: '2xs',
+  letterSpacing: '0.12em',
+  textTransform: 'uppercase',
   color: 'textFaint',
 })
 
 export function Sidebar() {
   return (
-    <header
+    <aside
       className={css({
-        position: 'relative',
-        zIndex: 2,
         display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        gap: '12px',
-        bg: 'bg',
-        paddingTop: { base: '28px', md: '40px' },
-        paddingInline: { base: '7vw', md: '6vw' },
+        flexWrap: { base: 'wrap', lg: 'nowrap' },
+        flexDirection: { base: 'row', lg: 'column' },
+        alignItems: { base: 'baseline', lg: 'flex-start' },
+        rowGap: { base: '12px', lg: '18px' },
+        columnGap: '18px',
+        paddingBottom: { base: '16px', lg: '0' },
+        marginBottom: { base: '20px', lg: '0' },
+        paddingRight: { lg: '3vw' },
+        borderBottomWidth: { base: '1px', lg: '0' },
+        borderBottomStyle: 'solid',
+        borderBottomColor: 'border',
+        borderRightWidth: { base: '0', lg: '1px' },
+        borderRightStyle: 'solid',
+        borderRightColor: 'border',
+        gridColumn: { lg: '1' },
+        gridRow: { lg: '1 / span 2' },
+        minWidth: '0',
       })}
     >
-      <a href="/" className={css({ color: 'text', _hover: { color: 'text' } })}>
-        <BrandLockup variant="stacked-md" mode="original" />
-      </a>
-      <nav
-        aria-label="Primary"
-        className={css({ display: 'flex', flexWrap: 'wrap', rowGap: '4px', columnGap: '20px' })}
+      <span
+        className={css({
+          fontFamily: 'display',
+          fontWeight: 'bold',
+          fontSize: { base: '13px', lg: '14px' },
+          letterSpacing: '0.02em',
+          textTransform: 'uppercase',
+          color: 'text',
+        })}
       >
-        {links.map((link) => (
-          <a key={link.href} href={link.href} className={navLink}>
-            <span className={navNum}>{link.n}</span>
-            {link.label}
-          </a>
-        ))}
-        <a href={`mailto:${identity.email}`} className={navLink}>
-          <span className={navNum}>03</span>
-          Contact
-        </a>
-      </nav>
-    </header>
+        {identity.name}
+      </span>
+      <span className={meta}>Type Specimen № 001</span>
+      <span className={meta}>{identity.role}</span>
+      <span className={meta}>One Person</span>
+      <span className={meta}>Aldie, Virginia</span>
+    </aside>
   )
 }

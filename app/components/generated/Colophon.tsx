@@ -1,208 +1,123 @@
-import type { ReactNode } from 'react'
 import { css } from '../../../styled-system/css'
+import { featuredProject } from '../../content/projects'
 import { identity } from '../../content/about'
+import { ColophonSignals } from './ColophonSignals'
 
-const strong = css({ color: 'text', fontWeight: 'normal' })
-// amberLight (#F0AD45) has no semantic token; nearest semantic highlight ink is accentAlt.
-const amb = css({ color: 'accentAlt', fontVariantNumeric: 'tabular-nums' })
-
-const cells: { lab: string; val: ReactNode }[] = [
-  {
-    lab: 'Weather',
-    val: (
-      <>
-        <strong className={strong}>48.8°F</strong>, fog
-        <br />
-        Aldie, VA
-      </>
-    ),
-  },
-  {
-    lab: 'Pistons',
-    val: (
-      <>
-        <strong className={strong}>Win</strong> <span className={amb}>97–89 ↑</span>
-      </>
-    ),
-  },
-  {
-    lab: 'World Series',
-    val: (
-      <>
-        Rays force Game 5, <strong className={strong}>4–3</strong>
-      </>
-    ),
-  },
-  {
-    lab: 'Markets',
-    val: (
-      <>
-        SPY <span className={amb}>+0.34%</span>
-      </>
-    ),
-  },
-  {
-    lab: 'Golf',
-    val: (
-      <>
-        VidantaWorld Mexico Open <strong className={strong}>(scheduled)</strong>
-      </>
-    ),
-  },
-  {
-    lab: 'Moon',
-    val: (
-      <>
-        Waning gibbous, <strong className={strong}>82%</strong>
-      </>
-    ),
-  },
-  { lab: 'In rotation', val: 'My Morning Jacket · Guided by Voices · Tobin Sprout' },
-  {
-    lab: 'Up next',
-    val: (
-      <>
-        Halloween, <strong className={strong}>2 days out</strong>
-      </>
-    ),
-  },
-]
-
-const label = css({
-  fontSize: '2xs',
-  letterSpacing: 'widest',
+const footLink = css({
+  display: 'inline-flex',
+  alignItems: 'center',
+  minHeight: '44px',
+  minWidth: '44px',
+  paddingInline: '4px',
+  color: 'fieldInk',
+  fontFamily: 'body',
+  fontWeight: 'bold',
+  fontSize: '13px',
+  letterSpacing: '0.09em',
   textTransform: 'uppercase',
-  color: 'textMuted',
+  _hover: { textDecoration: 'underline', textUnderlineOffset: '0.2em' },
 })
 
+const sep = css({ color: 'fieldInk', fontSize: '13px' })
+
 export function Colophon() {
-  const who = [identity.name, identity.role].filter(Boolean).join(', ')
+  const workHref = `/work/${featuredProject?.slug ?? 'spaceman'}`
   return (
     <footer
       className={css({
-        bg: 'bgAlt',
-        borderTopWidth: '1px',
+        marginTop: '44px',
+        bg: 'field',
+        color: 'fieldInk',
+        borderTopWidth: '2px',
         borderTopStyle: 'solid',
-        borderTopColor: 'borderStrong',
-        paddingTop: '6',
-        paddingBottom: '7',
-        paddingInline: { base: '7vw', md: '6vw' },
-        '@supports (animation-timeline: view())': {
-          animationName: 'rise',
-          animationTimeline: 'view()',
-          animationRange: 'entry 0% entry 40%',
-          animationFillMode: 'both',
-        },
+        borderTopColor: 'fieldBorder',
+        paddingTop: { base: '40px', md: '48px', lg: '56px' },
+        paddingBottom: { base: '48px', md: '56px', lg: '64px' },
+        paddingInline: { base: '20px', md: '40px', lg: '5vw' },
       })}
     >
       <div
         className={css({
           display: 'flex',
-          justifyContent: 'space-between',
           flexWrap: 'wrap',
-          gap: '4',
-          paddingBottom: '18px',
-          marginBottom: '28px',
+          justifyContent: 'space-between',
+          alignItems: 'baseline',
+          gap: '8px',
           borderBottomWidth: '1px',
           borderBottomStyle: 'solid',
-          borderBottomColor: 'borderStrong',
+          borderBottomColor: 'fieldBorder',
+          paddingBottom: '12px',
+          marginBottom: '20px',
         })}
       >
-        <span className={label}>Colophon, October 29, 2026</span>
-        <span className={label}>Aldie, Virginia</span>
-      </div>
-      <div
-        className={css({
-          display: 'grid',
-          gridTemplateColumns: { base: '1fr', md: 'repeat(2, 1fr)', xl: 'repeat(4, 1fr)' },
-          rowGap: '5',
-          columnGap: '6',
-        })}
-      >
-        {cells.map((cell) => (
-          <div key={cell.lab}>
-            <div
-              className={css({
-                fontSize: '2xs',
-                letterSpacing: 'wider',
-                textTransform: 'uppercase',
-                color: 'textMuted',
-                marginBottom: '6px',
-              })}
-            >
-              {cell.lab}
-            </div>
-            <div className={css({ fontSize: '15px', lineHeight: '1.45', color: 'textMuted' })}>
-              {cell.val}
-            </div>
-          </div>
-        ))}
-      </div>
-      <div
-        className={css({
-          marginTop: '36px',
-          paddingTop: '28px',
-          borderTopWidth: '1px',
-          borderTopStyle: 'solid',
-          borderTopColor: 'borderStrong',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '2',
-        })}
-      >
-        <blockquote
+        <span
           className={css({
             fontFamily: 'display',
-            fontStyle: 'italic',
-            fontWeight: 'normal',
-            fontSize: 'clamp(17px, 2vw, 22px)',
-            lineHeight: '1.4',
-            color: 'text',
-            maxWidth: '46ch',
-            margin: '0',
-          })}
-        >
-          “I’m a great believer in luck, and I find the harder I work, the more I have of it.”
-        </blockquote>
-        <cite
-          className={css({
-            fontStyle: 'normal',
-            fontSize: 'xs',
-            letterSpacing: 'wider',
+            fontWeight: 'bold',
+            fontSize: '14px',
+            letterSpacing: '0.07em',
             textTransform: 'uppercase',
-            color: 'textMuted',
+            color: 'fieldInk',
           })}
         >
-          Thomas Jefferson, the day’s note
-        </cite>
-        <p
+          Specimen Colophon, 30 Oct 2026
+        </span>
+        <span
           className={css({
-            marginTop: '4',
-            fontSize: 'sm',
-            color: 'textMuted',
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            columnGap: '2',
+            fontFamily: 'body',
+            fontWeight: 'bold',
+            fontSize: '2xs',
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            color: 'fieldInk',
           })}
         >
-          <span>{who}.</span>
-          <a
-            href={`mailto:${identity.email}`}
-            className={css({
-              display: 'inline-flex',
-              alignItems: 'center',
-              minHeight: '44px',
-              minWidth: '44px',
-              color: 'text',
-              textDecoration: 'underline',
-              textUnderlineOffset: '3px',
-              _hover: { color: 'text' },
-            })}
-          >
-            {identity.email}
-          </a>
-        </p>
+          Signals of the day · 01–09
+        </span>
+      </div>
+      <ColophonSignals />
+      <div
+        className={css({
+          marginTop: '26px',
+          paddingTop: '8px',
+          borderTopWidth: '1px',
+          borderTopStyle: 'solid',
+          borderTopColor: 'fieldBorder',
+          display: 'flex',
+          flexWrap: 'wrap',
+          rowGap: '4px',
+          columnGap: '16px',
+          alignItems: 'center',
+        })}
+      >
+        <a href="/about" className={footLink}>
+          About
+        </a>
+        <span className={sep} aria-hidden="true">
+          ·
+        </span>
+        <a href={`mailto:${identity.email}`} className={footLink}>
+          Contact
+        </a>
+        <span className={sep} aria-hidden="true">
+          ·
+        </span>
+        <a href={workHref} className={footLink}>
+          Work
+        </a>
+        <span
+          className={css({
+            marginLeft: 'auto',
+            fontFamily: 'body',
+            fontWeight: 'bold',
+            fontSize: '2xs',
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            color: 'fieldInk',
+          })}
+        >
+          Set in Unbounded &amp; Figtree
+        </span>
       </div>
     </footer>
   )

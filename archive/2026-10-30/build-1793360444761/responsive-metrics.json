@@ -1,0 +1,140 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 5
+    },
+    "tablet": {
+      "width": 820,
+      "height": 1180,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "SPAN",
+            "selector": "div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0",
+            "text": "A new design ships every morning.",
+            "cause": "text",
+            "right": 529,
+            "over": 9,
+            "boxWidth": 206
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "‹",
+            "w": 32,
+            "h": 44
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "SPAN",
+            "selector": "a.group.d_grid.grid-tc_34px_1fr.ai_baseline > span.min-w_0.d_flex.flex-d_column.gap_6px > span.ff_display.fw_bold.ls_0.005em.c_text",
+            "text": "dougmar.ch",
+            "cause": "text",
+            "right": 449,
+            "over": 64,
+            "boxWidth": 156
+          },
+          {
+            "tag": "SPAN",
+            "selector": "a.group.d_grid.grid-tc_34px_1fr.ai_baseline > span.min-w_0.d_flex.flex-d_column.gap_6px > span.ff_display.fw_bold.ls_0.005em.c_text",
+            "text": "Twittertale",
+            "cause": "text",
+            "right": 449,
+            "over": 59,
+            "boxWidth": 156
+          },
+          {
+            "tag": "SPAN",
+            "selector": "a.group.d_grid.grid-tc_34px_1fr.ai_baseline > span.min-w_0.d_flex.flex-d_column.gap_6px > span.ff_display.fw_bold.ls_0.005em.c_text",
+            "text": "Politweets",
+            "cause": "text",
+            "right": 965,
+            "over": 43,
+            "boxWidth": 156
+          },
+          {
+            "tag": "SPAN",
+            "selector": "a.group.d_grid.grid-tc_34px_1fr.ai_baseline > span.min-w_0.d_flex.flex-d_column.gap_6px > span.ff_display.fw_bold.ls_0.005em.c_text",
+            "text": "Spaceman",
+            "cause": "text",
+            "right": 449,
+            "over": 41,
+            "boxWidth": 156
+          },
+          {
+            "tag": "SPAN",
+            "selector": "a.group.d_grid.grid-tc_34px_1fr.ai_baseline > span.min-w_0.d_flex.flex-d_column.gap_6px > span.ff_display.fw_bold.ls_0.005em.c_text",
+            "text": "FishSticks",
+            "cause": "text",
+            "right": 707,
+            "over": 39,
+            "boxWidth": 156
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 5
+    }
+  },
+  "overallScore": 3,
+  "worstFailure": {
+    "viewport": "tablet",
+    "check": "clippedElements",
+    "detail": "1 element(s) clipped (first: <SPAN>)"
+  },
+  "buildId": "1793360444761",
+  "date": "2026-10-30",
+  "archetype": "a foundry specimen of one project, the client list set as the proof"
+}

@@ -57,9 +57,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-10-29'
-const PREV_DATE: string | null = '2026-10-28'
-const ARCHIVE_COUNT = 177
+const DESIGN_DATE = '2026-10-30'
+const PREV_DATE: string | null = '2026-10-29'
+const ARCHIVE_COUNT = 178
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -72,34 +72,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Buildable before the first line of code. Faithful after the last.' },
-      {
-        property: 'og:title',
-        content: 'Buildable before the first line of code. Faithful after the last.',
-      },
+      { title: 'Zeldman and Rolex hired one person for both.' },
+      { property: 'og:title', content: 'Zeldman and Rolex hired one person for both.' },
       {
         property: 'og:description',
         content:
-          'Blueprint-navy poster, cyan linework, the discipline mirrored before and after the code.',
+          'Spaceman as a foundry specimen, saffron on warm sand, the client list set as the proof and the proverb answered in small type.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-29.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-30.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      {
-        name: 'twitter:title',
-        content: 'Buildable before the first line of code. Faithful after the last.',
-      },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-29.png' },
+      { name: 'twitter:title', content: 'Zeldman and Rolex hired one person for both.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-30.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Work+Sans:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Figtree:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -286,7 +280,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 177 designs
+            Archive · 178 designs
           </a>
         )}
         <ScrollRestoration />
