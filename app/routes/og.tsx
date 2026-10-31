@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { css } from '../../styled-system/css'
 import { BrandLockup } from '../components/BrandLockup'
-import { identity } from '../content/about'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
@@ -23,47 +22,58 @@ function OgCard() {
           width: '1200px',
           height: '630px',
           flexShrink: 0,
-          bg: 'field',
-          color: 'fieldInk',
-          borderWidth: '2px',
-          borderStyle: 'solid',
-          borderColor: 'fieldBorder',
-          paddingBlock: '64px',
-          paddingInline: '72px',
+          boxSizing: 'border-box',
+          bg: 'bg',
+          color: 'text',
+          padding: '64px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
         })}
       >
-        <span
-          className={css({
-            fontFamily: 'body',
-            fontWeight: 'bold',
-            fontSize: '18px',
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
-            color: 'fieldInk',
-          })}
-        >
-          {identity.name} · Spaceman
-        </span>
+        <div className={css({ alignSelf: 'flex-start', color: 'text' })}>
+          <BrandLockup variant="horizontal-md" mode="original" roleLine />
+        </div>
         <h1
           className={css({
-            fontFamily: 'display',
-            fontWeight: 'bold',
-            fontVariant: 'small-caps',
-            fontSize: '68px',
-            lineHeight: '1.08',
-            letterSpacing: 'wide',
-            color: 'fieldInk',
-            maxWidth: '1000px',
+            alignSelf: 'flex-end',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-end',
+            textAlign: 'right',
+            gap: '24px',
           })}
         >
-          Zeldman and Rolex hired one person for both.
+          <span
+            className={css({
+              display: 'block',
+              fontFamily: 'display',
+              fontWeight: 'bold',
+              fontSize: '180px',
+              lineHeight: '0.85',
+              letterSpacing: '-0.04em',
+              textTransform: 'lowercase',
+              color: 'accent',
+            })}
+          >
+            one
+          </span>
+          <span
+            className={css({
+              display: 'block',
+              fontFamily: 'display',
+              fontWeight: 'semibold',
+              fontSize: '50px',
+              lineHeight: '1.08',
+              letterSpacing: '-0.01em',
+              textTransform: 'lowercase',
+              color: 'text',
+              maxWidth: '22ch',
+            })}
+          >
+            Design and engineering as one job, not two teams passing files.
+          </span>
         </h1>
-        <div className={css({ color: 'fieldInk' })}>
-          <BrandLockup variant="mark-only-md" mode="original" />
-        </div>
       </div>
     </div>
   )

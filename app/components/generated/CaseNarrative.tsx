@@ -2,71 +2,69 @@ import { css } from '../../../styled-system/css'
 import type { projects } from '../../content/projects'
 
 type Project = (typeof projects)[number]
+type Part = { label: string; body: string }
 
 export function CaseNarrative({ project }: { project: Project }) {
   const parts = [
-    { k: 'Problem', v: project.problem ?? project.description ?? '' },
-    { k: 'Approach', v: project.approach ?? '' },
-    { k: 'Outcome', v: project.outcome ?? '' },
-  ].filter((part) => part.v !== '')
+    { label: 'problem', body: project.problem },
+    { label: 'approach', body: project.approach },
+    { label: 'outcome', body: project.outcome },
+  ].filter((part): part is Part => typeof part.body === 'string' && part.body !== '')
   return (
-    <div className={css({ marginTop: '40px', display: 'flex', flexDirection: 'column' })}>
-      {parts.map((part, i) => (
-        <section
-          key={part.k}
+    <section
+      className={css({
+        bg: 'bg',
+        paddingBlock: { base: '7', lg: '8' },
+        paddingInline: { base: '5', md: '7', xl: '8' },
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '6',
+        '@supports (animation-timeline: view())': {
+          animationName: 'rise',
+          animationTimeline: 'view()',
+          animationRange: 'entry 0% entry 40%',
+          animationFillMode: 'both',
+        },
+      })}
+    >
+      {parts.map((part) => (
+        <div
+          key={part.label}
           className={css({
-            display: 'grid',
-            gridTemplateColumns: { base: '1fr', lg: '260px 1fr' },
-            gap: { base: '12px', lg: '30px' },
-            paddingBlock: '28px',
-            borderTopWidth: '1px',
+            borderTopWidth: '2px',
             borderTopStyle: 'solid',
-            borderTopColor: 'border',
-            '@supports (animation-timeline: view())': {
-              animationName: 'rise',
-              animationTimeline: 'view()',
-              animationRange: 'entry 0% entry 40%',
-              animationFillMode: 'both',
-            },
+            borderTopColor: 'borderStrong',
+            paddingTop: '5',
+            display: 'grid',
+            gridTemplateColumns: { base: 'minmax(0, 1fr)', md: '200px minmax(0, 1fr)' },
+            gap: '4',
           })}
         >
           <h2
             className={css({
-              display: 'flex',
-              alignItems: 'baseline',
-              gap: '12px',
-              minWidth: '0',
-              fontFamily: 'display',
+              fontFamily: 'body',
+              fontSize: 'xs',
               fontWeight: 'bold',
-              textStyle: 'lg',
-              color: 'text',
+              letterSpacing: 'widest',
+              textTransform: 'lowercase',
+              color: 'accent',
             })}
           >
-            <span
-              className={css({
-                fontFamily: 'body',
-                fontSize: '2xs',
-                color: 'textFaint',
-                fontVariantNumeric: 'tabular-nums',
-              })}
-            >
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            {part.k}
+            {part.label}
           </h2>
           <p
             className={css({
-              fontFamily: 'body',
-              textStyle: 'lede',
-              lineHeight: '1.6',
+              margin: '0',
+              fontSize: { base: 'base', lg: 'lede' },
+              lineHeight: '1.55',
               color: 'text',
-              maxWidth: '46ch',
+              maxWidth: '56ch',
             })}
           >
-            {part.v}
+            {part.body}
           </p>
-        </section>
+        </div>
       ))}
-    </div>
+    </section>
   )
 }

@@ -1,0 +1,114 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_0px z_0 pointer-events_none ov_hidden",
+            "b": "DIV.pos_relative z_1 px_5 md:px_7 xl:px_8 pt_4 lg:pt_6 pb_7 lg:pb_8 d_grid grid-tc_minmax(0,_1fr) lg:grid-tc_0.9fr_1.1fr grid-tr_auto lg:grid-tr_auto_1fr_auto grid-template-areas_\"brand\"_\"title\"_\"featured\" lg:grid-template-areas_\"brand_title\"_\"featured_title\"_\"featured_title\" rg_5 lg:rg_6 cg_0 lg:cg_8 min-h_auto lg:min-h_68vh ai_start"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "tablet": {
+      "width": 820,
+      "height": 1180,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "SPAN",
+            "selector": "div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0",
+            "text": "A new design ships every morning.",
+            "cause": "text",
+            "right": 529,
+            "over": 9,
+            "boxWidth": 206
+          }
+        ],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_0px z_0 pointer-events_none ov_hidden",
+            "b": "DIV.pos_relative z_1 px_5 md:px_7 xl:px_8 pt_4 lg:pt_6 pb_7 lg:pb_8 d_grid grid-tc_minmax(0,_1fr) lg:grid-tc_0.9fr_1.1fr grid-tr_auto lg:grid-tr_auto_1fr_auto grid-template-areas_\"brand\"_\"title\"_\"featured\" lg:grid-template-areas_\"brand_title\"_\"featured_title\"_\"featured_title\" rg_5 lg:rg_6 cg_0 lg:cg_8 min-h_auto lg:min-h_68vh ai_start"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "‹",
+            "w": 32,
+            "h": 44
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 2
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_0px z_0 pointer-events_none ov_hidden",
+            "b": "DIV.pos_relative z_1 px_5 md:px_7 xl:px_8 pt_4 lg:pt_6 pb_7 lg:pb_8 d_grid grid-tc_minmax(0,_1fr) lg:grid-tc_0.9fr_1.1fr grid-tr_auto lg:grid-tr_auto_1fr_auto grid-template-areas_\"brand\"_\"title\"_\"featured\" lg:grid-template-areas_\"brand_title\"_\"featured_title\"_\"featured_title\" rg_5 lg:rg_6 cg_0 lg:cg_8 min-h_auto lg:min-h_68vh ai_start"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_0px z_0 pointer-events_none ov_hidden",
+            "b": "DIV.pos_relative z_1 px_5 md:px_7 xl:px_8 pt_4 lg:pt_6 pb_7 lg:pb_8 d_grid grid-tc_minmax(0,_1fr) lg:grid-tc_0.9fr_1.1fr grid-tr_auto lg:grid-tr_auto_1fr_auto grid-template-areas_\"brand\"_\"title\"_\"featured\" lg:grid-template-areas_\"brand_title\"_\"featured_title\"_\"featured_title\" rg_5 lg:rg_6 cg_0 lg:cg_8 min-h_auto lg:min-h_68vh ai_start"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    }
+  },
+  "overallScore": 2,
+  "worstFailure": {
+    "viewport": "tablet",
+    "check": "clippedElements",
+    "detail": "1 element(s) clipped (first: <SPAN>)"
+  },
+  "buildId": "1793444557317",
+  "date": "2026-10-31",
+  "archetype": "The work on the left, one word on the right, balanced across the fold."
+}

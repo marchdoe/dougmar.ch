@@ -1,0 +1,751 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the llc doug operates under - sometimes a solo contributor sometimes embedded in a larger team - covering product design frontend engineering design systems and brand one person closing the gap between designed and built' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the llc doug operates under - sometimes a solo contributor sometimes embedded in a larger team - covering product design frontend engineering design systems and brand one person closing the gap between designed and built",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'founder' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "founder",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2018 design + engineering' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "2018 design + engineering",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2008 - 2026' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "2008 - 2026",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'design and engineering as one job not two teams passing f...' is 44px in the mockup and 122px in the build (2.76x). Set it back to 44px.",
+          "facts": {
+            "text": "design and engineering as one job not two teams passing files",
+            "mockupPx": 44,
+            "buildPx": 122,
+            "ratio": 2.76,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'one hand six builds' is 40px in the mockup and 81px in the build (2.03x). Set it back to 40px.",
+          "facts": {
+            "text": "one hand six builds",
+            "mockupPx": 40,
+            "buildPx": 81,
+            "ratio": 2.03,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' is 32px in the mockup and 54px in the build (1.70x)",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 32,
+            "buildPx": 54,
+            "ratio": 1.7,
+            "mockupRank": 4
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'one hand six builds' moved from (272, 813) in the mockup to (473, 1383) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the llc doug operates under - sometimes a solo contributor sometimes embedded in a larger team - covering product design frontend engineering design systems and brand one person closing the gap between designed and built' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the llc doug operates under - sometimes a solo contributor sometimes embedded in a larger team - covering product design frontend engineering design systems and brand one person closing the gap between designed and built",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'one' (72px); in build it is 'one' (72px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "doug march",
+                "mockupPx": 22
+              }
+            ],
+            "leader": {
+              "text": "one",
+              "mockupPx": 72
+            },
+            "buildLeader": {
+              "text": "one",
+              "buildPx": 72,
+              "mockupPx": 72
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'design and engineering as one job not two teams passing files' is 24px in the mockup and 55px in the build (2.27x)",
+          "facts": {
+            "text": "design and engineering as one job not two teams passing files",
+            "mockupPx": 24,
+            "buildPx": 55,
+            "ratio": 2.27,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman' is 22px in the mockup and 41px in the build (1.88x)",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 22,
+            "buildPx": 41,
+            "ratio": 1.88,
+            "mockupRank": 3
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'design and engineering as one job not two teams passing files' moved from (156, 281) in the mockup to (185, 488) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman' moved from (104, 417) in the mockup to (169, 823) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: 'one' still leads, but the mockup's 'doug march' (22px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'the llc doug operates under - sometimes a solo contributo...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'founder' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets '2018 design + engineering' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets '2008 - 2026' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'the llc doug operates under - sometimes a solo contributo...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: 'design and engineering as one job not two teams passing f...' is 24px in the mockup and 55px in the build (2.27x). Set it back to 24px.",
+        "- / at 360px: 'spaceman' is 22px in the mockup and 41px in the build (1.88x). Set it back to 22px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the llc doug operates under - sometimes a solo contributor sometimes embedded in a larger team - covering product design frontend engineering design systems and brand one person closing the gap between designed and built' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the llc doug operates under - sometimes a solo contributor sometimes embedded in a larger team - covering product design frontend engineering design systems and brand one person closing the gap between designed and built",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'founder' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "founder",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2018 design + engineering' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "2018 design + engineering",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2008 - 2026' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "2008 - 2026",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'one' (158px); in build it is 'one' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "design and engineering as one job not two teams passing files",
+                "mockupPx": 44
+              },
+              {
+                "text": "one hand six builds",
+                "mockupPx": 40
+              }
+            ],
+            "leader": {
+              "text": "one",
+              "mockupPx": 158
+            },
+            "buildLeader": {
+              "text": "one",
+              "buildPx": 160,
+              "mockupPx": 158
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' is 32px in the mockup and 54px in the build (1.70x)",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 32,
+            "buildPx": 54,
+            "ratio": 1.7,
+            "mockupRank": 4
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'one hand six builds' moved from (272, 813) in the mockup to (282, 977) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the llc doug operates under - sometimes a solo contributor sometimes embedded in a larger team - covering product design frontend engineering design systems and brand one person closing the gap between designed and built' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the llc doug operates under - sometimes a solo contributor sometimes embedded in a larger team - covering product design frontend engineering design systems and brand one person closing the gap between designed and built",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'one' (72px); in build it is 'one' (72px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "design and engineering as one job not two teams passing files",
+                "mockupPx": 24
+              },
+              {
+                "text": "doug march",
+                "mockupPx": 22
+              }
+            ],
+            "leader": {
+              "text": "one",
+              "mockupPx": 72
+            },
+            "buildLeader": {
+              "text": "one",
+              "buildPx": 72,
+              "mockupPx": 72
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'one' still leads, but the mockup's 'design and engineering as one job not two teams passing f...' (44px), 'one hand six builds' (40px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'one' still leads, but the mockup's 'design and engineering as one job not two teams passing f...' (24px), 'doug march' (22px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'the llc doug operates under - sometimes a solo contributo...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'founder' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets '2018 design + engineering' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets '2008 - 2026' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'the llc doug operates under - sometimes a solo contributo...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: 'spaceman' is 32px in the mockup and 54px in the build (1.7x). Set it back to 32px."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the llc doug operates under - sometimes a solo contributor sometimes embedded in a larger team - covering product design frontend engineering design systems and brand one person closing the gap between designed and built' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the llc doug operates under - sometimes a solo contributor sometimes embedded in a larger team - covering product design frontend engineering design systems and brand one person closing the gap between designed and built",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'founder' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "founder",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2018 design + engineering' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "2018 design + engineering",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2008 - 2026' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "2008 - 2026",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'one' (158px); in build it is 'one' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "design and engineering as one job not two teams passing files",
+                "mockupPx": 44
+              },
+              {
+                "text": "one hand six builds",
+                "mockupPx": 40
+              }
+            ],
+            "leader": {
+              "text": "one",
+              "mockupPx": 158
+            },
+            "buildLeader": {
+              "text": "one",
+              "buildPx": 160,
+              "mockupPx": 158
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'one hand six builds' moved from (272, 813) in the mockup to (282, 956) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the llc doug operates under - sometimes a solo contributor sometimes embedded in a larger team - covering product design frontend engineering design systems and brand one person closing the gap between designed and built' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the llc doug operates under - sometimes a solo contributor sometimes embedded in a larger team - covering product design frontend engineering design systems and brand one person closing the gap between designed and built",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'one' (72px); in build it is 'one' (72px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "design and engineering as one job not two teams passing files",
+                "mockupPx": 24
+              },
+              {
+                "text": "doug march",
+                "mockupPx": 22
+              }
+            ],
+            "leader": {
+              "text": "one",
+              "mockupPx": 72
+            },
+            "buildLeader": {
+              "text": "one",
+              "buildPx": 72,
+              "mockupPx": 72
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'one' still leads, but the mockup's 'design and engineering as one job not two teams passing f...' (44px), 'one hand six builds' (40px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'one' still leads, but the mockup's 'design and engineering as one job not two teams passing f...' (24px), 'doug march' (22px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'the llc doug operates under - sometimes a solo contributo...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'founder' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets '2018 design + engineering' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets '2008 - 2026' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'the llc doug operates under - sometimes a solo contributo...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 4,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the llc doug operates under - sometimes a solo contributor sometimes embedded in a larger team - covering product design frontend engineering design systems and brand one person closing the gap between designed and built' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the llc doug operates under - sometimes a solo contributor sometimes embedded in a larger team - covering product design frontend engineering design systems and brand one person closing the gap between designed and built",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'founder' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "founder",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2018 design + engineering' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "2018 design + engineering",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2008 - 2026' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "2008 - 2026",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'one' (158px); in build it is 'one' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "design and engineering as one job not two teams passing files",
+                "mockupPx": 44
+              },
+              {
+                "text": "one hand six builds",
+                "mockupPx": 40
+              }
+            ],
+            "leader": {
+              "text": "one",
+              "mockupPx": 158
+            },
+            "buildLeader": {
+              "text": "one",
+              "buildPx": 160,
+              "mockupPx": 158
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'one hand six builds' moved from (272, 813) in the mockup to (282, 956) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the llc doug operates under - sometimes a solo contributor sometimes embedded in a larger team - covering product design frontend engineering design systems and brand one person closing the gap between designed and built' (16px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the llc doug operates under - sometimes a solo contributor sometimes embedded in a larger team - covering product design frontend engineering design systems and brand one person closing the gap between designed and built",
+            "mockupPx": 16,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'one' (72px); in build it is 'one' (72px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "design and engineering as one job not two teams passing files",
+                "mockupPx": 24
+              },
+              {
+                "text": "doug march",
+                "mockupPx": 22
+              }
+            ],
+            "leader": {
+              "text": "one",
+              "mockupPx": 72
+            },
+            "buildLeader": {
+              "text": "one",
+              "buildPx": 72,
+              "mockupPx": 72
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'one' still leads, but the mockup's 'design and engineering as one job not two teams passing f...' (44px), 'one hand six builds' (40px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'one' still leads, but the mockup's 'design and engineering as one job not two teams passing f...' (24px), 'doug march' (22px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'the llc doug operates under - sometimes a solo contributo...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'founder' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets '2018 design + engineering' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets '2008 - 2026' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'the llc doug operates under - sometimes a solo contributo...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

@@ -1,55 +1,94 @@
 import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
 
-const meta = css({
-  fontFamily: 'body',
-  fontWeight: 'bold',
-  fontSize: '2xs',
-  letterSpacing: '0.12em',
-  textTransform: 'uppercase',
-  color: 'textFaint',
+// 44x44 thumb target on every footer link: min box plus a little inline padding
+const footLinkClass = css({
+  fontSize: 'sm',
+  fontWeight: 'semibold',
+  color: 'accent',
+  minHeight: '44px',
+  minWidth: '48px',
+  paddingInline: '1',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 })
 
 export function Sidebar() {
+  const nameRole = [identity.name, identity.role].filter(Boolean).join(' · ')
   return (
-    <aside
+    <footer
+      id="contact"
       className={css({
+        bg: 'bg',
+        paddingInline: { base: '5', md: '7', xl: '8' },
+        paddingTop: { base: '6', lg: '7' },
+        paddingBottom: { base: '6', lg: '7' },
+        borderTopWidth: '2px',
+        borderTopStyle: 'solid',
+        borderTopColor: 'borderStrong',
         display: 'flex',
-        flexWrap: { base: 'wrap', lg: 'nowrap' },
-        flexDirection: { base: 'row', lg: 'column' },
-        alignItems: { base: 'baseline', lg: 'flex-start' },
-        rowGap: { base: '12px', lg: '18px' },
-        columnGap: '18px',
-        paddingBottom: { base: '16px', lg: '0' },
-        marginBottom: { base: '20px', lg: '0' },
-        paddingRight: { lg: '3vw' },
-        borderBottomWidth: { base: '1px', lg: '0' },
-        borderBottomStyle: 'solid',
-        borderBottomColor: 'border',
-        borderRightWidth: { base: '0', lg: '1px' },
-        borderRightStyle: 'solid',
-        borderRightColor: 'border',
-        gridColumn: { lg: '1' },
-        gridRow: { lg: '1 / span 2' },
-        minWidth: '0',
+        flexDirection: 'column',
+        gap: '5',
       })}
     >
-      <span
+      <blockquote
         className={css({
+          margin: '0',
           fontFamily: 'display',
-          fontWeight: 'bold',
-          fontSize: { base: '13px', lg: '14px' },
-          letterSpacing: '0.02em',
-          textTransform: 'uppercase',
-          color: 'text',
+          fontWeight: 'normal',
+          fontStyle: 'italic',
+          textStyle: 'lg',
+          lineHeight: '1.4',
+          color: 'textMuted',
+          maxWidth: '46ch',
         })}
       >
-        {identity.name}
-      </span>
-      <span className={meta}>Type Specimen № 001</span>
-      <span className={meta}>{identity.role}</span>
-      <span className={meta}>One Person</span>
-      <span className={meta}>Aldie, Virginia</span>
-    </aside>
+        Shoot for the moon. Even if you miss, you’ll land among the stars.
+        <cite
+          className={css({
+            display: 'block',
+            marginTop: '2',
+            fontFamily: 'body',
+            fontStyle: 'normal',
+            fontSize: 'sm',
+            fontWeight: 'semibold',
+            color: 'textFaint',
+          })}
+        >
+          Les Brown
+        </cite>
+      </blockquote>
+      <div
+        className={css({
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          rowGap: '3',
+          columnGap: '5',
+          paddingTop: '4',
+          borderTopWidth: '1px',
+          borderTopStyle: 'solid',
+          borderTopColor: 'fieldBorder',
+          fontSize: 'xs',
+          color: 'textFaint',
+          letterSpacing: 'wide',
+        })}
+      >
+        <span>{nameRole}</span>
+        <div className={css({ display: 'flex', flexWrap: 'wrap', columnGap: '4', rowGap: '1' })}>
+          <a href="/about" className={footLinkClass}>
+            about
+          </a>
+          <a href="/work" className={footLinkClass}>
+            work
+          </a>
+          <a href={`mailto:${identity.email}`} className={footLinkClass}>
+            {identity.email}
+          </a>
+        </div>
+      </div>
+    </footer>
   )
 }
