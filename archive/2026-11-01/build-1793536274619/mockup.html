@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — Loss is nothing else but change</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital,wght@0,400;1,400&family=Public+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --wine50:#faf4f5; --wine100:#f6dae1; --wine200:#ecb3c2; --wine300:#de8699;
+  --wine400:#cc5c77; --wine500:#ad3a58; --wine600:#8c2a44; --wine700:#6a1f33;
+  --wine800:#4a1524; --wine900:#2e0d17;
+  --rose200:#f7b9c8; --rose400:#e5708c; --rose600:#b23659;
+  --n50:#faf4f5; --n100:#f0e6e8; --n200:#ddccd0; --n300:#c3aeb4;
+
+  --bg:var(--wine800);
+  --bgAlt:var(--wine900);
+  --surface:var(--wine700);
+  --text:var(--n50);
+  --textMuted:var(--n200);
+  --textFaint:var(--n300);
+  --accent:var(--rose400);
+  --accentAlt:var(--rose200);
+  --border:var(--wine700);
+  --borderStrong:var(--wine400);
+  --fieldBorder:var(--wine400);
+
+  --display:"DM Serif Display",Georgia,serif;
+  --body:"Public Sans",system-ui,sans-serif;
+
+  --pad:clamp(24px,6vw,96px);
+  --unit:24px;
+}
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:var(--body); font-weight:400; line-height:1.5;
+  font-kerning:normal; font-feature-settings:"kern","liga";
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+h1,h2,h3{margin:0; font-weight:inherit; text-wrap:balance;}
+p{margin:0; text-wrap:pretty;}
+a{color:inherit; text-decoration:none;}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+/* ---------- HERO FIELD (drenched) ---------- */
+.hero{
+  position:relative; overflow:hidden;
+  min-height:100vh;
+  background:var(--bg);
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  padding:clamp(24px,5vw,56px) var(--pad) clamp(48px,7vw,88px);
+}
+.hero__mesh{
+  position:absolute; inset:0; pointer-events:none; z-index:0;
+  background-color:var(--bg);
+.hero > *{position:relative; z-index:1;}
+=======
+  background-image:
+    radial-gradient(95% 72% at 50% -6%, var(--rose600) 0, transparent 56%),
+    radial-gradient(72% 56% at 86% 6%, var(--wine600) 0, transparent 55%),
+    radial-gradient(60% 50% at 10% 2%, var(--rose400) 0, transparent 54%);
+  opacity:.5;
+}
+.hero > *{position:relative; z-index:1;}
+=======
+.hero > *{position:relative; z-index:1;}
+
+/* vertical attribution along left field edge */
+.edge{
+  position:absolute; left:clamp(6px,2.5vw,26px); top:50%;
+  transform:translateY(-50%) rotate(180deg);
+  writing-mode:vertical-rl;
+  font-family:var(--body); font-weight:500;
+  font-size:14px; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--textMuted); z-index:2;
+}
+@media(max-width:719px){ .edge{display:none;} }
+
+/* row 1: lockup + standfirst */
+.topbar{
+  display:flex; flex-direction:column; gap:28px;
+  align-items:flex-start; justify-content:space-between;
+}
+.lockup{display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center;}
+.lockup svg{height:72px; width:auto; display:block;}
+.wordmark{
+  font-family:var(--display); font-weight:400;
+  font-size:clamp(28px,3.4vw,44px); line-height:1;
+  letter-spacing:-0.015em; color:var(--text);
+}
+.standfirst{
+  font-family:var(--body); font-weight:400;
+  font-size:clamp(15px,1.05vw,17px); line-height:1.4;
+  color:var(--textMuted); max-width:34ch;
+}
+.standfirst .date{
+  display:block; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; font-size:13px;
+  color:var(--textFaint); margin-top:8px;
+}
+
+/* row 2: quote, anchored lower-third, centred */
+.quote-zone{
+  align-self:start;
+  display:flex; flex-direction:column; align-items:center; text-align:center;
+  padding-top:clamp(32px,7vh,96px);
+}
+.quote{
+  font-family:var(--display); font-weight:400;
+  font-size:clamp(40px,6vw,96px);
+  line-height:1.04; letter-spacing:.005em;
+  text-transform:uppercase;
+  color:#faf4f5;
+  max-width:22ch;
+}
+.quote .break{
+  color:#f094a9; font-style:italic;
+  text-transform:none; letter-spacing:0;
+}
+.quote-caption{
+  margin-top:clamp(22px,3vw,36px);
+  font-family:var(--body); font-weight:500;
+  font-size:clamp(16px,1.3vw,20px);
+  letter-spacing:.2em; text-transform:uppercase;
+  color:var(--textMuted);
+  display:flex; align-items:center; gap:14px;
+}
+.quote-caption::before{content:""; width:34px; height:1px; background:var(--borderStrong);}
+
+/* ---------- SITE CALLOUT ---------- */
+.callout{
+  background:var(--surface);
+  padding:clamp(40px,7vw,96px) var(--pad);
+  border-top:1px solid var(--border);
+}
+.callout__inner{
+  max-width:60ch; display:flex; flex-direction:column; gap:20px;
+}
+.callout__eyebrow{
+  font-size:13px; font-weight:700; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--accent);
+}
+.callout__body{
+  font-family:var(--display); font-weight:400;
+  font-size:clamp(22px,2.6vw,34px); line-height:1.3; color:var(--text);
+}
+.callout__meta{font-size:15px; color:var(--textMuted);}
+
+/* ---------- WORK INDEX ---------- */
+.work{
+  background:var(--bg);
+  padding:clamp(48px,8vw,120px) var(--pad);
+}
+.section-head{
+  font-size:13px; font-weight:700; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--textFaint);
+  margin-bottom:var(--unit);
+  padding-bottom:14px; border-bottom:1px solid var(--fieldBorder);
+}
+.featured{
+  display:flex; flex-direction:column; gap:18px;
+  padding:clamp(28px,4vw,48px);
+  background:var(--surface);
+  border:1px solid var(--border); border-radius:10px;
+  margin-bottom:clamp(40px,6vw,72px);
+}
+.featured__kicker{
+  font-size:13px; font-weight:700; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--accent);
+}
+.featured__title{
+  font-family:var(--display); font-weight:400;
+  font-size:clamp(38px,5.5vw,76px); line-height:1; color:var(--text);
+}
+.featured__problem{
+  font-size:clamp(16px,1.4vw,19px); line-height:1.6;
+  color:var(--textMuted); max-width:58ch;
+}
+.featured__link{
+  align-self:flex-start; margin-top:6px;
+  font-size:14px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--text);
+  padding:12px 22px; border-radius:4px;
+  border:1px solid var(--borderStrong);
+  min-height:44px; display:inline-flex; align-items:center;
+  transition:background .2s ease, color .2s ease;
+}
+.featured__link:hover{background:var(--accent); color:var(--wine900); border-color:var(--accent);}
+
+.index-list{display:flex; flex-direction:column;}
+.index-row{
+  display:grid; grid-template-columns:1fr auto;
+  align-items:baseline; gap:12px 24px;
+  padding:22px 0; min-height:44px;
+  border-bottom:1px solid var(--border);
+  transition:padding-left .2s ease;
+}
+.index-row:hover{padding-left:12px;}
+.index-row:hover .index-title{color:var(--accent);}
+.index-title{
+  font-family:var(--display); font-weight:400;
+  font-size:clamp(26px,3.6vw,46px); line-height:1.05; color:var(--text);
+  transition:color .2s ease;
+}
+.index-meta{
+  display:flex; gap:18px; font-size:14px;
+  color:var(--textFaint); letter-spacing:.04em;
+  font-variant-numeric:tabular-nums; white-space:nowrap;
+}
+.index-meta .type{text-transform:uppercase; letter-spacing:.12em;}
+
+.exp-head{margin-top:clamp(48px,7vw,88px);}
+
+/* ---------- FOOTER COLOPHON ---------- */
+.colophon{
+  background:var(--bgAlt);
+  padding:clamp(48px,7vw,80px) var(--pad) clamp(40px,5vw,56px);
+  display:grid; gap:clamp(40px,6vw,72px);
+}
+@media(min-width:820px){
+  .colophon{grid-template-columns:minmax(240px,1fr) 1.4fr; align-items:start;}
+}
+.nav-index{display:flex; flex-direction:column;}
+.nav-index a{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 0; min-height:44px;
+  font-family:var(--display); font-weight:400;
+  font-size:clamp(26px,3.2vw,40px); line-height:1;
+  color:var(--textMuted);
+  border-top:1px solid var(--fieldBorder);
+  transition:color .2s ease, padding-left .2s ease;
+}
+.nav-index a:first-child{border-top:none;}
+.nav-index a:hover{color:var(--accent); padding-left:10px;}
+.nav-index a .arrow{font-size:18px; color:var(--textFaint);}
+.nav-index a:hover .arrow{color:var(--accent);}
+
+.signals{
+  display:grid; gap:20px;
+  border-left:1px solid var(--fieldBorder);
+  padding-left:clamp(20px,3vw,40px);
+}
+@media(max-width:819px){
+  .signals{border-left:none; padding-left:0; border-top:1px solid var(--fieldBorder); padding-top:32px;}
+}
+.sig-row{display:flex; flex-direction:column; gap:4px;}
+.sig-label{
+  font-size:12px; font-weight:700; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--textFaint);
+}
+.sig-val{font-size:15px; color:var(--textMuted); line-height:1.5;}
+.sig-val .hot{color:var(--accent); font-weight:700;}
+.sig-val .fig{font-variant-numeric:tabular-nums;}
+
+.coda{
+  grid-column:1/-1;
+  border-top:1px solid var(--fieldBorder);
+  padding-top:24px;
+  display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px;
+  font-size:13px; color:var(--textFaint);
+}
+.coda em{font-family:var(--display); font-style:italic; color:var(--textMuted); font-size:15px;}
+
+/* ---------- RESPONSIVE: topbar ---------- */
+@media(min-width:720px){
+  .topbar{flex-direction:row; align-items:flex-start;}
+  .standfirst{text-align:right;}
+}
+</style>
+</head>
+<body>
+<main>
+
+  <!-- ================= HERO (drenched wine field) ================= -->
+  <section class="hero">
+    <div class="hero__mesh" aria-hidden="true"></div>
+
+    <span class="edge">Marcus Aurelius</span>
+
+    <!-- row 1 -->
+    <div class="topbar">
+      <div class="lockup">
+        <svg viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Doug March logo">
+          <title>Doug March logo</title>
+          <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+          <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+          <circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+          <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+        </svg>
+        <span class="wordmark">Doug&nbsp;March</span>
+      </div>
+
+      <p class="standfirst">
+        Aldie, Virginia · Overcast · 50°F
+        <span class="date">01 Nov 2026</span>
+      </p>
+    </div>
+
+    <!-- row 2 -->
+    <div class="quote-zone">
+      <h1 class="quote">
+        Loss is nothing else but change, and change is <span class="break">nature's delight.</span>
+      </h1>
+      <p class="quote-caption">Marcus Aurelius</p>
+    </div>
+  </section>
+
+  <!-- ================= SITE CALLOUT ================= -->
+  <section class="callout" aria-label="About this site">
+    <div class="callout__inner">
+      <span class="callout__eyebrow">A note on today</span>
+      <p class="callout__body">A down market, a Red Wings loss, fall coming on. A pipeline of agents rebuilds this site's face every morning — today it let a line about loss carry a grey Sunday rather than pretend it was something else.</p>
+      <p class="callout__meta">Design and engineering by Doug March. Each day, a new composition.</p>
+    </div>
+  </section>
+
+  <!-- ================= WORK ================= -->
+  <section class="work" id="work">
+    <h2 class="section-head">Featured</h2>
+
+    <article class="featured">
+      <span class="featured__kicker">dougmar.ch · AI · 2026</span>
+      <h3 class="featured__title">dougmar.ch</h3>
+      <p class="featured__problem">A portfolio sits unchanged for years, which quietly undercuts the argument. The answer: a pipeline of Claude agents — an art director, a mockup designer, an engineer and two critics — that reads the day's signals and rebuilds this site from scratch each morning, so the work is never the same page twice and still, unmistakably, mine.</p>
+      <a class="featured__link" href="#work-dougmar-ch">Open case →</a>
+    </article>
+
+    <h2 class="section-head">Selected work</h2>
+    <div class="index-list">
+      <a class="index-row" href="#work-spaceman">
+        <span class="index-title">Spaceman</span>
+        <span class="index-meta"><span class="type">Founder</span><span class="fig">2018</span></span>
+      </a>
+      <a class="index-row" href="#work-fishsticks">
+        <span class="index-title">FishSticks</span>
+        <span class="index-meta"><span class="type">SaaS</span><span class="fig">2025</span></span>
+      </a>
+      <a class="index-row" href="#work-15th-club">
+        <span class="index-title">15th Club</span>
+        <span class="index-meta"><span class="type">AI</span><span class="fig">2025</span></span>
+      </a>
+      <a class="index-row" href="#work-dougmar-ch">
+        <span class="index-title">dougmar.ch</span>
+        <span class="index-meta"><span class="type">AI</span><span class="fig">2026</span></span>
+      </a>
+    </div>
+
+    <h2 class="section-head exp-head">Experiments</h2>
+    <div class="index-list">
+      <a class="index-row" href="#work-teeturn">
+        <span class="index-title">TeeTurn</span>
+        <span class="index-meta"><span class="type">Experiment</span><span class="fig">2020</span></span>
+      </a>
+      <a class="index-row" href="#work-politweets">
+        <span class="index-title">Politweets</span>
+        <span class="index-meta"><span class="type">Experiment</span><span class="fig">2008</span></span>
+      </a>
+      <a class="index-row" href="#work-twittertale">
+        <span class="index-title">Twittertale</span>
+        <span class="index-meta"><span class="type">Experiment</span><span class="fig">2008</span></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER COLOPHON ================= -->
+  <footer class="colophon">
+    <nav class="nav-index" aria-label="Primary">
+      <a href="#work">Work <span class="arrow">→</span></a>
+      <a href="#about">About <span class="arrow">→</span></a>
+      <a href="#contact">Contact <span class="arrow">→</span></a>
+    </nav>
+
+    <div class="signals">
+      <div class="sig-row">
+        <span class="sig-label">Detroit</span>
+        <span class="sig-val"><span class="hot">Red Wings fall 4–5</span></span>
+      </div>
+      <div class="sig-row">
+        <span class="sig-label">Golf</span>
+        <span class="sig-val">Mexico Open · <span class="fig">Novak −23 · Ghim −16</span></span>
+      </div>
+      <div class="sig-row">
+        <span class="sig-label">Market</span>
+        <span class="sig-val"><span class="fig">SPY 755.72</span>, down <span class="fig">1.77%</span></span>
+      </div>
+      <div class="sig-row">
+        <span class="sig-label">Sky</span>
+        <span class="sig-val">Last quarter moon, <span class="fig">53%</span> lit · Air quality moderate</span>
+      </div>
+      <div class="sig-row">
+        <span class="sig-label">In rotation</span>
+        <span class="sig-val">The War on Drugs, Tobin Sprout</span>
+      </div>
+    </div>
+
+    <div class="coda">
+      <span>© 2026 Doug March · Aldie, Virginia</span>
+      <span><em>Loss is nothing else but change.</em> — Marcus Aurelius</span>
+    </div>
+  </footer>
+
+</main>
+</body>
+</html>

@@ -1,52 +1,67 @@
 import { css } from '../../../styled-system/css'
-import { identity } from '../../content/about'
-import { Ground } from '../Material'
-import { HeroBrand } from './HeroBrand'
+import { HeroField } from './HeroField'
+import { Topbar } from './Topbar'
 
-export function AboutHero() {
-  const statement = identity.statement.replace(/\s*\u2014\s*/g, ', ')
+type Props = { statement: string; name: string; role: string }
+
+export function AboutHero({ statement, name, role }: Props) {
   return (
-    <header className={css({ position: 'relative', overflow: 'hidden', bg: 'bg' })}>
-      <Ground material="rule" seed={625116155} />
+    <HeroField>
+      <Topbar />
       <div
         className={css({
-          position: 'relative',
-          zIndex: 1,
-          paddingInline: { base: '5', md: '7', xl: '8' },
-          paddingTop: { base: '4', lg: '6' },
-          paddingBottom: { base: '7', lg: '8' },
-          display: 'grid',
-          gridTemplateColumns: { base: 'minmax(0, 1fr)', lg: '0.9fr 1.1fr' },
-          gridTemplateAreas: { base: '"brand" "title"', lg: '"brand title"' },
-          rowGap: '6',
-          columnGap: { base: '0', lg: '8' },
-          minHeight: { base: 'auto', lg: '48vh' },
+          marginTop: { base: '6', lg: '7' },
+          alignSelf: 'start',
+          justifySelf: 'start',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '5',
+          bg: 'bg',
+          color: 'text',
+          paddingBlock: { base: '5', lg: '6' },
+          paddingInline: { base: '4', lg: '6' },
+          borderRadius: 'md',
+          minWidth: '0',
+          maxWidth: '100%',
         })}
       >
-        <HeroBrand />
         <h1
           className={css({
-            gridArea: 'title',
-            position: 'relative',
-            zIndex: 1,
-            alignSelf: 'end',
-            justifySelf: { base: 'start', lg: 'end' },
-            textAlign: 'left',
             fontFamily: 'display',
-            fontWeight: 'semibold',
-            fontSize: { base: 'lg', lg: '28px' },
-            lineHeight: '1.3',
-            letterSpacing: '-0.01em',
+            fontWeight: 'normal',
+            fontSize: { base: '22px', lg: '30px' },
+            lineHeight: 'snug',
             color: 'text',
-            bg: 'bg',
-            maxWidth: '44ch',
-            animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+            maxWidth: '46ch',
+            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
             animationDelay: '0ms',
           })}
         >
           {statement}
         </h1>
+        <p
+          className={css({
+            fontSize: 'base',
+            letterSpacing: 'wider',
+            textTransform: 'uppercase',
+            color: 'textMuted',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '3',
+            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+            animationDelay: '80ms',
+            _before: {
+              content: '""',
+              width: '34px',
+              height: '1px',
+              bg: 'borderStrong',
+              flexShrink: 0,
+            },
+          })}
+        >
+          {name}, {role}
+        </p>
       </div>
-    </header>
+    </HeroField>
   )
 }

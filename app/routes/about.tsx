@@ -1,25 +1,25 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { personal } from '../content/about'
+import { AboutDetails } from '../components/generated/AboutDetails'
 import { AboutHero } from '../components/generated/AboutHero'
-import { SignalsStrip, todaySignals } from '../components/generated/SignalsStrip'
-import { TimelinePlane } from '../components/generated/TimelinePlane'
+import { PersonalBand } from '../components/generated/PersonalBand'
+import { TimelineSection } from '../components/generated/TimelineSection'
+import { identity, personal } from '../content/about'
+import { capabilities, education, timeline } from '../content/timeline'
 
 export const Route = createFileRoute('/about')({ component: AboutPage })
-
-const personalFacts = [
-  { label: 'holes in one', value: String(personal.holesInOne), loud: true },
-  { label: 'sport', value: personal.sport },
-  { label: 'teams', value: personal.teams.join(' · ') },
-  { label: 'current focus', value: personal.currentFocus },
-]
 
 function AboutPage() {
   return (
     <>
-      <AboutHero />
-      <TimelinePlane />
-      <SignalsStrip kicker="off the clock" facts={personalFacts} />
-      <SignalsStrip kicker="signals · sat 31 oct 2026" facts={todaySignals} />
+      <AboutHero statement={identity.statement} name={identity.name} role={identity.role} />
+      <TimelineSection entries={timeline} />
+      <AboutDetails capabilities={capabilities} education={education} />
+      <PersonalBand
+        holesInOne={personal.holesInOne}
+        sport={personal.sport}
+        teams={personal.teams}
+        currentFocus={personal.currentFocus}
+      />
     </>
   )
 }

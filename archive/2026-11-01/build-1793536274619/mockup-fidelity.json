@@ -1,0 +1,697 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' (46px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 46,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' (46px in the mockup) has no match in the build",
+          "facts": {
+            "text": "dougmarch",
+            "mockupPx": 46,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a down market a red wings loss fall coming on a pipeline of agents rebuilds this sites face every morning - today it let a line about loss carry a grey sunday rather than pretend it was something else' (34px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a down market a red wings loss fall coming on a pipeline of agents rebuilds this sites face every morning - today it let a line about loss carry a grey sunday rather than pretend it was something else",
+            "mockupPx": 34,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'loss is nothing else but change and change is natures delight' (86px); in build it is 'loss is nothing else but change and change is natures delight' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "dougmarch",
+                "mockupPx": 76
+              }
+            ],
+            "leader": {
+              "text": "loss is nothing else but change and change is natures delight",
+              "mockupPx": 86
+            },
+            "buildLeader": {
+              "text": "loss is nothing else but change and change is natures delight",
+              "buildPx": 160,
+              "mockupPx": 86
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'loss is nothing else but change and change is natures delight' is 86px in the mockup and 160px in the build (1.85x)",
+          "facts": {
+            "text": "loss is nothing else but change and change is natures delight",
+            "mockupPx": 86,
+            "buildPx": 160,
+            "ratio": 1.85,
+            "mockupRank": 0
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'fishsticks' is 46px in the mockup and 110px in the build (2.38x)",
+          "facts": {
+            "text": "fishsticks",
+            "mockupPx": 46,
+            "buildPx": 110,
+            "ratio": 2.38,
+            "mockupRank": 3
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'15th club' is 46px in the mockup and 110px in the build (2.38x)",
+          "facts": {
+            "text": "15th club",
+            "mockupPx": 46,
+            "buildPx": 110,
+            "ratio": 2.38,
+            "mockupRank": 4
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'marcus aurelius' moved from (744, 798) in the mockup to (43, 638) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'marcus aurelius' moved from (36, 450) in the mockup to (745, 1159) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'loss is nothing else but change and change is natures delight' (40px); in build it is 'loss is nothing else but change and change is natures delight' (58px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "dougmarch",
+                "mockupPx": 38
+              },
+              {
+                "text": "doug march",
+                "mockupPx": 28
+              }
+            ],
+            "leader": {
+              "text": "loss is nothing else but change and change is natures delight",
+              "mockupPx": 40
+            },
+            "buildLeader": {
+              "text": "loss is nothing else but change and change is natures delight",
+              "buildPx": 58,
+              "mockupPx": 40
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 28px in the mockup and 45px in the build (1.61x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 28,
+            "buildPx": 45,
+            "ratio": 1.61,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'marcus aurelius' moved from (204, 580) in the mockup to (205, 818) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'loss is nothing else but change and change is natures del...' still leads, but the mockup's 'dougmarch' (76px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'loss is nothing else but change and change is natures del...' still leads, but the mockup's 'dougmarch' (38px), 'doug march' (28px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'spaceman' at 46px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'dougmarch' at 46px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'a down market a red wings loss fall coming on a pipeline ...' at 34px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: 'fishsticks' is 46px in the mockup and 110px in the build (2.38x). Set it back to 46px.",
+        "- / at 1440px: '15th club' is 46px in the mockup and 110px in the build (2.38x). Set it back to 46px.",
+        "- / at 1440px: 'loss is nothing else but change and change is natures del...' is 86px in the mockup and 160px in the build (1.85x). Set it back to 86px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' (46px in the mockup) has no match in the build",
+          "facts": {
+            "text": "dougmarch",
+            "mockupPx": 46,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a down market a red wings loss fall coming on a pipeline of agents rebuilds this sites face every morning - today it let a line about loss carry a grey sunday rather than pretend it was something else' (34px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a down market a red wings loss fall coming on a pipeline of agents rebuilds this sites face every morning - today it let a line about loss carry a grey sunday rather than pretend it was something else",
+            "mockupPx": 34,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'loss is nothing else but change and change is natures delight' (86px); in build it is 'loss is nothing else but change and change is natures delight' (86px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "dougmarch",
+                "mockupPx": 76
+              },
+              {
+                "text": "spaceman",
+                "mockupPx": 46
+              }
+            ],
+            "leader": {
+              "text": "loss is nothing else but change and change is natures delight",
+              "mockupPx": 86
+            },
+            "buildLeader": {
+              "text": "loss is nothing else but change and change is natures delight",
+              "buildPx": 86,
+              "mockupPx": 86
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'marcus aurelius' moved from (744, 798) in the mockup to (59, 482) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'marcus aurelius' moved from (36, 450) in the mockup to (745, 800) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'loss is nothing else but change and change is natures delight' (40px); in build it is 'work' (47px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "loss is nothing else but change and change is natures delight",
+                "mockupPx": 40
+              },
+              {
+                "text": "dougmarch",
+                "mockupPx": 38
+              },
+              {
+                "text": "doug march",
+                "mockupPx": 28
+              }
+            ],
+            "leader": {
+              "text": "loss is nothing else but change and change is natures delight",
+              "mockupPx": 40
+            },
+            "buildLeader": {
+              "text": "work",
+              "buildPx": 47,
+              "mockupPx": 26
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 28px in the mockup and 45px in the build (1.61x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 28,
+            "buildPx": 45,
+            "ratio": 1.61,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'marcus aurelius' moved from (204, 580) in the mockup to (205, 670) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'loss is nothing else but change and change is natures del...' still leads, but the mockup's 'dougmarch' (76px), 'spaceman' (46px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: The mockup's largest text is 'loss is nothing else but change and change is natures del...' at 40px; the build sets 'work' at 47px. Restore the mockup's hierarchy: 'work' is 26px in the mockup.",
+        "- / at 1440px: The mockup sets 'dougmarch' at 46px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'a down market a red wings loss fall coming on a pipeline ...' at 34px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: 'doug march' is 28px in the mockup and 45px in the build (1.61x). Set it back to 28px."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' (46px in the mockup) has no match in the build",
+          "facts": {
+            "text": "dougmarch",
+            "mockupPx": 46,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a down market a red wings loss fall coming on a pipeline of agents rebuilds this sites face every morning - today it let a line about loss carry a grey sunday rather than pretend it was something else' (34px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a down market a red wings loss fall coming on a pipeline of agents rebuilds this sites face every morning - today it let a line about loss carry a grey sunday rather than pretend it was something else",
+            "mockupPx": 34,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'loss is nothing else but change and change is natures delight' (86px); in build it is 'loss is nothing else but change and change is natures delight' (86px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "dougmarch",
+                "mockupPx": 76
+              },
+              {
+                "text": "spaceman",
+                "mockupPx": 46
+              }
+            ],
+            "leader": {
+              "text": "loss is nothing else but change and change is natures delight",
+              "mockupPx": 86
+            },
+            "buildLeader": {
+              "text": "loss is nothing else but change and change is natures delight",
+              "buildPx": 86,
+              "mockupPx": 86
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'marcus aurelius' moved from (744, 798) in the mockup to (59, 482) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'marcus aurelius' moved from (36, 450) in the mockup to (745, 800) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'loss is nothing else but change and change is natures delight' (40px); in build it is 'work' (47px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "loss is nothing else but change and change is natures delight",
+                "mockupPx": 40
+              },
+              {
+                "text": "dougmarch",
+                "mockupPx": 38
+              },
+              {
+                "text": "doug march",
+                "mockupPx": 28
+              }
+            ],
+            "leader": {
+              "text": "loss is nothing else but change and change is natures delight",
+              "mockupPx": 40
+            },
+            "buildLeader": {
+              "text": "work",
+              "buildPx": 47,
+              "mockupPx": 26
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 28px in the mockup and 45px in the build (1.61x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 28,
+            "buildPx": 45,
+            "ratio": 1.61,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'marcus aurelius' moved from (204, 580) in the mockup to (205, 670) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'loss is nothing else but change and change is natures del...' still leads, but the mockup's 'dougmarch' (76px), 'spaceman' (46px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: The mockup's largest text is 'loss is nothing else but change and change is natures del...' at 40px; the build sets 'work' at 47px. Restore the mockup's hierarchy: 'work' is 26px in the mockup.",
+        "- / at 1440px: The mockup sets 'dougmarch' at 46px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'a down market a red wings loss fall coming on a pipeline ...' at 34px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: 'doug march' is 28px in the mockup and 45px in the build (1.61x). Set it back to 28px."
+      ]
+    },
+    {
+      "round": 4,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' (46px in the mockup) has no match in the build",
+          "facts": {
+            "text": "dougmarch",
+            "mockupPx": 46,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a down market a red wings loss fall coming on a pipeline of agents rebuilds this sites face every morning - today it let a line about loss carry a grey sunday rather than pretend it was something else' (34px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a down market a red wings loss fall coming on a pipeline of agents rebuilds this sites face every morning - today it let a line about loss carry a grey sunday rather than pretend it was something else",
+            "mockupPx": 34,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'loss is nothing else but change and change is natures delight' (86px); in build it is 'loss is nothing else but change and change is natures delight' (86px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "dougmarch",
+                "mockupPx": 76
+              },
+              {
+                "text": "spaceman",
+                "mockupPx": 46
+              }
+            ],
+            "leader": {
+              "text": "loss is nothing else but change and change is natures delight",
+              "mockupPx": 86
+            },
+            "buildLeader": {
+              "text": "loss is nothing else but change and change is natures delight",
+              "buildPx": 86,
+              "mockupPx": 86
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'marcus aurelius' moved from (744, 798) in the mockup to (59, 482) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'marcus aurelius' moved from (36, 450) in the mockup to (745, 800) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'loss is nothing else but change and change is natures delight' (40px); in build it is 'doug march' (45px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "loss is nothing else but change and change is natures delight",
+                "mockupPx": 40
+              },
+              {
+                "text": "dougmarch",
+                "mockupPx": 38
+              }
+            ],
+            "leader": {
+              "text": "loss is nothing else but change and change is natures delight",
+              "mockupPx": 40
+            },
+            "buildLeader": {
+              "text": "doug march",
+              "buildPx": 45,
+              "mockupPx": 28
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 28px in the mockup and 45px in the build (1.61x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 28,
+            "buildPx": 45,
+            "ratio": 1.61,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'marcus aurelius' moved from (204, 580) in the mockup to (205, 670) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'loss is nothing else but change and change is natures del...' still leads, but the mockup's 'dougmarch' (76px), 'spaceman' (46px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: The mockup's largest text is 'loss is nothing else but change and change is natures del...' at 40px; the build sets 'doug march' at 45px. Restore the mockup's hierarchy: 'doug march' is 28px in the mockup.",
+        "- / at 1440px: The mockup sets 'dougmarch' at 46px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'a down market a red wings loss fall coming on a pipeline ...' at 34px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: 'doug march' is 28px in the mockup and 45px in the build (1.61x). Set it back to 28px."
+      ]
+    }
+  ]
+}

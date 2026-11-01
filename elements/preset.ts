@@ -3,33 +3,42 @@ import { definePreset } from '@pandacss/dev'
 export const elementsPreset = definePreset({
   name: 'elements',
   globalCss: {
+    '*, *::before, *::after': {
+      boxSizing: 'border-box',
+    },
+    html: {
+      WebkitTextSizeAdjust: '100%',
+    },
     body: {
       background: 'bg',
       color: 'text',
+      margin: '0',
       fontKerning: 'normal',
+      fontFeatureSettings: '"kern", "liga"',
+      textRendering: 'optimizeLegibility',
       WebkitFontSmoothing: 'antialiased',
       MozOsxFontSmoothing: 'grayscale',
-      fontOpticalSizing: 'auto',
-    },
-    a: {
-      color: 'accent',
-      textDecoration: 'none',
-      _hover: { textDecoration: 'underline', textUnderlineOffset: '0.18em' },
     },
     'h1, h2, h3, h4, h5, h6': {
-      margin: 0,
-      color: 'text',
+      margin: '0',
+      fontWeight: 'inherit',
       textWrap: 'balance',
     },
     p: {
+      margin: '0',
       textWrap: 'pretty',
     },
-    'p, li, blockquote': {
-      color: 'text',
+    a: {
+      color: 'inherit',
+      textDecoration: 'none',
     },
-    '::selection': {
-      background: 'accent',
-      color: 'accentText',
+    'blockquote': {
+      margin: '0',
+    },
+    ':focus-visible': {
+      outline: '2px solid',
+      outlineColor: 'accent',
+      outlineOffset: '2px',
     },
   },
   conditions: {
@@ -40,68 +49,98 @@ export const elementsPreset = definePreset({
   theme: {
     tokens: {
       colors: {
-        teal: {
-          50: { value: '#E9F5F2' },
-          100: { value: '#C9E7E1' },
-          200: { value: '#9DD3CB' },
-          300: { value: '#6ABCB1' },
-          400: { value: '#3E9E93' },
-          500: { value: '#2A8077' },
-          600: { value: '#20655E' },
-          700: { value: '#184F4A' },
-          800: { value: '#123B38' },
-          900: { value: '#0C2927' },
+        wine: {
+          50: { value: '#faf4f5' },
+          100: { value: '#f6dae1' },
+          200: { value: '#ecb3c2' },
+          300: { value: '#de8699' },
+          400: { value: '#cc5c77' },
+          500: { value: '#ad3a58' },
+          600: { value: '#8c2a44' },
+          700: { value: '#6a1f33' },
+          800: { value: '#4a1524' },
+          900: { value: '#2e0d17' },
         },
-        amber: {
-          50: { value: '#FDF3E0' },
-          100: { value: '#FAE2B8' },
-          200: { value: '#F6CD85' },
-          300: { value: '#F0B454' },
-          400: { value: '#E8A23C' },
-          500: { value: '#D4882A' },
-          600: { value: '#B06C1C' },
-          700: { value: '#8A5414' },
-          800: { value: '#653D10' },
-          900: { value: '#45290A' },
+        rose: {
+          50: { value: '#fef0f3' },
+          100: { value: '#fcdce3' },
+          200: { value: '#f7b9c8' },
+          300: { value: '#f094a9' },
+          400: { value: '#e5708c' },
+          500: { value: '#d44e70' },
+          600: { value: '#b23659' },
+          700: { value: '#8a2745' },
+          800: { value: '#611c31' },
+          900: { value: '#3c121f' },
         },
         neutral: {
-          50: { value: '#F2F6F5' },
-          100: { value: '#E3EAE8' },
-          200: { value: '#C7D4D1' },
-          300: { value: '#A4B4B0' },
-          400: { value: '#7B8D89' },
-          500: { value: '#5B6D69' },
-          600: { value: '#45534F' },
-          700: { value: '#333E3B' },
-          800: { value: '#222A28' },
-          900: { value: '#141918' },
+          50: { value: '#faf4f5' },
+          100: { value: '#f0e6e8' },
+          200: { value: '#ddccd0' },
+          300: { value: '#c3aeb4' },
+          400: { value: '#9c838b' },
+          500: { value: '#766069' },
+          600: { value: '#574650' },
+          700: { value: '#3d3038' },
+          800: { value: '#271e24' },
+          900: { value: '#170f13' },
         },
       },
       radii: {
         none: { value: '0' },
         sm: { value: '2px' },
         md: { value: '4px' },
-        lg: { value: '8px' },
+        lg: { value: '10px' },
         full: { value: '9999px' },
       },
     },
     semanticTokens: {
       colors: {
-        bg: { value: { base: '{colors.teal.900}', _light: '{colors.teal.50}' } },
-        bgAlt: { value: { base: '{colors.teal.800}', _light: '{colors.teal.100}' } },
-        surface: { value: { base: '{colors.teal.700}', _light: '{colors.neutral.50}' } },
-        text: { value: { base: '{colors.teal.50}', _light: '{colors.teal.900}' } },
-        textMuted: { value: { base: '{colors.teal.200}', _light: '{colors.teal.600}' } },
-        textFaint: { value: { base: '{colors.teal.300}', _light: '{colors.neutral.500}' } },
-        accent: { value: { base: '{colors.amber.400}', _light: '{colors.amber.600}' } },
-        accentText: { value: { base: '{colors.teal.900}', _light: '{colors.amber.50}' } },
-        accentAlt: { value: { base: '{colors.amber.200}', _light: '{colors.amber.500}' } },
-        border: { value: { base: '{colors.teal.700}', _light: '{colors.neutral.200}' } },
-        borderStrong: { value: { base: '{colors.teal.400}', _light: '{colors.teal.500}' } },
-        field: { value: { base: '{colors.amber.400}', _light: '{colors.amber.400}' } },
-        fieldInk: { value: { base: '{colors.teal.900}', _light: '{colors.teal.900}' } },
-        fieldInkMuted: { value: { base: '{colors.amber.900}', _light: '{colors.amber.900}' } },
-        fieldBorder: { value: { base: '{colors.amber.700}', _light: '{colors.amber.700}' } },
+        bg: {
+          value: { base: '{colors.wine.800}', _light: '{colors.wine.50}' },
+        },
+        bgAlt: {
+          value: { base: '{colors.wine.900}', _light: '{colors.wine.100}' },
+        },
+        surface: {
+          value: { base: '{colors.wine.700}', _light: '{colors.neutral.50}' },
+        },
+        text: {
+          value: { base: '{colors.neutral.50}', _light: '{colors.wine.900}' },
+        },
+        textMuted: {
+          value: { base: '{colors.neutral.200}', _light: '{colors.wine.700}' },
+        },
+        textFaint: {
+          value: { base: '{colors.neutral.300}', _light: '{colors.wine.600}' },
+        },
+        accent: {
+          value: { base: '{colors.rose.400}', _light: '{colors.rose.600}' },
+        },
+        accentText: {
+          value: { base: '{colors.wine.900}', _light: '{colors.wine.50}' },
+        },
+        accentAlt: {
+          value: { base: '{colors.rose.200}', _light: '{colors.rose.700}' },
+        },
+        border: {
+          value: { base: '{colors.wine.700}', _light: '{colors.wine.200}' },
+        },
+        borderStrong: {
+          value: { base: '{colors.wine.400}', _light: '{colors.wine.600}' },
+        },
+        field: {
+          value: { base: '{colors.wine.700}', _light: '{colors.wine.500}' },
+        },
+        fieldInk: {
+          value: { base: '{colors.neutral.50}', _light: '{colors.neutral.50}' },
+        },
+        fieldInkMuted: {
+          value: { base: '{colors.neutral.200}', _light: '{colors.neutral.100}' },
+        },
+        fieldBorder: {
+          value: { base: '{colors.wine.400}', _light: '{colors.wine.300}' },
+        },
       },
     },
   },

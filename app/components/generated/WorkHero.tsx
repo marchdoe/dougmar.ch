@@ -1,156 +1,82 @@
 import { css } from '../../../styled-system/css'
 import type { projects } from '../../content/projects'
-import { Ground } from '../Material'
-import { HeroBrand } from './HeroBrand'
+import { HeroField } from './HeroField'
+import { Topbar } from './Topbar'
 
 type Project = (typeof projects)[number]
 
-const asText = (value: unknown): string => (typeof value === 'string' ? value : '')
-
-const shellClass = css({
-  position: 'relative',
-  zIndex: 1,
-  paddingInline: { base: '5', md: '7', xl: '8' },
-  paddingTop: { base: '4', lg: '6' },
-  paddingBottom: { base: '7', lg: '8' },
-  display: 'grid',
-  gridTemplateColumns: { base: 'minmax(0, 1fr)', lg: 'minmax(0, 1fr) 320px' },
-  gridTemplateAreas: { base: '"brand" "title" "meta"', lg: '"brand brand" "title meta"' },
-  rowGap: '6',
-  columnGap: { base: '0', lg: '8' },
-})
-
-// accent (amber.600) fails 3:1 over the light ground's rules, so light takes fieldBorder (amber.700)
-const titleClass = css({
-  fontFamily: 'display',
-  fontWeight: 'bold',
-  fontSize: { base: '44px', lg: 'clamp(72px, 8.5vw, 128px)' },
-  lineHeight: '0.9',
-  letterSpacing: '-0.03em',
-  textTransform: 'lowercase',
-  color: { base: 'accent', _light: 'fieldBorder' },
-  animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-  animationDelay: '0ms',
-})
-
-export function WorkHero({ project }: { project: Project }) {
-  const extra = project as unknown as Record<string, unknown>
-  const description = (project.description ?? '').replace(/\s*\u2014\s*/g, ', ')
-  const rows: [string, string][] = [
-    ['type', project.type],
-    ['year', String(project.year)],
-    ['role', project.role ?? ''],
-    ['timeline', asText(extra.timeline)],
-    ['status', asText(extra.status)],
-  ]
-  return (
-    <header className={css({ position: 'relative', overflow: 'hidden', bg: 'bg' })}>
-      <Ground material="rule" seed={625116155} />
-      <div className={shellClass}>
-        <HeroBrand />
-        <div
-          className={css({
-            gridArea: 'title',
-            position: 'relative',
-            zIndex: 1,
-            alignSelf: 'end',
-            minWidth: '0',
-          })}
-        >
-          <h1 className={titleClass}>{project.title}</h1>
-          {description ? (
-            <p
-              className={css({
-                margin: '0',
-                marginTop: '5',
-                fontFamily: 'body',
-                fontSize: { base: 'base', lg: 'lede' },
-                lineHeight: '1.55',
-                color: 'text',
-                bg: 'bg',
-                maxWidth: '46ch',
-                animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-                animationDelay: '160ms',
-              })}
-            >
-              {description}
-            </p>
-          ) : null}
-        </div>
-        <dl
-          className={css({
-            gridArea: 'meta',
-            position: 'relative',
-            zIndex: 1,
-            margin: '0',
-            alignSelf: 'end',
-            bg: 'surface',
-            borderWidth: '1px',
-            borderStyle: 'solid',
-            borderColor: 'borderStrong',
-            borderRadius: 'sm',
-            padding: '5',
-            display: 'grid',
-            gap: '3',
-            animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '240ms',
-          })}
-        >
-          {rows
-            .filter((row) => row[1] !== '')
-            .map((row) => (
-              <div
-                key={row[0]}
-                className={css({
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  gap: '4',
-                  alignItems: 'baseline',
-                })}
-              >
-                <dt
-                  className={css({
-                    fontSize: 'xs',
-                    fontWeight: 'bold',
-                    letterSpacing: 'widest',
-                    textTransform: 'lowercase',
-                    color: 'textMuted',
-                  })}
-                >
-                  {row[0]}
-                </dt>
-                <dd
-                  className={css({
-                    margin: '0',
-                    fontSize: 'sm',
-                    fontWeight: 'bold',
-                    color: 'text',
-                    textAlign: 'right',
-                  })}
-                >
-                  {row[1]}
-                </dd>
-              </div>
-            ))}
-        </dl>
-      </div>
-    </header>
-  )
+function field(p: object, key: string): string {
+  const v = (p as Record<string, unknown>)[key]
+  return typeof v === 'string' ? v : ''
 }
 
-export function MissingProject({ slug }: { slug: string }) {
+export function WorkHero({ project }: { project: Project }) {
+  const meta = [
+    project.type,
+    String(project.year),
+    project.role ?? '',
+    field(project, 'timeline'),
+    field(project, 'status'),
+  ].filter(Boolean)
   return (
-    <header className={css({ position: 'relative', overflow: 'hidden', bg: 'bg' })}>
-      <Ground material="rule" seed={625116155} />
-      <div className={shellClass}>
-        <HeroBrand />
-        <div className={css({ gridArea: 'title', position: 'relative', zIndex: 1 })}>
-          <h1 className={titleClass}>not found</h1>
-          <div className={css({ marginTop: '4', fontSize: 'base', color: 'textMuted' })}>
-            Nothing is filed under {slug}. <a href="/work">See the work index.</a>
-          </div>
-        </div>
+    <HeroField>
+      <Topbar />
+      <div
+        className={css({
+          paddingTop: { base: '6', lg: '7' },
+          display: 'flex',
+          flexDirection: { base: 'column', lg: 'row' },
+          alignItems: { base: 'flex-start', lg: 'flex-end' },
+          justifyContent: 'space-between',
+          gap: '5',
+          minWidth: '0',
+        })}
+      >
+        <h1
+          className={css({
+            fontFamily: 'display',
+            fontWeight: 'normal',
+            // fixed step at lg: the longest title ("Twittertale") must fit its track beside the meta list
+            fontSize: { base: '36px', md: '56px', lg: '84px' },
+            lineHeight: 'tight',
+            textTransform: 'uppercase',
+            color: 'text',
+            bg: 'bg',
+            paddingBlock: '2',
+            paddingInline: '3',
+            borderRadius: 'md',
+            maxWidth: '100%',
+            minWidth: '0',
+            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+            animationDelay: '0ms',
+          })}
+        >
+          {project.title}
+        </h1>
+        <ul
+          className={css({
+            listStyle: 'none',
+            margin: '0',
+            bg: 'bg',
+            paddingBlock: '3',
+            paddingInline: '4',
+            borderRadius: 'md',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1',
+            flexShrink: 0,
+            textAlign: { base: 'left', lg: 'right' },
+            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+            animationDelay: '80ms',
+          })}
+        >
+          {meta.map((m) => (
+            <li key={m} className={css({ fontSize: 'md', color: 'textMuted' })}>
+              {m}
+            </li>
+          ))}
+        </ul>
       </div>
-    </header>
+    </HeroField>
   )
 }

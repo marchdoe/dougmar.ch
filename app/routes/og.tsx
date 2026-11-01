@@ -22,56 +22,31 @@ function OgCard() {
           width: '1200px',
           height: '630px',
           flexShrink: 0,
-          boxSizing: 'border-box',
           bg: 'bg',
           color: 'text',
           padding: '64px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
+          alignItems: 'flex-start',
         })}
       >
-        <div className={css({ alignSelf: 'flex-start', color: 'text' })}>
-          <BrandLockup variant="horizontal-md" mode="original" roleLine />
-        </div>
+        <BrandLockup variant="stacked-lg" mode="original" />
         <h1
           className={css({
-            alignSelf: 'flex-end',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-end',
-            textAlign: 'right',
-            gap: '24px',
+            fontFamily: 'display',
+            fontWeight: 'normal',
+            fontSize: '60px',
+            lineHeight: '1.04',
+            textTransform: 'uppercase',
+            color: 'text',
+            maxWidth: '1072px',
           })}
         >
-          <span
-            className={css({
-              display: 'block',
-              fontFamily: 'display',
-              fontWeight: 'bold',
-              fontSize: '180px',
-              lineHeight: '0.85',
-              letterSpacing: '-0.04em',
-              textTransform: 'lowercase',
-              color: 'accent',
-            })}
-          >
-            one
-          </span>
-          <span
-            className={css({
-              display: 'block',
-              fontFamily: 'display',
-              fontWeight: 'semibold',
-              fontSize: '50px',
-              lineHeight: '1.08',
-              letterSpacing: '-0.01em',
-              textTransform: 'lowercase',
-              color: 'text',
-              maxWidth: '22ch',
-            })}
-          >
-            Design and engineering as one job, not two teams passing files.
+          Loss is nothing else but change, and change is{' '}
+          {/* mockup #f094a9 (rose.300) has no semantic token; accent is the nearest rose glow */}
+          <span className={css({ color: 'accent', fontStyle: 'italic', textTransform: 'none' })}>
+            nature’s delight.
           </span>
         </h1>
       </div>

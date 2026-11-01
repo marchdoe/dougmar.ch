@@ -57,9 +57,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-10-31'
-const PREV_DATE: string | null = '2026-10-30'
-const ARCHIVE_COUNT = 179
+const DESIGN_DATE = '2026-11-01'
+const PREV_DATE: string | null = '2026-10-31'
+const ARCHIVE_COUNT = 180
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -72,17 +72,17 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Design and engineering as one job, not two teams passing files.' },
+      { title: "Loss is nothing else but change, and change is nature's delight." },
       {
         property: 'og:title',
-        content: 'Design and engineering as one job, not two teams passing files.',
+        content: "Loss is nothing else but change, and change is nature's delight.",
       },
       {
         property: 'og:description',
         content:
-          'Pine-teal field answered by one ember word, the work ruled in columns on the left, the thesis balanced on the right.',
+          'Oxblood drench at dusk, a stoic line engraved in didone caps and reversed out, "nature\'s delight" glowing rose, Marcus Aurelius standing vertical at the edge.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-10-31.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-01.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
@@ -90,16 +90,16 @@ export const Route = createRootRoute({
       { name: 'twitter:card', content: 'summary_large_image' },
       {
         name: 'twitter:title',
-        content: 'Design and engineering as one job, not two teams passing files.',
+        content: "Loss is nothing else but change, and change is nature's delight.",
       },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-10-31.png' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-01.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=Manrope:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital,wght@0,400;1,400&family=Public+Sans:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -286,7 +286,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 179 designs
+            Archive · 180 designs
           </a>
         )}
         <ScrollRestoration />
