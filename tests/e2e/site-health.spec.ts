@@ -662,6 +662,55 @@ test.describe('site health — archive link (#155)', () => {
  */
 const RAIL_ROUTES = ['/', '/about', '/work/spaceman']
 
+test.describe('site health — light and dark (#691)', () => {
+  for (const path of RAIL_ROUTES) {
+    for (const colorScheme of ['light', 'dark'] as const) {
+      test(`${path} follows a ${colorScheme} OS setting`, async ({ page }) => {
+        await page.emulateMedia({ colorScheme })
+        await page.goto(path)
+        await page.waitForLoadState('networkidle')
+        await expect(page.locator('html')).toHaveClass(new RegExp(`\\b${colorScheme}\\b`))
+      })
+    }
+
+    // Tonight's design may have one look, where the button is removed. Both
+    // branches run on real nights, so each asserts what its night should do.
+    test(`${path} offers the switch only when it changes the page, and remembers it`, async ({
+      page,
+    }) => {
+      await page.emulateMedia({ colorScheme: 'light' })
+      await page.goto(path)
+      await page.waitForLoadState('networkidle')
+      const readTokens = () =>
+        page.evaluate(() => {
+          const style = getComputedStyle(document.body)
+          return ['--colors-bg', '--colors-text', '--colors-accent'].map((t) =>
+            style.getPropertyValue(t).trim()
+          )
+        })
+      const toggle = page.locator('[data-theme-toggle]')
+      if ((await toggle.count()) === 0) {
+        const light = await readTokens()
+        await page.evaluate(() => {
+          document.documentElement.classList.replace('light', 'dark')
+        })
+        expect(await readTokens()).toEqual(light)
+        return
+      }
+      await expect(toggle).toBeVisible()
+      const before = await readTokens()
+      await toggle.click()
+      await expect(page.locator('html')).toHaveClass(/\bdark\b/)
+      expect(await readTokens()).not.toEqual(before)
+
+      await page.reload()
+      await page.waitForLoadState('networkidle')
+      await expect(page.locator('html')).toHaveClass(/\bdark\b/)
+      await expect(toggle).toHaveAttribute('aria-label', 'Switch to light mode')
+    })
+  }
+})
+
 test.describe('site health — the live rail (#702)', () => {
   for (const path of RAIL_ROUTES) {
     test(`${path} shows the rail first, in flow, linking the day's explainer`, async ({ page }) => {

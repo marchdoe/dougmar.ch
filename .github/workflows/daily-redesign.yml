@@ -598,6 +598,12 @@ jobs:
             const buildDir = `archive/${today}/build-${buildId}`
             const rawBase = `https://raw.githubusercontent.com/${context.repo.owner}/${context.repo.repo}/main/${buildDir}`
             const img = `${rawBase}/screenshot.png`
+            // Visitors can switch modes (#691), so a rating covers both. The
+            // file exists only when dark renders differently from light.
+            const hasDark = fs.existsSync(`${buildDir}/screenshot-dark.png`)
+            const designImages = hasDark
+              ? `<img src="${img}" width="49%" alt="today's design in light mode"> <img src="${rawBase}/screenshot-dark.png" width="49%" alt="today's design in dark mode"><br>Light and dark.`
+              : `![today's design](${img})\n\nOne look tonight: light and dark render the same.`
             // Same archiver run, the mobile viewport capture — see #466. The
             // owner grades the phone from this, not just the 1440 shot above.
             // WebP since #549; builds before that wrote PNG.
@@ -622,7 +628,7 @@ jobs:
                 .trim()
             } catch {}
             const body = [
-              `![today's design](${img})`,
+              designImages,
               ``,
               `<img src="${mobileImg}" width="270" alt="today's design at phone width"><br>First fold at 360.`,
               ``,

@@ -1,5 +1,7 @@
+import { useLayoutEffect, useState } from 'react'
 import { css, cx } from '../../styled-system/css'
 import { liveRail } from '../content/rail'
+import { chooseTheme, hasTwoLooks, resolveTheme, type Theme } from '../lib/theme'
 
 /**
  * The live rail (#702): the archive's top rail, adapted for the live site.
@@ -46,6 +48,12 @@ import { liveRail } from '../content/rail'
  * at 480px, which fits a one-digit day only: "Today, October 11" measured
  * 485px at 480 (2026-10-11), and "September 30" runs about 13px wider again. Every link is the
  * rail's full 44px tall at every width; the outline is drawn inside it.
+ *
+ * THE THEME BUTTON (#691). The rail is the one piece of chrome the engineer
+ * can't delete, so the switch lives here. The shell can't know the visitor's
+ * mode, so the button keeps its space hidden until the first client render,
+ * which stops the other buttons moving. On a night with one look it is removed.
+ * It cost 48px at 320, which the rail's side padding pays for under 360px.
  */
 
 const root = css({
@@ -76,6 +84,7 @@ const root = css({
     paddingInline: '8px',
     fontSize: '12px',
   },
+  '@media (max-width: 359px)': { paddingInline: '4px' },
 })
 
 /**
@@ -163,6 +172,9 @@ const button = css({
   '&::before': { border: '1px solid rgba(255, 255, 255, 0.24)' },
 })
 
+const themeButton = css({ cursor: 'pointer', padding: '0' })
+const themeUnknown = css({ visibility: 'hidden' })
+
 /** Pushes the two buttons to the right edge. */
 const push = css({ marginLeft: 'auto' })
 
@@ -173,6 +185,61 @@ const short = css({ display: 'none', '@media (max-width: 559px)': { display: 'in
 /** The buttons' labels, swapped at 720px, ahead of the note at 640. */
 const buttonLong = css({ '@media (max-width: 720px)': { display: 'none' } })
 const buttonShort = css({ display: 'none', '@media (max-width: 720px)': { display: 'inline' } })
+
+function ThemeIcon({ to }: { to: Theme }) {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {to === 'dark' ? (
+        <path d="M13.5 9.5A6 6 0 0 1 6.5 2.5a6 6 0 1 0 7 7Z" />
+      ) : (
+        <>
+          <circle cx="8" cy="8" r="3" />
+          <path d="M8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M3 3l1 1M12 12l1 1M3 13l1-1M12 4l1-1" />
+        </>
+      )}
+    </svg>
+  )
+}
+
+/** The button, or nothing on a night whose two schemes look the same. */
+function ThemeButton() {
+  const [state, setState] = useState<{ theme: Theme; offered: boolean } | null>(null)
+
+  useLayoutEffect(() => {
+    const offered = hasTwoLooks()
+    setState({ theme: resolveTheme(), offered })
+  }, [])
+
+  if (state && !state.offered) return null
+
+  const to: Theme = state?.theme === 'dark' ? 'light' : 'dark'
+  const label = to === 'dark' ? liveRail.theme.toDark : liveRail.theme.toLight
+  return (
+    <button
+      type="button"
+      data-theme-toggle
+      className={cx(hit, button, themeButton, !state && themeUnknown)}
+      aria-label={label}
+      title={label}
+      onClick={() => {
+        chooseTheme(to)
+        setState({ theme: to, offered: true })
+      }}
+    >
+      <ThemeIcon to={to} />
+    </button>
+  )
+}
 
 export function LiveRail({
   date,
@@ -219,6 +286,7 @@ export function LiveRail({
         <span className={buttonLong}>{liveRail.how.long}</span>
         <span className={buttonShort}>{liveRail.how.short}</span>
       </a>
+      <ThemeButton />
     </div>
   )
 }
