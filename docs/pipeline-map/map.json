@@ -1,8 +1,8 @@
 {
  "title": "dougmar.ch nightly pipeline",
  "pack": "dougmar.ch",
- "branch": "main @ e362a4f0",
- "basis": "afb9d64804befda683158b3dd37d5a9aef963ac6",
+ "branch": "main @ 91b0d8db",
+ "basis": "91b0d8db02510298b7985c5ca85aadddd68cb35c",
  "sourcesBase": "",
  "kinds": {
   "agent": "a model call",
@@ -296,7 +296,7 @@
    "label": "Art Director",
    "kind": "agent",
    "sublabel": "Opus 4.8",
-   "what": "One decision: hero copy, composition tuple, typography chassis, the full `elements/preset.ts`, and the visual spec blocks (measurables, shell, header, composition, mobile, type treatment, motion). Replaced an older director + spec critic + token designer trio.",
+   "what": "One decision: hero copy, composition tuple, typography chassis, the full `elements/preset.ts`, and the visual spec blocks (measurables, shell, header, composition, mobile, type treatment, motion). The SHELL block's `brand_color_mode` is `original`, `single-color`, or one mode per colour scheme (`light=original dark=single-color`) when the header's ground passes the Brand Contract's contrast test in one scheme and fails it in the other (owner, 2026-10-19). Replaced an older director + spec critic + token designer trio.",
    "when": "Phase 2 of the swarm, after [[context-phase]].",
    "how": "Model `claude-opus-4-8`. A rejected reply gets a block retry (only the failed blocks, spliced back by `ad-block-splice.js`), then one full retry with the error. A hero phrase used in the last 30 days is rejected the same way by the [[hero-repeat-check]]. A codegen failure asks it once more.",
    "source": [
@@ -350,7 +350,7 @@
    "id": "mockup-precheck",
    "label": "Mockup pre-check",
    "kind": "gate",
-   "what": "Measures in code what the critic used to estimate: canvas, colour and hero scale against the Art Director's declarations, mark size, the mark's colour mode against the full-colour contrast test on its ground, and the pixel-contrast probe on text.",
+   "what": "Measures in code what the critic used to estimate: canvas, colour and hero scale against the Art Director's declarations, mark size, the mark's colour mode (bare, or one per colour scheme) against the full-colour contrast test on its ground, and the pixel-contrast probe on text.",
    "when": "Each mockup round, after the screenshot at 1440 and phone width and before the critic.",
    "how": "Findings carry a check number, key, gap and instruction. Recorded as a `mockup-precheck` verdict (REVISE or APPROVE). A fault whose gap shrank under 25% since the last round counts as no progress and ends the loop.",
    "source": [
