@@ -26,6 +26,8 @@ export type LiveRailCopy = {
   note: string
   whitePaper: { href: string } & RailLabel
   how: { href: (date: string) => string } & RailLabel
+  /** The light/dark button's accessible name, by the mode it switches to. */
+  theme: { toDark: string; toLight: string }
 }
 
 const MONTHS = [
@@ -75,4 +77,5 @@ export const liveRail: LiveRailCopy = {
   note: 'A new design ships every morning.',
   whitePaper: { href: '/work/dougmar-ch', long: 'Read the white paper', short: 'White paper' },
   how: { href: (date) => `/how/${date}`, long: 'How it was made', short: 'How' },
+  theme: { toDark: 'Switch to dark mode', toLight: 'Switch to light mode' },
 }

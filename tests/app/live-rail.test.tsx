@@ -102,9 +102,16 @@ describe('the markup', () => {
     expect(html.indexOf('</div>')).toBe(html.length - '</div>'.length)
   })
 
-  it('holds only spans and anchors', () => {
+  it('holds only spans, anchors and the theme button with its icon', () => {
     const tags = new Set([...html.matchAll(/<(\w+)\b/g)].map((m) => m[1]))
-    expect([...tags].sort()).toEqual(['a', 'div', 'span'])
+    expect([...tags].sort()).toEqual(['a', 'button', 'div', 'path', 'span', 'svg'])
+  })
+
+  it('renders the theme button named and hidden until the client knows the mode', () => {
+    const button = /<button\b[^>]*>/.exec(html)?.[0] ?? ''
+    expect(button).toContain('type="button"')
+    expect(button).toContain(`aria-label="${liveRail.theme.toDark}"`)
+    expect(button).toMatch(/class="[^"]*\bvis_hidden\b/)
   })
 
   it('links the archive, the previous design, the white paper and the explainer', () => {

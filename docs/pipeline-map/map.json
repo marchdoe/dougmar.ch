@@ -763,7 +763,7 @@
    "id": "rating-issue",
    "label": "Rate: <date> issue",
    "kind": "state",
-   "what": "The GitHub issue opened each night with the 1440 screenshot, the 360 first fold, the brief and a YAML rating form (grade A-D, worked, didnt, try).",
+   "what": "The GitHub issue opened each night with the 1440 screenshot (light and dark side by side when they differ), the 360 first fold, the brief and a YAML rating form (grade A-D, worked, didnt, try).",
    "when": "Opened by [[publish-job]] with label `daily-rating`.",
    "how": "The owner replies with the YAML. [[collect-ratings]] harvests it the next night. Sections for needs-human and shipped-with-faults findings are appended when there are any.",
    "source": [

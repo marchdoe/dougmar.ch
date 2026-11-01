@@ -11,6 +11,8 @@ import { Layout } from '../components/Layout'
 import { LiveRail } from '../components/LiveRail'
 import { css } from '../../styled-system/css'
 import type { ReactNode } from 'react'
+import { useLayoutEffect } from 'react'
+import { applyTheme, resolveTheme } from '../lib/theme'
 
 /**
  * The archive link lives here, outside <Layout>, because Layout.tsx and
@@ -271,6 +273,13 @@ function RootDocument({
   bare?: boolean
   archiveLink?: boolean
 }) {
+  // Every route but `/` shares a shell prerendered for `/`, so its first client
+  // render can mismatch and React rebuilds the document, which drops the class
+  // THEME_INIT_SCRIPT set on <html> (#691). This puts it back before paint.
+  useLayoutEffect(() => {
+    if (!bare) applyTheme(resolveTheme())
+  }, [bare])
+
   return (
     <html lang="en">
       <head>
