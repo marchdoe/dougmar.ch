@@ -59,9 +59,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-11-01'
-const PREV_DATE: string | null = '2026-10-31'
-const ARCHIVE_COUNT = 180
+const DESIGN_DATE = '2026-11-02'
+const PREV_DATE: string | null = '2026-11-01'
+const ARCHIVE_COUNT = 181
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -74,34 +74,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: "Loss is nothing else but change, and change is nature's delight." },
-      {
-        property: 'og:title',
-        content: "Loss is nothing else but change, and change is nature's delight.",
-      },
+      { title: "Lions win ugly, and I'll take it." },
+      { property: 'og:title', content: "Lions win ugly, and I'll take it." },
       {
         property: 'og:description',
         content:
-          'Oxblood drench at dusk, a stoic line engraved in didone caps and reversed out, "nature\'s delight" glowing rose, Marcus Aurelius standing vertical at the edge.',
+          'Night-scoreboard poster: 19–15 glowing in gridiron green on a floodlit near-black field, Big Shoulders numerals with an outlined DETROIT ghost behind.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-01.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-02.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      {
-        name: 'twitter:title',
-        content: "Loss is nothing else but change, and change is nature's delight.",
-      },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-01.png' },
+      { name: 'twitter:title', content: "Lions win ugly, and I'll take it." },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-02.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital,wght@0,400;1,400&family=Public+Sans:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;700;900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -295,7 +289,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 180 designs
+            Archive · 181 designs
           </a>
         )}
         <ScrollRestoration />

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { css } from '../../styled-system/css'
+import { TickerFooter } from './generated/TickerFooter'
 import { Sidebar } from './Sidebar'
 
 export function Layout({ children }: { children: ReactNode }) {
@@ -9,14 +10,13 @@ export function Layout({ children }: { children: ReactNode }) {
         bg: 'bg',
         color: 'text',
         fontFamily: 'body',
+        lineHeight: '1.5',
         minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        overflowX: 'clip',
       })}
     >
-      <main className={css({ flex: '1', minWidth: '0' })}>{children}</main>
       <Sidebar />
+      <main>{children}</main>
+      <TickerFooter />
     </div>
   )
 }

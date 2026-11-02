@@ -1,0 +1,316 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'designed and rebuilt from the ground up every single morning' (42px in the mockup) has no match in the build",
+          "facts": {
+            "text": "designed and rebuilt from the ground up every single morning",
+            "mockupPx": 42,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'ventura fisk -20' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "ventura fisk -20",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is '19-15' (104px); in build it is '19-15' (104px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "lions win ugly and ill take it",
+                "mockupPx": 28
+              }
+            ],
+            "leader": {
+              "text": "19-15",
+              "mockupPx": 104
+            },
+            "buildLeader": {
+              "text": "19-15",
+              "buildPx": 104,
+              "mockupPx": 104
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'menu' is 20px in the mockup and 42px in the build (2.09x)",
+          "facts": {
+            "text": "menu",
+            "mockupPx": 20,
+            "buildPx": 42,
+            "ratio": 2.09,
+            "mockupRank": 4
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: '19-15' still leads, but the mockup's 'lions win ugly and ill take it' (28px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'designed and rebuilt from the ground up every single morning' at 42px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'ventura fisk -20' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: 'menu' is 20px in the mockup and 42px in the build (2.09x). Set it back to 20px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'designed and rebuilt from the ground up every single morning' (42px in the mockup) has no match in the build",
+          "facts": {
+            "text": "designed and rebuilt from the ground up every single morning",
+            "mockupPx": 42,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'ventura fisk -20' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "ventura fisk -20",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is '19-15' (104px); in build it is '19-15' (104px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "lions win ugly and ill take it",
+                "mockupPx": 28
+              }
+            ],
+            "leader": {
+              "text": "19-15",
+              "mockupPx": 104
+            },
+            "buildLeader": {
+              "text": "19-15",
+              "buildPx": 104,
+              "mockupPx": 104
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'menu' is 20px in the mockup and 42px in the build (2.09x)",
+          "facts": {
+            "text": "menu",
+            "mockupPx": 20,
+            "buildPx": 42,
+            "ratio": 2.09,
+            "mockupRank": 4
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: '19-15' still leads, but the mockup's 'lions win ugly and ill take it' (28px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'designed and rebuilt from the ground up every single morning' at 42px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'ventura fisk -20' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: 'menu' is 20px in the mockup and 42px in the build (2.09x). Set it back to 20px."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'designed and rebuilt from the ground up every single morning' (42px in the mockup) has no match in the build",
+          "facts": {
+            "text": "designed and rebuilt from the ground up every single morning",
+            "mockupPx": 42,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'ventura fisk -20' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "ventura fisk -20",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is '19-15' (104px); in build it is '19-15' (104px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "lions win ugly and ill take it",
+                "mockupPx": 28
+              }
+            ],
+            "leader": {
+              "text": "19-15",
+              "mockupPx": 104
+            },
+            "buildLeader": {
+              "text": "19-15",
+              "buildPx": 104,
+              "mockupPx": 104
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: '19-15' still leads, but the mockup's 'lions win ugly and ill take it' (28px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'designed and rebuilt from the ground up every single morning' at 42px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'ventura fisk -20' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 4,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'designed and rebuilt from the ground up every single morning' (42px in the mockup) has no match in the build",
+          "facts": {
+            "text": "designed and rebuilt from the ground up every single morning",
+            "mockupPx": 42,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'ventura fisk -20' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "ventura fisk -20",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is '19-15' (104px); in build it is '19-15' (104px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "lions win ugly and ill take it",
+                "mockupPx": 28
+              }
+            ],
+            "leader": {
+              "text": "19-15",
+              "mockupPx": 104
+            },
+            "buildLeader": {
+              "text": "19-15",
+              "buildPx": 104,
+              "mockupPx": 104
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: '19-15' still leads, but the mockup's 'lions win ugly and ill take it' (28px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'designed and rebuilt from the ground up every single morning' at 42px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'ventura fisk -20' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

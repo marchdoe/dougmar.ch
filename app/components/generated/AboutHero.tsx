@@ -1,67 +1,58 @@
 import { css } from '../../../styled-system/css'
-import { HeroField } from './HeroField'
-import { Topbar } from './Topbar'
+import { identity } from '../../content/about'
 
-type Props = { statement: string; name: string; role: string }
-
-export function AboutHero({ statement, name, role }: Props) {
+export function AboutHero() {
+  const eyebrow = [identity.name, identity.role].filter(Boolean).join(' · ')
   return (
-    <HeroField>
-      <Topbar />
+    <section
+      className={css({
+        position: 'relative',
+        bg: 'bg',
+        paddingTop: { base: '30px', lg: '48px' },
+        paddingBottom: { base: '40px', lg: '64px' },
+        paddingInline: { base: '6vw', lg: '5vw' },
+      })}
+    >
       <div
         className={css({
-          marginTop: { base: '6', lg: '7' },
-          alignSelf: 'start',
-          justifySelf: 'start',
+          fontFamily: 'display',
+          fontWeight: 'bold',
+          textStyle: 'sm',
+          textTransform: 'uppercase',
+          letterSpacing: 'widest',
+          color: 'textMuted',
           display: 'flex',
-          flexDirection: 'column',
-          gap: '5',
-          bg: 'bg',
-          color: 'text',
-          paddingBlock: { base: '5', lg: '6' },
-          paddingInline: { base: '4', lg: '6' },
-          borderRadius: 'md',
-          minWidth: '0',
-          maxWidth: '100%',
+          alignItems: 'center',
+          gap: '10px',
+          marginBottom: '16px',
+          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          animationDelay: '80ms',
+          _before: {
+            content: '""',
+            width: '28px',
+            height: '4px',
+            bg: 'accent',
+            display: 'inline-block',
+            flexShrink: '0',
+          },
         })}
       >
-        <h1
-          className={css({
-            fontFamily: 'display',
-            fontWeight: 'normal',
-            fontSize: { base: '22px', lg: '30px' },
-            lineHeight: 'snug',
-            color: 'text',
-            maxWidth: '46ch',
-            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '0ms',
-          })}
-        >
-          {statement}
-        </h1>
-        <p
-          className={css({
-            fontSize: 'base',
-            letterSpacing: 'wider',
-            textTransform: 'uppercase',
-            color: 'textMuted',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '3',
-            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '80ms',
-            _before: {
-              content: '""',
-              width: '34px',
-              height: '1px',
-              bg: 'borderStrong',
-              flexShrink: 0,
-            },
-          })}
-        >
-          {name}, {role}
-        </p>
+        {eyebrow}
       </div>
-    </HeroField>
+      <h1
+        className={css({
+          fontFamily: 'display',
+          fontWeight: 'bold',
+          fontSize: 'clamp(28px, 3.4vw, 46px)',
+          lineHeight: '1.06',
+          color: 'text',
+          maxWidth: '26ch',
+          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          animationDelay: '0ms',
+        })}
+      >
+        {identity.statement}
+      </h1>
+    </section>
   )
 }

@@ -1,75 +1,49 @@
 import { css } from '../../../styled-system/css'
-import { HeroField } from './HeroField'
-import { Topbar } from './Topbar'
+import { Ground } from '../Material'
+import { ScoreFigure } from './ScoreFigure'
+import { SignalRail } from './SignalRail'
 
 export function HomeHero() {
   return (
-    <HeroField edge="Marcus Aurelius" tall>
-      <Topbar />
+    <section
+      className={css({
+        position: 'relative',
+        overflow: 'hidden',
+        bg: 'bg',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '82vh',
+        paddingTop: { base: '30px', lg: '48px' },
+        paddingBottom: { base: '56px', lg: '72px' },
+        paddingInline: { base: '6vw', lg: '5vw' },
+        _before: {
+          content: '""',
+          position: 'absolute',
+          inset: '-4%',
+          bg: 'bg',
+          zIndex: 0,
+          pointerEvents: 'none',
+          animation: 'drift 40s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate',
+        },
+      })}
+    >
+      <Ground material="grain" seed={1432709416} />
       <div
         className={css({
-          alignSelf: 'start',
-          justifySelf: 'center',
-          display: 'flex',
+          position: 'relative',
+          zIndex: 1,
+          flex: '1',
+          display: { base: 'flex', lg: 'grid' },
           flexDirection: 'column',
-          alignItems: 'center',
-          textAlign: 'center',
-          marginTop: { base: '6', lg: '8' },
-          bg: 'bg',
-          color: 'text',
-          paddingBlock: { base: '5', lg: '6' },
-          paddingInline: { base: '4', lg: '7' },
-          borderRadius: 'md',
-          minWidth: '0',
+          gridTemplateColumns: { lg: 'repeat(12, 1fr)' },
+          rowGap: { base: '34px', lg: '0' },
+          columnGap: { base: '0', lg: '2vw' },
+          alignContent: { lg: 'center' },
         })}
       >
-        <h1
-          className={css({
-            fontFamily: 'display',
-            fontWeight: 'normal',
-            fontSize: { base: '40px', lg: '86px' },
-            lineHeight: 'tight',
-            textTransform: 'uppercase',
-            textAlign: 'center',
-            color: 'text',
-            maxWidth: '22ch',
-            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '0ms',
-          })}
-        >
-          Loss is nothing else but change, and change is{' '}
-          {/* mockup #f094a9 (rose.300) has no semantic token; accent is the nearest rose glow */}
-          <span
-            className={css({
-              color: 'accent',
-              fontStyle: 'italic',
-              textTransform: 'none',
-              letterSpacing: 'normal',
-            })}
-          >
-            nature’s delight.
-          </span>
-        </h1>
-        <p
-          className={css({
-            marginTop: { base: '5', lg: '6' },
-            fontFamily: 'body',
-            fontWeight: 'normal',
-            fontSize: { base: 'base', lg: 'md' },
-            letterSpacing: 'widest',
-            textTransform: 'uppercase',
-            color: 'textMuted',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '3',
-            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '80ms',
-            _before: { content: '""', width: '34px', height: '1px', bg: 'borderStrong' },
-          })}
-        >
-          Marcus Aurelius
-        </p>
+        <ScoreFigure />
+        <SignalRail />
       </div>
-    </HeroField>
+    </section>
   )
 }

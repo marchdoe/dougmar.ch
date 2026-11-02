@@ -1,21 +1,29 @@
 import type { ReactNode } from 'react'
 import { css } from '../../../styled-system/css'
 
-export function SectionHead({ children, spaced }: { children: ReactNode; spaced?: boolean }) {
+export const revealSection = css({
+  '@supports (animation-timeline: view())': {
+    animationName: 'rise',
+    animationTimeline: 'view()',
+    animationRange: 'entry 0% entry 40%',
+    animationFillMode: 'both',
+  },
+})
+
+export function SectionHead({ children }: { children: ReactNode }) {
   return (
     <h2
       className={css({
-        fontFamily: 'body',
-        fontSize: 'xs',
+        fontFamily: 'display',
         fontWeight: 'bold',
-        letterSpacing: 'widest',
+        textStyle: 'xs',
         textTransform: 'uppercase',
-        color: 'textFaint',
-        marginTop: spaced ? '8' : '0',
-        marginBottom: '5',
-        paddingBottom: '3',
-        borderBottom: '1px solid',
-        borderColor: 'fieldBorder',
+        letterSpacing: 'widest',
+        color: 'text',
+        paddingBottom: '12px',
+        borderBottomWidth: '1px',
+        borderBottomStyle: 'solid',
+        borderBottomColor: 'borderStrong',
       })}
     >
       {children}
