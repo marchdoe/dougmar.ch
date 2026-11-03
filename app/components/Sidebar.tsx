@@ -2,173 +2,101 @@ import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
 import { BrandLockup } from './BrandLockup'
 
-// The 820px "A new design ships every morning" overflow sits inside the root
-// rail ([data-live-frame]), which __root.tsx renders above Layout. No file
-// this shell owns renders that element, and the rail is not ours to style.
-
 const links = [
-  { label: 'Work', href: '/#work' },
-  { label: 'About', href: '/about' },
+  { num: '01', label: 'Work', href: '/work' },
+  { num: '02', label: 'About', href: '/about' },
+  { num: '03', label: 'Contact', href: `mailto:${identity.email}` },
 ]
 
-const deskLink = css({
-  display: 'block',
-  paddingBlock: '11px',
-  paddingInline: '2px',
-  fontSize: 'sm',
-  letterSpacing: '0.02em',
-  color: 'textMuted',
-  fontWeight: 'bold',
-  _hover: { color: 'accentAlt' },
+const railClass = css({
+  bg: 'bg',
+  display: 'flex',
+  flexDirection: { base: 'column', md: 'row', lg: 'column' },
+  alignItems: { md: 'center', lg: 'stretch' },
+  justifyContent: { lg: 'flex-start' },
+  gap: { base: '12px', md: '28px', lg: '0' },
+  paddingTop: { base: '18px', md: '20px', lg: '28px' },
+  paddingBottom: { base: '12px', md: '20px', lg: '28px' },
+  paddingInline: { base: '20px', md: '40px', lg: '0' },
+  borderBottomWidth: { base: '1px', lg: '0' },
+  borderRightWidth: { base: '0', lg: '1px' },
+  borderStyle: 'solid',
+  borderColor: 'borderStrong',
+  position: { lg: 'sticky' },
+  top: { lg: '0' },
+  height: { lg: '100vh' },
 })
 
-const mobLink = css({
+const markClass = css({
   display: 'block',
-  paddingBlock: '12px',
-  paddingInline: '12px',
-  minHeight: '44px',
-  fontSize: 'sm',
-  fontWeight: 'bold',
-  color: 'textMuted',
+  paddingLeft: { lg: '22px' },
+  marginBottom: { lg: '30px' },
+})
+
+const navClass = css({
+  display: 'grid',
+  gridTemplateColumns: {
+    base: 'repeat(3, minmax(0, 1fr))',
+    md: 'repeat(3, auto)',
+    lg: 'minmax(0, 1fr)',
+  },
+  marginLeft: { md: 'auto', lg: '0' },
+})
+
+const linkClass = css({
+  display: 'flex',
+  flexDirection: { base: 'row', lg: 'column' },
+  alignItems: { base: 'baseline', lg: 'flex-start' },
+  gap: { base: '7px', lg: '4px' },
+  minHeight: { base: '44px', lg: '64px' },
+  paddingTop: { base: '8px', lg: '16px' },
+  paddingBottom: { base: '8px', lg: '14px' },
+  paddingLeft: { base: '0', lg: '22px' },
+  paddingRight: { base: '0', md: '20px', lg: '10px' },
+  color: 'text',
+  lineHeight: '1',
   whiteSpace: 'nowrap',
+  borderTopWidth: { base: '0', lg: '1px' },
+  borderTopStyle: 'solid',
+  borderTopColor: 'border',
+  _last: {
+    borderBottomWidth: { base: '0', lg: '1px' },
+    borderBottomStyle: 'solid',
+    borderBottomColor: 'border',
+  },
+  _hover: { color: 'accent', textDecoration: 'none' },
 })
 
-const rowLine = css({
-  borderTopWidth: '1px',
-  borderTopStyle: 'solid',
-  borderTopColor: 'borderStrong',
+const numClass = css({
+  fontWeight: 'bold',
+  color: 'accentAlt',
+  fontSize: '13px',
+  letterSpacing: '0.04em',
+  fontVariantNumeric: 'tabular-nums',
+})
+
+const labelClass = css({
+  fontSize: { base: '15px', lg: '13px' },
+  fontWeight: '600',
+  textTransform: 'lowercase',
+  fontVariant: 'small-caps',
+  letterSpacing: '0.07em',
 })
 
 export function Sidebar() {
-  const mail = `mailto:${identity.email}`
   return (
-    <div
-      className={css({
-        position: 'relative',
-        zIndex: 3,
-        bg: 'bg',
-        paddingTop: { base: '28px', lg: '36px' },
-        paddingInline: { base: '6vw', lg: '5vw' },
-      })}
-    >
-      <header
-        className={css({
-          display: 'flex',
-          alignItems: 'flex-start',
-          justifyContent: 'space-between',
-          gap: '16px',
-        })}
-      >
-        <div
-          className={css({
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            gap: '8px',
-          })}
-        >
-          <a
-            href="/"
-            aria-label="Doug March home"
-            className={css({ color: 'text', _hover: { color: 'text' } })}
-          >
-            <BrandLockup variant="stacked-md" mode="original" />
+    <header className={railClass}>
+      <a className={markClass} href="/" aria-label="Doug March, home">
+        <BrandLockup variant="mark-only-md" mode="original" />
+      </a>
+      <nav className={navClass} aria-label="Primary">
+        {links.map((link) => (
+          <a key={link.num} className={linkClass} href={link.href}>
+            <span className={numClass}>{link.num}</span>
+            <span className={labelClass}>{link.label}</span>
           </a>
-          <nav aria-label="Primary" className={css({ display: { base: 'none', lg: 'block' } })}>
-            <ul
-              className={css({
-                listStyle: 'none',
-                marginTop: '14px',
-                marginBottom: '0',
-                padding: '0',
-                width: '160px',
-                '& li': {
-                  borderTopWidth: '1px',
-                  borderTopStyle: 'solid',
-                  borderTopColor: 'borderStrong',
-                },
-                '& li:last-child': {
-                  borderBottomWidth: '1px',
-                  borderBottomStyle: 'solid',
-                  borderBottomColor: 'borderStrong',
-                },
-              })}
-            >
-              {links.map((l) => (
-                <li key={l.label}>
-                  <a href={l.href} className={deskLink}>
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-              <li>
-                <a href={mail} className={deskLink}>
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <nav
-          aria-label="Menu"
-          className={css({ position: 'relative', display: { base: 'block', lg: 'none' } })}
-        >
-          <details>
-            <summary
-              className={css({
-                listStyle: 'none',
-                cursor: 'pointer',
-                fontFamily: 'display',
-                fontWeight: 'bold',
-                fontSize: '20px',
-                lineHeight: '1',
-                letterSpacing: 'wide',
-                color: 'accent',
-                paddingBlock: '12px',
-                paddingInline: '4px',
-                minHeight: '44px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-end',
-                '&::-webkit-details-marker': { display: 'none' },
-              })}
-            >
-              Menu
-            </summary>
-            <ul
-              className={css({
-                listStyle: 'none',
-                margin: '0',
-                padding: '0',
-                textAlign: 'right',
-                position: 'absolute',
-                top: '100%',
-                right: '0',
-                minWidth: '160px',
-                width: 'max-content',
-                bg: 'surface',
-                borderBottomWidth: '1px',
-                borderBottomStyle: 'solid',
-                borderBottomColor: 'borderStrong',
-                zIndex: 4,
-              })}
-            >
-              {links.map((l) => (
-                <li key={l.label} className={rowLine}>
-                  <a href={l.href} className={mobLink}>
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-              <li className={rowLine}>
-                <a href={mail} className={mobLink}>
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </details>
-        </nav>
-      </header>
-    </div>
+        ))}
+      </nav>
+    </header>
   )
 }

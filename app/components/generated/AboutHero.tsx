@@ -1,57 +1,36 @@
 import { css } from '../../../styled-system/css'
 import { identity } from '../../content/about'
 
+// The statement's source text carries a long dash. It renders as a comma here.
+const statement = identity.statement.replace(/\s*\u2014\s*/g, ', ')
+
 export function AboutHero() {
-  const eyebrow = [identity.name, identity.role].filter(Boolean).join(' · ')
   return (
     <section
       className={css({
-        position: 'relative',
-        bg: 'bg',
-        paddingTop: { base: '30px', lg: '48px' },
-        paddingBottom: { base: '40px', lg: '64px' },
-        paddingInline: { base: '6vw', lg: '5vw' },
+        display: 'flex',
+        justifyContent: 'flex-end',
+        textAlign: 'right',
+        paddingTop: { base: '32px', md: '48px' },
+        paddingBottom: { base: '32px', md: '48px', lg: '56px' },
+        paddingLeft: { base: '20px', md: '48px', lg: '40px' },
+        paddingRight: { base: '20px', md: '48px', lg: '5vw' },
       })}
     >
-      <div
-        className={css({
-          fontFamily: 'display',
-          fontWeight: 'bold',
-          textStyle: 'sm',
-          textTransform: 'uppercase',
-          letterSpacing: 'widest',
-          color: 'textMuted',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px',
-          marginBottom: '16px',
-          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '80ms',
-          _before: {
-            content: '""',
-            width: '28px',
-            height: '4px',
-            bg: 'accent',
-            display: 'inline-block',
-            flexShrink: '0',
-          },
-        })}
-      >
-        {eyebrow}
-      </div>
       <h1
         className={css({
           fontFamily: 'display',
-          fontWeight: 'bold',
-          fontSize: 'clamp(28px, 3.4vw, 46px)',
-          lineHeight: '1.06',
-          color: 'text',
-          maxWidth: '26ch',
-          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '0ms',
+          fontSize: { base: 'clamp(28px,8.5vw,34px)', lg: 'clamp(34px,3.6vw,46px)' },
+          lineHeight: '1.04',
+          maxWidth: { lg: '30ch' },
+          textTransform: 'lowercase',
+          fontVariant: 'small-caps',
+          letterSpacing: '0.02em',
+          fontWeight: 'normal',
+          color: 'accent',
         })}
       >
-        {identity.statement}
+        {statement}
       </h1>
     </section>
   )
