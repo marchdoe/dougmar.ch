@@ -10,90 +10,54 @@ function OgCard() {
       className={css({
         position: 'fixed',
         inset: '0',
-        zIndex: 9999,
-        bg: 'bg',
+        zIndex: '9999',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        bg: { base: 'accent', _dark: 'field' },
       })}
     >
       <div
         className={css({
-          position: 'relative',
           width: '1200px',
           height: '630px',
           flexShrink: '0',
-          bg: 'bg',
-          color: 'text',
-          padding: '64px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          borderWidth: '1px',
-          borderStyle: 'solid',
-          borderColor: 'border',
+          padding: '64px',
+          bg: { base: 'accent', _dark: 'field' },
+          color: 'fieldInk',
         })}
       >
-        <div
+        <div>
+          <BrandLockup variant="mark-only-md" mode="original" />
+        </div>
+        <h1
           className={css({
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
+            fontFamily: 'display',
+            textAlign: 'right',
+            textTransform: 'lowercase',
+            fontVariant: 'small-caps',
+            fontWeight: 'normal',
+            letterSpacing: '0.01em',
+            color: 'fieldInk',
           })}
         >
-          <span className={css({ color: 'text' })}>
-            <BrandLockup variant="stacked-md" mode="original" />
+          <span className={css({ display: 'block', fontSize: '108px', lineHeight: '1' })}>
+            Four holes in one.
           </span>
           <span
             className={css({
-              fontFamily: 'display',
-              fontWeight: 'bold',
-              fontSize: '120px',
-              lineHeight: '0.9',
-              color: 'accent',
-              whiteSpace: 'nowrap',
+              display: 'block',
+              fontSize: '52px',
+              lineHeight: '1.05',
+              marginTop: '20px',
             })}
           >
-            19–15
+            The scorecard is the first experiment.
           </span>
-        </div>
-        <div>
-          <div
-            className={css({
-              fontFamily: 'display',
-              fontWeight: 'bold',
-              fontSize: '20px',
-              textTransform: 'uppercase',
-              letterSpacing: 'widest',
-              color: 'textMuted',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              marginBottom: '12px',
-              _before: {
-                content: '""',
-                width: '28px',
-                height: '4px',
-                bg: 'accent',
-                display: 'inline-block',
-              },
-            })}
-          >
-            Lions · Final
-          </div>
-          <h1
-            className={css({
-              fontFamily: 'display',
-              fontWeight: 'bold',
-              fontSize: '100px',
-              lineHeight: '1',
-              color: 'text',
-              maxWidth: '1000px',
-            })}
-          >
-            Lions win ugly, and I’ll take it.
-          </h1>
-        </div>
+        </h1>
       </div>
     </div>
   )

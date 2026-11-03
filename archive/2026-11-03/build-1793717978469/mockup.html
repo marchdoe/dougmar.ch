@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — Four holes in one</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,600;0,800;1,400;1,600;1,800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAF5EC; --surface:#F2EAD9; --bgAlt:#E6DAC4;
+    --border:#D2C2A5; --borderStrong:#A8956F;
+    --text:#15100A; --textMuted:#574A37; --textFaint:#6E5F46;
+    --accent:#C63C12; --accentAlt:#882709; --accentText:#FFF8F2;
+    --field:#A5300C; --fieldBorder:#661D06; --fieldInk:#FFF8F2; --fieldInkMuted:#F6CBB9;
+    --panel:#C63C12;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:'Hanken Grotesk',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    font-kerning:normal; overflow-x:hidden;
+  }
+  a{color:var(--accent); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  h1,h2,h3{margin:0; font-weight:400; text-wrap:balance;}
+  p{margin:0; text-wrap:pretty;}
+  ::selection{background:var(--accent); color:var(--accentText);}
+
+  .shell{display:block;}
+
+  /* ---------- NAV (mobile = top band) ---------- */
+  .rail{
+    background:var(--bg);
+    border-bottom:1px solid var(--borderStrong);
+    padding:18px 20px 12px;
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .mark{display:block;}
+  .mark svg{height:48px; width:auto; display:block;}
+  .nav{display:flex; gap:0; flex-wrap:wrap;}
+  .nav a{
+    display:flex; align-items:baseline; gap:7px;
+    min-height:44px; padding:8px 20px 8px 0;
+    color:var(--text); line-height:1;
+  }
+  .nav a:hover{text-decoration:none; color:var(--accent);}
+  .nav .num{
+    font-weight:800; color:var(--accentAlt);
+    font-size:13px; letter-spacing:0.04em;
+    font-variant-numeric:tabular-nums;
+  }
+  .nav .lbl{
+    font-size:15px; font-weight:600;
+    text-transform:lowercase; font-variant-caps:small-caps;
+    letter-spacing:0.07em;
+  }
+
+  main{padding:0;}
+
+  /* ---------- STANDFIRST ---------- */
+  .standwrap{
+    padding:32px 20px 22px;
+    display:flex; flex-direction:column; align-items:flex-end; gap:10px;
+    text-align:right;
+  }
+  .standfirst{
+    font-size:clamp(28px,8.5vw,34px);
+    line-height:1.02;
+    text-transform:lowercase; font-variant-caps:small-caps;
+    letter-spacing:0.02em; font-weight:400; color:var(--text);
+  }
+  .standfirst .q{color:var(--accent);}
+  .ident{
+    font-size:12px; letter-spacing:0.09em; text-transform:uppercase;
+    font-weight:600; color:var(--textMuted);
+  }
+
+  /* ---------- WORK INDEX ---------- */
+  .indexhead{
+    padding:0 20px;
+    font-size:11px; letter-spacing:0.16em; text-transform:uppercase;
+    font-weight:800; color:var(--accentAlt);
+    border-bottom:1px solid var(--borderStrong);
+    padding-bottom:10px; margin:0 0 2px;
+  }
+  .indexhead span{padding-left:20px; padding-right:20px; display:block;}
+  .index{display:flex; flex-direction:column; padding:0;}
+
+  .row{
+    display:block; padding:22px 20px 24px;
+    border-bottom:1px solid var(--border);
+    color:var(--text); text-align:right;
+  }
+  .row:hover{text-decoration:none;}
+  .row:hover .rtitle{color:var(--accent);}
+  .row:hover .ryear{color:var(--accent);}
+  .rtitle{
+    font-size:clamp(34px,10vw,52px);
+    line-height:0.94; font-weight:400; letter-spacing:0.02em;
+    text-transform:lowercase; font-variant-caps:small-caps;
+    transition:color .18s ease;
+  }
+  .rlede{
+    font-size:clamp(16px,4.4vw,19px); line-height:1.3;
+    color:var(--textMuted); margin-top:12px; margin-left:auto; max-width:44ch;
+    text-align:right; font-weight:400;
+  }
+  .rmeta{
+    display:flex; gap:16px; justify-content:flex-end; flex-wrap:wrap;
+    margin-top:13px;
+  }
+  .rmeta span{
+    font-size:11px; letter-spacing:0.11em; text-transform:uppercase;
+    font-weight:600; color:var(--textMuted);
+  }
+  .rmeta .ryear{color:var(--accentAlt); font-weight:800;
+    font-variant-numeric:tabular-nums; transition:color .18s ease;}
+
+  /* featured 15th club — vermilion specimen block, the lead title */
+  .featured{
+    background:var(--panel); color:var(--fieldInk);
+    border:none; text-align:right;
+    padding:28px 20px 32px;
+    display:flex; flex-direction:column; align-items:flex-end; gap:14px;
+  }
+  .featured .tag{
+    font-size:11px; letter-spacing:0.14em; text-transform:uppercase;
+    font-weight:800; color:var(--fieldInk);
+  }
+  .featured .ftitle{
+    font-size:clamp(56px,9vw,120px);
+    line-height:0.9; font-weight:400; letter-spacing:0.01em;
+    text-transform:lowercase; font-variant-caps:small-caps;
+    color:var(--fieldInk);
+  }
+  .featured .flede{
+    font-size:clamp(19px,5.4vw,26px); line-height:1.18; font-weight:400;
+    max-width:22ch; color:var(--fieldInk);
+  }
+  .featured .fprob{
+    font-size:15px; line-height:1.55; max-width:58ch;
+    color:var(--fieldInk); text-align:left;
+  }
+  .featured .fmeta{
+    display:flex; gap:14px; justify-content:flex-end; flex-wrap:wrap;
+    border-top:1px solid var(--fieldBorder); padding-top:14px; width:100%;
+  }
+  .featured .fmeta span{
+    font-size:11px; letter-spacing:0.12em; text-transform:uppercase;
+    font-weight:600; color:var(--fieldInk);
+  }
+  .featured .flink{
+    color:var(--fieldInk); font-weight:800; font-size:13px;
+    letter-spacing:0.07em; text-transform:uppercase;
+    border-bottom:2px solid var(--fieldInk); padding-bottom:3px;
+  }
+  .featured .flink:hover{color:var(--fieldInkMuted); border-color:var(--fieldInkMuted);}
+
+  /* closing bracket */
+  .closeline{
+    padding:34px 20px 46px; text-align:right;
+    font-size:clamp(26px,8vw,34px); line-height:1.02;
+    text-transform:lowercase; font-variant-caps:small-caps;
+    letter-spacing:0.02em; font-weight:400; color:var(--text);
+  }
+  .closeline .q{color:var(--accent);}
+
+  /* trajectory + capabilities */
+  .trajectory{
+    background:var(--surface);
+    border-top:1px solid var(--borderStrong);
+    padding:44px 20px;
+    display:flex; flex-direction:column; gap:36px;
+  }
+  .trajhead{
+    font-size:11px; letter-spacing:0.16em; text-transform:uppercase;
+    font-weight:800; color:var(--accentAlt);
+    border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:18px;
+  }
+  .traj{list-style:none; margin:0; padding:0; display:flex; flex-direction:column;}
+  .traj li{
+    display:grid; grid-template-columns:1fr; gap:4px;
+    padding:16px 0; border-top:1px solid var(--border);
+  }
+  .traj li:first-child{border-top:none;}
+  .traj .ty{
+    font-size:12px; letter-spacing:0.08em; text-transform:uppercase;
+    font-weight:800; color:var(--accentAlt); font-variant-numeric:tabular-nums;
+  }
+  .traj .tr{font-size:19px; font-weight:600; color:var(--text);}
+  .traj .td{font-size:15px; line-height:1.5; color:var(--textMuted); max-width:62ch;}
+  .caps{list-style:none; margin:0; padding:0; display:flex; flex-direction:column;}
+  .caps li{
+    font-size:17px; font-weight:600; color:var(--text);
+    padding:12px 0; border-top:1px solid var(--border);
+  }
+  .caps li:first-child{border-top:none;}
+
+  /* site callout */
+  .callout{
+    background:var(--bgAlt);
+    border-top:1px solid var(--borderStrong);
+    border-bottom:1px solid var(--borderStrong);
+    padding:44px 20px;
+  }
+  .callout .eyebrow{
+    font-size:11px; letter-spacing:0.16em; text-transform:uppercase;
+    font-weight:800; color:var(--accentAlt); margin-bottom:14px;
+  }
+  .callout p{
+    font-size:clamp(20px,6vw,30px); line-height:1.2; font-weight:400;
+    max-width:24ch; color:var(--text);
+  }
+
+  /* colophon flood */
+  .colophon{background:var(--field); color:var(--fieldInk); padding:38px 20px 44px;}
+  .colophon .ctitle{
+    font-size:11px; letter-spacing:0.16em; text-transform:uppercase;
+    font-weight:800; color:var(--fieldInkMuted);
+    border-bottom:1px solid var(--fieldBorder); padding-bottom:12px; margin-bottom:20px;
+  }
+  .facts{display:flex; flex-direction:column; border-bottom:1px solid var(--fieldBorder);}
+  .fact{
+    display:flex; align-items:baseline; justify-content:space-between; gap:16px;
+    padding:13px 0; border-top:1px solid var(--fieldBorder);
+  }
+  .fact:first-child{border-top:none;}
+  .fact .fk{font-size:12px; letter-spacing:0.07em; text-transform:uppercase; color:var(--fieldInkMuted); font-weight:600;}
+  .fact .fv{font-size:20px; font-weight:800; font-variant-numeric:tabular-nums; color:var(--fieldInk);}
+  .fact.big .fv{font-size:30px;}
+  .ctail{margin-top:22px; display:flex; flex-direction:column; gap:14px;}
+  .ctail .rot{font-size:13px; color:var(--fieldInkMuted); letter-spacing:0.03em;}
+  .ctail .rot b{color:var(--fieldInk); font-weight:600;}
+  .ctail .quote{font-size:16px; font-style:italic; line-height:1.4; max-width:52ch; color:var(--fieldInk);}
+  .ctail .quote cite{display:block; font-style:normal; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--fieldInkMuted); margin-top:8px;}
+
+  /* ===================== TABLET ===================== */
+  @media (min-width:720px){
+    .rail{flex-direction:row; align-items:center; gap:28px; padding:20px 40px;}
+    .nav{margin-left:auto;}
+    .trajectory{flex-direction:row; align-items:flex-start; gap:56px; padding:60px 48px;}
+    .trajcol{flex:1 1 0; min-width:0;}
+    .capscol{flex:0 0 34%; min-width:200px;}
+    .traj .tr{font-size:20px;}
+    .standwrap{padding:48px 48px 28px;}
+    .indexhead span{padding-left:48px; padding-right:48px;}
+    .row{padding:24px 48px 28px;}
+    .featured{padding:34px 48px 40px;}
+    .closeline{padding:40px 48px 56px;}
+    .callout{padding:60px 48px;}
+    .colophon{padding:52px 48px 56px;}
+    .facts{display:grid; grid-template-columns:1fr 1fr; gap:0 48px; border-bottom:none;}
+    .fact{border-top:1px solid var(--fieldBorder);}
+    .rtitle{font-size:clamp(44px,8vw,68px);}
+  }
+
+  /* ===================== DESKTOP ===================== */
+  @media (min-width:1024px){
+    .shell{display:grid; grid-template-columns:96px 1fr; align-items:stretch;}
+    .rail{
+      flex-direction:column; align-items:stretch; justify-content:flex-start;
+      border-bottom:none; border-right:1px solid var(--borderStrong);
+      padding:28px 0 28px; gap:0; position:sticky; top:0; height:100vh;
+    }
+    .mark{padding:0 0 0 22px; margin-bottom:30px;}
+    .mark svg{height:52px;}
+    .nav{flex-direction:column; margin-left:0;}
+    .nav a{
+      flex-direction:column; align-items:flex-start; gap:4px;
+      min-height:64px; padding:16px 10px 14px 22px;
+      border-top:1px solid var(--border);
+    }
+    .nav a:last-child{border-bottom:1px solid var(--border);}
+    .nav .lbl{font-size:13px;}
+
+    main{min-width:0;}
+
+    /* the specimen grid: standfirst + packed masonry index */
+    .stage{
+      display:grid; grid-template-columns:repeat(12,1fr);
+      column-gap:24px; row-gap:0;
+      padding:48px 5vw 40px 40px; align-content:start;
+    }
+    .standwrap{
+      grid-column:6 / 13; grid-row:1; padding:0 0 18px;
+      align-items:flex-end; gap:8px;
+    }
+    .standfirst{font-size:clamp(40px,4.4vw,60px); line-height:1;}
+
+    .indexhead{display:none;}
+
+    /* left stack of titles */
+    .row{
+      border-bottom:none; border-top:1px solid var(--border);
+      padding:22px 0 26px;
+    }
+    .r-spaceman{grid-column:1 / 6; grid-row:1;}
+    .r-fishsticks{grid-column:1 / 6; grid-row:2;}
+    .r-dougmar{grid-column:1 / 6; grid-row:3;}
+    .r-teeturn{grid-column:1 / 6; grid-row:4;}
+    .r-politweets{grid-column:1 / 6; grid-row:5;}
+    .r-twittertale{grid-column:1 / 6; grid-row:6;}
+
+    .r-spaceman .rtitle,.r-fishsticks .rtitle,.r-dougmar .rtitle{font-size:clamp(44px,5.4vw,74px);}
+    .r-teeturn .rtitle,.r-politweets .rtitle,.r-twittertale .rtitle{font-size:clamp(32px,3.6vw,50px);}
+    .rlede{font-size:18px; max-width:30ch;}
+
+    /* featured vermilion specimen — right-weighted, spans the stack */
+    .featured{
+      grid-column:6 / 13; grid-row:2 / 7;
+      padding:38px 44px 42px; justify-content:space-between; gap:22px;
+    }
+
+    .trajectory{
+      padding:72px 5vw 72px 40px;
+      flex-direction:row; align-items:flex-start; gap:7vw;
+    }
+    .trajcol{flex:1 1 0; min-width:0;}
+    .capscol{flex:0 0 28%; min-width:220px;}
+
+    .closeline{padding:44px 5vw 60px 40px; font-size:clamp(40px,4.4vw,60px);}
+    .callout{padding:80px 5vw 80px 40px;}
+    .callout p{font-size:clamp(28px,3vw,40px); max-width:20ch;}
+
+    .colophon{padding:60px 5vw 60px 40px;}
+    .facts{grid-template-columns:repeat(3,1fr); gap:0 56px;}
+    .ctail{display:grid; grid-template-columns:1fr 1fr; gap:24px 56px; align-items:end;}
+    .ctail .quote{grid-column:2; text-align:left;}
+    .ctail .rot{grid-column:1; grid-row:1;}
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- LEFT RAIL / TOP BAND -->
+  <header class="rail">
+    <a class="mark" href="#top" aria-label="Doug March — home">
+      <svg width="71" height="59" viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" data-brand-mark="">
+        <title>Doug March logo</title>
+        <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+        <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+        <circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+        <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+      </svg>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="#work"><span class="num">01</span><span class="lbl">Work</span></a>
+      <a href="#about"><span class="num">02</span><span class="lbl">About</span></a>
+      <a href="#contact"><span class="num">03</span><span class="lbl">Contact</span></a>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- SPECIMEN STAGE: standfirst + packed masonry index -->
+    <div class="stage" id="work">
+
+      <div class="standwrap">
+        <h1 class="standfirst"><span class="q">Four holes in one.</span></h1>
+      </div>
+
+      <div class="indexhead"><span>Selected work &amp; experiments — index</span></div>
+
+      <!-- FEATURED: 15th Club, the lead title on vermilion -->
+      <article class="featured">
+        <div>
+          <div class="tag">Featured — In Development</div>
+          <h2 class="ftitle">15th&nbsp;Club</h2>
+        </div>
+        <p class="flede">A platform for AI experiments through the lens of golf.</p>
+        <p class="fprob">The scorecard is the first experiment — shareable, real-time, no app install required. More experiments to follow.</p>
+        <div class="fmeta">
+          <span>2025</span><span>AI</span><span>Founder</span>
+        </div>
+        <a class="flink" href="https://15th.club" target="_blank" rel="noopener">Visit 15th.club →</a>
+      </article>
+
+      <!-- LEFT STACK -->
+      <a class="row r-spaceman" href="#spaceman">
+        <span class="rtitle">Spaceman</span>
+        <p class="rlede">The company I founded and run — the vehicle for my independent work.</p>
+        <div class="rmeta"><span class="ryear">2018 — Present</span><span>Founder</span><span>Company</span></div>
+      </a>
+
+      <a class="row r-fishsticks" href="#fishsticks">
+        <span class="rtitle">FishSticks</span>
+        <p class="rlede">A spelling-practice app built for kids.</p>
+        <div class="rmeta"><span class="ryear">2025</span><span>SaaS</span><span>Build</span></div>
+      </a>
+
+      <a class="row r-dougmar" href="#dougmar-ch">
+        <span class="rtitle">dougmar.ch</span>
+        <p class="rlede">This site — redrawn from scratch every night by machine.</p>
+        <div class="rmeta"><span class="ryear">2026</span><span>AI</span><span>Design System</span></div>
+      </a>
+
+      <a class="row r-teeturn" href="#teeturn">
+        <span class="rtitle">TeeTurn</span>
+        <p class="rlede">Real-time round-tracking for golfers. I led product direction and strategy.</p>
+        <div class="rmeta"><span class="ryear">2020</span><span>Experiment</span><span>Product</span></div>
+      </a>
+
+      <a class="row r-politweets" href="#politweets">
+        <span class="rtitle">Politweets</span>
+        <p class="rlede">Tracked presidential-candidate mentions across Twitter through the 2008 race.</p>
+        <div class="rmeta"><span class="ryear">2008</span><span>Experiment</span><span>Social</span></div>
+      </a>
+
+      <a class="row r-twittertale" href="#twittertale">
+        <span class="rtitle">Twittertale</span>
+        <p class="rlede">Ranked Twitter users by how much they swore.</p>
+        <div class="rmeta"><span class="ryear">2008</span><span>Experiment</span><span>Social</span></div>
+      </a>
+
+    </div>
+
+    <!-- closing bracket of the hero phrase -->
+    <p class="closeline"><span class="q">The scorecard is the first experiment.</span></p>
+
+    <!-- TRAJECTORY + CAPABILITIES -->
+    <section class="trajectory" id="about">
+      <div class="trajcol">
+        <div class="trajhead">Trajectory</div>
+        <ol class="traj">
+          <li><span class="ty">2026</span><span class="tr">dougmar.ch</span><span class="td">A portfolio redrawn from scratch every night by machine.</span></li>
+          <li><span class="ty">2025</span><span class="tr">15th Club · FishSticks</span><span class="td">AI experiments through golf; a spelling-practice app for kids.</span></li>
+          <li><span class="ty">2020</span><span class="tr">TeeTurn</span><span class="td">Real-time round-tracking for golfers — led product direction.</span></li>
+          <li><span class="ty">2018 — Present</span><span class="tr">Spaceman, Founder</span><span class="td">Independent product work, design and engineering both.</span></li>
+          <li><span class="ty">2008</span><span class="tr">Politweets · Twittertale</span><span class="td">Early social-data experiments built in the first year of Twitter.</span></li>
+        </ol>
+      </div>
+      <div class="capscol">
+        <div class="trajhead">Capabilities</div>
+        <ul class="caps">
+          <li>Product strategy</li>
+          <li>Front-end engineering</li>
+          <li>Design systems</li>
+          <li>AI integration</li>
+          <li>Brand &amp; identity</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SITE CALLOUT slot -->
+    <section class="callout">
+      <div class="eyebrow">Today's build</div>
+      <p>dougmar.ch redraws itself every night. You're looking at today's.</p>
+    </section>
+
+    <!-- SCARLET COLOPHON FLOOD -->
+    <footer class="colophon" id="contact">
+      <div class="ctitle">Colophon — Nov 3, 2026 · Detroit</div>
+      <div class="facts">
+        <div class="fact big"><span class="fk">Pistons</span><span class="fv">124–91</span></div>
+        <div class="fact"><span class="fk">Lions</span><span class="fv">19–15</span></div>
+        <div class="fact"><span class="fk">Red Wings</span><span class="fv">5–3</span></div>
+        <div class="fact"><span class="fk">Mexico Open · Novak</span><span class="fv">−25</span></div>
+        <div class="fact"><span class="fk">SPY</span><span class="fv">752.10 <small style="font-size:13px;font-weight:600;">−0.48%</small></span></div>
+        <div class="fact"><span class="fk">Moon</span><span class="fv" style="font-size:16px;font-weight:600;">Last quarter</span></div>
+      </div>
+      <div class="ctail">
+        <p class="rot">In rotation: <b>My Morning Jacket</b> &amp; <b>Tobin Sprout</b>.</p>
+        <blockquote class="quote">
+          "Circumstances do not make the man, they reveal him."
+          <cite>— James Allen</cite>
+        </blockquote>
+      </div>
+    </footer>
+
+  </main>
+</div>
+</body>
+</html>
