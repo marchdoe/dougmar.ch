@@ -36,11 +36,11 @@ export function validateHistoryInput(d: unknown): { limit: number } {
 }
 
 export const readArchiveDetail = createServerFn({ method: 'GET' })
-  .inputValidator(validateDateInput)
+  .validator(validateDateInput)
   .handler(devOnly(async ({ data: date }: { data: string }) => _readArchiveDetail(date)))
 
 export const readResponsiveMetrics = createServerFn({ method: 'GET' })
-  .inputValidator(validateMetricsInput)
+  .validator(validateMetricsInput)
   .handler(
     devOnly(async ({ data }: { data: { date: string; buildId: string } }) =>
       _readResponsiveMetrics(data.date, data.buildId)
@@ -48,7 +48,7 @@ export const readResponsiveMetrics = createServerFn({ method: 'GET' })
   )
 
 export const readResponsiveHistory = createServerFn({ method: 'GET' })
-  .inputValidator(validateHistoryInput)
+  .validator(validateHistoryInput)
   .handler(
     devOnly(async ({ data }: { data: { limit: number } }) => _readResponsiveHistory(data.limit))
   )
