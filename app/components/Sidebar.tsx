@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { css, cx } from '../../styled-system/css'
 import { identity } from '../content/about'
 import { homeFeature } from './generated/homeFeature'
-import { revealClass } from './generated/reveal'
+import { revealClass } from './generated/Reveal'
 
 /* Repair note, unresolved: the 820px overflow the surface gate reports in the
    top rail's text span is not fixed by this patch. __root.tsx renders the rail,

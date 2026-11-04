@@ -2,7 +2,7 @@ import { css, cx } from '../../../styled-system/css'
 import { experiments } from '../../content/projects'
 import type { projects } from '../../content/projects'
 import { homeSelectedWork } from './homeFeature'
-import { revealClass } from './reveal'
+import { revealClass } from './Reveal'
 
 type Project = (typeof projects)[number]
 

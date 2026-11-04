@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { css, cx } from '../../../styled-system/css'
 import { Ground } from '../Material'
-import { revealClass } from './reveal'
+import { revealClass } from './Reveal'
 
 /* The approved mockup rules the worksheet half of the split field, so the
    declared material sits here. Every text box carries a flat bg so no rule
