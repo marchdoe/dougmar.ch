@@ -131,10 +131,7 @@ function buildEnrichedBrief(state) {
  *
  * polish.md is ALWAYS loaded for the designer — but in the USER prompt
  * (12.1KB; keeps the system prompt under the CLI 2.1.92 ~56KB failure
- * zone). bolder.md is conditional on a committed/drenched color stance;
- * overdrive.md is NOT loaded (size cap); refResponsive is NOT appended —
- * its rules are already salvaged into mockup-designer.md's Responsive
- * section.
+ * zone). bolder.md is conditional on a committed/drenched color stance.
  * @param {import('./run-state.js').RunState} state
  * @param {string} mockupDesignerPromptRaw
  * @returns {Promise<{ systemPrompt: string, chosenLane: object }>}
