@@ -1,102 +1,142 @@
-import { css } from '../../styled-system/css'
+import type { ReactNode } from 'react'
+import { css, cx } from '../../styled-system/css'
 import { identity } from '../content/about'
-import { BrandLockup } from './BrandLockup'
+import { homeFeature } from './generated/homeFeature'
+import { revealClass } from './generated/Reveal'
 
-const links = [
-  { num: '01', label: 'Work', href: '/work' },
-  { num: '02', label: 'About', href: '/about' },
-  { num: '03', label: 'Contact', href: `mailto:${identity.email}` },
-]
-
-const railClass = css({
-  bg: 'bg',
-  display: 'flex',
-  flexDirection: { base: 'column', md: 'row', lg: 'column' },
-  alignItems: { md: 'center', lg: 'stretch' },
-  justifyContent: { lg: 'flex-start' },
-  gap: { base: '12px', md: '28px', lg: '0' },
-  paddingTop: { base: '18px', md: '20px', lg: '28px' },
-  paddingBottom: { base: '12px', md: '20px', lg: '28px' },
-  paddingInline: { base: '20px', md: '40px', lg: '0' },
-  borderBottomWidth: { base: '1px', lg: '0' },
-  borderRightWidth: { base: '0', lg: '1px' },
-  borderStyle: 'solid',
-  borderColor: 'borderStrong',
-  position: { lg: 'sticky' },
-  top: { lg: '0' },
-  height: { lg: '100vh' },
-})
-
-const markClass = css({
-  display: 'block',
-  paddingLeft: { lg: '22px' },
-  marginBottom: { lg: '30px' },
-})
-
-const navClass = css({
-  display: 'grid',
-  gridTemplateColumns: {
-    base: 'repeat(3, minmax(0, 1fr))',
-    md: 'repeat(3, auto)',
-    lg: 'minmax(0, 1fr)',
-  },
-  marginLeft: { md: 'auto', lg: '0' },
-})
+/* Repair note, unresolved: the 820px overflow the surface gate reports in the
+   top rail's text span is not fixed by this patch. __root.tsx renders the rail,
+   and this role may neither write that file nor target the rail, so the fix has
+   to land in __root.tsx. */
 
 const linkClass = css({
-  display: 'flex',
-  flexDirection: { base: 'row', lg: 'column' },
-  alignItems: { base: 'baseline', lg: 'flex-start' },
-  gap: { base: '7px', lg: '4px' },
-  minHeight: { base: '44px', lg: '64px' },
-  paddingTop: { base: '8px', lg: '16px' },
-  paddingBottom: { base: '8px', lg: '14px' },
-  paddingLeft: { base: '0', lg: '22px' },
-  paddingRight: { base: '0', md: '20px', lg: '10px' },
-  color: 'text',
-  lineHeight: '1',
-  whiteSpace: 'nowrap',
-  borderTopWidth: { base: '0', lg: '1px' },
-  borderTopStyle: 'solid',
-  borderTopColor: 'border',
-  _last: {
-    borderBottomWidth: { base: '0', lg: '1px' },
-    borderBottomStyle: 'solid',
-    borderBottomColor: 'border',
-  },
-  _hover: { color: 'accent', textDecoration: 'none' },
+  display: 'inline-block',
+  minWidth: { base: '44px', md: '0' },
+  paddingBlock: { base: '12px', md: '0' },
+  color: 'accent',
+  textDecoration: 'underline',
+  textUnderlineOffset: '2px',
 })
 
-const numClass = css({
-  fontWeight: 'bold',
-  color: 'accentAlt',
-  fontSize: '13px',
-  letterSpacing: '0.04em',
-  fontVariantNumeric: 'tabular-nums',
+const navItemClass = css({
+  '&:not(:last-child)::after': { content: '" · "' },
 })
 
-const labelClass = css({
-  fontSize: { base: '15px', lg: '13px' },
-  fontWeight: '600',
-  textTransform: 'lowercase',
-  fontVariant: 'small-caps',
-  letterSpacing: '0.07em',
-})
+function FootRow({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div
+      className={css({
+        display: 'grid',
+        gridTemplateColumns: { base: 'minmax(96px, auto) 1fr', md: '200px 1fr' },
+        columnGap: '12px',
+        paddingBlock: '8px',
+        borderTopWidth: '1px',
+        borderTopStyle: 'solid',
+        borderTopColor: 'border',
+        _first: { borderTopWidth: '0' },
+      })}
+    >
+      <span
+        className={css({
+          fontFamily: 'display',
+          textStyle: '2xs',
+          letterSpacing: 'wide',
+          textTransform: 'uppercase',
+          color: 'textFaint',
+        })}
+      >
+        {label}
+      </span>
+      <span
+        className={css({ minWidth: '0', fontFamily: 'display', textStyle: 'sm', color: 'text' })}
+      >
+        {children}
+      </span>
+    </div>
+  )
+}
+
+function FootNav() {
+  return (
+    <nav aria-label="Footer">
+      <span className={navItemClass}>
+        <a href="/work" className={linkClass}>
+          work
+        </a>
+      </span>
+      <span className={navItemClass}>
+        <a href="/about" className={linkClass}>
+          about
+        </a>
+      </span>
+      <span className={navItemClass}>
+        <a href={`mailto:${identity.email}`} className={linkClass}>
+          contact
+        </a>
+      </span>
+    </nav>
+  )
+}
 
 export function Sidebar() {
+  const featured = homeFeature
+    ? `${homeFeature.title}, ${homeFeature.type}, ${homeFeature.year}`.toLowerCase()
+    : 'none'
+
   return (
-    <header className={railClass}>
-      <a className={markClass} href="/" aria-label="Doug March, home">
-        <BrandLockup variant="mark-only-md" mode="original" />
-      </a>
-      <nav className={navClass} aria-label="Primary">
-        {links.map((link) => (
-          <a key={link.num} className={linkClass} href={link.href}>
-            <span className={numClass}>{link.num}</span>
-            <span className={labelClass}>{link.label}</span>
-          </a>
-        ))}
-      </nav>
-    </header>
+    <footer
+      className={cx(
+        revealClass,
+        css({
+          bg: 'bg',
+          color: 'text',
+          borderTopWidth: '3px',
+          borderTopStyle: 'solid',
+          borderTopColor: 'borderStrong',
+          paddingTop: { base: '48px', md: '64px', lg: '96px' },
+          paddingBottom: { base: '56px', md: '72px', lg: '96px' },
+          paddingInline: { base: '16px', md: '40px', lg: '5vw' },
+        })
+      )}
+    >
+      <h2
+        className={css({
+          fontFamily: 'display',
+          textStyle: '2xs',
+          letterSpacing: 'widest',
+          textTransform: 'uppercase',
+          color: 'textFaint',
+          marginBottom: '18px',
+        })}
+      >
+        readme · spec
+      </h2>
+      <div
+        className={css({
+          display: { lg: 'grid' },
+          gridTemplateColumns: { lg: 'repeat(2, 1fr)' },
+          columnGap: { lg: '64px' },
+        })}
+      >
+        <div>
+          <FootRow label="date">2026-11-04</FootRow>
+          <FootRow label="featured">{featured}</FootRow>
+          <FootRow label="chassis">space mono / archivo</FootRow>
+          <FootRow label="palette">chalkboard green · grading-pen red · worksheet sand</FootRow>
+        </div>
+        <div>
+          <FootRow label="ground">split field · ruled worksheet</FootRow>
+          <FootRow label="contact">
+            <a href={`mailto:${identity.email}`} className={linkClass}>
+              {identity.email}
+            </a>
+          </FootRow>
+          <FootRow label="nav">
+            <FootNav />
+          </FootRow>
+          <FootRow label="name">{`${identity.name}, ${identity.role}`}</FootRow>
+        </div>
+      </div>
+    </footer>
   )
 }

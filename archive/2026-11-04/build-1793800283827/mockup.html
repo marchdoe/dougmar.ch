@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — fishsticks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+:root{
+  --bg:#FAF8F1; --surface:#F4F1E7; --sand200:#E9E4D5; --border:#D8D1BD;
+  --faint:#6E6857; --borderStrong:#4E4A3D; --ink:#0C2319; --muted:#1C4A36;
+  --field:#123528; --fieldInk:#ECF4EF; --fieldMuted:#A7CDB8; --fieldBorder:#276046;
+  --accent:#C23A2E; --accentAlt:#E3705E; --up:#276046;
+  --mono:'Space Mono',monospace; --sans:'Archivo',system-ui,sans-serif;
+  --hero:clamp(52px,8vw,120px);
+  --xl4:clamp(26px,3.6vw,44px);
+  --lg:clamp(17px,1.35vw,20px);
+  --base:16px; --sm:14px; --xs:12px;
+}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:var(--sans); font-size:var(--base); line-height:1.55;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  font-variant-numeric:tabular-nums; overflow-x:hidden;
+}
+h1,h2,h3{margin:0;font-weight:inherit;}
+p{margin:0;text-wrap:pretty;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+ul{margin:0;padding:0;list-style:none;}
+
+/* ===== PAGE SPLIT ===== */
+.page{display:block;}
+
+/* ----- BOARD (green, left) ----- */
+.board{
+  position:relative; background:var(--field); color:var(--fieldInk);
+  padding:20px 16px 36px; min-height:auto; overflow:hidden;
+  display:flex; flex-direction:column;
+}
+/* folded header */
+.fold{display:flex;flex-direction:column;gap:14px;margin-bottom:34px;}
+.lockup{display:flex;align-items:flex-start;gap:14px;}
+.lockup svg[data-brand-mark]{height:44px;width:auto;display:block;flex:none;}
+.lockup .names{display:flex;flex-direction:column;justify-content:center;line-height:1;}
+.wordmark{
+  font-family:var(--mono);font-weight:700;font-size:20px;letter-spacing:-0.015em;
+  line-height:1;color:var(--fieldInk);
+}
+.role{
+  font-family:var(--sans);font-weight:500;font-size:13px;text-transform:uppercase;
+  letter-spacing:0.09em;color:var(--fieldInk);margin-top:7px;
+}
+.navline{
+  font-family:var(--mono);font-size:14px;line-height:1.7;color:var(--fieldMuted);
+  letter-spacing:-0.01em;max-width:62ch;
+}
+.navline a{color:var(--fieldInk);text-decoration:underline;text-underline-offset:3px;}
+.navline a:hover{color:var(--accentAlt);}
+
+/* artifact */
+.artifact{display:flex;flex-direction:column;gap:0;margin-top:auto;}
+.kicker{
+  font-family:var(--mono);font-size:12px;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--fieldMuted);margin-bottom:14px;
+}
+.title{
+  font-family:var(--mono);font-weight:400;font-size:var(--hero);line-height:0.92;
+  letter-spacing:-0.03em;color:var(--fieldInk);text-transform:lowercase;
+  text-wrap:nowrap;margin-bottom:18px;
+}
+.caption{
+  font-family:var(--mono);font-style:italic;font-weight:400;font-size:var(--xl4);
+  line-height:1.2;color:var(--fieldInk);letter-spacing:-0.01em;text-transform:lowercase;
+  max-width:24ch;margin-bottom:20px;
+}
+.standfirst{
+  font-family:var(--sans);font-weight:400;font-size:var(--lg);line-height:1.5;
+  color:var(--fieldMuted);max-width:52ch;margin-bottom:26px;
+}
+.meta{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 24px;
+  border-top:1px solid var(--fieldBorder);padding-top:20px;margin-bottom:26px;
+}
+.meta .cell{display:flex;flex-direction:column;gap:3px;}
+.meta .k{font-family:var(--mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fieldMuted);}
+.meta .v{font-family:var(--sans);font-size:15px;color:var(--fieldInk);}
+.meta .v a{color:var(--accentAlt);text-decoration:underline;text-underline-offset:2px;}
+.meta .v a:hover{color:var(--fieldInk);}
+
+/* client set panel */
+.clients{background:var(--surface);color:var(--ink);border-radius:2px;padding:18px 16px;}
+.clients .label{
+  font-family:var(--mono);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--faint);margin-bottom:16px;
+}
+.marks{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px 10px;}
+.marks .named{font-family:var(--sans);font-weight:700;font-size:clamp(16px,1.7vw,20px);color:var(--ink);letter-spacing:-0.01em;line-height:1.2;}
+.marks .named:not(:last-child)::after{content:"·";color:var(--faint);margin-left:10px;font-weight:400;}
+
+/* ----- WORKSHEET (cream, ruled, right) ----- */
+.worksheet{
+  position:relative;background:var(--bg);color:var(--ink);
+  padding:28px 16px 40px;border-top:3px solid var(--borderStrong);
+}
+.worksheet::before{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:repeating-linear-gradient(to bottom,var(--border) 0 1px,transparent 1px 36px);
+  background-position:0 64px;
+}
+.ws-head{position:relative;z-index:1;margin-bottom:22px;}
+.ws-head .t{font-family:var(--mono);font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--faint);}
+.ws-head .d{font-family:var(--mono);font-size:15px;color:var(--ink);margin-top:4px;}
+.ledger{position:relative;z-index:1;}
+.row{
+  display:grid;grid-template-columns:minmax(78px,auto) 1fr;gap:12px;
+  align-items:baseline;min-height:36px;padding-top:9px;
+}
+.row .rk{font-family:var(--mono);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);}
+.row .rv{font-family:var(--mono);font-size:14px;color:var(--ink);line-height:1.35;}
+.row .rv.faintv{color:var(--borderStrong);}
+.miss{color:var(--accent);font-weight:700;}
+.gain{color:var(--up);font-weight:700;}
+
+/* ===== INDEX ===== */
+.index{padding:56px 16px 48px;background:var(--surface);border-top:3px solid var(--borderStrong);}
+.index .sec{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px;}
+.index h2{font-family:var(--mono);font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--faint);}
+.index .count{font-family:var(--mono);font-size:12px;color:var(--faint);}
+.proj{
+  display:grid;grid-template-columns:1fr auto;gap:4px 16px;align-items:center;
+  border-top:1px solid var(--borderStrong);padding:16px 0;cursor:pointer;
+}
+.proj:last-of-type{border-bottom:1px solid var(--borderStrong);}
+.proj .pt{
+  font-family:var(--mono);font-weight:700;font-size:clamp(22px,3.4vw,34px);
+  letter-spacing:-0.02em;text-transform:lowercase;color:var(--ink);line-height:1.05;
+  grid-column:1;
+}
+.proj .parrow{grid-column:2;grid-row:1 / span 2;font-family:var(--mono);font-size:18px;color:var(--faint);align-self:center;}
+.proj .pmeta{grid-column:1;display:flex;gap:10px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:var(--faint);}
+.proj:hover .pt{color:var(--accent);}
+.proj:hover .parrow{color:var(--accent);}
+.block + .block{margin-top:48px;}
+
+/* ===== CALLOUT ===== */
+.callout{
+  background:var(--field);color:var(--fieldInk);padding:44px 16px;
+  border-top:3px solid var(--borderStrong);
+}
+.callout .ct{font-family:var(--mono);font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--fieldMuted);margin-bottom:12px;}
+.callout .cm{font-family:var(--mono);font-style:italic;font-size:var(--lg);line-height:1.45;color:var(--fieldInk);max-width:48ch;}
+
+/* ===== FOOTER ===== */
+.foot{padding:48px 16px 56px;background:var(--bg);border-top:3px solid var(--borderStrong);}
+.foot h2{font-family:var(--mono);font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--faint);margin-bottom:18px;}
+.foot .frow{display:grid;grid-template-columns:minmax(96px,auto) 1fr;gap:12px;padding:8px 0;border-top:1px solid var(--border);}
+.foot .frow:first-of-type{border-top:none;}
+.foot .fk{font-family:var(--mono);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--faint);}
+.foot .fv{font-family:var(--mono);font-size:14px;color:var(--ink);}
+.foot .fv a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;}
+
+/* ===== TABLET ===== */
+@media (min-width:720px){
+  .board{padding:36px 40px 56px;}
+  .worksheet{padding:40px 40px 56px;}
+  .index{padding:72px 40px 64px;}
+  .callout{padding:56px 40px;}
+  .foot{padding:64px 40px 72px;}
+  .meta{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .foot .frow{grid-template-columns:200px 1fr;}
+}
+
+/* ===== DESKTOP SPLIT ===== */
+@media (min-width:980px){
+  .page{
+    display:grid;
+    grid-template-columns:1.62fr 1fr;
+    grid-template-areas:"board sheet" "index index" "callout callout" "foot foot";
+    align-items:stretch;
+  }
+  .board{grid-area:board;min-height:92vh;padding:28px 5vw 56px;border-right:3px solid var(--borderStrong);}
+  .worksheet{grid-area:sheet;border-top:none;padding:28px 2.4vw 56px;}
+  .worksheet::before{background-position:0 90px;}
+  .callout{grid-area:callout;padding:88px 5vw;}
+  .foot{grid-area:foot;padding:96px 5vw;}
+  .fold{margin-bottom:48px;}
+  .wordmark{font-size:22px;}
+  .meta{grid-template-columns:repeat(4,minmax(0,1fr));}
+  .index{grid-area:index;display:grid;grid-template-columns:repeat(12,1fr);column-gap:32px;row-gap:0;padding:96px 5vw;border-top:none;}
+  .index .block{grid-column:span 12;}
+  .index .block.work{grid-column:1 / 8;}
+  .index .block.exp{grid-column:8 / 13;margin-top:0;}
+  .foot-grid{display:grid;grid-template-columns:repeat(2,1fr);column-gap:64px;}
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ===== BOARD ===== -->
+  <div class="board">
+    <div class="fold">
+      <div class="lockup">
+        <svg viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" data-brand-mark="">
+        <title>Doug March logo</title>
+        <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+        <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+        <circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+        <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+        </svg>
+        <div class="names">
+          <span class="wordmark">Doug March</span>
+          <span class="role">Product Designer &amp; Developer</span>
+        </div>
+      </div>
+      <p class="navline">// a new design every morning — see the <a href="#work">work</a>, read <a href="#about">about</a>, or say <a href="#contact">contact</a>.</p>
+    </div>
+
+    <article class="artifact" id="featured">
+      <span class="kicker">featured · a thing i built</span>
+      <h2 class="title">fishsticks</h2>
+      <h1 class="caption">The week's spelling words in. A week of practice out.</h1>
+      <p class="standfirst">A spelling app built around the words a kid is actually tested on. Import the week's list straight from the school's PDF — it finds the bold words for you — then practice with spoken pronunciation and quiz modes that adapt to the misses.</p>
+      <div class="meta">
+        <div class="cell"><span class="k">year</span><span class="v">2025</span></div>
+        <div class="cell"><span class="k">type</span><span class="v">SaaS</span></div>
+        <div class="cell"><span class="k">role</span><span class="v">Founder &amp; Builder</span></div>
+        <div class="cell"><span class="k">visit</span><span class="v"><a href="https://getfishsticks.com">getfishsticks.com ↗</a></span></div>
+      </div>
+      <div class="clients">
+        <div class="label">a decade of client work, elsewhere</div>
+        <ul class="marks">
+          <li class="named">Rolex</li>
+          <li class="named">The Nature Conservancy</li>
+          <li class="named">Intuit</li>
+          <li class="named">Sapient Razorfish</li>
+          <li class="named">LastPass</li>
+          <li class="named">bswift</li>
+          <li class="named">RTIC</li>
+          <li class="named">Framebridge</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+
+<!-- ===== INDEX ===== -->
+<section class="index" id="work">
+  <div class="block work">
+    <div class="sec"><h2>selected work</h2><span class="count">03</span></div>
+    <a class="proj" href="#spaceman">
+      <span class="pt">spaceman</span>
+      <span class="parrow">↗</span>
+      <span class="pmeta"><span>founder</span><span>·</span><span>2018</span></span>
+    </a>
+    <a class="proj" href="#15th-club">
+      <span class="pt">15th club</span>
+      <span class="parrow">↗</span>
+      <span class="pmeta"><span>ai</span><span>·</span><span>2025</span></span>
+    </a>
+    <a class="proj" href="#dougmar-ch">
+      <span class="pt">dougmar.ch</span>
+      <span class="parrow">↗</span>
+      <span class="pmeta"><span>ai</span><span>·</span><span>2026</span></span>
+    </a>
+  </div>
+  <div class="block exp">
+    <div class="sec"><h2>experiments</h2><span class="count">03</span></div>
+    <a class="proj" href="#teeturn">
+      <span class="pt">teeturn</span>
+      <span class="parrow">↗</span>
+      <span class="pmeta"><span>experiment</span><span>·</span><span>2020</span></span>
+    </a>
+    <a class="proj" href="#politweets">
+      <span class="pt">politweets</span>
+      <span class="parrow">↗</span>
+      <span class="pmeta"><span>experiment</span><span>·</span><span>2008</span></span>
+    </a>
+    <a class="proj" href="#twittertale">
+      <span class="pt">twittertale</span>
+      <span class="parrow">↗</span>
+      <span class="pmeta"><span>experiment</span><span>·</span><span>2008</span></span>
+    </a>
+  </div>
+</section>
+
+<!-- ===== WORKSHEET ===== -->
+<aside class="worksheet" aria-label="The day">
+  <div class="ws-head">
+    <div class="t">the day · ledger</div>
+    <div class="d">wed, 04 nov 2026 · detroit</div>
+  </div>
+  <div class="ledger">
+    <div class="row"><span class="rk">weather</span><span class="rv">mist · 52°F · 95% rh</span></div>
+    <div class="row"><span class="rk">market</span><span class="rv">SPY 754.35 <span class="gain">▲ 0.30%</span></span></div>
+    <div class="row"><span class="rk">moon</span><span class="rv">waning crescent · 22%</span></div>
+    <div class="row"><span class="rk">hockey</span><span class="rv">Red Wings <span class="miss">L 2–4</span></span></div>
+    <div class="row"><span class="rk">golf</span><span class="rv">WWT Championship · scheduled</span></div>
+    <div class="row"><span class="rk">rotation</span><span class="rv">Radiohead · The War on Drugs · Tobin Sprout</span></div>
+    <div class="row"><span class="rk">upcoming</span><span class="rv faintv">nov 11 · veterans day · +7</span></div>
+  </div>
+</aside>
+
+<!-- ===== SITE CALLOUT SLOT: <SiteCallout /> renders here in production ===== -->
+<section class="callout" aria-label="Site callout" data-slot="site-callout">
+  <div class="ct">from doug march · dougmar.ch</div>
+  <p class="cm">A new design ships here every morning. This one is 04 nov 2026 — a chalkboard for one small app.</p>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="foot" id="contact">
+  <h2>readme · spec</h2>
+  <div class="foot-grid">
+    <div>
+      <div class="frow"><span class="fk">build</span><span class="fv">2026-11-04</span></div>
+      <div class="frow"><span class="fk">featured</span><span class="fv">fishsticks — saas, 2025</span></div>
+      <div class="frow"><span class="fk">chassis</span><span class="fv">space mono / archivo</span></div>
+      <div class="frow"><span class="fk">palette</span><span class="fv">chalkboard green · grading-pen red · worksheet sand</span></div>
+    </div>
+    <div>
+      <div class="frow"><span class="fk">ground</span><span class="fv">split field · ruled worksheet</span></div>
+      <div class="frow"><span class="fk">contact</span><span class="fv"><a href="mailto:hello@dougmar.ch">hello@dougmar.ch</a></span></div>
+      <div class="frow"><span class="fk">nav</span><span class="fv"><a href="#work">work</a> · <a href="#about">about</a> · <a href="#contact">contact</a></span></div>
+      <div class="frow"><span class="fk">site</span><span class="fv">dougmar.ch</span></div>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+</body>
+</html>
