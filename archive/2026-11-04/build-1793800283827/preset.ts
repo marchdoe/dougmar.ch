@@ -1,0 +1,110 @@
+import { definePreset } from '@pandacss/dev'
+
+export const elementsPreset = definePreset({
+  name: 'elements',
+  globalCss: {
+    '*': {
+      boxSizing: 'border-box',
+    },
+    body: {
+      background: 'bg',
+      color: 'text',
+      fontKerning: 'normal',
+      WebkitFontSmoothing: 'antialiased',
+      MozOsxFontSmoothing: 'grayscale',
+      textRendering: 'optimizeLegibility',
+      fontVariantNumeric: 'tabular-nums',
+    },
+    a: {
+      color: 'accent',
+      textDecoration: 'none',
+      _hover: { textDecoration: 'underline' },
+    },
+    'h1, h2, h3, h4, h5, h6': {
+      margin: 0,
+      fontWeight: 'inherit',
+      textWrap: 'balance',
+    },
+    p: {
+      textWrap: 'pretty',
+    },
+    'ul, ol': {
+      margin: 0,
+      padding: 0,
+      listStyle: 'none',
+    },
+  },
+  conditions: {
+    light: '[data-theme="light"] &',
+    dark: '[data-theme="dark"] &',
+    hover: '&:hover',
+  },
+  theme: {
+    tokens: {
+      colors: {
+        green: {
+          50: { value: '#ECF4EF' },
+          100: { value: '#D3E7DC' },
+          200: { value: '#A7CDB8' },
+          300: { value: '#78B094' },
+          400: { value: '#4E9272' },
+          500: { value: '#357A5A' },
+          600: { value: '#276046' },
+          700: { value: '#1C4A36' },
+          800: { value: '#123528' },
+          900: { value: '#0C2319' },
+        },
+        clay: {
+          50: { value: '#FBEAE6' },
+          100: { value: '#F6CFC7' },
+          200: { value: '#ED9E90' },
+          300: { value: '#E3705E' },
+          400: { value: '#D44F3B' },
+          500: { value: '#C23A2E' },
+          600: { value: '#A32E24' },
+          700: { value: '#80241C' },
+          800: { value: '#5C1A15' },
+          900: { value: '#3A100D' },
+        },
+        sand: {
+          50: { value: '#FAF8F1' },
+          100: { value: '#F4F1E7' },
+          200: { value: '#E9E4D5' },
+          300: { value: '#D8D1BD' },
+          400: { value: '#BDB49C' },
+          500: { value: '#958C76' },
+          600: { value: '#6E6857' },
+          700: { value: '#4E4A3D' },
+          800: { value: '#302D25' },
+          900: { value: '#1A1813' },
+        },
+      },
+      radii: {
+        none: { value: '0' },
+        sm: { value: '2px' },
+        md: { value: '4px' },
+        lg: { value: '8px' },
+        full: { value: '9999px' },
+      },
+    },
+    semanticTokens: {
+      colors: {
+        bg: { value: '{colors.sand.50}' },
+        bgAlt: { value: '{colors.sand.200}' },
+        surface: { value: '{colors.sand.100}' },
+        text: { value: '{colors.green.900}' },
+        textMuted: { value: '{colors.green.700}' },
+        textFaint: { value: '{colors.sand.600}' },
+        accent: { value: '{colors.clay.500}' },
+        accentText: { value: '{colors.sand.50}' },
+        accentAlt: { value: '{colors.clay.300}' },
+        border: { value: '{colors.sand.300}' },
+        borderStrong: { value: '{colors.sand.700}' },
+        field: { value: '{colors.green.800}' },
+        fieldInk: { value: '{colors.green.50}' },
+        fieldInkMuted: { value: '{colors.green.200}' },
+        fieldBorder: { value: '{colors.green.600}' },
+      },
+    },
+  },
+})

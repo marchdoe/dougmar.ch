@@ -59,9 +59,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-11-03'
-const PREV_DATE: string | null = '2026-11-02'
-const ARCHIVE_COUNT = 182
+const DESIGN_DATE = '2026-11-04'
+const PREV_DATE: string | null = '2026-11-03'
+const ARCHIVE_COUNT = 183
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -74,34 +74,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Four holes in one. The scorecard is the first experiment.' },
-      {
-        property: 'og:title',
-        content: 'Four holes in one. The scorecard is the first experiment.',
-      },
+      { title: "The week's spelling words in. A week of practice out." },
+      { property: 'og:title', content: "The week's spelling words in. A week of practice out." },
       {
         property: 'og:description',
         content:
-          'Foundry specimen of the work in ace vermilion on scorecard cream, project titles packed as texture, the aces circled, the scorecard called the first experiment.',
+          'A spec sheet for FishSticks: a chalkboard-green board beside a ruled worksheet, lowercase mono, one red grading-pen mark.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-03.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-04.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      {
-        name: 'twitter:title',
-        content: 'Four holes in one. The scorecard is the first experiment.',
-      },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-03.png' },
+      { name: 'twitter:title', content: "The week's spelling words in. A week of practice out." },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-04.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,600;0,800;1,400;1,600;1,800&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -295,7 +289,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 182 designs
+            Archive · 183 designs
           </a>
         )}
         <ScrollRestoration />

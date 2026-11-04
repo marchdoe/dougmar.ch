@@ -1,0 +1,149 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "getfishsticks.com ↗",
+            "w": 131,
+            "h": 16
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "tablet": {
+      "width": 820,
+      "height": 1180,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "SPAN",
+            "selector": "div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0",
+            "text": "A new design ships every morning.",
+            "cause": "text",
+            "right": 515,
+            "over": 55,
+            "boxWidth": 175
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "‹",
+            "w": 32,
+            "h": 44
+          },
+          {
+            "tag": "A",
+            "text": "work",
+            "w": 35,
+            "h": 25
+          },
+          {
+            "tag": "A",
+            "text": "about",
+            "w": 44,
+            "h": 25
+          },
+          {
+            "tag": "A",
+            "text": "contact",
+            "w": 61,
+            "h": 25
+          },
+          {
+            "tag": "A",
+            "text": "getfishsticks.com ↗",
+            "w": 131,
+            "h": 16
+          },
+          {
+            "tag": "A",
+            "text": "hello@dougmar.ch",
+            "w": 145,
+            "h": 21
+          },
+          {
+            "tag": "A",
+            "text": "work",
+            "w": 36,
+            "h": 21
+          },
+          {
+            "tag": "A",
+            "text": "about",
+            "w": 45,
+            "h": 21
+          },
+          {
+            "tag": "A",
+            "text": "contact",
+            "w": 63,
+            "h": 21
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 2
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    }
+  },
+  "overallScore": 2,
+  "worstFailure": {
+    "viewport": "tablet",
+    "check": "clippedElements",
+    "detail": "1 element(s) clipped (first: <SPAN>)"
+  },
+  "buildId": "1793800283827",
+  "date": "2026-11-04",
+  "archetype": "a spec sheet for a built product: chalkboard board beside a ruled worksheet"
+}

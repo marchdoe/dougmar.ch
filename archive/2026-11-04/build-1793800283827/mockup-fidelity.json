@@ -1,0 +1,351 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'fishsticks' (115px in the mockup) has no match in the build",
+          "facts": {
+            "text": "fishsticks",
+            "mockupPx": 115,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' (34px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 34,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'rtic' (20px in the mockup) has no match in the build",
+          "facts": {
+            "text": "rtic",
+            "mockupPx": 20,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a spelling app built around the words a kid is actually tested on import the weeks list straight from the schools pdf - it finds the bold words for you - then practice with spoken pronunciation and quiz modes that adapt to the misses' (19px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a spelling app built around the words a kid is actually tested on import the weeks list straight from the schools pdf - it finds the bold words for you - then practice with spoken pronunciation and quiz modes that adapt to the misses",
+            "mockupPx": 19,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'saas' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "saas",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'founder builder' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "founder builder",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'getfishstickscom ↗' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "getfishstickscom ↗",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "The mockup's largest text is 'fishsticks' at 115px; the build sets 'spaceman' at 115px. Restore the mockup's hierarchy: 'spaceman' is 34px in the mockup.",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [],
+            "leader": {
+              "text": "fishsticks",
+              "mockupPx": 115
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 115,
+              "mockupPx": 34
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'a spelling app built around the words a kid is actually tested on import the weeks list straight from the schools pdf - it finds the bold words for you - then practice with spoken pronunciation and quiz modes that adapt to the misses' (17px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a spelling app built around the words a kid is actually tested on import the weeks list straight from the schools pdf - it finds the bold words for you - then practice with spoken pronunciation and quiz modes that adapt to the misses",
+            "mockupPx": 17,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'saas' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "saas",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "mockup's largest ('fishsticks', 52px) leads its runner-up ('the weeks spelling words in a week of practice out', 26px) by 2.0x; in the build the same two lead by only 0.8x",
+          "facts": {
+            "shape": "flattened",
+            "leader": {
+              "text": "fishsticks",
+              "mockupPx": 52,
+              "buildPx": 22
+            },
+            "runnerUp": {
+              "text": "the weeks spelling words in a week of practice out",
+              "mockupPx": 26,
+              "buildPx": 26
+            },
+            "mockupGap": 2,
+            "buildGap": 0.8,
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'fishsticks' is 52px in the mockup and 22px in the build (0.42x)",
+          "facts": {
+            "text": "fishsticks",
+            "mockupPx": 52,
+            "buildPx": 22,
+            "ratio": 0.42,
+            "mockupRank": 0
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'fishsticks' moved from (167, 225) in the mockup to (81, 1128) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'2025' moved from (33, 613) in the mockup to (33, 665) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: The mockup sets 'fishsticks' at 52px over 'the weeks spelling words in a week of practice out' at 26px, a 2x lead; the build sets them at 22px and 26px. Restore the mockup's sizes so 'fishsticks' leads.",
+        "- / at 1440px: The mockup sets 'fishsticks' at 115px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'spaceman' at 34px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'rtic' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'a spelling app built around the words a kid is actually t...' at 19px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'saas' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'founder builder' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'getfishstickscom ↗' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'rtic' (20px in the mockup) has no match in the build",
+          "facts": {
+            "text": "rtic",
+            "mockupPx": 20,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a spelling app built around the words a kid is actually tested on import the weeks list straight from the schools pdf - it finds the bold words for you - then practice with spoken pronunciation and quiz modes that adapt to the misses' (19px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a spelling app built around the words a kid is actually tested on import the weeks list straight from the schools pdf - it finds the bold words for you - then practice with spoken pronunciation and quiz modes that adapt to the misses",
+            "mockupPx": 19,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'a spelling app built around the words a kid is actually tested on import the weeks list straight from the schools pdf - it finds the bold words for you - then practice with spoken pronunciation and quiz modes that adapt to the misses' (17px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a spelling app built around the words a kid is actually tested on import the weeks list straight from the schools pdf - it finds the bold words for you - then practice with spoken pronunciation and quiz modes that adapt to the misses",
+            "mockupPx": 17,
+            "hidden": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets 'rtic' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'a spelling app built around the words a kid is actually t...' at 19px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'a spelling app built around the words a kid is actually t...' at 17px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 4,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'rtic' (20px in the mockup) has no match in the build",
+          "facts": {
+            "text": "rtic",
+            "mockupPx": 20,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a spelling app built around the words a kid is actually tested on import the weeks list straight from the schools pdf - it finds the bold words for you - then practice with spoken pronunciation and quiz modes that adapt to the misses' (19px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a spelling app built around the words a kid is actually tested on import the weeks list straight from the schools pdf - it finds the bold words for you - then practice with spoken pronunciation and quiz modes that adapt to the misses",
+            "mockupPx": 19,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'a spelling app built around the words a kid is actually tested on import the weeks list straight from the schools pdf - it finds the bold words for you - then practice with spoken pronunciation and quiz modes that adapt to the misses' (17px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a spelling app built around the words a kid is actually tested on import the weeks list straight from the schools pdf - it finds the bold words for you - then practice with spoken pronunciation and quiz modes that adapt to the misses",
+            "mockupPx": 17,
+            "hidden": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets 'rtic' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'a spelling app built around the words a kid is actually t...' at 19px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'a spelling app built around the words a kid is actually t...' at 17px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}
