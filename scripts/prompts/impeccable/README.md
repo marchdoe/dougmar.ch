@@ -5,8 +5,7 @@ This directory contains a vendored copy of selected files from [pbakaus/impeccab
 ## What's vendored
 
 - `LICENSE` and `NOTICE.md` — Apache 2.0 license and upstream attribution (preserved verbatim per Apache 2.0 §4)
-- `SKILL.md` — the master skill file, kept for context (we don't load it as a Claude Code skill — our pipeline is autonomous, not interactive)
-- `reference/` — 17 reference files used directly by our pipeline agent prompts
+- `reference/` — the 8 reference files our pipeline agent prompts load
 
 ## How we use it
 
@@ -19,7 +18,7 @@ Our autonomous design pipeline (`scripts/design-agents.js`) loads these referenc
 | `spatial-design.md` | mockup-designer |
 | `polish.md` | mockup-designer (user prompt — system prompt is at its size budget) |
 | `bolder.md` | mockup-designer (only on committed/drenched color days) |
-| `responsive-design.md` | not loaded directly — its rules are salvaged into mockup-designer.md's Responsive section |
+| `motion-design.md` | react-engineer (only on nights that declare motion) |
 | `brand.md` | all design agents (we are brand register) |
 | `critique.md` | screenshot-critic, mockup-critic |
 
@@ -33,7 +32,7 @@ Our autonomous design pipeline (`scripts/design-agents.js`) loads these referenc
 
 Vendored from upstream commit `5f5e2b01` (impeccable v3.0.4, 2026-04-28).
 
-To refresh, see the file list at the top of `scripts/prompts/impeccable/` and re-download from
+To refresh, re-download the files in `reference/` from
 `https://github.com/pbakaus/impeccable/tree/main/source/skills/impeccable/`. Update this README's
 commit reference when you do.
 
@@ -41,4 +40,8 @@ commit reference when you do.
 
 Apache License 2.0 — see [`LICENSE`](./LICENSE) and [`NOTICE.md`](./NOTICE.md).
 
-Modifications by this project: none. Files are vendored verbatim.
+Modifications by this project:
+
+- Removed `SKILL.md` and the reference files no prompt loaded (cognitive-load, delight, distill, heuristics-scoring, interaction-design, overdrive, quieter, responsive-design, ux-writing).
+- `critique.md`: removed the instructions for interactive use (sub-agents, browser tabs, the `npx impeccable` detector, questions for the user, recommended commands) and the links to files that are not here.
+- `polish.md` and `typography.md`: the text-size floors are `{{SMALL_COPY_FLOOR_PX}}` and `{{SMALL_TEXT_FLOOR_PX}}` tokens, filled by the prompt loader.
