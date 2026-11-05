@@ -1,8 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { DayLedger } from '../components/generated/DayLedger'
-import { HomeBoard } from '../components/generated/HomeBoard'
-import { SplitPage } from '../components/generated/Split'
-import { HomeIndexBand } from '../components/generated/WorkIndex'
+import { FeaturedSection } from '../components/generated/FeaturedSection'
+import { HomeHero } from '../components/generated/HomeHero'
+import { LowerSection } from '../components/generated/LowerSection'
 import { SiteCallout } from '../components/SiteCallout'
 
 export const Route = createFileRoute('/')({ component: HomePage })
@@ -10,11 +9,9 @@ export const Route = createFileRoute('/')({ component: HomePage })
 function HomePage() {
   return (
     <>
-      <SplitPage>
-        <HomeBoard />
-        <HomeIndexBand />
-        <DayLedger />
-      </SplitPage>
+      <HomeHero />
+      <FeaturedSection />
+      <LowerSection />
       <SiteCallout />
     </>
   )

@@ -1,128 +1,144 @@
 import { css } from '../../../styled-system/css'
 import type { projects } from '../../content/projects'
-import { Board, BoardHeroTitle, BoardKicker, BoardStandfirst } from './Board'
-import { BoardClients } from './ClientPanel'
-import { BoardMeta } from './ProjectMeta'
-import { SplitPage } from './Split'
-import { LedgerBlock, LedgerRow, TagRun, Worksheet, WorksheetHead } from './Worksheet'
+import { sentence } from './copyText'
 
 type Project = (typeof projects)[number]
 
-function hostLabel(href: string) {
-  return href.replace(/^https?:\/\//, '').split('/')[0]
-}
+const kickerClass = css({
+  textStyle: 'xs',
+  fontWeight: 'bold',
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  color: 'accent',
+  marginBottom: '2',
+})
 
-function CaseBoard({ project }: { project: Project }) {
+function CaseList({ label, items }: { label: string; items: string[] }) {
+  if (items.length === 0) return null
   return (
-    <Board pinned>
-      <BoardKicker>{`work · ${project.type}`}</BoardKicker>
-      <BoardHeroTitle>{project.title}</BoardHeroTitle>
-      {project.description ? <BoardStandfirst>{project.description}</BoardStandfirst> : null}
-      <BoardMeta
-        cells={[
-          { k: 'year', v: project.year },
-          { k: 'type', v: project.type },
-          { k: 'role', v: project.role },
-          { k: 'timeline', v: project.timeline },
-          { k: 'status', v: project.status },
-        ]}
-        links={[
-          { k: 'visit', href: project.liveUrl ?? project.externalUrl },
-          { k: 'code', href: project.githubUrl },
-        ]}
-      />
-      <BoardClients clients={project.clients ?? []} label="clients" marks />
-    </Board>
+    <div>
+      <h2 className={kickerClass}>{label}</h2>
+      <ul
+        className={css({
+          listStyle: 'none',
+          margin: '0',
+          padding: '0',
+          borderTopWidth: '1px',
+          borderTopStyle: 'solid',
+          borderTopColor: 'fieldBorder',
+        })}
+      >
+        {items.map((item) => (
+          <li
+            key={item}
+            className={css({
+              paddingBlock: '2',
+              fontSize: 'base',
+              color: 'text',
+              borderBottomWidth: '1px',
+              borderBottomStyle: 'solid',
+              borderBottomColor: 'fieldBorder',
+            })}
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 
-function Narrative({ project }: { project: Project }) {
-  const sections = [
-    { label: 'problem', body: project.problem },
-    { label: 'approach', body: project.approach },
-    { label: 'outcome', body: project.outcome },
-  ]
+function CaseLink({ project }: { project: Project }) {
+  const href = project.liveUrl ?? project.externalUrl ?? project.githubUrl
+  if (!href) return null
   return (
-    <>
-      {sections
-        .filter((section) => section.body)
-        .map((section) => (
-          <LedgerBlock key={section.label} title={section.label}>
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener"
+      className={css({
+        alignSelf: 'flex-start',
+        display: 'inline-flex',
+        alignItems: 'center',
+        minHeight: '44px',
+        color: 'text',
+        fontSize: '15px',
+        letterSpacing: '0.04em',
+        textTransform: 'uppercase',
+        _hover: { color: 'accent' },
+      })}
+    >
+      <span
+        className={css({
+          borderBottomWidth: '1px',
+          borderBottomStyle: 'solid',
+          borderBottomColor: 'accent',
+          paddingBottom: '2px',
+        })}
+      >
+        Visit {project.title} →
+      </span>
+    </a>
+  )
+}
+
+function CaseAside({ project }: { project: Project }) {
+  const clients = (project.clients ?? []).map((client) => client.name)
+  return (
+    <aside className={css({ display: 'flex', flexDirection: 'column', gap: '6', minWidth: '0' })}>
+      <CaseList label="Stack" items={project.stack ?? []} />
+      <CaseList label="Clients" items={clients} />
+      <CaseLink project={project} />
+    </aside>
+  )
+}
+
+export function CaseStudy({ project }: { project: Project }) {
+  const narrative = [
+    { label: 'Overview', body: sentence(project.description) },
+    { label: 'Problem', body: sentence(project.problem) },
+    { label: 'Approach', body: sentence(project.approach) },
+    { label: 'Outcome', body: sentence(project.outcome) },
+  ].filter((part) => part.body)
+  return (
+    <section
+      className={css({
+        bg: 'surface',
+        paddingInline: 'clamp(28px,6vw,112px)',
+        paddingBlock: 'clamp(48px,6vh,96px)',
+        display: 'grid',
+        gridTemplateColumns: { base: '1fr', lg: '8fr 4fr' },
+        gap: { base: 'clamp(48px,6vh,96px)', lg: 'clamp(28px,6vw,112px)' },
+        alignItems: { lg: 'start' },
+        // From lg only: on a phone this tall section rests mid-fade under the hero, which drops its small type below 4.5:1.
+        lg: {
+          '@supports (animation-timeline: view())': {
+            animationName: 'rise',
+            animationTimeline: 'view()',
+            animationRange: 'entry 0% entry 40%',
+            animationFillMode: 'both',
+          },
+        },
+      })}
+    >
+      <div className={css({ display: 'flex', flexDirection: 'column', gap: '6', minWidth: '0' })}>
+        {narrative.map((part) => (
+          <div key={part.label}>
+            <h2 className={kickerClass}>{part.label}</h2>
             <p
               className={css({
-                width: 'fit-content',
-                bg: 'bg',
-                fontFamily: 'body',
-                textStyle: 'base',
-                color: 'text',
-                maxWidth: '50ch',
+                fontSize: '16px',
+                lineHeight: '1.55',
+                color: 'textMuted',
+                maxWidth: '56ch',
               })}
             >
-              {section.body}
+              {part.body}
             </p>
-          </LedgerBlock>
+          </div>
         ))}
-    </>
-  )
-}
-
-function CaseSheet({ project }: { project: Project }) {
-  const href = project.liveUrl ?? project.externalUrl
-  return (
-    <Worksheet label="Project file">
-      <WorksheetHead
-        title="project file · ledger"
-        detail={`${project.title}, ${project.year}`.toLowerCase()}
-      />
-      <Narrative project={project} />
-      {project.stack?.length ? (
-        <LedgerBlock title="stack">
-          <TagRun tags={project.stack} />
-        </LedgerBlock>
-      ) : null}
-      {href ? (
-        <LedgerBlock title="elsewhere">
-          <LedgerRow label="visit">
-            <a
-              href={href}
-              className={css({
-                color: 'accent',
-                textDecoration: 'underline',
-                textUnderlineOffset: '2px',
-              })}
-            >
-              {`${hostLabel(href)} ↗`}
-            </a>
-          </LedgerRow>
-        </LedgerBlock>
-      ) : null}
-    </Worksheet>
-  )
-}
-
-export function SplitCaseStudy({ project }: { project: Project }) {
-  return (
-    <SplitPage>
-      <CaseBoard project={project} />
-      <CaseSheet project={project} />
-    </SplitPage>
-  )
-}
-
-export function PaperHead({ project }: { project: Project }) {
-  return (
-    <Board pinned>
-      <BoardKicker>{`work · ${project.type}`}</BoardKicker>
-      <BoardHeroTitle>{project.title}</BoardHeroTitle>
-    </Board>
-  )
-}
-
-export function MissingProject() {
-  return (
-    <Board pinned>
-      <BoardKicker>work · nothing at this address</BoardKicker>
-      <BoardHeroTitle>not found</BoardHeroTitle>
-    </Board>
+      </div>
+      <CaseAside project={project} />
+    </section>
   )
 }

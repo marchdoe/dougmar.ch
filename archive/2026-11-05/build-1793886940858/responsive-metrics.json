@@ -1,0 +1,114 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_-4% z_0 bg_field anim_drift_40s_cubic-bezier(0.65,_0,_0.35,_1)_infinite_alternate",
+            "b": "DIV.pos_relative z_1 flex_1 d_flex flex-d_column pt_clamp(24px,5vw,56px) px_clamp(28px,6vw,112px) pb_clamp(48px,6vh,96px)"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "tablet": {
+      "width": 820,
+      "height": 1180,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "SPAN",
+            "selector": "div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0",
+            "text": "A new design ships every morning.",
+            "cause": "text",
+            "right": 467,
+            "over": 101,
+            "boxWidth": 129
+          }
+        ],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_-4% z_0 bg_field anim_drift_40s_cubic-bezier(0.65,_0,_0.35,_1)_infinite_alternate",
+            "b": "DIV.pos_relative z_1 flex_1 d_flex flex-d_column pt_clamp(24px,5vw,56px) px_clamp(28px,6vw,112px) pb_clamp(48px,6vh,96px)"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "‹",
+            "w": 32,
+            "h": 44
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 2
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_-4% z_0 bg_field anim_drift_40s_cubic-bezier(0.65,_0,_0.35,_1)_infinite_alternate",
+            "b": "DIV.pos_relative z_1 flex_1 d_flex flex-d_column pt_clamp(24px,5vw,56px) px_clamp(28px,6vw,112px) pb_clamp(48px,6vh,96px)"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [
+          {
+            "a": "DIV.pos_absolute inset_-4% z_0 bg_field anim_drift_40s_cubic-bezier(0.65,_0,_0.35,_1)_infinite_alternate",
+            "b": "DIV.pos_relative z_1 flex_1 d_flex flex-d_column pt_clamp(24px,5vw,56px) px_clamp(28px,6vw,112px) pb_clamp(48px,6vh,96px)"
+          }
+        ],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    }
+  },
+  "overallScore": 2,
+  "worstFailure": {
+    "viewport": "tablet",
+    "check": "clippedElements",
+    "detail": "1 element(s) clipped (first: <SPAN>)"
+  },
+  "buildId": "1793886940858",
+  "date": "2026-11-05",
+  "archetype": "a drenched terracotta specimen with a two-beat creed carved across it"
+}
