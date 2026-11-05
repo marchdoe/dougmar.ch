@@ -6,11 +6,12 @@ export function Layout({ children }: { children: ReactNode }) {
   return (
     <div
       className={css({
+        minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '100vh',
         bg: 'bg',
         color: 'text',
+        fontFamily: 'body',
       })}
     >
       <main className={css({ flex: '1', minWidth: '0' })}>{children}</main>

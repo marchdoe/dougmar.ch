@@ -33,8 +33,8 @@ import { calloutLineFor, siteCallout } from '../content/callout'
  * clock, so an archived page shows the line it shipped with.
  */
 
-const DESIGN_DATE = '2026-11-04'
-const ARCHIVE_COUNT = 182
+const DESIGN_DATE = '2026-11-05'
+const ARCHIVE_COUNT = 183
 
 const root = css({
   display: 'block',
@@ -103,7 +103,7 @@ const primary = css({
 })
 
 const secondary = css({
-  color: 'textMuted',
+  color: 'textFaint',
   textDecorationColor: 'borderStrong',
   _hover: { color: 'text', textDecorationColor: 'accent' },
 })

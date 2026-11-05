@@ -10,43 +10,50 @@ function OgCard() {
       className={css({
         position: 'fixed',
         inset: '0',
-        zIndex: 9999,
+        zIndex: '9999',
+        bg: 'field',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        bg: 'field',
       })}
     >
       <div
         className={css({
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
+          position: 'relative',
+          flexShrink: '0',
           width: '1200px',
           height: '630px',
-          flexShrink: '0',
-          paddingBlock: '64px',
-          paddingInline: '64px',
           bg: 'field',
-          color: 'fieldInk',
+          color: 'text',
         })}
       >
-        <BrandLockup variant="horizontal-md" mode="original" roleLine />
+        <div className={css({ position: 'absolute', top: '48px', right: '56px', color: 'text' })}>
+          <BrandLockup variant="stacked-lg" mode="original" />
+        </div>
         <h1
           className={css({
+            position: 'absolute',
+            left: '56px',
+            bottom: '48px',
+            width: '1088px',
             fontFamily: 'display',
-            fontStyle: 'italic',
             fontWeight: 'normal',
-            fontSize: '72px',
-            lineHeight: '1.1',
-            letterSpacing: '-0.02em',
-            textTransform: 'lowercase',
+            textTransform: 'uppercase',
             textAlign: 'left',
-            color: 'fieldInk',
-            maxWidth: '1000px',
+            fontSize: '160px',
+            lineHeight: '0.86',
+            letterSpacing: '0.01em',
+            color: 'text',
           })}
         >
-          The week's spelling words in. A week of practice out.
+          <span className={css({ display: 'block' })}>
+            Ask Why
+            <span aria-hidden="true" className={css({ color: 'accent' })}>
+              .
+            </span>
+          </span>{' '}
+          <span className={css({ display: 'block', marginLeft: '240px' })}>Then Build</span>{' '}
+          <span className={css({ display: 'block', marginLeft: '375px' })}>The Answer.</span>
         </h1>
       </div>
     </div>

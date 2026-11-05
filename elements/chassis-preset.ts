@@ -1,7 +1,7 @@
 import { definePreset } from '@pandacss/dev'
 
 /**
- * Generated from elements/chassis/space-mono-archivo.js by scripts/utils/chassis.js.
+ * Generated from elements/chassis/bebas-plex.js by scripts/utils/chassis.js.
  * Listed LAST in panda.config.ts so the chassis type system — fonts,
  * fontSizes, fontWeights, lineHeights, letterSpacings, spacing, textStyles —
  * wins over any values the Art Director emits in elements/preset.ts.
@@ -38,8 +38,8 @@ export const chassisPreset = definePreset({
       },
       tokens: {
         fonts: {
-          display: { value: "\"Space Mono\", SFMono-Regular, Menlo, monospace" },
-          body: { value: "Archivo, system-ui, -apple-system, sans-serif" },
+          display: { value: "\"Bebas Neue\", Oswald, Impact, sans-serif" },
+          body: { value: "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif" },
         },
         fontSizes: {
           '2xs': { value: "0.75rem" },
@@ -64,13 +64,13 @@ export const chassisPreset = definePreset({
           bold: { value: "700" },
         },
         lineHeights: {
-          tight: { value: "1" },
+          tight: { value: "0.9" },
           snug: { value: "1.1" },
           normal: { value: "1.5" },
           loose: { value: "1.7" },
         },
         letterSpacings: {
-          tight: { value: "-0.02em" },
+          tight: { value: "0.01em" },
           normal: { value: "0" },
           wide: { value: "0.04em" },
           wider: { value: "0.08em" },
@@ -97,11 +97,11 @@ export const chassisPreset = definePreset({
         md: { value: { fontSize: "md", lineHeight: "1.4", letterSpacing: "0" } },
         lg: { value: { fontSize: "lg", lineHeight: "1.3", letterSpacing: "-0.005em" } },
         xl: { value: { fontSize: "xl", lineHeight: "1.2", letterSpacing: "-0.01em" } },
-        '2xl': { value: { fontSize: "2xl", lineHeight: "1.1", letterSpacing: "-0.02em" } },
-        '3xl': { value: { fontSize: "3xl", lineHeight: "1.05", letterSpacing: "-0.025em" } },
-        '4xl': { value: { fontSize: "4xl", lineHeight: "1", letterSpacing: "-0.03em" } },
-        '5xl': { value: { fontSize: "5xl", lineHeight: "0.95", letterSpacing: "-0.03em" } },
-        hero: { value: { fontSize: "hero", lineHeight: "1", letterSpacing: "-0.03em" } },
+        '2xl': { value: { fontSize: "2xl", lineHeight: "1.1", letterSpacing: "0.01em" } },
+        '3xl': { value: { fontSize: "3xl", lineHeight: "1.05", letterSpacing: "0.015em" } },
+        '4xl': { value: { fontSize: "4xl", lineHeight: "1", letterSpacing: "0.015em" } },
+        '5xl': { value: { fontSize: "5xl", lineHeight: "0.95", letterSpacing: "0.015em" } },
+        hero: { value: { fontSize: "hero", lineHeight: "0.9", letterSpacing: "0.02em" } },
       },
     },
   },
