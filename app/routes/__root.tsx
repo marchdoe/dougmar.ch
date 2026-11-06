@@ -38,7 +38,7 @@ import { applyTheme, resolveTheme } from '../lib/theme'
 const archiveLink = css({
   display: 'block',
   background: 'bg',
-  color: 'text',
+  color: 'textFaint',
   fontSize: 'xs',
   letterSpacing: '0.08em',
   textAlign: 'center',
@@ -59,9 +59,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-11-05'
-const PREV_DATE: string | null = '2026-11-04'
-const ARCHIVE_COUNT = 184
+const DESIGN_DATE = '2026-11-06'
+const PREV_DATE: string | null = '2026-11-05'
+const ARCHIVE_COUNT = 185
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -74,28 +74,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Ask why. Then build the answer.' },
-      { property: 'og:title', content: 'Ask why. Then build the answer.' },
+      { title: 'Spaceman. FishSticks, 15th Club, and the next one.' },
+      { property: 'og:title', content: 'Spaceman. FishSticks, 15th Club, and the next one.' },
       {
         property: 'og:description',
         content:
-          'Burnt-clay drench, a two-beat creed carved diagonally in condensed caps, one gold period as the only pulse.',
+          "Spaceman as a single violet word stroked in neon, floating at the center of a drifting nebula void while the products and the day's signals orbit it as satellites.",
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-05.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-06.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Ask why. Then build the answer.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-05.png' },
+      { name: 'twitter:title', content: 'Spaceman. FishSticks, 15th Club, and the next one.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-06.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Figtree:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -289,7 +289,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 184 designs
+            Archive · 185 designs
           </a>
         )}
         <ScrollRestoration />

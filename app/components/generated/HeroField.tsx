@@ -1,90 +1,124 @@
-import type { ReactNode } from 'react'
 import { css } from '../../../styled-system/css'
-import { BrandLockup } from '../BrandLockup'
 import { Ground } from '../Material'
+import { Rings } from './Rings'
+import { Satellites } from './Satellites'
 
-const metaLines = ['Aldie, VA', 'Nov 5, 2026', 'Rain · 65°F']
-
-function HeroTop() {
+export function HeroField() {
   return (
-    <div
-      className={css({
-        display: 'flex',
-        flexDirection: 'row',
-        gap: '20px',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-      })}
-    >
-      <a href="/" className={css({ display: 'block', flexShrink: '0', color: 'text' })}>
-        <BrandLockup variant="stacked-lg" mode="original" />
-      </a>
-      {/* The flat bg plate keeps small type clear of the halftone dots. */}
-      <div
-        className={css({
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '3px',
-          alignItems: 'flex-end',
-          textAlign: 'right',
-          minWidth: '0',
-          bg: 'bg',
-          paddingBlock: '2',
-          paddingInline: { base: '2', md: '3' },
-          textStyle: 'xs',
-          letterSpacing: '0.09em',
-          textTransform: 'uppercase',
-          color: 'text',
-        })}
-      >
-        {metaLines.map((line) => (
-          <span key={line}>{line}</span>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-export function HeroField({ children }: { children: ReactNode }) {
-  return (
-    <header
+    <section
+      aria-labelledby="hero"
       className={css({
         position: 'relative',
         overflow: 'hidden',
         bg: 'field',
-        minHeight: { base: '88vh', lg: '100vh' },
         display: 'flex',
         flexDirection: 'column',
-      })}
-    >
-      <div
-        aria-hidden="true"
-        data-allow-x-overflow
-        className={css({
+        minHeight: 'calc(100svh - 142px)',
+        paddingBlock: '6',
+        paddingInline: { base: '4', md: '6', lg: '7', xl: '8' },
+        lg: { display: 'block' },
+        _before: {
+          content: '""',
           position: 'absolute',
           inset: '-4%',
-          zIndex: '0',
-          bg: 'field',
+          bgGradient: 'to-b',
+          gradientFrom: 'bg',
+          gradientVia: 'field',
+          gradientTo: 'bg',
+          zIndex: 0,
+          pointerEvents: 'none',
           animation: 'drift 40s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate',
-        })}
-      >
-        <Ground material="halftone" seed={1483042273} />
-      </div>
+        },
+      })}
+    >
+      <Ground material="mesh" seed={1499819892} />
       <div
         className={css({
           position: 'relative',
-          zIndex: '1',
-          flex: '1',
+          zIndex: 1,
           display: 'flex',
           flexDirection: 'column',
-          paddingTop: 'clamp(24px,5vw,56px)',
-          paddingInline: 'clamp(28px,6vw,112px)',
-          paddingBottom: 'clamp(48px,6vh,96px)',
+          flex: '1 0 auto',
+          lg: { position: 'absolute', inset: '0' },
         })}
       >
-        <HeroTop />
-        {children}
+        <Rings />
+        <div
+          className={css({
+            position: 'relative',
+            zIndex: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            textAlign: 'center',
+            flex: '1 0 auto',
+            minWidth: '0',
+            maxWidth: '100%',
+            minHeight: 'calc(100svh - 180px)',
+            lg: {
+              position: 'absolute',
+              top: '46%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              minHeight: '0',
+              width: 'min(1000px, 92%)',
+            },
+          })}
+        >
+          <h1
+            id="hero"
+            className={css({
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '4',
+              maxWidth: '100%',
+              textAlign: 'center',
+              fontWeight: 'light',
+            })}
+          >
+            {/* Outline stroke moved from accent to fieldInk: accent fell under 3:1 against the mesh bloom. */}
+            <span
+              className={css({
+                display: 'block',
+                whiteSpace: 'nowrap',
+                fontFamily: 'display',
+                fontWeight: 'light',
+                textStyle: 'hero',
+                fontSize: { base: '52px', md: 'hero' },
+                lineHeight: 'tight',
+                textTransform: 'none',
+                fontStyle: 'normal',
+                color: 'transparent',
+                WebkitTextStroke: '2px token(colors.fieldInk)',
+                animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+                animationDelay: '0ms',
+              })}
+            >
+              Spaceman
+            </span>
+            <span
+              className={css({
+                display: 'block',
+                maxWidth: '100%',
+                fontFamily: 'body',
+                fontWeight: 'normal',
+                textStyle: { base: 'md', lg: 'xl' },
+                lineHeight: 'snug',
+                color: 'text',
+                textWrap: 'balance',
+                whiteSpace: { lg: 'nowrap' },
+                animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+                animationDelay: '80ms',
+              })}
+            >
+              FishSticks, 15th Club, and the next one.
+            </span>
+          </h1>
+        </div>
+        <Satellites />
       </div>
-    </header>
+    </section>
   )
 }

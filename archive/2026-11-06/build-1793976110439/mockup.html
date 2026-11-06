@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spaceman — Doug March</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  :root{
+    --bg:#0C0A16; --bgAlt:#141020; --surface:#1A1530;
+    --text:#F5F4F8; --muted:#ADA7C3; --faint:#928BB0;
+    --accent:#9B7DF0; --glow:#B9A4F7; --accentDeep:#6B4BD1;
+    --red:#FF4D63; --redSoft:#FF7A8A;
+    --border:#2A2740; --borderStrong:#46406A;
+    --field900:#1E1340; --field800:#2A1C5C; --field700:#4D309A;
+    --pad:clamp(24px,6vw,112px);
+  }
+  html{-webkit-text-size-adjust:100%;text-rendering:optimizeLegibility;}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font-family:"Figtree",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.5;
+  }
+  h1,h2{margin:0;font-weight:400;}
+  a{color:var(--accent);text-decoration:none;transition:color 160ms ease;}
+  a:hover{color:var(--glow);}
+
+  /* ---------- MAST (target ~112px) ---------- */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+    padding:8px var(--pad);text-align:center;position:relative;z-index:3;
+  }
+  .lockup{display:flex;flex-direction:column;align-items:center;gap:3px;}
+  .mark{display:block;height:40px;width:auto;}
+  .wordmark{
+    font-family:"Unbounded",sans-serif;font-weight:600;
+    letter-spacing:-0.015em;line-height:1;
+    font-size:18px;color:var(--text);
+  }
+  .nav{display:flex;flex-wrap:wrap;justify-content:center;gap:0 18px;}
+  .nav a{
+    display:inline-flex;align-items:center;gap:7px;
+    min-height:44px;padding:0 6px;
+    font-family:"Figtree",sans-serif;font-weight:500;
+    font-size:14px;letter-spacing:0.02em;color:var(--muted);
+  }
+  .nav a .n{font-size:11px;letter-spacing:0.12em;color:var(--accent);
+    font-variant-numeric:tabular-nums;}
+  .nav a:hover{color:var(--text);}
+  .nav a:hover .n{color:var(--glow);}
+
+  /* ---------- FIELD ---------- */
+  .field{
+    position:relative;overflow:hidden;
+    display:flex;flex-direction:column;
+    min-height:calc(100svh - 142px);
+    padding:clamp(32px,6vh,80px) var(--pad);
+    background:
+      radial-gradient(circle at 50% 44%,
+        #16112E 0%, #16112E 17%,
+        var(--field700) 39%, var(--field800) 60%,
+        #130E26 84%, var(--bg) 100%);
+  }
+  .mesh{
+    position:absolute;inset:0;pointer-events:none;z-index:0;
+    background-image:
+      radial-gradient(at 22% 30%, var(--accent) 0, transparent 18%),
+      radial-gradient(at 82% 66%, var(--glow) 0, transparent 16%),
+      radial-gradient(at 72% 18%, var(--accentDeep) 0, transparent 22%),
+      radial-gradient(at 16% 80%, var(--field700) 0, transparent 26%);
+    opacity:.55;mix-blend-mode:screen;
+  }
+  .ring{display:none;}
+
+  .heroblock{
+    position:relative;z-index:2;
+    display:flex;flex-direction:column;align-items:center;
+    text-align:center;gap:clamp(16px,2.6vh,28px);
+    flex:1 0 auto;min-height:calc(100svh - 180px);justify-content:center;
+  }
+  .word{
+    display:block;white-space:nowrap;
+    font-family:"Unbounded",sans-serif;font-weight:400;
+    font-size:clamp(44px,11vw,148px);line-height:0.9;
+    letter-spacing:-0.01em;
+    color:transparent;
+    -webkit-text-stroke:2px var(--accent);
+    text-shadow:0 0 28px rgba(185,164,247,0.55),0 0 56px rgba(107,75,209,0.4);
+    paint-order:stroke fill;
+  }
+  .deck{
+    display:block;max-width:none;
+    font-family:"Figtree",sans-serif;font-weight:500;
+    font-size:clamp(18px,2.6vw,30px);line-height:1.3;
+    color:var(--text);text-wrap:balance;
+  }
+
+  /* ---------- SATELLITES (mobile = launch column) ---------- */
+  .satellites{
+    position:relative;z-index:2;
+    display:flex;flex-direction:column;align-items:center;
+    gap:14px;margin-top:clamp(56px,9vh,80px);
+  }
+  .sat{
+    position:static;text-align:center;min-width:170px;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:4px;padding:11px 16px;
+  }
+  .sat .sk{
+    display:block;font-size:14px;font-weight:600;
+    text-transform:uppercase;letter-spacing:0.09em;color:var(--text);
+  }
+  .sat .sv{
+    display:block;font-size:13px;letter-spacing:0.04em;color:var(--muted);
+    font-variant-numeric:tabular-nums;margin-top:3px;
+  }
+  .sat.highlight{border-color:var(--borderStrong);}
+  .sat.highlight .sk{color:var(--glow);}
+  .sat.down{border-color:#5A2434;}
+  .sat.down .sk{color:var(--redSoft);}
+  .sat.down .sv{color:var(--red);}
+  .moon{display:flex;flex-direction:column;align-items:center;gap:6px;}
+  .moon svg{width:30px;height:30px;}
+
+  /* ---------- SECTION SHELL ---------- */
+  .sec{padding:clamp(56px,9vh,120px) var(--pad);}
+  .sec-head{
+    font-family:"Unbounded",sans-serif;font-weight:400;
+    font-size:clamp(26px,4vw,44px);line-height:1.02;
+    letter-spacing:-0.01em;color:var(--text);margin-bottom:6px;
+  }
+  .sec-sub{
+    font-size:13px;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:clamp(28px,4vh,48px);
+    display:block;
+  }
+
+  /* ---------- WORK INDEX ---------- */
+  .index-list{display:flex;flex-direction:column;}
+  .row{
+    display:grid;grid-template-columns:1fr auto;align-items:baseline;
+    gap:4px 20px;padding:18px 0;border-top:1px solid var(--border);
+  }
+  .row:last-child{border-bottom:1px solid var(--border);}
+  .row .rt{
+    font-family:"Unbounded",sans-serif;font-weight:400;
+    font-size:clamp(22px,3.6vw,38px);line-height:1;
+    letter-spacing:-0.01em;color:var(--text);
+  }
+  .row a.rt:hover{color:var(--glow);}
+  .row .rmeta{
+    font-size:13px;letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--muted);text-align:right;white-space:nowrap;
+  }
+  .row .rmeta .ry{color:var(--text);font-variant-numeric:tabular-nums;}
+  .row.feat .rt{color:var(--glow);}
+
+  /* ---------- TELEMETRY ---------- */
+  .telemetry{
+    display:grid;grid-template-columns:1fr;
+    gap:0;border-top:1px solid var(--borderStrong);
+  }
+  .trow{
+    display:grid;grid-template-columns:140px 1fr;gap:16px;align-items:baseline;
+    padding:14px 0;border-bottom:1px solid var(--border);
+  }
+  .trow .tk{
+    font-size:12px;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--faint);
+  }
+  .trow .tv{
+    font-size:15px;color:var(--text);
+    font-variant-numeric:tabular-nums;
+  }
+  .tv .down{color:var(--red);}
+
+  /* ---------- ABOUT BLURB ---------- */
+  .about{background:var(--bgAlt);}
+  .about p{
+    margin:0;max-width:58ch;
+    font-size:clamp(18px,2vw,22px);line-height:1.5;color:var(--muted);
+  }
+  .about p b{color:var(--text);font-weight:500;}
+
+  /* ---------- CALLOUT SLOT ---------- */
+  .callout{
+    padding:clamp(40px,8vh,80px) var(--pad);
+    text-align:center;background:var(--bg);
+    border-top:1px solid var(--border);
+  }
+  .callout .lbl{
+    display:block;font-size:12px;letter-spacing:0.16em;
+    text-transform:uppercase;color:var(--faint);margin-bottom:10px;
+  }
+  .callout p{
+    margin:0 auto;max-width:52ch;font-size:16px;color:var(--muted);
+  }
+
+  /* ---------- FOOTER COLOPHON ---------- */
+  .colophon{
+    background:var(--bgAlt);
+    padding:clamp(40px,6vh,64px) var(--pad) clamp(48px,7vh,72px);
+    border-top:1px solid var(--borderStrong);
+    display:flex;flex-direction:column;gap:14px;
+  }
+  .brandline{
+    font-family:"Unbounded",sans-serif;font-weight:400;
+    font-size:14px;letter-spacing:0.02em;color:var(--muted);
+  }
+  .adversity{
+    font-size:13px;color:var(--faint);max-width:58ch;line-height:1.5;margin:0;
+  }
+  .adversity cite{color:var(--muted);font-style:normal;}
+
+  /* ---------- TABLET ---------- */
+  @media (min-width:680px){
+    .telemetry{grid-template-columns:1fr 1fr;column-gap:40px;}
+  }
+
+  /* ---------- DESKTOP RADIAL ---------- */
+  @media (min-width:880px){
+    .mast{gap:2px;padding:5px var(--pad);}
+    .lockup{gap:2px;}
+    .nav a{min-height:26px;}
+    .mark{height:48px;}
+    .wordmark{font-size:24px;}
+    .field{min-height:calc(100svh - 142px);display:block;}
+    .heroblock{
+      position:absolute;top:46%;left:50%;transform:translate(-50%,-50%);
+      min-height:0;z-index:2;width:min(1000px,92%);
+    }
+    .word{font-size:clamp(44px,11vw,148px);}
+    .deck{white-space:nowrap;max-width:none;}
+    .ring{
+      display:block;position:absolute;top:46%;left:50%;
+      transform:translate(-50%,-50%);border:1px solid var(--border);
+      border-radius:9999px;z-index:1;pointer-events:none;
+    }
+    .ring.r1{width:560px;height:560px;}
+    .ring.r2{width:860px;height:860px;border-color:rgba(70,64,106,0.5);}
+    .ring.r3{width:1180px;height:1180px;border-color:rgba(42,39,64,0.7);}
+    .satellites{
+      position:absolute;inset:0;margin:0;display:block;z-index:2;
+    }
+    .sat{position:absolute;transform:translate(-50%,-50%);}
+    .sat1{top:17%;left:23%;}
+    .sat2{top:21%;left:76%;}
+    .sat3{top:12%;left:50%;}
+    .sat4{top:30%;left:12%;}
+    .sat5{top:28%;left:89%;}
+    .sat6{top:72%;left:17%;}
+    .sat7{top:78%;left:66%;}
+    .sat8{top:85%;left:41%;}
+    .telemetry{grid-template-columns:1fr 1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="mast">
+    <div class="lockup">
+      <svg class="mark" viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Doug March logo">
+        <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+        <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+        <circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+        <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+      </svg>
+      <span class="wordmark">Doug March</span>
+    </div>
+    <nav class="nav">
+      <a href="#work"><span class="n">01</span>Work</a>
+      <a href="#about"><span class="n">02</span>About</a>
+      <a href="#contact"><span class="n">03</span>Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="field" aria-labelledby="hero">
+      <div class="mesh" aria-hidden="true"></div>
+      <div class="ring r1" aria-hidden="true"></div>
+      <div class="ring r2" aria-hidden="true"></div>
+      <div class="ring r3" aria-hidden="true"></div>
+
+      <h1 class="heroblock" id="hero">
+        <span class="word">Spaceman</span>
+        <span class="deck">FishSticks, 15th Club, and the next one.</span>
+      </h1>
+
+      <div class="satellites" aria-label="In orbit">
+        <div class="sat sat1"><span class="sk">FishSticks</span><span class="sv">SaaS · 2025</span></div>
+        <div class="sat sat2"><span class="sk">15th Club</span><span class="sv">AI · 2025</span></div>
+        <div class="sat sat3 highlight"><span class="sk">WWT Championship</span><span class="sv">Kirk −9</span></div>
+        <div class="sat sat4">
+          <div class="moon">
+            <svg viewBox="0 0 30 30" aria-hidden="true">
+              <defs><mask id="crescent"><circle cx="15" cy="15" r="12" fill="#fff"/><circle cx="20" cy="12" r="11" fill="#000"/></mask></defs>
+              <circle cx="15" cy="15" r="12" fill="#6B4BD1" mask="url(#crescent)"/>
+            </svg>
+            <span class="sk">Moon</span><span class="sv">Waning · 7%</span>
+          </div>
+        </div>
+        <div class="sat sat5 down"><span class="sk">SPY 733.00</span><span class="sv">−4.41%</span></div>
+        <div class="sat sat6"><span class="sk">TeeTurn</span><span class="sv">Experiment · 2020</span></div>
+        <div class="sat sat7"><span class="sk">Politweets</span><span class="sv">Experiment · 2008</span></div>
+        <div class="sat sat8"><span class="sk">Twittertale</span><span class="sv">Experiment · 2008</span></div>
+      </div>
+    </section>
+
+    <section class="sec" id="work" aria-labelledby="work-h">
+      <h2 class="sec-head" id="work-h">Selected work</h2>
+      <span class="sec-sub">Out of the shop</span>
+      <div class="index-list">
+        <div class="row feat">
+          <a class="rt" href="#work">Spaceman</a>
+          <span class="rmeta">Founder · <span class="ry">2018</span></span>
+        </div>
+        <div class="row">
+          <a class="rt" href="#work">FishSticks</a>
+          <span class="rmeta">SaaS · <span class="ry">2025</span></span>
+        </div>
+        <div class="row">
+          <a class="rt" href="#work">15th Club</a>
+          <span class="rmeta">AI · <span class="ry">2025</span></span>
+        </div>
+        <div class="row">
+          <a class="rt" href="#work">dougmar.ch</a>
+          <span class="rmeta">AI · <span class="ry">2026</span></span>
+        </div>
+        <div class="row">
+          <a class="rt" href="#work">TeeTurn</a>
+          <span class="rmeta">Experiment · <span class="ry">2020</span></span>
+        </div>
+        <div class="row">
+          <a class="rt" href="#work">Politweets</a>
+          <span class="rmeta">Experiment · <span class="ry">2008</span></span>
+        </div>
+        <div class="row">
+          <a class="rt" href="#work">Twittertale</a>
+          <span class="rmeta">Experiment · <span class="ry">2008</span></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="tel-h">
+      <h2 class="sec-head" id="tel-h">Telemetry</h2>
+      <span class="sec-sub">Readout · 2026.11.06</span>
+      <div class="telemetry">
+        <div class="trow"><span class="tk">Location</span><span class="tv">Aldie, VA · 63°F patchy rain</span></div>
+        <div class="trow"><span class="tk">Market</span><span class="tv">SPY 733.00 <span class="down">▾ 4.41%</span></span></div>
+        <div class="trow"><span class="tk">Golf</span><span class="tv">WWT Championship · Kirk −9</span></div>
+        <div class="trow"><span class="tk">NHL</span><span class="tv">Red Wings 1 – 2 <span class="down">▾ loss</span></span></div>
+        <div class="trow"><span class="tk">NBA</span><span class="tv">Wembanyama 52 · 24 · 8</span></div>
+        <div class="trow"><span class="tk">Moon</span><span class="tv">Waning crescent · 7%</span></div>
+        <div class="trow"><span class="tk">Holiday</span><span class="tv">Veterans Day · in 5 days</span></div>
+        <div class="trow"><span class="tk">In rotation</span><span class="tv">War on Drugs, Radiohead, Tobin Sprout</span></div>
+      </div>
+    </section>
+
+    <section class="sec about" id="about" aria-labelledby="about-h">
+      <span class="sec-sub">About</span>
+      <p><b>Spaceman is the name on the work.</b> Doug March has run it for ten years as the shop the side products came out of. FishSticks shipped from it, 15th Club is in the works, and so will the next one — design and engineering, one person, both.</p>
+    </section>
+
+    <section class="callout" aria-label="Today">
+      <span class="lbl">Doug March — dougmar.ch</span>
+      <p>A new face every morning, composed from the day's signals and the work itself.</p>
+    </section>
+  </main>
+
+  <footer class="colophon" id="contact" aria-label="Mission colophon">
+    <span class="brandline">Spaceman · Doug March · design &amp; engineering · est. 2018</span>
+    <p class="adversity">“During times of adversity our true character will show.” — <cite>Unknown</cite></p>
+  </footer>
+
+</body>
+</html>
