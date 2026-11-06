@@ -1,0 +1,540 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'selected work' is 44px in the mockup and 122px in the build (2.76x). Set it back to 44px.",
+          "facts": {
+            "text": "selected work",
+            "mockupPx": 44,
+            "buildPx": 122,
+            "ratio": 2.76,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'telemetry' is 44px in the mockup and 122px in the build (2.76x). Set it back to 44px.",
+          "facts": {
+            "text": "telemetry",
+            "mockupPx": 44,
+            "buildPx": 122,
+            "ratio": 2.76,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' is 38px in the mockup and 81px in the build (2.13x)",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 38,
+            "buildPx": 81,
+            "ratio": 2.13,
+            "mockupRank": 3
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'fishsticks' is 38px in the mockup and 81px in the build (2.13x)",
+          "facts": {
+            "text": "fishsticks",
+            "mockupPx": 38,
+            "buildPx": 81,
+            "ratio": 2.13,
+            "mockupRank": 4
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'spaceman' (44px); in build it is 'spaceman' (81px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "doug march",
+                "mockupPx": 18
+              },
+              {
+                "text": "fishsticks 15th club and the next one",
+                "mockupPx": 18
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 44
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 81,
+              "mockupPx": 44
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 18px in the mockup and 33px in the build (1.85x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 18,
+            "buildPx": 33,
+            "ratio": 1.85,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'fishsticks 15th club and the next one' is 18px in the mockup and 41px in the build (2.30x)",
+          "facts": {
+            "text": "fishsticks 15th club and the next one",
+            "mockupPx": 18,
+            "buildPx": 41,
+            "ratio": 2.3,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman' moved from (180, 363) in the mockup to (176, 1846) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "text-cut",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman' shows 69% of itself in the build",
+          "facts": {
+            "text": "spaceman",
+            "buildPx": 81,
+            "visiblePct": 69
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: 'spaceman' still leads, but the mockup's 'doug march' (18px), 'fishsticks 15th club and the next one' (18px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'fishsticks 15th club and the next one' is 18px in the mockup and 41px in the build (2.3x). Set it back to 18px.",
+        "- / at 1440px: 'spaceman' is 38px in the mockup and 81px in the build (2.13x). Set it back to 38px.",
+        "- / at 1440px: 'fishsticks' is 38px in the mockup and 81px in the build (2.13x). Set it back to 38px.",
+        "- / at 360px: 'doug march' is 18px in the mockup and 33px in the build (1.85x). Set it back to 18px.",
+        "- / at 360px: 'spaceman' shows 69% of itself; its box cuts the rest off. Let it wrap or give its box the room."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'spaceman' (148px); in build it is 'spaceman' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "selected work",
+                "mockupPx": 44
+              },
+              {
+                "text": "telemetry",
+                "mockupPx": 44
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 148
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 160,
+              "mockupPx": 148
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' is 38px in the mockup and 81px in the build (2.13x)",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 38,
+            "buildPx": 81,
+            "ratio": 2.13,
+            "mockupRank": 3
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'fishsticks' is 38px in the mockup and 81px in the build (2.13x)",
+          "facts": {
+            "text": "fishsticks",
+            "mockupPx": 38,
+            "buildPx": 81,
+            "ratio": 2.13,
+            "mockupRank": 4
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'spaceman' (44px); in build it is 'spaceman' (52px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "doug march",
+                "mockupPx": 18
+              },
+              {
+                "text": "fishsticks 15th club and the next one",
+                "mockupPx": 18
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 44
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 52,
+              "mockupPx": 44
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 18px in the mockup and 33px in the build (1.85x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 18,
+            "buildPx": 33,
+            "ratio": 1.85,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman' moved from (180, 363) in the mockup to (176, 1762) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'spaceman' still leads, but the mockup's 'selected work' (44px), 'telemetry' (44px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'spaceman' still leads, but the mockup's 'doug march' (18px), 'fishsticks 15th club and the next one' (18px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: 'spaceman' is 38px in the mockup and 81px in the build (2.13x). Set it back to 38px.",
+        "- / at 1440px: 'fishsticks' is 38px in the mockup and 81px in the build (2.13x). Set it back to 38px.",
+        "- / at 360px: 'doug march' is 18px in the mockup and 33px in the build (1.85x). Set it back to 18px."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'spaceman' (148px); in build it is 'spaceman' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "selected work",
+                "mockupPx": 44
+              },
+              {
+                "text": "telemetry",
+                "mockupPx": 44
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 148
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 160,
+              "mockupPx": 148
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' is 38px in the mockup and 81px in the build (2.13x)",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 38,
+            "buildPx": 81,
+            "ratio": 2.13,
+            "mockupRank": 3
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'fishsticks' is 38px in the mockup and 81px in the build (2.13x)",
+          "facts": {
+            "text": "fishsticks",
+            "mockupPx": 38,
+            "buildPx": 81,
+            "ratio": 2.13,
+            "mockupRank": 4
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'spaceman' (44px); in build it is 'spaceman' (52px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "doug march",
+                "mockupPx": 18
+              },
+              {
+                "text": "fishsticks 15th club and the next one",
+                "mockupPx": 18
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 44
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 52,
+              "mockupPx": 44
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 18px in the mockup and 33px in the build (1.85x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 18,
+            "buildPx": 33,
+            "ratio": 1.85,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman' moved from (180, 363) in the mockup to (176, 1762) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'spaceman' still leads, but the mockup's 'selected work' (44px), 'telemetry' (44px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'spaceman' still leads, but the mockup's 'doug march' (18px), 'fishsticks 15th club and the next one' (18px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: 'spaceman' is 38px in the mockup and 81px in the build (2.13x). Set it back to 38px.",
+        "- / at 1440px: 'fishsticks' is 38px in the mockup and 81px in the build (2.13x). Set it back to 38px.",
+        "- / at 360px: 'doug march' is 18px in the mockup and 33px in the build (1.85x). Set it back to 18px."
+      ]
+    },
+    {
+      "round": 4,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'spaceman' (148px); in build it is 'spaceman' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "telemetry",
+                "mockupPx": 44
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 148
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 160,
+              "mockupPx": 148
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'spaceman' (44px); in build it is 'spaceman' (52px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "fishsticks 15th club and the next one",
+                "mockupPx": 18
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 44
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 52,
+              "mockupPx": 44
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 18px in the mockup and 33px in the build (1.85x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 18,
+            "buildPx": 33,
+            "ratio": 1.85,
+            "mockupRank": 1
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'spaceman' still leads, but the mockup's 'telemetry' (44px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'spaceman' still leads, but the mockup's 'fishsticks 15th club and the next one' (18px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'doug march' is 18px in the mockup and 33px in the build (1.85x). Set it back to 18px."
+      ]
+    }
+  ]
+}

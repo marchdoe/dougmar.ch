@@ -10,8 +10,8 @@ function OgCard() {
       className={css({
         position: 'fixed',
         inset: '0',
-        zIndex: '9999',
-        bg: 'field',
+        zIndex: 9999,
+        bg: 'bg',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -20,40 +20,60 @@ function OgCard() {
       <div
         className={css({
           position: 'relative',
-          flexShrink: '0',
           width: '1200px',
           height: '630px',
+          flexShrink: 0,
           bg: 'field',
-          color: 'text',
+          color: 'fieldInk',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '5',
+          paddingInline: '8',
+          textAlign: 'center',
         })}
       >
-        <div className={css({ position: 'absolute', top: '48px', right: '56px', color: 'text' })}>
-          <BrandLockup variant="stacked-lg" mode="original" />
-        </div>
+        <BrandLockup
+          variant="stacked-md"
+          mode="original"
+          className={css({ position: 'absolute', top: '56px', left: '56px' })}
+        />
         <h1
           className={css({
-            position: 'absolute',
-            left: '56px',
-            bottom: '48px',
-            width: '1088px',
-            fontFamily: 'display',
-            fontWeight: 'normal',
-            textTransform: 'uppercase',
-            textAlign: 'left',
-            fontSize: '160px',
-            lineHeight: '0.86',
-            letterSpacing: '0.01em',
-            color: 'text',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '4',
+            fontWeight: 'light',
+            marginTop: '7',
           })}
         >
-          <span className={css({ display: 'block' })}>
-            Ask Why
-            <span aria-hidden="true" className={css({ color: 'accent' })}>
-              .
-            </span>
-          </span>{' '}
-          <span className={css({ display: 'block', marginLeft: '240px' })}>Then Build</span>{' '}
-          <span className={css({ display: 'block', marginLeft: '375px' })}>The Answer.</span>
+          <span
+            className={css({
+              display: 'block',
+              whiteSpace: 'nowrap',
+              fontFamily: 'display',
+              fontWeight: 'light',
+              textStyle: 'hero',
+              lineHeight: 'tight',
+              color: 'transparent',
+              WebkitTextStroke: '2px token(colors.accent)',
+            })}
+          >
+            Spaceman
+          </span>
+          <span
+            className={css({
+              display: 'block',
+              fontFamily: 'body',
+              fontWeight: 'normal',
+              textStyle: '2xl',
+              color: 'fieldInk',
+            })}
+          >
+            FishSticks, 15th Club, and the next one.
+          </span>
         </h1>
       </div>
     </div>
