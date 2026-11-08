@@ -2,125 +2,98 @@ import { definePreset } from '@pandacss/dev'
 
 export const elementsPreset = definePreset({
   name: 'elements',
-
   globalCss: {
-    '*': {
-      boxSizing: 'border-box',
-    },
-    html: {
-      WebkitTextSizeAdjust: '100%',
-      textRendering: 'optimizeLegibility',
+    'html, body': {
+      margin: 0,
+      padding: 0,
     },
     body: {
-      margin: '0',
       background: 'bg',
       color: 'text',
-      fontKerning: 'normal',
+      fontVariantNumeric: 'tabular-nums',
       WebkitFontSmoothing: 'antialiased',
-      MozOsxFontSmoothing: 'grayscale',
-      fontVariantLigatures: 'common-ligatures',
+      textRendering: 'optimizeLegibility',
     },
     'h1, h2, h3, h4, h5, h6': {
-      margin: '0',
+      margin: 0,
       fontWeight: 'inherit',
       textWrap: 'balance',
     },
-    p: {
+    'p, li, blockquote': {
       textWrap: 'pretty',
     },
     a: {
       color: 'accent',
       textDecoration: 'none',
-      transition: 'color 160ms ease',
-      _hover: {
-        color: 'accentAlt',
-      },
+    },
+    'a:hover': {
+      textDecoration: 'underline',
+      textUnderlineOffset: '3px',
     },
     '::selection': {
       background: 'accent',
       color: 'accentText',
     },
-    '@media (prefers-reduced-motion: reduce)': {
-      '*': {
-        animationDuration: '0.001ms !important',
-        animationIterationCount: '1 !important',
-        transitionDuration: '0.001ms !important',
-      },
-    },
   },
-
   conditions: {
-    extend: {
-      light: '[data-theme="light"] &',
-      dark: '[data-theme="dark"] &, &',
-      hover: '&:hover',
-    },
+    _light: '[data-theme="light"] &',
+    _dark: '[data-theme="dark"] &',
+    _hover: '&:hover',
   },
-
   theme: {
-    extend: {
-      tokens: {
-        colors: {
-          violet: {
-            50: { value: '#F4F2FE' },
-            100: { value: '#E8E3FC' },
-            200: { value: '#CEC3F8' },
-            300: { value: '#B09EF2' },
-            400: { value: '#9B7DF0' },
-            500: { value: '#7855E0' },
-            600: { value: '#6B4BD1' },
-            700: { value: '#4D309A' },
-            800: { value: '#2A1C5C' },
-            900: { value: '#1E1340' },
-          },
-          void: {
-            50: { value: '#F5F4F8' },
-            100: { value: '#E9E7F0' },
-            200: { value: '#CFCBDD' },
-            300: { value: '#ADA7C3' },
-            400: { value: '#928BB0' },
-            500: { value: '#615A80' },
-            600: { value: '#474263' },
-            700: { value: '#322E49' },
-            800: { value: '#1F1C30' },
-            900: { value: '#110F1D' },
-            950: { value: '#0C0A16' },
-          },
-          signal: {
-            400: { value: '#FF7A8A' },
-            500: { value: '#FF4D63' },
-            600: { value: '#E23150' },
-          },
-          glow: {
-            value: '#B9A4F7',
-          },
+    tokens: {
+      colors: {
+        gold: {
+          50: { value: '#FBF3DC' },
+          100: { value: '#F6E7B4' },
+          200: { value: '#F0D784' },
+          300: { value: '#EFC94E' },
+          400: { value: '#E8B735' },
+          500: { value: '#D9A520' },
+          600: { value: '#B5891C' },
+          700: { value: '#9A5E0A' },
+          800: { value: '#6E4A12' },
+          900: { value: '#3A2E0E' },
         },
-        radii: {
-          none: { value: '0' },
-          sm: { value: '2px' },
-          md: { value: '4px' },
-          lg: { value: '10px' },
-          full: { value: '9999px' },
+        ink: {
+          50: { value: '#F4EAD0' },
+          100: { value: '#DFD1AC' },
+          200: { value: '#BCAC7E' },
+          300: { value: '#9C8A5C' },
+          400: { value: '#7A6A45' },
+          500: { value: '#5A4D2F' },
+          600: { value: '#46391C' },
+          700: { value: '#342A13' },
+          800: { value: '#241C0C' },
+          850: { value: '#1D1709' },
+          900: { value: '#17120A' },
         },
       },
-      semanticTokens: {
-        colors: {
-          bg: { value: { base: '{colors.void.950}' } },
-          bgAlt: { value: { base: '#141020' } },
-          surface: { value: { base: '#1A1530' } },
-          text: { value: { base: '{colors.void.50}' } },
-          textMuted: { value: { base: '{colors.void.300}' } },
-          textFaint: { value: { base: '{colors.void.400}' } },
-          accent: { value: { base: '{colors.violet.400}' } },
-          accentText: { value: { base: '#1A1038' } },
-          accentAlt: { value: { base: '{colors.glow}' } },
-          border: { value: { base: '#2A2740' } },
-          borderStrong: { value: { base: '#46406A' } },
-          field: { value: { base: '{colors.violet.800}' } },
-          fieldInk: { value: { base: '{colors.violet.50}' } },
-          fieldInkMuted: { value: { base: '{colors.violet.200}' } },
-          fieldBorder: { value: { base: '{colors.violet.700}' } },
-        },
+      radii: {
+        none: { value: '0' },
+        sm: { value: '0' },
+        md: { value: '0' },
+        lg: { value: '0' },
+        full: { value: '9999px' },
+      },
+    },
+    semanticTokens: {
+      colors: {
+        bg: { value: { base: '{colors.ink.900}', _light: '{colors.gold.300}' } },
+        bgAlt: { value: { base: '{colors.ink.800}', _light: '{colors.gold.400}' } },
+        surface: { value: { base: '{colors.ink.850}', _light: '{colors.gold.100}' } },
+        text: { value: { base: '{colors.ink.50}', _light: '{colors.ink.900}' } },
+        textMuted: { value: { base: '{colors.ink.200}', _light: '{colors.ink.700}' } },
+        textFaint: { value: { base: '{colors.ink.300}', _light: '{colors.ink.600}' } },
+        accent: { value: { base: '{colors.gold.400}', _light: '{colors.gold.700}' } },
+        accentText: { value: { base: '{colors.ink.900}', _light: '{colors.gold.50}' } },
+        accentAlt: { value: { base: '{colors.gold.200}', _light: '{colors.gold.600}' } },
+        border: { value: { base: '{colors.ink.700}', _light: '{colors.gold.500}' } },
+        borderStrong: { value: { base: '{colors.ink.600}', _light: '{colors.gold.700}' } },
+        field: { value: { base: '{colors.gold.400}', _light: '{colors.ink.900}' } },
+        fieldInk: { value: { base: '{colors.ink.900}', _light: '{colors.gold.300}' } },
+        fieldInkMuted: { value: { base: '{colors.ink.700}', _light: '{colors.gold.600}' } },
+        fieldBorder: { value: { base: '{colors.gold.700}', _light: '{colors.gold.800}' } },
       },
     },
   },

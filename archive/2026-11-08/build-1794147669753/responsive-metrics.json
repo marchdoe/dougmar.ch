@@ -1,0 +1,104 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "tablet": {
+      "width": 820,
+      "height": 1180,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "SPAN",
+            "selector": "div.d_flex.ai_stretch.gap_4px.bx-s_border-box > span.d_block.as_center.flex_0_1_auto.min-w_0",
+            "text": "A new design ships every morning.",
+            "cause": "text",
+            "right": 467,
+            "over": 103,
+            "boxWidth": 127
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "‹",
+            "w": 32,
+            "h": 44
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 2
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "SPAN",
+            "selector": "div.d_grid.grid-tc_1fr_1fr.sm:grid-tc_1fr_1fr_1fr.rg_18px > div.d_flex.flex-d_column.gap_5px.min-w_0 > span.textStyle_xs.ls_wider.tt_uppercase.fw_bold",
+            "text": "WWT Championship",
+            "cause": "text",
+            "right": 159,
+            "over": 4,
+            "boxWidth": 108
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    }
+  },
+  "overallScore": 2,
+  "worstFailure": {
+    "viewport": "tablet",
+    "check": "clippedElements",
+    "detail": "1 element(s) clipped (first: <SPAN>)"
+  },
+  "buildId": "1794147669753",
+  "date": "2026-11-08",
+  "archetype": "a leaderboard split, the leader slammed to the right edge"
+}
