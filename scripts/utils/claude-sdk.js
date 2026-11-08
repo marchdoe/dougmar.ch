@@ -15,7 +15,7 @@
  * @module
  */
 
-import Anthropic, { APIConnectionError } from '@anthropic-ai/sdk'
+import Anthropic, { APIConnectionError, APIError, AnthropicError } from '@anthropic-ai/sdk'
 import { modelFor, supportsAdaptiveThinking } from './models.js'
 import { noteRetry, recordUsage } from './cost-ledger.js'
 import { clampToBudget } from './run-budget.js'
@@ -28,6 +28,14 @@ import { clampToBudget } from './run-budget.js'
 
 /** Default output ceiling. Critics write a page or two of prose, not files. */
 const DEFAULT_MAX_TOKENS = 16000
+
+/**
+ * Above this a call streams. The API docs ask for streaming past roughly 16k
+ * output tokens because a long non-streaming request can die on an HTTP timeout
+ * (#791). The cap is the only reason to stream here: a critic's reply is read
+ * whole, so nothing at or below this changes.
+ */
+const MAX_NONSTREAMING_TOKENS = 16000
 
 /** Matches the CLI path's default hard timeout (10 min). */
 const DEFAULT_TIMEOUT_MS = 600000
@@ -44,16 +52,40 @@ const DEFAULT_RETRIES = 2
 /** Backoff before the Nth retry (1-based): 2s, 4s. */
 const RETRY_BACKOFF_MS = [2000, 4000]
 
+/** SSE `error` event types worth another attempt. */
+const RETRYABLE_STREAM_ERROR_TYPES = new Set([
+  'overloaded_error',
+  'api_error',
+  'rate_limit_error',
+  'timeout_error',
+])
+
+/**
+ * A stream answers 200 before it knows how the reply ends, so an overload or a
+ * dropped connection after the headers has no HTTP status to judge it by. The
+ * first arrives as an SDK APIError carrying the SSE error type, the second as
+ * an AnthropicError wrapping the network failure. Our own deadline abort is an
+ * APIError with neither, so it does not retry.
+ * @param {unknown} err
+ * @returns {boolean}
+ */
+function isRetryableStreamFailure(err) {
+  if (err instanceof APIError) {
+    return err.status === undefined && RETRYABLE_STREAM_ERROR_TYPES.has(err.type)
+  }
+  return err instanceof AnthropicError && err.cause instanceof Error
+}
+
 /**
  * Whether an SDK error is worth another attempt: connection errors, rate
- * limits, overload and other server-side failures. A 400 (bad thinking
- * param, wrong model id) is not going to get better, and neither is an error
- * that did not come from the API at all.
+ * limits, overload and other server-side failures, on either transport. A 400
+ * (bad thinking param, wrong model id) is not going to get better, and neither
+ * is an error that did not come from the API at all.
  * @param {unknown} err
  * @returns {boolean}
  */
 export function isRetryableSdkError(err) {
-  if (err instanceof APIConnectionError) return true
+  if (err instanceof APIConnectionError || isRetryableStreamFailure(err)) return true
   const status = err && typeof err === 'object' ? err.status : undefined
   if (typeof status !== 'number') return false
   return status === 408 || status === 409 || status === 429 || status >= 500
@@ -175,13 +207,34 @@ function describeBlocks(contentBlocks) {
 }
 
 /**
- * One messages.create with the pipeline's own retry policy.
+ * One attempt, streamed when the cap is high enough to need it.
+ *
+ * On a stream the SDK's `timeout` only covers the wait for the response
+ * headers, so the signal is what holds the whole reply to the deadline.
+ *
+ * @param {object} client
+ * @param {object} params - messages.create params
+ * @param {number} timeout - ms left for this attempt
+ * @returns {Promise<object>} the API response
+ */
+function sendOnce(client, params, timeout) {
+  const options = { timeout, maxRetries: 0 }
+  if (params.max_tokens <= MAX_NONSTREAMING_TOKENS) {
+    return client.messages.create(params, options)
+  }
+  return client.messages
+    .stream(params, { ...options, signal: AbortSignal.timeout(timeout) })
+    .finalMessage()
+}
+
+/**
+ * One SDK call with the pipeline's own retry policy.
  *
  * Each attempt gets only what is left of the one budget, so three attempts
  * cannot outlive the timeout the caller asked for, and a retry is not started
  * when its backoff would land past the deadline.
  *
- * @param {object} client - Anthropic client (or a test stub with messages.create)
+ * @param {object} client - Anthropic client (or a test stub with messages.create and messages.stream)
  * @param {object} params - messages.create params
  * @param {{ agentName: string, retries: number, deadline: number }} opts
  * @returns {Promise<object>} the API response
@@ -190,7 +243,7 @@ async function createWithRetries(client, params, { agentName, retries, deadline 
   for (let attempt = 0; ; attempt++) {
     const timeout = Math.max(1000, deadline - Date.now())
     try {
-      return await client.messages.create(params, { timeout, maxRetries: 0 })
+      return await sendOnce(client, params, timeout)
     } catch (err) {
       const backoff = RETRY_BACKOFF_MS[Math.min(attempt, RETRY_BACKOFF_MS.length - 1)]
       const outOfTime = Date.now() + backoff >= deadline
