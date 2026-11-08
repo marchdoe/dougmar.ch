@@ -78,13 +78,21 @@ JS, so every rule here is CSS.
 
 - `entrance` is one gesture on the hero, not a cascade down the page. Set
   `animation: '<name> 500ms cubic-bezier(0.16, 1, 0.3, 1) both'` on the hero's
-  `h1` and on each of its siblings inside the hero block (eyebrow, deck, the
-  figure), and stagger them with `animationDelay` from the fixed set `'0ms'`,
-  `'80ms'`, `'160ms'`, `'240ms'`, in source order, the `h1` at `'0ms'`. `both`
-  is what holds a delayed sibling at its starting state until its turn.
-  `settle` is opacity with an 8px lift, `rise` opacity with a 24px lift, `wipe`
-  a clip-path reveal left to right. Nothing outside the hero block animates on
-  load. `none` sets nothing.
+  `h1` and on at most three companions: its eyebrow, its deck and its figure.
+  Those four are the hero block. A companion that is a distinct object in the
+  hero area but is none of those three (a signal rail, a scoreboard or stats
+  panel, a featured card, a list, a metadata row, a logo strip, anything
+  holding its own data) is NOT the hero block, even when it sits in the same
+  `<section>` as the `h1`: it stays still and is present from the first frame.
+  Stagger with `animationDelay` from the fixed set `'0ms'`,
+  `'80ms'`, `'160ms'`, `'240ms'`, in source order, the `h1` at `'0ms'`, one
+  value per element. `both` is what holds a delayed sibling at its starting
+  state until its turn. Put the declaration on the element that paints (the
+  `h1` or the spans inside it), and spell the string out in `css()` literally
+  as above: a name or delay computed at runtime emits no CSS rule. `settle` is
+  opacity with an 8px lift, `rise` opacity with a 24px lift, `wipe` a clip-path
+  reveal left to right. Nothing outside the hero block animates on load. `none`
+  sets nothing.
 - `ground: drift` sets `animation: 'drift 40s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate'`
   on the hero's field (its background layer), or the material component when
   one is declared. The layer that drifts is the ground, never the container
