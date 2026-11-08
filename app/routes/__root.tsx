@@ -11,7 +11,7 @@ import { Layout } from '../components/Layout'
 import { LiveRail } from '../components/LiveRail'
 import { css } from '../../styled-system/css'
 import type { ReactNode } from 'react'
-import { useLayoutEffect } from 'react'
+import { useLayoutEffect, useSyncExternalStore } from 'react'
 import { applyTheme, resolveTheme } from '../lib/theme'
 
 /**
@@ -201,8 +201,34 @@ function showsLiveRail(pathname: string) {
   return pathname === '/' || pathname === '/about' || pathname.startsWith('/work/')
 }
 
-function RootComponent() {
+const subscribeToNothing = () => () => {}
+
+/**
+ * The pathname to branch on, which on the first render is the shell's (#789).
+ *
+ * Vercel answers every route that is not prerendered with one file,
+ * `_shell.html`, and that file was rendered for `/`: the rail, no archive link.
+ * Branching on the real path during hydration asked React to adopt that HTML as
+ * `/about` or `/work`, which it cannot, so it threw #418 and rebuilt the page.
+ * `useSyncExternalStore` returns its server value on the server and through
+ * hydration and the client value straight after, so the first render agrees
+ * with the shell and the second one corrects it. The archive surfaces are
+ * prerendered as themselves and keep their real path.
+ *
+ * `vite preview` renders each route live, which is why it never showed this.
+ */
+function useRootPathname() {
   const pathname = useRouterState({ select: (s) => s.location.pathname })
+  const hydrating = useSyncExternalStore(
+    subscribeToNothing,
+    () => false,
+    () => true
+  )
+  return hydrating && !isArchiveSurface(pathname) ? '/' : pathname
+}
+
+function RootComponent() {
+  const pathname = useRootPathname()
 
   if (isArchiveSurface(pathname)) {
     return (
@@ -267,9 +293,9 @@ function RootDocument({
   bare?: boolean
   archiveLink?: boolean
 }) {
-  // Every route but `/` shares a shell prerendered for `/`, so its first client
-  // render can mismatch and React rebuilds the document, which drops the class
-  // THEME_INIT_SCRIPT set on <html> (#691). This puts it back before paint.
+  // A night's Layout can still render differently from the shell, and then React
+  // rebuilds the document, which drops the class THEME_INIT_SCRIPT set on <html>
+  // (#691). This puts it back before paint.
   useLayoutEffect(() => {
     if (!bare) applyTheme(resolveTheme())
   }, [bare])
