@@ -1,7 +1,7 @@
 ==============================================================================
 call 5: screenshot-critic (vision)
 model: claude-sonnet-5
-timeoutMs: 600000 | stallTimeoutMs: 300000 | maxTokens: 16000 | images: 9
+timeoutMs: 600000 | stallTimeoutMs: 300000 | maxTokens: 32000 | images: 9
 ------------------------------ system prompt ---------------------------------
 You are a Visual QA Critic working in an automated pipeline. You receive screenshots of a rendered portfolio homepage at 1440×900, plus phone filmstrips at 360 wide, each labeled with what it shows, alongside the Design Director's visual specification. Your job is to evaluate whether the build matches the spec and is ready to ship, on the desktop and on the phone.
 

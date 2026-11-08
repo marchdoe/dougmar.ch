@@ -6,7 +6,7 @@ import {
   isRetryableSdkError,
   textBlock,
 } from '../../scripts/utils/claude-sdk.js'
-import { APIConnectionError } from '@anthropic-ai/sdk'
+import { APIConnectionError, APIError, APIUserAbortError, AnthropicError } from '@anthropic-ai/sdk'
 import { getUsageRecords, resetLedger, summarizeLedger } from '../../scripts/utils/cost-ledger.js'
 import {
   DeadlineExceeded,
@@ -183,6 +183,77 @@ describe('callClaudeSDK', () => {
       callClaudeSDK('mockup-critic', 'sys', [textBlock('x')], { client })
     ).rejects.toThrow(/truncated at max_tokens \(16000 output tokens, cap 16000\)/)
     expect(getUsageRecords()).toHaveLength(1)
+  })
+
+  // #791: past 16000 the docs ask for streaming, and a stream needs its own
+  // deadline because the SDK's timeout stops at the headers.
+  describe('above the non-streaming cap', () => {
+    function stubStream(...outcomes) {
+      const finalMessage = vi.fn()
+      for (const outcome of outcomes) {
+        if (outcome instanceof Error) finalMessage.mockRejectedValueOnce(outcome)
+        else finalMessage.mockResolvedValueOnce(outcome)
+      }
+      const stream = vi.fn(() => ({ finalMessage }))
+      const create = vi.fn()
+      return { client: { messages: { create, stream } }, create, stream }
+    }
+
+    it('stays on messages.create at 16000', async () => {
+      const { client, create, stream } = stubStream()
+      create.mockResolvedValue(OK)
+      await callClaudeSDK('screenshot-critic', 'sys', [textBlock('x')], {
+        client,
+        maxTokens: 16000,
+      })
+      expect(create).toHaveBeenCalledTimes(1)
+      expect(stream).not.toHaveBeenCalled()
+    })
+
+    it('streams above 16000, with a signal that bounds the whole reply', async () => {
+      resetLedger()
+      const { client, create, stream } = stubStream(OK)
+      const text = await callClaudeSDK('screenshot-critic', 'sys', [textBlock('x')], {
+        client,
+        maxTokens: 32000,
+      })
+      expect(text).toBe(OK.content[0].text)
+      expect(create).not.toHaveBeenCalled()
+      const [params, options] = stream.mock.calls[0]
+      expect(params.max_tokens).toBe(32000)
+      expect(options).toMatchObject({ maxRetries: 0 })
+      expect(options.signal).toBeInstanceOf(AbortSignal)
+      expect(getUsageRecords()).toHaveLength(1)
+    })
+
+    it('still reports a max_tokens stop as a truncation, at the raised cap', async () => {
+      const { client } = stubStream({
+        ...OK,
+        stop_reason: 'max_tokens',
+        usage: { input_tokens: 10, output_tokens: 32000 },
+      })
+      const err = await callClaudeSDK('screenshot-critic', 'sys', [textBlock('x')], {
+        client,
+        maxTokens: 32000,
+      }).catch((e) => e)
+      expect(err.truncated).toBe(true)
+      expect(err.message).toMatch(/32000 output tokens, cap 32000/)
+    })
+
+    it('classifies mid-stream failures as retryable, and never its own deadline abort', () => {
+      const dropped = Object.assign(new AnthropicError('terminated'), {
+        cause: new TypeError('terminated'),
+      })
+      expect(isRetryableSdkError(dropped)).toBe(true)
+      expect(
+        isRetryableSdkError(new APIError(undefined, {}, 'x', undefined, 'overloaded_error'))
+      ).toBe(true)
+      expect(
+        isRetryableSdkError(new APIError(undefined, {}, 'x', undefined, 'invalid_request_error'))
+      ).toBe(false)
+      expect(isRetryableSdkError(new APIUserAbortError())).toBe(false)
+      expect(isRetryableSdkError(new AnthropicError('no cause'))).toBe(false)
+    })
   })
 
   it('throws without an API key', async () => {

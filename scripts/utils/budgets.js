@@ -29,6 +29,19 @@
  * critic went back to 16000, the SDK default, and the mockup critic followed
  * when it moved to Opus 5.5 (spec 11 1d), which thinks the same way. The CLI
  * path takes no `maxTokens`; it only reaches the SDK call.
+ *
+ * 16000 was still too low for the screenshot critic's re-judge: 18 of 37 SDK
+ * re-judges from 09-21 to 11-02 stopped at exactly 16000 with no verdict, and
+ * 2 of 38 first judgments did (#791). The reply is one short verdict block, so
+ * nearly all of that is thinking: on 10-22 a 28-character SHIP took 13,974
+ * output tokens. Keyless CLI runs of the same critic on the same model finished
+ * at up to 23,325, so the screenshot critic now has 32000. That is about 6
+ * minutes at the 85 tokens a second these calls run, inside the 10-minute
+ * timeout, and callClaudeSDK streams above 16000 as the API docs ask. A call
+ * that reaches 23k costs about $0.07 more than one cut off at 16k, which
+ * bought nothing. The mockup critic has not passed 3,034 on the SDK and stays
+ * at 16000.
+ *
  * `output_config.effort` would be the lever for bounding thinking on these
  * models (`budget_tokens` is rejected on Sonnet 5), and it is an owner call on
  * judgment quality, so it is not set here.
@@ -46,7 +59,7 @@ export const AGENT_BUDGETS = {
   'mockup-designer': { timeoutMs: 1_800_000, stallTimeoutMs: 480_000 },
   'react-engineer': { timeoutMs: 1_800_000, stallTimeoutMs: 480_000, effort: 'high' },
   'mockup-critic': { timeoutMs: 600_000, stallTimeoutMs: 300_000, maxTokens: 16_000 },
-  'screenshot-critic': { timeoutMs: 600_000, stallTimeoutMs: 300_000, maxTokens: 16_000 },
+  'screenshot-critic': { timeoutMs: 600_000, stallTimeoutMs: 300_000, maxTokens: 32_000 },
 }
 
 /** The call defaults when an agent is not in the table above. */
