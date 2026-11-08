@@ -1,20 +1,18 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { identity } from '../content/about'
-import { EducationLedger, PersonalLedger } from '../components/generated/AboutLedgers'
+import { AboutCredentials } from '../components/generated/AboutCredentials'
+import { AboutPersonal } from '../components/generated/AboutPersonal'
 import { AboutStatement } from '../components/generated/AboutStatement'
-import { CapabilityChips } from '../components/generated/CapabilityChips'
-import { TimelineLedger } from '../components/generated/TimelineLedger'
+import { AboutTimeline } from '../components/generated/AboutTimeline'
 
 export const Route = createFileRoute('/about')({ component: AboutPage })
 
 function AboutPage() {
   return (
     <>
-      <AboutStatement statement={identity.statement} />
-      <TimelineLedger />
-      <CapabilityChips />
-      <EducationLedger />
-      <PersonalLedger />
+      <AboutStatement />
+      <AboutTimeline />
+      <AboutCredentials />
+      <AboutPersonal />
     </>
   )
 }

@@ -63,12 +63,12 @@ type ProcessMap = NonNullable<(typeof projects)[number]['processMap']>
 function ProcessMapNote({ note }: { note: ProcessMap | undefined }) {
   if (!note) return null
   return (
-    <p className={processMapClass}>
-      {note.text}{' '}
+    <div className={processMapClass}>
+      <p className={processMapTextClass}>{note.text}</p>
       <a href={note.href} className={linkClass}>
         {note.linkLabel}
       </a>
-    </p>
+    </div>
   )
 }
 
@@ -420,6 +420,10 @@ const processMapClass = css({
   paddingTop: '1.25rem',
   borderTop: '1px solid',
   borderColor: 'border',
+})
+
+const processMapTextClass = css({
+  margin: '0',
   textWrap: 'pretty',
 })
 
@@ -467,6 +471,9 @@ const referenceClass = css({
 })
 
 const linkClass = css({
+  display: 'inline-flex',
+  alignItems: 'center',
+  minHeight: '44px',
   color: 'text',
   fontWeight: 'medium',
   textDecoration: 'underline',

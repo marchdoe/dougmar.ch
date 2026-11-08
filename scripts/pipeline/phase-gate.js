@@ -303,6 +303,20 @@ async function runScreenshotCriticGate(state) {
 }
 
 /**
+ * Cap `text` at `max` characters without leaving half a line: the cut falls
+ * on the last newline before the cap. The rating issue prints this text, and a
+ * fault cut mid-sentence read as a second, broken copy (#797).
+ * @param {string} text
+ * @param {number} max
+ * @returns {string}
+ */
+function capAtLine(text, max) {
+  if (text.length <= max) return text
+  const cut = text.lastIndexOf('\n', max)
+  return cut > 0 ? text.slice(0, cut) : text.slice(0, max)
+}
+
+/**
  * The decision between the gate and the archive. Until 2026-09-21 there
  * was none: the gate returned nothing and `archive()` ran unconditionally,
  * so a build the gate had measured and condemned shipped on nine different
@@ -357,7 +371,7 @@ async function refuseKnownFaults(state, decision) {
     state.verdicts.push({
       critic: 'ship-gate',
       verdict: 'SHIPPED-WITH-FAULTS',
-      feedback: formatFindingsForCritic(remainingFaults).slice(0, 2500),
+      feedback: capAtLine(formatFindingsForCritic(remainingFaults), 2500),
       ts: Date.now(),
     })
     return

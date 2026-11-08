@@ -1,0 +1,593 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'-21' (115px in the mockup) has no match in the build",
+          "facts": {
+            "text": "-21",
+            "mockupPx": 115,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'-21' (115px in the mockup) has no match in the build",
+          "facts": {
+            "text": "-21",
+            "mockupPx": 115,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'-21' (27px in the mockup) has no match in the build",
+          "facts": {
+            "text": "-21",
+            "mockupPx": 27,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'-21' is 115px in the mockup and 54px in the build (0.47x). Set it back to 115px.",
+          "facts": {
+            "text": "-21",
+            "mockupPx": 115,
+            "buildPx": 54,
+            "ratio": 0.47,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'-12' moved from (633, 750) in the mockup to (618, 912) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'sami välimäki' moved from (162, 755) in the mockup to (206, 922) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is '- 21' (120px); in build it is '- 21' (120px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "the chase",
+                "mockupPx": 26
+              }
+            ],
+            "leader": {
+              "text": "- 21",
+              "mockupPx": 120
+            },
+            "buildLeader": {
+              "text": "- 21",
+              "buildPx": 120,
+              "mockupPx": 120
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'-21' is 21px in the mockup and 36px in the build (1.71x)",
+          "facts": {
+            "text": "-21",
+            "mockupPx": 21,
+            "buildPx": 36,
+            "ratio": 1.71,
+            "mockupRank": 4
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the chase' moved from (80, 562) in the mockup to (80, 721) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'-21' moved from (320, 629) in the mockup to (312, 795) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'ben james' moved from (100, 632) in the mockup to (98, 804) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'1' moved from (31, 631) in the mockup to (31, 803) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: '- 21' still leads, but the mockup's 'the chase' (26px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets '-21' at 115px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets '-21' at 27px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: '-21' is 21px in the mockup and 36px in the build (1.71x). Set it back to 21px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'-21' (115px in the mockup) is present but not rendered (opacity/clipped/offscreen) in the build",
+          "facts": {
+            "text": "-21",
+            "mockupPx": 115,
+            "hidden": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'-21' (115px in the mockup) is present but not rendered (opacity/clipped/offscreen) in the build",
+          "facts": {
+            "text": "-21",
+            "mockupPx": 115,
+            "hidden": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'-21' (115px in the mockup) is present but not rendered (opacity/clipped/offscreen) in the build",
+          "facts": {
+            "text": "-21",
+            "mockupPx": 115,
+            "hidden": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is '- 21' (160px); in build it is '- 21' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "-21",
+                "mockupPx": 115
+              },
+              {
+                "text": "-21",
+                "mockupPx": 115
+              }
+            ],
+            "leader": {
+              "text": "- 21",
+              "mockupPx": 160
+            },
+            "buildLeader": {
+              "text": "- 21",
+              "buildPx": 160,
+              "mockupPx": 160
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'work' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "work",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'about' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "about",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'contact' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "contact",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is '- 21' (120px); in build it is '- 21' (120px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "the chase",
+                "mockupPx": 26
+              }
+            ],
+            "leader": {
+              "text": "- 21",
+              "mockupPx": 120
+            },
+            "buildLeader": {
+              "text": "- 21",
+              "buildPx": 120,
+              "mockupPx": 120
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the chase' moved from (80, 562) in the mockup to (80, 721) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'-21' moved from (320, 629) in the mockup to (320, 782) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'ben james' moved from (100, 632) in the mockup to (98, 785) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'1' moved from (31, 631) in the mockup to (31, 784) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: '- 21' still leads, but the mockup's '-21' (115px), '-21' (115px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: '- 21' still leads, but the mockup's 'the chase' (26px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets '-21' at 115px; the build has it but does not show it (opacity near 0, clipped, or off the page). Make it visible.",
+        "- / at 360px: The mockup sets 'work' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'about' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'contact' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'-21' (115px in the mockup) is present but not rendered (opacity/clipped/offscreen) in the build",
+          "facts": {
+            "text": "-21",
+            "mockupPx": 115,
+            "hidden": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'-21' (115px in the mockup) is present but not rendered (opacity/clipped/offscreen) in the build",
+          "facts": {
+            "text": "-21",
+            "mockupPx": 115,
+            "hidden": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'-21' (115px in the mockup) is present but not rendered (opacity/clipped/offscreen) in the build",
+          "facts": {
+            "text": "-21",
+            "mockupPx": 115,
+            "hidden": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is '- 21' (160px); in build it is '- 21' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "-21",
+                "mockupPx": 115
+              },
+              {
+                "text": "-21",
+                "mockupPx": 115
+              }
+            ],
+            "leader": {
+              "text": "- 21",
+              "mockupPx": 160
+            },
+            "buildLeader": {
+              "text": "- 21",
+              "buildPx": 160,
+              "mockupPx": 160
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'work' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "work",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'about' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "about",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'contact' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "contact",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is '- 21' (120px); in build it is '- 21' (120px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "the chase",
+                "mockupPx": 26
+              }
+            ],
+            "leader": {
+              "text": "- 21",
+              "mockupPx": 120
+            },
+            "buildLeader": {
+              "text": "- 21",
+              "buildPx": 120,
+              "mockupPx": 120
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the chase' moved from (80, 562) in the mockup to (80, 721) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'-21' moved from (320, 629) in the mockup to (320, 782) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'ben james' moved from (100, 632) in the mockup to (98, 785) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'1' moved from (31, 631) in the mockup to (31, 784) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: '- 21' still leads, but the mockup's '-21' (115px), '-21' (115px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: '- 21' still leads, but the mockup's 'the chase' (26px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets '-21' at 115px; the build has it but does not show it (opacity near 0, clipped, or off the page). Make it visible.",
+        "- / at 360px: The mockup sets 'work' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'about' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'contact' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

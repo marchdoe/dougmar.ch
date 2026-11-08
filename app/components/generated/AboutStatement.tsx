@@ -1,40 +1,47 @@
 import { css } from '../../../styled-system/css'
+import { identity } from '../../content/about'
+import { Ground } from '../Material'
 
-export function AboutStatement({ statement }: { statement: string }) {
+export function AboutStatement() {
   return (
     <section
       className={css({
-        paddingBlock: { base: '7', lg: '8' },
-        paddingInline: { base: '4', md: '6', lg: '7', xl: '8' },
+        position: 'relative',
+        overflow: 'hidden',
+        bg: 'field',
+        color: 'surface',
+        marginTop: 'calc(var(--tab) * -1)',
+        paddingTop: { base: '112px', lg: '152px' },
+        paddingBottom: 'clamp(48px,6vw,96px)',
+        paddingInline: 'var(--pad)',
       })}
     >
-      <span
-        className={css({
-          display: 'block',
-          textStyle: 'xs',
-          letterSpacing: 'widest',
-          textTransform: 'uppercase',
-          color: 'accent',
-          marginBottom: '5',
-          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '80ms',
-        })}
-      >
-        About
-      </span>
-      <h1
-        className={css({
-          fontFamily: 'body',
-          fontWeight: 'normal',
-          textStyle: 'lede',
-          color: 'text',
-          maxWidth: '66ch',
-          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '0ms',
-        })}
-      >
-        {statement}
-      </h1>
+      <Ground material="grain" seed={1533375130} />
+      <div className={css({ position: 'relative', zIndex: 1 })}>
+        <h1
+          className={css({
+            fontFamily: 'display',
+            fontWeight: 'normal',
+            textTransform: 'uppercase',
+            textStyle: { base: '3xl', lg: 'hero' },
+            color: 'fieldInk',
+            textAlign: 'right',
+          })}
+        >
+          {identity.name}
+        </h1>
+        <p
+          className={css({
+            marginTop: '5',
+            marginLeft: 'auto',
+            maxWidth: '46ch',
+            textStyle: 'lede',
+            color: 'surface',
+          })}
+        >
+          {identity.statement}
+        </p>
+      </div>
     </section>
   )
 }
