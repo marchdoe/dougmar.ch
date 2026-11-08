@@ -11,7 +11,7 @@ function OgCard() {
         position: 'fixed',
         inset: '0',
         zIndex: 9999,
-        bg: 'bg',
+        bg: 'field',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -25,54 +25,53 @@ function OgCard() {
           flexShrink: 0,
           bg: 'field',
           color: 'fieldInk',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '5',
-          paddingInline: '8',
-          textAlign: 'center',
         })}
       >
-        <BrandLockup
-          variant="stacked-md"
-          mode="original"
-          className={css({ position: 'absolute', top: '56px', left: '56px' })}
-        />
+        <div className={css({ position: 'absolute', top: '64px', left: '64px' })}>
+          <BrandLockup variant="mark-only-md" mode={{ light: 'original', dark: 'single-color' }} />
+        </div>
         <h1
           className={css({
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '4',
-            fontWeight: 'light',
-            marginTop: '7',
+            position: 'absolute',
+            right: '64px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            width: '580px',
+            textAlign: 'right',
+            textWrap: 'wrap',
           })}
         >
           <span
             className={css({
               display: 'block',
-              whiteSpace: 'nowrap',
               fontFamily: 'display',
-              fontWeight: 'light',
-              textStyle: 'hero',
-              lineHeight: 'tight',
-              color: 'transparent',
-              WebkitTextStroke: '2px token(colors.accent)',
+              fontWeight: 'normal',
+              textTransform: 'uppercase',
+              letterSpacing: '0.015em',
+              lineHeight: '0.96',
+              fontSize: '66px',
+              color: 'surface',
+              textAlign: 'justify',
+              textAlignLast: 'justify',
             })}
           >
-            Spaceman
-          </span>
+            Ben James leads at
+          </span>{' '}
           <span
             className={css({
               display: 'block',
-              fontFamily: 'body',
+              fontFamily: 'display',
               fontWeight: 'normal',
-              textStyle: '2xl',
+              fontSize: '380px',
+              lineHeight: '0.82',
+              letterSpacing: '0.005em',
               color: 'fieldInk',
+              marginTop: '4px',
+              textAlign: 'justify',
+              textAlignLast: 'justify',
             })}
           >
-            FishSticks, 15th Club, and the next one.
+            − 21
           </span>
         </h1>
       </div>
