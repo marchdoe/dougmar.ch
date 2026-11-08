@@ -166,6 +166,64 @@ describe('buildShippedWithFaultsSection', () => {
   it('skips an entry with no feedback text', () => {
     expect(buildShippedWithFaultsSection([{ feedback: '' }, { feedback: '   ' }])).toBe('')
   })
+
+  describe('measured layout faults (#797)', () => {
+    const detail = 'holds text wider than its own box: "A new design" needs 215px. Let it wrap.'
+    const fault = (route, d = detail) => `- [error] ${route} at 820px (both schemes): <div> ${d}`
+    const block = (...lines) =>
+      [
+        '## Measured layout faults',
+        '',
+        'These are measurements taken from the live render.',
+        'They are exact.',
+        '',
+        ...lines,
+      ].join('\n')
+    const count = (text, needle) => text.split(needle).length - 1
+
+    it('prints the block once when two entries carry it, and drops the cut copy', () => {
+      const full = block(fault('/'), fault('/about'))
+      const cut = `${full.slice(0, full.lastIndexOf('Let it wrap'))}Let it`
+      const section = buildShippedWithFaultsSection([
+        { feedback: `===VERDICT===\nREVISE\n\n${full}` },
+        { feedback: cut },
+      ])
+
+      expect(count(section, '## Measured layout faults')).toBe(1)
+      expect(section).toContain('===VERDICT===\nREVISE')
+      expect(section.endsWith('Let it wrap.')).toBe(true)
+      expect(count(section, 'Let it wrap.')).toBe(1)
+    })
+
+    it('lists the routes on one line when the same fault repeats', () => {
+      const section = buildShippedWithFaultsSection([
+        { feedback: block(fault('/'), fault('/about'), fault('/work/a')) },
+      ])
+
+      expect(section).toContain(
+        `- [error] 3 routes (/, /about, /work/a) at 820px (both schemes): <div> ${detail}`
+      )
+      expect(count(section, 'holds text wider')).toBe(1)
+    })
+
+    it('keeps distinct faults on their own lines', () => {
+      const other = 'overflows the viewport by 40px.'
+      const section = buildShippedWithFaultsSection([
+        { feedback: block(fault('/'), fault('/about'), fault('/', other)) },
+      ])
+
+      expect(section).toContain(
+        `- [error] 2 routes (/, /about) at 820px (both schemes): <div> ${detail}`
+      )
+      expect(section).toContain(fault('/', other))
+    })
+
+    it('passes through a line that is not a viewport fault', () => {
+      const copy = '- [error] app/routes/index.tsx:12: stray em dash'
+      const section = buildShippedWithFaultsSection([{ feedback: block(fault('/'), copy) }])
+      expect(section).toContain(copy)
+    })
+  })
 })
 
 // #486: a final re-judge that never reached the SDK vision channel — a

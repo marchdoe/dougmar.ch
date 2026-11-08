@@ -2,72 +2,103 @@ import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
 import { BrandLockup } from './BrandLockup'
 
-const linkClass = css({
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: '2',
-  minHeight: { base: '44px', lg: '26px' },
-  paddingInline: '2',
-  fontFamily: 'body',
-  fontWeight: 'normal',
-  textStyle: 'sm',
-  letterSpacing: 'normal',
-  color: 'textMuted',
-  _hover: { color: 'text' },
-})
+const links = [
+  { label: 'Work', href: '/#work' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: `mailto:${identity.email}` },
+]
 
-const numClass = css({
-  textStyle: '2xs',
-  letterSpacing: 'wider',
-  color: 'accent',
-  fontVariantNumeric: 'tabular-nums',
-})
-
+// Mockup ink50 on the tab maps to surface, the nearest token that holds on field in both schemes.
+// Unresolved here: the clipped rail sentence at 820 is rendered by __root.tsx, which this run may not change.
 export function Sidebar() {
-  const links = [
-    { n: '01', label: 'Work', href: '/#work' },
-    { n: '02', label: 'About', href: '/about' },
-    { n: '03', label: 'Contact', href: `mailto:${identity.email}` },
-  ]
   return (
     <header
       className={css({
-        position: 'relative',
-        zIndex: 3,
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        zIndex: 20,
+        bg: 'field',
+        color: 'fieldInk',
         display: 'flex',
-        flexDirection: 'column',
         alignItems: 'center',
-        textAlign: 'center',
-        gap: { base: '1', lg: '0' },
-        paddingBlock: { base: '2', lg: '1' },
-        paddingInline: { base: '4', md: '6', lg: '7', xl: '8' },
-        color: 'text',
+        gap: '14px',
+        paddingTop: '10px',
+        paddingRight: '18px',
+        paddingBottom: '12px',
+        paddingLeft: '18px',
+        borderRightWidth: '2px',
+        borderRightStyle: 'solid',
+        borderRightColor: 'borderStrong',
+        borderBottomWidth: '2px',
+        borderBottomStyle: 'solid',
+        borderBottomColor: 'borderStrong',
       })}
     >
       <a
         href="/"
-        aria-label={identity.name}
-        className={css({ color: 'text', _hover: { color: 'text' } })}
+        aria-label={`${identity.name}, home`}
+        className={css({ display: 'block', color: 'fieldInk' })}
       >
-        <BrandLockup variant="stacked-md" mode="original" />
+        <BrandLockup variant="mark-only-md" mode={{ light: 'original', dark: 'single-color' }} />
       </a>
-      <nav
-        aria-label="Primary"
-        className={css({
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          columnGap: '4',
-          rowGap: '0',
-        })}
-      >
-        {links.map((l) => (
-          <a key={l.n} href={l.href} className={linkClass}>
-            <span className={numClass}>{l.n}</span>
-            {l.label}
-          </a>
-        ))}
-      </nav>
+      <details>
+        <summary
+          className={css({
+            listStyle: 'none',
+            cursor: 'pointer',
+            fontFamily: 'body',
+            fontWeight: 'bold',
+            fontVariant: 'small-caps',
+            letterSpacing: 'wide',
+            textStyle: 'sm',
+            color: 'fieldInk',
+            minHeight: '44px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            '&::-webkit-details-marker': { display: 'none' },
+          })}
+        >
+          Index
+        </summary>
+        <nav
+          aria-label="Primary"
+          className={css({
+            display: 'none',
+            'details[open] > &': { display: 'flex' },
+            flexWrap: 'wrap',
+            rowGap: '4px',
+            columnGap: '14px',
+            marginTop: '4px',
+          })}
+        >
+          {links.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className={css({
+                bg: 'field',
+                color: 'surface',
+                textStyle: 'sm',
+                fontWeight: 'normal',
+                textTransform: 'uppercase',
+                letterSpacing: 'wide',
+                fontVariantCaps: 'all-small-caps',
+                paddingBlock: '8px',
+                paddingInline: '2px',
+                minHeight: '44px',
+                minWidth: '44px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                _hover: { color: 'fieldInk' },
+              })}
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+      </details>
     </header>
   )
 }

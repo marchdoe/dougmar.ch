@@ -56,7 +56,9 @@ import { chooseTheme, hasTwoLooks, resolveTheme, type Theme } from '../lib/theme
  * can't delete, so the switch lives here. The shell can't know the visitor's
  * mode, so the button keeps its space hidden until the first client render,
  * which stops the other buttons moving. On a night with one look it is removed.
- * It cost 48px at 320, which the rail's side padding pays for under 360px.
+ * It cost 48px at 320. Under 360px the rail's side padding drops to 4px and
+ * the 4px gaps between items go: with the button showing, the rail measured
+ * 332px at 320 in macOS's system face with the gaps, 316px without them.
  */
 
 const root = css({
@@ -87,7 +89,7 @@ const root = css({
     paddingInline: '8px',
     fontSize: '12px',
   },
-  '@media (max-width: 359px)': { paddingInline: '4px' },
+  '@media (max-width: 359px)': { paddingInline: '4px', gap: '0' },
 })
 
 /**
