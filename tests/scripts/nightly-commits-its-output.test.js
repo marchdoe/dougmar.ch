@@ -144,7 +144,7 @@ describe('the nightly agrees with the pipeline about which day it is', () => {
     expect(push).toMatch(today)
     const rating = src.slice(src.indexOf('Open today'), src.indexOf('  notify:'))
     expect(rating).toMatch(/RUN_DATE: \$\{\{ needs\.redesign\.outputs\.date \}\}/)
-    expect(rating).toMatch(/process\.env\.RUN_DATE/)
+    expect(rating).toMatch(today)
   })
 
   it('has the pipeline publish signals.date, the day every archive path is keyed on', async () => {
@@ -286,19 +286,22 @@ describe('what the nightly links to', () => {
     // signal the Art Director gets back. #549 moved it again: public/archive-data
     // is made at build time now, so the issue reads the build dir on main,
     // which is where the nightly commits the capture.
-    const rating = src.slice(src.indexOf('Open today'), src.indexOf('  notify:'))
-    // biome-ignore lint/suspicious/noTemplateCurlyInString: asserting on the literal text the workflow YAML contains, not interpolating
+    // The body is built by scripts/utils/rating-issue.js (#792), the module
+    // the workflow and the local-night recipe share.
+    const rating = readFileSync(path.join(ROOT, 'scripts/utils/rating-issue.js'), 'utf8')
+    // biome-ignore lint/suspicious/noTemplateCurlyInString: asserting on the literal text of the module, not interpolating
     expect(rating).toContain('const img = `${rawBase}/screenshot.png`')
-    // biome-ignore lint/suspicious/noTemplateCurlyInString: asserting on the literal text the workflow YAML contains, not interpolating
-    expect(rating).toContain('/main/${buildDir}`')
+    // biome-ignore lint/suspicious/noTemplateCurlyInString: asserting on the literal text of the module, not interpolating
+    expect(rating).toContain('/main/archive/${date}/build-${buildId}`')
     expect(rating).not.toContain('main/public/archive-data')
-    // biome-ignore lint/suspicious/noTemplateCurlyInString: asserting on the literal text the workflow YAML contains, not interpolating
+    // biome-ignore lint/suspicious/noTemplateCurlyInString: asserting on the literal text of the workflow YAML, not interpolating
     expect(src).not.toContain('main/public/archive/${today}.png')
   })
 
   it('names the phone capture in whichever format the build wrote (#549)', () => {
-    const rating = src.slice(src.indexOf('Open today'), src.indexOf('  notify:'))
-    expect(rating).toContain('viewports/mobile.webp')
+    const rating = readFileSync(path.join(ROOT, 'scripts/utils/rating-issue.js'), 'utf8')
+    expect(rating).toContain('viewports')
+    expect(rating).toContain("'mobile.webp'")
     expect(rating).toContain("'mobile.png'")
   })
 
