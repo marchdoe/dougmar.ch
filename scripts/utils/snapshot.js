@@ -648,16 +648,17 @@ export async function captureTabletStill(browser, url) {
 }
 
 /**
- * Offsets, in ms after `domcontentloaded`, at which the motion strip's frames
- * are taken (#506). The entrance keyframes run 500ms with up to 240ms of
- * stagger, so 0 and 200 catch the hero not yet arrived, 500 catches the h1
+ * Offsets, in ms of the entrance's own clock, at which the motion strip's
+ * frames are taken (#506). The entrance keyframes run 500ms with up to 240ms
+ * of stagger, so 0 is the hero not yet arrived, 200 is the h1 nearly home (the
+ * easing is front-loaded) with a late sibling not yet started, 500 is the h1
  * settled with its last sibling still moving, and 1000 is the still every
  * other capture already takes.
  */
 export const MOTION_FRAME_OFFSETS_MS = [0, 200, 500, 1000]
 /** Device-pixel gap between adjacent frames in the composed strip. */
 const MOTION_STRIP_GUTTER = 16
-/** How long after the hero's first painted frame its text tiles are rastered. */
+/** How long after a seek the frame's text tiles are rastered. */
 const MOTION_RASTER_SETTLE_MS = 50
 /** Matches the filmstrip: the largest edge the API keeps without downscaling. */
 const MOTION_STRIP_WIDTH = PHONE_FILMSTRIP_WIDTH
@@ -731,30 +732,52 @@ async function composeMotionStrip(page, frames, layout) {
 }
 
 /**
+ * Runs in the page: pause every animation on the document clock and put it
+ * `ms` into its own timeline, so a frame shows exactly that moment however
+ * long the screenshot takes. Scroll-driven `reveal` animations run on a view
+ * timeline, not this clock, and are left alone. Queried on every seek so an
+ * animation a late mount added is held too.
+ *
+ * @param {number} ms
+ * @returns {void}
+ */
+export function seekClockAnimations(ms) {
+  for (const animation of document.getAnimations()) {
+    if (animation.timeline !== document.timeline) continue
+    animation.pause()
+    animation.currentTime = ms
+  }
+}
+
+/**
  * Four frames of a page's first second, as one strip (#506).
  *
  * Every other capture waits for `networkidle` and then a flat second, which
  * is after any entrance has finished, so no critic has ever seen the page
- * move. This one navigates with `domcontentloaded` and screenshots at the
- * offsets in `MOTION_FRAME_OFFSETS_MS`, then composes them at the
- * filmstrip's width. Each screenshot takes real time, so the offsets are the
- * earliest a frame is asked for, not a guarantee; the labels carry the
- * nominal offset.
+ * move. This one navigates with `domcontentloaded`, then composes four frames
+ * at the filmstrip's width, one per offset in `MOTION_FRAME_OFFSETS_MS`.
  *
- * Three things anchor the clock so the frames show motion and nothing else.
- * The page is visited once first, to `networkidle`, so the stylesheet and
+ * Each frame is a seek, not a race (#790). The strip used to sleep to each
+ * offset on the wall clock and screenshot: `Page.captureScreenshot` takes
+ * about 190ms, and the page's clock had already run some 100ms by the first
+ * shot, so "0ms" was the entrance a quarter gone and most of the way home on
+ * its front-loaded curve, and the frame labelled 200ms was over 300ms in. The h1 at
+ * delay zero looked already formed while its delayed siblings were still
+ * moving, which the critic read as "the hero is static and something else
+ * animates". So the page's animations are paused and set to each offset, and
+ * the frame is exactly that moment of the entrance on any machine.
+ *
+ * Two things settle the page first so the frames show motion and nothing
+ * else. The page is visited once, to `networkidle`, so the stylesheet and
  * the webfonts are in this context's cache and a face swapping in between
  * frames cannot read as an entrance. Then, after the real navigation, the
- * clock waits for the page's one `h1` to be in the DOM: on the dev server
+ * capture waits for the page's one `h1` to be in the DOM (on the dev server
  * the hero section mounts some tens of milliseconds after
- * `domcontentloaded`, and its entrance starts when it mounts, so a frame
- * taken at the document's first paint showed the shell with no hero on it
- * at all. Then `document.fonts.ready`, two painted frames, and a short
- * raster settle: the frame right after the hero mounts still had the nav
- * and footer text unrastered, and a nav that "appears" between frames one
- * and two would read to the critic as a cascade. The first frame is
- * therefore a complete paint of the hero some 50ms into its entrance, which
- * the labels round to zero; they say "after the hero painted" for that reason.
+ * `domcontentloaded`), then `document.fonts.ready` and two painted frames.
+ * Each seek is followed by two painted frames and a short raster settle: a
+ * frame taken straight after a repaint could still have the text tiles
+ * unrastered, and a nav that "appears" between frames would read to the
+ * critic as a cascade.
  *
  * The frames themselves come from CDP `Page.captureScreenshot`, not from
  * `page.screenshot`. Playwright's screenshot injects a stylesheet, captures,
@@ -779,17 +802,18 @@ export async function captureMotionFrames(page, url, { offsetsMs = MOTION_FRAME_
   // first paint instead of failing the strip.
   await page.waitForSelector('h1', { state: 'attached', timeout: 5000 }).catch(() => null)
   await page.evaluate(() => document.fonts.ready)
-  await page.evaluate(
-    () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))
-  )
-  await page.waitForTimeout(MOTION_RASTER_SETTLE_MS)
+  const twoPaintedFrames = () =>
+    page.evaluate(
+      () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))
+    )
+  await twoPaintedFrames()
   const cdp = await page.context().newCDPSession(page)
-  const t0 = Date.now()
   const frames = []
   try {
     for (const offset of offsetsMs) {
-      const wait = t0 + offset - Date.now()
-      if (wait > 0) await page.waitForTimeout(wait)
+      await page.evaluate(seekClockAnimations, offset)
+      await twoPaintedFrames()
+      await page.waitForTimeout(MOTION_RASTER_SETTLE_MS)
       const { data } = await cdp.send('Page.captureScreenshot', {
         format: 'png',
         fromSurface: true,
