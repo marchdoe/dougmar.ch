@@ -7,7 +7,7 @@
  * referenced by the content and rendered by nothing. This module is the half
  * of the material lane that lives outside React:
  *
- *   MATERIAL_NAMES        the six `ground_material` values the Art Director
+ *   MATERIAL_NAMES        the `ground_material` values the Art Director
  *                         may declare in ===SHELL===, `none` included
  *   MATERIAL_OWNER        app/components/Material.tsx, the one file allowed
  *                         to synthesize a material (the validator fails an
@@ -34,12 +34,14 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const TEMPLATE_PATH = resolve(__dirname, '../templates/Material.tsx.template')
 
 /**
- * The six declarable materials, in prompt order. `none` is a real value and
- * the honest one on a type-only day; the others are textures the component
- * draws from the semantic tokens and the day's seed.
+ * The declarable materials, in prompt order. `none` is the default and the
+ * honest answer most days; `grain` is the one texture the component draws.
+ * Mesh, halftone, rule and dots were cut in Spec 14 (#794). Archived nights
+ * still name them, so read a past `ground_material` as a plain string and
+ * never against this list.
  * @type {ReadonlyArray<string>}
  */
-export const MATERIAL_NAMES = Object.freeze(['none', 'grain', 'mesh', 'halftone', 'rule', 'dots'])
+export const MATERIAL_NAMES = Object.freeze(['none', 'grain'])
 
 /** The one file that may synthesize a material. */
 export const MATERIAL_OWNER = 'app/components/Material.tsx'

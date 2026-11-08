@@ -285,14 +285,11 @@ declare only what you mean the page to show:
 
 - `grain`: film grain, a fractal-noise filter in the `text` ink at low
   opacity; for a photographic or printed register.
-- `mesh`: three or four soft radial blooms in `accent`, `accentAlt` and `bg`;
-  for atmosphere, light, weather, a sky.
-- `halftone`: a rotated dot screen in `text` at low alpha; for a newspaper,
-  a poster, a printed register.
-- `rule`: ruled lines in `border`; for a ledger, a notebook, a broadsheet.
-- `dots`: a dot field in `accent`; for a grid, a scoreboard, a specimen sheet.
-- `none`: no texture. This is the honest answer on a type-only day, and most
-  days are; a material is a decision the field needs, not a default.
+- `none`: no texture, and the default. Most days are type and flat colour;
+  a material is a decision the field needs.
+
+Dot, halftone, ruled-line and blob grounds are banned: the owner has rejected
+them, and a check fails any mockup or build that draws one.
 
 The material sits on the field, never in place of it: the colour floor is
 measured off backgrounds, and a material paints none.
@@ -512,7 +509,7 @@ footer: <treatment, e.g. data strip / colophon block / folded-into-nav / none>
 brand_lockup: <one id from the Brand Contract table>
 brand_color_mode: original | single-color | light=<mode> dark=<mode>   # original unless it fails the Brand Contract's contrast test on the header's ground; per scheme when the schemes disagree
 ground_strategy: light-ground | dark-void | drench | duotone | split-field
-ground_material: none | grain | mesh | halftone | rule | dots
+ground_material: none | grain
 
 ===HEADER===
 placement: top-bar | left-rail | right-margin | corner | folded-into-hero | footer-only | none

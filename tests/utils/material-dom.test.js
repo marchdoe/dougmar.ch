@@ -80,8 +80,7 @@ describe('<Ground> paints', () => {
 
   it('the stylesheet carries the material classes', () => {
     expect(css).toContain('--colors-bg')
-    expect(css).toMatch(/feTurbulence|radial-gradient/)
-    expect(css).toContain('repeating-linear-gradient')
+    expect(css).not.toContain('repeating-linear-gradient')
   })
 
   it('renders no layer for none', async () => {
@@ -122,19 +121,13 @@ describe('<Ground> paints', () => {
         expect(probe.position).toBe('absolute')
         expect(probe.pointerEvents).toBe('none')
         expect(probe.zIndex).toBe('0')
-        // Every layer at least covers the hero (halftone is oversized for rotation).
+        // The layer at least covers the hero.
         expect(probe.layerRect.width).toBeGreaterThanOrEqual(HERO.width - 1)
         expect(probe.layerRect.height).toBeGreaterThanOrEqual(HERO.height - 1)
-        if (material === 'grain') {
-          expect(probe.layerTag).toBe('svg')
-          expect(probe.hasFilter).toBe(true)
-          // The flood inherits the `text` token through currentColor.
-          expect(probe.layerColor).not.toBe('rgba(0, 0, 0, 0)')
-        } else {
-          expect(probe.layerTag).toBe('div')
-          expect(probe.backgroundImage).toMatch(/gradient/)
-          expect(probe.backgroundImage).not.toContain('var(')
-        }
+        expect(probe.layerTag).toBe('svg')
+        expect(probe.hasFilter).toBe(true)
+        // The flood inherits the `text` token through currentColor.
+        expect(probe.layerColor).not.toBe('rgba(0, 0, 0, 0)')
         // It paints: the hero is not the bare field any more.
         const painted = await heroPixels(page)
         expect(painted.equals(bare)).toBe(false)

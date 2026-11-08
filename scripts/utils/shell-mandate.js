@@ -1,4 +1,5 @@
 import { parseBrandColorMode } from './brand-mark-contrast.js'
+import { isMaterialName } from './material.js'
 import { lastDistinct, readRecentArtifacts } from './recency.js'
 import { FORBID_WINDOW } from './recency-mandate.js'
 
@@ -80,6 +81,11 @@ export function computeShellMandate({ archiveDir, lookbackDays = 7 }) {
       FORBID_WINDOW
     )
   }
+  // `none` is the default, so it is never one to avoid, and a material cut
+  // from the menu (Spec 14) is no longer a choice to steer away from.
+  softForbidden.ground_material = softForbidden.ground_material.filter(
+    (m) => m !== 'none' && isMaterialName(m)
+  )
 
   // The mark has two colour modes and one of them has effectively never
   // shipped: across 17 builds carrying a shell.json, `single-color` was

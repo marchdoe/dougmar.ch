@@ -173,13 +173,15 @@ describe('validateArtDirectorResult', () => {
     )
     expect(() =>
       validateArtDirectorResult({ ...valid, shell: `${without}\nground_material: velvet` })
-    ).toThrow(
-      /ground_material must be one of none, grain, mesh, halftone, rule, dots, got "velvet"/
-    )
-    for (const name of ['grain', 'mesh', 'halftone', 'rule', 'dots']) {
+    ).toThrow(/ground_material must be one of none, grain, got "velvet"/)
+    expect(() =>
+      validateArtDirectorResult({ ...valid, shell: `${without}\nground_material: grain` })
+    ).not.toThrow()
+    // Spec 14 cut these from the menu; the Art Director can no longer declare one.
+    for (const name of ['mesh', 'halftone', 'rule', 'dots']) {
       expect(() =>
         validateArtDirectorResult({ ...valid, shell: `${without}\nground_material: ${name}` })
-      ).not.toThrow()
+      ).toThrow(/ground_material must be one of/)
     }
   })
 

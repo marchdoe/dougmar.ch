@@ -40,6 +40,7 @@ import {
   parseBrandColorMode,
 } from './brand-mark-contrast.js'
 import { rgbToHex } from './contrast.js'
+import { classifyGroundPattern, PATTERN_FIX, PATTERN_LABEL } from './ground-pattern.js'
 import { heroPxAt } from './mockup-rounds.js'
 import { describeLegibility, failingProbes, LEGIBILITY_FIX } from './pixel-contrast.js'
 
@@ -84,11 +85,17 @@ const MAX_CUT_TEXTS = 3
  * `cutText` lists visible text (effective opacity 0.5 and up, not under
  * `aria-hidden`) whose own run crosses the viewport's left or right edge.
  *
+ * `grounds` lists the blocks wider than half the page, `::before` and
+ * `::after` included, whose background carries a radial or repeating
+ * gradient. It returns the raw values for `classifyGroundPattern` to read,
+ * since a helper from another module does not exist in here.
+ *
  * @returns {{ width: number, height: number, scrollWidth: number, markCount: number,
  *   mark: null | { heightPx: number, top: number, inFold: boolean, original: boolean,
  *     ground: { r: number, g: number, b: number } },
  *   wordmark: null | { orientation: 'row'|'column'|'apart'|'unclear', gapPx: number },
- *   cutText: Array<{ text: string, left: number, right: number }> }}
+ *   cutText: Array<{ text: string, left: number, right: number }>,
+ *   grounds: Array<{ image: string, size: string, widthPx: number, where: string }> }}
  */
 // The helpers below (shown, isMark, textRect, the two walks) live inside
 // this one function body for the reason extractTextSegments's do in
@@ -218,6 +225,27 @@ export function readMockupFacts() {
     }
   }
 
+  const grounds = []
+  for (const el of [document.documentElement, ...document.querySelectorAll('body, body *')]) {
+    if (grounds.length >= 12) break
+    if (el.closest('svg') || !shown(el)) continue
+    for (const pseudo of [null, '::before', '::after']) {
+      const s = getComputedStyle(el, pseudo)
+      if (!/radial-gradient|repeating-/.test(s.backgroundImage)) continue
+      if (pseudo && s.content === 'none') continue
+      const box = el.getBoundingClientRect().width
+      const widthPx = pseudo ? Number.parseFloat(s.width) || box : box
+      if (widthPx <= vw / 2) continue
+      const cls = typeof el.className === 'string' ? el.className.trim().split(/\s+/)[0] : ''
+      grounds.push({
+        image: s.backgroundImage.slice(0, 600),
+        size: s.backgroundSize,
+        widthPx: Math.round(widthPx),
+        where: `${el.tagName.toLowerCase()}${cls ? `.${cls}` : ''}${pseudo ?? ''}`,
+      })
+    }
+  }
+
   return {
     width: vw,
     height: vh,
@@ -226,6 +254,7 @@ export function readMockupFacts() {
     mark,
     wordmark,
     cutText,
+    grounds,
   }
 }
 
@@ -495,7 +524,24 @@ function legibilityRule({ wide, narrow }) {
   )
 }
 
-/** Every rule, in the order the findings are listed: check 2, check 4, check 6, then legibility. */
+/**
+ * A page or hero ground that is a repeating pattern (Spec 14 item 7): the
+ * blocks `readMockupFacts` listed at 1440 that `classifyGroundPattern` calls
+ * a pattern. Filed as check 7, a label the other measured checks leave free.
+ */
+function patternedGroundRule({ wide }) {
+  const hits = (wide?.grounds ?? [])
+    .map((g) => ({ ...g, pattern: classifyGroundPattern(g.image, g.size) }))
+    .filter((g) => g.pattern)
+  if (!hits.length) return null
+  const list = hits
+    .slice(0, MAX_CUT_TEXTS)
+    .map((g) => `${g.where} (${g.widthPx}px wide) paints ${PATTERN_LABEL[g.pattern]}`)
+    .join('; ')
+  return finding(7, 'patterned-ground', hits.length, `The ground repeats: ${list}. ${PATTERN_FIX}`)
+}
+
+/** Every rule, in the order the findings are listed: check 2, check 4, check 6, legibility, then the patterned ground. */
 const RULES = [
   floorRule(
     'canvas',
@@ -521,6 +567,7 @@ const RULES = [
   overflowRule,
   cutTextRule,
   legibilityRule,
+  patternedGroundRule,
 ]
 
 /**

@@ -281,6 +281,49 @@ describe('readMockupFacts (Chromium)', () => {
 
   const sized = (svg, css) => svg.replace('<svg ', `<svg style="${css}" `)
 
+  describe('patterned grounds (Spec 14 item 7)', () => {
+    const patternFinding = (wide) =>
+      evaluateMockupPrecheck({ measured: null, wide, narrow: null, declared: {} }).find(
+        (f) => f.key === 'patterned-ground'
+      )
+
+    it('fails a dot field tiled under 40px across the page', async () => {
+      const f = await facts(
+        `<div style="height:400px;background-image:radial-gradient(circle,#000 1.5px,transparent 1.8px);background-size:20px 20px"></div>`
+      )
+      expect(patternFinding(f)).toMatchObject({ key: 'patterned-ground', gap: 1 })
+      expect(patternFinding(f).detail).toContain('tiled under 40px')
+    })
+
+    it('fails a ruled ground, including one on a pseudo-element', async () => {
+      const f = await facts(
+        `<style>.g{position:relative;height:300px}.g::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(to bottom,#000 0 1px,transparent 1px 24px)}</style><div class="g"></div>`
+      )
+      expect(patternFinding(f).detail).toContain('repeating gradient')
+    })
+
+    it('fails three mesh blooms on one block', async () => {
+      const f = await facts(
+        `<div style="height:300px;background-image:radial-gradient(at 10% 10%,red 0,transparent 40%),radial-gradient(at 80% 20%,blue 0,transparent 40%),radial-gradient(at 50% 90%,green 0,transparent 40%)"></div>`
+      )
+      expect(patternFinding(f).detail).toContain('mesh')
+    })
+
+    it('passes a repeating gradient on a block no wider than half the page', async () => {
+      const f = await facts(
+        `<div style="width:600px;height:300px;background-image:repeating-linear-gradient(to bottom,#000 0 1px,transparent 1px 24px)"></div>`
+      )
+      expect(patternFinding(f)).toBeUndefined()
+    })
+
+    it('passes one soft bloom, a large tile and a flat field', async () => {
+      const f = await facts(
+        `<div style="height:200px;background:radial-gradient(120% 90% at 88% 96%,rgba(53,217,138,0.12),transparent 60%)"></div><div style="height:200px;background-image:radial-gradient(circle,#000 1.5px,transparent 2px);background-size:64px 64px"></div><div style="height:200px;background:#123"></div>`
+      )
+      expect(patternFinding(f)).toBeUndefined()
+    })
+  })
+
   it('measures the pasted mark, its colour mode and a horizontal lockup', async () => {
     const f = await facts(
       `<header style="display:flex;align-items:center;gap:12px;padding:20px">${sized(
