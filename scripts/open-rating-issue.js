@@ -49,45 +49,26 @@ function section(argv, flag, printScript, date) {
   return execFileSync('node', [path.join(SCRIPTS, printScript), date], { encoding: 'utf8' })
 }
 
-function main() {
-  const argv = process.argv.slice(2)
-  const date = argv.find((a) => /^\d{4}-\d{2}-\d{2}$/.test(a))
-  if (!date) {
-    console.error(
-      'usage: node scripts/open-rating-issue.js <YYYY-MM-DD> [--dry-run] [--needs-human <file>] [--shipped-with-faults <file>]'
-    )
-    process.exit(1)
-  }
-  const dryRun = argv.includes('--dry-run')
-  const repo =
+const USAGE =
+  'usage: node scripts/open-rating-issue.js <YYYY-MM-DD> [--dry-run] [--needs-human <file>] [--shipped-with-faults <file>]'
+
+function repoName() {
+  return (
     process.env.GITHUB_REPOSITORY ||
     gh(['repo', 'view', '--json', 'nameWithOwner', '--jq', '.nameWithOwner']).trim()
-
-  const existing = findExistingRatingIssue(date, (search) =>
-    JSON.parse(
-      gh([
-        'issue',
-        'list',
-        '--state',
-        'all',
-        '--search',
-        search,
-        '--limit',
-        '50',
-        '--json',
-        'number,title',
-      ])
-    )
   )
-  if (existing) {
-    console.error(`Rate: ${date} already exists as #${existing.number}; not creating another.`)
-    process.exit(EXISTS)
-  }
+}
 
-  const { title, body } = buildRatingIssueFromArchive({
+function listIssues(search) {
+  const args = ['issue', 'list', '--state', 'all', '--search', search]
+  return JSON.parse(gh([...args, '--limit', '50', '--json', 'number,title']))
+}
+
+function buildIssue(argv, date) {
+  return buildRatingIssueFromArchive({
     archiveDir: 'archive',
     date,
-    repo,
+    repo: repoName(),
     needsHuman: section(argv, '--needs-human', 'print-needs-human-section.js', date),
     shippedWithFaults: section(
       argv,
@@ -96,13 +77,27 @@ function main() {
       date
     ),
   })
-  if (dryRun) {
+}
+
+function main() {
+  const argv = process.argv.slice(2)
+  const date = argv.find((a) => /^\d{4}-\d{2}-\d{2}$/.test(a))
+  if (!date) {
+    console.error(USAGE)
+    process.exit(1)
+  }
+  const existing = findExistingRatingIssue(date, listIssues)
+  if (existing) {
+    console.error(`Rate: ${date} already exists as #${existing.number}; not creating another.`)
+    process.exit(EXISTS)
+  }
+  const { title, body } = buildIssue(argv, date)
+  if (argv.includes('--dry-run')) {
     console.log(`title: ${title}\nlabel: daily-rating\n\n${body}`)
     return
   }
-  process.stdout.write(
-    gh(['issue', 'create', '--label', 'daily-rating', '--title', title, '--body', body])
-  )
+  const create = ['issue', 'create', '--label', 'daily-rating', '--title', title, '--body', body]
+  process.stdout.write(gh(create))
 }
 
 if (isMain(import.meta.url)) {
