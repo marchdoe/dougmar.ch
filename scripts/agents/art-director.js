@@ -218,7 +218,7 @@ export function validateArtDirectorResult(parsed, { enforceSpec = true } = {}) {
     )
   }
   // The texture on the hero field (#505) is enumerated the way
-  // brand_color_mode is: the component draws exactly these six, and a name
+  // brand_color_mode is: the component draws exactly these, and a name
   // it does not know renders nothing.
   if (!shell.ground_material) {
     throw rejectBlock('SHELL', 'SHELL block missing ground_material')

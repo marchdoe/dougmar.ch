@@ -72,8 +72,8 @@ Systematically increase impact across these dimensions:
 
 ### Visual Effects
 - **Dramatic shadows**: Large, soft shadows for elevation (but not generic drop shadows on rounded rectangles)
-- **Background treatments**: Mesh patterns, noise textures, geometric patterns, intentional gradients (not purple-to-blue)
-- **Texture & depth**: Grain, halftone, duotone, layered elements—NOT glassmorphism (it's overused AI slop)
+- **Background treatments**: Noise textures, intentional gradients (not purple-to-blue)
+- **Texture & depth**: Grain, duotone, layered elements—NOT glassmorphism (it's overused AI slop)
 - **Borders & frames**: Thick borders, decorative frames, custom shapes (not rounded rectangles with colored border on one side)
 - **Custom elements**: Illustrative elements, custom icons, decorative details that reinforce brand
 

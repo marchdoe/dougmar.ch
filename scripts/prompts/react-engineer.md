@@ -524,9 +524,10 @@ or `surface` fill under it, because the colour floor is measured off
 backgrounds and a material alone paints none.
 
 Never redraw a material by hand. An `feTurbulence` in any file you write
-fails the build, the way pasted mark path data does, and a hand-made dot grid
-or ruled gradient standing in for a declared material is a divergence the
-screenshot critic reads. `ground_material: none` means no `<Ground>` at all:
+fails the build, the way pasted mark path data does, and so does a dot, ruled
+or blob background: the token gate fails a `radial-gradient` tiled under 40px,
+a repeating gradient, and three or more `radial-gradient(at ...)` layers.
+`ground_material: none` means no `<Ground>` at all:
 do not import the file.
 
 ## The home callout

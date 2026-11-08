@@ -72,6 +72,7 @@ import {
   TEXT_CONTRAST_WARN_BELOW,
   UNRESOLVED_FIX,
 } from './text-contrast.js'
+import { PATTERN_FIX } from './ground-pattern.js'
 import { correctedSpacingForm, SPACED_SPACING_WHY } from './token-gate.js'
 
 /**
@@ -396,6 +397,11 @@ export function collectSurfaceRules() {
       rule:
         'No line of text opens or closes on a separator (a comma, a middle dot, a bar, a dash, ' +
         `a spaced slash). ${ORPHAN_SEPARATOR_FIX}`,
+    },
+    {
+      gate: 'patterned-ground',
+      kinds: ['patterned-ground'],
+      rule: `No repeating background: no tiled dots, repeating gradient or mesh blooms. ${PATTERN_FIX}`,
     },
     {
       gate: 'spaced-spacing',

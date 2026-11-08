@@ -1705,7 +1705,9 @@ function checkEmittedTokensResolve(root) {
           ? `is not a ${w.category} token, so Panda shipped ${w.value}px`
           : w.kind === 'spaced'
             ? `puts several tokens in one string, so Panda shipped it as written. Write ${w.fix}`
-            : 'does not resolve to any token'
+            : w.kind === 'patterned-ground'
+              ? `paints a repeating ground (${w.pattern})`
+              : 'does not resolve to any token'
       const where = w.line ? `${w.files.join(', ')}:${w.line}` : w.files.join(', ')
       console.warn(
         `  ⚠ ${where}: ${w.property}: '${w.authoredValue ?? w.value}' ${what}` +
