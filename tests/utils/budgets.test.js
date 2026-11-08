@@ -53,8 +53,9 @@ describe('AGENT_BUDGETS', () => {
   // #486 capped both vision critics at 6000. The screenshot critic is Sonnet 5
   // with adaptive thinking, which counts against max_tokens: 28 of 50 recorded
   // calls stopped at exactly 6000 with no verdict (#570), so it went back to
-  // 16000. The mockup critic followed when it moved from Haiku to Opus 5.5
-  // (spec 11 1d), which thinks the same way. react-engineer, the only other
+  // 16000, then to 32000 when half its re-judges stopped at that (#791). The
+  // mockup critic went to 16000 when it moved from Haiku to Opus 5.5 (spec 11
+  // 1d), which thinks the same way. react-engineer, the only other
   // agent that reaches callVisionAgent's sibling paths, is deliberately left
   // without this key.
   it('gives the thinking critic room to think, and leaves the engineer alone', () => {
@@ -66,7 +67,7 @@ describe('AGENT_BUDGETS', () => {
     expect(budgetFor('screenshot-critic')).toEqual({
       timeoutMs: 600_000,
       stallTimeoutMs: 300_000,
-      maxTokens: 16_000,
+      maxTokens: 32_000,
     })
     expect(budgetFor('react-engineer')).not.toHaveProperty('maxTokens')
   })
