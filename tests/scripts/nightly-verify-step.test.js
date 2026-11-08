@@ -79,11 +79,14 @@ describe('what the spec does with it', () => {
     // night (#640).
     const render = SPEC.match(/test\.skip\(NIGHTLY, NIGHT_RENDER\)/g) ?? []
     expect(render.length).toBe(3)
+    // The shell-hydration checks (#789): the night's own Layout sits in that shell.
+    const hydration = SPEC.match(/test\.skip\(NIGHTLY, NIGHT_HYDRATION\)/g) ?? []
+    expect(hydration.length).toBe(1)
     expect(SPEC).toContain('render health: the surface gate measured this during the run (#633)')
     expect(SPEC).not.toContain('SHELL_UNKNOWN')
     // No skip written any other way: a bare `test.skip(` is a test that never runs anywhere.
     const all = SPEC.match(/test\.skip\(/g) ?? []
-    expect(all.length).toBe(render.length)
+    expect(all.length).toBe(render.length + hydration.length)
   })
 
   it("leaves the archive calendar blocking, since the archive is drawn outside the night's shell", () => {
