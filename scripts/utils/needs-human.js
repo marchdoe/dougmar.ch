@@ -130,22 +130,100 @@ export function buildNeedsHumanSection(entries) {
   ].join('\n')
 }
 
+const MEASURED_HEADING = '## Measured layout faults'
+const FAULT_LINE = /^- \[(\w+)\] (\S+) at (\d+)px \(([^)]*)\): ([\s\S]*)$/
+
+/**
+ * Split one entry's feedback into the critic's prose and the measured-faults
+ * block the surface gate appended to it (surface-gate.js
+ * `formatFindingsForCritic`). The block runs to the next `## ` heading or the
+ * end of the text.
+ * @param {string} feedback
+ * @returns {{prose: string, intro: string[], faults: string[]}}
+ */
+function splitMeasuredBlock(feedback) {
+  const at = feedback.indexOf(MEASURED_HEADING)
+  if (at === -1) return { prose: feedback, intro: [], faults: [] }
+  const rest = feedback.slice(at + MEASURED_HEADING.length)
+  const next = rest.search(/\n## /)
+  const block = next === -1 ? rest : rest.slice(0, next)
+  const after = next === -1 ? '' : rest.slice(next)
+  const lines = block.split('\n').map((l) => l.trimEnd())
+  const intro = lines.filter((l) => l && !l.startsWith('- '))
+  const faults = lines.filter((l) => l.startsWith('- '))
+  return { prose: (feedback.slice(0, at) + after).trim(), intro, faults }
+}
+
+/**
+ * One measured-faults list from every entry's fault lines. Both
+ * `SHIPPED-WITH-FAULTS` entries a night writes carry the same block (the
+ * screenshot critic's and the ship gate's, #797), and the ship gate's was cut
+ * at a character cap. A line that is only the front of a longer fault is that
+ * cut copy and is dropped. A fault that fails the same way on several routes
+ * prints once with its routes listed.
+ * @param {string[]} lines `- [error] /route at 820px (both schemes): detail`
+ * @returns {string[]}
+ */
+function collapseFaultLines(lines) {
+  const groups = new Map()
+  const other = new Set()
+  for (const line of lines) {
+    const m = FAULT_LINE.exec(line)
+    if (!m) {
+      other.add(line)
+      continue
+    }
+    const [, severity, route, width, schemes, detail] = m
+    const key = `${severity}|${width}|${schemes}|${detail}`
+    if (!groups.has(key)) groups.set(key, { severity, width, schemes, detail, routes: [] })
+    const { routes } = groups.get(key)
+    if (!routes.includes(route)) routes.push(route)
+  }
+  const all = [...groups.values()]
+  const kept = all.filter(
+    (g) =>
+      !all.some(
+        (o) =>
+          o !== g &&
+          o.severity === g.severity &&
+          o.width === g.width &&
+          o.schemes === g.schemes &&
+          o.detail.length > g.detail.length &&
+          o.detail.startsWith(g.detail)
+      )
+  )
+  const out = kept.map((g) => {
+    const where =
+      g.routes.length === 1 ? g.routes[0] : `${g.routes.length} routes (${g.routes.join(', ')})`
+    return `- [${g.severity}] ${where} at ${g.width}px (${g.schemes}): ${g.detail}`
+  })
+  return [...out, ...other]
+}
+
 /**
  * The "Shipped with faults" section for the rating issue body, or `''` when
- * there is nothing to report.
+ * there is nothing to report. The measured-faults block prints once however
+ * many entries carry it (#797).
  * @param {Array<{feedback: string}>} entries
  * @returns {string}
  */
 export function buildShippedWithFaultsSection(entries) {
-  const lines = (entries ?? []).map((e) => (e?.feedback ?? '').trim()).filter(Boolean)
-  if (!lines.length) return ''
+  const parts = (entries ?? [])
+    .map((e) => splitMeasuredBlock((e?.feedback ?? '').trim()))
+    .filter((p) => p.prose || p.faults.length)
+  if (!parts.length) return ''
+
+  const prose = [...new Set(parts.map((p) => p.prose).filter(Boolean))]
+  const faults = collapseFaultLines(parts.flatMap((p) => p.faults))
+  const intro = parts.find((p) => p.intro.length)?.intro ?? []
+  const block = faults.length ? [MEASURED_HEADING, '', ...intro, '', ...faults].join('\n') : ''
 
   return [
     '## Shipped with faults',
     '',
     'The final critique still found a fault after the last repair round. It shipped anyway.',
     '',
-    ...lines,
+    [...prose, block].filter(Boolean).join('\n\n'),
   ].join('\n')
 }
 

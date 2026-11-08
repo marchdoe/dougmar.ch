@@ -38,11 +38,14 @@ import { chooseTheme, hasTwoLooks, resolveTheme, type Theme } from '../lib/theme
  * site loses this rail and gets the archive's instead. The unit test enforces
  * the no-div rule.
  *
- * WIDTHS. Over 720px: the whole sentence. 720px and under: the buttons take
+ * WIDTHS. Over 960px: the whole sentence. 960px and under: the note goes, so
+ * it is never cut to an ellipsis (#788). With the long labels, the toggle,
+ * "Today, September 30" and a three-digit archive count, the rail measured
+ * about 935px in macOS's system face (the note alone is 230px there, 215px in
+ * CI), so 960 leaves a face's worth of room. 720px and under: the buttons take
  * their short labels. With the long ones, everything but the note measured
  * 642px in macOS's system face, so a 641px window cut 1px off "How it was
- * made" (#705); 720 leaves room for a wider face. 640px and under: the note
- * goes too, as on the archive rail. Under 560px:
+ * made" (#705); 720 leaves room for a wider face. Under 560px:
  * the home link and the date shorten too and the arrow goes, which leaves
  * `Archive  Today  [White paper] [How]` and fits 320px. The swap used to be
  * at 480px, which fits a one-digit day only: "Today, October 11" measured
@@ -53,7 +56,9 @@ import { chooseTheme, hasTwoLooks, resolveTheme, type Theme } from '../lib/theme
  * can't delete, so the switch lives here. The shell can't know the visitor's
  * mode, so the button keeps its space hidden until the first client render,
  * which stops the other buttons moving. On a night with one look it is removed.
- * It cost 48px at 320, which the rail's side padding pays for under 360px.
+ * It cost 48px at 320. Under 360px the rail's side padding drops to 4px and
+ * the 4px gaps between items go: with the button showing, the rail measured
+ * 332px at 320 in macOS's system face with the gaps, 316px without them.
  */
 
 const root = css({
@@ -84,7 +89,7 @@ const root = css({
     paddingInline: '8px',
     fontSize: '12px',
   },
-  '@media (max-width: 359px)': { paddingInline: '4px' },
+  '@media (max-width: 359px)': { paddingInline: '4px', gap: '0' },
 })
 
 /**
@@ -160,7 +165,7 @@ const note = css({
   color: 'archive.dim',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
-  '@media (max-width: 640px)': { display: 'none' },
+  '@media (max-width: 960px)': { display: 'none' },
 })
 
 const button = css({

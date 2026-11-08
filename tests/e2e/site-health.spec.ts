@@ -2,6 +2,7 @@ import { extname, join } from 'node:path'
 import { readFile, stat } from 'node:fs/promises'
 import { createServer, type Server } from 'node:http'
 import { siteCallout } from '../../app/content/callout'
+import { selectedWork } from '../../app/content/projects'
 import { NARROW_VIEWPORT, WIDE_VIEWPORT } from '../../elements/chassis/viewports.js'
 import {
   collectBrokenWords,
@@ -62,6 +63,7 @@ const NIGHTLY = process.env.NIGHTLY_RUN === '1'
 // rounds ships with the faults logged rather than being thrown away. PR CI
 // keeps running them against the committed design.
 const NIGHT_RENDER = 'render health: the surface gate measured this during the run (#633)'
+const NIGHT_HYDRATION = "hydration: a night's own Layout can differ from the shell (#789)"
 
 // Helper: check page loads with HTTP 200 and renders content
 async function expectPageLoads(page: Page, path: string) {
@@ -899,8 +901,9 @@ const STATIC_MIME: Record<string, string> = {
 
 /**
  * A minimal static server over `dist/client`, covering just enough of
- * vercel.json's rewrites (`/` → `_shell.html`, `/<dir>` → `<dir>/index.html`)
- * to serve the routes below — nothing else touches this server.
+ * vercel.json's rewrites (`/<dir>` → `<dir>/index.html`, anything else that is
+ * not a file → `_shell.html`) to serve the routes below — nothing else touches
+ * this server.
  *
  * It exists because `vite preview`, which every other test in this file runs
  * against, does not serve these bytes. TanStack Start's own preview plugin
@@ -920,10 +923,10 @@ const STATIC_MIME: Record<string, string> = {
 function serveDistClient(root: string): Promise<{ server: Server; baseURL: string }> {
   const server = createServer(async (req, res) => {
     const url = new URL(req.url ?? '/', 'http://localhost')
-    const pathname =
-      decodeURIComponent(url.pathname) === '/' ? '/_shell.html' : decodeURIComponent(url.pathname)
+    const pathname = decodeURIComponent(url.pathname)
+    const shell = /^\/(og|archive|assets)\//.test(pathname) ? [] : [join(root, '_shell.html')]
 
-    for (const candidate of [join(root, pathname), join(root, pathname, 'index.html')]) {
+    for (const candidate of [join(root, pathname), join(root, pathname, 'index.html'), ...shell]) {
       try {
         const info = await stat(candidate)
         if (!info.isFile()) continue
@@ -1035,6 +1038,43 @@ test.describe('site health — inline script pinning (#332)', () => {
       expect(await meta.getAttribute('content')).toContain('sha256-')
 
       expect(violations).toEqual([])
+    })
+  }
+})
+
+test.describe('site health — hydrating the shell (#789)', () => {
+  // Production answers these routes with `_shell.html`, rendered for `/`. `vite
+  // preview` renders each one live, so only this static server shows what a
+  // visitor's browser has to hydrate.
+  //
+  // Skipped on a night: the root is the template's, but the Layout inside that
+  // shell is the engineer's and has read the router before, and a page that
+  // recovers from a mismatch is no reason to lose the night. PR CI runs this
+  // against the committed design.
+  let server: Server
+  let baseURL: string
+
+  test.beforeAll(async () => {
+    ;({ server, baseURL } = await serveDistClient(join(process.cwd(), 'dist', 'client')))
+  })
+
+  test.afterAll(() => {
+    server.close()
+  })
+
+  for (const path of ['/about', '/work', `/work/${selectedWork[0].slug}`]) {
+    test(`${path} hydrates the shell without a mismatch`, async ({ page }) => {
+      test.skip(NIGHTLY, NIGHT_HYDRATION)
+
+      const errors: string[] = []
+      page.on('pageerror', (err) => errors.push(String(err)))
+
+      await page.goto(`${baseURL}${path}`)
+      // The root adds this link once it renders for the real path, so seeing it
+      // means hydration has finished, or has failed and been rebuilt.
+      await expect(page.locator('a[data-archive-link]')).toBeVisible({ timeout: 15000 })
+
+      expect(errors).toEqual([])
     })
   }
 })
