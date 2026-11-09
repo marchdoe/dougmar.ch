@@ -1,0 +1,1998 @@
+{
+  "date": "2026-11-09",
+  "startedAt": "2026-11-09T13:55:01.275Z",
+  "completedAt": "2026-11-09T14:47:04.981Z",
+  "steps": [
+    {
+      "name": "signals-loaded",
+      "phase": 0,
+      "input": {
+        "providersAvailable": 17
+      },
+      "output": {
+        "air_quality": {
+          "aqi_index": 1,
+          "uv_index": 0.2,
+          "air_quality_label": "Good"
+        },
+        "books": {
+          "currently_reading": []
+        },
+        "day_of_week": {
+          "day": "Monday",
+          "is_weekend": false,
+          "day_index": 1
+        },
+        "github": {
+          "repos": [
+            {
+              "name": "anthropics/skills/stargazers",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            },
+            {
+              "name": "meta/astryx/stargazers",
+              "description": "",
+              "language": "TypeScript",
+              "stars": null
+            },
+            {
+              "name": "sherlock-project/sherlock/stargazers",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            },
+            {
+              "name": "google-deepmind/mujoco/stargazers",
+              "description": "",
+              "language": "C++",
+              "stars": null
+            },
+            {
+              "name": "anthropics/claude-quickstarts/stargazers",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            }
+          ]
+        },
+        "golf": {
+          "tournament": "World Wide Technology Championship",
+          "status": "Final",
+          "leaders": [
+            {
+              "name": "Blades Brown",
+              "position": "1",
+              "score": "-25"
+            },
+            {
+              "name": "Ben James",
+              "position": "2",
+              "score": "-24"
+            },
+            {
+              "name": "Michael Kim",
+              "position": "3",
+              "score": "-22"
+            },
+            {
+              "name": "Kensei Hirata",
+              "position": "4",
+              "score": "-21"
+            },
+            {
+              "name": "David Ford",
+              "position": "5",
+              "score": "-20"
+            }
+          ]
+        },
+        "hacker_news": {
+          "stories": [
+            {
+              "title": "Fold Epic Paper Airplanes",
+              "url": "https://www.foldableflight.com",
+              "score": 174,
+              "by": "vismit2000"
+            },
+            {
+              "title": "Humans will never again create a project like Wikipedia",
+              "url": "https://www.economist.com/culture/2026/10/29/humans-will-never-again-create-a-project-quite-like-wikipedia",
+              "score": 120,
+              "by": "edward"
+            },
+            {
+              "title": "Fun things to do with your VM/370 CE machine – Fun with big computers",
+              "url": "https://rbanffy.github.io/fun-with-big-computers/fun-with-vm370/",
+              "score": 62,
+              "by": "rbanffy"
+            },
+            {
+              "title": "What is malloc doing, anyway?",
+              "url": "https://benmandrew.com/articles/what-is-malloc-doing-anyway",
+              "score": 37,
+              "by": "benmandrew"
+            },
+            {
+              "title": "Ginux: A New Kernel Runs Linux Userspace, Made via Human-Directed AI Engineering",
+              "url": "https://zenodo.org/records/23682548",
+              "score": 21,
+              "by": "ForHackernews"
+            }
+          ]
+        },
+        "holidays": {
+          "today": null,
+          "upcoming": [
+            {
+              "name": "Veterans Day",
+              "date": "2026-11-11",
+              "days_away": 2
+            }
+          ]
+        },
+        "lunar": {
+          "phase": "new moon",
+          "illumination": 0.002,
+          "days_into_cycle": 0.42
+        },
+        "market": {
+          "symbol": "SPY",
+          "price": "735.2900",
+          "change": "2.2900",
+          "change_percent": "0.3124%",
+          "direction": "up"
+        },
+        "music": {
+          "bands": [
+            "The War on Drugs",
+            "Guided by Voices"
+          ],
+          "rotation": true
+        },
+        "news": {
+          "headlines": [
+            {
+              "title": "SS United States will be sunk, becoming the world’s largest artificial reef - The Washington Post",
+              "source": "The Washington Post",
+              "url": "https://www.washingtonpost.com/transportation/2026/11/05/ss-united-states-be-sunk-become-worlds-largest-artificial-reef/"
+            },
+            {
+              "title": "Saudi Arabia intercepts missiles as Aramco building in Riyadh is damaged, and other Mideast news - AP News",
+              "source": "Associated Press",
+              "url": "https://apnews.com/article/mideast-news-november-8-2026-090d96e25872f5c63e105b9dd3e5dc60"
+            },
+            {
+              "title": "Kraków shooting that killed 6 was motivated by far-right views, authorities say - NBC News",
+              "source": "NBC News",
+              "url": "https://www.nbcnews.com/world/europe/krakow-shooting-killed-6-motivated-far-right-views-rcna608080"
+            },
+            {
+              "title": "Sources: Lamar Jackson told Ravens teammates he plans to return this season - ESPN",
+              "source": "ESPN",
+              "url": "https://www.espn.com/nfl/story/_/id/50407561/sources-lamar-jackson-told-ravens-plans-return-26"
+            },
+            {
+              "title": "Why the simple flu shot could be a surprise weapon against cancer - The Washington Post",
+              "source": "The Washington Post",
+              "url": "https://www.washingtonpost.com/health/2026/11/08/why-simple-flu-shot-could-be-surprise-weapon-against-cancer/"
+            }
+          ]
+        },
+        "season": {
+          "season": "fall",
+          "month": 11,
+          "day": 9,
+          "day_of_year": 313,
+          "month_name": "November"
+        },
+        "sidebar": {
+          "links": [
+            {
+              "title": "Otherwise you’re just a machine",
+              "url": "https://uxdesign.cc/otherwise-youre-just-a-machine-a9d3b21179b5",
+              "source": "uxdesign.cc",
+              "description": "AI is getting better at design. Designers should too."
+            },
+            {
+              "title": "What does design system AI readiness mean, anyway?",
+              "url": "https://seanvoisen.com/writing/design-system-ai-readiness/",
+              "source": "seanvoisen.com",
+              "description": "Maybe it’s less about machine-legible artifacts and more about where humans stay in the loop."
+            },
+            {
+              "title": "edge-aura",
+              "url": "https://edge-aura.js.org/",
+              "source": "edge-aura.js.org",
+              "description": "An organic glow that hugs the edge of your screen. Zero-dependency Canvas 2D engine with a thin React adapter."
+            },
+            {
+              "title": "Site Seeing",
+              "url": "https://ishadeed.com/article/beyond-the-viewport/",
+              "source": "ishadeed.com",
+              "description": "See how a web page will behave in different contexts that force unusual viewport sizes."
+            },
+            {
+              "title": "Everyone is building AI agents. Who’s designing the stop button?",
+              "url": "https://uxdesign.cc/your-ai-is-non-deterministic-but-your-product-cant-be-3ec2a0cf870c",
+              "source": "uxdesign.cc",
+              "description": "Here’s why the hardest design decisions happen where that autonomy ends."
+            }
+          ]
+        },
+        "sports": {
+          "teams": [
+            {
+              "name": "Detroit Lions",
+              "league": "NFL",
+              "last_game": "2026-11-08T18:00Z",
+              "result": "win",
+              "score": "19-9"
+            },
+            {
+              "name": "Detroit Red Wings",
+              "league": "NHL",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            },
+            {
+              "name": "Detroit Pistons",
+              "league": "NBA",
+              "last_game": "2026-11-08T23:00Z",
+              "result": "loss",
+              "score": "116-121"
+            },
+            {
+              "name": "Detroit Tigers",
+              "league": "MLB",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            }
+          ]
+        },
+        "sun": {
+          "sunrise": "06:54",
+          "sunset": "16:54",
+          "daylight_hours": 10
+        },
+        "weather": {
+          "location": "Aldie, Virginia",
+          "conditions": "Sunny",
+          "temp_f": 48.3,
+          "temp_c": 9.1,
+          "humidity": 67,
+          "wind_mph": 7.4,
+          "wind_dir": "W",
+          "feels_like_f": 45
+        },
+        "date": "2026-11-09"
+      },
+      "durationMs": 0,
+      "timestamp": "2026-11-09T13:55:01.333Z"
+    },
+    {
+      "name": "art-director",
+      "phase": 1,
+      "input": {
+        "compositionMandate": "## Composition Mandate\n\nRecency is tracked per axis, not per whole tuple: a value used on any of the last 3 builds is discouraged for that axis. The starting values below are derived from today's date — they are a specific place to begin, not an instruction.\n\n- **columns** — start from `masonry` (avoid `two-equal`, `single`, `three`)\n- **axis** — start from `vertical` (avoid `horizontal`, `radial`, `diagonal`)\n- **symmetry** — start from `left-weighted` (avoid `right-weighted`, `symmetric`, `bro"
+      },
+      "output": {
+        "hero_copy": "Designed and shipped by the same hands.",
+        "archetype": "a maker's spec plate: one project reversed out of an olive field, its caption flush to the spine",
+        "composition": {
+          "columns": "two-asymmetric",
+          "axis": "vertical",
+          "symmetry": "left-weighted",
+          "hero_zone": "interleaved",
+          "density": "dense",
+          "rhythm": "even",
+          "shell_posture": "folded-into-hero",
+          "field_ratio": "balanced",
+          "collapse": "split-to-sequence",
+          "hero_object": "artifact"
+        },
+        "mobile": {
+          "carrier": "the split becomes a sequence — the olive SPACEMAN panel stacks above the paper caption-and-client field, the caption kept directly beneath the title it describes by adjacency.",
+          "first_fold": "brand lockup, SPACEMAN reversed on olive, and the hero phrase caption \"Designed and shipped by the same hands.\"",
+          "order": "brand+numbered nav, SPACEMAN olive panel, hero caption, client set, selected work, callout, colophon",
+          "hero_step_360": "2xl",
+          "nav_360": "horizontal lockup top-left on paper, numbered index collapses to a single 01 · 02 · 03 row beneath it"
+        },
+        "chassisId": "bitter-mulish",
+        "specLength": 5140,
+        "specPreview": "**1. Color Specification**\n\n- **Primary hue**: 94° (olive-brass). Chosen against the 40–80° warm mandate because the repetition check requires at least 60° from recent hues (14/22/48/149/158/258/340) and 48° sits dead-center of the mandate window; 94° is the best-achievable clearance (≈46° from 48°, ≈55° from 149°) and lands in the allowed gap between the 0–78° and 119–188° forbidden zones. Olive-brass also reads as November harvest and craft, which serves the phrase better than a bright sunny a",
+        "selfCheck": "1. Hero quotability: Yes — \"Designed and shipped by the same hands\" stands alone as a claim about craft, not a descriptive label.\n2. Because-of chain: Yes — a craft/continuity line → artifact spec plate (two-asymmetric spine) → sturdy warm slab (bitter-mulish) → olive-brass-on-paper split-field.\n3. "
+      },
+      "durationMs": 426894,
+      "timestamp": "2026-11-09T14:02:08.246Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 0
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "1. Judgment 3: The composition's central move is missing. The caption \"Designed and shipped by the same hands.\" is flush to the outer page edge at the bottom of the rail, below SPACEMAN's baseline, with an empty rail above it. Move it to the upper rail, directly across from SPACEMAN and flush to the shared spine as the brief specifies, so title and caption face each other on one line and the declared `dense` rail is not left vacant.\n\n2. Judgment 4: Fold 1 of the phone runs SPACEMAN panel, deck, "
+      },
+      "durationMs": 546506,
+      "timestamp": "2026-11-09T14:11:16.860Z"
+    },
+    {
+      "name": "mockup-patch",
+      "phase": 2,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "edits": 19,
+        "bytes": 50368
+      },
+      "durationMs": 613463,
+      "timestamp": "2026-11-09T14:21:30.324Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "1. Judgment 5: The olive panel says \"A ten-year studio built on one premise: the person who draws the interface is the person who ships it,\" and the Selected Work row says \"Founder · Studio.\" The records call Spaceman \"the LLC I've operated under for the past decade,\" type Founder, with no founding premise and work that is \"sometimes embedded in a larger team.\" Rewrite the panel from the record's approach text and change the row label to \"Founder.\"\n2. Judgment 3 (`case`): Type Treatment declares"
+      },
+      "durationMs": 712828,
+      "timestamp": "2026-11-09T14:23:09.689Z"
+    },
+    {
+      "name": "mockup-patch",
+      "phase": 2,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "edits": 8,
+        "bytes": 50421
+      },
+      "durationMs": 163514,
+      "timestamp": "2026-11-09T14:25:53.203Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "1. Judgment 3: at 1440 the caption does not face the artifact it describes. SPACEMAN spans roughly y 245–360 and \"Designed and shipped by the same hands.\" sits at y 405–480, level with the \"2018 · Founder\" line and floating mid-rail, so the eye drops down the olive deck before crossing the spine. The brief puts the caption in the upper rail, rows 1–2, directly across from SPACEMAN, so raise it until the two lines share a band.\n2. Judgment 6, `height_px`: the header declares 72, but the rail head"
+      },
+      "durationMs": 237113,
+      "timestamp": "2026-11-09T14:27:06.802Z"
+    },
+    {
+      "name": "mockup-round-shipped",
+      "phase": 2,
+      "input": {
+        "rounds": [
+          0,
+          1,
+          2
+        ]
+      },
+      "output": {
+        "round": 2,
+        "latest": 2,
+        "shortfalls": [
+          {
+            "round": 0,
+            "canvas": 0,
+            "colour": 0,
+            "hero": 0,
+            "total": 0
+          },
+          {
+            "round": 1,
+            "canvas": 0,
+            "colour": 0,
+            "hero": 0,
+            "total": 0
+          },
+          {
+            "round": 2,
+            "canvas": 0,
+            "colour": 0,
+            "hero": 0,
+            "total": 0
+          }
+        ],
+        "reason": "the critic never approved; the latest round has the smallest shortfall (round 0 0, round 1 0, round 2 0)"
+      },
+      "durationMs": 0,
+      "timestamp": "2026-11-09T14:27:06.803Z"
+    },
+    {
+      "name": "react-engineer",
+      "phase": 3,
+      "input": {
+        "tokenContext": 3277,
+        "briefLength": 8751,
+        "mockupLength": 50421
+      },
+      "output": {
+        "files": [
+          "app/components/Layout.tsx",
+          "app/components/Sidebar.tsx",
+          "app/components/generated/Reveal.tsx",
+          "app/components/generated/ColophonParts.tsx",
+          "app/components/generated/Colophon.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/ClientSet.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/AboutSplit.tsx",
+          "app/components/generated/AboutPersonal.tsx",
+          "app/components/generated/WorkHero.tsx",
+          "app/components/generated/CaseRail.tsx",
+          "app/routes/index.tsx",
+          "app/routes/about.tsx",
+          "app/routes/work.$slug.tsx",
+          "app/routes/og.tsx"
+        ],
+        "rationale": ""
+      },
+      "durationMs": 467925,
+      "timestamp": "2026-11-09T14:34:54.796Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 3,
+      "input": {
+        "after": "react-engineer"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutPersonal.tsx",
+          "app/components/generated/AboutSplit.tsx",
+          "app/components/generated/CaseRail.tsx",
+          "app/components/generated/ClientSet.tsx",
+          "app/components/generated/Colophon.tsx",
+          "app/components/generated/ColophonParts.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/Reveal.tsx",
+          "app/components/generated/WorkHero.tsx",
+          "app/components/generated/WorkIndex.tsx"
+        ],
+        "removed": [
+          "app/components/generated/AboutCredentials.tsx",
+          "app/components/generated/AboutStatement.tsx",
+          "app/components/generated/AboutTimeline.tsx",
+          "app/components/generated/CaseBody.tsx",
+          "app/components/generated/CaseHero.tsx",
+          "app/components/generated/FeaturedProject.tsx",
+          "app/components/generated/FigurePanel.tsx",
+          "app/components/generated/HeroSplit.tsx",
+          "app/components/generated/LeaderboardPanel.tsx",
+          "app/components/generated/ScorecardFooter.tsx",
+          "app/components/generated/Standfirst.tsx"
+        ]
+      },
+      "durationMs": 14,
+      "timestamp": "2026-11-09T14:34:54.810Z"
+    },
+    {
+      "name": "build-validation",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "success": true
+      },
+      "durationMs": 0,
+      "timestamp": "2026-11-09T14:35:06.458Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "measured": 73,
+        "errorCount": 11,
+        "findings": [
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Spaceman' is a 86x16px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Read the case ↗' is a 134x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Spaceman' is a 86x16px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Read the case ↗' is a 134x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Spaceman' is a 86x16px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live project ↗' is a 117x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Spaceman' is a 86x16px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live project ↗' is a 117x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live project ↗' is a 117x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live project ↗' is a 117x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live project ↗' is a 117x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live project ↗' is a 117x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "error",
+            "owner": "react-engineer",
+            "ratio": 1.0612519644583485,
+            "key": "contrast|div > section#work > p.fs_13px.fw_bold.ls_0.12em.tt_uppercase|#201e18|#1a1813",
+            "detail": "<div > section#work > p.fs_13px.fw_bold.ls_0.12em.tt_uppercase> \"Four projects · 2018–2026\" at 13px bold: #201e18 on #1a1813 is 1.06:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "error",
+            "owner": "react-engineer",
+            "ratio": 1.0612519644583485,
+            "key": "contrast|section#work > div > p.fs_13px.fw_bold.ls_0.12em.tt_uppercase|#201e18|#1a1813",
+            "detail": "<section#work > div > p.fs_13px.fw_bold.ls_0.12em.tt_uppercase> \"Things built to learn something\" at 13px bold: #201e18 on #1a1813 is 1.06:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "contrast",
+            "severity": "error",
+            "owner": "react-engineer",
+            "ratio": 1.0780748599141352,
+            "key": "contrast|div.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong > a.d_grid.grid-tc_1fr_auto.grid-template-areas_\"title_year\"_\"meta_meta\".rg_2px > span.grid-area_meta.|#ece7d8|#f4efe4",
+            "detail": "<div.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong > a.d_grid.grid-tc_1fr_auto.grid-template-areas_\"title_year\"_\"meta_meta\".rg_2px > span.grid-area_meta.> \"Founder\" (x7) at 12px bold: #ece7d8 on #f4efe4 is 1.07:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "contrast",
+            "severity": "error",
+            "owner": "react-engineer",
+            "ratio": 1.089741699204594,
+            "key": "contrast|div > section#work > p.fs_13px.fw_bold.ls_0.12em.tt_uppercase|#ebe6da|#f4efe4",
+            "detail": "<div > section#work > p.fs_13px.fw_bold.ls_0.12em.tt_uppercase> \"Four projects · 2018–2026\" at 13px bold: #ebe6da on #f4efe4 is 1.08:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "contrast",
+            "severity": "error",
+            "owner": "react-engineer",
+            "ratio": 1.089741699204594,
+            "key": "contrast|section#work > div > p.fs_13px.fw_bold.ls_0.12em.tt_uppercase|#ebe6da|#f4efe4",
+            "detail": "<section#work > div > p.fs_13px.fw_bold.ls_0.12em.tt_uppercase> \"Things built to learn something\" at 13px bold: #ebe6da on #f4efe4 is 1.08:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "error",
+            "owner": "react-engineer",
+            "ratio": 1.0958100914659963,
+            "key": "contrast|div.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong > a.d_grid.grid-tc_1fr_auto.grid-template-areas_\"title_year\"_\"meta_meta\".rg_2px > span.grid-area_meta.|#232116|#1a1813",
+            "detail": "<div.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong > a.d_grid.grid-tc_1fr_auto.grid-template-areas_\"title_year\"_\"meta_meta\".rg_2px > span.grid-area_meta.> \"Founder\" (x7) at 12px bold: #232116 on #1a1813 is 1.09:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 1.2606541149317005,
+            "key": "contrast|summary|react-engineer",
+            "detail": "24 more distinct low-contrast pairs are not listed; the worst is 1.26:1."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 3.6354260619687713,
+            "key": "contrast|div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > h2.textStyle_2xs.fw_bold.ls_0.12em.tt_uppercase|#7d7563|#211e19",
+            "detail": "<div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > h2.textStyle_2xs.fw_bold.ls_0.12em.tt_uppercase> \"On the course\" (x4) at 12px bold: #7d7563 on #211e19 is 3.63:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 3.6354260619687713,
+            "key": "contrast|div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.fs_14px.lh_1.6.max-w_46ch.fv-num_tabular-nums|#7d7563|#211e19",
+            "detail": "<div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.fs_14px.lh_1.6.max-w_46ch.fv-num_tabular-nums> \"James −24 · Kim −22\" (x4) at 14px: #7d7563 on #211e19 is 3.63:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 3.6354260619687713,
+            "key": "contrast|div.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong.pt_28px > div.mt_36px.pt_20px.bd-t-w_1px.border-top-style_solid > span|#7d7563|#211e19",
+            "detail": "<div.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong.pt_28px > div.mt_36px.pt_20px.bd-t-w_1px.border-top-style_solid > span> \"© 2026 Doug March · Spaceman LLC\" (x2) at 12px: #7d7563 on #211e19 is 3.63:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 4.227773425530426,
+            "key": "contrast|div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.ff_display.fw_bold.fs_18px.fv-num_tabular-nums|#76691d|#e8e1cf",
+            "detail": "<div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.ff_display.fw_bold.fs_18px.fv-num_tabular-nums> \"Blades Brown −25\" at 18px bold: #76691d on #e8e1cf is 4.22:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "small-copy",
+            "severity": "error",
+            "owner": "react-engineer",
+            "sizePx": 12,
+            "key": "small-copy|div.bg_field.c_fieldInk.min-h_36vh.lg:min-h_52vh > div.lg:pos_sticky.lg:top_64px.ta_right > p.textStyle_2xs.fw_bold.ls_0.14em.tt_uppercase|12",
+            "detail": "<div.bg_field.c_fieldInk.min-h_36vh.lg:min-h_52vh > div.lg:pos_sticky.lg:top_64px.ta_right > p.textStyle_2xs.fw_bold.ls_0.14em.tt_uppercase> \"Experiment\" is running copy at 12px, under the 14px floor. Set it on the `sm` step or larger. Also on /work/politweets, /work/twittertale."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "small-copy",
+            "severity": "error",
+            "owner": "react-engineer",
+            "sizePx": 12,
+            "key": "small-copy|section.d_grid.grid-tc_1fr.lg:grid-tc_1.55fr_1fr.lg:mt_-128px > div.bg_field.c_fieldInk.d_flex.flex-d_column > p.textStyle_2xs.fw_bold.ls_0.14em.tt_uppercase|12",
+            "detail": "<section.d_grid.grid-tc_1fr.lg:grid-tc_1.55fr_1fr.lg:mt_-128px > div.bg_field.c_fieldInk.d_flex.flex-d_column > p.textStyle_2xs.fw_bold.ls_0.14em.tt_uppercase> \"Spaceman LLC · Founded 2018\" is running copy at 12px, under the 14px floor. Set it on the `sm` step or larger."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "small-copy",
+            "severity": "error",
+            "owner": "react-engineer",
+            "sizePx": 13,
+            "key": "small-copy|div > section#work > p.fs_13px.fw_bold.ls_0.12em.tt_uppercase|13",
+            "detail": "<div > section#work > p.fs_13px.fw_bold.ls_0.12em.tt_uppercase> \"Four projects · 2018–2026\" is running copy at 13px, under the 14px floor. Set it on the `sm` step or larger."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "small-copy",
+            "severity": "error",
+            "owner": "react-engineer",
+            "sizePx": 13,
+            "key": "small-copy|div > section.bg_surface.py_36px.bd-b-w_1px.border-bottom-style_solid > p.fs_13px.fw_bold.ls_0.12em.tt_uppercase|13",
+            "detail": "<div > section.bg_surface.py_36px.bd-b-w_1px.border-bottom-style_solid > p.fs_13px.fw_bold.ls_0.12em.tt_uppercase> \"Spaceman. Selected clients, 2018 to pres\" is running copy at 13px, under the 14px floor. Set it on the `sm` step or larger. Also on /work/spaceman."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "small-copy",
+            "severity": "error",
+            "owner": "react-engineer",
+            "sizePx": 13,
+            "key": "small-copy|section#work > div > p.fs_13px.fw_bold.ls_0.12em.tt_uppercase|13",
+            "detail": "<section#work > div > p.fs_13px.fw_bold.ls_0.12em.tt_uppercase> \"Things built to learn something\" is running copy at 13px, under the 14px floor. Set it on the `sm` step or larger."
+          },
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 1,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'jeffrey zeldman framebridge' (20px in the mockup) has no match in the build",
+              "facts": {
+                "text": "jeffrey zeldman framebridge",
+                "mockupPx": 20,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'the llc ive operated under for the past decade - client work and products sometimes solo sometimes embedded in a larger team design and engineering as one job - deep in both not a generalist' (15px in the mockup) has no match in the build",
+              "facts": {
+                "text": "the llc ive operated under for the past decade - client work and products sometimes solo sometimes embedded in a larger team design and engineering as one job - deep in both not a generalist",
+                "mockupPx": 15,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'the llc ive operated under for the past decade - client work and products sometimes solo sometimes embedded in a larger team design and engineering as one job - deep in both not a generalist' (15px in the mockup) has no match in the build",
+              "facts": {
+                "text": "the llc ive operated under for the past decade - client work and products sometimes solo sometimes embedded in a larger team design and engineering as one job - deep in both not a generalist",
+                "mockupPx": 15,
+                "hidden": false
+              }
+            }
+          ],
+          "briefed": [
+            "- / at 1440px: The mockup sets 'jeffrey zeldman framebridge' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 1440px: The mockup sets 'the llc ive operated under for the past decade - client w...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: The mockup sets 'the llc ive operated under for the past decade - client w...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+          ]
+        }
+      },
+      "durationMs": 43976,
+      "timestamp": "2026-11-09T14:35:50.442Z"
+    },
+    {
+      "name": "screenshot-critic",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 3 — react-engineer: Measured contrast failures at 1440 (both schemes): the \"Four projects · 2018–2026\" and \"Things built to learn something\" section labels render at 1.06–1.08:1 against their background (e.g. `#ebe6da` on `#f4efe4`), and the \"Founder\"/project-meta tags (×7) render at 1.07–1.09:1 — all effectively invisible, far under the 4.5:1 floor. These labels need a token that actually clears contrast against the paper/dark grounds.\n- Section 10 — "
+      },
+      "durationMs": 178608,
+      "timestamp": "2026-11-09T14:38:49.050Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 5,
+      "input": {
+        "after": "React Engineer revision"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutPersonal.tsx",
+          "app/components/generated/AboutSplit.tsx",
+          "app/components/generated/CaseRail.tsx",
+          "app/components/generated/ClientSet.tsx",
+          "app/components/generated/Colophon.tsx",
+          "app/components/generated/ColophonParts.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/Reveal.tsx",
+          "app/components/generated/WorkHero.tsx",
+          "app/components/generated/WorkIndex.tsx"
+        ],
+        "removed": []
+      },
+      "durationMs": 12,
+      "timestamp": "2026-11-09T14:42:04.933Z"
+    },
+    {
+      "name": "revision",
+      "phase": 4,
+      "input": {
+        "round": 1,
+        "verdict": "REVISE",
+        "responsibleAgent": "react-engineer",
+        "gateForced": true,
+        "engineerFaults": 11,
+        "feedback": "**Issues:**\n- Section 3 — react-engineer: Measured contrast failures at 1440 (both schemes): the \"Four projects · 2018–2026\" and \"Things built to learn something\" section labels render at 1.06–1.08:1 against their background (e.g. `#ebe6da` on `#f4efe4`), and the \"Founder\"/project-meta tags (×7) render at 1.07–1.09:1 — all effectively invisible, far under the 4.5:1 floor. These labels need a token that actually clears contrast against the paper/dark grounds.\n- Section 10 — react-engineer: The mo"
+      },
+      "output": {
+        "outcome": "rebuilt",
+        "replied": 6,
+        "written": 6,
+        "deleted": 0,
+        "merged": 16
+      },
+      "durationMs": 203554,
+      "timestamp": "2026-11-09T14:42:12.606Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "measured": 73,
+        "errorCount": 6,
+        "findings": [
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live project ↗' is a 117x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live project ↗' is a 117x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live project ↗' is a 117x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live project ↗' is a 117x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live project ↗' is a 117x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live project ↗' is a 117x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 121x18px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "error",
+            "owner": "react-engineer",
+            "ratio": 1.2677861113931566,
+            "key": "contrast|div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > h2.textStyle_2xs.fw_bold.ls_0.12em.tt_uppercase|#302d25|#1c1914",
+            "detail": "<div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > h2.textStyle_2xs.fw_bold.ls_0.12em.tt_uppercase> \"On the course\" (x4) at 12px bold: #302d25 on #1c1914 is 1.26:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "error",
+            "owner": "react-engineer",
+            "ratio": 1.2677861113931566,
+            "key": "contrast|div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.fs_14px.lh_1.6.max-w_46ch.fv-num_tabular-nums|#302d25|#1c1914",
+            "detail": "<div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.fs_14px.lh_1.6.max-w_46ch.fv-num_tabular-nums> \"James −24 · Kim −22\" (x4) at 14px: #302d25 on #1c1914 is 1.26:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "error",
+            "owner": "react-engineer",
+            "ratio": 1.2677861113931566,
+            "key": "contrast|div.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong.pt_28px > div.mt_36px.pt_20px.bd-t-w_1px.border-top-style_solid > span|#302d25|#1c1914",
+            "detail": "<div.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong.pt_28px > div.mt_36px.pt_20px.bd-t-w_1px.border-top-style_solid > span> \"© 2026 Doug March · Spaceman LLC\" (x2) at 12px: #302d25 on #1c1914 is 1.26:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "contrast",
+            "severity": "error",
+            "owner": "react-engineer",
+            "ratio": 1.2943474375452533,
+            "key": "contrast|div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.ff_display.fw_bold.fs_18px.fv-num_tabular-nums|#d8d1b8|#f1ecdf",
+            "detail": "<div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.ff_display.fw_bold.fs_18px.fv-num_tabular-nums> \"Blades Brown −25\" at 18px bold: #d8d1b8 on #f1ecdf is 1.29:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "contrast",
+            "severity": "error",
+            "owner": "react-engineer",
+            "ratio": 1.3516926872182655,
+            "key": "contrast|div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > h2.textStyle_2xs.fw_bold.ls_0.12em.tt_uppercase|#d2ccc0|#f1ecdf",
+            "detail": "<div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > h2.textStyle_2xs.fw_bold.ls_0.12em.tt_uppercase> \"On the course\" (x4) at 12px bold: #d2ccc0 on #f1ecdf is 1.35:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "contrast",
+            "severity": "error",
+            "owner": "react-engineer",
+            "ratio": 1.3516926872182655,
+            "key": "contrast|div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.fs_14px.lh_1.6.max-w_46ch.fv-num_tabular-nums|#d2ccc0|#f1ecdf",
+            "detail": "<div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.fs_14px.lh_1.6.max-w_46ch.fv-num_tabular-nums> \"James −24 · Kim −22\" (x4) at 14px: #d2ccc0 on #f1ecdf is 1.35:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 1.3516926872182655,
+            "key": "contrast|summary|react-engineer",
+            "detail": "15 more distinct low-contrast pairs are not listed; the worst is 1.35:1."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 3.6354260619687713,
+            "key": "contrast|div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > h2.textStyle_2xs.fw_bold.ls_0.12em.tt_uppercase|#7d7563|#211e19",
+            "detail": "<div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > h2.textStyle_2xs.fw_bold.ls_0.12em.tt_uppercase> \"On the course\" (x4) at 12px bold: #7d7563 on #211e19 is 3.63:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 3.6354260619687713,
+            "key": "contrast|div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.fs_14px.lh_1.6.max-w_46ch.fv-num_tabular-nums|#7d7563|#211e19",
+            "detail": "<div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.fs_14px.lh_1.6.max-w_46ch.fv-num_tabular-nums> \"James −24 · Kim −22\" (x4) at 14px: #7d7563 on #211e19 is 3.63:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 3.6354260619687713,
+            "key": "contrast|div.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong.pt_28px > div.mt_36px.pt_20px.bd-t-w_1px.border-top-style_solid > span|#7d7563|#211e19",
+            "detail": "<div.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong.pt_28px > div.mt_36px.pt_20px.bd-t-w_1px.border-top-style_solid > span> \"© 2026 Doug March · Spaceman LLC\" (x2) at 12px: #7d7563 on #211e19 is 3.63:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 4.227773425530426,
+            "key": "contrast|div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.ff_display.fw_bold.fs_18px.fv-num_tabular-nums|#76691d|#e8e1cf",
+            "detail": "<div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.ff_display.fw_bold.fs_18px.fv-num_tabular-nums> \"Blades Brown −25\" at 18px bold: #76691d on #e8e1cf is 4.22:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 2,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'jeffrey zeldman framebridge' (20px in the mockup) has no match in the build",
+              "facts": {
+                "text": "jeffrey zeldman framebridge",
+                "mockupPx": 20,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'the llc ive operated under for the past decade - client work and products sometimes solo sometimes embedded in a larger team design and engineering as one job - deep in both not a generalist' (15px in the mockup) has no match in the build",
+              "facts": {
+                "text": "the llc ive operated under for the past decade - client work and products sometimes solo sometimes embedded in a larger team design and engineering as one job - deep in both not a generalist",
+                "mockupPx": 15,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'the llc ive operated under for the past decade - client work and products sometimes solo sometimes embedded in a larger team design and engineering as one job - deep in both not a generalist' (15px in the mockup) has no match in the build",
+              "facts": {
+                "text": "the llc ive operated under for the past decade - client work and products sometimes solo sometimes embedded in a larger team design and engineering as one job - deep in both not a generalist",
+                "mockupPx": 15,
+                "hidden": false
+              }
+            }
+          ],
+          "briefed": [
+            "- / at 1440px: The mockup sets 'jeffrey zeldman framebridge' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 1440px: The mockup sets 'the llc ive operated under for the past decade - client w...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: The mockup sets 'the llc ive operated under for the past decade - client w...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+          ]
+        }
+      },
+      "durationMs": 44311,
+      "timestamp": "2026-11-09T14:42:56.917Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 5,
+      "input": {
+        "after": "React Engineer revision"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutPersonal.tsx",
+          "app/components/generated/AboutSplit.tsx",
+          "app/components/generated/CaseRail.tsx",
+          "app/components/generated/ClientSet.tsx",
+          "app/components/generated/Colophon.tsx",
+          "app/components/generated/ColophonParts.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/Reveal.tsx",
+          "app/components/generated/WorkHero.tsx",
+          "app/components/generated/WorkIndex.tsx"
+        ],
+        "removed": []
+      },
+      "durationMs": 3,
+      "timestamp": "2026-11-09T14:43:20.689Z"
+    },
+    {
+      "name": "revision",
+      "phase": 4,
+      "input": {
+        "round": 2,
+        "verdict": "REVISE",
+        "responsibleAgent": "react-engineer",
+        "gateForced": true,
+        "engineerFaults": 11,
+        "feedback": "## Measured layout faults\n\nThese are measurements taken from the live render, not observations from the images below.\nThey are exact. Do not re-litigate them against the screenshots, and do not count one fault\ntwice because it appears at more than one viewport.\n\n- [error] /work/spaceman at 360px (dark): <div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > h2.textStyle_2xs.fw_bold.ls_0.12em.tt_uppercase> \"On the course\" (x4) at 12px bold: #302d25 on #1c1914 is 1.26:1, under 3:1. Set it in a token that"
+      },
+      "output": {
+        "outcome": "rebuilt",
+        "replied": 1,
+        "written": 1,
+        "deleted": 0,
+        "merged": 16
+      },
+      "durationMs": 30563,
+      "timestamp": "2026-11-09T14:43:27.483Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 3
+      },
+      "output": {
+        "measured": 73,
+        "errorCount": 0,
+        "findings": [
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live project ↗' is a 117x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live project ↗' is a 117x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live project ↗' is a 117x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live project ↗' is a 117x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live project ↗' is a 117x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Live project ↗' is a 117x24px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 3.6354260619687713,
+            "key": "contrast|div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > h2.textStyle_2xs.fw_bold.ls_0.12em.tt_uppercase|#7d7563|#211e19",
+            "detail": "<div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > h2.textStyle_2xs.fw_bold.ls_0.12em.tt_uppercase> \"On the course\" (x4) at 12px bold: #7d7563 on #211e19 is 3.63:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /about, /work/spaceman, /work/fishsticks, /work/15th-club, /work/dougmar-ch, /work/teeturn, /work/politweets, /work/twittertale."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 3.6354260619687713,
+            "key": "contrast|div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.fs_14px.lh_1.6.max-w_46ch.fv-num_tabular-nums|#7d7563|#211e19",
+            "detail": "<div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.fs_14px.lh_1.6.max-w_46ch.fv-num_tabular-nums> \"James −24 · Kim −22\" (x4) at 14px: #7d7563 on #211e19 is 3.63:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /about, /work/spaceman, /work/fishsticks, /work/15th-club, /work/dougmar-ch, /work/teeturn, /work/politweets, /work/twittertale."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 3.6354260619687713,
+            "key": "contrast|div.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong.pt_28px > div.mt_36px.pt_20px.bd-t-w_1px.border-top-style_solid > span|#7d7563|#211e19",
+            "detail": "<div.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong.pt_28px > div.mt_36px.pt_20px.bd-t-w_1px.border-top-style_solid > span> \"© 2026 Doug March · Spaceman LLC\" (x2) at 12px: #7d7563 on #211e19 is 3.63:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /about, /work/spaceman, /work/fishsticks, /work/15th-club, /work/dougmar-ch, /work/teeturn, /work/politweets, /work/twittertale."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 3.8823994992498556,
+            "key": "contrast|div.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong > a.d_grid.grid-tc_1fr_auto.grid-template-areas_\"title_year\"_\"meta_meta\".rg_2px > span.grid-area_year.|#7d7563|#1a1813",
+            "detail": "<div.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong > a.d_grid.grid-tc_1fr_auto.grid-template-areas_\"title_year\"_\"meta_meta\".rg_2px > span.grid-area_year.> \"2018\" (x7) at 18px: #7d7563 on #1a1813 is 3.88:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 3.8823994992498556,
+            "key": "contrast|div.lg:grid-c_2.lg:grid-r_1.pt_26px.lg:pt_168px > section.pt_16px.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong > h2.textStyle_2xs.fw_bold.ls_0.12em.tt_|#7d7563|#1a1813",
+            "detail": "<div.lg:grid-c_2.lg:grid-r_1.pt_26px.lg:pt_168px > section.pt_16px.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong > h2.textStyle_2xs.fw_bold.ls_0.12em.tt_> \"Capabilities\" (x2) at 12px bold: #7d7563 on #1a1813 is 3.88:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 3.8823994992498556,
+            "key": "contrast|ul > li.d_grid.grid-tc_96px_1fr.cg_16px.py_8px > span.textStyle_2xs.fw_bold.ls_0.1em.tt_uppercase|#7d7563|#1a1813",
+            "detail": "<ul > li.d_grid.grid-tc_96px_1fr.cg_16px.py_8px > span.textStyle_2xs.fw_bold.ls_0.1em.tt_uppercase> \"Type\" (x5) at 12px bold: #7d7563 on #1a1813 is 3.88:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /work/fishsticks, /work/15th-club, /work/teeturn, /work/politweets, /work/twittertale."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 4.227773425530426,
+            "key": "contrast|summary|react-engineer",
+            "detail": "1 more distinct low-contrast pairs are not listed; the worst is 4.22:1."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 3.6354260619687713,
+            "key": "contrast|div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > h2.textStyle_2xs.fw_bold.ls_0.12em.tt_uppercase|#7d7563|#211e19",
+            "detail": "<div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > h2.textStyle_2xs.fw_bold.ls_0.12em.tt_uppercase> \"On the course\" (x4) at 12px bold: #7d7563 on #211e19 is 3.63:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 3.6354260619687713,
+            "key": "contrast|div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.fs_14px.lh_1.6.max-w_46ch.fv-num_tabular-nums|#7d7563|#211e19",
+            "detail": "<div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.fs_14px.lh_1.6.max-w_46ch.fv-num_tabular-nums> \"James −24 · Kim −22\" (x4) at 14px: #7d7563 on #211e19 is 3.63:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 3.6354260619687713,
+            "key": "contrast|div.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong.pt_28px > div.mt_36px.pt_20px.bd-t-w_1px.border-top-style_solid > span|#7d7563|#211e19",
+            "detail": "<div.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong.pt_28px > div.mt_36px.pt_20px.bd-t-w_1px.border-top-style_solid > span> \"© 2026 Doug March · Spaceman LLC\" (x2) at 12px: #7d7563 on #211e19 is 3.63:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 4.227773425530426,
+            "key": "contrast|div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.ff_display.fw_bold.fs_18px.fv-num_tabular-nums|#76691d|#e8e1cf",
+            "detail": "<div.d_grid.grid-tc_1fr.rg_26px.cg_48px > div > p.ff_display.fw_bold.fs_18px.fv-num_tabular-nums> \"Blades Brown −25\" at 18px bold: #76691d on #e8e1cf is 4.22:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments."
+          },
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 3,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'jeffrey zeldman framebridge' (20px in the mockup) has no match in the build",
+              "facts": {
+                "text": "jeffrey zeldman framebridge",
+                "mockupPx": 20,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'the llc ive operated under for the past decade - client work and products sometimes solo sometimes embedded in a larger team design and engineering as one job - deep in both not a generalist' (15px in the mockup) has no match in the build",
+              "facts": {
+                "text": "the llc ive operated under for the past decade - client work and products sometimes solo sometimes embedded in a larger team design and engineering as one job - deep in both not a generalist",
+                "mockupPx": 15,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'the llc ive operated under for the past decade - client work and products sometimes solo sometimes embedded in a larger team design and engineering as one job - deep in both not a generalist' (15px in the mockup) has no match in the build",
+              "facts": {
+                "text": "the llc ive operated under for the past decade - client work and products sometimes solo sometimes embedded in a larger team design and engineering as one job - deep in both not a generalist",
+                "mockupPx": 15,
+                "hidden": false
+              }
+            }
+          ],
+          "briefed": [
+            "- / at 1440px: The mockup sets 'jeffrey zeldman framebridge' at 20px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 1440px: The mockup sets 'the llc ive operated under for the past decade - client w...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: The mockup sets 'the llc ive operated under for the past decade - client w...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+          ]
+        }
+      },
+      "durationMs": 43683,
+      "timestamp": "2026-11-09T14:44:11.166Z"
+    },
+    {
+      "name": "screenshot-critic-final",
+      "phase": 4,
+      "input": {
+        "remainingFaults": 0
+      },
+      "output": {
+        "verdict": "SHIP",
+        "feedback": "===VERDICT===\nSHIP\n===END===",
+        "channel": "cli-vision"
+      },
+      "durationMs": 164256,
+      "timestamp": "2026-11-09T14:46:55.424Z"
+    }
+  ]
+}
