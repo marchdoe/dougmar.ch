@@ -1,58 +1,65 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { css } from '../../styled-system/css'
+import { CaseRail } from '../components/generated/CaseRail'
+import { ClientSet } from '../components/generated/ClientSet'
+import { Reveal } from '../components/generated/Reveal'
+import { WorkHero } from '../components/generated/WorkHero'
 import { WhitePaper } from '../components/WhitePaper'
-import { CaseBody } from '../components/generated/CaseBody'
-import { CaseHero } from '../components/generated/CaseHero'
 import { projects } from '../content/projects'
+
+type Project = (typeof projects)[number]
 
 export const Route = createFileRoute('/work/$slug')({ component: WorkDetailPage })
 
-function MissingProject() {
+function WorkMissing() {
   return (
     <section
       className={css({
-        bg: 'bg',
-        paddingBlock: 'clamp(44px,5vw,80px)',
-        paddingInline: 'var(--pad)',
+        paddingBlock: 'clamp(44px, 6vw, 88px)',
+        paddingInline: 'clamp(16px, 5vw, 80px)',
       })}
     >
       <h1
         className={css({
-          fontFamily: 'display',
-          fontWeight: 'normal',
-          textTransform: 'uppercase',
           textStyle: '3xl',
+          fontFamily: 'display',
+          fontWeight: 'bold',
+          fontVariant: 'small-caps',
+          letterSpacing: 'wide',
           color: 'text',
+          marginBottom: '16px',
         })}
       >
-        Project not found
+        Nothing at this address
       </h1>
       <a
-        href="/#work"
-        className={css({
-          display: 'inline-flex',
-          alignItems: 'center',
-          minHeight: '44px',
-          textStyle: 'base',
-          color: 'text',
-          textDecoration: 'underline',
-        })}
+        href="/work"
+        className={css({ textStyle: 'sm', color: 'accent', textDecoration: 'underline' })}
       >
-        Back to selected work
+        See the work
       </a>
     </section>
+  )
+}
+
+function CaseClients({ project }: { project: Project }) {
+  return (
+    <Reveal>
+      <ClientSet project={project} />
+    </Reveal>
   )
 }
 
 function WorkDetailPage() {
   const { slug } = Route.useParams()
   const project = projects.find((candidate) => candidate.slug === slug)
-  if (!project) return <MissingProject />
-
+  if (!project) return <WorkMissing />
   return (
     <>
-      <CaseHero project={project} />
-      {project.slug === 'dougmar-ch' ? <WhitePaper /> : <CaseBody project={project} />}
+      <WorkHero project={project}>
+        {project.slug === 'dougmar-ch' ? null : <CaseRail project={project} />}
+      </WorkHero>
+      {project.slug === 'dougmar-ch' ? <WhitePaper /> : <CaseClients project={project} />}
     </>
   )
 }

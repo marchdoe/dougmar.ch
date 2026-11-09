@@ -10,8 +10,8 @@ function OgCard() {
       className={css({
         position: 'fixed',
         inset: '0',
-        zIndex: 9999,
-        bg: 'field',
+        zIndex: '9999',
+        bg: 'bg',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -19,61 +19,44 @@ function OgCard() {
     >
       <div
         className={css({
-          position: 'relative',
           width: '1200px',
           height: '630px',
-          flexShrink: 0,
-          bg: 'field',
-          color: 'fieldInk',
+          flexShrink: '0',
+          display: 'grid',
+          gridTemplateColumns: '700px 500px',
         })}
       >
-        <div className={css({ position: 'absolute', top: '64px', left: '64px' })}>
-          <BrandLockup variant="mark-only-md" mode={{ light: 'original', dark: 'single-color' }} />
-        </div>
-        <h1
+        <div
           className={css({
-            position: 'absolute',
-            right: '64px',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            width: '580px',
-            textAlign: 'right',
-            textWrap: 'wrap',
+            bg: 'field',
+            color: 'fieldInk',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            paddingBlock: '48px',
+            paddingInline: '56px',
           })}
         >
-          <span
+          <h1
             className={css({
-              display: 'block',
               fontFamily: 'display',
-              fontWeight: 'normal',
-              textTransform: 'uppercase',
-              letterSpacing: '0.015em',
-              lineHeight: '0.96',
-              fontSize: '66px',
-              color: 'surface',
-              textAlign: 'justify',
-              textAlignLast: 'justify',
-            })}
-          >
-            Ben James leads at
-          </span>{' '}
-          <span
-            className={css({
-              display: 'block',
-              fontFamily: 'display',
-              fontWeight: 'normal',
-              fontSize: '380px',
-              lineHeight: '0.82',
-              letterSpacing: '0.005em',
+              fontWeight: 'bold',
+              fontVariant: 'small-caps',
+              fontSize: '96px',
+              lineHeight: '1',
+              letterSpacing: '-0.015em',
+              textAlign: 'right',
               color: 'fieldInk',
-              marginTop: '4px',
-              textAlign: 'justify',
-              textAlignLast: 'justify',
             })}
           >
-            − 21
-          </span>
-        </h1>
+            Designed and shipped by the same hands.
+          </h1>
+        </div>
+        <div
+          className={css({ bg: 'bg', color: 'text', paddingBlock: '56px', paddingInline: '48px' })}
+        >
+          <BrandLockup variant="horizontal-md" mode="original" roleLine />
+        </div>
       </div>
     </div>
   )

@@ -2,103 +2,85 @@ import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
 import { BrandLockup } from './BrandLockup'
 
-const links = [
-  { label: 'Work', href: '/#work' },
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: `mailto:${identity.email}` },
+const NAV = [
+  { num: '01', label: 'Work', href: '/work' },
+  { num: '02', label: 'About', href: '/about' },
+  { num: '03', label: 'Contact', href: `mailto:${identity.email}` },
 ]
 
-// Mockup ink50 on the tab maps to surface, the nearest token that holds on field in both schemes.
-// Unresolved here: the clipped rail sentence at 820 is rendered by __root.tsx, which this run may not change.
+// The rail head. In flow above every route at a fixed height from lg up; the split
+// heroes pull up by the same 128px so the olive field runs beside this block.
 export function Sidebar() {
   return (
     <header
       className={css({
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        zIndex: 20,
-        bg: 'field',
-        color: 'fieldInk',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '14px',
-        paddingTop: '10px',
-        paddingRight: '18px',
-        paddingBottom: '12px',
-        paddingLeft: '18px',
-        borderRightWidth: '2px',
-        borderRightStyle: 'solid',
-        borderRightColor: 'borderStrong',
-        borderBottomWidth: '2px',
+        display: 'grid',
+        gridTemplateColumns: { base: '1fr', lg: '1.55fr 1fr' },
+        height: { lg: '128px' },
+        borderBottomWidth: '1px',
         borderBottomStyle: 'solid',
-        borderBottomColor: 'borderStrong',
+        borderBottomColor: 'border',
       })}
     >
-      <a
-        href="/"
-        aria-label={`${identity.name}, home`}
-        className={css({ display: 'block', color: 'fieldInk' })}
+      <div
+        className={css({
+          gridColumn: { lg: '2' },
+          position: 'relative',
+          zIndex: '2',
+          paddingTop: { base: '14px', lg: '18px' },
+          paddingBottom: { base: '8px', lg: '18px' },
+          paddingInline: { base: '14px', lg: 'clamp(28px, 3vw, 52px)' },
+        })}
       >
-        <BrandLockup variant="mark-only-md" mode={{ light: 'original', dark: 'single-color' }} />
-      </a>
-      <details>
-        <summary
-          className={css({
-            listStyle: 'none',
-            cursor: 'pointer',
-            fontFamily: 'body',
-            fontWeight: 'bold',
-            fontVariant: 'small-caps',
-            letterSpacing: 'wide',
-            textStyle: 'sm',
-            color: 'fieldInk',
-            minHeight: '44px',
-            display: 'inline-flex',
-            alignItems: 'center',
-            '&::-webkit-details-marker': { display: 'none' },
-          })}
-        >
-          Index
-        </summary>
-        <nav
-          aria-label="Primary"
-          className={css({
-            display: 'none',
-            'details[open] > &': { display: 'flex' },
-            flexWrap: 'wrap',
-            rowGap: '4px',
-            columnGap: '14px',
-            marginTop: '4px',
-          })}
-        >
-          {links.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className={css({
-                bg: 'field',
-                color: 'surface',
-                textStyle: 'sm',
-                fontWeight: 'normal',
-                textTransform: 'uppercase',
-                letterSpacing: 'wide',
-                fontVariantCaps: 'all-small-caps',
-                paddingBlock: '8px',
-                paddingInline: '2px',
-                minHeight: '44px',
-                minWidth: '44px',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                _hover: { color: 'fieldInk' },
-              })}
-            >
-              {link.label}
-            </a>
-          ))}
+        <a href="/" className={css({ display: 'inline-block', color: 'text' })}>
+          <BrandLockup variant="horizontal-md" mode="original" roleLine />
+        </a>
+        <nav aria-label="Primary" className={css({ marginTop: { base: '4px', lg: '10px' } })}>
+          <ul
+            className={css({
+              display: 'flex',
+              flexWrap: 'wrap',
+              rowGap: { base: '18px', lg: '14px' },
+              columnGap: { base: '18px', lg: '26px' },
+            })}
+          >
+            {NAV.map((item) => (
+              <li key={item.num}>
+                <a
+                  href={item.href}
+                  className={css({
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    minHeight: { base: '44px', lg: 'auto' },
+                    paddingBlock: { lg: '4px' },
+                    textStyle: 'sm',
+                    fontWeight: 'bold',
+                    fontVariant: 'small-caps',
+                    textTransform: 'lowercase',
+                    letterSpacing: '0.06em',
+                    color: 'textMuted',
+                    transition: 'color 0.18s ease',
+                    _hover: { color: 'accent' },
+                  })}
+                >
+                  <span
+                    className={css({
+                      fontVariantCaps: 'normal',
+                      fontVariantNumeric: 'tabular-nums',
+                      fontSize: '13px',
+                      color: 'accent',
+                    })}
+                  >
+                    {item.num}
+                  </span>
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </nav>
-      </details>
+      </div>
     </header>
   )
 }
