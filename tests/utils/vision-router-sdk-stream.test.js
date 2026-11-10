@@ -70,7 +70,7 @@ describe('callVisionAgent over a real SDK stream', () => {
     server.close()
   })
 
-  function useServer() {
+  function pointSdkAtLocalServer() {
     requests.length = 0
     vi.stubEnv('ANTHROPIC_API_KEY', 'sk-local-test')
     vi.stubEnv('ANTHROPIC_BASE_URL', `http://127.0.0.1:${server.address().port}`)
@@ -86,7 +86,7 @@ describe('callVisionAgent over a real SDK stream', () => {
   }
 
   it('returns a reply past the old 16000 cap, on the screenshot critic budget', async () => {
-    useServer()
+    pointSdkAtLocalServer()
     respond = (res) =>
       write(res, messageEvents({ stopReason: 'end_turn', outputTokens: 23325, text: SHIP }))
 
@@ -105,7 +105,7 @@ describe('callVisionAgent over a real SDK stream', () => {
   })
 
   it('keeps a truncated stream as no verdict', async () => {
-    useServer()
+    pointSdkAtLocalServer()
     respond = (res) =>
       write(res, messageEvents({ stopReason: 'max_tokens', outputTokens: 32000, text: 'half a' }))
 
@@ -133,7 +133,7 @@ describe('callVisionAgent over a real SDK stream', () => {
   })
 
   it('retries when the stream reports an overload after the headers', async () => {
-    useServer()
+    pointSdkAtLocalServer()
     respond = (res, attempt) => {
       if (attempt === 1) {
         write(res, [
@@ -162,7 +162,7 @@ describe('callVisionAgent over a real SDK stream', () => {
   }, 15_000)
 
   it('gives up on a stream that hangs once its deadline passes', async () => {
-    useServer()
+    pointSdkAtLocalServer()
     // Headers go out, then nothing: the SDK's own timeout has already stopped
     // counting, so only the signal can end this.
     respond = (res) => res.flushHeaders()

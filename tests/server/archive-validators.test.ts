@@ -1,6 +1,6 @@
 // tests/server/archive-validators.test.ts
 //
-// The inputValidators on the archive server functions had no test at all.
+// The validators on the archive server functions had no test at all.
 // They were inline in the createServerFn chain, so there was nothing to call;
 // they are named exports now for exactly this reason.
 import { describe, it, expect } from 'vitest'
