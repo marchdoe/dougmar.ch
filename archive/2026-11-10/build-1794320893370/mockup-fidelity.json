@@ -1,0 +1,259 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is '-25' (160px); in build it is '-25' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "spaceman",
+                "mockupPx": 56
+              }
+            ],
+            "leader": {
+              "text": "-25",
+              "mockupPx": 160
+            },
+            "buildLeader": {
+              "text": "-25",
+              "buildPx": 160,
+              "mockupPx": 160
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'twenty-five under one shot clear' moved from (446, 823) in the mockup to (446, 912) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 28px in the mockup and 45px in the build (1.61x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 28,
+            "buildPx": 45,
+            "ratio": 1.61,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'ben james -24' moved from (199, 560) in the mockup to (199, 663) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'si woo kim -22' moved from (199, 607) in the mockup to (199, 710) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: '-25' still leads, but the mockup's 'spaceman' (56px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'doug march' is 28px in the mockup and 45px in the build (1.61x). Set it back to 28px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is '-25' (160px); in build it is '-25' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "spaceman",
+                "mockupPx": 56
+              }
+            ],
+            "leader": {
+              "text": "-25",
+              "mockupPx": 160
+            },
+            "buildLeader": {
+              "text": "-25",
+              "buildPx": 160,
+              "mockupPx": 160
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'twenty-five under one shot clear' moved from (446, 823) in the mockup to (446, 912) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 28px in the mockup and 45px in the build (1.61x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 28,
+            "buildPx": 45,
+            "ratio": 1.61,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'ben james -24' moved from (199, 560) in the mockup to (199, 663) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'si woo kim -22' moved from (199, 607) in the mockup to (199, 710) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: '-25' still leads, but the mockup's 'spaceman' (56px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'doug march' is 28px in the mockup and 45px in the build (1.61x). Set it back to 28px."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is '-25' (160px); in build it is '-25' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "spaceman",
+                "mockupPx": 56
+              }
+            ],
+            "leader": {
+              "text": "-25",
+              "mockupPx": 160
+            },
+            "buildLeader": {
+              "text": "-25",
+              "buildPx": 160,
+              "mockupPx": 160
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'twenty-five under one shot clear' moved from (446, 823) in the mockup to (446, 912) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 28px in the mockup and 45px in the build (1.61x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 28,
+            "buildPx": 45,
+            "ratio": 1.61,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'ben james -24' moved from (199, 560) in the mockup to (199, 663) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'si woo kim -22' moved from (199, 607) in the mockup to (199, 710) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: '-25' still leads, but the mockup's 'spaceman' (56px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'doug march' is 28px in the mockup and 45px in the build (1.61x). Set it back to 28px."
+      ]
+    }
+  ]
+}
