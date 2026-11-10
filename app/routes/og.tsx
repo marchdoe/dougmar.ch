@@ -10,8 +10,8 @@ function OgCard() {
       className={css({
         position: 'fixed',
         inset: '0',
-        zIndex: '9999',
-        bg: 'bg',
+        zIndex: 9999,
+        bg: 'surface',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -21,42 +21,34 @@ function OgCard() {
         className={css({
           width: '1200px',
           height: '630px',
-          flexShrink: '0',
-          display: 'grid',
-          gridTemplateColumns: '700px 500px',
+          flexShrink: 0,
+          bg: 'surface',
+          color: 'text',
+          paddingBlock: '64px',
+          paddingInline: '72px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          borderBottomWidth: '8px',
+          borderBottomStyle: 'solid',
+          borderBottomColor: 'accent',
         })}
       >
-        <div
+        <BrandLockup variant="stacked-lg" mode="original" />
+        <h1
           className={css({
-            bg: 'field',
-            color: 'fieldInk',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            paddingBlock: '48px',
-            paddingInline: '56px',
+            fontFamily: 'display',
+            fontWeight: 'bold',
+            fontSize: '88px',
+            lineHeight: '0.98',
+            letterSpacing: '-0.02em',
+            textTransform: 'lowercase',
+            color: 'text',
           })}
         >
-          <h1
-            className={css({
-              fontFamily: 'display',
-              fontWeight: 'bold',
-              fontVariant: 'small-caps',
-              fontSize: '96px',
-              lineHeight: '1',
-              letterSpacing: '-0.015em',
-              textAlign: 'right',
-              color: 'fieldInk',
-            })}
-          >
-            Designed and shipped by the same hands.
-          </h1>
-        </div>
-        <div
-          className={css({ bg: 'bg', color: 'text', paddingBlock: '56px', paddingInline: '48px' })}
-        >
-          <BrandLockup variant="horizontal-md" mode="original" roleLine />
-        </div>
+          <span className={css({ display: 'block' })}>twenty-five under.</span>
+          <span className={css({ display: 'block', color: 'accentAlt' })}>one shot clear.</span>
+        </h1>
       </div>
     </div>
   )

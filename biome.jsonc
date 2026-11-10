@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.5.9/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.6.4/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -72,7 +72,36 @@
       }
     }
   },
+  // Biome 2.6 formats these two by default. Prompts, vault notes and fixtures
+  // are read byte for byte, and the prompt snapshots would all move.
+  "markdown": { "formatter": { "enabled": false } },
+  "yaml": { "formatter": { "enabled": false } },
   "overrides": [
+    {
+      // The rule matches any call named describe. These are local helpers, not
+      // Playwright's. It stays on for the tests.
+      "includes": ["api/**", "scripts/**"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "usePlaywrightValidDescribeCallback": "off"
+          }
+        }
+      }
+    },
+    {
+      // Its validators are named exports so tests can call them, and
+      // .validator() needs them synchronous. The rule wants async on every
+      // export of a 'use server' file.
+      "includes": ["app/server/archive.ts"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "useReactAsyncServerFunction": "off"
+          }
+        }
+      }
+    },
     {
       // fallow writes and reads its own config as JSONC. Biome's JSON parser
       // rejects the comments unless told to expect them.

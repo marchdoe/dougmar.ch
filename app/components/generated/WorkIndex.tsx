@@ -1,146 +1,112 @@
 import { css } from '../../../styled-system/css'
-import type { projects } from '../../content/projects'
-import { Reveal } from './Reveal'
+import { experiments, featuredProject, selectedWork } from '../../content/projects'
+import { FeaturedCard } from './FeaturedCard'
+import { WorkRow } from './WorkRow'
 
-type Project = (typeof projects)[number]
+const work = featuredProject ? [featuredProject, ...selectedWork] : selectedWork
 
-function rowHref(project: Project): string {
-  if (project.depth === 'lightweight' && project.externalUrl) return project.externalUrl
-  return `/work/${project.slug}`
-}
-
-function IndexRow({ project }: { project: Project }) {
+export function WorkIndex() {
   return (
-    <a
-      href={rowHref(project)}
+    <section
       className={css({
-        display: 'grid',
-        gridTemplateColumns: '1fr auto',
-        gridTemplateAreas: '"title year" "meta meta"',
-        rowGap: '2px',
-        columnGap: '16px',
-        alignItems: 'baseline',
-        paddingTop: '20px',
-        paddingBottom: '18px',
-        borderBottomWidth: '1px',
-        borderBottomStyle: 'solid',
-        borderBottomColor: 'border',
+        paddingBlock: 'clamp(48px, 7vw, 112px)',
+        paddingInline: 'clamp(24px, 6vw, 112px)',
+        '@supports (animation-timeline: view())': {
+          animationName: 'rise',
+          animationTimeline: 'view()',
+          animationRange: 'entry 0% entry 40%',
+          animationFillMode: 'both',
+        },
       })}
     >
-      <span
+      <div
         className={css({
-          gridArea: 'title',
-          fontFamily: 'display',
-          fontWeight: 'bold',
-          fontSize: 'clamp(26px, 5vw, 42px)',
-          lineHeight: '1',
-          letterSpacing: '-0.01em',
-          color: 'text',
-          transition: 'color 0.18s ease',
-          'a:hover &': { color: 'accent' },
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'baseline',
+          borderBottomWidth: '2px',
+          borderBottomStyle: 'solid',
+          borderBottomColor: 'borderStrong',
+          paddingBottom: '14px',
+          marginBottom: 'clamp(24px, 3vw, 40px)',
+          gap: '16px',
+          flexWrap: 'wrap',
         })}
       >
-        {project.title}
-      </span>
-      <span
-        className={css({
-          gridArea: 'year',
-          fontFamily: 'display',
-          fontWeight: 'normal',
-          fontSize: 'clamp(18px, 3vw, 26px)',
-          fontVariantNumeric: 'tabular-nums',
-          color: 'textFaint',
-          transition: 'color 0.18s ease',
-          'a:hover &': { color: 'accent' },
-        })}
-      >
-        {project.year}
-      </span>
-      <span
-        className={css({
-          gridArea: 'meta',
-          textStyle: '2xs',
-          fontWeight: 'bold',
-          letterSpacing: '0.1em',
-          textTransform: 'uppercase',
-          color: 'accent',
-          marginTop: '6px',
-        })}
-      >
-        {project.type}
-      </span>
-    </a>
-  )
-}
-
-// The reveal sits on the heading alone. A view() entry range scales with the height of
-// its subject, so on the whole list the small labels stayed near transparent in view.
-function IndexHead({ title, sub }: { title: string; sub: string }) {
-  return (
-    <>
-      <Reveal>
         <h2
           className={css({
             fontFamily: 'display',
             fontWeight: 'bold',
-            fontVariant: 'small-caps',
+            fontSize: 'clamp(22px, 3vw, 34px)',
+            letterSpacing: '-0.01em',
             textTransform: 'lowercase',
-            fontSize: 'clamp(24px, 4vw, 34px)',
-            letterSpacing: '0.01em',
-            color: 'text',
-            marginBottom: '6px',
           })}
         >
-          {title}
+          selected work
         </h2>
-      </Reveal>
-      <p
+        <span
+          className={css({
+            fontSize: '2xs',
+            letterSpacing: '0.14em',
+            textTransform: 'uppercase',
+            color: 'textFaint',
+            fontWeight: 'bold',
+          })}
+        >
+          {work.length} projects
+        </span>
+      </div>
+
+      {featuredProject ? <FeaturedCard project={featuredProject} /> : null}
+
+      <div
         className={css({
-          textStyle: 'sm',
-          fontWeight: 'bold',
-          letterSpacing: '0.12em',
-          textTransform: 'uppercase',
-          color: 'textMuted',
-          marginBottom: '28px',
+          borderTopWidth: '1px',
+          borderTopStyle: 'solid',
+          borderTopColor: 'border',
         })}
       >
-        {sub}
-      </p>
-    </>
-  )
-}
-
-function IndexRows({ items }: { items: Project[] }) {
-  return (
-    <div
-      className={css({
-        borderTopWidth: '2px',
-        borderTopStyle: 'solid',
-        borderTopColor: 'borderStrong',
-      })}
-    >
-      {items.map((project) => (
-        <IndexRow key={project.slug} project={project} />
-      ))}
-    </div>
-  )
-}
-
-export function WorkIndex({ work, lab }: { work: Project[]; lab: Project[] }) {
-  return (
-    <section
-      id="work"
-      className={css({
-        paddingBlock: 'clamp(44px, 6vw, 88px)',
-        paddingInline: 'clamp(16px, 5vw, 80px)',
-      })}
-    >
-      <IndexHead title="Selected Work" sub="Four projects · 2018–2026" />
-      <IndexRows items={work} />
-      <div className={css({ marginTop: 'clamp(40px, 5vw, 64px)' })}>
-        <IndexHead title="Experiments" sub="Things built to learn something" />
+        {work.map((p) => (
+          <WorkRow
+            key={p.slug}
+            href={`/work/${p.slug}`}
+            title={p.title}
+            type={p.type}
+            year={p.year}
+          />
+        ))}
       </div>
-      <IndexRows items={lab} />
+
+      <div
+        className={css({
+          fontSize: '2xs',
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+          color: 'accentAlt',
+          fontWeight: 'bold',
+          marginTop: 'clamp(32px, 4vw, 52px)',
+          marginBottom: '6px',
+        })}
+      >
+        Experiments
+      </div>
+      <div
+        className={css({
+          borderTopWidth: '1px',
+          borderTopStyle: 'solid',
+          borderTopColor: 'border',
+        })}
+      >
+        {experiments.map((p) => (
+          <WorkRow
+            key={p.slug}
+            href={p.externalUrl ?? `/work/${p.slug}`}
+            title={p.title}
+            type={p.type}
+            year={p.year}
+          />
+        ))}
+      </div>
     </section>
   )
 }

@@ -1,86 +1,91 @@
 import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
-import { BrandLockup } from './BrandLockup'
+import { FooterFacts } from './generated/FooterFacts'
+import { FooterNav } from './generated/FooterNav'
 
-const NAV = [
-  { num: '01', label: 'Work', href: '/work' },
-  { num: '02', label: 'About', href: '/about' },
-  { num: '03', label: 'Contact', href: `mailto:${identity.email}` },
-]
-
-// The rail head. In flow above every route at a fixed height from lg up; the split
-// heroes pull up by the same 128px so the olive field runs beside this block.
 export function Sidebar() {
   return (
-    <header
+    <footer
       className={css({
-        display: 'grid',
-        gridTemplateColumns: { base: '1fr', lg: '1.55fr 1fr' },
-        height: { lg: '128px' },
-        borderBottomWidth: '1px',
-        borderBottomStyle: 'solid',
-        borderBottomColor: 'border',
+        bg: 'field',
+        color: 'fieldInk',
+        paddingBlock: 'clamp(48px, 7vw, 112px)',
+        paddingInline: 'clamp(24px, 6vw, 112px)',
       })}
     >
       <div
         className={css({
-          gridColumn: { lg: '2' },
-          position: 'relative',
-          zIndex: '2',
-          paddingTop: { base: '14px', lg: '18px' },
-          paddingBottom: { base: '8px', lg: '18px' },
-          paddingInline: { base: '14px', lg: 'clamp(28px, 3vw, 52px)' },
+          borderBottomWidth: '2px',
+          borderBottomStyle: 'solid',
+          borderBottomColor: 'fieldBorder',
+          paddingBottom: 'clamp(28px, 4vw, 44px)',
+          marginBottom: 'clamp(28px, 4vw, 44px)',
+          display: 'grid',
+          gridTemplateColumns: { base: '1fr', lg: '0.9fr 1.6fr' },
+          alignItems: { lg: 'start' },
+          gap: 'clamp(32px, 4vw, 56px)',
         })}
       >
-        <a href="/" className={css({ display: 'inline-block', color: 'text' })}>
-          <BrandLockup variant="horizontal-md" mode="original" roleLine />
-        </a>
-        <nav aria-label="Primary" className={css({ marginTop: { base: '4px', lg: '10px' } })}>
-          <ul
-            className={css({
-              display: 'flex',
-              flexWrap: 'wrap',
-              rowGap: { base: '18px', lg: '14px' },
-              columnGap: { base: '18px', lg: '26px' },
-            })}
-          >
-            {NAV.map((item) => (
-              <li key={item.num}>
-                <a
-                  href={item.href}
-                  className={css({
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    minHeight: { base: '44px', lg: 'auto' },
-                    paddingBlock: { lg: '4px' },
-                    textStyle: 'sm',
-                    fontWeight: 'bold',
-                    fontVariant: 'small-caps',
-                    textTransform: 'lowercase',
-                    letterSpacing: '0.06em',
-                    color: 'textMuted',
-                    transition: 'color 0.18s ease',
-                    _hover: { color: 'accent' },
-                  })}
-                >
-                  <span
-                    className={css({
-                      fontVariantCaps: 'normal',
-                      fontVariantNumeric: 'tabular-nums',
-                      fontSize: '13px',
-                      color: 'accent',
-                    })}
-                  >
-                    {item.num}
-                  </span>
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <FooterNav />
+        <FooterFacts />
       </div>
-    </header>
+
+      <blockquote
+        className={css({
+          marginTop: 'clamp(28px, 4vw, 44px)',
+          paddingTop: 'clamp(24px, 3vw, 32px)',
+          borderTopWidth: '1px',
+          borderTopStyle: 'solid',
+          borderTopColor: 'fieldBorder',
+          fontFamily: 'display',
+          fontWeight: 'normal',
+          fontSize: 'clamp(18px, 2.4vw, 26px)',
+          lineHeight: '1.3',
+          color: 'fieldInk',
+          maxWidth: '36ch',
+        })}
+      >
+        “Hope is a good thing, maybe the best of things, and no good thing ever dies.”
+        <cite
+          className={css({
+            display: 'block',
+            marginTop: '14px',
+            fontFamily: 'body',
+            fontSize: '2xs',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            color: 'fieldInkMuted',
+            fontStyle: 'normal',
+            fontWeight: 'bold',
+          })}
+        >
+          Stephen King
+        </cite>
+      </blockquote>
+
+      <div
+        className={css({
+          marginTop: 'clamp(28px, 4vw, 44px)',
+          paddingTop: 'clamp(20px, 2.4vw, 28px)',
+          borderTopWidth: '1px',
+          borderTopStyle: 'solid',
+          borderTopColor: 'fieldBorder',
+          display: 'flex',
+          justifyContent: 'space-between',
+          gap: '16px',
+          flexWrap: 'wrap',
+          fontSize: '2xs',
+          letterSpacing: '0.12em',
+          textTransform: 'uppercase',
+          color: 'fieldInkMuted',
+          fontWeight: 'bold',
+        })}
+      >
+        <span>
+          {identity.name} · {identity.role}
+        </span>
+        <span className={css({ fontVariantNumeric: 'tabular-nums' })}>© 2026</span>
+      </div>
+    </footer>
   )
 }
