@@ -38,7 +38,7 @@ function isArchiveRecord(value: unknown): value is ArchiveRecord {
 }
 
 export function _readArchiveRecord(date: string, archivePath = ARCHIVE_PATH): ArchiveRecord | null {
-  // Validate here, not only in archive.ts's inputValidator. This function is
+  // Validate here, not only in archive.ts's validator. This function is
   // exported and called directly (by _readArchiveDetail, by tests, and by the
   // Vite dev middleware), so a guard that lives only at the server-fn boundary
   // is a guard most callers never pass through.

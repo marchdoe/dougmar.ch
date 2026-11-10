@@ -1,0 +1,86 @@
+[
+  {
+    "critic": "mockup-precheck",
+    "round": 0,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1794319616165
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 0,
+    "verdict": "REVISE",
+    "feedback": "1. (Judgment 4) At 360, fold 1 holds the mark, the spine eyebrow, the −25 and the whole leaderboard, but not the phrase. \"twenty-five under. one shot clear.\" first appears at the top of fold 2. The Mobile Declaration's `first_fold` and `carrier` both put the phrase directly under the figure, with the leaderboard as a band after the hero, so move the phrase above the leaderboard so it sits in fold 1 as the figure's caption.\n\n2. (Judgment 5) The featured card reads \"15th club · AI · 2025 · strokes-gained model\" and says \"A caddie that reads the same leaderboards Doug does. 15th Club turns tour shot-tracking into a strokes-gained model you can query in plain language… tell you exactly where the shot went.\" The records say none of this. They describe 15th Club as \"a platform for AI experiments through the lens of golf. The scorecard is the first experiment — shareable, real-time, no app install required,\" and its status is \"In active development.\" Replace the copy with the record's text.\n\n3. (Judgment 5) The records mark Spaceman as the featured project (`featured: true`), not 15th Club. Feature Spaceman (Founder, 2018 — Present, Active, with its listed clients), or label the 15th Club card in a way that doesn't claim it's the featured project.\n\n4. (Judgment 1) This sits too close to 2026-11-08: a gold page (46° here, 48° there) led by a figure, type-dominant, with a top-5 leaderboard from the same WWT Championship and the same names and minus scores. That's three shared traits plus the same subject. Change the leaderboard so it isn't 11-08's centrepiece again, for example set it as hairline rows inside the type specimen instead of a boxed card, and let the parchment and lowercase specimen character carry the page.",
+    "channel": "cli-vision",
+    "ts": 1794319638821
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 1,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1794319716288
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "1. (Judgment 5) The featured Spaceman card says \"The case study walks the product and the clients it shipped for in full.\" The record says Spaceman is not a product. It is \"the LLC I've operated under for the past decade, partnering with companies and studios,\" covering product design, frontend engineering, design systems and brand. Rewrite the standfirst from the record, for example: an independent design and engineering practice, Founder, 2018 to present, clients including Jeffrey Zeldman, Rolex and The Nature Conservancy.\n2. (Judgment 5) The same card says \"building and shipping since 2018\" and calls Spaceman \"the longest-running entry in the work.\" Neither phrase is in the records. Use only the record's terms: Founder, 2018 — Present, Active.\n3. (Judgment 5) The colophon line \"Doug March · Design & Engineering\" gives a role the records don't hold. Identity's role is \"Product Designer & Developer\". Use that wording or drop the role.",
+    "channel": "cli-vision",
+    "ts": 1794319746813
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 2,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1794319774234
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 2,
+    "verdict": "APPROVE",
+    "feedback": "The marigold \"−25\" leads the page and the lowercase phrase \"twenty-five under. one shot clear.\" sits beneath it as its caption, with the hairline leaderboard hung beside them as evidence; the page then ends in a dark band reversed out in cream, and the figure, phrase and band carry it at both 1440 and 360 without reading like the duotone condensed-caps leaderboard of 11-08.",
+    "channel": "cli-vision",
+    "ts": 1794319797140
+  },
+  {
+    "critic": "surface-gate",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "/about @1440: em dash in rendered copy: \"...intersection of design and engineering — not as a generalist, but as someone wh...\". Use a period or a comma.\n/ @360: <header.pos_relative.min-h_78vh.bg_surface.bd-b-w_2px > div.d_grid.grid-tc_1fr.lg:cg_24px.ai_start > div.fs_2xs.ls_0.22em.lg:ls_0.26em.tt_uppercase> \"World Wide Technology Championship · El \" at 12px bold: #94886a on #2e2a1d is 4.08:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <div.d_grid.grid-tc_1fr.lg:cg_24px.ai_start > div.d_flex.flex-d_column.lg:grid-c_2_/_7.lg:grid-r_1 > div.fs_2xs.ls_0.14em.tt_uppercase.c_textFaint> \"Final · Blades Brown, winner\" at 12px bold: #94886a on #2e2a1d is 4.08:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <div.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong.lg:grid-c_8_/_13 > div.d_flex.jc_space-between.ai_baseline.gap_12px > span.c_textFaint> \"to par\" at 12px bold: #94886a on #2e2a1d is 4.08:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <div.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong.lg:grid-c_8_/_13 > div.d_grid.grid-tc_1.6rem_1fr_auto.ai_baseline.gap_12px > span.fs_2xs.c_textFaint.f> \"1\" (x5) at 12px bold: #94886a on #2e2a1d is 4.08:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/about @360: <div.d_grid.grid-tc_1fr.lg:grid-tc_1.5fr_1fr.ai_end > div > div.fs_2xs.ls_0.22em.tt_uppercase.c_textFaint> \"Doug March · Product Designer & Develope\" at 12px bold: #94886a on #2e2a1d is 4.08:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/about @360: <div.d_grid.grid-tc_1fr.lg:grid-tc_1.5fr_1fr.ai_end > div.d_flex.flex-d_column.gap_16px > div.fs_2xs.ls_0.14em.tt_uppercase.c_textFaint> \"Holes in one\" at 12px bold: #94886a on #2e2a1d is 4.08:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work/spaceman @360: 1 more distinct low-contrast pairs are not listed; the worst is 4.08:1.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1794320092356
+  },
+  {
+    "critic": "screenshot-critic",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 6 — react-engineer: On the `/work/spaceman` case study desktop filmstrip, fold 2 of 4 shows the Problem/Approach/Outcome column confined to the right ~55% of the 1440 width with the entire left portion of that fold empty cream; fold 4 of 4 is almost entirely empty black (the footer's bottom reach) with only one small \"Archive · 187 designs\" line near its top and roughly 800px of dead space below it. Both folds need the text column widened to use the full canvas or a second element placed in the empty zone.\n- Section 3 — react-engineer: Dark scheme at 360 repeatedly sets secondary labels (the tournament eyebrow, \"to par\", leaderboard rank numbers on `/`, and the role-line/\"Holes in one\" label on `/about`) in `#94886a` on `#2e2a1d`, measuring 4.08:1, under the 4.5:1 minimum — a systemic token issue in the dark adaptation, not a one-off.\n===END===",
+    "channel": "cli-vision",
+    "ts": 1794320436735
+  },
+  {
+    "critic": "surface-gate",
+    "round": 2,
+    "verdict": "REVISE",
+    "feedback": "/work/spaceman @1440: 234 characters of running copy set at 54px (over 48px) — \"Independent design and engineering work doesn't always fit n...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/work/spaceman @1440: 234 characters of running copy set at 54px (over 48px) — \"Independent design and engineering work doesn't always fit n...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/work/fishsticks @1440: 186 characters of running copy set at 54px (over 48px) — \"Kids struggle to practice spelling lists from school — the t...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/work/fishsticks @1440: 186 characters of running copy set at 54px (over 48px) — \"Kids struggle to practice spelling lists from school — the t...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1794320553933
+  },
+  {
+    "critic": "surface-gate",
+    "round": 3,
+    "verdict": "SHIP",
+    "feedback": "app/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1794320617155
+  },
+  {
+    "critic": "screenshot-critic",
+    "round": "final",
+    "verdict": "SHIP",
+    "feedback": "===VERDICT===\nSHIP\n===END===",
+    "channel": "cli-vision",
+    "ts": 1794320890081
+  }
+]

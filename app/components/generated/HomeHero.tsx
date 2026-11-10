@@ -1,184 +1,126 @@
 import { css } from '../../../styled-system/css'
-import type { projects } from '../../content/projects'
+import { HeroTopbar } from './HeroTopbar'
+import { Leaderboard } from './Leaderboard'
 
-type Project = (typeof projects)[number]
-
-function FeatureCopy({ project }: { project: Project }) {
+export function HomeHero() {
   return (
-    <div
+    <header
       className={css({
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-end',
-        animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-        animationDelay: '240ms',
-      })}
-    >
-      <p
-        className={css({
-          fontSize: '15px',
-          lineHeight: '1.5',
-          color: 'fieldInkMuted',
-          maxWidth: { base: '46ch', xl: '42ch' },
-          textAlign: 'right',
-        })}
-      >
-        {project.description ?? project.problem}
-      </p>
-      <a
-        href={`/work/${project.slug}`}
-        className={css({
-          display: 'inline-flex',
-          alignItems: 'center',
-          minHeight: { base: '44px', lg: 'auto' },
-          marginTop: { base: '2px', lg: '16px' },
-          fontSize: '13px',
-          fontWeight: 'bold',
-          letterSpacing: '0.08em',
-          textTransform: 'uppercase',
-          color: 'fieldInk',
-        })}
-      >
-        <span
-          className={css({
-            paddingBottom: '3px',
-            borderBottomWidth: '1px',
-            borderBottomStyle: 'solid',
-            borderBottomColor: 'fieldBorder',
-          })}
-        >
-          Read the case ↗
-        </span>
-      </a>
-    </div>
-  )
-}
-
-function FeatureField({ project }: { project: Project }) {
-  return (
-    <div
-      className={css({
-        bg: 'field',
-        color: 'fieldInk',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: { base: 'flex-end', lg: 'center' },
-        minHeight: { lg: '88vh' },
-        paddingTop: { base: '20px', lg: '48px' },
-        paddingBottom: { base: '12px', lg: '64px' },
-        paddingInline: { base: '14px', lg: 'clamp(32px, 4vw, 64px)' },
-        borderColor: 'borderStrong',
+        position: 'relative',
+        minHeight: '78vh',
+        paddingTop: 'clamp(28px, 5vw, 56px)',
+        paddingBottom: 'clamp(48px, 7vw, 112px)',
+        paddingInline: 'clamp(24px, 6vw, 112px)',
+        bg: 'surface',
+        borderBottomWidth: '2px',
         borderBottomStyle: 'solid',
-        borderBottomWidth: { base: '1px', lg: '0' },
-        borderRightStyle: 'solid',
-        borderRightWidth: { base: '0', lg: '1px' },
+        borderBottomColor: 'borderStrong',
+        display: 'grid',
+        gridTemplateColumns: '1fr',
+        alignContent: 'start',
+        gap: 'clamp(28px, 4vw, 44px)',
       })}
     >
-      <p
-        className={css({
-          textStyle: 'sm',
-          fontWeight: 'bold',
-          letterSpacing: '0.14em',
-          textTransform: 'uppercase',
-          color: 'fieldInkMuted',
-          textAlign: 'right',
-          marginBottom: { base: '10px', lg: '24px' },
-          animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '80ms',
-        })}
-      >
-        {project.title} LLC · Founded {project.year}
-      </p>
+      <HeroTopbar />
       <div
         className={css({
-          animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '160ms',
+          display: 'grid',
+          gridTemplateColumns: { base: '1fr', lg: '3% repeat(5, 1fr) 0.5fr repeat(5, 1fr)' },
+          columnGap: { base: 'clamp(24px, 3vw, 40px)', lg: '24px' },
+          rowGap: 'clamp(24px, 3vw, 40px)',
+          alignItems: 'start',
         })}
       >
-        <h2
+        <div
           className={css({
-            fontFamily: 'display',
+            fontSize: '2xs',
+            letterSpacing: { base: '0.22em', lg: '0.26em' },
+            textTransform: 'uppercase',
+            color: 'textMuted',
             fontWeight: 'bold',
-            fontVariant: 'small-caps',
-            fontSize: 'clamp(64px, 10vw, 148px)',
-            lineHeight: '0.9',
-            letterSpacing: '-0.015em',
-            color: 'fieldInk',
-            textAlign: 'right',
-            whiteSpace: 'nowrap',
-            marginBottom: { base: '12px', lg: '28px' },
+            borderColor: 'borderStrong',
+            borderStyle: 'solid',
+            borderTopWidth: { base: '1px', lg: '0' },
+            borderRightWidth: { base: '0', lg: '1px' },
+            borderBottomWidth: '0',
+            borderLeftWidth: '0',
+            paddingTop: { base: '10px', lg: '0' },
+            paddingRight: { base: '0', lg: '10px' },
+            writingMode: { base: 'horizontal-tb', lg: 'vertical-rl' },
+            transform: { base: 'none', lg: 'rotate(180deg)' },
+            gridColumn: { lg: '1' },
+            gridRow: { lg: '1' },
+            justifySelf: { lg: 'start' },
+            alignSelf: { lg: 'stretch' },
+            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+            animationDelay: '160ms',
           })}
         >
-          {project.title}
-        </h2>
-        <p
+          World Wide Technology Championship · El Cardonal
+        </div>
+
+        <div
+          className={css({
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 'clamp(16px, 2vw, 24px)',
+            gridColumn: { lg: '2 / 7' },
+            gridRow: { lg: '1' },
+          })}
+        >
+          <div
+            className={css({
+              fontFamily: 'display',
+              fontWeight: 'bold',
+              fontSize: 'clamp(72px, 12vw, 160px)',
+              lineHeight: '0.82',
+              letterSpacing: '-0.03em',
+              color: 'text',
+              fontVariantNumeric: 'tabular-nums',
+              animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+              animationDelay: '80ms',
+            })}
+          >
+            <span className={css({ color: 'accent' })}>−</span>25
+          </div>
+          <div
+            className={css({
+              fontSize: '2xs',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              color: 'textMuted',
+              fontWeight: 'bold',
+            })}
+          >
+            Final · Blades Brown, winner
+          </div>
+        </div>
+
+        <h1
           className={css({
             fontFamily: 'display',
             fontWeight: 'bold',
-            fontVariant: 'small-caps',
+            fontSize: 'clamp(32px, 7vw, 68px)',
+            lineHeight: '0.98',
+            letterSpacing: '-0.02em',
             textTransform: 'lowercase',
-            fontSize: 'clamp(17px, 2.4vw, 22px)',
-            letterSpacing: '0.04em',
-            color: 'fieldInk',
-            textAlign: 'right',
-            marginBottom: { base: '12px', lg: '18px' },
+            textAlign: 'left',
+            color: 'text',
+            maxWidth: '16ch',
+            textWrap: 'balance',
+            gridColumn: { lg: '2 / 8' },
+            gridRow: { lg: '2' },
+            marginTop: { base: '0', lg: 'clamp(28px, 3vw, 52px)' },
+            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+            animationDelay: '0ms',
           })}
         >
-          {project.year} · {project.type}
-        </p>
+          twenty-five under.{' '}
+          <em className={css({ fontStyle: 'normal', color: 'accentAlt' })}>one shot clear.</em>
+        </h1>
+
+        <Leaderboard />
       </div>
-      <FeatureCopy project={project} />
-    </div>
-  )
-}
-
-function Caption() {
-  return (
-    <div
-      className={css({
-        display: 'flex',
-        alignItems: { base: 'flex-end', lg: 'flex-start' },
-        paddingTop: { base: '16px', lg: 'calc(42vh + 32px)' },
-        paddingRight: { base: '14px', lg: 'clamp(28px, 3vw, 52px)' },
-        paddingBottom: { base: '40px', lg: '56px' },
-        paddingLeft: { base: '14px', lg: 'clamp(20px, 2.4vw, 32px)' },
-      })}
-    >
-      <h1
-        className={css({
-          textStyle: '2xl',
-          fontFamily: 'display',
-          fontWeight: 'bold',
-          fontVariant: 'small-caps',
-          letterSpacing: 'wide',
-          fontSize: { base: 'clamp(28px, 6.6vw, 30px)', lg: 'clamp(30px, 3vw, 44px)' },
-          lineHeight: { base: '1.04', lg: '1' },
-          color: 'text',
-          textAlign: { base: 'right', lg: 'left' },
-          maxWidth: { base: '18ch', lg: '15ch' },
-          marginLeft: { base: 'auto', lg: '0' },
-          marginRight: { lg: 'auto' },
-          animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '0ms',
-        })}
-      >
-        Designed and shipped by the same hands.
-      </h1>
-    </div>
-  )
-}
-
-export function HomeHero({ project }: { project?: Project }) {
-  return (
-    <section
-      className={css({
-        display: 'grid',
-        gridTemplateColumns: { base: '1fr', lg: '1.55fr 1fr' },
-        marginTop: { lg: '-128px' },
-      })}
-    >
-      {project ? <FeatureField project={project} /> : null}
-      <Caption />
-    </section>
+    </header>
   )
 }

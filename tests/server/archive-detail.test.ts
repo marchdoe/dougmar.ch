@@ -122,7 +122,7 @@ describe('archive detail', () => {
   it('refuses path traversal, and refuses it for the right reason', () => {
     // This test used to pass because <fixture>/../../etc/record.json happens
     // not to exist — not because traversal was refused. Nothing validated the
-    // date; the only guard lived in archive.ts's inputValidator, which most
+    // date; the only guard lived in archive.ts's validator, which most
     // callers of this function never pass through.
     //
     // So plant a real, readable record.json one level above the fixture root
