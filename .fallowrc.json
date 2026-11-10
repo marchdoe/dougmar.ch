@@ -48,7 +48,7 @@
   // summary exports wait for the /resume route and the PDF export.
   "entry": [
     "app/content/*.ts",
-    "scripts/*.js",
+    "scripts/**/*.js",
     "scripts/signals/*.js",
     "scripts/utils/*.js",
     "elements/chassis/*.js",
@@ -68,7 +68,7 @@
 
   // Imported by scripts/, app/dev-server/ and app/server/signals-impl.ts, which
   // only the dev server loads. The deployed site and api/ never import them,
-  // so they stay devDependencies. Fallow reads scripts/*.js as entry points and
+  // so they stay devDependencies. Fallow reads scripts/**/*.js as entry points and
   // reports the three as dev dependencies used in production.
   //
   // @pandacss/dev is the fourth: /elements imports elements/preset.ts and
