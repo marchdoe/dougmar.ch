@@ -561,98 +561,17 @@ jobs:
           echo "wrote $(wc -c < "$RUNNER_TEMP/shipped-with-faults.md" | tr -d ' ') byte(s)"
 
       - name: Open today's rating issue
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        # Built by scripts/open-rating-issue.js, the same script the local-night
+        # recipe runs. Exit 3 means a `Rate:` issue for the date already exists
+        # (a rerun), which is not a failure here.
         env:
           RUN_DATE: ${{ needs.redesign.outputs.date }}
-        with:
-          script: |
-            const fs = require('fs')
-            // The day the run was for (see the redesign step), not UTC now.
-            const today =
-              process.env.RUN_DATE ||
-              new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' })
-            let brief = ''
-            try {
-              const briefMd = fs.readFileSync(`archive/${today}/brief.md`, 'utf8')
-              brief = briefMd.match(/\*\*Design Brief:\*\*\s*(.+)/)?.[1] || ''
-            } catch {}
-            const hero = brief.slice(0, 60) || today
-            // The images are read from the build dir on main. The copies under
-            // public/archive-data/ are made at build time and no longer
-            // committed (#549), so a raw URL there would 404. record.json
-            // names the build that shipped; without it, take the newest.
-            let buildId = ''
-            try {
-              buildId = JSON.parse(fs.readFileSync(`archive/${today}/record.json`, 'utf8')).buildId
-            } catch {}
-            if (!buildId) {
-              try {
-                buildId = fs
-                  .readdirSync(`archive/${today}`)
-                  .filter((d) => /^build-\d+$/.test(d))
-                  .sort()
-                  .at(-1)
-                  ?.slice('build-'.length)
-              } catch {}
-            }
-            const buildDir = `archive/${today}/build-${buildId}`
-            const rawBase = `https://raw.githubusercontent.com/${context.repo.owner}/${context.repo.repo}/main/${buildDir}`
-            const img = `${rawBase}/screenshot.png`
-            // Visitors can switch modes (#691), so a rating covers both. The
-            // file exists only when dark renders differently from light.
-            const hasDark = fs.existsSync(`${buildDir}/screenshot-dark.png`)
-            const designImages = hasDark
-              ? `<img src="${img}" width="49%" alt="today's design in light mode"> <img src="${rawBase}/screenshot-dark.png" width="49%" alt="today's design in dark mode"><br>Light and dark.`
-              : `![today's design](${img})\n\nOne look tonight: light and dark render the same.`
-            // Same archiver run, the mobile viewport capture — see #466. The
-            // owner grades the phone from this, not just the 1440 shot above.
-            // WebP since #549; builds before that wrote PNG.
-            const mobileFile = fs.existsSync(`${buildDir}/viewports/mobile.webp`)
-              ? 'mobile.webp'
-              : 'mobile.png'
-            const mobileImg = `${rawBase}/viewports/${mobileFile}`
-            // Written by the previous step from verdicts.json — see #468.
-            // Empty when nothing needs a human, which leaves the body below
-            // unchanged.
-            let needsHuman = ''
-            try {
-              needsHuman = fs.readFileSync(process.env.RUNNER_TEMP + '/needs-human.md', 'utf8').trim()
-            } catch {}
-            // Written by the previous step from verdicts.json — see #467.
-            // Empty when the build shipped clean, which leaves the body
-            // below unchanged.
-            let shippedWithFaults = ''
-            try {
-              shippedWithFaults = fs
-                .readFileSync(process.env.RUNNER_TEMP + '/shipped-with-faults.md', 'utf8')
-                .trim()
-            } catch {}
-            const body = [
-              designImages,
-              ``,
-              `<img src="${mobileImg}" width="270" alt="today's design at phone width"><br>First fold at 360.`,
-              ``,
-              brief ? `> ${brief}` : '',
-              ``,
-              `Live: https://dougmar.ch · [Archive entry](https://dougmar.ch/archive/${today})`,
-              ``,
-              `Rate it (edit the YAML in a reply, ~2 min):`,
-              '```yaml',
-              'grade: B        # A-D',
-              'worked: ""',
-              `didnt: ""`,
-              'try: ""',
-              '```',
-              ...(needsHuman ? ['', needsHuman] : []),
-              ...(shippedWithFaults ? ['', shippedWithFaults] : []),
-            ].join('\n')
-            await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: `Rate: ${today} — "${hero}"`,
-              body,
-              labels: ['daily-rating'],
-            })
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TODAY="${RUN_DATE:-$(TZ=America/New_York date +%Y-%m-%d)}"
+          node scripts/open-rating-issue.js "$TODAY" \
+            --needs-human "$RUNNER_TEMP/needs-human.md" \
+            --shipped-with-faults "$RUNNER_TEMP/shipped-with-faults.md" || [ $? -eq 3 ]
 
   # One notification for either job. `failure()` inside a job only sees that
   # job, so a push that failed after the agents succeeded used to be silent.

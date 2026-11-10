@@ -25,6 +25,14 @@ the pipeline never writes to this file.
 
 ## Standing complaints — do not repeat
 
+- **No dot, halftone, ruled-line or blob grounds.** Said on 2026-10-17 and
+  again on 2026-10-31 ("I am still noticing things like dots in the end
+  product"), and the 10-25 and 10-30 ratings both say "dots again". A ground
+  is flat colour, or colour with film grain. A tiled or ruled background
+  behind the type is out, however faint, and so are soft mesh blobs. The
+  10-17 page is a best night for its type and colour; its halftone is not the
+  part to copy.
+
 - **Header keeps breaking.** Called out three ratings running (2026-07-20,
   -22, -23): "header is messed up," rounded corners read wrong, top
   navigation disliked outright. Header is not a solved problem — treat it

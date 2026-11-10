@@ -22,8 +22,8 @@ const OWNER = resolve(process.cwd(), MATERIAL_OWNER)
 const render = (material, seed) => renderToStaticMarkup(createElement(Ground, { material, seed }))
 
 describe('MATERIAL_NAMES', () => {
-  it('is the six declarable values, none first', () => {
-    expect(MATERIAL_NAMES).toEqual(['none', 'grain', 'mesh', 'halftone', 'rule', 'dots'])
+  it('is none and grain, none first (Spec 14 cut the dot, line and blob grounds)', () => {
+    expect(MATERIAL_NAMES).toEqual(['none', 'grain'])
     expect(isMaterialName('grain')).toBe(true)
     expect(isMaterialName('velvet')).toBe(false)
     expect(isMaterialName(null)).toBe(false)
@@ -46,7 +46,7 @@ describe('formatMaterialContractBlock', () => {
     expect(block).toContain('## Ground Material')
     expect(block).toContain('<Ground material="grain" seed={123456} />')
     expect(block).toContain('first child of the relatively positioned hero')
-    expect(groundJsx('dots', 7)).toBe('<Ground material="dots" seed={7} />')
+    expect(groundJsx('grain', 7)).toBe('<Ground material="grain" seed={7} />')
   })
 
   it('says to render nothing on none, and treats an unknown name as none', () => {
@@ -79,14 +79,9 @@ describe('renderMaterialFile', () => {
     expect(code).not.toContain('dangerouslySetInnerHTML')
     expect(code).not.toMatch(/https?:\/\/(?!www\.w3\.org\/2000\/svg)/)
     expect(code).not.toMatch(/\bstyle=\{/)
-    for (const token of [
-      '{colors.accent}',
-      '{colors.accentAlt}',
-      '{colors.bg}',
-      '{colors.border}',
-    ]) {
-      expect(source).toContain(token)
-    }
+    expect(code).toContain("color: 'text'")
+    // The cut grounds stay cut.
+    expect(code).not.toMatch(/gradient/i)
   })
 })
 
@@ -96,9 +91,7 @@ describe('<Ground>', () => {
   })
 
   it('is deterministic for a seed and varies with it', () => {
-    for (const material of ['grain', 'mesh', 'halftone', 'rule', 'dots']) {
-      expect(render(material, 4242)).toBe(render(material, 4242))
-    }
+    expect(render('grain', 4242)).toBe(render('grain', 4242))
     expect(render('grain', 4242)).not.toBe(render('grain', 4243))
   })
 
@@ -119,15 +112,6 @@ describe('<Ground>', () => {
       const f = Number(m[1])
       expect(f).toBeGreaterThanOrEqual(0.6)
       expect(f).toBeLessThanOrEqual(0.9)
-    }
-  })
-
-  it('renders one layer per CSS material, with a class Panda can extract', () => {
-    for (const material of ['mesh', 'halftone', 'rule', 'dots']) {
-      const html = render(material, 4242)
-      expect(html).toContain(`data-ground-material="${material}"`)
-      expect(html).not.toContain('<svg')
-      expect(html).toMatch(/<div class="[^"]+"><\/div><\/div>$/)
     }
   })
 })

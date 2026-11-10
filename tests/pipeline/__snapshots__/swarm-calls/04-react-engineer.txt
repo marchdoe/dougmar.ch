@@ -98,13 +98,21 @@ JS, so every rule here is CSS.
 
 - `entrance` is one gesture on the hero, not a cascade down the page. Set
   `animation: '<name> 500ms cubic-bezier(0.16, 1, 0.3, 1) both'` on the hero's
-  `h1` and on each of its siblings inside the hero block (eyebrow, deck, the
-  figure), and stagger them with `animationDelay` from the fixed set `'0ms'`,
-  `'80ms'`, `'160ms'`, `'240ms'`, in source order, the `h1` at `'0ms'`. `both`
-  is what holds a delayed sibling at its starting state until its turn.
-  `settle` is opacity with an 8px lift, `rise` opacity with a 24px lift, `wipe`
-  a clip-path reveal left to right. Nothing outside the hero block animates on
-  load. `none` sets nothing.
+  `h1` and on at most three companions: its eyebrow, its deck and its figure.
+  Those four are the hero block. A companion that is a distinct object in the
+  hero area but is none of those three (a signal rail, a scoreboard or stats
+  panel, a featured card, a list, a metadata row, a logo strip, anything
+  holding its own data) is NOT the hero block, even when it sits in the same
+  `<section>` as the `h1`: it stays still and is present from the first frame.
+  Stagger with `animationDelay` from the fixed set `'0ms'`,
+  `'80ms'`, `'160ms'`, `'240ms'`, in source order, the `h1` at `'0ms'`, one
+  value per element. `both` is what holds a delayed sibling at its starting
+  state until its turn. Put the declaration on the element that paints (the
+  `h1` or the spans inside it), and spell the string out in `css()` literally
+  as above: a name or delay computed at runtime emits no CSS rule. `settle` is
+  opacity with an 8px lift, `rise` opacity with a 24px lift, `wipe` a clip-path
+  reveal left to right. Nothing outside the hero block animates on load. `none`
+  sets nothing.
 - `ground: drift` sets `animation: 'drift 40s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate'`
   on the hero's field (its background layer), or the material component when
   one is declared. The layer that drifts is the ground, never the container
@@ -565,9 +573,10 @@ or `surface` fill under it, because the colour floor is measured off
 backgrounds and a material alone paints none.
 
 Never redraw a material by hand. An `feTurbulence` in any file you write
-fails the build, the way pasted mark path data does, and a hand-made dot grid
-or ruled gradient standing in for a declared material is a divergence the
-screenshot critic reads. `ground_material: none` means no `<Ground>` at all:
+fails the build, the way pasted mark path data does, and so does a dot, ruled
+or blob background: the token gate fails a `radial-gradient` tiled under 40px,
+a repeating gradient, and three or more `radial-gradient(at ...)` layers.
+`ground_material: none` means no `<Ground>` at all:
 do not import the file.
 
 ## The home callout
@@ -644,6 +653,7 @@ The surface gate renders every route at 360, 820 and 1440 in both colour schemes
 - With reduced motion on, no text is left at opacity: 0. Take opacity: 0 out of the base rule. The resting state is visible, and only the animation inside '@supports (animation-timeline: view())' starts an element hidden. A menu or panel that starts closed hides with visibility: hidden or display: none, which this check skips.
 - In the words you write, rendered and in your files: no em dash and no en dash set as a dash (Use a period or a comma.); nothing about the site rebuilding itself (The site is Doug March's portfolio; the rebuild is never the subject of the copy.); none of additionally, crucial, delve, enduring, enhance, fostering, garner, interplay, intricate, pivotal, showcase, tapestry, testament, underscore, vibrant, locus, vantage, nexus, modality, paradigm, gold-plating, endgame, north star, flywheel, utilize, leverage, facilitate, numerous, in the event that, seamless, robust, elevate, empower, unlock, journey, realm (Use the plain word.); none of not just X, but Y, serves as, stands as, boasts, in order to, it is important to note, it's worth noting (State the point directly.).
 - No line of text opens or closes on a separator (a comma, a middle dot, a bar, a dash, a spaced slash). A field can be empty; render the separator only when both sides exist.
+- No repeating background: no tiled dots, repeating gradient or mesh blooms. Dot, halftone, ruled-line and blob grounds are banned. Make the ground a flat token colour, and use a solid colour field where the page needs mass.
 - One spacing token per property: `padding: '4 0'` ships as 4px 0px and fails the token gate. Panda resolves a token only when it is the whole value. Write paddingBlock: '4', paddingInline: '0'.
 - Every route renders an h1, and at 1440 its top sits inside the first 900px. Every route shows a visible link to /about at 360 and 1440.
 - At 360, 820 and 1440, no text in Layout or Sidebar at opacity 0.05 or more lands on the text of a hand-written route (/work, /experiments, /elements). Fix: move the shell's text off the page's content, or give the route the room the shell takes.

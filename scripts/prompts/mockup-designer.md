@@ -92,7 +92,7 @@ External image URLs are blocked. The only allowed external URLs are Google Fonts
 
 **Never use Unsplash, stock photo URLs, or any external image source.** When the brief calls for a "photograph," "image," "hero photo," or "decisive photograph of <subject>," translate it into a CSS-only treatment that honors the brief's spatial intent at the called-for scale:
 
-- Atmospheric gradient block (radial / linear / mesh), most flexible for "photograph of sky/light/scenery"
+- Atmospheric gradient block (one radial or linear), most flexible for "photograph of sky/light/scenery"
 - Solid color plane at full-bleed, for "drenched" / committed-color hero
 - Inline SVG shape (single-color or gradient-filled), for moons, suns, geometric anchors
 - Typography-as-image. Letterforms set at scale that the type IS the visual
@@ -184,20 +184,13 @@ is checked against. Recipes, in the token names the built site uses:
   numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="luminanceToAlpha"/>
   <feFlood flood-color="currentColor"/><feComposite operator="in"/></filter>`
   applied to a full-bleed `<rect>`. Film grain over the field, not a grey box.
-- `mesh`: `background-image` of three or four `radial-gradient(at X% Y%,
-  <accent> 0, transparent 45%)` blooms in `accent`, `accentAlt` and `bg`, at
-  different positions and radii, over the field.
-- `halftone`: `background-image: radial-gradient(circle, <text> 1.5px,
-  transparent 1.7px); background-size: 8px 8px; opacity: 0.14`, the layer
-  oversized and rotated a few degrees (`inset: -100%; transform: rotate(8deg)`)
-  inside a hero with `overflow: hidden`, so the turn leaves no bare corner.
-- `rule`: `background-image: repeating-linear-gradient(to bottom, <border> 0
-  1px, transparent 1px 24px)`: ruled lines in `border` at one pitch.
-- `dots`: `background-image: radial-gradient(circle, <accent> 1.5px,
-  transparent 1.8px); background-size: 20px 20px; opacity: 0.55`: a dot field
-  in `accent`.
 - `none`: no layer. Most days are `none`; do not add texture the declaration
   did not ask for.
+
+Never draw a dot, halftone, ruled-line or blob ground. A `radial-gradient`
+tiled under 40px, a `repeating-linear-gradient` across more than half the
+page, or three or more `radial-gradient(at ...)` blooms on one block fails the
+pre-check. The owner has rejected all of them.
 
 ## Type treatment
 

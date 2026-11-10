@@ -286,10 +286,13 @@ has nothing to judge here, and a still page on such a night is correct.
 On a `settle`, `rise` or `wipe` day, read the strip left to right. The first
 frame must show the hero not yet arrived: faded, lifted, or partly clipped
 (`wipe` reveals left to right). The last frame must show it settled, and that
-end state must match the 1440 still above. Nothing else on the page moves
-between frames: a nav that fades, a list that rises, or a footer that drifts
-is a cascade, not an entrance. A page that arrives fully formed in frame one
-on a declared entrance is a REVISE naming the declared value.
+end state must match the 1440 still above. The hero block is the `h1` and its
+eyebrow, deck and figure; those arriving a beat apart (up to 240ms of stagger)
+is one entrance, and is correct. Nothing else on the page moves between
+frames: a nav that fades, a list or rail that rises, a panel or card that
+fades in, or a footer that drifts is a cascade, not an entrance. A page that
+arrives fully formed in frame one on a declared entrance is a REVISE naming
+the declared value.
 
 `ground: drift` is judged not at all from stills: it moves a few pixels over
 forty seconds and no strip can show it. `reveal` is judged not at all here:

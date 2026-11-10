@@ -43,6 +43,7 @@
 
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import path from 'node:path'
+import { classifyGroundPattern, PATTERN_FIX, PATTERN_LABEL } from './ground-pattern.js'
 
 /* ------------------------------------------------------------------ *
  * Part one: unresolved token names in the emitted CSS
@@ -1017,6 +1018,40 @@ function listFiles(dir, out = []) {
   return out
 }
 
+/** A `background-size` further than this from a gradient belongs to something else. */
+const NEAR_SIZE_CHARS = 400
+
+/**
+ * Repeating background patterns in one source file (Spec 14 item 7, #794).
+ *
+ * This reads the sources the built page compiles from, not the emitted
+ * stylesheet: Panda writes `background-image` and `background-size` as two
+ * separate atomic classes, so the stylesheet cannot say which tile size goes
+ * with which gradient. The same `classifyGroundPattern` the mockup pre-check
+ * uses makes the call. This gate has no layout to measure, so where the
+ * pre-check only fails a block wider than half the page, a repeating
+ * background here fails at any width.
+ *
+ * @param {string} source
+ * @returns {Array<{ property: string, value: string, pattern: string }>}
+ */
+export function findPatternedGrounds(source) {
+  const code = stripComments(source)
+  const sizes = [...code.matchAll(/background(?:-size|Size)\s*[:=]\s*['"`]([^'"`]+)['"`]/g)]
+  const hits = []
+  const images = /(background(?:-image|Image)?)\s*[:=]\s*['"`]([^'"`]*gradient[^'"`]*)['"`]/g
+  for (const m of code.matchAll(images)) {
+    // The size written nearest the gradient: the two sit in the same css({}).
+    const size = sizes
+      .map((s) => ({ value: s[1], distance: Math.abs(s.index - m.index) }))
+      .filter((s) => s.distance < NEAR_SIZE_CHARS)
+      .sort((a, b) => a.distance - b.distance)[0]?.value
+    const pattern = classifyGroundPattern(m[2], size)
+    if (pattern) hits.push({ property: m[1], value: m[2], pattern })
+  }
+  return hits
+}
+
 /**
  * Every source file a route can reach, by walking imports out from
  * `app/routes/**`.
@@ -1233,6 +1268,9 @@ export function checkTokenResolution({
 
   // Source only, so it does not wait on codegen the way the scale check does.
   for (const [file, source] of reachable) {
+    for (const hit of findPatternedGrounds(source)) {
+      findings.push({ kind: 'patterned-ground', ...hit, files: [path.relative(root, file)] })
+    }
     for (const hit of findSpacedSpacing(source)) {
       findings.push({
         kind: 'spaced',
@@ -1269,11 +1307,26 @@ export function checkTokenResolution({
  * @returns {string}
  */
 export function formatFindings(findings) {
-  const lines = [
-    `${findings.length} token reference${findings.length === 1 ? '' : 's'} did not resolve. ` +
-      'PandaCSS passes an unknown token through as a literal, so these shipped as invalid CSS ' +
-      'that the browser drops, or as a px value nobody asked for.',
-  ]
+  const patterned = findings.filter((f) => f.kind === 'patterned-ground')
+  const tokenCount = findings.length - patterned.length
+  const lines =
+    tokenCount > 0
+      ? [
+          `${tokenCount} token reference${tokenCount === 1 ? '' : 's'} did not resolve. ` +
+            'PandaCSS passes an unknown token through as a literal, so these shipped as invalid CSS ' +
+            'that the browser drops, or as a px value nobody asked for.',
+        ]
+      : []
+
+  if (patterned.length > 0) {
+    if (lines.length > 0) lines.push('')
+    lines.push('Repeating background patterns:')
+    for (const f of patterned) {
+      lines.push(
+        `  - ${f.files.join(', ')}: ${f.property}: '${f.value}' paints ${PATTERN_LABEL[f.pattern]}. ${PATTERN_FIX}`
+      )
+    }
+  }
 
   const unresolved = findings.filter((f) => f.kind === 'unresolved')
   if (unresolved.length > 0) {

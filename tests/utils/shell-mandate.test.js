@@ -80,10 +80,23 @@ describe('shell-mandate', () => {
     })
     const m = computeShellMandate({ archiveDir, lookbackDays: 7 })
     expect(m.recentShells.map((s) => s.ground_material)).toEqual(['none', 'grain', null])
-    expect(m.softForbidden.ground_material).toEqual(['none', 'grain'])
+    // `none` is the default, so it is never one to avoid.
+    expect(m.softForbidden.ground_material).toEqual(['grain'])
     const block = formatShellMandateForPrompt(m)
-    expect(block).toContain('Ground materials used recently (avoid):** none, grain')
+    expect(block).toContain('Ground materials used recently (avoid):** grain')
     expect(block).toContain('material=grain')
+  })
+
+  it('reads an archived night naming a cut material without steering away from it (Spec 14)', () => {
+    seedBuild(archiveDir, '2026-11-01', {
+      footer: 'colophon',
+      brand_lockup: 'stacked-md',
+      ground_material: 'mesh',
+    })
+    const m = computeShellMandate({ archiveDir, lookbackDays: 7 })
+    expect(m.recentShells[0].ground_material).toBe('mesh')
+    expect(m.softForbidden.ground_material).toEqual([])
+    expect(formatShellMandateForPrompt(m)).toContain('**Ground materials:** no recent history.')
   })
 
   it('formats a prompt block with guidance language', () => {

@@ -11,7 +11,7 @@ import { Layout } from '../components/Layout'
 import { LiveRail } from '../components/LiveRail'
 import { css } from '../../styled-system/css'
 import type { ReactNode } from 'react'
-import { useLayoutEffect } from 'react'
+import { useLayoutEffect, useSyncExternalStore } from 'react'
 import { applyTheme, resolveTheme } from '../lib/theme'
 
 /**
@@ -38,7 +38,7 @@ import { applyTheme, resolveTheme } from '../lib/theme'
 const archiveLink = css({
   display: 'block',
   background: 'bg',
-  color: 'textFaint',
+  color: 'textMuted',
   fontSize: 'xs',
   letterSpacing: '0.08em',
   textAlign: 'center',
@@ -59,9 +59,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-11-04'
-const PREV_DATE: string | null = '2026-11-03'
-const ARCHIVE_COUNT = 183
+const DESIGN_DATE = '2026-11-09'
+const PREV_DATE: string | null = '2026-11-08'
+const ARCHIVE_COUNT = 187
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -74,28 +74,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: "The week's spelling words in. A week of practice out." },
-      { property: 'og:title', content: "The week's spelling words in. A week of practice out." },
+      { title: 'Designed and shipped by the same hands.' },
+      { property: 'og:title', content: 'Designed and shipped by the same hands.' },
       {
         property: 'og:description',
         content:
-          'A spec sheet for FishSticks: a chalkboard-green board beside a ruled worksheet, lowercase mono, one red grading-pen mark.',
+          "A maker's spec plate: SPACEMAN reversed out of an olive-brass field, its caption flush to the spine, five real clients ruled beneath it on warm paper.",
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-04.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-09.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: "The week's spelling words in. A week of practice out." },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-04.png' },
+      { name: 'twitter:title', content: 'Designed and shipped by the same hands.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-09.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Bitter:wght@500;700;900&family=Mulish:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -201,8 +201,34 @@ function showsLiveRail(pathname: string) {
   return pathname === '/' || pathname === '/about' || pathname.startsWith('/work/')
 }
 
-function RootComponent() {
+const subscribeToNothing = () => () => {}
+
+/**
+ * The pathname to branch on, which on the first render is the shell's (#789).
+ *
+ * Vercel answers every route that is not prerendered with one file,
+ * `_shell.html`, and that file was rendered for `/`: the rail, no archive link.
+ * Branching on the real path during hydration asked React to adopt that HTML as
+ * `/about` or `/work`, which it cannot, so it threw #418 and rebuilt the page.
+ * `useSyncExternalStore` returns its server value on the server and through
+ * hydration and the client value straight after, so the first render agrees
+ * with the shell and the second one corrects it. The archive surfaces are
+ * prerendered as themselves and keep their real path.
+ *
+ * `vite preview` renders each route live, which is why it never showed this.
+ */
+function useRootPathname() {
   const pathname = useRouterState({ select: (s) => s.location.pathname })
+  const hydrating = useSyncExternalStore(
+    subscribeToNothing,
+    () => false,
+    () => true
+  )
+  return hydrating && !isArchiveSurface(pathname) ? '/' : pathname
+}
+
+function RootComponent() {
+  const pathname = useRootPathname()
 
   if (isArchiveSurface(pathname)) {
     return (
@@ -267,9 +293,9 @@ function RootDocument({
   bare?: boolean
   archiveLink?: boolean
 }) {
-  // Every route but `/` shares a shell prerendered for `/`, so its first client
-  // render can mismatch and React rebuilds the document, which drops the class
-  // THEME_INIT_SCRIPT set on <html> (#691). This puts it back before paint.
+  // A night's Layout can still render differently from the shell, and then React
+  // rebuilds the document, which drops the class THEME_INIT_SCRIPT set on <html>
+  // (#691). This puts it back before paint.
   useLayoutEffect(() => {
     if (!bare) applyTheme(resolveTheme())
   }, [bare])
@@ -289,7 +315,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 183 designs
+            Archive · 187 designs
           </a>
         )}
         <ScrollRestoration />

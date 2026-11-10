@@ -764,10 +764,12 @@
    "label": "Rate: <date> issue",
    "kind": "state",
    "what": "The GitHub issue opened each night with the 1440 screenshot (light and dark side by side when they differ), the 360 first fold, the brief and a YAML rating form (grade A-D, worked, didnt, try).",
-   "when": "Opened by [[publish-job]] with label `daily-rating`.",
-   "how": "The owner replies with the YAML. [[collect-ratings]] harvests it the next night. Sections for needs-human and shipped-with-faults findings are appended when there are any.",
+   "when": "Opened by [[publish-job]] with label `daily-rating`, or by hand after a local night with `node scripts/open-rating-issue.js <date>`.",
+   "how": "Both paths run `scripts/open-rating-issue.js`, which refuses to open a second issue for a date. The owner replies with the YAML. [[collect-ratings]] harvests it the next night. Sections for needs-human and shipped-with-faults findings are appended when there are any.",
    "source": [
-    ".github/workflows/daily-redesign.yml"
+    ".github/workflows/daily-redesign.yml",
+    "scripts/open-rating-issue.js",
+    "scripts/utils/rating-issue.js"
    ]
   },
   {

@@ -1683,6 +1683,27 @@ function checkAssetBundles(distClient) {
   }
 }
 
+/** What each kind of token-gate finding did, for the non-blocking warning. */
+const TOKEN_FINDING_WHAT = {
+  numeric: (w) => `is not a ${w.category} token, so Panda shipped ${w.value}px`,
+  spaced: (w) =>
+    `puts several tokens in one string, so Panda shipped it as written. Write ${w.fix}`,
+  'patterned-ground': (w) => `paints a repeating ground (${w.pattern})`,
+  unresolved: () => 'does not resolve to any token',
+}
+
+/**
+ * Log a token-gate finding in a file the nightly agents do not own.
+ * @param {object} w a finding from `checkTokenResolution`'s `warnings`
+ */
+function warnTokenFinding(w) {
+  const where = w.line ? `${w.files.join(', ')}:${w.line}` : w.files.join(', ')
+  console.warn(
+    `  ⚠ ${where}: ${w.property}: '${w.authoredValue ?? w.value}' ${TOKEN_FINDING_WHAT[w.kind](w)}` +
+      ' (not a file the nightly agents own, so not blocking)'
+  )
+}
+
 /**
  * Check 4 of `validateBuildOutput`: every token name in the emitted CSS
  * actually resolved.
@@ -1699,19 +1720,7 @@ function checkAssetBundles(distClient) {
 function checkEmittedTokensResolve(root) {
   try {
     const gate = checkTokenResolution({ root, ownedFiles: nightlyOwnedFiles(root) })
-    for (const w of gate.warnings) {
-      const what =
-        w.kind === 'numeric'
-          ? `is not a ${w.category} token, so Panda shipped ${w.value}px`
-          : w.kind === 'spaced'
-            ? `puts several tokens in one string, so Panda shipped it as written. Write ${w.fix}`
-            : 'does not resolve to any token'
-      const where = w.line ? `${w.files.join(', ')}:${w.line}` : w.files.join(', ')
-      console.warn(
-        `  ⚠ ${where}: ${w.property}: '${w.authoredValue ?? w.value}' ${what}` +
-          ' (not a file the nightly agents own, so not blocking)'
-      )
-    }
+    for (const w of gate.warnings) warnTokenFinding(w)
     if (!gate.ok) return [gate.error]
     if (gate.warnings.length === 0) console.log('  every token in the emitted CSS resolved')
     return []

@@ -10,44 +10,53 @@ function OgCard() {
       className={css({
         position: 'fixed',
         inset: '0',
-        zIndex: 9999,
+        zIndex: '9999',
+        bg: 'bg',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        bg: 'field',
       })}
     >
       <div
         className={css({
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
           width: '1200px',
           height: '630px',
           flexShrink: '0',
-          paddingBlock: '64px',
-          paddingInline: '64px',
-          bg: 'field',
-          color: 'fieldInk',
+          display: 'grid',
+          gridTemplateColumns: '700px 500px',
         })}
       >
-        <BrandLockup variant="horizontal-md" mode="original" roleLine />
-        <h1
+        <div
           className={css({
-            fontFamily: 'display',
-            fontStyle: 'italic',
-            fontWeight: 'normal',
-            fontSize: '72px',
-            lineHeight: '1.1',
-            letterSpacing: '-0.02em',
-            textTransform: 'lowercase',
-            textAlign: 'left',
+            bg: 'field',
             color: 'fieldInk',
-            maxWidth: '1000px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            paddingBlock: '48px',
+            paddingInline: '56px',
           })}
         >
-          The week's spelling words in. A week of practice out.
-        </h1>
+          <h1
+            className={css({
+              fontFamily: 'display',
+              fontWeight: 'bold',
+              fontVariant: 'small-caps',
+              fontSize: '96px',
+              lineHeight: '1',
+              letterSpacing: '-0.015em',
+              textAlign: 'right',
+              color: 'fieldInk',
+            })}
+          >
+            Designed and shipped by the same hands.
+          </h1>
+        </div>
+        <div
+          className={css({ bg: 'bg', color: 'text', paddingBlock: '56px', paddingInline: '48px' })}
+        >
+          <BrandLockup variant="horizontal-md" mode="original" roleLine />
+        </div>
       </div>
     </div>
   )

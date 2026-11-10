@@ -1,20 +1,25 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { DayLedger } from '../components/generated/DayLedger'
-import { HomeBoard } from '../components/generated/HomeBoard'
-import { SplitPage } from '../components/generated/Split'
-import { HomeIndexBand } from '../components/generated/WorkIndex'
+import { ClientSet } from '../components/generated/ClientSet'
+import { HomeHero } from '../components/generated/HomeHero'
+import { Reveal } from '../components/generated/Reveal'
+import { WorkIndex } from '../components/generated/WorkIndex'
 import { SiteCallout } from '../components/SiteCallout'
+import { experiments, featuredProject, projects } from '../content/projects'
 
 export const Route = createFileRoute('/')({ component: HomePage })
 
+// Open item: the empty folds reported below the footer are not fixed here. No file in
+// this patch adds height after Colophon, and the cause could not be found from source.
 function HomePage() {
+  const feature = projects.find((project) => project.title === 'Spaceman') ?? featuredProject
+  const work = projects.filter((project) => project.depth === 'full')
   return (
     <>
-      <SplitPage>
-        <HomeBoard />
-        <HomeIndexBand />
-        <DayLedger />
-      </SplitPage>
+      <HomeHero project={feature} />
+      <Reveal>
+        <ClientSet project={feature} />
+      </Reveal>
+      <WorkIndex work={work} lab={experiments} />
       <SiteCallout />
     </>
   )
