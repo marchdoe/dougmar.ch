@@ -1,91 +1,105 @@
 import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
-import { FooterFacts } from './generated/FooterFacts'
-import { FooterNav } from './generated/FooterNav'
+import { BrandLockup } from './BrandLockup'
+
+const menuLink = css({
+  minHeight: '44px',
+  minWidth: '44px',
+  paddingInline: '1',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  color: 'textMuted',
+})
 
 export function Sidebar() {
   return (
-    <footer
+    <header
       className={css({
-        bg: 'field',
-        color: 'fieldInk',
-        paddingBlock: 'clamp(48px, 7vw, 112px)',
-        paddingInline: 'clamp(24px, 6vw, 112px)',
+        minHeight: '64px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingBlock: '10px',
+        paddingInline: 'clamp(24px, 6vw, 96px)',
+        bg: 'bg',
+        position: 'relative',
+        zIndex: 5,
       })}
     >
-      <div
+      <a
+        href="/"
+        aria-label="Doug March, home"
         className={css({
-          borderBottomWidth: '2px',
-          borderBottomStyle: 'solid',
-          borderBottomColor: 'fieldBorder',
-          paddingBottom: 'clamp(28px, 4vw, 44px)',
-          marginBottom: 'clamp(28px, 4vw, 44px)',
-          display: 'grid',
-          gridTemplateColumns: { base: '1fr', lg: '0.9fr 1.6fr' },
-          alignItems: { lg: 'start' },
-          gap: 'clamp(32px, 4vw, 56px)',
+          display: 'flex',
+          alignItems: 'center',
+          color: 'text',
+          _hover: { textDecorationLine: 'none', color: 'text' },
         })}
       >
-        <FooterNav />
-        <FooterFacts />
-      </div>
-
-      <blockquote
+        <BrandLockup variant="stacked-md" mode="original" />
+      </a>
+      <nav
+        aria-label="Primary"
         className={css({
-          marginTop: 'clamp(28px, 4vw, 44px)',
-          paddingTop: 'clamp(24px, 3vw, 32px)',
-          borderTopWidth: '1px',
-          borderTopStyle: 'solid',
-          borderTopColor: 'fieldBorder',
-          fontFamily: 'display',
-          fontWeight: 'normal',
-          fontSize: 'clamp(18px, 2.4vw, 26px)',
-          lineHeight: '1.3',
-          color: 'fieldInk',
-          maxWidth: '36ch',
+          position: 'relative',
+          '&:hover [data-reveal], &:focus-within [data-reveal]': { display: 'flex' },
         })}
       >
-        “Hope is a good thing, maybe the best of things, and no good thing ever dies.”
-        <cite
+        <button
+          type="button"
           className={css({
-            display: 'block',
-            marginTop: '14px',
             fontFamily: 'body',
-            fontSize: '2xs',
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-            color: 'fieldInkMuted',
-            fontStyle: 'normal',
-            fontWeight: 'bold',
+            fontWeight: '500',
+            fontSize: 'sm',
+            color: 'text',
+            letterSpacing: '0.01em',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '7px',
+            minHeight: '44px',
+            minWidth: '44px',
+            paddingInline: '1',
+            bg: 'transparent',
+            borderWidth: '0',
+            cursor: 'pointer',
+            _after: { content: '"+"', color: 'accent', lineHeight: '1' },
           })}
         >
-          Stephen King
-        </cite>
-      </blockquote>
-
-      <div
-        className={css({
-          marginTop: 'clamp(28px, 4vw, 44px)',
-          paddingTop: 'clamp(20px, 2.4vw, 28px)',
-          borderTopWidth: '1px',
-          borderTopStyle: 'solid',
-          borderTopColor: 'fieldBorder',
-          display: 'flex',
-          justifyContent: 'space-between',
-          gap: '16px',
-          flexWrap: 'wrap',
-          fontSize: '2xs',
-          letterSpacing: '0.12em',
-          textTransform: 'uppercase',
-          color: 'fieldInkMuted',
-          fontWeight: 'bold',
-        })}
-      >
-        <span>
-          {identity.name} · {identity.role}
-        </span>
-        <span className={css({ fontVariantNumeric: 'tabular-nums' })}>© 2026</span>
-      </div>
-    </footer>
+          Index
+        </button>
+        <div
+          data-reveal=""
+          className={css({
+            position: 'absolute',
+            top: '100%',
+            right: '0',
+            zIndex: 10,
+            display: 'none',
+            flexDirection: 'column',
+            alignItems: 'flex-end',
+            bg: 'surface',
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            borderColor: 'border',
+            borderRadius: 'sm',
+            paddingBlock: '1',
+            paddingInline: '3',
+            minWidth: '140px',
+            fontSize: 'sm',
+          })}
+        >
+          <a href="/#work" className={menuLink}>
+            Work
+          </a>
+          <a href="/about" className={menuLink}>
+            About
+          </a>
+          <a href={`mailto:${identity.email}`} className={menuLink}>
+            Contact
+          </a>
+        </div>
+      </nav>
+    </header>
   )
 }

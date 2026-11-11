@@ -1,16 +1,28 @@
 import { css } from '../../../styled-system/css'
-import { experiments, featuredProject, selectedWork } from '../../content/projects'
+import { experiments, featuredProject, projects, selectedWork } from '../../content/projects'
 import { FeaturedCard } from './FeaturedCard'
-import { WorkRow } from './WorkRow'
+import { ProjectCard } from './ProjectCard'
 
-const work = featuredProject ? [featuredProject, ...selectedWork] : selectedWork
+const gridStyle = css({
+  display: 'grid',
+  gap: '14px',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+})
 
 export function WorkIndex() {
+  const years = projects.map((p) => p.year)
+  const first = Math.min(...years)
+  const last = Math.max(...years)
   return (
     <section
+      id="work"
       className={css({
-        paddingBlock: 'clamp(48px, 7vw, 112px)',
-        paddingInline: 'clamp(24px, 6vw, 112px)',
+        paddingBlock: 'clamp(48px, 8vh, 112px)',
+        paddingInline: 'clamp(24px, 6vw, 96px)',
+        bg: 'bg',
+        borderTopWidth: '1px',
+        borderTopStyle: 'solid',
+        borderTopColor: 'border',
         '@supports (animation-timeline: view())': {
           animationName: 'rise',
           animationTimeline: 'view()',
@@ -22,88 +34,71 @@ export function WorkIndex() {
       <div
         className={css({
           display: 'flex',
-          justifyContent: 'space-between',
           alignItems: 'baseline',
-          borderBottomWidth: '2px',
-          borderBottomStyle: 'solid',
-          borderBottomColor: 'borderStrong',
-          paddingBottom: '14px',
-          marginBottom: 'clamp(24px, 3vw, 40px)',
-          gap: '16px',
+          justifyContent: 'space-between',
+          gap: '4',
           flexWrap: 'wrap',
+          marginBottom: 'clamp(28px, 4vh, 48px)',
         })}
       >
         <h2
           className={css({
             fontFamily: 'display',
-            fontWeight: 'bold',
-            fontSize: 'clamp(22px, 3vw, 34px)',
-            letterSpacing: '-0.01em',
-            textTransform: 'lowercase',
+            fontWeight: 'normal',
+            fontSize: 'clamp(26px, 3.4vw, 38px)',
+            color: 'text',
           })}
         >
-          selected work
+          Selected Work
         </h2>
+        {/* mockup eyebrow #cf9a33 has no token; accent is the nearest brass */}
         <span
           className={css({
-            fontSize: '2xs',
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
-            color: 'textFaint',
+            fontFamily: 'body',
             fontWeight: 'bold',
+            fontSize: '2xs',
+            textTransform: 'uppercase',
+            letterSpacing: 'wider',
+            color: 'accent',
           })}
         >
-          {work.length} projects
+          Index · {first}–{last}
         </span>
       </div>
-
       {featuredProject ? <FeaturedCard project={featuredProject} /> : null}
-
-      <div
-        className={css({
-          borderTopWidth: '1px',
-          borderTopStyle: 'solid',
-          borderTopColor: 'border',
-        })}
-      >
-        {work.map((p) => (
-          <WorkRow
+      <div className={gridStyle}>
+        {selectedWork.map((p) => (
+          <ProjectCard
             key={p.slug}
-            href={`/work/${p.slug}`}
             title={p.title}
             type={p.type}
             year={p.year}
+            href={`/work/${p.slug}`}
           />
         ))}
       </div>
-
-      <div
+      <h3
         className={css({
-          fontSize: '2xs',
-          letterSpacing: '0.18em',
-          textTransform: 'uppercase',
-          color: 'accentAlt',
+          fontFamily: 'body',
           fontWeight: 'bold',
-          marginTop: 'clamp(32px, 4vw, 52px)',
-          marginBottom: '6px',
+          fontSize: '2xs',
+          textTransform: 'uppercase',
+          letterSpacing: 'wider',
+          color: 'accent',
+          marginTop: 'clamp(32px, 5vh, 56px)',
+          marginBottom: '4',
         })}
       >
         Experiments
-      </div>
-      <div
-        className={css({
-          borderTopWidth: '1px',
-          borderTopStyle: 'solid',
-          borderTopColor: 'border',
-        })}
-      >
+      </h3>
+      <div className={gridStyle}>
         {experiments.map((p) => (
-          <WorkRow
+          <ProjectCard
             key={p.slug}
-            href={p.externalUrl ?? `/work/${p.slug}`}
             title={p.title}
             type={p.type}
             year={p.year}
+            href={p.externalUrl ?? `/work/${p.slug}`}
           />
         ))}
       </div>

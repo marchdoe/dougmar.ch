@@ -33,8 +33,8 @@ import { calloutLineFor, siteCallout } from '../content/callout'
  * clock, so an archived page shows the line it shipped with.
  */
 
-const DESIGN_DATE = '2026-11-10'
-const ARCHIVE_COUNT = 187
+const DESIGN_DATE = '2026-11-11'
+const ARCHIVE_COUNT = 188
 
 const root = css({
   display: 'block',

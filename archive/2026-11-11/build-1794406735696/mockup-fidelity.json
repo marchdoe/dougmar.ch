@@ -1,0 +1,54 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 20px in the mockup and 33px in the build (1.67x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 20,
+            "buildPx": 33,
+            "ratio": 1.67,
+            "mockupRank": 3
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: 'doug march' is 20px in the mockup and 33px in the build (1.67x). Set it back to 20px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 20px in the mockup and 33px in the build (1.67x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 20,
+            "buildPx": 33,
+            "ratio": 1.67,
+            "mockupRank": 3
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: 'doug march' is 20px in the mockup and 33px in the build (1.67x). Set it back to 20px."
+      ]
+    }
+  ]
+}
