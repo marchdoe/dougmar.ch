@@ -94,8 +94,16 @@ jobs:
       # vitest suites launch real Chromium for accurate DOM measurements.
       # --with-deps installs OS packages, which the cache does not cover, so it
       # runs either way; only the browser download is skipped on a hit.
+      # On 2026-11-11 the runners could not resolve Ubuntu's mirrors and apt
+      # failed on the only packages the image lacks (nine font packages), so
+      # an apt failure now falls back to the browser alone with a warning.
+      # The tests that follow decide whether that was enough.
       - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium
+        run: |
+          pnpm exec playwright install --with-deps chromium || {
+            echo "::warning::apt could not install Playwright's OS packages; installing Chromium without them"
+            pnpm exec playwright install chromium
+          }
 
       # With coverage, so the floor in vitest.config.ts is enforced. The
       # nightly's own gate stays `pnpm test`.
@@ -166,8 +174,13 @@ jobs:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ steps.pw.outputs.version }}
 
+      # Same apt fallback as the test job.
       - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium
+        run: |
+          pnpm exec playwright install --with-deps chromium || {
+            echo "::warning::apt could not install Playwright's OS packages; installing Chromium without them"
+            pnpm exec playwright install chromium
+          }
 
       # The panel reads signals/today.yml. /api/dev-data would collect it on
       # the first request, but that races the first test against a 15s spawn;
