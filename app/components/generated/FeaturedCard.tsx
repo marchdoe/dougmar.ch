@@ -1,94 +1,88 @@
 import { css } from '../../../styled-system/css'
-import type { projects } from '../../content/projects'
+import type { featuredProject } from '../../content/projects'
 
-type Project = (typeof projects)[number]
+type Featured = NonNullable<typeof featuredProject>
 
-export function FeaturedCard({ project }: { project: Project }) {
-  const href = project.externalUrl ?? project.liveUrl ?? `/work/${project.slug}`
-  const meta = [project.role, project.type, String(project.year)].filter(Boolean).join(' · ')
+const linkStyle = css({
+  fontFamily: 'body',
+  fontWeight: '500',
+  fontSize: 'sm',
+  color: 'accentAlt',
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '6px',
+  minHeight: '44px',
+})
+
+export function FeaturedCard({ project }: { project: Featured }) {
+  const summary = project.problem ?? project.description
+  const outbound = project.externalUrl ?? project.liveUrl
   return (
     <article
       className={css({
-        display: 'grid',
-        gridTemplateColumns: { base: '1fr', lg: '1.1fr 1fr' },
-        alignItems: { lg: 'center' },
-        gap: 'clamp(20px, 3vw, 48px)',
-        bg: 'bg',
+        bg: 'surface',
         borderWidth: '1px',
         borderStyle: 'solid',
-        borderColor: 'borderStrong',
+        borderColor: 'border',
         borderRadius: 'sm',
-        padding: 'clamp(24px, 3.4vw, 44px)',
-        marginBottom: 'clamp(24px, 3vw, 40px)',
+        padding: 'clamp(24px, 4vw, 44px)',
+        marginBottom: 'clamp(28px, 4vh, 48px)',
+        display: 'grid',
+        gap: '18px',
       })}
     >
-      <div>
-        <div
-          className={css({
-            fontSize: '2xs',
-            letterSpacing: '0.16em',
-            textTransform: 'uppercase',
-            color: 'accentAlt',
-            fontWeight: 'bold',
-            marginBottom: '14px',
-          })}
-        >
-          Featured
-        </div>
+      <div className={css({ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '3' })}>
         <h3
           className={css({
             fontFamily: 'display',
-            fontWeight: 'bold',
-            fontSize: 'clamp(30px, 5vw, 56px)',
-            lineHeight: '0.98',
-            letterSpacing: '-0.02em',
-            textTransform: 'lowercase',
-            marginBottom: '8px',
+            fontWeight: 'normal',
+            fontSize: 'clamp(30px, 4.6vw, 52px)',
+            lineHeight: '1',
+            color: 'text',
           })}
         >
           {project.title}
         </h3>
-        <div
+        <span
           className={css({
+            fontFamily: 'body',
+            fontWeight: '500',
             fontSize: '2xs',
-            letterSpacing: '0.08em',
             textTransform: 'uppercase',
-            color: 'textFaint',
-            fontWeight: 'bold',
-          })}
-        >
-          {meta}
-        </div>
-      </div>
-      <div>
-        <p
-          className={css({
-            fontSize: 'base',
+            letterSpacing: 'wide',
             color: 'textMuted',
-            maxWidth: '50ch',
-            marginBottom: '20px',
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            borderColor: 'border',
+            borderRadius: 'sm',
+            paddingBlock: '1',
+            paddingInline: '9px',
+            whiteSpace: 'nowrap',
           })}
         >
-          {project.problem ?? project.description}
-        </p>
-        <a
-          href={href}
-          className={css({
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            minHeight: '44px',
-            fontWeight: 'bold',
-            color: 'accentAlt',
-            borderBottomWidth: '2px',
-            borderBottomStyle: 'solid',
-            borderBottomColor: 'accent',
-            paddingBlock: '6px',
-            fontSize: '15px',
-          })}
-        >
-          Read the case ↗
+          {project.type} · {project.year}
+        </span>
+      </div>
+      <p
+        className={css({
+          fontFamily: 'body',
+          fontSize: 'clamp(15px, 1.6vw, 18px)',
+          color: 'textMuted',
+          maxWidth: '60ch',
+          lineHeight: '1.6',
+        })}
+      >
+        {summary}
+      </p>
+      <div className={css({ display: 'flex', flexWrap: 'wrap', columnGap: '6', rowGap: '0' })}>
+        <a href={`/work/${project.slug}`} className={linkStyle}>
+          Read the case study&nbsp;↗
         </a>
+        {outbound && (
+          <a href={outbound} className={linkStyle} target="_blank" rel="noreferrer">
+            Visit {project.title}&nbsp;↗
+          </a>
+        )}
       </div>
     </article>
   )

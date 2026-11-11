@@ -1,126 +1,102 @@
 import { css } from '../../../styled-system/css'
-import { HeroTopbar } from './HeroTopbar'
-import { Leaderboard } from './Leaderboard'
 
 export function HomeHero() {
   return (
-    <header
+    <section
       className={css({
-        position: 'relative',
-        minHeight: '78vh',
-        paddingTop: 'clamp(28px, 5vw, 56px)',
-        paddingBottom: 'clamp(48px, 7vw, 112px)',
-        paddingInline: 'clamp(24px, 6vw, 112px)',
-        bg: 'surface',
-        borderBottomWidth: '2px',
-        borderBottomStyle: 'solid',
-        borderBottomColor: 'borderStrong',
+        minHeight: 'calc(100vh - 64px)',
         display: 'grid',
-        gridTemplateColumns: '1fr',
-        alignContent: 'start',
-        gap: 'clamp(28px, 4vw, 44px)',
+        placeItems: 'center',
+        textAlign: 'center',
+        paddingBlock: 'clamp(40px, 7vh, 88px)',
+        paddingInline: 'clamp(24px, 6vw, 96px)',
+        bg: 'bg',
       })}
     >
-      <HeroTopbar />
       <div
         className={css({
-          display: 'grid',
-          gridTemplateColumns: { base: '1fr', lg: '3% repeat(5, 1fr) 0.5fr repeat(5, 1fr)' },
-          columnGap: { base: 'clamp(24px, 3vw, 40px)', lg: '24px' },
-          rowGap: 'clamp(24px, 3vw, 40px)',
-          alignItems: 'start',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 'clamp(18px, 3vh, 34px)',
+          width: '100%',
         })}
       >
         <div
+          aria-hidden="true"
           className={css({
-            fontSize: '2xs',
-            letterSpacing: { base: '0.22em', lg: '0.26em' },
-            textTransform: 'uppercase',
-            color: 'textMuted',
-            fontWeight: 'bold',
-            borderColor: 'borderStrong',
-            borderStyle: 'solid',
-            borderTopWidth: { base: '1px', lg: '0' },
-            borderRightWidth: { base: '0', lg: '1px' },
-            borderBottomWidth: '0',
-            borderLeftWidth: '0',
-            paddingTop: { base: '10px', lg: '0' },
-            paddingRight: { base: '0', lg: '10px' },
-            writingMode: { base: 'horizontal-tb', lg: 'vertical-rl' },
-            transform: { base: 'none', lg: 'rotate(180deg)' },
-            gridColumn: { lg: '1' },
-            gridRow: { lg: '1' },
-            justifySelf: { lg: 'start' },
-            alignSelf: { lg: 'stretch' },
-            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '160ms',
+            fontFamily: 'display',
+            fontWeight: 'normal',
+            lineHeight: '0.9',
+            fontSize: 'clamp(96px, 12.5vw, 160px)',
+            letterSpacing: '0.01em',
+            color: 'transparent',
+            WebkitTextStroke: '2px token(colors.textMuted)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '0.04em',
+            animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+            animationDelay: '80ms',
           })}
         >
-          World Wide Technology Championship · El Cardonal
+          <span className={css({ display: 'inline-block' })}>11</span>
+          {/* mockup glow used a raw rgba; dropped, the brass point carries on its own */}
+          <span
+            className={css({
+              display: 'inline-block',
+              color: 'accent',
+              WebkitTextStroke: '0',
+              fontSize: '0.72em',
+              transform: 'translateY(-0.06em)',
+              marginInline: '0.02em',
+            })}
+          >
+            ●
+          </span>
+          <span className={css({ display: 'inline-block' })}>11</span>
         </div>
-
         <div
           className={css({
             display: 'flex',
             flexDirection: 'column',
-            gap: 'clamp(16px, 2vw, 24px)',
-            gridColumn: { lg: '2 / 7' },
-            gridRow: { lg: '1' },
+            alignItems: 'center',
+            gap: 'clamp(14px, 2.4vh, 24px)',
           })}
         >
-          <div
+          <h1
             className={css({
               fontFamily: 'display',
-              fontWeight: 'bold',
-              fontSize: 'clamp(72px, 12vw, 160px)',
-              lineHeight: '0.82',
-              letterSpacing: '-0.03em',
+              fontWeight: 'normal',
+              fontSize: 'clamp(34px, 5.4vw, 62px)',
+              lineHeight: '1.02',
+              letterSpacing: '0.005em',
               color: 'text',
-              fontVariantNumeric: 'tabular-nums',
-              animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-              animationDelay: '80ms',
+              textTransform: 'none',
+              fontStyle: 'normal',
+              textAlign: 'center',
+              animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+              animationDelay: '0ms',
             })}
           >
-            <span className={css({ color: 'accent' })}>−</span>25
-          </div>
-          <div
+            Veterans Day
+          </h1>
+          <div className={css({ width: '84px', height: '2px', bg: 'accent', opacity: 0.9 })} />
+          <p
             className={css({
-              fontSize: '2xs',
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase',
+              fontFamily: 'body',
+              fontSize: 'clamp(16px, 2.2vw, 22px)',
+              lineHeight: '1.5',
               color: 'textMuted',
-              fontWeight: 'bold',
+              maxWidth: '44ch',
+              animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+              animationDelay: '160ms',
             })}
           >
-            Final · Blades Brown, winner
-          </div>
+            The eleventh hour of the eleventh day of the eleventh month.
+          </p>
         </div>
-
-        <h1
-          className={css({
-            fontFamily: 'display',
-            fontWeight: 'bold',
-            fontSize: 'clamp(32px, 7vw, 68px)',
-            lineHeight: '0.98',
-            letterSpacing: '-0.02em',
-            textTransform: 'lowercase',
-            textAlign: 'left',
-            color: 'text',
-            maxWidth: '16ch',
-            textWrap: 'balance',
-            gridColumn: { lg: '2 / 8' },
-            gridRow: { lg: '2' },
-            marginTop: { base: '0', lg: 'clamp(28px, 3vw, 52px)' },
-            animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '0ms',
-          })}
-        >
-          twenty-five under.{' '}
-          <em className={css({ fontStyle: 'normal', color: 'accentAlt' })}>one shot clear.</em>
-        </h1>
-
-        <Leaderboard />
       </div>
-    </header>
+    </section>
   )
 }

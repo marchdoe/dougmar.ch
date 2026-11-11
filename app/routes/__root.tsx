@@ -59,9 +59,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-11-10'
-const PREV_DATE: string | null = '2026-11-09'
-const ARCHIVE_COUNT = 188
+const DESIGN_DATE = '2026-11-11'
+const PREV_DATE: string | null = '2026-11-10'
+const ARCHIVE_COUNT = 189
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -74,28 +74,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'twenty-five under. one shot clear.' },
-      { property: 'og:title', content: 'twenty-five under. one shot clear.' },
+      { title: 'Veterans Day' },
+      { property: 'og:title', content: 'Veterans Day' },
       {
         property: 'og:description',
         content:
-          'Parchment golf specimen, −25 at marquee ink with a gold minus, rotated tournament spine, knockout colophon band at the foot.',
+          'Engraved 11.11 mirrored on a service-navy drench, one medal-brass point holding the center, Veterans Day named beneath.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-10.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-11.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'twenty-five under. one shot clear.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-10.png' },
+      { name: 'twitter:title', content: 'Veterans Day' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-11.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=Manrope:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital,wght@0,400;1,400&family=Public+Sans:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -315,7 +315,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 188 designs
+            Archive · 189 designs
           </a>
         )}
         <ScrollRestoration />

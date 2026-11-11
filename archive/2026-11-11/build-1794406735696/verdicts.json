@@ -1,0 +1,85 @@
+[
+  {
+    "critic": "mockup-precheck",
+    "round": 0,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1794405947389
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 0,
+    "verdict": "REVISE",
+    "feedback": "1. (Judgment 6) `nav_form: word` is not carried out at 1440. The desktop header shows a row of labels, \"Work About Contact\", at top right. It should be the single title-case word \"Index\" that reveals Work, About and Contact, which is what the 360 bar already does. Replace the label row at desktop with \"Index\".\n2. (Judgment 5) The footer line in fold 5 reads \"Doug March · Designer & Engineer\", but the identity record gives his role as \"Product Designer & Developer\". Use the recorded role word for word.",
+    "channel": "cli-vision",
+    "ts": 1794405959529
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 1,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1794405999838
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "6. The header is supposed to be a top bar about 64px tall (`placement: top-bar`, `height_px: 64`). At 1440, in the 2x crop and in fold 1 at 360, the stacked-md lockup is too tall for it: the top of the disc sits above y=0 and is cut off by the edge of the screen. Give the stacked mark and wordmark room inside the bar by adding top padding or vertically centring the lockup, so the whole disc shows and the header holds near its declared height.",
+    "channel": "cli-vision",
+    "ts": 1794406012129
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 2,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1794406047542
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 2,
+    "verdict": "APPROVE",
+    "feedback": "The page holds up as a memorial: the engraved outline 11·11 mirrors across its brass dot at the centre of a navy drench, \"Veterans Day\" sits beneath it as the caption, and the figure, caption and standfirst all fit in the first fold at 1440 and at 360, with the work index, quote and ruled signal strip following quietly below.",
+    "channel": "cli-vision",
+    "ts": 1794406065606
+  },
+  {
+    "critic": "surface-gate",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "/ @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 340 characters of running copy set at 58px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 340 characters of running copy set at 58px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @1440: 340 characters of running copy set at 160px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: 340 characters of running copy set at 160px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/work @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'Work' is a 32x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'About' is a 38x44px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @1440: <div.d_grid.gap_4.pb_7.bg_bg > section.bg_surface.bd-w_1px.border-style_solid.bd-c_border > p.ff_body.fs_lede.lh_1.6.c_text> \"Golf is full of data, ritual, and decisi\" sets 82 characters on its longest line (2 lines, median 82) at 20px in a 734px box, over the 80 limit. Cap the block with max-width so its lines stay under 80 characters. ch overshoots in a narrow face, so 45 to 50ch is the working number. A narrower column is no reason to leave the rest of the row empty: set the copy beside something.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1794406323193
+  },
+  {
+    "critic": "screenshot-critic",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 5/11 — react-engineer: Measured fault confirms `/about` renders its 340-character intro paragraph (\"I work at the intersection of design and engineering…\") at display scale — 160px at 1440px and 58px at 360px — instead of body size. A running paragraph set at hero/display scale is a wall of oversized text, not a hero; move the prose to the body step and reserve the display step for a short phrase.\n- Section 6 — react-engineer: Measured fault on `/work/15th-club` at 1440: a body paragraph sets lines at 82 characters (over the 80-char ceiling) inside a 734px box with the rest of the row left empty. Cap the block to ~45–50ch and pair it with something beside it rather than leaving the row half-dead.\n- Section 10 — react-engineer: Across every page's 360px filmstrip, the `Work` and `About` nav links measure 32×44 and 38×44 — under the 44×44 thumb-target floor — consistently in both schemes. Pad the nav links or raise their line-box height so they're reliably tappable.\n\n===END===",
+    "channel": "cli-vision",
+    "ts": 1794406460891
+  },
+  {
+    "critic": "surface-gate",
+    "round": 2,
+    "verdict": "SHIP",
+    "feedback": "app/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1794406548761
+  },
+  {
+    "critic": "screenshot-critic",
+    "round": "final",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 5 — react-engineer: On `/work/spaceman` (desktop filmstrip, fold 2 of 3 into fold 3 of 3), a \"Stack\" heading renders with no stack items beneath it — roughly 400px of blank navy follows the heading, then the page jumps straight to the footer signal strip. This reads as a broken/empty component rather than a design choice and should either show the stack tags (as the `/about` page's \"Capabilities\" tags do) or be removed.\n- Section 2 — react-engineer: The brief directs the Schwarzenegger quote to be \"a small attributed caption in the strip\" beside the other facts (score, market, weather). Instead it renders as a large standalone serif pull-quote in its own section above the signal strip (home filmstrip fold 5 of 6), well past \"small caption\" scale. It should be folded into the single ruled facts row with the rest of the signals, not given its own headline treatment.\n===END===",
+    "channel": "cli-vision",
+    "ts": 1794406732893
+  },
+  {
+    "critic": "ship-gate",
+    "verdict": "SHIPPED-WITH-FAULTS",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 5 — react-engineer: On `/work/spaceman` (desktop filmstrip, fold 2 of 3 into fold 3 of 3), a \"Stack\" heading renders with no stack items beneath it — roughly 400px of blank navy follows the heading, then the page jumps straight to the footer signal strip. This reads as a broken/empty component rather than a design choice and should either show the stack tags (as the `/about` page's \"Capabilities\" tags do) or be removed.\n- Section 2 — react-engineer: The brief directs the Schwarzenegger quote to be \"a small attributed caption in the strip\" beside the other facts (score, market, weather). Instead it renders as a large standalone serif pull-quote in its own section above the signal strip (home filmstrip fold 5 of 6), well past \"small caption\" scale. It should be folded into the single ruled facts row with the rest of the signals, not given its own headline treatment.\n===END===",
+    "ts": 1794406732893
+  }
+]
