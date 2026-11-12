@@ -1,0 +1,236 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the studio i founded design and engineering for the clients listed here' (17px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the studio i founded design and engineering for the clients listed here",
+            "mockupPx": 17,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'zeldman' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "zeldman",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "mockup's largest ('spaceman', 128px) leads its runner-up ('fishsticks', 96px) by 1.3x; in the build the same two lead by only 1.0x",
+          "facts": {
+            "shape": "flattened",
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 128,
+              "buildPx": 128
+            },
+            "runnerUp": {
+              "text": "fishsticks",
+              "mockupPx": 96,
+              "buildPx": 128
+            },
+            "mockupGap": 1.3,
+            "buildGap": 1,
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'15th club' moved from (559, 840) in the mockup to (644, 1009) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the studio i founded design and engineering for the clients listed here' (17px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the studio i founded design and engineering for the clients listed here",
+            "mockupPx": 17,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'zeldman' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "zeldman",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman' is 44px in the mockup and 72px in the build (1.64x)",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 44,
+            "buildPx": 72,
+            "ratio": 1.64,
+            "mockupRank": 0
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets 'spaceman' at 128px over 'fishsticks' at 96px, a 1.3x lead; the build sets them at 128px and 128px. Restore the mockup's sizes so 'spaceman' leads.",
+        "- / at 1440px: The mockup sets 'the studio i founded design and engineering for the clien...' at 17px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'zeldman' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'the studio i founded design and engineering for the clien...' at 17px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'zeldman' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: 'spaceman' is 44px in the mockup and 72px in the build (1.64x). Set it back to 44px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the studio i founded design and engineering for the clients listed here' (17px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the studio i founded design and engineering for the clients listed here",
+            "mockupPx": 17,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'zeldman' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "zeldman",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'15th club' moved from (559, 840) in the mockup to (552, 971) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the studio i founded design and engineering for the clients listed here' (17px in the mockup) has no match in the build",
+          "facts": {
+            "text": "the studio i founded design and engineering for the clients listed here",
+            "mockupPx": 17,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'zeldman' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "zeldman",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'spaceman' (44px); in build it is 'thursday' (48px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 44
+            },
+            "buildLeader": {
+              "text": "thursday",
+              "buildPx": 48,
+              "mockupPx": 34
+            },
+            "leaderLost": true
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: The mockup's largest text is 'spaceman' at 44px; the build sets 'thursday' at 48px. Restore the mockup's hierarchy: 'thursday' is 34px in the mockup.",
+        "- / at 1440px: The mockup sets 'the studio i founded design and engineering for the clien...' at 17px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'zeldman' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'the studio i founded design and engineering for the clien...' at 17px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'zeldman' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

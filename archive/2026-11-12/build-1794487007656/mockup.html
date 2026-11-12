@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March. Cut what doesn't matter. Ship what's left.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Libre+Franklin:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#4A1246;
+  --bgAlt:#2E0A2C;
+  --surface:#661B60;
+  --text:#D3F9E5;
+  --textMuted:#EDBDE8;
+  --textFaint:#E09ADA;
+  --accent:#74E6AD;
+  --accentAlt:#42D48C;
+  --border:#86267E;
+  --borderStrong:#74E6AD;
+  --field:#74E6AD;
+  --fieldInk:#2E0A2C;
+  --fieldInkMuted:#661B60;
+  --fieldBorder:#4A1246;
+
+  --display:"Anybody","Arial Black",sans-serif;
+  --body:"Libre Franklin","Helvetica Neue",Arial,sans-serif;
+
+  --fs-xs:13px;
+  --fs-sm:15px;
+  --fs-base:17px;
+  --fs-md:18px;
+  --fs-lede:18px;
+  --fs-lg:clamp(20px,1.7vw,24px);
+  --fs-xl:clamp(24px,2.5vw,36px);
+  --fs-2xl:clamp(30px,3.9vw,56px);
+  --fs-3xl:clamp(34px,5vw,72px);
+  --fs-4xl:clamp(38px,6.67vw,96px);
+  --fs-hero:clamp(44px,8.9vw,128px);
+
+  --pad:16px;
+  --hang:16px;
+  --meta:200px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--body);
+  font-size:var(--fs-base);
+  line-height:1.55;
+  font-kerning:normal;
+  font-optical-sizing:auto;
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+h1,h2,h3,p,ul,ol,blockquote,figure{margin:0;padding:0}
+ul,ol{list-style:none}
+a{color:inherit;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:4px}
+a:hover{text-decoration-color:var(--accentAlt)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+::selection{background:var(--accent);color:var(--bgAlt)}
+
+/* ---------- shell: band at 360, rail at 1024 ---------- */
+.rail{
+  background:var(--bgAlt);
+  border-bottom:1px solid var(--border);
+}
+.rail-head{padding:12px 16px 6px}
+.mark{display:block;line-height:0;width:max-content}
+.mark svg{display:block;height:40px;width:auto}
+.nav{
+  margin-top:2px;
+  font-size:var(--fs-sm);
+  line-height:44px;
+  color:var(--text);
+  text-transform:lowercase;
+}
+.nav a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:44px;
+  min-height:44px;
+  padding:0 7px;
+  margin:0 -7px;
+  font-weight:500;
+  vertical-align:top;
+}
+.rail-foot{display:none}
+
+/* ---------- content ---------- */
+.content{padding:24px var(--pad) 64px;min-width:0}
+.bleed{
+  margin-left:calc(-1 * var(--hang));
+  margin-right:calc(-1 * var(--pad));
+  padding-left:var(--hang);
+  padding-right:var(--pad);
+}
+.label{
+  font-family:var(--body);
+  font-size:var(--fs-xs);
+  line-height:1.4;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  color:var(--textFaint);
+  font-variant-numeric:tabular-nums;
+}
+.eyebrow{margin-bottom:20px;max-width:60ch}
+h1{
+  font-family:var(--display);
+  font-style:italic;
+  font-weight:900;
+  font-size:var(--fs-2xl);
+  line-height:1.04;
+  letter-spacing:.02em;
+  text-transform:uppercase;
+  color:var(--text);
+  text-wrap:balance;
+}
+.deck{
+  margin-top:16px;
+  font-size:var(--fs-lede);
+  line-height:1.5;
+  color:var(--textMuted);
+  max-width:52ch;
+}
+
+/* ---------- work ledger ---------- */
+.ledger{margin-top:32px}
+.title{
+  font-family:var(--display);
+  font-style:italic;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.01em;
+  line-height:.94;
+  white-space:nowrap;
+  min-width:0;
+  margin:0;
+}
+.t-hero{font-size:var(--fs-hero)}
+.t-a,.t-b{font-size:var(--fs-2xl)}
+.t-c{font-size:var(--fs-xl)}
+
+.band{
+  background:var(--field);
+  color:var(--fieldInk);
+  padding-top:28px;
+  padding-bottom:20px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  row-gap:20px;
+}
+.band .title a{text-decoration:none;color:var(--fieldInk);display:inline-block;transition:color 120ms}
+.band .title a:hover,.band .title a:focus-visible{color:var(--fieldInkMuted)}
+.band a:focus-visible{outline-color:var(--fieldInk)}
+.band-say{
+  margin-top:12px;
+  font-size:var(--fs-base);
+  line-height:1.5;
+  color:var(--fieldInk);
+  max-width:46ch;
+}
+.band-meta{min-width:0}
+.band-meta .label{color:var(--fieldInkMuted);font-weight:700}
+.band-meta .label span + span::before{content:"\00a0\00a0/\00a0\00a0"}
+.clients{
+  margin-top:12px;
+  padding-top:12px;
+  border-top:1px solid var(--fieldBorder);
+  font-size:var(--fs-sm);
+  line-height:1.55;
+  color:var(--fieldInk);
+  font-weight:500;
+}
+.visit{
+  display:inline-flex;
+  align-items:center;
+  min-height:44px;
+  margin-top:4px;
+  font-size:var(--fs-sm);
+  font-weight:700;
+  color:var(--fieldInk);
+  text-decoration-color:var(--fieldInk);
+}
+.visit:hover{text-decoration-color:var(--fieldInkMuted);color:var(--fieldInkMuted)}
+
+.row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  row-gap:8px;
+  align-items:baseline;
+  border-top:1px solid var(--border);
+  text-decoration:none;
+  color:var(--text);
+  transition:background-color 120ms,border-color 120ms;
+}
+.row:first-of-type{border-top:0}
+.row:hover,.row:focus-visible{background:var(--surface);border-top-color:var(--borderStrong)}
+.row .label{display:flex;gap:0;flex-wrap:wrap}
+.row .label span + span::before{content:"\00a0\00a0/\00a0\00a0"}
+.pad-a{padding-top:20px;padding-bottom:18px}
+.pad-b{padding-top:18px;padding-bottom:16px}
+.pad-c{padding-top:16px;padding-bottom:14px}
+
+/* ---------- callout ---------- */
+.callout{
+  margin-top:64px;
+  margin-bottom:64px;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding-top:24px;
+  padding-bottom:24px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  row-gap:8px;
+}
+.callout .label{grid-row:1}
+.callout p{
+  font-family:var(--display);
+  font-weight:700;
+  font-size:var(--fs-lg);
+  line-height:1.3;
+  color:var(--text);
+  max-width:34ch;
+}
+.callout a{
+  display:inline-flex;align-items:center;min-height:44px;
+  font-family:var(--body);font-size:var(--fs-sm);font-weight:500;
+}
+
+/* ---------- day ledger ---------- */
+.day-head{
+  font-family:var(--display);
+  font-style:italic;
+  font-weight:900;
+  font-size:var(--fs-3xl);
+  line-height:1;
+  letter-spacing:.01em;
+  text-transform:uppercase;
+  padding-bottom:16px;
+}
+.day{border-top:2px solid var(--borderStrong)}
+.drow{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  grid-template-areas:"label" "value" "meta";
+  padding-top:20px;
+  padding-bottom:14px;
+  border-top:1px solid var(--border);
+}
+.drow:first-child{border-top:0}
+.drow .label{grid-area:label;margin-bottom:6px}
+.drow .value{
+  grid-area:value;
+  font-family:var(--display);
+  font-weight:700;
+  font-size:var(--fs-lg);
+  line-height:1.25;
+  color:var(--text);
+  font-variant-numeric:tabular-nums;
+  min-width:0;
+}
+.drow .meta{
+  grid-area:meta;
+  margin-top:4px;
+  font-size:var(--fs-sm);
+  line-height:1.5;
+  color:var(--textMuted);
+  max-width:40ch;
+}
+.fig{color:var(--accent)}
+.reading{font-family:var(--body);font-weight:400;font-size:var(--fs-base);line-height:1.55}
+.reading li{padding:0}
+.reading a{display:inline-flex;align-items:center;min-height:44px;font-weight:500}
+.reading .src{display:block;font-size:var(--fs-sm);color:var(--textFaint);margin-top:-6px}
+
+.pull{
+  border-top:1px solid var(--border);
+  padding-top:40px;
+  padding-bottom:40px;
+}
+.pull blockquote{
+  font-family:var(--display);
+  font-style:italic;
+  font-weight:700;
+  font-size:var(--fs-xl);
+  line-height:1.2;
+  color:var(--text);
+  max-width:28ch;
+}
+.pull figcaption{
+  margin-top:12px;
+  font-size:var(--fs-xs);
+  font-weight:500;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  color:var(--textMuted);
+}
+
+/* ---------- footer: ledger tail ---------- */
+.tail{
+  border-top:1px solid var(--border);
+  padding-top:20px;
+  padding-bottom:8px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  row-gap:4px;
+}
+.tail p{font-size:var(--fs-sm);line-height:1.5;color:var(--textMuted);max-width:60ch}
+.tail-side{display:flex;align-items:center;gap:20px;font-size:var(--fs-sm);color:var(--textFaint);font-variant-numeric:tabular-nums}
+.tail-side a{display:inline-flex;align-items:center;min-height:44px;min-width:44px;color:var(--text);font-weight:500}
+
+/* ---------- 720: two-track rows ---------- */
+@media (min-width:720px){
+  :root{--pad:4vw;--hang:4vw;--fs-lede:20px}
+  .content{padding:40px var(--pad) 80px}
+  .eyebrow{margin-bottom:28px}
+  .deck{margin-top:20px}
+  .ledger{margin-top:48px}
+  .t-a{font-size:var(--fs-4xl)}
+  .t-b{font-size:var(--fs-3xl)}
+  .t-c{font-size:var(--fs-2xl)}
+  .band{
+    grid-template-columns:minmax(0,1fr) var(--meta);
+    column-gap:24px;
+    align-items:start;
+    padding-top:40px;
+    padding-bottom:36px;
+    min-height:240px;
+  }
+  .band-meta{padding-top:6px}
+  .clients li{display:block}
+  .row{grid-template-columns:minmax(0,1fr) var(--meta);column-gap:24px}
+  .pad-a{padding-top:32px;padding-bottom:32px}
+  .pad-b{padding-top:24px;padding-bottom:24px}
+  .pad-c{padding-top:16px;padding-bottom:16px}
+  .callout{
+    margin-top:96px;margin-bottom:96px;
+    grid-template-columns:minmax(0,1fr) var(--meta);
+    column-gap:24px;
+    align-items:baseline;
+  }
+  .callout .label{grid-row:auto;grid-column:2}
+  .callout .c-main{grid-column:1;grid-row:1}
+  .drow{
+    grid-template-columns:minmax(0,1fr) var(--meta);
+    grid-template-areas:"value label" "value meta";
+    grid-template-rows:auto 1fr;
+    column-gap:24px;
+    padding-top:20px;
+    padding-bottom:18px;
+  }
+  .drow .label{margin-bottom:4px;padding-top:6px}
+  .drow .meta{margin-top:0}
+  .pull{padding-top:64px;padding-bottom:64px}
+  .tail{grid-template-columns:minmax(0,1fr) var(--meta);column-gap:24px;align-items:baseline;padding-top:20px}
+}
+
+/* ---------- 1024: the rail ---------- */
+@media (min-width:1024px){
+  :root{
+    --hang:32px;
+    --meta:clamp(160px, calc(160px + (100vw - 1024px) * 0.34), 300px);
+  }
+  .page{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:100vh}
+  .rail{
+    border-bottom:0;
+    border-right:1px solid var(--border);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+  .rail-head{
+    position:sticky;top:0;
+    min-height:320px;
+    padding:32px 24px;
+  }
+  .mark svg{height:48px}
+  .nav{margin-top:40px;font-size:var(--fs-md)}
+  .nav a{min-width:0;padding:0;margin:0;display:inline;font-weight:500}
+  .rail-foot{
+    display:block;
+    padding:24px;
+    font-size:var(--fs-sm);
+    line-height:1.5;
+    color:var(--textMuted);
+  }
+  .content{padding:48px 4vw 96px}
+  .eyebrow{margin-bottom:32px}
+  h1{line-height:1.02}
+  h1 span{display:block}
+  .ledger{margin-top:56px}
+  .band{padding-left:32px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="rail">
+    <div class="rail-head">
+      <a class="mark" href="/" aria-label="Doug March, home">
+        <svg viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" data-brand-mark="">
+        <title>Doug March logo</title>
+        <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+        <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+        <circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+        <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+        </svg>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        start with the <a href="#work">work</a>, then read <a href="/about">about me</a>, then <a href="#contact">get in touch</a>.
+      </nav>
+    </div>
+    <p class="rail-foot">Doug March. Product designer and developer.</p>
+  </header>
+
+  <main class="content">
+
+    <p class="label eyebrow">Thursday, November 12. 44°F, partly cloudy. Aldie, Virginia.</p>
+    <h1><span>Cut what doesn't matter. </span><span>Ship what's left.</span></h1>
+    <p class="deck">Seven projects, 2008 to 2026. Biggest first.</p>
+
+    <section class="ledger" id="work" aria-label="Work">
+
+      <article class="band bleed" id="spaceman">
+        <div>
+          <h2 class="title t-hero"><a href="#spaceman">Spaceman</a></h2>
+          <p class="band-say">The studio I founded. Design and engineering for the clients listed here.</p>
+        </div>
+        <div class="band-meta">
+          <p class="label"><span>2018</span><span>Founder</span></p>
+          <ul class="clients">
+            <li>Zeldman</li>
+            <li>Rolex</li>
+            <li>The Nature Conservancy</li>
+            <li>Intuit</li>
+            <li>LastPass</li>
+          </ul>
+          <a class="visit" href="#spaceman" data-external="spaceman">Visit Spaceman ↗</a>
+        </div>
+      </article>
+
+      <a class="row bleed pad-a" href="#fishsticks" id="fishsticks">
+        <h2 class="title t-a">FishSticks</h2>
+        <p class="label"><span>2025</span><span>SaaS</span></p>
+      </a>
+      <a class="row bleed pad-a" href="#15th-club" id="15th-club">
+        <h2 class="title t-a">15th Club</h2>
+        <p class="label"><span>2025</span><span>AI</span></p>
+      </a>
+      <a class="row bleed pad-b" href="#dougmar-ch" id="dougmar-ch">
+        <h2 class="title t-b">dougmar.ch</h2>
+        <p class="label"><span>2026</span><span>AI</span></p>
+      </a>
+      <a class="row bleed pad-c" href="#teeturn" id="teeturn">
+        <h2 class="title t-c">TeeTurn</h2>
+        <p class="label"><span>2020</span><span>Experiment</span></p>
+      </a>
+      <a class="row bleed pad-c" href="#politweets" id="politweets">
+        <h2 class="title t-c">Politweets</h2>
+        <p class="label"><span>2008</span><span>Experiment</span></p>
+      </a>
+      <a class="row bleed pad-c" href="#twittertale" id="twittertale">
+        <h2 class="title t-c">Twittertale</h2>
+        <p class="label"><span>2008</span><span>Experiment</span></p>
+      </a>
+    </section>
+
+    <aside class="callout bleed" aria-label="About this site">
+      <p class="label">About this site</p>
+      <div class="c-main">
+        <p>A new design ships every morning.</p>
+        <a href="#dougmar-ch">See how dougmar.ch is built</a>
+      </div>
+    </aside>
+
+    <section aria-labelledby="day-h">
+      <h2 class="day-head" id="day-h">Thursday</h2>
+      <div class="day bleed">
+
+        <div class="drow">
+          <p class="label">Weather</p>
+          <p class="value">44°F, partly cloudy</p>
+          <p class="meta">Aldie, Virginia. Humidity 93%. Wind S 2 mph.</p>
+        </div>
+        <div class="drow">
+          <p class="label">Sun</p>
+          <p class="value">Sunset 4:52 PM</p>
+          <p class="meta">9.9 hours of daylight.</p>
+        </div>
+        <div class="drow">
+          <p class="label">Moon</p>
+          <p class="value">Waxing crescent, 12%</p>
+        </div>
+        <div class="drow">
+          <p class="label">Market</p>
+          <p class="value">SPY <span class="fig">759.81</span>, up 1.32%</p>
+        </div>
+        <div class="drow">
+          <p class="label">Golf</p>
+          <p class="value">Austin Championship</p>
+          <p class="meta">Scheduled. No leaders yet.</p>
+        </div>
+        <div class="drow">
+          <p class="label">Detroit</p>
+          <p class="value">No scores today.</p>
+          <p class="meta">Lions, Tigers, Pistons, Red Wings.</p>
+        </div>
+        <div class="drow">
+          <p class="label">Hacker News</p>
+          <p class="value">Tim Peters, 1952–2026</p>
+          <p class="meta">He wrote the Zen of Python. Top story, 1,257 points.</p>
+        </div>
+
+        <figure class="pull">
+          <blockquote>When you lose your desire for things that do not matter, you will be free.</blockquote>
+          <figcaption>Morihei Ueshiba</figcaption>
+        </figure>
+
+        <div class="drow">
+          <p class="label">Reading</p>
+          <ul class="value reading">
+            <li><a href="#reading">By taking away</a><span class="src">On software as sculpture</span></li>
+          </ul>
+        </div>
+        <div class="drow">
+          <p class="label">In rotation</p>
+          <p class="value">Tobin Sprout, Guided by Voices</p>
+        </div>
+
+        <footer class="tail" id="contact">
+          <p>Doug March. Product designer and developer.</p>
+          <div class="tail-side"><a href="/about">Get in touch</a><span>2026</span></div>
+        </footer>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+</body>
+</html>

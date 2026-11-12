@@ -1,0 +1,687 @@
+{
+  "date": "2026-11-12",
+  "era": "header-declared",
+  "generatedAt": "2026-11-12T12:36:53.620Z",
+  "buildId": "1794487007656",
+  "attempts": 1,
+  "brief": "Mulberry dusk ledger, seven projects stepping down in wide italic caps, Spaceman lit in a mint band that runs off the edge.",
+  "rationale": "The phrase is \"Cut what doesn't matter. Ship what's left.\" It comes from the Ueshiba quote and the reading-list piece about software as sculpture, put in Doug's terms. The second sentence promises something, so the page shows what's left: seven projects, set as the largest object, biggest first. That makes it a `list` day. The phrase sits above the list as a standfirst h1 at `2xl`, and the first project title takes marquee scale. Row sizes step down the ramp from `hero` to `2xl`, which is where the accelerating rhythm comes from. It is the terracotta specimen's type waterfall applied to work titles.\n\nA ledger has to hang off one edge, so the shell moves out of the way into a left rail. That placement has not shipped in the window and it avoids the rejected top bar. The rail carries the mark at 48px in original colours on the darkest mulberry, and a one-sentence nav. The chassis is anybody-franklin, which has not shipped in fourteen builds. Wide heavy italic caps make short project names read as built objects, and the italic gives \"ship\" forward lean without tipping into parody at `2xl`. Franklin answers Anybody's square grotesk skeleton in the body. Caps, italic and heavy are the type moves. Alignment stays left and texture stays none despite recency, because a ledger reads from one rail and a decorative texture would contradict the phrase. Motion is none for the same reason.\n\nThe palette follows the cut: two hues, no neutral plane. Mulberry at 304° takes the only band the mandate leaves open and suits a 4:52 sunset. Mint at 150° sits inside the mandate's target range as the ink and as the one flooded field, the Spaceman row, which runs off the right edge. Duotone is off the recent-formula list, and no ground material is used. At 360 the rail becomes a top band, the mint row goes full-bleed under the phrase, and the titles keep stepping down.",
+  "filesChanged": [
+    "elements/preset.ts",
+    "app/components/Layout.tsx",
+    "app/components/Sidebar.tsx",
+    "app/components/generated/LedgerParts.tsx",
+    "app/components/generated/LedgerTail.tsx",
+    "app/components/generated/HomeHero.tsx",
+    "app/components/generated/FeaturedBand.tsx",
+    "app/components/generated/WorkLedger.tsx",
+    "app/components/generated/DayRow.tsx",
+    "app/components/generated/DayLedger.tsx",
+    "app/components/generated/AboutIntro.tsx",
+    "app/components/generated/AboutTimeline.tsx",
+    "app/components/generated/AboutEducation.tsx",
+    "app/components/generated/AboutPersonal.tsx",
+    "app/components/generated/WorkHeader.tsx",
+    "app/components/generated/CaseStudy.tsx",
+    "app/components/generated/CaseMeta.tsx",
+    "app/components/generated/WorkMissing.tsx",
+    "app/routes/index.tsx",
+    "app/routes/about.tsx",
+    "app/routes/work.$slug.tsx",
+    "app/routes/og.tsx"
+  ],
+  "legacyArchetype": null,
+  "signals": {
+    "air_quality": {
+      "aqi_index": 1,
+      "uv_index": 0,
+      "air_quality_label": "Good"
+    },
+    "books": {
+      "currently_reading": []
+    },
+    "day_of_week": {
+      "day": "Thursday",
+      "is_weekend": false,
+      "day_index": 4
+    },
+    "github": {
+      "repos": [
+        {
+          "name": "GoogleChrome/modern-web-guidance-src/stargazers",
+          "description": "",
+          "language": "TypeScript",
+          "stars": null
+        },
+        {
+          "name": "openai/codex-security/stargazers",
+          "description": "",
+          "language": "TypeScript",
+          "stars": null
+        },
+        {
+          "name": "nvm-sh/nvm/stargazers",
+          "description": "",
+          "language": "Shell",
+          "stars": null
+        },
+        {
+          "name": "pookjw/HermesEnabler/stargazers",
+          "description": "",
+          "language": "Objective-C",
+          "stars": null
+        },
+        {
+          "name": "we-promise/sure/stargazers",
+          "description": "",
+          "language": "Ruby",
+          "stars": null
+        }
+      ]
+    },
+    "golf": {
+      "tournament": "Austin Championship pres. by Compliance Solutions",
+      "status": "Scheduled",
+      "leaders": []
+    },
+    "hacker_news": {
+      "stories": [
+        {
+          "title": "Anthropic IPO",
+          "url": "https://ipo.anthropic.com/us/",
+          "score": 32,
+          "by": "josephljohnston"
+        },
+        {
+          "title": "Why Writing Correct Software Is Hard",
+          "url": "https://pron.github.io/posts/correctness-and-complexity",
+          "score": 53,
+          "by": "AriFordsham"
+        },
+        {
+          "title": "Jane Street: Socratic Tutor",
+          "url": "https://github.com/janestreet/agent_skills/blob/master/socratic-tutor/SKILL.md",
+          "score": 307,
+          "by": "tosh"
+        },
+        {
+          "title": "A live tree of systemd jobs on the boot console",
+          "url": "https://codeberg.org/wvhulle/bootvine",
+          "score": 133,
+          "by": "orhunp_"
+        },
+        {
+          "title": "Tim Peters has died",
+          "url": "https://discuss.python.org/t/in-memoriam-tim-peters-1952-2026/110028",
+          "score": 1257,
+          "by": "ayhanfuat"
+        }
+      ]
+    },
+    "holidays": {
+      "today": null,
+      "upcoming": []
+    },
+    "lunar": {
+      "phase": "waxing crescent",
+      "illumination": 0.122,
+      "days_into_cycle": 3.35
+    },
+    "market": {
+      "symbol": "SPY",
+      "price": "759.8100",
+      "change": "9.8900",
+      "change_percent": "1.3188%",
+      "direction": "up"
+    },
+    "music": {
+      "bands": [
+        "Tobin Sprout",
+        "Guided by Voices"
+      ],
+      "rotation": true
+    },
+    "news": {
+      "headlines": [
+        {
+          "title": "Nvidia shares rebound 4% as Huang faces scrutiny ahead of earnings - CNBC",
+          "source": "CNBC",
+          "url": "https://www.cnbc.com/2026/11/11/nvidia-stock-jensen-huang-affair-china.html"
+        },
+        {
+          "title": "Spain’s first general strike in 14 years brings clashing social and political desires to the fore - AP News",
+          "source": "Associated Press",
+          "url": "https://apnews.com/article/spain-strike-housing-elections-pedro-sanchez-68a061a72d7cdf842b7803a816e46ef0"
+        },
+        {
+          "title": "Dua Lipa, Tame Impala, SZA and Daddy Yankee to Headline 2027 Coachella Festival - The Hollywood Reporter",
+          "source": "Hollywood Reporter",
+          "url": "http://www.hollywoodreporter.com/music/music-news/coachella-festival-2027-headliners-lineup-dua-lipa-sza-1236697345/"
+        },
+        {
+          "title": "Anthropic IPO valuation calculator: How much is it really worth? - Financial Times",
+          "source": "Financial Times",
+          "url": "https://www.ft.com/content/8281fcde-bcf7-4145-b785-bc0d12616c27"
+        },
+        {
+          "title": "3 dead after car crashes into street vendors, pedestrians near Metro station in North Hollywood - ABC7 Los Angeles",
+          "source": "KABC-TV",
+          "url": "https://abc7.com/post/3-dead-car-crashes-crowd-people-north-hollywood/20031884/"
+        }
+      ]
+    },
+    "quote": {
+      "text": "When you lose your desire for things that do not matter, you will be free.",
+      "author": "Morihei Ueshiba"
+    },
+    "season": {
+      "season": "fall",
+      "month": 11,
+      "day": 12,
+      "day_of_year": 316,
+      "month_name": "November"
+    },
+    "sidebar": {
+      "links": [
+        {
+          "title": "Design is a search problem",
+          "url": "https://mattstromawn.com/writing/design-is-a-search-problem/",
+          "source": "mattstromawn.com",
+          "description": "Most of what we call ‘design’ is groping around a dark room looking for a black cat."
+        },
+        {
+          "title": "Airline Logos",
+          "url": "https://www.logohistories.com/p/airline-logos",
+          "source": "logohistories.com",
+          "description": "From Lufthansa’s crane to United’s tulip, the stories behind twelve airline logos designed for the jet age."
+        },
+        {
+          "title": "I made a film in Excel",
+          "url": "https://www.youtube.com/watch",
+          "source": "youtube.com",
+          "description": "A testament to the inescapable pull of making something out of nothing."
+        },
+        {
+          "title": "State of JavaScript 2026",
+          "url": "https://survey.devographics.com/en-US/survey/state-of-js/2026",
+          "source": "survey.devographics.com",
+          "description": "Take the State of JavaScript survey: a programming language that grew up much, much bigger than anybody ever anticipated."
+        },
+        {
+          "title": "By taking away",
+          "url": "https://haydenbleasel.com/taking-away",
+          "source": "haydenbleasel.com",
+          "description": "Software used to be made like a painting, one layer at a time. With agents, it’s closer to sculpture, and the hard part is seeing what to keep."
+        }
+      ]
+    },
+    "sports": {
+      "teams": [
+        {
+          "name": "Detroit Lions",
+          "league": "NFL",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Red Wings",
+          "league": "NHL",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Pistons",
+          "league": "NBA",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Tigers",
+          "league": "MLB",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        }
+      ]
+    },
+    "sun": {
+      "sunrise": "06:57",
+      "sunset": "16:52",
+      "daylight_hours": 9.9
+    },
+    "weather": {
+      "location": "Aldie, Virginia",
+      "conditions": "Partly cloudy",
+      "temp_f": 43.6,
+      "temp_c": 6.5,
+      "humidity": 93,
+      "wind_mph": 2.2,
+      "wind_dir": "S",
+      "feels_like_f": 43.4
+    },
+    "date": "2026-11-12"
+  },
+  "hero": {
+    "copy": "Cut what doesn't matter. Ship what's left.",
+    "rationale": "Composed from two of today's signals that say the same thing: the Ueshiba line about losing the desire for things that do not matter, and the reading-list piece arguing that software is now closer to sculpture, where the hard part is seeing what to keep. I turned that into a working rule about Doug's own practice, two short imperatives with no adjectives, and it sets up a page where the work that is left is the largest thing on it. Lane is composed, yesterday's was signal-event, so no streak.\nOwner's voice: I say what a thing does. Most of my job is deciding what comes out of a design before it gets built, then shipping the rest.",
+    "source": "composed"
+  },
+  "chassis": "anybody-franklin",
+  "adBrief": {
+    "selfCheck": "1. Hero quotability: Yes — two imperatives, seven words, readable with nothing around them.\n2. Because-of chain: Yes — cutting gives a duotone with no neutrals, no texture and no motion, and \"what's left\" gives the work index as the object, biggest first.\n3. Render feasibility: Yes — SPACEMAN at 128px is about 670px wide in an 800px track, and the h1 at `2xl` sets one sentence per line inside 1100px.\n4. Canvas floor feasible: Yes — rail, hero zone, a 240px mint band and the next row fill about 75% of 1440×900.\n5. Phone: Yes — band 120px plus the h1 at `2xl` in five short lines lands by about 420px, and the longest word, DOESN'T, fits 328px.",
+    "rationale": "The phrase is \"Cut what doesn't matter. Ship what's left.\" It comes from the Ueshiba quote and the reading-list piece about software as sculpture, put in Doug's terms. The second sentence promises something, so the page shows what's left: seven projects, set as the largest object, biggest first. That makes it a `list` day. The phrase sits above the list as a standfirst h1 at `2xl`, and the first project title takes marquee scale. Row sizes step down the ramp from `hero` to `2xl`, which is where the accelerating rhythm comes from. It is the terracotta specimen's type waterfall applied to work titles.\n\nA ledger has to hang off one edge, so the shell moves out of the way into a left rail. That placement has not shipped in the window and it avoids the rejected top bar. The rail carries the mark at 48px in original colours on the darkest mulberry, and a one-sentence nav. The chassis is anybody-franklin, which has not shipped in fourteen builds. Wide heavy italic caps make short project names read as built objects, and the italic gives \"ship\" forward lean without tipping into parody at `2xl`. Franklin answers Anybody's square grotesk skeleton in the body. Caps, italic and heavy are the type moves. Alignment stays left and texture stays none despite recency, because a ledger reads from one rail and a decorative texture would contradict the phrase. Motion is none for the same reason.\n\nThe palette follows the cut: two hues, no neutral plane. Mulberry at 304° takes the only band the mandate leaves open and suits a 4:52 sunset. Mint at 150° sits inside the mandate's target range as the ink and as the one flooded field, the Spaceman row, which runs off the right edge. Duotone is off the recent-formula list, and no ground material is used. At 360 the rail becomes a top band, the mint row goes full-bleed under the phrase, and the titles keep stepping down.",
+    "compositionRationale": "\"Ship what's left\" makes the work index the object, so `hero_object` moves off statement to `list`, with the phrase as its standfirst. `shell_posture` moves to `marginal` because a left rail has not shipped in the window and it gives `rail-to-band` a real rail to collapse. `symmetry` moves onto the discouraged `left-weighted` because a ledger has to hang off one left edge, which is also a standing owner rule. The remaining starting values stay because the idea needs them: horizontal rows, a waterfall that speeds up as titles shrink, three tracks (rail, title, meta), and a mint band that runs off the right edge."
+  },
+  "tokens": {
+    "colors": {
+      "ramps": {
+        "mulberry": {
+          "50": "#FBEFFA",
+          "100": "#F6DDF3",
+          "200": "#EDBDE8",
+          "300": "#E09ADA",
+          "400": "#C95FC0",
+          "500": "#A8369E",
+          "600": "#86267E",
+          "700": "#661B60",
+          "800": "#4A1246",
+          "900": "#2E0A2C"
+        },
+        "mint": {
+          "50": "#EEFDF5",
+          "100": "#D3F9E5",
+          "200": "#A9F2CC",
+          "300": "#74E6AD",
+          "400": "#42D48C",
+          "500": "#22B870",
+          "600": "#17935A",
+          "700": "#137349",
+          "800": "#115B3B",
+          "900": "#0C3D28"
+        },
+        "plum": {
+          "50": "#F8F2F7",
+          "100": "#EDE2EC",
+          "200": "#D9C7D7",
+          "300": "#BFA6BC",
+          "400": "#A0839D",
+          "500": "#806380",
+          "600": "#644B64",
+          "700": "#4B374B",
+          "800": "#332433",
+          "900": "#1F151F"
+        }
+      },
+      "semantic": {
+        "bg": "{colors.mulberry.800}",
+        "bgAlt": "{colors.mulberry.900}",
+        "surface": "{colors.mulberry.700}",
+        "text": "{colors.mint.100}",
+        "textMuted": "{colors.mulberry.200}",
+        "textFaint": "{colors.mulberry.300}",
+        "accent": "{colors.mint.300}",
+        "accentText": "{colors.mulberry.900}",
+        "accentAlt": "{colors.mint.400}",
+        "border": "{colors.mulberry.600}",
+        "borderStrong": "{colors.mint.300}",
+        "field": "{colors.mint.300}",
+        "fieldInk": "{colors.mulberry.900}",
+        "fieldInkMuted": "{colors.mulberry.700}",
+        "fieldBorder": "{colors.mulberry.800}"
+      }
+    },
+    "radii": {
+      "none": "0",
+      "sm": "0",
+      "md": "0",
+      "lg": "0",
+      "full": "9999px"
+    }
+  },
+  "colorScheme": {
+    "primary_hue": {
+      "h": 304,
+      "s": 61,
+      "l": 18,
+      "name": "mulberry"
+    },
+    "secondary_accent": {
+      "h": 150,
+      "s": 69,
+      "l": 68,
+      "name": "cut mint"
+    },
+    "neutral_family": {
+      "tinted_toward": "mulberry",
+      "name": "plum"
+    },
+    "mood_word": "pared",
+    "color_story": "Two hues and nothing else, because the phrase is about cutting: a mulberry ground at November dusk and one mint that lights the row that matters. The mandate's 140–180° target sits inside its own forbidden zone, so the primary takes the only open band (288–352°) and the mint second hue lands at 150° to honor the target."
+  },
+  "shell": {
+    "nav": null,
+    "footer": "ledger tail. One last ruled row in the same two-track grid as the day ledger, holding the identity line, contact link and year. No field reversal and no separate block.",
+    "brand_lockup": "mark-only-md",
+    "brand_color_mode": "original",
+    "ground_strategy": "duotone",
+    "ground_material": "none"
+  },
+  "header": {
+    "placement": "left-rail",
+    "height_px": 320,
+    "mark_px": 48,
+    "wordmark_step": "none",
+    "wordmark_weight": 700,
+    "role_line": "absent",
+    "nav_step": "md",
+    "nav_case": "lower",
+    "nav_form": "sentence",
+    "nav": "Left rail on the darkest mulberry, 220px wide, full page height, header block sticky in its top 320px. The 48px circular mark sits at the top with 32px of clear space above it, in original colours, with the white disc carrying 14:1 on the rail ground. Below it is one lowercase sentence in mint ink, wrapping to about four lines: \"start with the work, then read about me, then get in touch.\" The words work, about me and get in touch are the links, underlined in mint, each line box 44px tall. There is no top bar. The mark is inside the first fold at 1440 and 360."
+  },
+  "verdicts": [
+    {
+      "critic": "mockup-precheck",
+      "round": 0,
+      "verdict": "APPROVE",
+      "feedback": "",
+      "findings": [],
+      "ts": 1794485740013
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 0,
+      "verdict": "REVISE",
+      "feedback": "1. **Judgment 5 (copy vs records).** The deck says \"Seven projects, 2008 to 2026. I designed and built each one. Biggest first.\" The records do not support \"designed and built each one\" for all seven:\n   - TeeTurn's record says only \"Responsible for product direction and strategy.\"\n   - Politweets and Twittertale were built \"with the Character140 collective\" and \"with Jason Garber and the Character140 crew.\"\n   - Spaceman is the LLC he operates under as Founder, not a thing he designed and built.\n\n   Cut the middle sentence so the deck reads \"Seven projects, 2008 to 2026. Biggest first.\" at both widths. Everything else passes and should not change.",
+      "channel": "cli-vision",
+      "ts": 1794485756145
+    },
+    {
+      "critic": "mockup-precheck",
+      "round": 1,
+      "verdict": "APPROVE",
+      "feedback": "",
+      "findings": [],
+      "ts": 1794485776420
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "1. Judgment 5: the footer row at 360 (fold 5) reads \"Doug March. Product designer and developer. Ashburn, Virginia.\" The work records give his name and role but no location, and the page's own eyebrow and weather row say \"Aldie, Virginia\". Drop \"Ashburn, Virginia\" from the footer and the rail foot, leaving \"Doug March. Product designer and developer.\"\n2. Judgment 6 (`nav_form: sentence`, 360): the padded inline-flex links push the punctuation away from the words, so the band reads \"work , then read about me , then get in touch .\" Keep the 44px targets but pull the comma and full stop tight to each link (padding on the block axis only, or negative inline margin) so it reads as one sentence, as it does in the desktop rail.\n\nEverything else passes and should not be touched: SPACEMAN on the mint band leads inside the first fold at both 1440 and 360, the heavy italic caps ledger steps down as declared, and mulberry with mint in a left rail repeats no recent night.",
+      "channel": "cli-vision",
+      "ts": 1794485799952
+    },
+    {
+      "critic": "mockup-precheck",
+      "round": 2,
+      "verdict": "APPROVE",
+      "feedback": "",
+      "findings": [],
+      "ts": 1794485827941
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 2,
+      "verdict": "APPROVE",
+      "feedback": "SPACEMAN at marquee scale on the one mint band, running off the right edge under a quieter two-line standfirst, makes the work ledger the clear lead at both widths, and it sits fully inside the first fold at 1440 and at 360 with the titles stepping down beneath it; the left rail with its lowercase nav sentence, the duotone ground, the ledger-tail footer and the project years and kinds all match the declarations and the records.",
+      "channel": "cli-vision",
+      "ts": 1794485842338
+    },
+    {
+      "critic": "surface-gate",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "/ @820: <section#work.mt_32px.md:mt_48px.lg:mt_56px > a.ml_-16px.md:ml_-4vw.lg:ml_-32px.mr_-16px > h2.ff_display.font-style_italic.fw_bold.lh_0.94> holds text wider than its own box: \"FishSticks...\" needs 543px and the box is 530px, so 13px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @820: <section#work.mt_32px.md:mt_48px.lg:mt_56px > a.ml_-16px.md:ml_-4vw.lg:ml_-32px.mr_-16px > h2.ff_display.font-style_italic.fw_bold.lh_0.94> holds text wider than its own box: \"FishSticks...\" needs 543px and the box is 530px, so 13px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: document is 93px wider than the 360px viewport (scrollWidth 453)\n/ @360: <div.min-w_0 > h2.ff_display.font-style_italic.fw_bold.textStyle_hero > a.d_inline-block.td_none.c_fieldInk.trs_color_120ms> is cut off: its right edge lands at 453px, 93px past the 360px viewport, severing \"Spaceman...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/ @360: document is 93px wider than the 360px viewport (scrollWidth 453)\n/ @360: <div.min-w_0 > h2.ff_display.font-style_italic.fw_bold.textStyle_hero > a.d_inline-block.td_none.c_fieldInk.trs_color_120ms> is cut off: its right edge lands at 453px, 93px past the 360px viewport, severing \"Spaceman...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/ @1440: <section#work.mt_32px.md:mt_48px.lg:mt_56px > a.ml_-16px.md:ml_-4vw.lg:ml_-32px.mr_-16px > h2.ff_display.font-style_italic.fw_bold.lh_0.94> holds text wider than its own box: \"FishSticks...\" needs 803px and the box is 781px, so 22px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <section#work.mt_32px.md:mt_48px.lg:mt_56px > a.ml_-16px.md:ml_-4vw.lg:ml_-32px.mr_-16px > h2.ff_display.font-style_italic.fw_bold.lh_0.94> holds text wider than its own box: \"FishSticks...\" needs 803px and the box is 781px, so 22px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: document is 5px wider than the 360px viewport (scrollWidth 365)\n/work/dougmar-ch @360: <main.min-w_0.pt_24px.md:pt_40px.lg:pt_48px > header.c_text.pb_16px.md:pb_24px > h1.ff_display.font-style_italic.fw_bold.textStyle_3xl> holds text wider than its own box: \"dougmar.ch...\" needs 349px and the box is 328px, so 21px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: document is 5px wider than the 360px viewport (scrollWidth 365)\n/work/dougmar-ch @360: <main.min-w_0.pt_24px.md:pt_40px.lg:pt_48px > header.c_text.pb_16px.md:pb_24px > h1.ff_display.font-style_italic.fw_bold.textStyle_3xl> holds text wider than its own box: \"dougmar.ch...\" needs 349px and the box is 328px, so 21px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @360: <article.d_grid.cg_24px.rg_48px.ai_start > div.min-w_0 > p.ff_body.textStyle_xl.lh_1.25.c_text> holds text wider than its own box: \"Built over a weekend with the Character140 collect...\" needs 339px and the box is 328px, so 11px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @360: <article.d_grid.cg_24px.rg_48px.ai_start > div.min-w_0 > p.ff_body.textStyle_xl.lh_1.25.c_text> holds text wider than its own box: \"Built over a weekend with the Character140 collect...\" needs 339px and the box is 328px, so 11px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @360: document is 11px wider than the 360px viewport (scrollWidth 371)\n/work/twittertale @360: <main.min-w_0.pt_24px.md:pt_40px.lg:pt_48px > header.c_text.pb_16px.md:pb_24px > h1.ff_display.font-style_italic.fw_bold.textStyle_3xl> holds text wider than its own box: \"Twittertale...\" needs 355px and the box is 328px, so 27px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @360: document is 11px wider than the 360px viewport (scrollWidth 371)\n/work/twittertale @360: <main.min-w_0.pt_24px.md:pt_40px.lg:pt_48px > header.c_text.pb_16px.md:pb_24px > h1.ff_display.font-style_italic.fw_bold.textStyle_3xl> holds text wider than its own box: \"Twittertale...\" needs 355px and the box is 328px, so 27px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/15th-club @1440: <div.min-w_0 > section.mt_40px.md:mt_56px > p.mt_12px.textStyle_base.lh_1.55.c_text> \"A platform for AI experiments through th\" sets 82 characters on its longest line (3 lines, median 79) at 16px in a 616px box, over the 80 limit. Cap the block with max-width so its lines stay under 80 characters. ch overshoots in a narrow face, so 45 to 50ch is the working number. A narrower column is no reason to leave the rest of the row empty: set the copy beside something. Also on /work/fishsticks at 1440px.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1794486350322
+    },
+    {
+      "critic": "screenshot-critic",
+      "verdict": "REVISE",
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 — react-engineer: At 360px, the document is 93px wider than the viewport and the Spaceman row's `h2` (\"SPACEMAN\" — the hero object of the whole design) is cut off at the right edge, severing the word itself. The page does not scroll to it; that part of the title is simply gone on phone.\n- Section 5/10 — react-engineer: The FishSticks ledger title overflows its box and is clipped on the right — 22px cut at 1440px, 13px cut at 820px tablet (803px/543px of text needed vs. 781px/530px boxes). The title text must be sized to fit the column or wrap, not run past its container.\n- Section 10 — react-engineer: Case-study masthead `h1`s are clipped mid-word at 360px on three separate routes — `/work/dougmar-ch` (21px cut), `/work/twittertale` (27px cut, page also 11px wider than viewport), and `/work/politweets`'s deck paragraph (11px cut). The project title is the first thing a visitor reads on each case study and it is severed on phone across the board.\n- Section 6 — react-engineer: On `/work/15th-club` and `/work/fishsticks` at 1440, body copy is set at 82 characters per line in a 616px column (over the declared 80-char cap) while the rest of that row sits empty instead of running the copy beside the year/role/client meta column the spec requires (\"the third track is never empty\"). This produces the dead-canvas pattern the spec explicitly warns against.\n===END===",
+      "channel": "cli-vision",
+      "ts": 1794486481158
+    },
+    {
+      "critic": "surface-gate",
+      "round": 2,
+      "verdict": "SHIP",
+      "feedback": "/ @360: 'Spaceman' is a 267x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Spaceman' is a 267x41px target; a thumb needs 44x44. Give it padding or a taller line box.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1794486786070
+    },
+    {
+      "critic": "screenshot-critic",
+      "round": "final",
+      "verdict": "REVISE",
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 — react-engineer: at 820px (portrait tablet), the content column has not reset for the width: the eyebrow, h1 (\"CUT WH…\" / \"SHIP W…\"), deck (\"Seven projects, 2008 t…\"), the Spaceman title (\"SPAC…\"), its body copy, and the following \"FISH…\" title are all clipped at the right edge of the viewport, every single line in the right column cut mid-word. This is the \"1440 layout squeezed instead of reset\" fault the tablet still is meant to catch — the two-column rail/content split needs a real breakpoint reset at this width so none of these lines are severed.\n- Section 2/3 — react-engineer: the Layout Specification's literal deck copy is \"Seven projects, 2008 to 2026. I designed and built each one. Biggest first.\" The rendered deck on `/` reads \"Seven projects, 2008 to 2026. Biggest first.\" — the middle sentence is missing, a direct deviation from the declared hero-zone copy.\n- Mockup fidelity — react-engineer: the approved mockup's Spaceman meta column lists five clients (Zeldman, Rolex, The Nature Conservancy, Intuit, LastPass), matching the spec's named set. The render lists nine (adds Sapient Razorfish, bswift, RTIC Coolers, Framebridge, WorkAround), diverging from the approved, specified content of the hero row.\n===END===",
+      "channel": "cli-vision",
+      "ts": 1794487004054
+    },
+    {
+      "critic": "ship-gate",
+      "verdict": "SHIPPED-WITH-FAULTS",
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 — react-engineer: at 820px (portrait tablet), the content column has not reset for the width: the eyebrow, h1 (\"CUT WH…\" / \"SHIP W…\"), deck (\"Seven projects, 2008 t…\"), the Spaceman title (\"SPAC…\"), its body copy, and the following \"FISH…\" title are all clipped at the right edge of the viewport, every single line in the right column cut mid-word. This is the \"1440 layout squeezed instead of reset\" fault the tablet still is meant to catch — the two-column rail/content split needs a real breakpoint reset at this width so none of these lines are severed.\n- Section 2/3 — react-engineer: the Layout Specification's literal deck copy is \"Seven projects, 2008 to 2026. I designed and built each one. Biggest first.\" The rendered deck on `/` reads \"Seven projects, 2008 to 2026. Biggest first.\" — the middle sentence is missing, a direct deviation from the declared hero-zone copy.\n- Mockup fidelity — react-engineer: the approved mockup's Spaceman meta column lists five clients (Zeldman, Rolex, The Nature Conservancy, Intuit, LastPass), matching the spec's named set. The render lists nine (adds Sapient Razorfish, bswift, RTIC Coolers, Framebridge, WorkAround), diverging from the approved, specified content of the hero row.\n===END===",
+      "ts": 1794487004054
+    }
+  ],
+  "composition": {
+    "columns": "three",
+    "axis": "horizontal",
+    "symmetry": "left-weighted",
+    "hero_zone": "edge-bound",
+    "density": "measured",
+    "rhythm": "accelerating",
+    "shell_posture": "marginal",
+    "field_ratio": "field-dominant",
+    "collapse": "rail-to-band",
+    "hero_object": "list"
+  },
+  "lane": {
+    "laneId": "tesla-spacex",
+    "register": "radical-subtraction"
+  },
+  "cost": {
+    "total_usd": 10.804216,
+    "estimated": false,
+    "partial": false,
+    "calls": 12,
+    "retries": 4,
+    "byAgent": [
+      {
+        "agent": "art-director",
+        "purpose": "first",
+        "model": "claude-fable-5-2",
+        "source": "cli",
+        "input": 2,
+        "output": 21577,
+        "cache_read": 0,
+        "cache_write": 46789,
+        "cost_usd": 1.61172,
+        "estimated": false,
+        "ms": 230950,
+        "num_turns": 1
+      },
+      {
+        "agent": "art-director",
+        "purpose": "block-retry",
+        "model": "claude-fable-5-2",
+        "source": "cli",
+        "input": 2,
+        "output": 242,
+        "cache_read": 24677,
+        "cache_write": 30389,
+        "cost_usd": 0.5008554,
+        "estimated": false,
+        "ms": 3164,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "first",
+        "model": "claude-fable-5-2",
+        "source": "cli",
+        "input": 2,
+        "output": 18514,
+        "cache_read": 0,
+        "cache_write": 42333,
+        "cost_usd": 1.417904,
+        "estimated": false,
+        "ms": 169867,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "first",
+        "model": "claude-fable-5-2",
+        "source": "cli",
+        "input": 4,
+        "output": 1591,
+        "cache_read": 19936,
+        "cache_write": 24578,
+        "cost_usd": 0.46090719999999996,
+        "estimated": false,
+        "ms": 15644,
+        "num_turns": 4,
+        "channel": "cli-vision"
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "revision",
+        "model": "claude-fable-5-2",
+        "source": "cli",
+        "input": 2,
+        "output": 885,
+        "cache_read": 20811,
+        "cache_write": 31624,
+        "cost_usd": 0.5455622,
+        "estimated": false,
+        "ms": 9180,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "rejudge",
+        "model": "claude-fable-5-2",
+        "source": "cli",
+        "input": 4,
+        "output": 2023,
+        "cache_read": 25131,
+        "cache_write": 19394,
+        "cost_usd": 0.39628220000000003,
+        "estimated": false,
+        "ms": 23037,
+        "num_turns": 4,
+        "channel": "cli-vision"
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "revision",
+        "model": "claude-fable-5-2",
+        "source": "cli",
+        "input": 2,
+        "output": 1638,
+        "cache_read": 20811,
+        "cache_write": 31731,
+        "cost_usd": 0.5773942000000001,
+        "estimated": false,
+        "ms": 16708,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "rejudge",
+        "model": "claude-fable-5-2",
+        "source": "cli",
+        "input": 4,
+        "output": 1264,
+        "cache_read": 25131,
+        "cache_write": 19394,
+        "cost_usd": 0.3659222,
+        "estimated": false,
+        "ms": 13655,
+        "num_turns": 4,
+        "channel": "cli-vision"
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "first",
+        "model": "claude-fable-5-2",
+        "source": "cli",
+        "input": 2,
+        "output": 49825,
+        "cache_read": 0,
+        "cache_write": 39997,
+        "cost_usd": 2.632968,
+        "estimated": false,
+        "ms": 452543,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "first",
+        "model": "claude-sonnet-5",
+        "source": "cli",
+        "input": 6,
+        "output": 8672,
+        "cache_read": 61138,
+        "cache_write": 43056,
+        "cost_usd": 0.2711836,
+        "estimated": false,
+        "ms": 109980,
+        "num_turns": 11,
+        "channel": "cli-vision"
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-fable-5-2",
+        "source": "cli",
+        "input": 2,
+        "output": 25204,
+        "cache_read": 0,
+        "cache_write": 46759,
+        "cost_usd": 1.75632,
+        "estimated": false,
+        "ms": 252912,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "rejudge",
+        "model": "claude-sonnet-5",
+        "source": "cli",
+        "input": 4,
+        "output": 16549,
+        "cache_read": 35077,
+        "cache_write": 23671,
+        "cost_usd": 0.26719740000000003,
+        "estimated": false,
+        "ms": 196569,
+        "num_turns": 10,
+        "channel": "cli-vision"
+      }
+    ]
+  },
+  "measurables": {
+    "declared": {
+      "canvas_utilization_min": 70,
+      "hero_scale": "clamp(44px, 8.9vw, 128px)",
+      "color_coverage_min": 70
+    },
+    "declaredAt": "2026-11-12T12:36:47.656Z",
+    "measured": {
+      "canvas_utilization": 100,
+      "color_coverage": 100,
+      "hero_px": 128
+    },
+    "measuredAt": "2026-11-12T12:36:53.618Z",
+    "method": "Measured at 1440x900 on a 20px grid over the viewport at scroll position zero. canvas_utilization: % of grid cells touched by an element carrying designed content (visible text, an image/SVG/video/canvas, a background colour distinct from the page background and not transparent, or a background image such as a gradient). A background set on html or body counts as painting the page, unless it is opaque white; ::before and ::after boxes count on the same terms. color_coverage: % of grid cells whose sampled background, background-image stops or text colour is chromatic (HSL saturation > 12%, lightness 8-92%). hero_px: the largest computed font-size among first-fold elements that set visible text."
+  },
+  "surfaceGate": {
+    "ran": true,
+    "error": null,
+    "round": null
+  }
+}
