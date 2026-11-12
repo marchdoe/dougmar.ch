@@ -1,0 +1,85 @@
+[
+  {
+    "critic": "mockup-precheck",
+    "round": 0,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1794485740013
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 0,
+    "verdict": "REVISE",
+    "feedback": "1. **Judgment 5 (copy vs records).** The deck says \"Seven projects, 2008 to 2026. I designed and built each one. Biggest first.\" The records do not support \"designed and built each one\" for all seven:\n   - TeeTurn's record says only \"Responsible for product direction and strategy.\"\n   - Politweets and Twittertale were built \"with the Character140 collective\" and \"with Jason Garber and the Character140 crew.\"\n   - Spaceman is the LLC he operates under as Founder, not a thing he designed and built.\n\n   Cut the middle sentence so the deck reads \"Seven projects, 2008 to 2026. Biggest first.\" at both widths. Everything else passes and should not change.",
+    "channel": "cli-vision",
+    "ts": 1794485756145
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 1,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1794485776420
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "1. Judgment 5: the footer row at 360 (fold 5) reads \"Doug March. Product designer and developer. Ashburn, Virginia.\" The work records give his name and role but no location, and the page's own eyebrow and weather row say \"Aldie, Virginia\". Drop \"Ashburn, Virginia\" from the footer and the rail foot, leaving \"Doug March. Product designer and developer.\"\n2. Judgment 6 (`nav_form: sentence`, 360): the padded inline-flex links push the punctuation away from the words, so the band reads \"work , then read about me , then get in touch .\" Keep the 44px targets but pull the comma and full stop tight to each link (padding on the block axis only, or negative inline margin) so it reads as one sentence, as it does in the desktop rail.\n\nEverything else passes and should not be touched: SPACEMAN on the mint band leads inside the first fold at both 1440 and 360, the heavy italic caps ledger steps down as declared, and mulberry with mint in a left rail repeats no recent night.",
+    "channel": "cli-vision",
+    "ts": 1794485799952
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 2,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1794485827941
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 2,
+    "verdict": "APPROVE",
+    "feedback": "SPACEMAN at marquee scale on the one mint band, running off the right edge under a quieter two-line standfirst, makes the work ledger the clear lead at both widths, and it sits fully inside the first fold at 1440 and at 360 with the titles stepping down beneath it; the left rail with its lowercase nav sentence, the duotone ground, the ledger-tail footer and the project years and kinds all match the declarations and the records.",
+    "channel": "cli-vision",
+    "ts": 1794485842338
+  },
+  {
+    "critic": "surface-gate",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "/ @820: <section#work.mt_32px.md:mt_48px.lg:mt_56px > a.ml_-16px.md:ml_-4vw.lg:ml_-32px.mr_-16px > h2.ff_display.font-style_italic.fw_bold.lh_0.94> holds text wider than its own box: \"FishSticks...\" needs 543px and the box is 530px, so 13px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @820: <section#work.mt_32px.md:mt_48px.lg:mt_56px > a.ml_-16px.md:ml_-4vw.lg:ml_-32px.mr_-16px > h2.ff_display.font-style_italic.fw_bold.lh_0.94> holds text wider than its own box: \"FishSticks...\" needs 543px and the box is 530px, so 13px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: document is 93px wider than the 360px viewport (scrollWidth 453)\n/ @360: <div.min-w_0 > h2.ff_display.font-style_italic.fw_bold.textStyle_hero > a.d_inline-block.td_none.c_fieldInk.trs_color_120ms> is cut off: its right edge lands at 453px, 93px past the 360px viewport, severing \"Spaceman...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/ @360: document is 93px wider than the 360px viewport (scrollWidth 453)\n/ @360: <div.min-w_0 > h2.ff_display.font-style_italic.fw_bold.textStyle_hero > a.d_inline-block.td_none.c_fieldInk.trs_color_120ms> is cut off: its right edge lands at 453px, 93px past the 360px viewport, severing \"Spaceman...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down.\n/ @1440: <section#work.mt_32px.md:mt_48px.lg:mt_56px > a.ml_-16px.md:ml_-4vw.lg:ml_-32px.mr_-16px > h2.ff_display.font-style_italic.fw_bold.lh_0.94> holds text wider than its own box: \"FishSticks...\" needs 803px and the box is 781px, so 22px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: <section#work.mt_32px.md:mt_48px.lg:mt_56px > a.ml_-16px.md:ml_-4vw.lg:ml_-32px.mr_-16px > h2.ff_display.font-style_italic.fw_bold.lh_0.94> holds text wider than its own box: \"FishSticks...\" needs 803px and the box is 781px, so 22px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: document is 5px wider than the 360px viewport (scrollWidth 365)\n/work/dougmar-ch @360: <main.min-w_0.pt_24px.md:pt_40px.lg:pt_48px > header.c_text.pb_16px.md:pb_24px > h1.ff_display.font-style_italic.fw_bold.textStyle_3xl> holds text wider than its own box: \"dougmar.ch...\" needs 349px and the box is 328px, so 21px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: document is 5px wider than the 360px viewport (scrollWidth 365)\n/work/dougmar-ch @360: <main.min-w_0.pt_24px.md:pt_40px.lg:pt_48px > header.c_text.pb_16px.md:pb_24px > h1.ff_display.font-style_italic.fw_bold.textStyle_3xl> holds text wider than its own box: \"dougmar.ch...\" needs 349px and the box is 328px, so 21px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @360: <article.d_grid.cg_24px.rg_48px.ai_start > div.min-w_0 > p.ff_body.textStyle_xl.lh_1.25.c_text> holds text wider than its own box: \"Built over a weekend with the Character140 collect...\" needs 339px and the box is 328px, so 11px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @360: <article.d_grid.cg_24px.rg_48px.ai_start > div.min-w_0 > p.ff_body.textStyle_xl.lh_1.25.c_text> holds text wider than its own box: \"Built over a weekend with the Character140 collect...\" needs 339px and the box is 328px, so 11px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @360: document is 11px wider than the 360px viewport (scrollWidth 371)\n/work/twittertale @360: <main.min-w_0.pt_24px.md:pt_40px.lg:pt_48px > header.c_text.pb_16px.md:pb_24px > h1.ff_display.font-style_italic.fw_bold.textStyle_3xl> holds text wider than its own box: \"Twittertale...\" needs 355px and the box is 328px, so 27px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @360: document is 11px wider than the 360px viewport (scrollWidth 371)\n/work/twittertale @360: <main.min-w_0.pt_24px.md:pt_40px.lg:pt_48px > header.c_text.pb_16px.md:pb_24px > h1.ff_display.font-style_italic.fw_bold.textStyle_3xl> holds text wider than its own box: \"Twittertale...\" needs 355px and the box is 328px, so 27px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/15th-club @1440: <div.min-w_0 > section.mt_40px.md:mt_56px > p.mt_12px.textStyle_base.lh_1.55.c_text> \"A platform for AI experiments through th\" sets 82 characters on its longest line (3 lines, median 79) at 16px in a 616px box, over the 80 limit. Cap the block with max-width so its lines stay under 80 characters. ch overshoots in a narrow face, so 45 to 50ch is the working number. A narrower column is no reason to leave the rest of the row empty: set the copy beside something. Also on /work/fishsticks at 1440px.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1794486350322
+  },
+  {
+    "critic": "screenshot-critic",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 — react-engineer: At 360px, the document is 93px wider than the viewport and the Spaceman row's `h2` (\"SPACEMAN\" — the hero object of the whole design) is cut off at the right edge, severing the word itself. The page does not scroll to it; that part of the title is simply gone on phone.\n- Section 5/10 — react-engineer: The FishSticks ledger title overflows its box and is clipped on the right — 22px cut at 1440px, 13px cut at 820px tablet (803px/543px of text needed vs. 781px/530px boxes). The title text must be sized to fit the column or wrap, not run past its container.\n- Section 10 — react-engineer: Case-study masthead `h1`s are clipped mid-word at 360px on three separate routes — `/work/dougmar-ch` (21px cut), `/work/twittertale` (27px cut, page also 11px wider than viewport), and `/work/politweets`'s deck paragraph (11px cut). The project title is the first thing a visitor reads on each case study and it is severed on phone across the board.\n- Section 6 — react-engineer: On `/work/15th-club` and `/work/fishsticks` at 1440, body copy is set at 82 characters per line in a 616px column (over the declared 80-char cap) while the rest of that row sits empty instead of running the copy beside the year/role/client meta column the spec requires (\"the third track is never empty\"). This produces the dead-canvas pattern the spec explicitly warns against.\n===END===",
+    "channel": "cli-vision",
+    "ts": 1794486481158
+  },
+  {
+    "critic": "surface-gate",
+    "round": 2,
+    "verdict": "SHIP",
+    "feedback": "/ @360: 'Spaceman' is a 267x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Spaceman' is a 267x41px target; a thumb needs 44x44. Give it padding or a taller line box.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1794486786070
+  },
+  {
+    "critic": "screenshot-critic",
+    "round": "final",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 — react-engineer: at 820px (portrait tablet), the content column has not reset for the width: the eyebrow, h1 (\"CUT WH…\" / \"SHIP W…\"), deck (\"Seven projects, 2008 t…\"), the Spaceman title (\"SPAC…\"), its body copy, and the following \"FISH…\" title are all clipped at the right edge of the viewport, every single line in the right column cut mid-word. This is the \"1440 layout squeezed instead of reset\" fault the tablet still is meant to catch — the two-column rail/content split needs a real breakpoint reset at this width so none of these lines are severed.\n- Section 2/3 — react-engineer: the Layout Specification's literal deck copy is \"Seven projects, 2008 to 2026. I designed and built each one. Biggest first.\" The rendered deck on `/` reads \"Seven projects, 2008 to 2026. Biggest first.\" — the middle sentence is missing, a direct deviation from the declared hero-zone copy.\n- Mockup fidelity — react-engineer: the approved mockup's Spaceman meta column lists five clients (Zeldman, Rolex, The Nature Conservancy, Intuit, LastPass), matching the spec's named set. The render lists nine (adds Sapient Razorfish, bswift, RTIC Coolers, Framebridge, WorkAround), diverging from the approved, specified content of the hero row.\n===END===",
+    "channel": "cli-vision",
+    "ts": 1794487004054
+  },
+  {
+    "critic": "ship-gate",
+    "verdict": "SHIPPED-WITH-FAULTS",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 — react-engineer: at 820px (portrait tablet), the content column has not reset for the width: the eyebrow, h1 (\"CUT WH…\" / \"SHIP W…\"), deck (\"Seven projects, 2008 t…\"), the Spaceman title (\"SPAC…\"), its body copy, and the following \"FISH…\" title are all clipped at the right edge of the viewport, every single line in the right column cut mid-word. This is the \"1440 layout squeezed instead of reset\" fault the tablet still is meant to catch — the two-column rail/content split needs a real breakpoint reset at this width so none of these lines are severed.\n- Section 2/3 — react-engineer: the Layout Specification's literal deck copy is \"Seven projects, 2008 to 2026. I designed and built each one. Biggest first.\" The rendered deck on `/` reads \"Seven projects, 2008 to 2026. Biggest first.\" — the middle sentence is missing, a direct deviation from the declared hero-zone copy.\n- Mockup fidelity — react-engineer: the approved mockup's Spaceman meta column lists five clients (Zeldman, Rolex, The Nature Conservancy, Intuit, LastPass), matching the spec's named set. The render lists nine (adds Sapient Razorfish, bswift, RTIC Coolers, Framebridge, WorkAround), diverging from the approved, specified content of the hero row.\n===END===",
+    "ts": 1794487004054
+  }
+]

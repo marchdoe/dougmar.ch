@@ -59,9 +59,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-11-11'
-const PREV_DATE: string | null = '2026-11-10'
-const ARCHIVE_COUNT = 189
+const DESIGN_DATE = '2026-11-12'
+const PREV_DATE: string | null = '2026-11-11'
+const ARCHIVE_COUNT = 190
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -74,28 +74,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Veterans Day' },
-      { property: 'og:title', content: 'Veterans Day' },
+      { title: "Cut what doesn't matter. Ship what's left." },
+      { property: 'og:title', content: "Cut what doesn't matter. Ship what's left." },
       {
         property: 'og:description',
         content:
-          'Engraved 11.11 mirrored on a service-navy drench, one medal-brass point holding the center, Veterans Day named beneath.',
+          'Mulberry dusk ledger, seven projects stepping down in wide italic caps, Spaceman lit in a mint band that runs off the edge.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-11.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-12.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Veterans Day' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-11.png' },
+      { name: 'twitter:title', content: "Cut what doesn't matter. Ship what's left." },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-12.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital,wght@0,400;1,400&family=Public+Sans:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Libre+Franklin:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -315,7 +315,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 189 designs
+            Archive · 190 designs
           </a>
         )}
         <ScrollRestoration />

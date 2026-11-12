@@ -1,18 +1,26 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { SiteCallout } from '../components/SiteCallout'
+import { css } from '../../styled-system/css'
+import { DayLedger } from '../components/generated/DayLedger'
 import { HomeHero } from '../components/generated/HomeHero'
-import { HonorBand } from '../components/generated/HonorBand'
-import { WorkIndex } from '../components/generated/WorkIndex'
+import { WorkLedger } from '../components/generated/WorkLedger'
+import { SiteCallout } from '../components/SiteCallout'
 
 export const Route = createFileRoute('/')({ component: HomePage })
+
+const calloutSlot = css({
+  marginTop: { base: '64px', md: '96px' },
+  marginBottom: { base: '64px', md: '96px' },
+})
 
 function HomePage() {
   return (
     <>
       <HomeHero />
-      <WorkIndex />
-      <HonorBand />
-      <SiteCallout />
+      <WorkLedger />
+      <div className={calloutSlot}>
+        <SiteCallout />
+      </div>
+      <DayLedger />
     </>
   )
 }

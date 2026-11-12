@@ -1,71 +1,65 @@
 import { css } from '../../../styled-system/css'
 import { identity } from '../../content/about'
+import { capabilities } from '../../content/timeline'
+import { Label, track } from './LedgerParts'
+
+const intro = css({ rowGap: '40px', alignItems: 'start' })
+
+const title = css({
+  fontFamily: 'display',
+  fontStyle: 'italic',
+  fontWeight: 'bold',
+  textStyle: { base: '3xl', md: '4xl' },
+  lineHeight: '1',
+  textTransform: 'uppercase',
+  textAlign: 'left',
+  color: 'text',
+})
+
+const standfirst = css({
+  marginTop: { base: '16px', md: '24px' },
+  fontFamily: 'body',
+  textStyle: 'xl',
+  lineHeight: '1.25',
+  color: 'text',
+  maxWidth: '34ch',
+})
+
+const list = css({
+  listStyle: 'none',
+  marginTop: '8px',
+  marginBottom: '0px',
+  padding: 0,
+})
+
+const item = css({
+  textStyle: 'sm',
+  lineHeight: '1.5',
+  color: 'text',
+  paddingTop: '8px',
+  paddingBottom: '8px',
+  borderTopWidth: '1px',
+  borderTopStyle: 'solid',
+  borderTopColor: 'border',
+})
 
 export function AboutIntro() {
   return (
-    <section
-      className={css({
-        bg: 'bg',
-        paddingBlock: 'clamp(48px, 10vh, 128px)',
-        paddingInline: 'clamp(24px, 6vw, 96px)',
-        display: 'grid',
-        gap: '5',
-      })}
-    >
-      <span
-        className={css({
-          fontFamily: 'body',
-          fontWeight: 'bold',
-          fontSize: '2xs',
-          textTransform: 'uppercase',
-          letterSpacing: 'wider',
-          color: 'accent',
-          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '80ms',
-        })}
-      >
-        About
-      </span>
-      {/* display step carries a short phrase; the long statement sits on the lede step below */}
-      <h1
-        className={css({
-          fontFamily: 'display',
-          fontWeight: 'normal',
-          fontSize: 'clamp(34px, 5.4vw, 62px)',
-          lineHeight: '1.02',
-          color: 'text',
-          maxWidth: '24ch',
-          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '0ms',
-        })}
-      >
-        {identity.name}
-      </h1>
-      <div className={css({ width: '84px', height: '2px', bg: 'accent', opacity: 0.9 })} />
-      <p
-        className={css({
-          fontFamily: 'body',
-          fontSize: 'lede',
-          lineHeight: '1.6',
-          color: 'text',
-          maxWidth: '46ch',
-          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '160ms',
-        })}
-      >
-        {identity.statement}
-      </p>
-      <p
-        className={css({
-          fontFamily: 'body',
-          fontSize: 'sm',
-          lineHeight: '1.5',
-          color: 'textMuted',
-          maxWidth: '44ch',
-        })}
-      >
-        {identity.role}
-      </p>
+    <section className={`${track} ${intro}`}>
+      <div className={css({ minWidth: 0 })}>
+        <h1 className={title}>{identity.name}</h1>
+        <p className={standfirst}>{identity.statement}</p>
+      </div>
+      <aside aria-label="Capabilities" className={css({ minWidth: 0, paddingTop: { md: '12px' } })}>
+        <Label>Capabilities</Label>
+        <ul className={list}>
+          {capabilities.map((capability) => (
+            <li key={capability} className={item}>
+              {capability}
+            </li>
+          ))}
+        </ul>
+      </aside>
     </section>
   )
 }
