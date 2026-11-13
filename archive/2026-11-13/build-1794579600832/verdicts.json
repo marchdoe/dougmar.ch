@@ -1,0 +1,92 @@
+[
+  {
+    "critic": "mockup-precheck",
+    "round": 0,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1794578394076
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 0,
+    "verdict": "REVISE",
+    "feedback": "1. (Judgment 5) The role line under the wordmark reads \"DESIGN & ENGINEERING\" on desktop and on the phone, and the colophon repeats it as \"ROLE Design & Engineering\". The record's role is \"Product Designer & Developer\"; use that string in both places.\n2. (Judgment 5) The colophon rows \"FOCUS Design that is the product\" and \"NOW FishSticks • 15th Club\" don't match `personal.currentFocus`, which is \"Building Spaceman and using AI as a force multiplier in product work\". \"BASED Aldie, Virginia\" comes from the weather signal and is not in the records. Drop these rows or replace them with record text.\n3. (Judgment 3) The Type Treatment says `alignment: justified`, but the hero is ragged-left at 1440. NOBODY / GUARDED / ANYBODY, / 144-140. end at four different widths, and \"anybody,\" sits short at 360. Make the statement's lines fill the tile measure to a shared right edge, for example by tracking or sizing each line to the tile width.\n4. (Judgment 6) The Mobile Declaration's `nav_360` says the role line drops at 360, but fold 1 still shows \"DESIGN & ENGINEERING\" under \"Doug March\". Hide it at the phone width.",
+    "channel": "cli-vision",
+    "ts": 1794578413585
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 1,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1794578474078
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "1. Hierarchy (Type Treatment `alignment: justified`): at 1440 the hero is set one word per line and left-aligned with ragged edges (\"NOBODY\" is far shorter than \"ANYBODY,\"), so nothing reads as justified. Re-break the statement into full-measure lines that justify edge to edge across the tile, for example \"Nobody guarded / anybody, 144-140.\", or space the letters so each line fills the measure.\n2. Hierarchy and legibility at 360: in fold 1 the score breaks across lines as \"144-\" / \"140.\". It reads as a hyphenated word, and the joke's punchline is broken in two. Keep \"144-140.\" together with a non-breaking hyphen or `white-space: nowrap` so it sits whole on its own line.\n3. Copy (judgment 5): in fold 4 the dougmar.ch tile is labelled \"FEATURED · AI · 2026\". The work records mark Spaceman as the featured project (`featured: true`), and dougmar.ch is not featured. Drop \"Featured\" from dougmar.ch, or lead the work index with Spaceman as the featured project.",
+    "channel": "cli-vision",
+    "ts": 1794578493647
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 2,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1794578623487
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 2,
+    "verdict": "APPROVE",
+    "feedback": "The mockup does what the brief declared: the slab small-caps statement is the dominant tile of a crowded jade-and-forest masonry wall. At 1440 the full statement sits inside the first fold, and the lit 144 tile against the dark 140 tile tells the score through the light/dark split rather than the layout. At 360 the statement leads fold 1, followed by the 144/140 pair and the rest in the declared order, ending on the split colophon band.",
+    "channel": "cli-vision",
+    "ts": 1794578639354
+  },
+  {
+    "critic": "surface-gate",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "/ @360: 'Spaceman' is a 164x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Spaceman' is a 164x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: Access to font at 'https://fonts.gstatic.com/l/font?kit=iJWsBXyIfDnIV5PNhY1KTN7Z-Yh-B4jXW23Ejxp2lpBPO4Lgd24z_e-fW1w&skey=cee854e66788286d&v=v31' from origin 'http://localhost:14720' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. | Faile\n/about @1440: 340 characters of running copy set at 68px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: 340 characters of running copy set at 68px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/work/15th-club @820: <dl.m_0.d_grid.grid-tc_auto_1fr.rg_6px > div.d_contents > dd.m_0.c_text.min-w_0> holds text wider than its own box: \"In Development...\" needs 90px and the box is 87px, so 3px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/15th-club @820: <dl.m_0.d_grid.grid-tc_auto_1fr.rg_6px > div.d_contents > dd.m_0.c_text.min-w_0> holds text wider than its own box: \"In Development...\" needs 90px and the box is 87px, so 3px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <div.bg_bg.grid-c_1_/_-1.md:grid-c_span_2.md:grid-r_span_2 > p.ff_body.xl:fs_20px.lh_1.45.c_textMuted > em.c_accentAlt.font-style_italic> \"Somebody should file a report for the de\" at 16px: #12a86a on #eef9f1 is 2.84:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <div.d_flex.flex-d_column.jc_space-between.gap_4 > div.mt_auto.d_flex.flex-d_column.gap_4 > span.ff_body.fw_normal.tt_uppercase.ls_wider> \"Pistons · W\" at 13.2px: #063d28 on #12a86a is 4.00:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <section.d_grid.grid-tc_1fr.gap_2px.bg_border > div.d_flex.flex-d_column.jc_space-between.gap_4 > span.ff_body.fw_normal.tt_uppercase.ls_wider> \"Golf · Austin Championship\" at 13.2px: #063d28 on #12a86a is 4.00:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <div.d_flex.flex-d_column.jc_space-between.gap_4 > div > div.fs_sm.lh_1.5.mt_2.c_fieldInkMuted> \"In progress · moving day\" at 14.5px: #063d28 on #12a86a is 4.00:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <div.grid-c_auto.md:grid-c_span_2.bg_field.c_fieldInk > div > div.ff_body.fw_normal.tt_uppercase.ls_wider> \"Featured · Founder · 2018\" at 13.2px: #063d28 on #12a86a is 4.00:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <dl.m_0.d_grid.grid-tc_auto_1fr.rg_6px > div.d_contents > dt.tt_uppercase.ls_wide.fs_2xs.c_fieldInkMuted> \"Last night\" (x4) at 12px: #063d28 on #12a86a is 4.00:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /about, /work/spaceman, /work/fishsticks, /work/15th-club, /work/dougmar-ch, /work/teeturn, /work/politweets, /work/twittertale.\n/ @360: 3 more distinct low-contrast pairs are not listed; the worst is 4.09:1.\n/work @360: <nav.d_flex.flex-wrap_wrap.cg_1rem.md:cg_2.5rem > a.d_inline-flex.ai_center.min-w_44px.min-h_44px > span.mr_0.25rem.c_fieldInkMuted.fv-num_tabular-nums> \"01\" (x3) at 14px: #063d28 on #12a86a is 4.00:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work @360: <dl.m_0.d_grid.grid-tc_auto_1fr.rg_6px > div.d_contents > dt.tt_uppercase.ls_wide.fs_2xs.c_fieldInkMuted> \"Last night\" (x4) at 12px: #063d28 on #12a86a is 4.00:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments.\n/work @360: <footer#contact.mt_80px.d_grid.grid-tc_1fr.md:grid-tc_1fr_1fr > div.pt_32px.pb_40px.bg_bgAlt.c_text > div.mt_16px.fs_2xs.c_textFaint> \"© 2026 Doug March\" at 12px: #7fae92 on #0a4a34 is 4.09:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1794579016449
+  },
+  {
+    "critic": "screenshot-critic",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 3/11 — react-engineer: On `/about` at 1440px, 340 characters of running copy render at 68px (over the 48px display ceiling), turning a body paragraph into a display-scale wall instead of a hero phrase. Set the prose on the body step (base/lg) and reserve the display step for an actual phrase.\n- Section 5 — react-engineer: On `/work/15th-club` at 820px, the \"In Development…\" value in the meta `dl` needs 90px but its box is only 87px; the word is clipped 3px with no wrap or scroll to compensate. Either wrap the value or size the type to fit the 87px column.\n- Section 3 — react-engineer: Across virtually every page in dark mode at 360px (and light mode at 360 on `/work`), tile labels and metadata set in `fieldInkMuted` on the lit jade field (`#063d28` on `#12a86a`) measure 4.00:1, under the 4.5:1 body-text threshold — this is a repeated token error, not an isolated typo (Pistons·W, Golf·Austin Championship, \"In progress · moving day,\" \"Last night\" ×4+, \"Featured·Founder·2018,\" nav \"01/02/03\"). Move this label color to a token that clears 4.5:1 on the jade field.\n- Section 3 — react-engineer: On `/` at 360px light scheme, the italicized standfirst accent phrase \"Somebody should file a report for the de[fense]\" renders at `#12a86a` on `#eef9f1`, 2.84:1 — well under the 3:1 floor for large text. Use a darker accent token on this light ground or darken the ground under it.\n- Section 10 — react-engineer: The mobile declaration (`nav_360`) says the role line (\"PRODUCT DESIGNER & DEVELOPER\") should drop at 360px, but it is still present under the wordmark in fold 1 of the home filmstrip. Remove the role line at 360 per the declaration.\n===END===",
+    "channel": "cli-vision",
+    "ts": 1794579215279
+  },
+  {
+    "critic": "surface-gate",
+    "round": 2,
+    "verdict": "REVISE",
+    "feedback": "/work/twittertale @820: <section.d_grid.grid-tc_1fr.gap_2px.bg_border > div.grid-c_1_/_-1.md:grid-c_span_2.lg:grid-c_span_3.bg_bg > h1.ff_display.fw_normal.fv_small-caps.lh_1.02> holds text wider than its own box: \"Twittertale...\" needs 354px and the box is 329px, so 25px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @820: <section.d_grid.grid-tc_1fr.gap_2px.bg_border > div.grid-c_1_/_-1.md:grid-c_span_2.lg:grid-c_span_3.bg_bg > h1.ff_display.fw_normal.fv_small-caps.lh_1.02> holds text wider than its own box: \"Twittertale...\" needs 354px and the box is 329px, so 25px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <footer#contact.mt_80px.d_grid.grid-tc_1fr.md:grid-tc_1fr_1fr > div.pt_32px.pb_40px.bg_bgAlt.c_text > div.mt_16px.fs_2xs.c_textFaint> \"© 2026 Doug March\" at 12px: #7fae92 on #0a4a34 is 4.09:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /about, /work/spaceman, /work/fishsticks, /work/15th-club, /work/dougmar-ch, /work/teeturn, /work/politweets, /work/twittertale.\n/ @360: <div.d_flex.flex-d_column.jc_space-between.gap_4 > span.ff_body.fw_normal.tt_uppercase.ls_wider > span.c_textFaint> \"L\" at 13.2px: #7fae92 on #0c4330 is 4.49:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <section.d_grid.grid-tc_1fr.gap_2px.bg_border > div.grid-c_1_/_-1.bg_surface.d_flex.flex-d_row > span.ff_body.fw_normal.tt_uppercase.ls_wider> \"Thomas Jefferson\" at 13.2px: #7fae92 on #0c4330 is 4.49:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work @360: <nav.d_flex.flex-wrap_wrap.cg_1rem.md:cg_2.5rem > a.d_inline-flex.ai_center.min-w_44px.min-h_44px > span.mr_0.25rem.c_fieldInkMuted.fv-num_tabular-nums> \"01\" (x3) at 14px: #063d28 on #12a86a is 4.00:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work @360: <footer#contact.mt_80px.d_grid.grid-tc_1fr.md:grid-tc_1fr_1fr > div.pt_32px.pb_40px.bg_bgAlt.c_text > div.mt_16px.fs_2xs.c_textFaint> \"© 2026 Doug March\" at 12px: #7fae92 on #0a4a34 is 4.09:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1794579329135
+  },
+  {
+    "critic": "surface-gate",
+    "round": 3,
+    "verdict": "SHIP",
+    "feedback": "/ @360: <footer#contact.mt_80px.d_grid.grid-tc_1fr.md:grid-tc_1fr_1fr > div.pt_32px.pb_40px.bg_bgAlt.c_text > div.mt_16px.fs_2xs.c_textFaint> \"© 2026 Doug March\" at 12px: #7fae92 on #0a4a34 is 4.09:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /about, /work/spaceman, /work/fishsticks, /work/15th-club, /work/dougmar-ch, /work/teeturn, /work/politweets, /work/twittertale.\n/ @360: <div.d_flex.flex-d_column.jc_space-between.gap_4 > span.ff_body.fw_normal.tt_uppercase.ls_wider > span.c_textFaint> \"L\" at 13.2px: #7fae92 on #0c4330 is 4.49:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <section.d_grid.grid-tc_1fr.gap_2px.bg_border > div.grid-c_1_/_-1.bg_surface.d_flex.flex-d_row > span.ff_body.fw_normal.tt_uppercase.ls_wider> \"Thomas Jefferson\" at 13.2px: #7fae92 on #0c4330 is 4.49:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work @360: <nav.d_flex.flex-wrap_wrap.cg_1rem.md:cg_2.5rem > a.d_inline-flex.ai_center.min-w_44px.min-h_44px > span.mr_0.25rem.c_fieldInkMuted.fv-num_tabular-nums> \"01\" (x3) at 14px: #063d28 on #12a86a is 4.00:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work @360: <footer#contact.mt_80px.d_grid.grid-tc_1fr.md:grid-tc_1fr_1fr > div.pt_32px.pb_40px.bg_bgAlt.c_text > div.mt_16px.fs_2xs.c_textFaint> \"© 2026 Doug March\" at 12px: #7fae92 on #0a4a34 is 4.09:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1794579396716
+  },
+  {
+    "critic": "screenshot-critic",
+    "round": "final",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 5/6 — react-engineer: On `/work/spaceman` (desktop filmstrip, fold 2 of 2), the \"STACK\" section label sits above roughly 300px of empty canvas with no stack items/tags listed under it, and the \"Visit the live site\" button is dropped in isolated at the far right of that empty band with no visual relationship to the label. Populate the stack list or remove the empty section, and anchor the CTA to content instead of floating it in dead space.\n===END===",
+    "channel": "cli-vision",
+    "ts": 1794579597460
+  },
+  {
+    "critic": "ship-gate",
+    "verdict": "SHIPPED-WITH-FAULTS",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 5/6 — react-engineer: On `/work/spaceman` (desktop filmstrip, fold 2 of 2), the \"STACK\" section label sits above roughly 300px of empty canvas with no stack items/tags listed under it, and the \"Visit the live site\" button is dropped in isolated at the far right of that empty band with no visual relationship to the label. Populate the stack list or remove the empty section, and anchor the CTA to content instead of floating it in dead space.\n===END===",
+    "ts": 1794579597460
+  }
+]

@@ -1,0 +1,1263 @@
+{
+  "date": "2026-11-13",
+  "startedAt": "2026-11-13T13:47:12.862Z",
+  "completedAt": "2026-11-13T14:20:07.801Z",
+  "steps": [
+    {
+      "name": "signals-loaded",
+      "phase": 0,
+      "input": {
+        "providersAvailable": 18
+      },
+      "output": {
+        "air_quality": {
+          "aqi_index": 1,
+          "uv_index": 0.2,
+          "air_quality_label": "Good"
+        },
+        "books": {
+          "currently_reading": []
+        },
+        "day_of_week": {
+          "day": "Friday",
+          "is_weekend": false,
+          "day_index": 5
+        },
+        "github": {
+          "repos": [
+            {
+              "name": "alibaba/open-code-review/stargazers",
+              "description": "",
+              "language": "Go",
+              "stars": null
+            },
+            {
+              "name": "GoogleChrome/modern-web-guidance-src/stargazers",
+              "description": "",
+              "language": "TypeScript",
+              "stars": null
+            },
+            {
+              "name": "openai/codex-security/stargazers",
+              "description": "",
+              "language": "TypeScript",
+              "stars": null
+            },
+            {
+              "name": "ZhuLinsen/daily_stock_analysis/stargazers",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            },
+            {
+              "name": "we-promise/sure/stargazers",
+              "description": "",
+              "language": "Ruby",
+              "stars": null
+            }
+          ]
+        },
+        "golf": {
+          "tournament": "Austin Championship pres. by Compliance Solutions",
+          "status": "In Progress",
+          "leaders": [
+            {
+              "name": "Trace Crowe",
+              "position": "1",
+              "score": "-10"
+            },
+            {
+              "name": "Max Greyserman",
+              "position": "2",
+              "score": "-8"
+            },
+            {
+              "name": "Erik van Rooyen",
+              "position": "3",
+              "score": "-8"
+            },
+            {
+              "name": "Blades Brown",
+              "position": "4",
+              "score": "-7"
+            },
+            {
+              "name": "Ben Kohles",
+              "position": "5",
+              "score": "-6"
+            }
+          ]
+        },
+        "hacker_news": {
+          "stories": [
+            {
+              "title": "Doomsday: Friday, 13 November, A.D. 2026 (1960)",
+              "url": "https://www.science.org/doi/10.1126/science.132.3436.1291",
+              "score": 143,
+              "by": "voxleone"
+            },
+            {
+              "title": "Jensen Huang resigns",
+              "url": "https://apnews.com/article/nvidia-megaspeed-china-singapore-huang-5403f152a601cf82ce939f1d24fffa0f",
+              "score": 3713,
+              "by": "lldb"
+            },
+            {
+              "title": "Elevated errors on claude.ai, Claude Code, and platform.claude.com",
+              "url": "https://status.claude.com/incidents/nn11wk485zfn",
+              "score": 307,
+              "by": "__vivek"
+            },
+            {
+              "title": "IceWM",
+              "url": "https://ice-wm.org/",
+              "score": 259,
+              "by": "inatreecrown2"
+            },
+            {
+              "title": "Rust 1.100",
+              "url": "https://blog.rust-lang.org/2026/11/12/Rust-1.100.0/",
+              "score": 755,
+              "by": "mbStavola"
+            }
+          ]
+        },
+        "holidays": {
+          "today": null,
+          "upcoming": []
+        },
+        "lunar": {
+          "phase": "waxing crescent",
+          "illumination": 0.205,
+          "days_into_cycle": 4.42
+        },
+        "market": {
+          "symbol": "SPY",
+          "price": "757.1200",
+          "change": "-2.6900",
+          "change_percent": "-0.3540%",
+          "direction": "down"
+        },
+        "music": {
+          "bands": [
+            "Tobin Sprout",
+            "Guided by Voices",
+            "The War on Drugs"
+          ],
+          "rotation": true
+        },
+        "news": {
+          "headlines": [
+            {
+              "title": "Father of boy who survived being buried alive is charged with attempted murder in South Carolina - AP News",
+              "source": "Associated Press",
+              "url": "https://apnews.com/article/infant-buried-alive-south-carolina-father-crate-a86f1eca5fb7a5e2ac66651e809025ec"
+            },
+            {
+              "title": "A ‘clear recommendation’ for men: Get screened for prostate cancer - CNN",
+              "source": "CNN",
+              "url": "https://www.cnn.com/2026/11/12/health/new-prostate-cancer-screening-guideline-wellness"
+            },
+            {
+              "title": "Why ‘brainier’ sports may be better for people with ADHD - The Washington Post",
+              "source": "The Washington Post",
+              "url": "https://www.washingtonpost.com/health/2026/11/12/why-brainier-sports-may-be-better-people-with-adhd/"
+            },
+            {
+              "title": "Scout Motors has 212,000 vehicle reservations as $2 billion South Carolina plant nears completion - CNBC",
+              "source": "CNBC",
+              "url": "https://www.cnbc.com/2026/11/12/scout-motors-reservations-south-carolina-plant.html"
+            },
+            {
+              "title": "Racing Bulls commits to Lawson and Lindblad as 2027 F1 line-up - The Race",
+              "source": "The-race.com",
+              "url": "https://www.the-race.com/formula-1/racing-bulls-commits-to-lawson-and-lindblad-as-2027-f1-line-up/"
+            }
+          ]
+        },
+        "quote": {
+          "text": "When angry count to ten before you speak. If very angry, count to one hundred.",
+          "author": "Thomas Jefferson"
+        },
+        "season": {
+          "season": "fall",
+          "month": 11,
+          "day": 13,
+          "day_of_year": 317,
+          "month_name": "November"
+        },
+        "sidebar": {
+          "links": [
+            {
+              "title": "Building interfaces that understand what we want to do",
+              "url": "https://agustinbarrientos.com/writing/senior-eye/interfaces-that-understand-what-we-want",
+              "source": "agustinbarrientos.com",
+              "description": "Chrome is building a Decisions API that runs a decision model on your computer, for free and privately."
+            },
+            {
+              "title": "Below the surface",
+              "url": "https://belowthesurface.amsterdam/en/vondsten",
+              "source": "belowthesurface.amsterdam",
+              "description": "The archaeological research project of the North/South metro line lends the River Amstel a voice in the historical portrayal of Amsterdam."
+            },
+            {
+              "title": "If X, then Y",
+              "url": "https://cdevroe.com/2026/11/05/if-x-then-y/",
+              "source": "cdevroe.com",
+              "description": "It was never easy to predict the future, but at the moment it feels near impossible."
+            },
+            {
+              "title": "Bodega cats of New York",
+              "url": "https://bodegacatsofnewyork.com/",
+              "source": "bodegacatsofnewyork.com",
+              "description": "Photographs and stories of the cats who live in New York’s bodegas, and the people who know them by name."
+            },
+            {
+              "title": "Where the disabled button got its rule",
+              "url": "https://www.hipuku.dev/writing/where-the-disabled-button-got-its-rule",
+              "source": "hipuku.dev",
+              "description": "What Apple’s 1980 rules said about greyed-out commands."
+            }
+          ]
+        },
+        "sports": {
+          "teams": [
+            {
+              "name": "Detroit Lions",
+              "league": "NFL",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            },
+            {
+              "name": "Detroit Red Wings",
+              "league": "NHL",
+              "last_game": "2026-11-13T00:30Z",
+              "result": "loss",
+              "score": "4-5"
+            },
+            {
+              "name": "Detroit Pistons",
+              "league": "NBA",
+              "last_game": "2026-11-13T00:00Z",
+              "result": "win",
+              "score": "144-140"
+            },
+            {
+              "name": "Detroit Tigers",
+              "league": "MLB",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            }
+          ]
+        },
+        "sun": {
+          "sunrise": "06:58",
+          "sunset": "16:51",
+          "daylight_hours": 9.9
+        },
+        "weather": {
+          "location": "Aldie, Virginia",
+          "conditions": "Cloudy",
+          "temp_f": 43.5,
+          "temp_c": 6.4,
+          "humidity": 62,
+          "wind_mph": 14.3,
+          "wind_dir": "NNW",
+          "feels_like_f": 36.5
+        },
+        "date": "2026-11-13"
+      },
+      "durationMs": 0,
+      "timestamp": "2026-11-13T13:47:12.927Z"
+    },
+    {
+      "name": "art-director",
+      "phase": 1,
+      "input": {
+        "compositionMandate": "## Composition Mandate\n\nRecency is tracked per axis, not per whole tuple: a value used on any of the last 3 builds is discouraged for that axis. The starting values below are derived from today's date — they are a specific place to begin, not an instruction.\n\n- **columns** — start from `masonry` (avoid `three`, `single`, `irregular-twelve`)\n- **axis** — start from `vertical` (avoid `horizontal`, `radial`, `diagonal`)\n- **symmetry** — start from `symmetric` (avoid `left-weighted`, `mirrored`, `br"
+      },
+      "output": {
+        "hero_copy": "Nobody guarded anybody, 144-140.",
+        "archetype": "a box-score specimen wall, numbers set as type",
+        "composition": {
+          "columns": "masonry",
+          "axis": "vertical",
+          "symmetry": "symmetric",
+          "hero_zone": "interleaved",
+          "density": "crowded",
+          "rhythm": "even",
+          "shell_posture": "folded-into-hero",
+          "field_ratio": "balanced",
+          "collapse": "stack",
+          "hero_object": "statement"
+        },
+        "mobile": {
+          "carrier": "the statement tile leads full-width, then 144 and 140 stack as two full-width specimen bands so the shootout survives by adjacency, then the rest of the night's numbers run as one column.",
+          "first_fold": "the hero phrase \"Nobody guarded anybody, 144-140.\" in the top tile, set at 3xl.",
+          "order": "hero statement, 144 / 140 score pair, Red Wings 4–5, golf / market / weather / moon, music + Jefferson, work index, split colophon",
+          "hero_step_360": "3xl",
+          "nav_360": "lockup shrinks to mark + \"Doug March\" at top-left, role line drops; 01 02 03 links wrap to a row beneath it."
+        },
+        "chassisId": "alfa-rubik",
+        "specLength": 4790,
+        "specPreview": "## 1. Color Specification\n\n**Primary hue**: 158° (jade green). Inside the mandate's 140–180° target. A saturated, lit green reads as an LED scoreboard glow and gives a high-scoring Detroit win its heat without leaving the green lane; the brightness, not a second hue, carries the energy.\n\n**Neutral palette** (green-tinted): 50 `#f2f7f3`, 100 `#e3ece6`, 200 `#c6d6cc`, 300 `#a1b4a8`, 400 `#74887c`, 500 `#54685b`, 600 `#405249`, 700 `#2e3c33`, 800 `#1e2821`, 900 `#121a15`.\n\n**Accent color** (electri",
+        "selfCheck": "1. Hero quotability: Yes — \"Nobody guarded anybody, 144-140\" is a complete wry take you could screenshot, not a label.\n2. Because-of chain: Yes — shootout line → packed symmetric specimen wall → fat carnival slab (alfa-rubik) → committed electric jade → interleaved hero tile.\n3. Render feasibility: "
+      },
+      "durationMs": 484805,
+      "timestamp": "2026-11-13T13:55:17.749Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 0
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "1. (Judgment 5) The role line under the wordmark reads \"DESIGN & ENGINEERING\" on desktop and on the phone, and the colophon repeats it as \"ROLE Design & Engineering\". The record's role is \"Product Designer & Developer\"; use that string in both places.\n2. (Judgment 5) The colophon rows \"FOCUS Design that is the product\" and \"NOW FishSticks • 15th Club\" don't match `personal.currentFocus`, which is \"Building Spaceman and using AI as a force multiplier in product work\". \"BASED Aldie, Virginia\" come"
+      },
+      "durationMs": 293536,
+      "timestamp": "2026-11-13T14:00:13.585Z"
+    },
+    {
+      "name": "mockup-patch",
+      "phase": 2,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "edits": 6,
+        "bytes": 17755
+      },
+      "durationMs": 49813,
+      "timestamp": "2026-11-13T14:01:03.399Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "1. Hierarchy (Type Treatment `alignment: justified`): at 1440 the hero is set one word per line and left-aligned with ragged edges (\"NOBODY\" is far shorter than \"ANYBODY,\"), so nothing reads as justified. Re-break the statement into full-measure lines that justify edge to edge across the tile, for example \"Nobody guarded / anybody, 144-140.\", or space the letters so each line fills the measure.\n2. Hierarchy and legibility at 360: in fold 1 the score breaks across lines as \"144-\" / \"140.\". It rea"
+      },
+      "durationMs": 80061,
+      "timestamp": "2026-11-13T14:01:33.647Z"
+    },
+    {
+      "name": "mockup-patch",
+      "phase": 2,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "edits": 3,
+        "bytes": 18214
+      },
+      "durationMs": 119508,
+      "timestamp": "2026-11-13T14:03:33.156Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "verdict": "APPROVE",
+        "feedback": "The mockup does what the brief declared: the slab small-caps statement is the dominant tile of a crowded jade-and-forest masonry wall. At 1440 the full statement sits inside the first fold, and the lit 144 tile against the dark 140 tile tells the score through the light/dark split rather than the layout. At 360 the statement leads fold 1, followed by the 144/140 pair and the rest in the declared order, ending on the split colophon band."
+      },
+      "durationMs": 145706,
+      "timestamp": "2026-11-13T14:03:59.354Z"
+    },
+    {
+      "name": "react-engineer",
+      "phase": 3,
+      "input": {
+        "tokenContext": 3415,
+        "briefLength": 8568,
+        "mockupLength": 18214
+      },
+      "output": {
+        "files": [
+          "app/components/generated/styles.tsx",
+          "app/components/generated/HeroTile.tsx",
+          "app/components/generated/ScoreTiles.tsx",
+          "app/components/generated/StatTiles.tsx",
+          "app/components/generated/SignalWall.tsx",
+          "app/components/generated/WorkTiles.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/FactList.tsx",
+          "app/components/generated/Colophon.tsx",
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/TimelineTiles.tsx",
+          "app/components/generated/AboutFacts.tsx",
+          "app/components/generated/CaseHero.tsx",
+          "app/components/generated/CaseBody.tsx",
+          "app/components/generated/CaseLinks.tsx",
+          "app/components/Sidebar.tsx",
+          "app/components/Layout.tsx",
+          "app/routes/index.tsx",
+          "app/routes/about.tsx",
+          "app/routes/work.$slug.tsx",
+          "app/routes/og.tsx"
+        ],
+        "rationale": ""
+      },
+      "durationMs": 319203,
+      "timestamp": "2026-11-13T14:09:18.622Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 3,
+      "input": {
+        "after": "react-engineer"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutFacts.tsx",
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/CaseBody.tsx",
+          "app/components/generated/CaseHero.tsx",
+          "app/components/generated/CaseLinks.tsx",
+          "app/components/generated/Colophon.tsx",
+          "app/components/generated/FactList.tsx",
+          "app/components/generated/HeroTile.tsx",
+          "app/components/generated/ScoreTiles.tsx",
+          "app/components/generated/SignalWall.tsx",
+          "app/components/generated/StatTiles.tsx",
+          "app/components/generated/TimelineTiles.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/WorkTiles.tsx",
+          "app/components/generated/styles.tsx"
+        ],
+        "removed": [
+          "app/components/generated/AboutEducation.tsx",
+          "app/components/generated/AboutIntro.tsx",
+          "app/components/generated/AboutPersonal.tsx",
+          "app/components/generated/AboutTimeline.tsx",
+          "app/components/generated/CaseMeta.tsx",
+          "app/components/generated/CaseStudy.tsx",
+          "app/components/generated/DayLedger.tsx",
+          "app/components/generated/DayRow.tsx",
+          "app/components/generated/FeaturedBand.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/LedgerParts.tsx",
+          "app/components/generated/LedgerTail.tsx",
+          "app/components/generated/WorkHeader.tsx",
+          "app/components/generated/WorkLedger.tsx",
+          "app/components/generated/WorkMissing.tsx"
+        ]
+      },
+      "durationMs": 17,
+      "timestamp": "2026-11-13T14:09:18.639Z"
+    },
+    {
+      "name": "build-validation",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "success": true
+      },
+      "durationMs": 0,
+      "timestamp": "2026-11-13T14:09:30.228Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "measured": 73,
+        "errorCount": 5,
+        "findings": [
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Spaceman' is a 164x41px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Spaceman' is a 164x41px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "console",
+            "severity": "warning",
+            "detail": "Access to font at 'https://fonts.gstatic.com/l/font?kit=iJWsBXyIfDnIV5PNhY1KTN7Z-Yh-B4jXW23Ejxp2lpBPO4Lgd24z_e-fW1w&skey=cee854e66788286d&v=v31' from origin 'http://localhost:14720' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. | Faile"
+          },
+          {
+            "surface": "/about",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "340 characters of running copy set at 68px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/about",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "340 characters of running copy set at 68px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<dl.m_0.d_grid.grid-tc_auto_1fr.rg_6px > div.d_contents > dd.m_0.c_text.min-w_0> holds text wider than its own box: \"In Development...\" needs 90px and the box is 87px, so 3px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<dl.m_0.d_grid.grid-tc_auto_1fr.rg_6px > div.d_contents > dd.m_0.c_text.min-w_0> holds text wider than its own box: \"In Development...\" needs 90px and the box is 87px, so 3px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "contrast",
+            "severity": "error",
+            "owner": "react-engineer",
+            "ratio": 2.846551296566737,
+            "key": "contrast|div.bg_bg.grid-c_1_/_-1.md:grid-c_span_2.md:grid-r_span_2 > p.ff_body.xl:fs_20px.lh_1.45.c_textMuted > em.c_accentAlt.font-style_italic|#12a86a|#eef9f1",
+            "detail": "<div.bg_bg.grid-c_1_/_-1.md:grid-c_span_2.md:grid-r_span_2 > p.ff_body.xl:fs_20px.lh_1.45.c_textMuted > em.c_accentAlt.font-style_italic> \"Somebody should file a report for the de\" at 16px: #12a86a on #eef9f1 is 2.84:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 4.006664570832209,
+            "key": "contrast|div.d_flex.flex-d_column.jc_space-between.gap_4 > div.mt_auto.d_flex.flex-d_column.gap_4 > span.ff_body.fw_normal.tt_uppercase.ls_wider|#063d28|#12a86a",
+            "detail": "<div.d_flex.flex-d_column.jc_space-between.gap_4 > div.mt_auto.d_flex.flex-d_column.gap_4 > span.ff_body.fw_normal.tt_uppercase.ls_wider> \"Pistons · W\" at 13.2px: #063d28 on #12a86a is 4.00:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 4.006664570832209,
+            "key": "contrast|section.d_grid.grid-tc_1fr.gap_2px.bg_border > div.d_flex.flex-d_column.jc_space-between.gap_4 > span.ff_body.fw_normal.tt_uppercase.ls_wider|#063d28|#12a86a",
+            "detail": "<section.d_grid.grid-tc_1fr.gap_2px.bg_border > div.d_flex.flex-d_column.jc_space-between.gap_4 > span.ff_body.fw_normal.tt_uppercase.ls_wider> \"Golf · Austin Championship\" at 13.2px: #063d28 on #12a86a is 4.00:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 4.006664570832209,
+            "key": "contrast|div.d_flex.flex-d_column.jc_space-between.gap_4 > div > div.fs_sm.lh_1.5.mt_2.c_fieldInkMuted|#063d28|#12a86a",
+            "detail": "<div.d_flex.flex-d_column.jc_space-between.gap_4 > div > div.fs_sm.lh_1.5.mt_2.c_fieldInkMuted> \"In progress · moving day\" at 14.5px: #063d28 on #12a86a is 4.00:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 4.006664570832209,
+            "key": "contrast|div.grid-c_auto.md:grid-c_span_2.bg_field.c_fieldInk > div > div.ff_body.fw_normal.tt_uppercase.ls_wider|#063d28|#12a86a",
+            "detail": "<div.grid-c_auto.md:grid-c_span_2.bg_field.c_fieldInk > div > div.ff_body.fw_normal.tt_uppercase.ls_wider> \"Featured · Founder · 2018\" at 13.2px: #063d28 on #12a86a is 4.00:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 4.006664570832209,
+            "key": "contrast|dl.m_0.d_grid.grid-tc_auto_1fr.rg_6px > div.d_contents > dt.tt_uppercase.ls_wide.fs_2xs.c_fieldInkMuted|#063d28|#12a86a",
+            "detail": "<dl.m_0.d_grid.grid-tc_auto_1fr.rg_6px > div.d_contents > dt.tt_uppercase.ls_wide.fs_2xs.c_fieldInkMuted> \"Last night\" (x4) at 12px: #063d28 on #12a86a is 4.00:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /about, /work/spaceman, /work/fishsticks, /work/15th-club, /work/dougmar-ch, /work/teeturn, /work/politweets, /work/twittertale."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 4.099839620028527,
+            "key": "contrast|summary|react-engineer",
+            "detail": "3 more distinct low-contrast pairs are not listed; the worst is 4.09:1."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 4.006664570832209,
+            "key": "contrast|nav.d_flex.flex-wrap_wrap.cg_1rem.md:cg_2.5rem > a.d_inline-flex.ai_center.min-w_44px.min-h_44px > span.mr_0.25rem.c_fieldInkMuted.fv-num_tabular-nums|#063d28|#12a86a",
+            "detail": "<nav.d_flex.flex-wrap_wrap.cg_1rem.md:cg_2.5rem > a.d_inline-flex.ai_center.min-w_44px.min-h_44px > span.mr_0.25rem.c_fieldInkMuted.fv-num_tabular-nums> \"01\" (x3) at 14px: #063d28 on #12a86a is 4.00:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 4.006664570832209,
+            "key": "contrast|dl.m_0.d_grid.grid-tc_auto_1fr.rg_6px > div.d_contents > dt.tt_uppercase.ls_wide.fs_2xs.c_fieldInkMuted|#063d28|#12a86a",
+            "detail": "<dl.m_0.d_grid.grid-tc_auto_1fr.rg_6px > div.d_contents > dt.tt_uppercase.ls_wide.fs_2xs.c_fieldInkMuted> \"Last night\" (x4) at 12px: #063d28 on #12a86a is 4.00:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 4.099839620028527,
+            "key": "contrast|footer#contact.mt_80px.d_grid.grid-tc_1fr.md:grid-tc_1fr_1fr > div.pt_32px.pb_40px.bg_bgAlt.c_text > div.mt_16px.fs_2xs.c_textFaint|#7fae92|#0a4a34",
+            "detail": "<footer#contact.mt_80px.d_grid.grid-tc_1fr.md:grid-tc_1fr_1fr > div.pt_32px.pb_40px.bg_bgAlt.c_text > div.mt_16px.fs_2xs.c_textFaint> \"© 2026 Doug March\" at 12px: #7fae92 on #0a4a34 is 4.09:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments."
+          },
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 1,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'4 - 5' (44px in the mockup) has no match in the build",
+              "facts": {
+                "text": "4 - 5",
+                "mockupPx": 44,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'anybod y' (40px in the mockup) has no match in the build",
+              "facts": {
+                "text": "anybod y",
+                "mockupPx": 40,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'144-14 0.' (40px in the mockup) has no match in the build",
+              "facts": {
+                "text": "144-14 0.",
+                "mockupPx": 40,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'144' moved from (78, 631) in the mockup to (78, 739) in the build; crossed the fold"
+            }
+          ],
+          "briefed": [
+            "- / at 1440px: The mockup sets '4 - 5' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: The mockup sets 'anybod y' at 40px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: The mockup sets '144-14 0.' at 40px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+          ]
+        }
+      },
+      "durationMs": 46213,
+      "timestamp": "2026-11-13T14:10:16.449Z"
+    },
+    {
+      "name": "screenshot-critic",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 3/11 — react-engineer: On `/about` at 1440px, 340 characters of running copy render at 68px (over the 48px display ceiling), turning a body paragraph into a display-scale wall instead of a hero phrase. Set the prose on the body step (base/lg) and reserve the display step for an actual phrase.\n- Section 5 — react-engineer: On `/work/15th-club` at 820px, the \"In Development…\" value in the meta `dl` needs 90px but its box is only 87px; the word is clipped"
+      },
+      "durationMs": 198830,
+      "timestamp": "2026-11-13T14:13:35.279Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 5,
+      "input": {
+        "after": "React Engineer revision"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutFacts.tsx",
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/CaseBody.tsx",
+          "app/components/generated/CaseHero.tsx",
+          "app/components/generated/CaseLinks.tsx",
+          "app/components/generated/Colophon.tsx",
+          "app/components/generated/FactList.tsx",
+          "app/components/generated/HeroTile.tsx",
+          "app/components/generated/ScoreTiles.tsx",
+          "app/components/generated/SignalWall.tsx",
+          "app/components/generated/StatTiles.tsx",
+          "app/components/generated/TimelineTiles.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/WorkTiles.tsx",
+          "app/components/generated/styles.tsx"
+        ],
+        "removed": []
+      },
+      "durationMs": 16,
+      "timestamp": "2026-11-13T14:14:37.904Z"
+    },
+    {
+      "name": "revision",
+      "phase": 4,
+      "input": {
+        "round": 1,
+        "verdict": "REVISE",
+        "responsibleAgent": "react-engineer",
+        "gateForced": true,
+        "engineerFaults": 5,
+        "feedback": "**Issues:**\n- Section 3/11 — react-engineer: On `/about` at 1440px, 340 characters of running copy render at 68px (over the 48px display ceiling), turning a body paragraph into a display-scale wall instead of a hero phrase. Set the prose on the body step (base/lg) and reserve the display step for an actual phrase.\n- Section 5 — react-engineer: On `/work/15th-club` at 820px, the \"In Development…\" value in the meta `dl` needs 90px but its box is only 87px; the word is clipped 3px with no wrap or s"
+      },
+      "output": {
+        "outcome": "rebuilt",
+        "replied": 7,
+        "written": 7,
+        "deleted": 0,
+        "merged": 21
+      },
+      "durationMs": 70170,
+      "timestamp": "2026-11-13T14:14:45.451Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "measured": 73,
+        "errorCount": 2,
+        "findings": [
+          {
+            "surface": "/work/twittertale",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<section.d_grid.grid-tc_1fr.gap_2px.bg_border > div.grid-c_1_/_-1.md:grid-c_span_2.lg:grid-c_span_3.bg_bg > h1.ff_display.fw_normal.fv_small-caps.lh_1.02> holds text wider than its own box: \"Twittertale...\" needs 354px and the box is 329px, so 25px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<section.d_grid.grid-tc_1fr.gap_2px.bg_border > div.grid-c_1_/_-1.md:grid-c_span_2.lg:grid-c_span_3.bg_bg > h1.ff_display.fw_normal.fv_small-caps.lh_1.02> holds text wider than its own box: \"Twittertale...\" needs 354px and the box is 329px, so 25px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 4.099839620028527,
+            "key": "contrast|footer#contact.mt_80px.d_grid.grid-tc_1fr.md:grid-tc_1fr_1fr > div.pt_32px.pb_40px.bg_bgAlt.c_text > div.mt_16px.fs_2xs.c_textFaint|#7fae92|#0a4a34",
+            "detail": "<footer#contact.mt_80px.d_grid.grid-tc_1fr.md:grid-tc_1fr_1fr > div.pt_32px.pb_40px.bg_bgAlt.c_text > div.mt_16px.fs_2xs.c_textFaint> \"© 2026 Doug March\" at 12px: #7fae92 on #0a4a34 is 4.09:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /about, /work/spaceman, /work/fishsticks, /work/15th-club, /work/dougmar-ch, /work/teeturn, /work/politweets, /work/twittertale."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 4.498176018881981,
+            "key": "contrast|div.d_flex.flex-d_column.jc_space-between.gap_4 > span.ff_body.fw_normal.tt_uppercase.ls_wider > span.c_textFaint|#7fae92|#0c4330",
+            "detail": "<div.d_flex.flex-d_column.jc_space-between.gap_4 > span.ff_body.fw_normal.tt_uppercase.ls_wider > span.c_textFaint> \"L\" at 13.2px: #7fae92 on #0c4330 is 4.49:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 4.498176018881981,
+            "key": "contrast|section.d_grid.grid-tc_1fr.gap_2px.bg_border > div.grid-c_1_/_-1.bg_surface.d_flex.flex-d_row > span.ff_body.fw_normal.tt_uppercase.ls_wider|#7fae92|#0c4330",
+            "detail": "<section.d_grid.grid-tc_1fr.gap_2px.bg_border > div.grid-c_1_/_-1.bg_surface.d_flex.flex-d_row > span.ff_body.fw_normal.tt_uppercase.ls_wider> \"Thomas Jefferson\" at 13.2px: #7fae92 on #0c4330 is 4.49:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 4.006664570832209,
+            "key": "contrast|nav.d_flex.flex-wrap_wrap.cg_1rem.md:cg_2.5rem > a.d_inline-flex.ai_center.min-w_44px.min-h_44px > span.mr_0.25rem.c_fieldInkMuted.fv-num_tabular-nums|#063d28|#12a86a",
+            "detail": "<nav.d_flex.flex-wrap_wrap.cg_1rem.md:cg_2.5rem > a.d_inline-flex.ai_center.min-w_44px.min-h_44px > span.mr_0.25rem.c_fieldInkMuted.fv-num_tabular-nums> \"01\" (x3) at 14px: #063d28 on #12a86a is 4.00:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 4.099839620028527,
+            "key": "contrast|footer#contact.mt_80px.d_grid.grid-tc_1fr.md:grid-tc_1fr_1fr > div.pt_32px.pb_40px.bg_bgAlt.c_text > div.mt_16px.fs_2xs.c_textFaint|#7fae92|#0a4a34",
+            "detail": "<footer#contact.mt_80px.d_grid.grid-tc_1fr.md:grid-tc_1fr_1fr > div.pt_32px.pb_40px.bg_bgAlt.c_text > div.mt_16px.fs_2xs.c_textFaint> \"© 2026 Doug March\" at 12px: #7fae92 on #0a4a34 is 4.09:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments."
+          },
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 2,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'4 - 5' (44px in the mockup) has no match in the build",
+              "facts": {
+                "text": "4 - 5",
+                "mockupPx": 44,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'anybod y' (40px in the mockup) has no match in the build",
+              "facts": {
+                "text": "anybod y",
+                "mockupPx": 40,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'144-14 0.' (40px in the mockup) has no match in the build",
+              "facts": {
+                "text": "144-14 0.",
+                "mockupPx": 40,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'144' moved from (78, 631) in the mockup to (78, 733) in the build; crossed the fold"
+            }
+          ],
+          "briefed": [
+            "- / at 1440px: The mockup sets '4 - 5' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: The mockup sets 'anybod y' at 40px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: The mockup sets '144-14 0.' at 40px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+          ]
+        }
+      },
+      "durationMs": 43684,
+      "timestamp": "2026-11-13T14:15:29.135Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 5,
+      "input": {
+        "after": "React Engineer revision"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutFacts.tsx",
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/CaseBody.tsx",
+          "app/components/generated/CaseHero.tsx",
+          "app/components/generated/CaseLinks.tsx",
+          "app/components/generated/Colophon.tsx",
+          "app/components/generated/FactList.tsx",
+          "app/components/generated/HeroTile.tsx",
+          "app/components/generated/ScoreTiles.tsx",
+          "app/components/generated/SignalWall.tsx",
+          "app/components/generated/StatTiles.tsx",
+          "app/components/generated/TimelineTiles.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/WorkTiles.tsx",
+          "app/components/generated/styles.tsx"
+        ],
+        "removed": []
+      },
+      "durationMs": 7,
+      "timestamp": "2026-11-13T14:15:45.606Z"
+    },
+    {
+      "name": "revision",
+      "phase": 4,
+      "input": {
+        "round": 2,
+        "verdict": "REVISE",
+        "responsibleAgent": "react-engineer",
+        "gateForced": true,
+        "engineerFaults": 5,
+        "feedback": "## Measured layout faults\n\nThese are measurements taken from the live render, not observations from the images below.\nThey are exact. Do not re-litigate them against the screenshots, and do not count one fault\ntwice because it appears at more than one viewport.\n\n- [error] /work/twittertale at 820px (both schemes): <section.d_grid.grid-tc_1fr.gap_2px.bg_border > div.grid-c_1_/_-1.md:grid-c_span_2.lg:grid-c_span_3.bg_bg > h1.ff_display.fw_normal.fv_small-caps.lh_1.02> holds text wider than its own"
+      },
+      "output": {
+        "outcome": "rebuilt",
+        "replied": 1,
+        "written": 1,
+        "deleted": 0,
+        "merged": 21
+      },
+      "durationMs": 23780,
+      "timestamp": "2026-11-13T14:15:52.918Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 3
+      },
+      "output": {
+        "measured": 73,
+        "errorCount": 0,
+        "findings": [
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 4.099839620028527,
+            "key": "contrast|footer#contact.mt_80px.d_grid.grid-tc_1fr.md:grid-tc_1fr_1fr > div.pt_32px.pb_40px.bg_bgAlt.c_text > div.mt_16px.fs_2xs.c_textFaint|#7fae92|#0a4a34",
+            "detail": "<footer#contact.mt_80px.d_grid.grid-tc_1fr.md:grid-tc_1fr_1fr > div.pt_32px.pb_40px.bg_bgAlt.c_text > div.mt_16px.fs_2xs.c_textFaint> \"© 2026 Doug March\" at 12px: #7fae92 on #0a4a34 is 4.09:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /about, /work/spaceman, /work/fishsticks, /work/15th-club, /work/dougmar-ch, /work/teeturn, /work/politweets, /work/twittertale."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 4.498176018881981,
+            "key": "contrast|div.d_flex.flex-d_column.jc_space-between.gap_4 > span.ff_body.fw_normal.tt_uppercase.ls_wider > span.c_textFaint|#7fae92|#0c4330",
+            "detail": "<div.d_flex.flex-d_column.jc_space-between.gap_4 > span.ff_body.fw_normal.tt_uppercase.ls_wider > span.c_textFaint> \"L\" at 13.2px: #7fae92 on #0c4330 is 4.49:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 4.498176018881981,
+            "key": "contrast|section.d_grid.grid-tc_1fr.gap_2px.bg_border > div.grid-c_1_/_-1.bg_surface.d_flex.flex-d_row > span.ff_body.fw_normal.tt_uppercase.ls_wider|#7fae92|#0c4330",
+            "detail": "<section.d_grid.grid-tc_1fr.gap_2px.bg_border > div.grid-c_1_/_-1.bg_surface.d_flex.flex-d_row > span.ff_body.fw_normal.tt_uppercase.ls_wider> \"Thomas Jefferson\" at 13.2px: #7fae92 on #0c4330 is 4.49:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 4.006664570832209,
+            "key": "contrast|nav.d_flex.flex-wrap_wrap.cg_1rem.md:cg_2.5rem > a.d_inline-flex.ai_center.min-w_44px.min-h_44px > span.mr_0.25rem.c_fieldInkMuted.fv-num_tabular-nums|#063d28|#12a86a",
+            "detail": "<nav.d_flex.flex-wrap_wrap.cg_1rem.md:cg_2.5rem > a.d_inline-flex.ai_center.min-w_44px.min-h_44px > span.mr_0.25rem.c_fieldInkMuted.fv-num_tabular-nums> \"01\" (x3) at 14px: #063d28 on #12a86a is 4.00:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 4.099839620028527,
+            "key": "contrast|footer#contact.mt_80px.d_grid.grid-tc_1fr.md:grid-tc_1fr_1fr > div.pt_32px.pb_40px.bg_bgAlt.c_text > div.mt_16px.fs_2xs.c_textFaint|#7fae92|#0a4a34",
+            "detail": "<footer#contact.mt_80px.d_grid.grid-tc_1fr.md:grid-tc_1fr_1fr > div.pt_32px.pb_40px.bg_bgAlt.c_text > div.mt_16px.fs_2xs.c_textFaint> \"© 2026 Doug March\" at 12px: #7fae92 on #0a4a34 is 4.09:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments."
+          },
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 3,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'4 - 5' (44px in the mockup) has no match in the build",
+              "facts": {
+                "text": "4 - 5",
+                "mockupPx": 44,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'anybod y' (40px in the mockup) has no match in the build",
+              "facts": {
+                "text": "anybod y",
+                "mockupPx": 40,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'144-14 0.' (40px in the mockup) has no match in the build",
+              "facts": {
+                "text": "144-14 0.",
+                "mockupPx": 40,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'144' moved from (78, 631) in the mockup to (78, 733) in the build; crossed the fold"
+            }
+          ],
+          "briefed": [
+            "- / at 1440px: The mockup sets '4 - 5' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: The mockup sets 'anybod y' at 40px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: The mockup sets '144-14 0.' at 40px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+          ]
+        }
+      },
+      "durationMs": 43798,
+      "timestamp": "2026-11-13T14:16:36.716Z"
+    },
+    {
+      "name": "screenshot-critic-final",
+      "phase": 4,
+      "input": {
+        "remainingFaults": 0
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 5/6 — react-engineer: On `/work/spaceman` (desktop filmstrip, fold 2 of 2), the \"STACK\" section label sits above roughly 300px of empty canvas with no stack items/tags listed under it, and the \"Visit the live site\" button is dropped in isolated at the far right of that empty band with no visual relationship to the label. Populate the stack list or remove the empty section, and anchor the CTA to content instead of floating it in dead space.\n===END===",
+        "channel": "cli-vision"
+      },
+      "durationMs": 200741,
+      "timestamp": "2026-11-13T14:19:57.460Z"
+    }
+  ]
+}

@@ -1,0 +1,199 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'4 - 5' (44px in the mockup) has no match in the build",
+          "facts": {
+            "text": "4 - 5",
+            "mockupPx": 44,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'anybod y' (40px in the mockup) has no match in the build",
+          "facts": {
+            "text": "anybod y",
+            "mockupPx": 40,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'144-14 0.' (40px in the mockup) has no match in the build",
+          "facts": {
+            "text": "144-14 0.",
+            "mockupPx": 40,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'144' moved from (78, 631) in the mockup to (78, 739) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets '4 - 5' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'anybod y' at 40px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets '144-14 0.' at 40px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'4 - 5' (44px in the mockup) has no match in the build",
+          "facts": {
+            "text": "4 - 5",
+            "mockupPx": 44,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'anybod y' (40px in the mockup) has no match in the build",
+          "facts": {
+            "text": "anybod y",
+            "mockupPx": 40,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'144-14 0.' (40px in the mockup) has no match in the build",
+          "facts": {
+            "text": "144-14 0.",
+            "mockupPx": 40,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'144' moved from (78, 631) in the mockup to (78, 733) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets '4 - 5' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'anybod y' at 40px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets '144-14 0.' at 40px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'4 - 5' (44px in the mockup) has no match in the build",
+          "facts": {
+            "text": "4 - 5",
+            "mockupPx": 44,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'anybod y' (40px in the mockup) has no match in the build",
+          "facts": {
+            "text": "anybod y",
+            "mockupPx": 40,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'144-14 0.' (40px in the mockup) has no match in the build",
+          "facts": {
+            "text": "144-14 0.",
+            "mockupPx": 40,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'144' moved from (78, 631) in the mockup to (78, 733) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets '4 - 5' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'anybod y' at 40px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets '144-14 0.' at 40px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}
