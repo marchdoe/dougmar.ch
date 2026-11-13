@@ -4,67 +4,107 @@ import { BrandLockup } from '../components/BrandLockup'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
-const cover = css({
-  position: 'fixed',
-  inset: 0,
-  zIndex: 9999,
-  bg: 'bgAlt',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-})
-
-const card = css({
-  position: 'relative',
-  width: '1200px',
-  height: '630px',
-  flexShrink: 0,
-  bg: 'bg',
-  color: 'text',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-  alignItems: 'flex-start',
-  paddingTop: '64px',
-  paddingLeft: '64px',
-  paddingRight: '64px',
-  paddingBottom: '120px',
-})
-
-const phrase = css({
-  fontFamily: 'display',
-  fontStyle: 'italic',
-  fontWeight: 'bold',
-  textStyle: '4xl',
-  lineHeight: '1.02',
-  textTransform: 'uppercase',
-  textAlign: 'left',
-  color: 'text',
-  maxWidth: '1072px',
-})
-
-const line = css({ display: 'block' })
-
-/* The mint band from the home ledger, running off the right edge of the card. */
-const band = css({
-  position: 'absolute',
-  left: '64px',
-  right: '0px',
-  bottom: '0px',
-  height: '56px',
-  bg: 'field',
-})
+const WORDS = ['Nobody', 'guarded', 'anybody,']
 
 function OgCard() {
   return (
-    <div className={cover}>
-      <div className={card}>
-        <BrandLockup variant="mark-only-md" mode="original" />
-        <h1 className={phrase}>
-          <span className={line}>{"Cut what doesn't matter."}</span>
-          <span className={line}>{"Ship what's left."}</span>
-        </h1>
-        <div aria-hidden="true" className={band} />
+    <div
+      className={css({
+        position: 'fixed',
+        inset: '0',
+        zIndex: '9999',
+        bg: 'bg',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      })}
+    >
+      <div
+        className={css({
+          width: '1200px',
+          height: '630px',
+          bg: 'bg',
+          color: 'text',
+          display: 'grid',
+          gridTemplateColumns: '1fr 360px',
+          flexShrink: '0',
+        })}
+      >
+        <div
+          className={css({
+            padding: '56px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            minWidth: '0',
+          })}
+        >
+          <div className={css({ color: 'text' })}>
+            <BrandLockup variant="horizontal-md" mode="original" roleLine />
+          </div>
+          <h1
+            className={css({
+              fontFamily: 'display',
+              fontWeight: 'normal',
+              fontVariant: 'small-caps',
+              fontSize: '84px',
+              lineHeight: '1.02',
+              letterSpacing: '0.005em',
+              color: 'text',
+            })}
+          >
+            {WORDS.map((w) => (
+              <span key={w} className={css({ display: 'block' })}>
+                {w}{' '}
+              </span>
+            ))}
+            <span className={css({ display: 'block', color: 'accent' })}>144-140.</span>
+          </h1>
+        </div>
+        <div
+          className={css({
+            bg: 'field',
+            color: 'fieldInk',
+            padding: '56px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-end',
+            gap: '4',
+          })}
+        >
+          <span
+            className={css({
+              fontSize: 'xs',
+              textTransform: 'uppercase',
+              letterSpacing: 'wider',
+              color: 'fieldInk',
+            })}
+          >
+            Pistons · W
+          </span>
+          <span
+            className={css({
+              fontFamily: 'display',
+              fontWeight: 'normal',
+              fontSize: '120px',
+              lineHeight: '0.82',
+              color: 'fieldInk',
+            })}
+          >
+            144
+          </span>
+          <span
+            className={css({
+              fontFamily: 'display',
+              fontWeight: 'normal',
+              fontSize: '120px',
+              lineHeight: '0.82',
+              color: 'fieldInk',
+            })}
+          >
+            140
+          </span>
+        </div>
       </div>
     </div>
   )
