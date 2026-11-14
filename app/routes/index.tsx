@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { SiteCallout } from '../components/SiteCallout'
+import { ClientMarks } from '../components/generated/ClientMarks'
 import { HomeHero } from '../components/generated/HomeHero'
 import { WorkIndex } from '../components/generated/WorkIndex'
 
@@ -9,6 +10,7 @@ function HomePage() {
   return (
     <>
       <HomeHero />
+      <ClientMarks />
       <WorkIndex />
       <SiteCallout />
     </>

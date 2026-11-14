@@ -1,0 +1,295 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'fishsticks' (116px in the mockup) has no match in the build",
+          "facts": {
+            "text": "fishsticks",
+            "mockupPx": 116,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'fishsticks reads the spelling pdf the school sends home finds the words set in bold and turns them into voice-prompted adaptive quiz modes kids run on their own' (18px in the mockup) has no match in the build",
+          "facts": {
+            "text": "fishsticks reads the spelling pdf the school sends home finds the words set in bold and turns them into voice-prompted adaptive quiz modes kids run on their own",
+            "mockupPx": 18,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'fishsticks 2025 saas design + build' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "fishsticks 2025 saas design + build",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "The mockup's largest text is 'fishsticks' at 116px; the build sets 'spaceman' at 120px. Restore the mockup's hierarchy: 'spaceman' is 36px in the mockup.",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "fishsticks",
+                "mockupPx": 116
+              },
+              {
+                "text": "selected work",
+                "mockupPx": 44
+              }
+            ],
+            "leader": {
+              "text": "fishsticks",
+              "mockupPx": 116
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 120,
+              "mockupPx": 36
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'fishsticks reads the spelling pdf the school sends home finds the words set in bold and turns them into voice-prompted adaptive quiz modes kids run on their own' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "fishsticks reads the spelling pdf the school sends home finds the words set in bold and turns them into voice-prompted adaptive quiz modes kids run on their own",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "mockup's largest ('fishsticks', 44px) leads its runner-up ('doug march', 30px) by 1.5x; in the build the same two lead by only 0.9x",
+          "facts": {
+            "shape": "flattened",
+            "leader": {
+              "text": "fishsticks",
+              "mockupPx": 44,
+              "buildPx": 33
+            },
+            "runnerUp": {
+              "text": "doug march",
+              "mockupPx": 30,
+              "buildPx": 39
+            },
+            "mockupGap": 1.5,
+            "buildGap": 0.9,
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'thousands of kids practicing spelling from the list the teacher sent home' is 24px in the mockup and 39px in the build (1.64x)",
+          "facts": {
+            "text": "thousands of kids practicing spelling from the list the teacher sent home",
+            "mockupPx": 24,
+            "buildPx": 39,
+            "ratio": 1.64,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'fishsticks' moved from (135, 275) in the mockup to (95, 1832) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'thousands of kids practicing spelling from the list the teacher sent home' moved from (242, 591) in the mockup to (191, 783) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: The mockup sets 'fishsticks' at 44px over 'doug march' at 30px, a 1.5x lead; the build sets them at 33px and 39px. Restore the mockup's sizes so 'fishsticks' leads.",
+        "- / at 1440px: The mockup sets 'fishsticks' at 116px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'fishsticks reads the spelling pdf the school sends home f...' at 18px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'fishsticks 2025 saas design + build' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'fishsticks reads the spelling pdf the school sends home f...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: 'thousands of kids practicing spelling from the list the t...' is 24px in the mockup and 39px in the build (1.64x). Set it back to 24px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'fishsticks reads the spelling pdf the school sends home finds the words set in bold and turns them into voice-prompted adaptive quiz modes kids run on their own' (18px in the mockup) has no match in the build",
+          "facts": {
+            "text": "fishsticks reads the spelling pdf the school sends home finds the words set in bold and turns them into voice-prompted adaptive quiz modes kids run on their own",
+            "mockupPx": 18,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'fishsticks 2025 saas design + build' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "fishsticks 2025 saas design + build",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'fishsticks' (116px); in build it is 'fishsticks' (116px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "selected work",
+                "mockupPx": 44
+              }
+            ],
+            "leader": {
+              "text": "fishsticks",
+              "mockupPx": 116
+            },
+            "buildLeader": {
+              "text": "fishsticks",
+              "buildPx": 116,
+              "mockupPx": 116
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'fishsticks reads the spelling pdf the school sends home finds the words set in bold and turns them into voice-prompted adaptive quiz modes kids run on their own' (15px in the mockup) has no match in the build",
+          "facts": {
+            "text": "fishsticks reads the spelling pdf the school sends home finds the words set in bold and turns them into voice-prompted adaptive quiz modes kids run on their own",
+            "mockupPx": 15,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "mockup's largest ('fishsticks', 44px) leads its runner-up ('doug march', 30px) by 1.5x; in the build the same two lead by only 1.1x",
+          "facts": {
+            "shape": "flattened",
+            "leader": {
+              "text": "fishsticks",
+              "mockupPx": 44,
+              "buildPx": 44
+            },
+            "runnerUp": {
+              "text": "doug march",
+              "mockupPx": 30,
+              "buildPx": 39
+            },
+            "mockupGap": 1.5,
+            "buildGap": 1.1,
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'thousands of kids practicing spelling from the list the teacher sent home' moved from (242, 591) in the mockup to (238, 657) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'fishsticks' still leads, but the mockup's 'selected work' (44px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: The mockup sets 'fishsticks' at 44px over 'doug march' at 30px, a 1.5x lead; the build sets them at 44px and 39px. Restore the mockup's sizes so 'fishsticks' leads.",
+        "- / at 1440px: The mockup sets 'fishsticks reads the spelling pdf the school sends home f...' at 18px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'fishsticks 2025 saas design + build' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'fishsticks reads the spelling pdf the school sends home f...' at 15px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

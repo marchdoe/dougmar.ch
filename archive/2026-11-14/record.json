@@ -1,35 +1,35 @@
 {
   "date": "2026-11-14",
   "era": "header-declared",
-  "generatedAt": "2026-11-14T18:39:54.107Z",
-  "buildId": "1794681588361",
-  "attempts": 2,
-  "brief": "Dusk-indigo drench, a Dogen line in light Spectral italic, one word \"yourself\" broken out in amber outline, the day kept in the margin.",
-  "rationale": "The phrase is Dogen's line about ignoring the crowd and trusting the voice within. On a quiet Saturday with no event to carry, that line is the strongest thing in the signals and it names how Doug actually works: one person deep in both crafts, deciding what ships. A contemplative aphorism about inwardness wants stillness, which the color philosophy maps to a drenched cool field, so the whole page is dusk indigo at 264° and the hero plane is the deepest indigo of all, quote reversed out in near-white.\n\nComposition follows: the quote is a `statement`, the largest element, hung off one left rail in a `two-asymmetric` field so it reads as a page rather than a centred poster, with the narrow margin doing real work holding the brand, the nav and the day's facts. The one deliberate break is \"yourself\" — set upright and stroked in amber outline, breaking the even italic column. That single violation is the `broken` symmetry, the `syncopated` rhythm, and the meaning of the line, all in one move: the voice within is the warm ember in the cool field.\n\nChassis is `spectral-albert`, a transitional serif that reads literary and considered and loads true display italics, so the quote can lead in a light italic without shouting — the quietest register in the catalog suited to a reflective line, and unused in recent weeks. Palette is one dominant indigo carried across the viewport with a single warm amber accent at roughly ten percent, honoring the one-accent rule. I deviated from the 140°–180° color target because that target sits inside its own forbidden 128°–248° zone and green shipped on the 13th and the 4th; 248°–274° is a genuinely open band and drenched cool indigo is the honest fit for the phrase. The standard shell with a right-margin header breaks the recent footer-only/folded/marginal streak and the previous build's repeat.",
+  "generatedAt": "2026-11-14T19:36:22.285Z",
+  "buildId": "1794684976646",
+  "attempts": 3,
+  "brief": "FishSticks reversed out of a teal-black void, a warm sentence about kids and spelling anchoring it low, one amber field holding the day's scores at the foot.",
+  "rationale": "The phrase is one of Doug's own standing lines about FishSticks, never shipped: a count of real kids doing a real thing with the word list the teacher sent home. Because it is a sentence that describes an owned product, the object has to be the product, not the sentence. So the hero_object is `artifact`: \"fishsticks\" set as a reversed teal-on-void plate at marquee scale, and the phrase steps down to the 3xl caption that anchors it in the lower third. The two-equal split lets the plate and its human line need each other, the way the 06-13 fairway split does.\n\nBecause the page is a spec plate for a built thing, the chassis is zilla-worksans, a sturdy low-contrast slab that reads as structural and made, not fashionable; it has not shipped recently and it breaks the condensed-caps and expressive-grotesque habit. Set lowercase, heavy, right-aligned, with the project metadata running vertically up the gutter, the type itself becomes the texture. The palette is a teal-black dark-void (fresh against seven days of drench, split and duotone), teal reading as both water and a durable product color, with one warm amber field reserved for the day's signals so the leaderboard and market and moon live in their own plane and never touch the hero.\n\nLayout follows: footer-only posture puts the stacked-lg mark top-left of the hero field and defers numbered nav to the amber colophon band, which is a different posture, lockup and ground than the last two builds the repetition check flagged. The wipe entrance reveals the plate left to right, the ground drifts a slow teal luminance, and the index rises on scroll, so the page moves the way the reference sites move without a cascade.",
   "filesChanged": [
     "elements/preset.ts",
-    "app/components/Layout.tsx",
-    "app/components/Sidebar.tsx",
-    "app/components/generated/MarginNav.tsx",
-    "app/components/generated/DayIndex.tsx",
-    "app/components/generated/FooterStrip.tsx",
-    "app/components/generated/heroPhrase.tsx",
-    "app/components/generated/HeroField.tsx",
+    "app/components/generated/motion.tsx",
+    "app/components/generated/ClientChip.tsx",
+    "app/components/generated/HomePlate.tsx",
     "app/components/generated/HomeHero.tsx",
-    "app/components/generated/ProjectList.tsx",
-    "app/components/generated/FeaturedProject.tsx",
+    "app/components/generated/ClientMarks.tsx",
+    "app/components/generated/IndexRow.tsx",
     "app/components/generated/WorkIndex.tsx",
-    "app/components/generated/AboutHero.tsx",
-    "app/components/generated/TimelineList.tsx",
-    "app/components/generated/AboutAside.tsx",
-    "app/components/generated/AboutBody.tsx",
-    "app/components/generated/CaseHero.tsx",
-    "app/components/generated/CaseNarrative.tsx",
-    "app/components/generated/CaseAside.tsx",
-    "app/components/generated/CaseStudy.tsx",
-    "app/components/generated/MissingProject.tsx",
+    "app/components/generated/ColophonNav.tsx",
+    "app/components/generated/ColophonSignals.tsx",
+    "app/components/Sidebar.tsx",
+    "app/components/Layout.tsx",
     "app/routes/index.tsx",
+    "app/components/generated/AboutHero.tsx",
+    "app/components/generated/TimelineRow.tsx",
+    "app/components/generated/TimelineSection.tsx",
+    "app/components/generated/CapabilitySection.tsx",
+    "app/components/generated/PersonalSection.tsx",
     "app/routes/about.tsx",
+    "app/components/generated/CaseHero.tsx",
+    "app/components/generated/CaseFacts.tsx",
+    "app/components/generated/CaseBody.tsx",
+    "app/components/generated/CaseMissing.tsx",
     "app/routes/work.$slug.tsx",
     "app/routes/og.tsx"
   ],
@@ -89,25 +89,25 @@
         {
           "name": "Erik van Rooyen",
           "position": "1",
-          "score": "-13"
-        },
-        {
-          "name": "Miles Russell",
-          "position": "2",
-          "score": "-12"
-        },
-        {
-          "name": "Sami Välimäki",
-          "position": "3",
-          "score": "-12"
+          "score": "-14"
         },
         {
           "name": "Kevin Yu",
-          "position": "4",
-          "score": "-12"
+          "position": "2",
+          "score": "-14"
+        },
+        {
+          "name": "Brian Harman",
+          "position": "3",
+          "score": "-13"
         },
         {
           "name": "Trace Crowe",
+          "position": "4",
+          "score": "-13"
+        },
+        {
+          "name": "Max Greyserman",
           "position": "5",
           "score": "-12"
         }
@@ -116,34 +116,34 @@
     "hacker_news": {
       "stories": [
         {
-          "title": "PyPI's redesigned project pages with clearer security signals are now live",
-          "url": "https://blog.pypi.org/posts/2026-11-06-ui-updates-complete/",
-          "score": 101,
-          "by": "rbanffy"
-        },
-        {
           "title": "Lovable apps expose passport details and more than 200K private messages",
           "url": "https://www.crissyfield.de/research/lovable-en/",
-          "score": 22,
+          "score": 135,
           "by": "armcat"
+        },
+        {
+          "title": "PyPI's redesigned project pages with clearer security signals are now live",
+          "url": "https://blog.pypi.org/posts/2026-11-06-ui-updates-complete/",
+          "score": 125,
+          "by": "rbanffy"
         },
         {
           "title": "KDE: The documentary [video]",
           "url": "https://tube.kockatoo.org/w/fFinNHfanLT7aBEb2B8y4c",
-          "score": 178,
+          "score": 221,
           "by": "mrkn1"
+        },
+        {
+          "title": "A Family Tree of Software Job Titles",
+          "url": "https://zwischenzugs.com/2026/11/03/a-family-tree-of-software-job-titles/",
+          "score": 27,
+          "by": "umerf"
         },
         {
           "title": "Why get an expensive Pi when I have an old phone?",
           "url": "https://so.long.thanks.fish/why-pi-when-i-have-an-old-phone/",
-          "score": 386,
+          "score": 400,
           "by": "casi"
-        },
-        {
-          "title": "Advancing science and engineering with Antigravity's /teamwork",
-          "url": "https://research.google/blog/advancing-science-engineering-with-antigravitys-teamwork-feature/",
-          "score": 77,
-          "by": "acossta"
         }
       ]
     },
@@ -153,8 +153,8 @@
     },
     "lunar": {
       "phase": "first quarter",
-      "illumination": 0.315,
-      "days_into_cycle": 5.6
+      "illumination": 0.318,
+      "days_into_cycle": 5.63
     },
     "market": {
       "symbol": "SPY",
@@ -200,8 +200,8 @@
       ]
     },
     "quote": {
-      "text": "Do not follow the ideas of others, but learn to listen to the voice within yourself.",
-      "author": "Dogen"
+      "text": "Never settle for the crumbs of life.",
+      "author": "Og Mandino"
     },
     "season": {
       "season": "fall",
@@ -294,200 +294,218 @@
     "date": "2026-11-14"
   },
   "hero": {
-    "copy": "Do not follow the ideas of others, but learn to listen to the voice within yourself.",
-    "rationale": "From `signals.quote`, Dogen. It's a quiet Saturday with nothing to shout about: golf still mid-round, the market off a third of a percent, every Detroit team in the off-season, nine hours of daylight and overcast. A line about Doug's own day would be a weather fact or another golf figure, both of which shipped this week; the Dogen line beats them because it names the stance a one-person design-and-engineer shop actually runs on, trusting your own judgment of what ships over the trend of the week. Attribution renders directly under the quote.\nOwner's voice: Doug has gone deep in both crafts on purpose and built his own small products against the two-teams-passing-files convention; \"listen to the voice within yourself\" is the working principle under \"Deep in both. Not a generalist.\"",
-    "source": "quote"
+    "copy": "Thousands of kids practicing spelling from the list the teacher sent home.",
+    "rationale": "This is one of Doug's own standing lines about FishSticks, lifted from the Owner Voice block and never shipped yet. It is concrete, warm, and counts real people doing a real thing: kids, a word list, a teacher. It beats today's Og Mandino quote because the quote is generic motivation from a stranger, and yesterday was already a quote day; this line is Doug talking about a product he built and what it does in the world. It anchors FishSticks, the owned artifact that leads the page.\nOwner's voice: Doug says what a thing does, with the real noun (\"the list the teacher sent home\") and no hype.",
+    "source": "content-lifted"
   },
-  "chassis": "spectral-albert",
+  "chassis": "zilla-worksans",
   "adBrief": {
-    "visualSpecification": "### 1. Color Specification\n- **Primary hue**: 264° deep indigo. Stillness calls for a drenched cool field; a contemplative quote about listening inward reads as night, not daylight. 264° sits in the open 248°–274° band (see rationale on the mandate conflict).\n- **Neutral palette (indigo-tinted)**: 50 `#F5F3FB`, 100 `#EBE8F4`, 200 `#D6D1E6`, 300 `#B3ADC9`, 400 `#8A82A4`, 500 `#635C80`, 600 `#49435F`, 700 `#332F45`, 800 `#221F30`, 900 `#15131F`\n- **Accent color** (warm amber ember): light `#F2CF84`, default `#E8A63C`, dark `#C4821B`, glow `#F6E4B6`\n- **Secondary accent**: none. One ember carries it.\n- **Background**: page bg (dark) `#262050` / (light) `#EFECFB`; card/surface (dark) `#332865` / (light) `#F5F3FB`; hero field (dark) `#1A1639` / (light) `#332865`\n- **Text colors**: primary (dark) `#EFECFB` / (light) `#1A1639`; secondary (dark) `#C5BAEC` / (light) `#49435F`; faint (dark) `#A294DD` / (light) `#635C80`\n\n### 2. Typography\n- **Hero phrase rendering**: `display` (Spectral) at the `hero` textStyle, overridden to `clamp(26px, 5.5vw, 80px)` so the 15-word quote sets as a reading column, not a shout. Set full-italic in the light display weight. The final word \"yourself\" breaks out one line down, upright (roman), one step larger, as stroked `outline` letterforms in `accent` amber — the one violation of the otherwise-even column, and the focal point.\n- **Type treatment**: hero at the `hero` step; attribution \"Dogen\" at `md`; the margin day-index labels at `xs` small, their figures at `lg`; body/prose on the work index at `base` with `lead` for standfirsts. Spend the middle: a `2xl` section head opens the selected-work index so the page never jumps title-to-caption. Leading and tracking come from the ramp.\n\n### 3. Layout Specification\n- **Composition**: `two-asymmetric / vertical / broken / upper-left / measured / syncopated / standard / drenched / hero-only / statement`. The wide left column is a drenched indigo field carrying the quote; the narrow right margin is not whitespace, it holds the brand, the nav and the day's facts. The quote hangs off one left rail and reads down; \"yourself\" breaks the near-even cadence as the syncopation.\n- **CSS grid structure**: `display: grid; grid-template-columns: minmax(0, 2.3fr) minmax(300px, 1fr);` hero field spans the left cell full-height; right margin is a sticky column.\n- **Major dimensions**:\n  - Hero field min-height `92vh`\n  - Right margin width `clamp(300px, 26vw, 380px)`\n  - Max content width `none`; side padding `64px 5vw`, left column inner padding to a 58–66ch measure on prose only\n  - Section spacing on the vertical rhythm base; between-section `clamp(64px, 9vh, 120px)`\n- **Nav placement**: right margin. Brand lockup at top of the margin, nav as a vertical `list` beneath it, then the day-index. No top bar.\n- **Hero phrase grid zone**: left column, rows 1–4, roughly columns 1–8 of a 12-col read; quote block ~`72px` at 1440, anchored upper-left with clearance beneath for \"yourself\".\n- **Home callout slot**: on `/`, place `<SiteCallout />` full-width below the selected-work index and above the footer data strip, between those two sections. No copy, no styling from me.\n\n### 4. Component Character\n- **Border radius**: cards/panels `3px`, buttons `2px`, tags `2px`. Sharp, editorial.\n- **Border treatment**: hairline `border` for margin row rules; `borderStrong` for the one rule between quote column and margin.\n- **Shadow**: none. Depth is value (field vs surface), not shadow.\n- **Density**: measured. Breathing, with the margin populated so no column reads as a void.\n- **Interactive states**: nav/links underline in `accent` on `_hover`; figures hold.\n\n### 5. Signal Integration\n- **Where signals live**: the right margin, as a quiet day-index beneath the nav.\n- **Golf**: \"Austin Championship\" label in `fieldInkMuted` small caps; rows van Rooyen −13 (leader figure in `accent`), then Russell / Välimäki / Yu / Crowe all −12, figures in `fieldInk`. One ruled row each.\n- **Weather / sun / moon**: \"Aldie, overcast, 48°, feels like 42\", sunrise 06:59 / sunset 16:50, first quarter moon 31% — a stacked readout in `textMuted`, the short-day facts suiting the dusk mood.\n- **Market**: SPY 754.37, −0.36%, down, one row, change in `textFaint`.\n- **Quote**: it is the hero. \"Dogen\" set at `md` directly beneath, in `fieldInkMuted`, visible attribution.\n- **Music**: one line in the footer data strip, \"In rotation: The War on Drugs, My Morning Jacket.\" Taste, not an event; never beside a score.\n- **Holiday**: none today.",
-    "selfCheck": "1. Hero quotability: Yes — a complete, attributable aphorism, screenshot-worthy in isolation.\n2. Because-of chain: Yes — contemplative quote → drenched cool indigo, quiet literary serif, broken column with the margin holding the day.\n3. Render feasibility: Yes — 15 words at `clamp(…,80px)` across a 2.3fr column fit ~5 lines inside a 92vh field without overflow.\n4. Canvas floor feasible: Yes — the indigo field floods the left column and the margin is populated, clearing 76%.\n5. Phone: Yes — `hero-only` sets the quote at `2xl` in the first fold at 360, \"yourself\" on its own line, no word cut.",
-    "rationale": "The phrase is Dogen's line about ignoring the crowd and trusting the voice within. On a quiet Saturday with no event to carry, that line is the strongest thing in the signals and it names how Doug actually works: one person deep in both crafts, deciding what ships. A contemplative aphorism about inwardness wants stillness, which the color philosophy maps to a drenched cool field, so the whole page is dusk indigo at 264° and the hero plane is the deepest indigo of all, quote reversed out in near-white.\n\nComposition follows: the quote is a `statement`, the largest element, hung off one left rail in a `two-asymmetric` field so it reads as a page rather than a centred poster, with the narrow margin doing real work holding the brand, the nav and the day's facts. The one deliberate break is \"yourself\" — set upright and stroked in amber outline, breaking the even italic column. That single violation is the `broken` symmetry, the `syncopated` rhythm, and the meaning of the line, all in one move: the voice within is the warm ember in the cool field.\n\nChassis is `spectral-albert`, a transitional serif that reads literary and considered and loads true display italics, so the quote can lead in a light italic without shouting — the quietest register in the catalog suited to a reflective line, and unused in recent weeks. Palette is one dominant indigo carried across the viewport with a single warm amber accent at roughly ten percent, honoring the one-accent rule. I deviated from the 140°–180° color target because that target sits inside its own forbidden 128°–248° zone and green shipped on the 13th and the 4th; 248°–274° is a genuinely open band and drenched cool indigo is the honest fit for the phrase. The standard shell with a right-margin header breaks the recent footer-only/folded/marginal streak and the previous build's repeat.",
-    "compositionRationale": "The two-asymmetric field lets the quote hang off one left rail while the narrow margin earns its keep holding the brand, nav and the day's facts, so a quote page never reads as a lonely centred poster. I moved axis to `vertical` (off `radial`) because a 15-word serif line is read top to bottom, not orbited; density to `measured` (off `dense`) because the line is contemplative and wants air without a void; and hero_object to `statement` (off `figure`) because the quote is the sentence and must be the largest thing on the page. `broken`, `syncopated`, `drenched` and `standard` held with the starting tuple — \"yourself\" breaking out as the single violation is both the broken symmetry and the syncopation, and standard shell breaks this week's footer-only/folded/marginal streak.",
-    "signalIntegration": "- **Where signals live**: the right margin, as a quiet day-index beneath the nav.\n- **Golf**: \"Austin Championship\" label in `fieldInkMuted` small caps; rows van Rooyen −13 (leader figure in `accent`), then Russell / Välimäki / Yu / Crowe all −12, figures in `fieldInk`. One ruled row each.\n- **Weather / sun / moon**: \"Aldie, overcast, 48°, feels like 42\", sunrise 06:59 / sunset 16:50, first quarter moon 31% — a stacked readout in `textMuted`, the short-day facts suiting the dusk mood.\n- **Market**: SPY 754.37, −0.36%, down, one row, change in `textFaint`.\n- **Quote**: it is the hero. \"Dogen\" set at `md` directly beneath, in `fieldInkMuted`, visible attribution.\n- **Music**: one line in the footer data strip, \"In rotation: The War on Drugs, My Morning Jacket.\" Taste, not an event; never beside a score.\n- **Holiday**: none today."
+    "visualSpecification": "### 1. Color Specification\n- **Primary hue**: 170° (teal). Inside the 140–180° mandate; teal reads as water (FishSticks) and as a made, durable product color, not a mood.\n- **Neutral palette** (teal-tinted):\n  - 50 `#f1f6f4`\n  - 100 `#e2ebe8`\n  - 200 `#c3d1cc`\n  - 300 `#9aaea8`\n  - 400 `#7e948d`\n  - 500 `#56726a`\n  - 600 `#3a544e`\n  - 700 `#2a413c`\n  - 800 `#10201d`\n  - 900 `#0a1513`\n- **Accent color** (teal): light `#99f6e4`, default `#2dd4bf`, dark `#0f766e`, glow `#5eead4`\n- **Secondary accent** (amber, signal only): `#f5b63f`. Used on the footer signal field and for score figures; never on the hero.\n- **Background**: page bg `#0a1513`, card/surface `#1a2e2a`, second ground (bgAlt) `#10201d`\n- **Text colors**: primary `#e4ece9`, secondary `#a3b5af`, muted/faint `#7e948d`\n\n### 2. Typography\n- **Hero phrase rendering**: The h1 is the full sentence \"Thousands of kids practicing spelling from the list the teacher sent home.\", set in `display` (Zilla Slab) at the `3xl` step, lowercase, right-aligned, sitting in the lower third as the caption to the artifact. The artifact title `fishsticks` is the marquee object, set at `hero_scale` (clamp 72→116px), reversed teal-on-void, carrying the eye.\n- **Type treatment**: artifact title at `hero`/`5xl`; hero caption/h1 at `3xl`; project metadata (2025, SaaS, Design + Build) as a `sm` vertical label along the gutter spine; work index titles at `xl`; standfirst at `md`; body at `base` held to 62ch, leading 1.5; micro labels at `2xs`. Every step from the ramp carries its own leading and tracking; I name steps, not pixel line-heights.\n\n### 3. Layout Specification\n- **Composition**: two-equal / diagonal / right-weighted / lower-third / sparse / interrupted / footer-only / type-dominant / split-to-sequence / artifact. Two matched panels; the FishSticks plate masses right and heavy, the caption and work index hang left, a diagonal sightline runs from the big title down to the index. The split lets the artifact and its human caption need each other, the way the 06-13 gold-standard split does.\n- **CSS grid/flex structure**: `display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 96px)` for the hero; the FishSticks plate is the right cell, reversed as a `surface` panel.\n- **Major dimensions**:\n  - Hero area `min-height: 92vh`\n  - No sidebar; `max-width: none`, side padding `clamp(40px, 6vw, 112px)`\n  - Body columns capped at 62ch inside the index\n  - Section padding `clamp(64px, 8vh, 140px)` vertical\n- **Nav placement**: footer-only. Numbered nav (01 02 03 work / about / contact) lives in the footer signal band. No top bar.\n- **Hero phrase grid zone**: the h1 caption occupies rows 7–9 (lower third) of the left panel, right-aligned, at `3xl`; the `fishsticks` artifact title fills rows 2–6 of the right panel at 72–116px.\n- **Home callout slot**: `<SiteCallout />` sits full width below the work index and above the footer signal band, between the index section and the colophon. I place it; I write no copy and set no styling for it.\n\n### 4. Component Character\n- **Border radius**: cards/plate `2px`, tags `2px`, buttons `2px`. Sharp, built, no soft corners.\n- **Border treatment**: hairline `border` on index rows; `borderStrong` for the one caesura rule above the caption and the rule above the footer field.\n- **Shadow**: none. Depth comes from the `surface` panel being a lighter value than `bg`, not shadow.\n- **Density**: spacious / sparse. Large intervals; one caesura gap above the caption.\n- **Interactive states**: nav and index links underline in `accent` on hover; `_hover` lifts link ink to `text`.\n\n### 5. Signal Integration\n- **Where signal elements live**: the footer amber `field` band holds the day's facts in one colophon block.\n- **Sports scores (golf)**: Austin Championship leaderboard in the amber field, tabular-nums: van Rooyen −14, Yu −14, Harman −13, set in `fieldInk` with scores emphasized, a hairline per row.\n- **Quote**: Og Mandino's \"Never settle for the crumbs of life.\" runs as a small attributed footnote in the footer, `fieldInkMuted`, not as the hero.\n- **Holiday**: none today.\n- **Music**: The War on Drugs and My Morning Jacket as a quiet \"in rotation\" caption in the colophon, taste not event, no score treatment.\n- **Other**: weather (Aldie, 48°F, overcast) top-right of the hero in `textFaint`; SPY 754.37, −0.36% and first-quarter moon as `2xs` metadata in the footer field.",
+    "selfCheck": "1. Hero quotability: Yes — a warm, concrete sentence about real kids and a real list, quotable standing alone.\n2. Because-of chain: Yes — artifact-leads object chose the two-equal plate, which chose the sturdy slab chassis, which chose the teal-black built palette, which chose the lower-third caption zone.\n3. Render feasibility: Yes — `fishsticks` at ≤116px fits one panel at 1440; the 3xl caption wraps cleanly in the lower third.\n4. Canvas floor feasible: Yes — the right-panel plate plus left caption and index fill a 72% floor without crowding.\n5. Phone: Yes — split-to-sequence stacks the plate over its caption; the 2xl caption lands in the first fold under the artifact title and the mark without cutting a word.",
+    "rationale": "The phrase is one of Doug's own standing lines about FishSticks, never shipped: a count of real kids doing a real thing with the word list the teacher sent home. Because it is a sentence that describes an owned product, the object has to be the product, not the sentence. So the hero_object is `artifact`: \"fishsticks\" set as a reversed teal-on-void plate at marquee scale, and the phrase steps down to the 3xl caption that anchors it in the lower third. The two-equal split lets the plate and its human line need each other, the way the 06-13 fairway split does.\n\nBecause the page is a spec plate for a built thing, the chassis is zilla-worksans, a sturdy low-contrast slab that reads as structural and made, not fashionable; it has not shipped recently and it breaks the condensed-caps and expressive-grotesque habit. Set lowercase, heavy, right-aligned, with the project metadata running vertically up the gutter, the type itself becomes the texture. The palette is a teal-black dark-void (fresh against seven days of drench, split and duotone), teal reading as both water and a durable product color, with one warm amber field reserved for the day's signals so the leaderboard and market and moon live in their own plane and never touch the hero.\n\nLayout follows: footer-only posture puts the stacked-lg mark top-left of the hero field and defers numbered nav to the amber colophon band, which is a different posture, lockup and ground than the last two builds the repetition check flagged. The wipe entrance reveals the plate left to right, the ground drifts a slow teal luminance, and the index rises on scroll, so the page moves the way the reference sites move without a cascade.",
+    "compositionRationale": "The hero is a sentence that captions a built product, so the object leads and the phrase steps down: I moved hero_object off the suggested `word` to `artifact` because \"fishsticks\" reversed out of the void is the right marquee, with the sentence as its caption. I moved axis off the suggested `radial` to `diagonal` because two matched panels read across a sightline, not around a center; radial would fight the split. Everything else honors the date tuple (two-equal, right-weighted, lower-third, sparse, interrupted, footer-only, type-dominant, split-to-sequence) because each genuinely fits a spec-plate that masses right and anchors its human line low.",
+    "signalIntegration": "- **Where signal elements live**: the footer amber `field` band holds the day's facts in one colophon block.\n- **Sports scores (golf)**: Austin Championship leaderboard in the amber field, tabular-nums: van Rooyen −14, Yu −14, Harman −13, set in `fieldInk` with scores emphasized, a hairline per row.\n- **Quote**: Og Mandino's \"Never settle for the crumbs of life.\" runs as a small attributed footnote in the footer, `fieldInkMuted`, not as the hero.\n- **Holiday**: none today.\n- **Music**: The War on Drugs and My Morning Jacket as a quiet \"in rotation\" caption in the colophon, taste not event, no score treatment.\n- **Other**: weather (Aldie, 48°F, overcast) top-right of the hero in `textFaint`; SPY 754.37, −0.36% and first-quarter moon as `2xs` metadata in the footer field."
   },
   "tokens": {
     "colors": {
       "ramps": {
-        "indigo": {
-          "50": "#EFECFB",
-          "100": "#E0DAF6",
-          "200": "#C5BAEC",
-          "300": "#A294DD",
-          "400": "#7E6DCB",
-          "500": "#5D4BB2",
-          "600": "#46388A",
-          "700": "#332865",
-          "800": "#262050",
-          "850": "#211B48",
-          "900": "#1A1639"
+        "teal": {
+          "50": "#edfcf8",
+          "100": "#99f6e4",
+          "200": "#5eead4",
+          "300": "#2dd4bf",
+          "400": "#14b8a6",
+          "500": "#0f9d8e",
+          "600": "#0f766e",
+          "700": "#115e58",
+          "800": "#134e49",
+          "900": "#0a1513"
         },
         "amber": {
-          "50": "#FBF3DC",
-          "100": "#F6E4B6",
-          "200": "#F2CF84",
-          "300": "#EEBB55",
-          "400": "#E8A63C",
-          "500": "#C4821B",
-          "600": "#9E6712"
+          "50": "#fef6e3",
+          "100": "#fbe6ad",
+          "200": "#f8d274",
+          "300": "#f5b63f",
+          "400": "#e39a1f",
+          "500": "#c37d14",
+          "600": "#95600f",
+          "700": "#5c4a1e",
+          "800": "#3a2f10",
+          "900": "#1a1206"
         },
-        "neutral": {
-          "50": "#F5F3FB",
-          "100": "#EBE8F4",
-          "200": "#D6D1E6",
-          "300": "#B3ADC9",
-          "400": "#8A82A4",
-          "500": "#635C80",
-          "600": "#49435F",
-          "700": "#332F45",
-          "800": "#221F30",
-          "900": "#15131F"
+        "ink": {
+          "50": "#f1f6f4",
+          "100": "#e2ebe8",
+          "200": "#c3d1cc",
+          "300": "#9aaea8",
+          "400": "#7e948d",
+          "500": "#56726a",
+          "600": "#3a544e",
+          "700": "#2a413c",
+          "800": "#10201d",
+          "900": "#0a1513"
         }
       },
       "semantic": {
         "bg": {
-          "base": "{colors.indigo.800}",
-          "_light": "{colors.indigo.50}"
+          "base": "{colors.ink.900}",
+          "_light": "{colors.ink.50}"
         },
         "bgAlt": {
-          "base": "{colors.indigo.850}",
-          "_light": "{colors.neutral.100}"
+          "base": "{colors.ink.800}",
+          "_light": "{colors.ink.100}"
         },
         "surface": {
-          "base": "{colors.indigo.700}",
-          "_light": "{colors.neutral.50}"
+          "base": "#1a2e2a",
+          "_light": "#ffffff"
         },
         "text": {
-          "base": "{colors.indigo.50}",
-          "_light": "{colors.indigo.900}"
+          "base": "#e4ece9",
+          "_light": "#0e1c19"
         },
         "textMuted": {
-          "base": "{colors.indigo.200}",
-          "_light": "{colors.neutral.600}"
+          "base": "{colors.ink.300}",
+          "_light": "#46605a"
         },
         "textFaint": {
-          "base": "{colors.indigo.300}",
-          "_light": "{colors.neutral.500}"
+          "base": "{colors.ink.400}",
+          "_light": "#566c66"
         },
         "accent": {
-          "base": "{colors.amber.400}",
-          "_light": "{colors.amber.500}"
+          "base": "{colors.teal.300}",
+          "_light": "{colors.teal.600}"
         },
         "accentText": {
-          "base": "{colors.neutral.900}",
-          "_light": "{colors.neutral.900}"
+          "base": "#052521",
+          "_light": "#ffffff"
         },
         "accentAlt": {
-          "base": "{colors.amber.200}",
-          "_light": "{colors.amber.600}"
+          "base": "{colors.teal.200}",
+          "_light": "{colors.teal.400}"
         },
         "border": {
-          "base": "{colors.indigo.700}",
-          "_light": "{colors.neutral.200}"
+          "base": "{colors.ink.700}",
+          "_light": "{colors.ink.200}"
         },
         "borderStrong": {
-          "base": "{colors.indigo.600}",
-          "_light": "{colors.neutral.300}"
+          "base": "{colors.ink.600}",
+          "_light": "{colors.ink.300}"
         },
         "field": {
-          "base": "{colors.indigo.900}",
-          "_light": "{colors.indigo.700}"
+          "base": "{colors.amber.300}",
+          "_light": "{colors.amber.300}"
         },
         "fieldInk": {
-          "base": "{colors.indigo.50}",
-          "_light": "{colors.indigo.50}"
+          "base": "{colors.amber.900}",
+          "_light": "{colors.amber.900}"
         },
         "fieldInkMuted": {
-          "base": "{colors.indigo.200}",
-          "_light": "{colors.indigo.200}"
+          "base": "{colors.amber.700}",
+          "_light": "{colors.amber.700}"
         },
         "fieldBorder": {
-          "base": "{colors.indigo.600}",
-          "_light": "{colors.indigo.600}"
+          "base": "{colors.amber.500}",
+          "_light": "{colors.amber.500}"
         }
       }
     },
     "radii": {
       "none": "0",
       "sm": "2px",
-      "md": "3px",
-      "lg": "6px",
+      "md": "4px",
+      "lg": "8px",
       "full": "9999px"
     }
   },
   "colorScheme": {
     "primary_hue": {
-      "h": 264,
-      "s": 45,
-      "l": 22,
-      "name": "dusk indigo"
+      "h": 170,
+      "s": 72,
+      "l": 50,
+      "name": "teal"
     },
-    "secondary_accent": null,
+    "secondary_accent": {
+      "h": 42,
+      "s": 90,
+      "l": 60,
+      "name": "amber"
+    },
     "neutral_family": {
-      "tinted_toward": "indigo",
-      "name": "slate violet"
+      "tinted_toward": "teal-green",
+      "name": "teal-black"
     },
-    "mood_word": "inward",
-    "color_story": "Indigo drenched at dusk holds the stillness of listening within, and a single warm amber ember is the voice itself breaking the cool field."
+    "mood_word": "built",
+    "color_story": "A deep teal-black field reverses the FishSticks plate out of it, a single aqua accent carries the brand, and one warm amber field holds the day's signals, so the human sentence about kids and spelling glows out of a sturdy, built ground."
   },
   "shell": {
     "nav": null,
-    "footer": "data strip",
-    "brand_lockup": "stacked-md",
-    "brand_color_mode": "light=single-color dark=original",
-    "ground_strategy": "drench",
+    "footer": "colophon block",
+    "brand_lockup": "stacked-lg",
+    "brand_color_mode": "original",
+    "ground_strategy": "dark-void",
     "ground_material": "none"
   },
   "header": {
-    "placement": "right-margin",
-    "height_px": 240,
-    "mark_px": 48,
-    "wordmark_step": "lg",
-    "wordmark_weight": 500,
-    "role_line": "present",
-    "nav_step": "base",
+    "placement": "footer-only",
+    "height_px": 96,
+    "mark_px": 72,
+    "wordmark_step": "2xl",
+    "wordmark_weight": 700,
+    "role_line": "absent",
+    "nav_step": "sm",
     "nav_case": "lower",
-    "nav_form": "list",
-    "nav": "Right margin header. Stacked-md lockup at the top of the margin (mark above wordmark, role line beneath), mark 48px, inside the first fold at 1440 and 360. Below it, nav as a vertical index — work / about / contact, lowercase, one hairline rule per row, each a 44px target. Dark margin carries the full-colour mark; light margin falls to the mono mark in `text`."
+    "nav_form": "numbered",
+    "nav": "Nav deferred to the footer colophon band: 01 02 03 work / about / contact as numbered lowercase links above the amber signal field, a borderStrong hairline above the row. The stacked-lg mark sits top-left of the hero teal-black field, inside the first fold at 1440 and 360; place, date and weather sit opposite top-right."
   },
   "verdicts": [
     {
       "critic": "mockup-precheck",
       "round": 0,
-      "verdict": "APPROVE",
-      "feedback": "",
-      "findings": [],
-      "ts": 1794680261267
+      "verdict": "REVISE",
+      "feedback": "[check 6] At 360px the page is 420px wide, 60px of horizontal scroll. Find the element wider than the column (a fixed width, a nowrap line, desktop-size type) and fit it to 360px.\n[check 6] At 360px, text runs past the edge of the screen and is cut: \"2025 · SaaS · Design + Build\" (x 121 to 396), \"The weekly spelling list came home as a \" (x 121 to 386). Set display type in clamp() with a vw term so it fits the column, and let lines wrap.",
+      "findings": [
+        {
+          "check": 6,
+          "key": "overflow-360",
+          "gap": 60
+        },
+        {
+          "check": 6,
+          "key": "text-cut-360",
+          "gap": 2
+        }
+      ],
+      "ts": 1794683569064
     },
     {
       "critic": "mockup-critic",
       "round": 0,
       "verdict": "REVISE",
-      "feedback": "1. (Judgment 4) At 1440 the quote is set one word per line down a very narrow left rail. The run \"Do not / follow / the / ideas… / listen\" fills the whole 900px fold and is cut by the bottom edge, so \"to the voice within\", the amber outline \"yourself\" and the Dogen attribution all fall below the fold. Widen the quote block to the brief's columns 1–8 of the 2.3fr field so the 15 words set as a reading block of four or five lines with \"yourself\" and \"— Dogen\" above 900px. The phone version (fold 1 of 5) already sets it correctly.\n\n2. (Judgment 3) Because of that wrapping, the desktop hero reads as a vertical word stack, not the declared left-aligned italic reading column. The one violation, upright amber outline \"yourself\", never shows in the desktop view. Without it the `texture: outline` declaration and the brief's single focal point are missing from the 1440 composition.\n\n3. (Judgment 5) The Spaceman entry reads \"A founder's bet taken end to end: product strategy, interface, and the code underneath it carried by one pair of hands. The lesson that still runs the shop — go deep in both crafts…\". The records describe Spaceman as the LLC Doug has run for a decade, partnering with companies and studios on product design, frontend engineering, design systems and brand for clients such as Zeldman and Rolex. Replace this with copy drawn from the record's problem, approach and outcome text.\n\n4. (Judgment 5) The role line \"DESIGNER & ENGINEER\" in the header and footer, and \"Designer & Engineer — deep in both, not a generalist\" in the footer, don't match `identity.role`, which is \"Product Designer & Developer\". Use the recorded role.\n\n5. (Judgment 6) The declared `nav_form` is `list`, but each row is prefixed 01 / 02 / 03, which is the `numbered` form. Drop the numerals and keep the lowercase labels with one hairline rule per row.\n\n6. (Judgment 4) The Mobile Declaration says fold 1 holds the quote plus the 48px mark and nothing else. Fold 1 also carries the \"Doug March\" wordm",
+      "feedback": "1. (4, 2) The phone's first fold is broken. In fold 1 of 4, the hero caption \"thousands of kids practicing spelling from the list the teacher sent home.\" is set on top of the `fishsticks` title and the start of the description, so none of them can be read. The declared order (brand mark, then the fishsticks title and metadata, then the caption at 2xl) has also collapsed. Stack them as declared: the plate full-width with `fishsticks` clear at the top, then the caption below it as its own block. Also remove the duplicate metadata line (\"featured — fishsticks · saas · 2025\" sits over \"2025 · saas · design + build\") and give the weather line its own space.\n2. (3) Type Treatment `alignment: right` is not followed. At 1440 the hero caption is ragged-right, flush to the left edge of the left panel, and the brief asks for it right-aligned. Set it flush right against the gutter so it leans toward the plate along the diagonal.\n3. (5) The \"a decade of client marks\" strip (Intuit, LastPass, Publicis Sapient, bswift, RTIC, Framebridge, Rolex, The Nature Conservancy) sits inside the FishSticks plate, so it reads as FishSticks clients. The records list those clients only under Spaceman; FishSticks has none. Either move the strip to Spaceman or take it off the plate.\n4. (5) The plate's description, \"The weekly spelling list came home as a worksheet and a shrug… into a game kids open on their own,\" adds a \"worksheet and a shrug\" scene and calls the product a \"game.\" The record says it imports school PDFs, finds the bold words, and offers voice pronunciation and adaptive quiz modes so kids practice on their own. Rewrite it from that.\n5. (1) This reads close to 2026-11-04: a FishSticks spec plate again, with an artifact hero, a green-teal hue (158° then, 170° now), and a hero line that once more says kids practice the list from school (\"The week's spelling words in. A week of practice out.\"). With a new chassis and a dark-void ground this is borderline. Once the fixes above are in, pu",
       "channel": "cli-vision",
-      "ts": 1794680280103
+      "ts": 1794683589352
     },
     {
       "critic": "mockup-precheck",
       "round": 1,
       "verdict": "REVISE",
-      "feedback": "[check 2] The largest first-fold text measures 104px at 1440; the declared hero_scale clamp(26px, 5.5vw, 80px) resolves to 79.2px there (131%, over the 75-125% band). Set the hero element's font-size to exactly clamp(26px, 5.5vw, 80px).",
+      "feedback": "[check 2] Colour coverage measured 54.7% at 1440x900 against a declared floor of 60%, 5.3 points under (the margin is 5). Paint more of the first 900px in the day's chromatic tokens (a field, a band, a panel background); near-black, near-white and grey do not count.",
       "findings": [
         {
           "check": 2,
-          "key": "hero",
-          "gap": 24.8
+          "key": "colour",
+          "gap": 5.3
         }
       ],
-      "ts": 1794680482831
+      "ts": 1794683822563
     },
     {
       "critic": "mockup-critic",
       "round": 1,
       "verdict": "REVISE",
-      "feedback": "1. (Judgment 5) The Spaceman standfirst says \"One pair of hands across the whole stack rather than files handed between two teams.\" The record says Doug worked \"sometimes as a solo contributor, sometimes embedded in a larger team,\" so the page claims something the record contradicts. Cut that sentence or replace it with record wording, such as the list of disciplines: \"product design, frontend engineering, design systems, and brand.\"\n2. (Judgment 5) \"The studio behind the client work\" is also not in the record, which calls Spaceman \"the LLC I've operated under for the past decade, partnering with companies and studios across industries.\" Use the record's phrasing instead.\n3. (Judgment 4) At 360 the Mobile Declaration says `first_fold` holds the Dogen quote and the mark, \"nothing else.\" Fold 1 also shows the \"Doug March\" wordmark, the role line and the \"work\" nav row, because the hero field ends about 395px down. Make the hero field fill the first 640px fold so the margin band starts below it.",
+      "feedback": "1. (Judgment 5) The Spaceman block on the phone, fold 2, reads \"SPACEMAN · FOUNDER · 2012 → 2018\". The record says Spaceman started in 2018 and runs \"2018 — Present\" with status Active. Change the line to \"2018 → present\". The index row's \"2018\" is already correct.\n\n2. (Judgment 1) Tonight reads like 2026-11-04 again. Both nights lead with the FishSticks artifact, use the split-to-sequence collapse, set the hero in lowercase on a dark green-teal ground (158° then, 170° now), and say the same thing in other words: \"The week's spelling words in. A week of practice out.\" versus \"Thousands of kids practicing spelling from the list the teacher sent home.\" Within the brief, push the plate away from that silhouette. Make the two-equal split real and set the vertical metadata heavier, so a returning visitor doesn't take it for the chalkboard spec sheet.\n\n3. (Judgment 3) The composition calls for two equal panels: the FishSticks plate as the right cell, and the caption right-aligned in the lower third of the left panel. At 1440 the plate runs almost the full width, its right half is empty, and the caption hangs under its right end. That breaks the diagonal sightline from the title down to the caption. Make the plate the right cell and move the h1 into the left cell's lower third.\n\n4. (Judgment 3) The Type Treatment sets `alignment: right`, but on the phone in fold 1 the hero caption is left-aligned. Keep it right-aligned at 360.\n\n5. (Judgment 2) In the fold 2 client wall at 360, the Rolex tile is too small to read and the Nature Conservancy tile shows only \"T N\" and a green dot, which looks like a broken image. Set both logos at a size and crop where they read, as Intuit and LastPass do.\n\n6. (Judgment 4) At 1440 the caption's right edge sits flush against the viewport edge with none of the declared side padding (`clamp(40px, 6vw, 112px)`). It looks cut off even though the glyphs are complete. Bring it back inside the side padding.",
       "channel": "cli-vision",
-      "ts": 1794680505056
+      "ts": 1794683850604
     },
     {
       "critic": "mockup-precheck",
@@ -495,74 +513,74 @@
       "verdict": "APPROVE",
       "feedback": "",
       "findings": [],
-      "ts": 1794680535997
+      "ts": 1794684014598
     },
     {
       "critic": "mockup-critic",
       "round": 2,
-      "verdict": "APPROVE",
-      "feedback": "What carries the design is Dogen's line in light italic, hung off the left rail of a deep indigo field, with \"yourself.\" breaking out upright in amber outline; the working right margin holds the brand, the lowercase ruled nav and the day's facts, and on the phone the quote holds the first fold alone with the mark.",
+      "verdict": "REVISE",
+      "feedback": "1. Freshness (judgment 1): Tonight reads as a rerun of 2026-11-04. That night was also a FishSticks spec sheet with an artifact hero, a split-to-sequence collapse and a green-teal hue (158° then, 170° tonight). Its hero, \"The week's spelling words in. A week of practice out.\", says nearly what tonight's \"thousands of kids practicing spelling from the list the teacher sent home.\" says: the teacher's list goes in and the kids practise. 2026-11-09 adds to the overlap with \"a maker's spec plate: one project reversed out of\" a coloured field, set heavy, roman and right-aligned. Change the subject or the silhouette. Either lead with a different owned project and a line that says something new, or drop the reversed spec-plate block for a composition no recent night has used.\n2. Legibility (judgment 2): At 360, fold 2, The Nature Conservancy tile in the client-logo grid shows as a clipped \"T N\" and a green circle, so the name can't be read and the tile looks like a broken image. Fix the SVG's viewBox or sizing so the full logo shows, or set the name as text.\n3. Copy (judgment 5): At 360, fold 2, the selected-work index tags fishsticks \"↑ FEATURED\". In the work records the featured project is Spaceman (`featured: true`), not FishSticks. Remove the tag, or move it to Spaceman.",
       "channel": "cli-vision",
-      "ts": 1794680555231
+      "ts": 1794684046176
     },
     {
       "critic": "surface-gate",
       "round": 1,
       "verdict": "REVISE",
-      "feedback": "/ @1440: single-colour mark on #efecfb at 1440 (light), where the full-colour mark passes contrast (best 3.1:1, its blue). Render the full-colour mark in the light scheme: <BrandLockup mode=\"original\" />, or mode={{ light: 'original', dark: 'single-color' }} if the other scheme's ground fails it.\n/about @1440: single-colour mark on #efecfb at 1440 (light), where the full-colour mark passes contrast (best 3.1:1, its blue). Render the full-colour mark in the light scheme: <BrandLockup mode=\"original\" />, or mode={{ light: 'original', dark: 'single-color' }} if the other scheme's ground fails it.\n/work/spaceman @1440: single-colour mark on #efecfb at 1440 (light), where the full-colour mark passes contrast (best 3.1:1, its blue). Render the full-colour mark in the light scheme: <BrandLockup mode=\"original\" />, or mode={{ light: 'original', dark: 'single-color' }} if the other scheme's ground fails it.\n/work/fishsticks @1440: single-colour mark on #efecfb at 1440 (light), where the full-colour mark passes contrast (best 3.1:1, its blue). Render the full-colour mark in the light scheme: <BrandLockup mode=\"original\" />, or mode={{ light: 'original', dark: 'single-color' }} if the other scheme's ground fails it.\n/work/15th-club @1440: single-colour mark on #efecfb at 1440 (light), where the full-colour mark passes contrast (best 3.1:1, its blue). Render the full-colour mark in the light scheme: <BrandLockup mode=\"original\" />, or mode={{ light: 'original', dark: 'single-color' }} if the other scheme's ground fails it.\n/work/dougmar-ch @1440: single-colour mark on #efecfb at 1440 (light), where the full-colour mark passes contrast (best 3.1:1, its blue). Render the full-colour mark in the light scheme: <BrandLockup mode=\"original\" />, or mode={{ light: 'original', dark: 'single-color' }} if the other scheme's ground fails it.\n/work/teeturn @1440: single-colour mark on #efecfb at 1440 (light), where the full-colour mark passes contrast (best 3.1:1, its blue). Render the full-colour mark in the light scheme: <BrandLockup mode=\"original\" />, or mode={{ light: 'original', dark: 'single-color' }} if the other scheme's ground fails it.\n/work/politweets @1440: single-colour mark on #efecfb at 1440 (light), where the full-colour mark passes contrast (best 3.1:1, its blue). Render the full-colour mark in the light scheme: <BrandLockup mode=\"original\" />, or mode={{ light: 'original', dark: 'single-color' }} if the other scheme's ground fails it.\n/work/twittertale @1440: single-colour mark on #efecfb at 1440 (light), where the full-colour mark passes contrast (best 3.1:1, its blue). Render the full-colour mark in the light scheme: <BrandLockup mode=\"original\" />, or mode={{ light: 'original', dark: 'single-color' }} if the other scheme's ground fails it.\n/about @1440: <ol.li-s_none.m_0.p_0 > li.d_grid.cg_4.rg_1.py_4 > span.ff_body.fs_sm.ls_wide.c_accent> \"2025 to present\" (x12) at 14.5px: #c7ab89 on #efecfb is 1.87:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work/spaceman @1440: <div > div.mb_6 > h2.ff_body.fs_xs.tt_uppercase.ls_widest> \"Problem\" (x3) at 13.2px: #c3a57e on #efecfb is 2.01:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work/spaceman @1440: <section.bg_bg.c_text.bd-t-w_1px.border-top-style_solid > aside.d_flex.flex-d_column.ai_flex-start.gap_5 > a.d_inline-flex.ai_center.gap_2.min-h_44px> \"Visit the project\" at 14.5px: #c3a57e on #efecfb is 2.01:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @1440: <section#work.bg_bg.c_text.px_4.md:px_5vw > div.bd-t-w_2px.border-top-style_solid.bd-t-c_accent.pt_4 > div.ff_body.fs_2xs.tt_uppercase.ls_widest> \"Featured · Founder\" at 12px: #c3a47d on #efecfb is 2.01:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @1440: <section#work.bg_bg.c_text.px_4.md:px_5vw > div.bd-t-w_2px.border-top-style_solid.bd-t-c_accent.pt_4 > a.d_inline-flex.ai_center.gap_2.min-h_44px> \"Visit the project\" at 14.5px: #c3a47d on #efecfb is 2.01:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/about @1440: <div.d_flex.flex-d_column.gap_6 > div > div.ff_body.fs_2xs.tt_uppercase.ls_widest> \"Capabilities\" (x3) at 12px: #aaa5bf on #efecfb is 2.03:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work/fishsticks @1440: 56 more distinct low-contrast pairs are not listed; the worst is 2.19:1.\n/work @360: <div > div.d_flex.jc_space-between.ai_baseline.py_2 > span.ff_display.fs_lede.fv-num_tabular-nums.c_accent> \"−13\" at 18.5px: #9e6712 on #efecfb is 4.10:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
-      "ts": 1794681009279
+      "feedback": "/ @820: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @820: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @360: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @360: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @1440: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @1440: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/about @1440: em dash in rendered copy: \"...intersection of design and engineering — not as a generalist, but as someone wh...\". Use a period or a comma.\n/about @360: <section.bg_bg.d_flex.flex-d_column.gap_6 > div > p.fs_2xs.ls_widest.tt_uppercase.c_accent> \"about doug march\" is running copy at 12px, under the 14px floor. Set it on the `sm` step or larger.\n/ @360: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > p.pos_absolute.top_5.lg:top_7.right_4> \"aldie, va48°f · overcast\" is running copy at 13.2px, under the 14px floor. Set it on the `sm` step or larger.\n/ @1440: The mockup's largest text is 'fishsticks' at 116px; the build sets 'spaceman' at 120px. Restore the mockup's hierarchy: 'spaceman' is 36px in the mockup.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1794684406187
     },
     {
       "critic": "screenshot-critic",
       "verdict": "REVISE",
-      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 3 — react-engineer: Measured contrast failures show accent-colored labels and links rendering around 2.0:1 against the light background (#efecfb), well under the 4.5:1/3:1 thresholds — \"Featured · Founder\" and \"Visit the project\" on `/`, \"Problem\"/\"Visit the project\" on `/work/spaceman`, \"2025 to present\" and \"Capabilities\" on `/about`. Darken the accent token used for these small labels/links on light grounds (toward `accent.dark #C4821B` or further).\n- Section 3/9 — react-engineer: Per the measured faults, the light-scheme single-colour brand mark on #efecfb fails contrast on every page (`/`, `/about`, and all six case studies), while rendering the full-colour mark would pass (best 3.1:1). Switch the light scheme to the full-colour mark, or fix the mono token's contrast.\n- Section 6 — react-engineer: On the `/work/spaceman` filmstrip, fold 2 of 3, the Problem/Approach/Outcome copy sits in a narrow column on the left while roughly the right half of the fold is empty except an isolated \"Visit the project\" link floating far to the right — a dead canvas, not an active field. Widen the copy measure or give the right side an active role.\n- Section 10 — react-engineer: The mobile declaration's `first_fold` calls for \"the Dogen quote with the 48px mark in the top-left corner; nothing else,\" but fold 1 of the phone filmstrip shows the full stacked lockup — mark, \"Doug March\" wordmark, and the role line — centered above the quote, not a corner mark alone. Drop the wordmark/role line from the first fold and place only the mark, top-left, as declared.\n- Section 10 — react-engineer: In the 820-wide tablet still, there is a roughly 380px dead gap of empty indigo field between the centered brand lockup and the start of the hero quote, filled with nothing. This is the 1440 hero's generous min-height carried over without redistributing space for the narrower, stacked layout.\n===END===",
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 2/7/Mockup Fidelity — react-engineer: The homepage hero artifact shows the wrong project. The mockup and brief specify \"fishsticks\" as the marquee artifact (reversed teal title, paired with its FishSticks description) captioned by the hero phrase about \"kids practicing spelling... the list the teacher sent home.\" The render instead shows \"spaceman\" as the title and renders Spaceman's own description text, so the hero caption no longer relates to the artifact beside it — the central concept of the day (artifact + human caption needing each other) is broken. This is confirmed by the measured fault at /, 1440px light: build's largest text is \"spaceman\" at 120px where the mockup's largest text is \"fishsticks\" at 116px. The mismatch is present identically at 1440 light, 1440 dark, 820 tablet, and the 360 filmstrip.\n- Section 11/Polish — react-engineer: The vertical gutter metadata spine reads \"SPACEMAN · 2018 · FOUNDER · FOUNDER\" with the role field duplicated, where the mockup pattern is distinct fields like \"FISHSTICKS · 2025 · SAAS · DESIGN + BUILD.\" Fix the data mapping so the fourth field pulls the medium/category value instead of repeating role.\n- Section 10 — react-engineer: On `/about` at 360px, the \"about doug march\" eyebrow label renders at 12px, under the 14px floor (measured fault). Set it on the `sm` step or larger so it stays legible on phone.\n- Section 3/10 — react-engineer: On `/` at 360px in dark scheme, the weather string \"aldie, va 48°f · overcast\" renders at 13.2px, under the 14px floor (measured fault). Set it on the `sm` step or larger.\n===END===",
       "channel": "cli-vision",
-      "ts": 1794681229506
+      "ts": 1794684618326
     },
     {
       "critic": "surface-gate",
       "round": 2,
       "verdict": "SHIP",
-      "feedback": "/work/spaceman @360: <div.d_contents > section.lg:grid-c_1.lg:grid-r_1.order_-1.lg:order_0 > div.ff_body.fs_xs.tt_uppercase.ls_widest> \"Case study\" at 13.2px: #c4821b on #332865 is 4.01:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /work/fishsticks, /work/15th-club, /work/dougmar-ch, /work/teeturn, /work/politweets, /work/twittertale.\n/ @360: <div > div.d_flex.jc_space-between.ai_baseline.py_2 > span.ff_display.fs_lede.fv-num_tabular-nums.c_accent> \"−13\" at 18.5px: #9e6712 on #efecfb is 4.10:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /about, /work/spaceman, /work/fishsticks, /work/15th-club, /work/dougmar-ch, /work/teeturn, /work/politweets, /work/twittertale.\n/ @360: <section#work.bg_bg.c_text.px_4.md:px_5vw > div.bd-t-w_2px.border-top-style_solid.bd-t-c_accent.pt_4 > div.ff_body.fs_2xs.tt_uppercase.ls_widest> \"Featured · Founder\" at 12px: #9e6712 on #efecfb is 4.10:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <section#work.bg_bg.c_text.px_4.md:px_5vw > div.bd-t-w_2px.border-top-style_solid.bd-t-c_accent.pt_4 > a.d_inline-flex.ai_center.gap_2.min-h_44px> \"Visit the project\" at 14.5px: #9e6712 on #efecfb is 4.10:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/about @360: <ol.li-s_none.m_0.p_0 > li.d_grid.cg_4.rg_1.py_4 > span.ff_body.fs_sm.ls_wide.c_accent> \"2025 to present\" (x12) at 14.5px: #9e6712 on #efecfb is 4.10:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work/spaceman @360: <div.d_grid.cg_7.rg_6 > div.bd-t-w_1px.border-top-style_solid.bd-t-c_border.pt_4 > h2.ff_body.fs_xs.tt_uppercase.ls_widest> \"Problem\" (x3) at 13.2px: #9e6712 on #efecfb is 4.10:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /work/fishsticks, /work/15th-club, /work/teeturn, /work/politweets, /work/twittertale.\n/work/spaceman @360: 1 more distinct low-contrast pairs are not listed; the worst is 4.10:1.\n/work @360: <div > div.d_flex.jc_space-between.ai_baseline.py_2 > span.ff_display.fs_lede.fv-num_tabular-nums.c_accent> \"−13\" at 18.5px: #9e6712 on #efecfb is 4.10:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
-      "ts": 1794681356153
+      "feedback": "/ @820: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @820: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @360: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @360: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @1440: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @1440: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1794684710818
     },
     {
       "critic": "screenshot-critic",
       "round": "final",
       "verdict": "REVISE",
-      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 (tablet, 820px) — react-engineer: At 820px the two-asymmetric grid collapses to a single column with the **margin content first** — mark, wordmark, nav list and the full golf/weather signal stack fill the entire first screen — and the hero quote, the declared dominant element and the whole point of the page, is pushed entirely below the fold, invisible on load. At 360px the hero correctly leads (per the mobile declaration); at 1440px it correctly leads; only the 820 breakpoint inverts the hierarchy so the sidebar swallows the first screen the owner actually sees on a tablet.\n- Section 9 — react-engineer: `brand_color_mode` declares `light=single-color dark=original`, and the header nav line confirms \"light margin falls to the mono mark in `text`.\" The render shows the identical full-colour (green ring / blue tick) mark in both the light scheme (image-2) and dark scheme (image-5) margins — the light-mode mark never falls back to a single flat hue.\n===END===",
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 (tablet, 820px) — react-engineer: The FishSticks plate loses its teal \"surface\" fill entirely at 820px — it renders as a plain white box with a thin gray border instead of the dark teal reversed panel seen at 1440 and 360. This is the core artifact-plate idea (reversed-teal-on-void) and it disappears at the tablet breakpoint rather than resetting to it; the right cell should keep its teal ground even as the grid reflows.\n- Section 10 (phone filmstrip, home) — react-engineer: The mobile declaration's `first_fold` requires the hero caption sentence beneath the artifact title inside the first fold, but the render cuts it to the very top of fold 2 — fold 1 ends after \"visit the live app\" with no caption visible. The caption needs to fit within the first 640px screen alongside the mark, title, and metadata.\n\n===END===",
       "channel": "cli-vision",
-      "ts": 1794681585276
+      "ts": 1794684972394
     },
     {
       "critic": "ship-gate",
       "verdict": "SHIPPED-WITH-FAULTS",
-      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 (tablet, 820px) — react-engineer: At 820px the two-asymmetric grid collapses to a single column with the **margin content first** — mark, wordmark, nav list and the full golf/weather signal stack fill the entire first screen — and the hero quote, the declared dominant element and the whole point of the page, is pushed entirely below the fold, invisible on load. At 360px the hero correctly leads (per the mobile declaration); at 1440px it correctly leads; only the 820 breakpoint inverts the hierarchy so the sidebar swallows the first screen the owner actually sees on a tablet.\n- Section 9 — react-engineer: `brand_color_mode` declares `light=single-color dark=original`, and the header nav line confirms \"light margin falls to the mono mark in `text`.\" The render shows the identical full-colour (green ring / blue tick) mark in both the light scheme (image-2) and dark scheme (image-5) margins — the light-mode mark never falls back to a single flat hue.\n===END===",
-      "ts": 1794681585276
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 (tablet, 820px) — react-engineer: The FishSticks plate loses its teal \"surface\" fill entirely at 820px — it renders as a plain white box with a thin gray border instead of the dark teal reversed panel seen at 1440 and 360. This is the core artifact-plate idea (reversed-teal-on-void) and it disappears at the tablet breakpoint rather than resetting to it; the right cell should keep its teal ground even as the grid reflows.\n- Section 10 (phone filmstrip, home) — react-engineer: The mobile declaration's `first_fold` requires the hero caption sentence beneath the artifact title inside the first fold, but the render cuts it to the very top of fold 2 — fold 1 ends after \"visit the live app\" with no caption visible. The caption needs to fit within the first 640px screen alongside the mark, title, and metadata.\n\n===END===",
+      "ts": 1794684972394
     }
   ],
   "composition": {
-    "columns": "two-asymmetric",
-    "axis": "vertical",
-    "symmetry": "broken",
-    "hero_zone": "upper-left",
+    "columns": "two-equal",
+    "axis": "diagonal",
+    "symmetry": "right-weighted",
+    "hero_zone": "lower-third",
     "density": "measured",
-    "rhythm": "syncopated",
-    "shell_posture": "standard",
-    "field_ratio": "drenched",
-    "collapse": "hero-only",
-    "hero_object": "statement"
+    "rhythm": "interrupted",
+    "shell_posture": "footer-only",
+    "field_ratio": "type-dominant",
+    "collapse": "split-to-sequence",
+    "hero_object": "artifact"
   },
   "lane": {
-    "laneId": "notion-mintlify",
-    "register": "soft-warm-minimalism"
+    "laneId": "swiss-poster",
+    "register": "grid-rigor"
   },
   "cost": {
-    "total_usd": 6.166091,
+    "total_usd": 7.488338,
     "estimated": false,
     "partial": false,
-    "calls": 11,
-    "retries": 3,
+    "calls": 12,
+    "retries": 4,
     "byAgent": [
       {
         "agent": "art-director",
@@ -570,12 +588,26 @@
         "model": "claude-opus-4-8",
         "source": "cli",
         "input": 2,
-        "output": 35293,
-        "cache_read": 0,
-        "cache_write": 47035,
-        "cost_usd": 1.352685,
+        "output": 23658,
+        "cache_read": 24678,
+        "cache_write": 22216,
+        "cost_usd": 0.8259589999999999,
         "estimated": false,
-        "ms": 510821,
+        "ms": 351722,
+        "num_turns": 1
+      },
+      {
+        "agent": "art-director",
+        "purpose": "block-retry",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 449,
+        "cache_read": 24678,
+        "cache_write": 28373,
+        "cost_usd": 0.30730399999999997,
+        "estimated": false,
+        "ms": 7636,
         "num_turns": 1
       },
       {
@@ -584,12 +616,12 @@
         "model": "claude-opus-4-8",
         "source": "cli",
         "input": 2,
-        "output": 13019,
+        "output": 45289,
         "cache_read": 0,
-        "cache_write": 42920,
-        "cost_usd": 0.754685,
+        "cache_write": 65453,
+        "cost_usd": 1.786765,
         "estimated": false,
-        "ms": 165984,
+        "ms": 657589,
         "num_turns": 1
       },
       {
@@ -598,12 +630,12 @@
         "model": "claude-opus-5-5",
         "source": "cli",
         "input": 4,
-        "output": 1857,
-        "cache_read": 17820,
-        "cache_write": 22465,
-        "cost_usd": 0.22043999999999997,
+        "output": 1909,
+        "cache_read": 22835,
+        "cache_write": 15386,
+        "cost_usd": 0.165851,
         "estimated": false,
-        "ms": 18383,
+        "ms": 19677,
         "num_turns": 4,
         "channel": "cli-vision"
       },
@@ -613,12 +645,12 @@
         "model": "claude-opus-4-8",
         "source": "cli",
         "input": 2,
-        "output": 16481,
-        "cache_read": 23254,
-        "cache_write": 28764,
-        "cost_usd": 0.711302,
+        "output": 17315,
+        "cache_read": 20776,
+        "cache_write": 72369,
+        "cost_usd": 1.166963,
         "estimated": false,
-        "ms": 191273,
+        "ms": 222140,
         "num_turns": 1
       },
       {
@@ -627,12 +659,12 @@
         "model": "claude-opus-5-5",
         "source": "cli",
         "input": 4,
-        "output": 2131,
-        "cache_read": 23011,
-        "cache_write": 17274,
-        "cost_usd": 0.1854302,
+        "output": 2742,
+        "cache_read": 22831,
+        "cache_write": 15267,
+        "cost_usd": 0.1815582,
         "estimated": false,
-        "ms": 21723,
+        "ms": 27633,
         "num_turns": 4,
         "channel": "cli-vision"
       },
@@ -642,12 +674,12 @@
         "model": "claude-opus-4-8",
         "source": "cli",
         "input": 2,
-        "output": 1492,
-        "cache_read": 23254,
-        "cache_write": 30357,
-        "cost_usd": 0.352507,
+        "output": 10843,
+        "cache_read": 20776,
+        "cache_write": 72513,
+        "cost_usd": 1.006603,
         "estimated": false,
-        "ms": 19874,
+        "ms": 152937,
         "num_turns": 1
       },
       {
@@ -656,12 +688,12 @@
         "model": "claude-opus-5-5",
         "source": "cli",
         "input": 4,
-        "output": 1712,
-        "cache_read": 23011,
-        "cache_write": 17274,
-        "cost_usd": 0.1770502,
+        "output": 3048,
+        "cache_read": 22831,
+        "cache_write": 15267,
+        "cost_usd": 0.1876782,
         "estimated": false,
-        "ms": 18810,
+        "ms": 31036,
         "num_turns": 4,
         "channel": "cli-vision"
       },
@@ -671,12 +703,12 @@
         "model": "claude-opus-5-5",
         "source": "cli",
         "input": 2,
-        "output": 45887,
-        "cache_read": 0,
-        "cache_write": 42484,
-        "cost_usd": 1.25762,
+        "output": 35956,
+        "cache_read": 25191,
+        "cache_write": 34100,
+        "cost_usd": 0.9969661999999999,
         "estimated": false,
-        "ms": 398907,
+        "ms": 304449,
         "num_turns": 1
       },
       {
@@ -684,60 +716,60 @@
         "purpose": "first",
         "model": "claude-sonnet-5",
         "source": "cli",
-        "input": 6,
-        "output": 16798,
-        "cache_read": 58004,
-        "cache_write": 40944,
-        "cost_usd": 0.34336880000000003,
-        "estimated": false,
-        "ms": 197417,
-        "num_turns": 11,
-        "channel": "cli-vision"
-      },
-      {
-        "agent": "react-engineer",
-        "purpose": "revision",
-        "model": "claude-opus-5-5",
-        "source": "cli",
-        "input": 2,
-        "output": 8654,
-        "cache_read": 0,
-        "cache_write": 46554,
-        "cost_usd": 0.54552,
-        "estimated": false,
-        "ms": 74630,
-        "num_turns": 1
-      },
-      {
-        "agent": "screenshot-critic",
-        "purpose": "rejudge",
-        "model": "claude-sonnet-5",
-        "source": "cli",
         "input": 4,
-        "output": 16866,
-        "cache_read": 33913,
-        "cache_write": 22508,
-        "cost_usd": 0.2654826,
+        "output": 15898,
+        "cache_read": 33043,
+        "cache_write": 17992,
+        "cost_usd": 0.23756460000000001,
         "estimated": false,
-        "ms": 206680,
+        "ms": 186221,
         "num_turns": 10,
+        "channel": "cli-vision"
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 5359,
+        "cache_read": 25259,
+        "cache_write": 21599,
+        "cost_usd": 0.2850318,
+        "estimated": false,
+        "ms": 40474,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "rejudge",
+        "model": "claude-sonnet-5",
+        "source": "cli",
+        "input": 8,
+        "output": 19782,
+        "cache_read": 88688,
+        "cache_write": 31130,
+        "cost_usd": 0.34009360000000005,
+        "estimated": false,
+        "ms": 239984,
+        "num_turns": 11,
         "channel": "cli-vision"
       }
     ]
   },
   "measurables": {
     "declared": {
-      "canvas_utilization_min": 76,
-      "hero_scale": "clamp(26px, 5.5vw, 80px)",
-      "color_coverage_min": 62
+      "canvas_utilization_min": 72,
+      "hero_scale": "clamp(72px, 9vw, 116px)",
+      "color_coverage_min": 60
     },
-    "declaredAt": "2026-11-14T18:39:48.361Z",
+    "declaredAt": "2026-11-14T19:36:16.646Z",
     "measured": {
       "canvas_utilization": 100,
-      "color_coverage": 85.8,
-      "hero_px": 90
+      "color_coverage": 27.2,
+      "hero_px": 116
     },
-    "measuredAt": "2026-11-14T18:39:54.105Z",
+    "measuredAt": "2026-11-14T19:36:22.283Z",
     "method": "Measured at 1440x900 on a 20px grid over the viewport at scroll position zero. canvas_utilization: % of grid cells touched by an element carrying designed content (visible text, an image/SVG/video/canvas, a background colour distinct from the page background and not transparent, or a background image such as a gradient). A background set on html or body counts as painting the page, unless it is opaque white; ::before and ::after boxes count on the same terms. color_coverage: % of grid cells whose sampled background, background-image stops or text colour is chromatic (HSL saturation > 12%, lightness 8-92%). hero_px: the largest computed font-size among first-fold elements that set visible text."
   },
   "surfaceGate": {
