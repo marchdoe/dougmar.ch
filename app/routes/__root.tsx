@@ -74,19 +74,15 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      {
-        title:
-          'Do not follow the ideas of others, but learn to listen to the voice within yourself.',
-      },
+      { title: 'Thousands of kids practicing spelling from the list the teacher sent home.' },
       {
         property: 'og:title',
-        content:
-          'Do not follow the ideas of others, but learn to listen to the voice within yourself.',
+        content: 'Thousands of kids practicing spelling from the list the teacher sent home.',
       },
       {
         property: 'og:description',
         content:
-          'Dusk-indigo drench, a Dogen line in light Spectral italic, one word "yourself" broken out in amber outline, the day kept in the margin.',
+          "FishSticks reversed out of a teal-black void, a warm sentence about kids and spelling anchoring it low, one amber field holding the day's scores at the foot.",
       },
       { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-14.png' },
       { property: 'og:image:width', content: '1200' },
@@ -96,8 +92,7 @@ export const Route = createRootRoute({
       { name: 'twitter:card', content: 'summary_large_image' },
       {
         name: 'twitter:title',
-        content:
-          'Do not follow the ideas of others, but learn to listen to the voice within yourself.',
+        content: 'Thousands of kids practicing spelling from the list the teacher sent home.',
       },
       { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-14.png' },
     ],
@@ -106,7 +101,7 @@ export const Route = createRootRoute({
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Albert+Sans:wght@400;500;600&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Work+Sans:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],

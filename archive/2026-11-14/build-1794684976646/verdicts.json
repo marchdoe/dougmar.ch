@@ -1,0 +1,102 @@
+[
+  {
+    "critic": "mockup-precheck",
+    "round": 0,
+    "verdict": "REVISE",
+    "feedback": "[check 6] At 360px the page is 420px wide, 60px of horizontal scroll. Find the element wider than the column (a fixed width, a nowrap line, desktop-size type) and fit it to 360px.\n[check 6] At 360px, text runs past the edge of the screen and is cut: \"2025 · SaaS · Design + Build\" (x 121 to 396), \"The weekly spelling list came home as a \" (x 121 to 386). Set display type in clamp() with a vw term so it fits the column, and let lines wrap.",
+    "findings": [
+      {
+        "check": 6,
+        "key": "overflow-360",
+        "gap": 60
+      },
+      {
+        "check": 6,
+        "key": "text-cut-360",
+        "gap": 2
+      }
+    ],
+    "ts": 1794683569064
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 0,
+    "verdict": "REVISE",
+    "feedback": "1. (4, 2) The phone's first fold is broken. In fold 1 of 4, the hero caption \"thousands of kids practicing spelling from the list the teacher sent home.\" is set on top of the `fishsticks` title and the start of the description, so none of them can be read. The declared order (brand mark, then the fishsticks title and metadata, then the caption at 2xl) has also collapsed. Stack them as declared: the plate full-width with `fishsticks` clear at the top, then the caption below it as its own block. Also remove the duplicate metadata line (\"featured — fishsticks · saas · 2025\" sits over \"2025 · saas · design + build\") and give the weather line its own space.\n2. (3) Type Treatment `alignment: right` is not followed. At 1440 the hero caption is ragged-right, flush to the left edge of the left panel, and the brief asks for it right-aligned. Set it flush right against the gutter so it leans toward the plate along the diagonal.\n3. (5) The \"a decade of client marks\" strip (Intuit, LastPass, Publicis Sapient, bswift, RTIC, Framebridge, Rolex, The Nature Conservancy) sits inside the FishSticks plate, so it reads as FishSticks clients. The records list those clients only under Spaceman; FishSticks has none. Either move the strip to Spaceman or take it off the plate.\n4. (5) The plate's description, \"The weekly spelling list came home as a worksheet and a shrug… into a game kids open on their own,\" adds a \"worksheet and a shrug\" scene and calls the product a \"game.\" The record says it imports school PDFs, finds the bold words, and offers voice pronunciation and adaptive quiz modes so kids practice on their own. Rewrite it from that.\n5. (1) This reads close to 2026-11-04: a FishSticks spec plate again, with an artifact hero, a green-teal hue (158° then, 170° now), and a hero line that once more says kids practice the list from school (\"The week's spelling words in. A week of practice out.\"). With a new chassis and a dark-void ground this is borderline. Once the fixes above are in, pu",
+    "channel": "cli-vision",
+    "ts": 1794683589352
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "[check 2] Colour coverage measured 54.7% at 1440x900 against a declared floor of 60%, 5.3 points under (the margin is 5). Paint more of the first 900px in the day's chromatic tokens (a field, a band, a panel background); near-black, near-white and grey do not count.",
+    "findings": [
+      {
+        "check": 2,
+        "key": "colour",
+        "gap": 5.3
+      }
+    ],
+    "ts": 1794683822563
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "1. (Judgment 5) The Spaceman block on the phone, fold 2, reads \"SPACEMAN · FOUNDER · 2012 → 2018\". The record says Spaceman started in 2018 and runs \"2018 — Present\" with status Active. Change the line to \"2018 → present\". The index row's \"2018\" is already correct.\n\n2. (Judgment 1) Tonight reads like 2026-11-04 again. Both nights lead with the FishSticks artifact, use the split-to-sequence collapse, set the hero in lowercase on a dark green-teal ground (158° then, 170° now), and say the same thing in other words: \"The week's spelling words in. A week of practice out.\" versus \"Thousands of kids practicing spelling from the list the teacher sent home.\" Within the brief, push the plate away from that silhouette. Make the two-equal split real and set the vertical metadata heavier, so a returning visitor doesn't take it for the chalkboard spec sheet.\n\n3. (Judgment 3) The composition calls for two equal panels: the FishSticks plate as the right cell, and the caption right-aligned in the lower third of the left panel. At 1440 the plate runs almost the full width, its right half is empty, and the caption hangs under its right end. That breaks the diagonal sightline from the title down to the caption. Make the plate the right cell and move the h1 into the left cell's lower third.\n\n4. (Judgment 3) The Type Treatment sets `alignment: right`, but on the phone in fold 1 the hero caption is left-aligned. Keep it right-aligned at 360.\n\n5. (Judgment 2) In the fold 2 client wall at 360, the Rolex tile is too small to read and the Nature Conservancy tile shows only \"T N\" and a green dot, which looks like a broken image. Set both logos at a size and crop where they read, as Intuit and LastPass do.\n\n6. (Judgment 4) At 1440 the caption's right edge sits flush against the viewport edge with none of the declared side padding (`clamp(40px, 6vw, 112px)`). It looks cut off even though the glyphs are complete. Bring it back inside the side padding.",
+    "channel": "cli-vision",
+    "ts": 1794683850604
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 2,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1794684014598
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 2,
+    "verdict": "REVISE",
+    "feedback": "1. Freshness (judgment 1): Tonight reads as a rerun of 2026-11-04. That night was also a FishSticks spec sheet with an artifact hero, a split-to-sequence collapse and a green-teal hue (158° then, 170° tonight). Its hero, \"The week's spelling words in. A week of practice out.\", says nearly what tonight's \"thousands of kids practicing spelling from the list the teacher sent home.\" says: the teacher's list goes in and the kids practise. 2026-11-09 adds to the overlap with \"a maker's spec plate: one project reversed out of\" a coloured field, set heavy, roman and right-aligned. Change the subject or the silhouette. Either lead with a different owned project and a line that says something new, or drop the reversed spec-plate block for a composition no recent night has used.\n2. Legibility (judgment 2): At 360, fold 2, The Nature Conservancy tile in the client-logo grid shows as a clipped \"T N\" and a green circle, so the name can't be read and the tile looks like a broken image. Fix the SVG's viewBox or sizing so the full logo shows, or set the name as text.\n3. Copy (judgment 5): At 360, fold 2, the selected-work index tags fishsticks \"↑ FEATURED\". In the work records the featured project is Spaceman (`featured: true`), not FishSticks. Remove the tag, or move it to Spaceman.",
+    "channel": "cli-vision",
+    "ts": 1794684046176
+  },
+  {
+    "critic": "surface-gate",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "/ @820: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @820: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @360: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @360: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @1440: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @1440: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/about @1440: em dash in rendered copy: \"...intersection of design and engineering — not as a generalist, but as someone wh...\". Use a period or a comma.\n/about @360: <section.bg_bg.d_flex.flex-d_column.gap_6 > div > p.fs_2xs.ls_widest.tt_uppercase.c_accent> \"about doug march\" is running copy at 12px, under the 14px floor. Set it on the `sm` step or larger.\n/ @360: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > p.pos_absolute.top_5.lg:top_7.right_4> \"aldie, va48°f · overcast\" is running copy at 13.2px, under the 14px floor. Set it on the `sm` step or larger.\n/ @1440: The mockup's largest text is 'fishsticks' at 116px; the build sets 'spaceman' at 120px. Restore the mockup's hierarchy: 'spaceman' is 36px in the mockup.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1794684406187
+  },
+  {
+    "critic": "screenshot-critic",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 2/7/Mockup Fidelity — react-engineer: The homepage hero artifact shows the wrong project. The mockup and brief specify \"fishsticks\" as the marquee artifact (reversed teal title, paired with its FishSticks description) captioned by the hero phrase about \"kids practicing spelling... the list the teacher sent home.\" The render instead shows \"spaceman\" as the title and renders Spaceman's own description text, so the hero caption no longer relates to the artifact beside it — the central concept of the day (artifact + human caption needing each other) is broken. This is confirmed by the measured fault at /, 1440px light: build's largest text is \"spaceman\" at 120px where the mockup's largest text is \"fishsticks\" at 116px. The mismatch is present identically at 1440 light, 1440 dark, 820 tablet, and the 360 filmstrip.\n- Section 11/Polish — react-engineer: The vertical gutter metadata spine reads \"SPACEMAN · 2018 · FOUNDER · FOUNDER\" with the role field duplicated, where the mockup pattern is distinct fields like \"FISHSTICKS · 2025 · SAAS · DESIGN + BUILD.\" Fix the data mapping so the fourth field pulls the medium/category value instead of repeating role.\n- Section 10 — react-engineer: On `/about` at 360px, the \"about doug march\" eyebrow label renders at 12px, under the 14px floor (measured fault). Set it on the `sm` step or larger so it stays legible on phone.\n- Section 3/10 — react-engineer: On `/` at 360px in dark scheme, the weather string \"aldie, va 48°f · overcast\" renders at 13.2px, under the 14px floor (measured fault). Set it on the `sm` step or larger.\n===END===",
+    "channel": "cli-vision",
+    "ts": 1794684618326
+  },
+  {
+    "critic": "surface-gate",
+    "round": 2,
+    "verdict": "SHIP",
+    "feedback": "/ @820: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @820: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 870px, 50px past the 820px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @360: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @360: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 382px, 22px past the 360px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @1440: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\n/ @1440: <div.flex_1.min-w_0 > section.pos_relative.ov_hidden.bg_bg.d_flex > div.pos_absolute.inset_-4%.bg_bg.z_0> is cut off: its right edge lands at 1529px, 89px past the 1440px viewport. Nothing readable is lost, but the element is being severed rather than fitted. Fit it to the column, or mark it `data-allow-x-overflow` if the crop is deliberate.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1794684710818
+  },
+  {
+    "critic": "screenshot-critic",
+    "round": "final",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 (tablet, 820px) — react-engineer: The FishSticks plate loses its teal \"surface\" fill entirely at 820px — it renders as a plain white box with a thin gray border instead of the dark teal reversed panel seen at 1440 and 360. This is the core artifact-plate idea (reversed-teal-on-void) and it disappears at the tablet breakpoint rather than resetting to it; the right cell should keep its teal ground even as the grid reflows.\n- Section 10 (phone filmstrip, home) — react-engineer: The mobile declaration's `first_fold` requires the hero caption sentence beneath the artifact title inside the first fold, but the render cuts it to the very top of fold 2 — fold 1 ends after \"visit the live app\" with no caption visible. The caption needs to fit within the first 640px screen alongside the mark, title, and metadata.\n\n===END===",
+    "channel": "cli-vision",
+    "ts": 1794684972394
+  },
+  {
+    "critic": "ship-gate",
+    "verdict": "SHIPPED-WITH-FAULTS",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 (tablet, 820px) — react-engineer: The FishSticks plate loses its teal \"surface\" fill entirely at 820px — it renders as a plain white box with a thin gray border instead of the dark teal reversed panel seen at 1440 and 360. This is the core artifact-plate idea (reversed-teal-on-void) and it disappears at the tablet breakpoint rather than resetting to it; the right cell should keep its teal ground even as the grid reflows.\n- Section 10 (phone filmstrip, home) — react-engineer: The mobile declaration's `first_fold` requires the hero caption sentence beneath the artifact title inside the first fold, but the render cuts it to the very top of fold 2 — fold 1 ends after \"visit the live app\" with no caption visible. The caption needs to fit within the first 640px screen alongside the mark, title, and metadata.\n\n===END===",
+    "ts": 1794684972394
+  }
+]
