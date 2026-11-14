@@ -1,0 +1,364 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'designer and engineer deep in both' (38px in the mockup) has no match in the build",
+          "facts": {
+            "text": "designer and engineer deep in both",
+            "mockupPx": 38,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'trace crowe' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "trace crowe",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'36°' is 40px in the mockup and 67px in the build (1.68x)",
+          "facts": {
+            "text": "36°",
+            "mockupPx": 40,
+            "buildPx": 67,
+            "ratio": 1.68,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'-13' is 40px in the mockup and 67px in the build (1.68x)",
+          "facts": {
+            "text": "-13",
+            "mockupPx": 40,
+            "buildPx": 67,
+            "ratio": 1.68,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'doug march' moved from (158, 155) in the mockup to (162, 2404) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'trace crowe' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "trace crowe",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'36°' is 28px in the mockup and 46px in the build (1.65x)",
+          "facts": {
+            "text": "36°",
+            "mockupPx": 28,
+            "buildPx": 46,
+            "ratio": 1.65,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'-13' is 28px in the mockup and 46px in the build (1.65x)",
+          "facts": {
+            "text": "-13",
+            "mockupPx": 28,
+            "buildPx": 46,
+            "ratio": 1.65,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'feels like 30' is 21px in the mockup and 39px in the build (1.87x)",
+          "facts": {
+            "text": "feels like 30",
+            "mockupPx": 21,
+            "buildPx": 39,
+            "ratio": 1.87,
+            "mockupRank": 4
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' moved from (80, 109) in the mockup to (100, 2571) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'feels like 30' moved from (78, 418) in the mockup to (214, 445) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'carl yu -12' moved from (199, 592) in the mockup to (180, 648) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'brian harman -11' moved from (199, 632) in the mockup to (180, 688) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets 'designer and engineer deep in both' at 38px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'trace crowe' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'trace crowe' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: 'feels like 30' is 21px in the mockup and 39px in the build (1.87x). Set it back to 21px.",
+        "- / at 1440px: '36°' is 40px in the mockup and 67px in the build (1.68x). Set it back to 40px.",
+        "- / at 1440px: '-13' is 40px in the mockup and 67px in the build (1.68x). Set it back to 40px.",
+        "- / at 360px: '36°' is 28px in the mockup and 46px in the build (1.65x). Set it back to 28px.",
+        "- / at 360px: '-13' is 28px in the mockup and 46px in the build (1.65x). Set it back to 28px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' (38px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 38,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'designer and engineer deep in both' (38px in the mockup) has no match in the build",
+          "facts": {
+            "text": "designer and engineer deep in both",
+            "mockupPx": 38,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'trace crowe' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "trace crowe",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'sunny' (115px); in build it is 'sunny' (96px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "-13",
+                "mockupPx": 40
+              }
+            ],
+            "leader": {
+              "text": "sunny",
+              "mockupPx": 115
+            },
+            "buildLeader": {
+              "text": "sunny",
+              "buildPx": 96,
+              "mockupPx": 115
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'doug march' moved from (158, 155) in the mockup to (162, 1111) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'trace crowe' (14px in the mockup) has no match in the build",
+          "facts": {
+            "text": "trace crowe",
+            "mockupPx": 14,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'sunny' (56px); in build it is 'sunny' (64px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "36°",
+                "mockupPx": 28
+              },
+              {
+                "text": "-13",
+                "mockupPx": 28
+              }
+            ],
+            "leader": {
+              "text": "sunny",
+              "mockupPx": 56
+            },
+            "buildLeader": {
+              "text": "sunny",
+              "buildPx": 64,
+              "mockupPx": 56
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' moved from (80, 109) in the mockup to (100, 1112) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'brian harman -11' moved from (199, 632) in the mockup to (180, 650) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'sunny' still leads, but the mockup's '-13' (40px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'sunny' still leads, but the mockup's '36°' (28px), '-13' (28px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'spaceman' at 38px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'designer and engineer deep in both' at 38px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'trace crowe' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'trace crowe' at 14px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

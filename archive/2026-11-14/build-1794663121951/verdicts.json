@@ -1,0 +1,91 @@
+[
+  {
+    "critic": "mockup-precheck",
+    "round": 0,
+    "verdict": "REVISE",
+    "feedback": "[check 5] Legibility: At 360px, <div.meta-block > div.meta-row > span.meta-k> \"Sun\" at 11px over div.sky (background-image): #7a7158 is under 4.5:1 across 100% of one pixel row through its glyphs (4.33:1 on #f5f2e9). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text.",
+    "findings": [
+      {
+        "check": 5,
+        "key": "legibility",
+        "gap": 0.17
+      }
+    ],
+    "ts": 1794661589057
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 0,
+    "verdict": "REVISE",
+    "feedback": "1. (Judgment 4) The filmstrip doesn't follow the declared `order`. After the SPY line it jumps straight to the footer colophon (\"Doug March\", the blurb, the nav), so selected work, about and the site callout are all missing. Add a selected-work index (Spaceman featured, then FishSticks, 15th Club, dougmar.ch) and an about section between the signal ledger and the colophon, at both widths, using only copy from the work records.\n\n2. (Judgment 1) This reads as a rerun of 2026-11-08. It has the same two-equal / horizontal / right-weighted / type-dominant split, the same 48° gold, and a golf leaderboard filling the right column. The light ground and the slab type are the only real changes. To keep the horizon, make the ledger look less like that night's: drop the −13 down from `3xl` and run the leaderboard as quiet ruled rows that sit under the readout, not as a half-width column facing it.\n\n3. (Judgment 3) The desktop doesn't show the declared horizon. The pale sky is only about the top quarter of the fold, and the gold band takes up about half, so \"sunny\" sits in the middle of the fold rather than at a lower-third horizon. Bring the band down to about 34% of the fold height, sitting at the bottom of the fold, so the upper two-thirds stay open as sky as the composition declares.\n\n4. (Judgment 2) The metadata strip at the top right of the 1440 sky is squeezed into narrow columns. \"Aldie, / Virginia\" breaks across two lines, the date stacks one word per line (\"Sat, / Nov / 14, / 2026\"), and the moon value wraps to three lines. Give each label/value pair enough width to sit on one line.\n\n5. (Judgment 3) Type Treatment says `alignment: right`, but at 360 \"sunny\", \"36°,\" and \"feels like 30\" are set flush left on the gold panel. Keep them right-flush on the phone too, so the stacked readout keeps its station-readout edge.\n\n6. (Judgment 6) `nav_form: list` declares stacked rows with a rule per row, but the footer nav adds the prefixes 01 / 02 / 03, which is the `numbered` form",
+    "channel": "cli-vision",
+    "ts": 1794661613964
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 1,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1794661817750
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "1. (Judgment 3) At 1440 the split the brief asks for never happens. The gold band is one undivided field: its left half is empty, \"sunny\" and its deck sit at the far right page margin instead of right-flush to a centre seam, and the golf/SPY ledger has fallen below the band onto the pale ground, just under the fold. Build the band as `grid-template-columns: 1fr 1fr`: the readout goes in the left column, right-flush to the seam, and the ledger (Crowe −13 at 3xl, then the chasers and SPY) goes in the right column, left-flush from the seam. The reading should run warm word → seam → cold numbers inside the first fold.\n2. (Judgment 3) Since the ledger isn't in the band, nothing faces \"sunny\" across the horizon at desktop, and the sky above, about two-thirds of the fold, has only the mark and the metadata strip. With the ledger moved into the band's right half, the deck \"36°, feels like 30\" also needs to stay clearly one step below the word and stacked on the seam axis, so the pair reads as a readout facing a ledger and not as a lone caption in a corner.",
+    "channel": "cli-vision",
+    "ts": 1794661837562
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 2,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1794662016167
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 2,
+    "verdict": "REVISE",
+    "feedback": "1. Freshness: this page repeats 2026-11-08 (\"a leaderboard split, the leader slammed to the right edge\"). It has the same two-equal, horizontal, right-weighted split on hue 48 gold, and the right half is again a ranked golf leaderboard with the leader's figure (−13) pushed to the right edge at the largest size in that column. It also repeats 2026-11-10: marigold gold on a cream light ground, lowercase/roman/heavy type and a golf leader score given weight. A returning visitor would read it as another gold golf-board night. Break the leaderboard silhouette. Bring Crowe −13 down to ledger size, or fold the golf results into one quiet line. Let the right half of the band carry the cold side of the readout, so the seam sets \"sunny\" against the day's numbers rather than against a leaderboard.\n2. Hierarchy (Type Treatment `alignment: right`, `texture: stacked`): at 360, fold 1 sets \"sunny / 36°, / feels like 30\" flush left. That drops the declared right-flush stacked readout. Keep the stack right-aligned on the gold panel at phone width.",
+    "channel": "cli-vision",
+    "ts": 1794662040430
+  },
+  {
+    "critic": "surface-gate",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "/about @1440: 340 characters of running copy set at 67px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: 340 characters of running copy set at 67px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/work/spaceman @1440: 234 characters of running copy set at 51px (over 48px) — \"Independent design and engineering work doesn't always fit n...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/work/spaceman @1440: 234 characters of running copy set at 51px (over 48px) — \"Independent design and engineering work doesn't always fit n...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/work/fishsticks @1440: 186 characters of running copy set at 51px (over 48px) — \"Kids struggle to practice spelling lists from school — the t...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/work/fishsticks @1440: 186 characters of running copy set at 51px (over 48px) — \"Kids struggle to practice spelling lists from school — the t...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/work/spaceman @360: <dl.m_0.d_flex.flex-wrap_wrap.cg_32px > div.d_flex.flex-d_column.gap_3px > dd.m_0.textStyle_sm.c_textMuted> \"Jeffrey Zeldman, Rolex, The Nature Conse\" at 14.5px over div.pos_relative.bg_bg.d_flex.flex-d_column (background-image): #bdb393 is under 4.5:1 across 100% of one pixel row through its glyphs (3.77:1 on #654e19). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text. Also on /work/fishsticks at 360px, /work/15th-club at 360px, /work/dougmar-ch at 360px, /work/teeturn at 360px, /work/politweets at 360px, /work/twittertale at 360px.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1794662417050
+  },
+  {
+    "critic": "screenshot-critic",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 5/11 — react-engineer: Measured faults show running body copy rendered at display scale: /about sets 340 characters of prose at 67px, /work/spaceman's Problem paragraph at 51px, /work/fishsticks's intro at 51px. These paragraphs should be set on the body step (~16–18px) with the display step reserved for a short phrase, not a full paragraph; as built they read as walls of text, not heroes.\n- Section 3 — react-engineer: Measured contrast failure on the client-list line (\"Jeffrey Zeldman, Rolex, The Nature Conse...\") at 360px in dark mode — 3.77:1, under the 4.5:1 floor — reproduced on /work/spaceman, /work/fishsticks, /work/15th-club, /work/dougmar-ch, /work/teeturn, /work/politweets and /work/twittertale. Give that text a flat background box of its own or stop the gradient/image layer short of the text so the ratio clears.\n- Section 6 — react-engineer: On /work/spaceman's desktop filmstrip, fold 2 of 3 sets the \"Approach\" and \"Outcome\" copy in a narrow left-aligned column (~324px of a ~688px available row) with the right half of that row empty all the way to the footer — the \"body copy in a column at the left, rest of the row empty\" dead-canvas pattern. Either widen the prose column or give the right half a second element (pull quote, image, metadata) so the row is active.\n- Section 8 — react-engineer: Today's composition declares `density: sparse`, but the home page's phone filmstrip (fold 2–3 of 5) shows a \"SELECTED WORK\" heading with Spaceman / FishSticks / 15th Club project rows below the hero fold. A sparse day's home page must show only the hero phrase, nav, and signal annotation; the project index belongs behind navigation, not inline on `/`.\n\n===END===",
+    "channel": "cli-vision",
+    "ts": 1794662617949
+  },
+  {
+    "critic": "surface-gate",
+    "round": 2,
+    "verdict": "SHIP",
+    "feedback": "app/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1794662741770
+  },
+  {
+    "critic": "screenshot-critic",
+    "round": "final",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 6 — react-engineer: On `/work/spaceman`, the \"Problem\" paragraph inside the gold band (fold 1 of 2) sits in a column using roughly the left 40% of the band's width, leaving the remaining 60% of the gold field empty with no role. The pattern repeats in fold 2, where the continuing narrative paragraph (\"...partnering with companies and studios...\") again occupies only a narrow left column with a large plain void to its right. This is the \"body copy at left, rest of the row empty, fold after fold\" dead-canvas failure named in the brief; widen the text measure or add a second active element to fill the row.\n- Section 12 — react-engineer: In the motion strip, the hero word \"sunny\" renders noticeably larger at 200ms (nearly double the width it has at 500ms/1000ms) while the deck line is truncated to \"36°, feels like\" with \"30\" missing. This reads as a scale overshoot settling into place rather than the declared clean left-to-right `wipe` at constant size; the word's size should hold steady while only its reveal progresses.\n===END===",
+    "channel": "cli-vision",
+    "ts": 1794663117898
+  },
+  {
+    "critic": "ship-gate",
+    "verdict": "SHIPPED-WITH-FAULTS",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 6 — react-engineer: On `/work/spaceman`, the \"Problem\" paragraph inside the gold band (fold 1 of 2) sits in a column using roughly the left 40% of the band's width, leaving the remaining 60% of the gold field empty with no role. The pattern repeats in fold 2, where the continuing narrative paragraph (\"...partnering with companies and studios...\") again occupies only a narrow left column with a large plain void to its right. This is the \"body copy at left, rest of the row empty, fold after fold\" dead-canvas failure named in the brief; widen the text measure or add a second active element to fill the row.\n- Section 12 — react-engineer: In the motion strip, the hero word \"sunny\" renders noticeably larger at 200ms (nearly double the width it has at 500ms/1000ms) while the deck line is truncated to \"36°, feels like\" with \"30\" missing. This reads as a scale overshoot settling into place rather than the declared clean left-to-right `wipe` at constant size; the word's size should hold steady while only its reveal progresses.\n===END===",
+    "ts": 1794663117898
+  }
+]

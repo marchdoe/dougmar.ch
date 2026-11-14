@@ -1,51 +1,102 @@
-import { css, cx } from '../../../styled-system/css'
-import type { projects } from '../../content/projects'
-import { CaseLinks } from './CaseLinks'
-import { label, reveal, stackGrid } from './styles'
+import { css } from '../../../styled-system/css'
+import { type Project, field } from './projectFields'
+import { RevealSection } from './RevealSection'
+import { StackList } from './StackList'
 
-type Project = (typeof projects)[number]
+function linksFor(project: Project) {
+  return [
+    { label: 'Visit the live site ↗', href: field(project, 'liveUrl') },
+    { label: 'Source on GitHub ↗', href: field(project, 'githubUrl') },
+    { label: 'Visit the project ↗', href: field(project, 'externalUrl') },
+  ].filter((l) => l.href !== '')
+}
 
 export function CaseBody({ project }: { project: Project }) {
-  const parts = [
-    { name: 'Problem', body: project.problem ?? '' },
-    { name: 'Approach', body: project.approach ?? '' },
-    { name: 'Outcome', body: project.outcome ?? '' },
-  ].filter((p) => p.body !== '')
+  const blocks = [
+    { label: 'Approach', text: field(project, 'approach') },
+    { label: 'Outcome', text: field(project, 'outcome') },
+    { label: 'Overview', text: field(project, 'description') },
+  ].filter((b) => b.text !== '')
   return (
-    <section className={cx(reveal, css({ marginTop: '80px' }))}>
+    <RevealSection
+      className={css({
+        paddingTop: 'clamp(40px, 5vw, 72px)',
+        paddingBottom: 'clamp(40px, 5vw, 64px)',
+        paddingInline: 'clamp(24px, 6vw, 112px)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '40px',
+      })}
+    >
       <div
-        className={cx(
-          stackGrid,
-          css({ gridTemplateColumns: { base: '1fr', md: 'repeat(3, 1fr)' } })
-        )}
+        className={css({
+          display: 'grid',
+          gridTemplateColumns: { base: '1fr', lg: 'repeat(2, minmax(0, 1fr))' },
+          columnGap: '56px',
+          rowGap: '40px',
+        })}
       >
-        {parts.map((p) => (
+        {blocks.map((b) => (
           <div
-            key={p.name}
+            key={b.label}
             className={css({
-              bg: 'bg',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px',
+              paddingTop: '20px',
+              borderTopWidth: '1px',
+              borderTopStyle: 'solid',
+              borderTopColor: 'borderStrong',
               minWidth: '0',
-              paddingTop: '6',
-              paddingBottom: '6',
-              paddingInline: '22px',
             })}
           >
-            <h2 className={cx(label, css({ color: 'textMuted', marginBottom: '2' }))}>{p.name}</h2>
-            <p
+            <h2
               className={css({
-                fontSize: 'base',
-                lineHeight: '1.55',
+                fontFamily: 'display',
+                fontWeight: 'normal',
+                textStyle: 'lg',
                 color: 'text',
-                maxWidth: '62ch',
-                margin: '0',
               })}
             >
-              {p.body}
+              {b.label}
+            </h2>
+            <p
+              className={css({
+                textStyle: 'base',
+                lineHeight: '1.6',
+                color: 'text',
+                maxWidth: '50ch',
+              })}
+            >
+              {b.text}
             </p>
           </div>
         ))}
-        <CaseLinks project={project} />
       </div>
-    </section>
+      <StackList project={project} />
+      <div className={css({ display: 'flex', flexWrap: 'wrap', columnGap: '32px', rowGap: '8px' })}>
+        {linksFor(project).map((l) => (
+          <a
+            key={l.href}
+            href={l.href}
+            className={css({
+              display: 'inline-flex',
+              alignItems: 'center',
+              minHeight: '44px',
+              textStyle: 'base',
+              fontWeight: 'bold',
+              color: 'text',
+              textDecoration: 'underline',
+              textDecorationColor: 'accentAlt',
+              textDecorationThickness: '2px',
+              textUnderlineOffset: '4px',
+              _hover: { color: 'accentAlt' },
+            })}
+          >
+            {l.label}
+          </a>
+        ))}
+      </div>
+    </RevealSection>
   )
 }
