@@ -1,48 +1,48 @@
 import { css } from '../../../styled-system/css'
 
-const dtGround = css({
-  textTransform: 'uppercase',
-  letterSpacing: 'wide',
-  fontSize: '2xs',
-  color: 'textMuted',
-})
-// fieldInkMuted measured 4.00:1 on field; labels on the field take fieldInk instead.
-const dtField = css({
-  textTransform: 'uppercase',
-  letterSpacing: 'wide',
-  fontSize: '2xs',
-  color: 'fieldInk',
-})
-const ddGround = css({ margin: '0', color: 'text', minWidth: '0', overflowWrap: 'break-word' })
-const ddField = css({ margin: '0', color: 'fieldInk', minWidth: '0', overflowWrap: 'break-word' })
+type Fact = { k: string; v: string }
 
-export function FactList({
-  rows,
-  onField,
-}: {
-  rows: { term: string; detail: string }[]
-  onField: boolean
-}) {
-  const shown = rows.filter((r) => r.detail !== '')
+export function FactList({ facts }: { facts: Fact[] }) {
   return (
     <dl
       className={css({
-        margin: '0',
-        display: 'grid',
-        gridTemplateColumns: 'auto 1fr',
-        rowGap: '6px',
-        columnGap: '16px',
-        fontSize: 'sm',
-        lineHeight: '1.4',
-        alignItems: 'baseline',
+        marginTop: '20px',
+        marginBottom: '0',
+        borderTopWidth: '1px',
+        borderTopStyle: 'solid',
+        borderTopColor: 'borderStrong',
       })}
     >
-      {shown.map((r) => (
-        <div key={r.term} className={css({ display: 'contents' })}>
-          <dt className={onField ? dtField : dtGround}>{r.term}</dt>
-          <dd className={onField ? ddField : ddGround}>{r.detail}</dd>
-        </div>
-      ))}
+      {facts
+        .filter((f) => f.v !== '')
+        .map((f) => (
+          <div
+            key={f.k}
+            className={css({
+              display: 'grid',
+              gridTemplateColumns: { base: '1fr', md: '10em 1fr' },
+              columnGap: '24px',
+              rowGap: '4px',
+              paddingBlock: '12px',
+              borderBottomWidth: '1px',
+              borderBottomStyle: 'solid',
+              borderBottomColor: 'border',
+            })}
+          >
+            <dt
+              className={css({
+                textStyle: '2xs',
+                textTransform: 'uppercase',
+                letterSpacing: 'wider',
+                fontWeight: 'bold',
+                color: 'textMuted',
+              })}
+            >
+              {f.k}
+            </dt>
+            <dd className={css({ margin: '0', textStyle: 'base', color: 'text' })}>{f.v}</dd>
+          </div>
+        ))}
     </dl>
   )
 }

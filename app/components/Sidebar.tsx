@@ -1,69 +1,107 @@
 import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
-import { BrandLockup } from './BrandLockup'
 
-const LINKS = [
-  { num: '01', text: 'work', href: '/#work' },
-  { num: '02', text: 'about', href: '/about' },
-  { num: '03', text: 'contact', href: `mailto:${identity.email}` },
+const links = [
+  { label: 'work', href: '/work' },
+  { label: 'about', href: '/about' },
+  { label: 'contact', href: `mailto:${identity.email}` },
 ]
 
 export function Sidebar() {
   return (
-    <header
+    <footer
       className={css({
         bg: 'bg',
-        minHeight: '96px',
-        display: 'flex',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        rowGap: '16px',
-        columnGap: '24px',
-        paddingBlock: '20px',
-        paddingInline: 'clamp(16px, 5vw, 64px)',
+        color: 'text',
+        paddingTop: 'clamp(40px, 6vw, 72px)',
+        paddingBottom: 'clamp(32px, 4vw, 48px)',
+        paddingInline: 'clamp(24px, 6vw, 112px)',
+        display: 'grid',
+        gridTemplateColumns: { base: '1fr', md: '1.3fr 1fr' },
+        gap: { base: '40px', md: '56px' },
       })}
     >
-      <a
-        href="/"
-        aria-label={`${identity.name}, home`}
-        className={css({ color: 'text', _hover: { textDecoration: 'none' } })}
+      <div
+        className={css({ display: 'flex', flexDirection: 'column', gap: '14px', maxWidth: '46ch' })}
       >
-        {/* nav_360 drops the role line; it returns from sm up. */}
-        <span className={css({ display: { base: 'block', sm: 'none' } })}>
-          <BrandLockup variant="horizontal-md" mode="original" />
+        <span
+          className={css({
+            fontFamily: 'display',
+            fontWeight: 'bold',
+            textStyle: 'lg',
+            letterSpacing: '-0.01em',
+            color: 'text',
+          })}
+        >
+          {identity.name}
         </span>
-        <span className={css({ display: { base: 'none', sm: 'block' } })}>
-          <BrandLockup variant="horizontal-md" mode="original" roleLine />
-        </span>
-      </a>
-      <nav className={css({ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '4px' })}>
-        {LINKS.map((l) => (
+        <span className={css({ textStyle: 'sm', color: 'textMuted' })}>{identity.role}</span>
+        <p className={css({ textStyle: 'sm', color: 'textMuted', maxWidth: '46ch' })}>
+          A bright cold Saturday in Aldie. The sun is out and does nothing to warm you.
+        </p>
+        <p className={css({ textStyle: 'sm', color: 'textMuted', letterSpacing: '0.02em' })}>
+          in rotation · The War on Drugs · My Morning Jacket
+        </p>
+      </div>
+
+      <nav
+        aria-label="Primary"
+        className={css({
+          display: 'flex',
+          flexDirection: 'column',
+          borderTopWidth: '1px',
+          borderTopStyle: 'solid',
+          borderTopColor: 'borderStrong',
+          maxWidth: '440px',
+        })}
+      >
+        {links.map((l) => (
           <a
-            key={l.num}
+            key={l.label}
             href={l.href}
             className={css({
-              display: 'inline-flex',
+              display: 'flex',
               alignItems: 'center',
-              gap: '7px',
-              minHeight: '44px',
-              minWidth: '44px',
+              minHeight: '48px',
               paddingBlock: '10px',
-              paddingInline: '12px',
-              fontSize: 'sm',
-              color: 'textMuted',
+              paddingInline: '2px',
+              borderBottomWidth: '1px',
+              borderBottomStyle: 'solid',
+              borderBottomColor: 'border',
+              textStyle: 'sm',
+              fontWeight: 'normal',
+              color: 'text',
               textTransform: 'lowercase',
-              letterSpacing: '0.01em',
-              _hover: { color: 'accent', textDecoration: 'none' },
+              _hover: {
+                color: 'accentAlt',
+                textDecoration: 'underline',
+                textDecorationColor: 'accentAlt',
+              },
             })}
           >
-            <span className={css({ fontFamily: 'display', fontSize: '13px', color: 'accent' })}>
-              {l.num}
-            </span>
-            {l.text}
+            {l.label}
           </a>
         ))}
       </nav>
-    </header>
+
+      <div
+        className={css({
+          gridColumn: '1 / -1',
+          paddingTop: '20px',
+          borderTopWidth: '1px',
+          borderTopStyle: 'solid',
+          borderTopColor: 'border',
+          textStyle: 'xs',
+          color: 'textMuted',
+          display: 'flex',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '8px',
+        })}
+      >
+        <span>dougmar.ch</span>
+        <span>Nov 14, 2026 · Aldie, VA</span>
+      </div>
+    </footer>
   )
 }

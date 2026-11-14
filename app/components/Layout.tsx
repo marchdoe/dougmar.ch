@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react'
 import { css } from '../../styled-system/css'
-import { Colophon } from './generated/Colophon'
 import { Sidebar } from './Sidebar'
 
 export function Layout({ children }: { children: ReactNode }) {
@@ -11,12 +10,12 @@ export function Layout({ children }: { children: ReactNode }) {
         color: 'text',
         fontFamily: 'body',
         minHeight: '100vh',
-        overflowX: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
       })}
     >
+      <div className={css({ flex: '1' })}>{children}</div>
       <Sidebar />
-      <main>{children}</main>
-      <Colophon />
     </div>
   )
 }

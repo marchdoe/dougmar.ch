@@ -4,15 +4,13 @@ import { BrandLockup } from '../components/BrandLockup'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
-const WORDS = ['Nobody', 'guarded', 'anybody,']
-
 function OgCard() {
   return (
     <div
       className={css({
         position: 'fixed',
         inset: '0',
-        zIndex: '9999',
+        zIndex: 9999,
         bg: 'bg',
         display: 'flex',
         alignItems: 'center',
@@ -23,87 +21,91 @@ function OgCard() {
         className={css({
           width: '1200px',
           height: '630px',
-          bg: 'bg',
-          color: 'text',
-          display: 'grid',
-          gridTemplateColumns: '1fr 360px',
           flexShrink: '0',
+          display: 'grid',
+          gridTemplateRows: '1fr 330px',
+          bg: 'bg',
+          fontFamily: 'body',
         })}
       >
         <div
           className={css({
-            padding: '56px',
+            bg: 'bg',
+            backgroundImage:
+              'linear-gradient(to bottom, {colors.bg} 0%, {colors.bgAlt} 42%, color-mix(in srgb, {colors.accent} 22%, {colors.bg}) 76%, color-mix(in srgb, {colors.accent} 45%, {colors.bg}) 100%)',
+            paddingTop: '56px',
+            paddingInline: '64px',
             display: 'flex',
-            flexDirection: 'column',
             justifyContent: 'space-between',
-            minWidth: '0',
+            alignItems: 'flex-start',
           })}
         >
-          <div className={css({ color: 'text' })}>
-            <BrandLockup variant="horizontal-md" mode="original" roleLine />
-          </div>
-          <h1
+          <BrandLockup variant="stacked-lg" mode="original" className={css({ color: 'text' })} />
+          <div
             className={css({
-              fontFamily: 'display',
-              fontWeight: 'normal',
-              fontVariant: 'small-caps',
-              fontSize: '84px',
-              lineHeight: '1.02',
-              letterSpacing: '0.005em',
-              color: 'text',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-end',
+              gap: '4px',
             })}
           >
-            {WORDS.map((w) => (
-              <span key={w} className={css({ display: 'block' })}>
-                {w}{' '}
-              </span>
-            ))}
-            <span className={css({ display: 'block', color: 'accent' })}>144-140.</span>
-          </h1>
+            <span className={css({ fontFamily: 'display', fontSize: '24px', color: 'text' })}>
+              Aldie, Virginia
+            </span>
+            <span className={css({ fontSize: '18px', color: 'textMuted' })}>Sat, Nov 14, 2026</span>
+          </div>
         </div>
         <div
           className={css({
             bg: 'field',
-            color: 'fieldInk',
-            padding: '56px',
+            borderTopWidth: '2px',
+            borderTopStyle: 'solid',
+            borderTopColor: 'fieldBorder',
+            paddingInline: '64px',
             display: 'flex',
-            flexDirection: 'column',
+            alignItems: 'center',
             justifyContent: 'flex-end',
-            gap: '4',
           })}
         >
-          <span
+          <h1
             className={css({
-              fontSize: 'xs',
-              textTransform: 'uppercase',
-              letterSpacing: 'wider',
-              color: 'fieldInk',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-end',
+              textAlign: 'right',
             })}
           >
-            Pistons · W
-          </span>
-          <span
-            className={css({
-              fontFamily: 'display',
-              fontWeight: 'normal',
-              fontSize: '120px',
-              lineHeight: '0.82',
-              color: 'fieldInk',
-            })}
-          >
-            144
-          </span>
-          <span
-            className={css({
-              fontFamily: 'display',
-              fontWeight: 'normal',
-              fontSize: '120px',
-              lineHeight: '0.82',
-              color: 'fieldInk',
-            })}
-          >
-            140
-          </span>
+            <span
+              className={css({
+                display: 'block',
+                fontFamily: 'display',
+                fontWeight: 'bold',
+                fontSize: '168px',
+                lineHeight: '0.9',
+                letterSpacing: '-0.02em',
+                color: 'fieldInk',
+                textTransform: 'lowercase',
+              })}
+            >
+              sunny
+            </span>{' '}
+            <span
+              className={css({
+                display: 'block',
+                marginTop: '12px',
+                fontFamily: 'display',
+                fontSize: '44px',
+                lineHeight: '1.1',
+                color: 'fieldInk',
+                whiteSpace: 'nowrap',
+              })}
+            >
+              36°,{' '}
+              <span className={css({ fontSize: '34px', color: 'fieldInkMuted' })}>
+                feels like 30
+              </span>
+            </span>
+          </h1>
         </div>
       </div>
     </div>
