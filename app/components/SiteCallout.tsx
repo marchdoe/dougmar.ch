@@ -34,7 +34,7 @@ import { calloutLineFor, siteCallout } from '../content/callout'
  */
 
 const DESIGN_DATE = '2026-11-14'
-const ARCHIVE_COUNT = 191
+const ARCHIVE_COUNT = 192
 
 const root = css({
   display: 'block',
@@ -103,7 +103,7 @@ const primary = css({
 })
 
 const secondary = css({
-  color: 'textMuted',
+  color: 'textFaint',
   textDecorationColor: 'borderStrong',
   _hover: { color: 'text', textDecorationColor: 'accent' },
 })

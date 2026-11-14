@@ -1,47 +1,45 @@
 # 2026-11-14
 
-**Design Brief:** Frost-white open sky over a winter-gold horizon band, "sunny" in lowercase slab facing the day's cold numbers across the seam.
+**Design Brief:** Dusk-indigo drench, a Dogen line in light Spectral italic, one word "yourself" broken out in amber outline, the day kept in the margin.
 
 ## Signals
 
 ### Weather
 **Location:** Aldie, Virginia
-**Conditions:** Sunny
+**Conditions:** Overcast
 **Feel:** undefined
 
 ## Claude's Rationale
 
-The phrase is a weather readout: "sunny, 36°, feels like 30." A bright cold Saturday where the sun is out and the wind takes it back. That gap between the warm word and the cold numbers is the whole idea, so the composition is a horizon. The upper two-thirds are held open as pale frost sky; a single band of low November sun-gold runs across the lower third, and the word "sunny" sits on that band at 116px facing the day's numbers across a center seam. Horizontal axis because the organizing line is a literal horizon; two-equal columns so the warm word on the left faces the day's facts (golf, market) on the right, the 2026-06-13 split-as-argument move at small scale.
+The phrase is Dogen's line about ignoring the crowd and trusting the voice within. On a quiet Saturday with no event to carry, that line is the strongest thing in the signals and it names how Doug actually works: one person deep in both crafts, deciding what ships. A contemplative aphorism about inwardness wants stillness, which the color philosophy maps to a drenched cool field, so the whole page is dusk indigo at 264° and the hero plane is the deepest indigo of all, quote reversed out in near-white.
 
-Zilla Slab carries it because a plain weather fact wants a sturdy, low-contrast slab that states rather than performs — civic, grounded, matter-of-fact, exactly Doug's flat declarative register. It is also genuinely underused (never shipped in the last fourteen nights) and its quieter 120px ceiling is right: a weather report should not shout, and slab stroke weight gives the word presence without a didone's drama. Lowercase and right-flush-stacked makes it read as a station readout, not a headline.
+Composition follows: the quote is a `statement`, the largest element, hung off one left rail in a `two-asymmetric` field so it reads as a page rather than a centred poster, with the narrow margin doing real work holding the brand, the nav and the day's facts. The one deliberate break is "yourself" — set upright and stroked in amber outline, breaking the even italic column. That single violation is the `broken` symmetry, the `syncopated` rhythm, and the meaning of the line, all in one move: the voice within is the warm ember in the cool field.
 
-The palette is light-ground: frost-sand sky dominant, one minority band of winter gold at 48° as the sun on the horizon. Gold is recent across the window, but the brief is a cold *sunny* day, so the sun-color is the literal subject rather than a reflex, and I keep it to one band so the pale field stays dominant and the original colored mark's blue clears 3:1 on the frost ground. All text is ink for contrast safety; gold works as fill, never as small type. The wipe entrance sweeps the word in left to right like dawn light crossing a clear cold morning, and the page then holds still.
+Chassis is `spectral-albert`, a transitional serif that reads literary and considered and loads true display italics, so the quote can lead in a light italic without shouting — the quietest register in the catalog suited to a reflective line, and unused in recent weeks. Palette is one dominant indigo carried across the viewport with a single warm amber accent at roughly ten percent, honoring the one-accent rule. I deviated from the 140°–180° color target because that target sits inside its own forbidden 128°–248° zone and green shipped on the 13th and the 4th; 248°–274° is a genuinely open band and drenched cool indigo is the honest fit for the phrase. The standard shell with a right-margin header breaks the recent footer-only/folded/marginal streak and the previous build's repeat.
 
 ## Files Changed
 
 - elements/preset.ts
 - app/components/Layout.tsx
 - app/components/Sidebar.tsx
-- app/components/generated/Sky.tsx
-- app/components/generated/SkyMasthead.tsx
-- app/components/generated/Ledger.tsx
-- app/components/generated/HeroBand.tsx
+- app/components/generated/MarginNav.tsx
+- app/components/generated/DayIndex.tsx
+- app/components/generated/FooterStrip.tsx
+- app/components/generated/heroPhrase.tsx
+- app/components/generated/HeroField.tsx
 - app/components/generated/HomeHero.tsx
-- app/components/generated/RevealSection.tsx
-- app/components/generated/SecLabel.tsx
-- app/components/generated/FactList.tsx
-- app/components/generated/AboutHeader.tsx
-- app/components/generated/AboutBand.tsx
-- app/components/generated/TimelineSection.tsx
-- app/components/generated/CapabilitiesSection.tsx
-- app/components/generated/FactsSection.tsx
-- app/components/generated/projectFields.tsx
-- app/components/generated/CaseHeader.tsx
-- app/components/generated/ProblemBand.tsx
-- app/components/generated/StackList.tsx
-- app/components/generated/CaseBody.tsx
+- app/components/generated/ProjectList.tsx
+- app/components/generated/FeaturedProject.tsx
+- app/components/generated/WorkIndex.tsx
+- app/components/generated/AboutHero.tsx
+- app/components/generated/TimelineList.tsx
+- app/components/generated/AboutAside.tsx
+- app/components/generated/AboutBody.tsx
+- app/components/generated/CaseHero.tsx
+- app/components/generated/CaseNarrative.tsx
+- app/components/generated/CaseAside.tsx
 - app/components/generated/CaseStudy.tsx
-- app/components/generated/CaseNotFound.tsx
+- app/components/generated/MissingProject.tsx
 - app/routes/index.tsx
 - app/routes/about.tsx
 - app/routes/work.$slug.tsx

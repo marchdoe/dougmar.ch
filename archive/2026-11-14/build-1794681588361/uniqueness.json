@@ -1,0 +1,56 @@
+{
+  "date": "2026-11-14",
+  "window": 7,
+  "metrics": {
+    "composition": {
+      "raw": 5,
+      "score": 0.5,
+      "nearest": "2026-11-11",
+      "compared": 7
+    },
+    "hue": {
+      "raw": 6,
+      "score": 0.03333333333333333,
+      "nearest": "2026-11-06",
+      "compared": 7
+    },
+    "lane": {
+      "raw": 2,
+      "score": 0.2857142857142857,
+      "lastSeen": "2026-11-11",
+      "compared": 7
+    },
+    "shell": {
+      "raw": 3,
+      "score": 0.42857142857142855,
+      "nearest": "2026-11-11",
+      "compared": 7
+    },
+    "geometry": {
+      "raw": 0.684128848428725,
+      "score": 0.684128848428725,
+      "nearest": "2026-11-13",
+      "compared": 7
+    },
+    "fidelity": {
+      "raw": 2,
+      "score": 1,
+      "checks": [
+        {
+          "name": "canvas_utilization",
+          "floor": 76,
+          "actual": 100,
+          "met": true
+        },
+        {
+          "name": "color_coverage",
+          "floor": 62,
+          "actual": 85.8,
+          "met": true
+        }
+      ]
+    }
+  },
+  "composite": 0.45298453713051,
+  "version": 2
+}
