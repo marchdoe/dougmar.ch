@@ -1,0 +1,91 @@
+[
+  {
+    "critic": "mockup-precheck",
+    "round": 0,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1794680261267
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 0,
+    "verdict": "REVISE",
+    "feedback": "1. (Judgment 4) At 1440 the quote is set one word per line down a very narrow left rail. The run \"Do not / follow / the / ideas… / listen\" fills the whole 900px fold and is cut by the bottom edge, so \"to the voice within\", the amber outline \"yourself\" and the Dogen attribution all fall below the fold. Widen the quote block to the brief's columns 1–8 of the 2.3fr field so the 15 words set as a reading block of four or five lines with \"yourself\" and \"— Dogen\" above 900px. The phone version (fold 1 of 5) already sets it correctly.\n\n2. (Judgment 3) Because of that wrapping, the desktop hero reads as a vertical word stack, not the declared left-aligned italic reading column. The one violation, upright amber outline \"yourself\", never shows in the desktop view. Without it the `texture: outline` declaration and the brief's single focal point are missing from the 1440 composition.\n\n3. (Judgment 5) The Spaceman entry reads \"A founder's bet taken end to end: product strategy, interface, and the code underneath it carried by one pair of hands. The lesson that still runs the shop — go deep in both crafts…\". The records describe Spaceman as the LLC Doug has run for a decade, partnering with companies and studios on product design, frontend engineering, design systems and brand for clients such as Zeldman and Rolex. Replace this with copy drawn from the record's problem, approach and outcome text.\n\n4. (Judgment 5) The role line \"DESIGNER & ENGINEER\" in the header and footer, and \"Designer & Engineer — deep in both, not a generalist\" in the footer, don't match `identity.role`, which is \"Product Designer & Developer\". Use the recorded role.\n\n5. (Judgment 6) The declared `nav_form` is `list`, but each row is prefixed 01 / 02 / 03, which is the `numbered` form. Drop the numerals and keep the lowercase labels with one hairline rule per row.\n\n6. (Judgment 4) The Mobile Declaration says fold 1 holds the quote plus the 48px mark and nothing else. Fold 1 also carries the \"Doug March\" wordm",
+    "channel": "cli-vision",
+    "ts": 1794680280103
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "[check 2] The largest first-fold text measures 104px at 1440; the declared hero_scale clamp(26px, 5.5vw, 80px) resolves to 79.2px there (131%, over the 75-125% band). Set the hero element's font-size to exactly clamp(26px, 5.5vw, 80px).",
+    "findings": [
+      {
+        "check": 2,
+        "key": "hero",
+        "gap": 24.8
+      }
+    ],
+    "ts": 1794680482831
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "1. (Judgment 5) The Spaceman standfirst says \"One pair of hands across the whole stack rather than files handed between two teams.\" The record says Doug worked \"sometimes as a solo contributor, sometimes embedded in a larger team,\" so the page claims something the record contradicts. Cut that sentence or replace it with record wording, such as the list of disciplines: \"product design, frontend engineering, design systems, and brand.\"\n2. (Judgment 5) \"The studio behind the client work\" is also not in the record, which calls Spaceman \"the LLC I've operated under for the past decade, partnering with companies and studios across industries.\" Use the record's phrasing instead.\n3. (Judgment 4) At 360 the Mobile Declaration says `first_fold` holds the Dogen quote and the mark, \"nothing else.\" Fold 1 also shows the \"Doug March\" wordmark, the role line and the \"work\" nav row, because the hero field ends about 395px down. Make the hero field fill the first 640px fold so the margin band starts below it.",
+    "channel": "cli-vision",
+    "ts": 1794680505056
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 2,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1794680535997
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 2,
+    "verdict": "APPROVE",
+    "feedback": "What carries the design is Dogen's line in light italic, hung off the left rail of a deep indigo field, with \"yourself.\" breaking out upright in amber outline; the working right margin holds the brand, the lowercase ruled nav and the day's facts, and on the phone the quote holds the first fold alone with the mark.",
+    "channel": "cli-vision",
+    "ts": 1794680555231
+  },
+  {
+    "critic": "surface-gate",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "/ @1440: single-colour mark on #efecfb at 1440 (light), where the full-colour mark passes contrast (best 3.1:1, its blue). Render the full-colour mark in the light scheme: <BrandLockup mode=\"original\" />, or mode={{ light: 'original', dark: 'single-color' }} if the other scheme's ground fails it.\n/about @1440: single-colour mark on #efecfb at 1440 (light), where the full-colour mark passes contrast (best 3.1:1, its blue). Render the full-colour mark in the light scheme: <BrandLockup mode=\"original\" />, or mode={{ light: 'original', dark: 'single-color' }} if the other scheme's ground fails it.\n/work/spaceman @1440: single-colour mark on #efecfb at 1440 (light), where the full-colour mark passes contrast (best 3.1:1, its blue). Render the full-colour mark in the light scheme: <BrandLockup mode=\"original\" />, or mode={{ light: 'original', dark: 'single-color' }} if the other scheme's ground fails it.\n/work/fishsticks @1440: single-colour mark on #efecfb at 1440 (light), where the full-colour mark passes contrast (best 3.1:1, its blue). Render the full-colour mark in the light scheme: <BrandLockup mode=\"original\" />, or mode={{ light: 'original', dark: 'single-color' }} if the other scheme's ground fails it.\n/work/15th-club @1440: single-colour mark on #efecfb at 1440 (light), where the full-colour mark passes contrast (best 3.1:1, its blue). Render the full-colour mark in the light scheme: <BrandLockup mode=\"original\" />, or mode={{ light: 'original', dark: 'single-color' }} if the other scheme's ground fails it.\n/work/dougmar-ch @1440: single-colour mark on #efecfb at 1440 (light), where the full-colour mark passes contrast (best 3.1:1, its blue). Render the full-colour mark in the light scheme: <BrandLockup mode=\"original\" />, or mode={{ light: 'original', dark: 'single-color' }} if the other scheme's ground fails it.\n/work/teeturn @1440: single-colour mark on #efecfb at 1440 (light), where the full-colour mark passes contrast (best 3.1:1, its blue). Render the full-colour mark in the light scheme: <BrandLockup mode=\"original\" />, or mode={{ light: 'original', dark: 'single-color' }} if the other scheme's ground fails it.\n/work/politweets @1440: single-colour mark on #efecfb at 1440 (light), where the full-colour mark passes contrast (best 3.1:1, its blue). Render the full-colour mark in the light scheme: <BrandLockup mode=\"original\" />, or mode={{ light: 'original', dark: 'single-color' }} if the other scheme's ground fails it.\n/work/twittertale @1440: single-colour mark on #efecfb at 1440 (light), where the full-colour mark passes contrast (best 3.1:1, its blue). Render the full-colour mark in the light scheme: <BrandLockup mode=\"original\" />, or mode={{ light: 'original', dark: 'single-color' }} if the other scheme's ground fails it.\n/about @1440: <ol.li-s_none.m_0.p_0 > li.d_grid.cg_4.rg_1.py_4 > span.ff_body.fs_sm.ls_wide.c_accent> \"2025 to present\" (x12) at 14.5px: #c7ab89 on #efecfb is 1.87:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work/spaceman @1440: <div > div.mb_6 > h2.ff_body.fs_xs.tt_uppercase.ls_widest> \"Problem\" (x3) at 13.2px: #c3a57e on #efecfb is 2.01:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work/spaceman @1440: <section.bg_bg.c_text.bd-t-w_1px.border-top-style_solid > aside.d_flex.flex-d_column.ai_flex-start.gap_5 > a.d_inline-flex.ai_center.gap_2.min-h_44px> \"Visit the project\" at 14.5px: #c3a57e on #efecfb is 2.01:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @1440: <section#work.bg_bg.c_text.px_4.md:px_5vw > div.bd-t-w_2px.border-top-style_solid.bd-t-c_accent.pt_4 > div.ff_body.fs_2xs.tt_uppercase.ls_widest> \"Featured · Founder\" at 12px: #c3a47d on #efecfb is 2.01:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @1440: <section#work.bg_bg.c_text.px_4.md:px_5vw > div.bd-t-w_2px.border-top-style_solid.bd-t-c_accent.pt_4 > a.d_inline-flex.ai_center.gap_2.min-h_44px> \"Visit the project\" at 14.5px: #c3a47d on #efecfb is 2.01:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/about @1440: <div.d_flex.flex-d_column.gap_6 > div > div.ff_body.fs_2xs.tt_uppercase.ls_widest> \"Capabilities\" (x3) at 12px: #aaa5bf on #efecfb is 2.03:1, under 3:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work/fishsticks @1440: 56 more distinct low-contrast pairs are not listed; the worst is 2.19:1.\n/work @360: <div > div.d_flex.jc_space-between.ai_baseline.py_2 > span.ff_display.fs_lede.fv-num_tabular-nums.c_accent> \"−13\" at 18.5px: #9e6712 on #efecfb is 4.10:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1794681009279
+  },
+  {
+    "critic": "screenshot-critic",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 3 — react-engineer: Measured contrast failures show accent-colored labels and links rendering around 2.0:1 against the light background (#efecfb), well under the 4.5:1/3:1 thresholds — \"Featured · Founder\" and \"Visit the project\" on `/`, \"Problem\"/\"Visit the project\" on `/work/spaceman`, \"2025 to present\" and \"Capabilities\" on `/about`. Darken the accent token used for these small labels/links on light grounds (toward `accent.dark #C4821B` or further).\n- Section 3/9 — react-engineer: Per the measured faults, the light-scheme single-colour brand mark on #efecfb fails contrast on every page (`/`, `/about`, and all six case studies), while rendering the full-colour mark would pass (best 3.1:1). Switch the light scheme to the full-colour mark, or fix the mono token's contrast.\n- Section 6 — react-engineer: On the `/work/spaceman` filmstrip, fold 2 of 3, the Problem/Approach/Outcome copy sits in a narrow column on the left while roughly the right half of the fold is empty except an isolated \"Visit the project\" link floating far to the right — a dead canvas, not an active field. Widen the copy measure or give the right side an active role.\n- Section 10 — react-engineer: The mobile declaration's `first_fold` calls for \"the Dogen quote with the 48px mark in the top-left corner; nothing else,\" but fold 1 of the phone filmstrip shows the full stacked lockup — mark, \"Doug March\" wordmark, and the role line — centered above the quote, not a corner mark alone. Drop the wordmark/role line from the first fold and place only the mark, top-left, as declared.\n- Section 10 — react-engineer: In the 820-wide tablet still, there is a roughly 380px dead gap of empty indigo field between the centered brand lockup and the start of the hero quote, filled with nothing. This is the 1440 hero's generous min-height carried over without redistributing space for the narrower, stacked layout.\n===END===",
+    "channel": "cli-vision",
+    "ts": 1794681229506
+  },
+  {
+    "critic": "surface-gate",
+    "round": 2,
+    "verdict": "SHIP",
+    "feedback": "/work/spaceman @360: <div.d_contents > section.lg:grid-c_1.lg:grid-r_1.order_-1.lg:order_0 > div.ff_body.fs_xs.tt_uppercase.ls_widest> \"Case study\" at 13.2px: #c4821b on #332865 is 4.01:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /work/fishsticks, /work/15th-club, /work/dougmar-ch, /work/teeturn, /work/politweets, /work/twittertale.\n/ @360: <div > div.d_flex.jc_space-between.ai_baseline.py_2 > span.ff_display.fs_lede.fv-num_tabular-nums.c_accent> \"−13\" at 18.5px: #9e6712 on #efecfb is 4.10:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /about, /work/spaceman, /work/fishsticks, /work/15th-club, /work/dougmar-ch, /work/teeturn, /work/politweets, /work/twittertale.\n/ @360: <section#work.bg_bg.c_text.px_4.md:px_5vw > div.bd-t-w_2px.border-top-style_solid.bd-t-c_accent.pt_4 > div.ff_body.fs_2xs.tt_uppercase.ls_widest> \"Featured · Founder\" at 12px: #9e6712 on #efecfb is 4.10:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <section#work.bg_bg.c_text.px_4.md:px_5vw > div.bd-t-w_2px.border-top-style_solid.bd-t-c_accent.pt_4 > a.d_inline-flex.ai_center.gap_2.min-h_44px> \"Visit the project\" at 14.5px: #9e6712 on #efecfb is 4.10:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/about @360: <ol.li-s_none.m_0.p_0 > li.d_grid.cg_4.rg_1.py_4 > span.ff_body.fs_sm.ls_wide.c_accent> \"2025 to present\" (x12) at 14.5px: #9e6712 on #efecfb is 4.10:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work/spaceman @360: <div.d_grid.cg_7.rg_6 > div.bd-t-w_1px.border-top-style_solid.bd-t-c_border.pt_4 > h2.ff_body.fs_xs.tt_uppercase.ls_widest> \"Problem\" (x3) at 13.2px: #9e6712 on #efecfb is 4.10:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /work/fishsticks, /work/15th-club, /work/teeturn, /work/politweets, /work/twittertale.\n/work/spaceman @360: 1 more distinct low-contrast pairs are not listed; the worst is 4.10:1.\n/work @360: <div > div.d_flex.jc_space-between.ai_baseline.py_2 > span.ff_display.fs_lede.fv-num_tabular-nums.c_accent> \"−13\" at 18.5px: #9e6712 on #efecfb is 4.10:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1794681356153
+  },
+  {
+    "critic": "screenshot-critic",
+    "round": "final",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 (tablet, 820px) — react-engineer: At 820px the two-asymmetric grid collapses to a single column with the **margin content first** — mark, wordmark, nav list and the full golf/weather signal stack fill the entire first screen — and the hero quote, the declared dominant element and the whole point of the page, is pushed entirely below the fold, invisible on load. At 360px the hero correctly leads (per the mobile declaration); at 1440px it correctly leads; only the 820 breakpoint inverts the hierarchy so the sidebar swallows the first screen the owner actually sees on a tablet.\n- Section 9 — react-engineer: `brand_color_mode` declares `light=single-color dark=original`, and the header nav line confirms \"light margin falls to the mono mark in `text`.\" The render shows the identical full-colour (green ring / blue tick) mark in both the light scheme (image-2) and dark scheme (image-5) margins — the light-mode mark never falls back to a single flat hue.\n===END===",
+    "channel": "cli-vision",
+    "ts": 1794681585276
+  },
+  {
+    "critic": "ship-gate",
+    "verdict": "SHIPPED-WITH-FAULTS",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 (tablet, 820px) — react-engineer: At 820px the two-asymmetric grid collapses to a single column with the **margin content first** — mark, wordmark, nav list and the full golf/weather signal stack fill the entire first screen — and the hero quote, the declared dominant element and the whole point of the page, is pushed entirely below the fold, invisible on load. At 360px the hero correctly leads (per the mobile declaration); at 1440px it correctly leads; only the 820 breakpoint inverts the hierarchy so the sidebar swallows the first screen the owner actually sees on a tablet.\n- Section 9 — react-engineer: `brand_color_mode` declares `light=single-color dark=original`, and the header nav line confirms \"light margin falls to the mono mark in `text`.\" The render shows the identical full-colour (green ring / blue tick) mark in both the light scheme (image-2) and dark scheme (image-5) margins — the light-mode mark never falls back to a single flat hue.\n===END===",
+    "ts": 1794681585276
+  }
+]

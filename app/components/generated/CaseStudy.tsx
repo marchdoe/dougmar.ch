@@ -1,13 +1,28 @@
-import { CaseBody } from './CaseBody'
-import { ProblemBand } from './ProblemBand'
-import { type Project, field } from './projectFields'
+import { css } from '../../../styled-system/css'
+import type { projects } from '../../content/projects'
+import { CaseAside } from './CaseAside'
+import { CaseNarrative } from './CaseNarrative'
 
-export function CaseStudy({ project }: { project: Project }) {
-  const problem = field(project, 'problem')
+type Entry = (typeof projects)[number]
+
+export function CaseStudy({ project }: { project: Entry }) {
   return (
-    <>
-      {problem ? <ProblemBand text={problem} /> : null}
-      <CaseBody project={project} />
-    </>
+    <section
+      className={css({
+        bg: 'bg',
+        color: 'text',
+        borderTopWidth: '1px',
+        borderTopStyle: 'solid',
+        borderTopColor: 'borderStrong',
+        paddingBlock: 'clamp(56px, 9vh, 110px)',
+        paddingInline: { base: '4', md: '5vw' },
+        display: 'flex',
+        flexDirection: 'column',
+        gap: { base: '6', lg: '7' },
+      })}
+    >
+      <CaseNarrative project={project} />
+      <CaseAside project={project} />
+    </section>
   )
 }

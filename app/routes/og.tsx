@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { css } from '../../styled-system/css'
 import { BrandLockup } from '../components/BrandLockup'
+import { heroBreak, heroCite, heroLead } from '../components/generated/heroPhrase'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
@@ -11,7 +12,7 @@ function OgCard() {
         position: 'fixed',
         inset: '0',
         zIndex: 9999,
-        bg: 'bg',
+        bg: 'field',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -21,91 +22,58 @@ function OgCard() {
         className={css({
           width: '1200px',
           height: '630px',
-          flexShrink: '0',
-          display: 'grid',
-          gridTemplateRows: '1fr 330px',
-          bg: 'bg',
-          fontFamily: 'body',
+          flexShrink: 0,
+          bg: 'field',
+          color: 'fieldInk',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          padding: '72px',
+          boxSizing: 'border-box',
         })}
       >
-        <div
-          className={css({
-            bg: 'bg',
-            backgroundImage:
-              'linear-gradient(to bottom, {colors.bg} 0%, {colors.bgAlt} 42%, color-mix(in srgb, {colors.accent} 22%, {colors.bg}) 76%, color-mix(in srgb, {colors.accent} 45%, {colors.bg}) 100%)',
-            paddingTop: '56px',
-            paddingInline: '64px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-          })}
-        >
-          <BrandLockup variant="stacked-lg" mode="original" className={css({ color: 'text' })} />
-          <div
-            className={css({
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-end',
-              gap: '4px',
-            })}
-          >
-            <span className={css({ fontFamily: 'display', fontSize: '24px', color: 'text' })}>
-              Aldie, Virginia
-            </span>
-            <span className={css({ fontSize: '18px', color: 'textMuted' })}>Sat, Nov 14, 2026</span>
-          </div>
+        <div className={css({ color: 'fieldInk' })}>
+          <BrandLockup variant="stacked-md" mode="original" />
         </div>
-        <div
-          className={css({
-            bg: 'field',
-            borderTopWidth: '2px',
-            borderTopStyle: 'solid',
-            borderTopColor: 'fieldBorder',
-            paddingInline: '64px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-          })}
-        >
-          <h1
-            className={css({
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-end',
-              textAlign: 'right',
-            })}
-          >
+        <div>
+          <h1 className={css({ fontFamily: 'display', fontWeight: 'light', textAlign: 'left' })}>
             <span
               className={css({
                 display: 'block',
-                fontFamily: 'display',
-                fontWeight: 'bold',
-                fontSize: '168px',
-                lineHeight: '0.9',
-                letterSpacing: '-0.02em',
+                fontStyle: 'italic',
+                fontSize: '56px',
+                lineHeight: 'snug',
                 color: 'fieldInk',
-                textTransform: 'lowercase',
+                maxWidth: '1000px',
               })}
             >
-              sunny
-            </span>{' '}
+              {heroLead}
+            </span>
             <span
               className={css({
                 display: 'block',
-                marginTop: '12px',
-                fontFamily: 'display',
-                fontSize: '44px',
-                lineHeight: '1.1',
-                color: 'fieldInk',
-                whiteSpace: 'nowrap',
+                fontSize: '56px',
+                lineHeight: 'tight',
+                color: 'accent',
+                WebkitTextFillColor: 'transparent',
+                WebkitTextStrokeColor: 'currentColor',
+                WebkitTextStrokeWidth: '2px',
               })}
             >
-              36°,{' '}
-              <span className={css({ fontSize: '34px', color: 'fieldInkMuted' })}>
-                feels like 30
-              </span>
+              {heroBreak}
             </span>
           </h1>
+          <div
+            className={css({
+              marginTop: '3',
+              fontFamily: 'display',
+              fontStyle: 'italic',
+              fontSize: 'lg',
+              color: 'fieldInkMuted',
+            })}
+          >
+            {heroCite}
+          </div>
         </div>
       </div>
     </div>
