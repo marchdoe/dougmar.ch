@@ -1,0 +1,119 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "hello",
+            "w": 36,
+            "h": 56
+          },
+          {
+            "tag": "A",
+            "text": "hello@dougmar.ch",
+            "w": 114,
+            "h": 20
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "tablet": {
+      "width": 820,
+      "height": 1180,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "‹",
+            "w": 32,
+            "h": 44
+          },
+          {
+            "tag": "A",
+            "text": "hello",
+            "w": 36,
+            "h": 56
+          },
+          {
+            "tag": "A",
+            "text": "hello@dougmar.ch",
+            "w": 114,
+            "h": 20
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [
+          {
+            "tag": "DIV",
+            "selector": "section.pt_40px.pb_48px.bg_bg.d_grid > div.bd-w_1px.border-style_solid.bd-c_border.bdr_sm > div.fs_xs.ls_wider.tt_uppercase.c_textFaint",
+            "text": "Engineering note",
+            "cause": "text",
+            "right": 942,
+            "over": 6,
+            "boxWidth": 95
+          }
+        ],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    }
+  },
+  "overallScore": 3,
+  "worstFailure": {
+    "viewport": "mobile",
+    "check": "bodyTextSize",
+    "detail": "body text min 14.5px (floor 16px)"
+  },
+  "buildId": "1794751546017",
+  "date": "2026-11-15",
+  "archetype": "a scoreboard poster where the zero is an empty net"
+}

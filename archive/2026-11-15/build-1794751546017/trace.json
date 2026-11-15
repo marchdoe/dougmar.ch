@@ -1,0 +1,2418 @@
+{
+  "date": "2026-11-15",
+  "startedAt": "2026-11-15T13:35:12.480Z",
+  "completedAt": "2026-11-15T14:05:52.609Z",
+  "steps": [
+    {
+      "name": "signals-loaded",
+      "phase": 0,
+      "input": {
+        "providersAvailable": 17
+      },
+      "output": {
+        "air_quality": {
+          "aqi_index": 1,
+          "uv_index": 0.1,
+          "air_quality_label": "Good"
+        },
+        "books": {
+          "currently_reading": []
+        },
+        "day_of_week": {
+          "day": "Sunday",
+          "is_weekend": true,
+          "day_index": 0
+        },
+        "github": {
+          "repos": [
+            {
+              "name": "dream-num/univer/stargazers",
+              "description": "",
+              "language": "TypeScript",
+              "stars": null
+            },
+            {
+              "name": "ag-ui-protocol/ag-ui/stargazers",
+              "description": "",
+              "language": "TypeScript",
+              "stars": null
+            },
+            {
+              "name": "google-labs-code/stitch-skills/stargazers",
+              "description": "",
+              "language": "TypeScript",
+              "stars": null
+            },
+            {
+              "name": "backnotprop/plannotator/stargazers",
+              "description": "",
+              "language": "TypeScript",
+              "stars": null
+            },
+            {
+              "name": "ChromeDevTools/chrome-devtools-mcp/stargazers",
+              "description": "",
+              "language": "TypeScript",
+              "stars": null
+            }
+          ]
+        },
+        "golf": {
+          "tournament": "Austin Championship pres. by Compliance Solutions",
+          "status": "In Progress",
+          "leaders": [
+            {
+              "name": "Trace Crowe",
+              "position": "1",
+              "score": "-14"
+            },
+            {
+              "name": "Chad Ramey",
+              "position": "2",
+              "score": "-13"
+            },
+            {
+              "name": "Erik van Rooyen",
+              "position": "3",
+              "score": "-13"
+            },
+            {
+              "name": "Sami Välimäki",
+              "position": "4",
+              "score": "-13"
+            },
+            {
+              "name": "Max Greyserman",
+              "position": "5",
+              "score": "-12"
+            }
+          ]
+        },
+        "hacker_news": {
+          "stories": [
+            {
+              "title": "SpaceX catches the Starship to end Flight 15",
+              "url": "https://www.spacex.com/launches/starship-flight-15",
+              "score": 1359,
+              "by": "ls612"
+            },
+            {
+              "title": "Why did some Apollo missions carry a grenade launcher?",
+              "url": "https://space.stackexchange.com/questions/37775",
+              "score": 86,
+              "by": "Skyfall106"
+            },
+            {
+              "title": "Lovable apps expose passport details and more than 200K private messages",
+              "url": "https://www.crissyfield.de/research/lovable-en/",
+              "score": 882,
+              "by": "armcat"
+            },
+            {
+              "title": "Court denies motion to dismiss DRAM price fixing case",
+              "url": "https://litnews.ai/articles/garciaguirre-samsung-sk-hynix-micron-dram-conspiracy-suit-survives-dismissal",
+              "score": 272,
+              "by": "ybathaee"
+            },
+            {
+              "title": "Strictly monotonic timestamps and gapless sequences in Rust",
+              "url": "https://tsoracle.rs/",
+              "score": 18,
+              "by": "znano"
+            }
+          ]
+        },
+        "holidays": {
+          "today": null,
+          "upcoming": []
+        },
+        "lunar": {
+          "phase": "first quarter",
+          "illumination": 0.397,
+          "days_into_cycle": 6.41
+        },
+        "market": {
+          "symbol": "SPY",
+          "price": "754.3700",
+          "change": "-2.7500",
+          "change_percent": "-0.3632%",
+          "direction": "down"
+        },
+        "music": {
+          "bands": [
+            "Tobin Sprout",
+            "The War on Drugs",
+            "Wet Leg"
+          ],
+          "rotation": true
+        },
+        "news": {
+          "headlines": [
+            {
+              "title": "Surging measles cases are forcing doctors to treat conditions they’ve never seen - The Washington Post",
+              "source": "The Washington Post",
+              "url": "https://www.washingtonpost.com/health/2026/11/14/doctors-are-learning-fly-measles-surge-presents-rare-cases/"
+            },
+            {
+              "title": "Thousands of flights canceled as airlines work to dig out from nationwide ground stop - AP News",
+              "source": "Associated Press",
+              "url": "https://apnews.com/article/ground-stop-flights-airlines-cancellations-faa-1fbf4992f0ddaa4c463b0e4990b6e291"
+            },
+            {
+              "title": "Guest Column | Stephen Miller dresses like a reasonable man. But listen to what he says. - The Washington Post",
+              "source": "The Washington Post",
+              "url": "https://www.washingtonpost.com/style/2026/11/14/stephen-millers-suits-make-radical-look-reassuringly-routine/"
+            },
+            {
+              "title": "Pope’s visit to hub of Afro-Peruvian community casts spotlight on African slave trade to Peru - AP News",
+              "source": "Associated Press",
+              "url": "https://apnews.com/article/pope-leo-peru-slavery-afro-peruvians-b8ffccb8ddb63afaa45cdd0bfd69cea8"
+            },
+            {
+              "title": "Jensen Huang reportedly gave up in final hours as Nvidia CEO — as his affair scandal wipes away more than $1T in value - Yahoo Finance",
+              "source": "Yahoo Entertainment",
+              "url": "https://finance.yahoo.com/markets/stocks/articles/jensen-huang-reportedly-gave-final-133000087.html"
+            }
+          ]
+        },
+        "season": {
+          "season": "fall",
+          "month": 11,
+          "day": 15,
+          "day_of_year": 319,
+          "month_name": "November"
+        },
+        "sidebar": {
+          "links": [
+            {
+              "title": "Building interfaces that understand what we want to do",
+              "url": "https://agustinbarrientos.com/writing/senior-eye/interfaces-that-understand-what-we-want",
+              "source": "agustinbarrientos.com",
+              "description": "Chrome is building a Decisions API that runs a decision model on your computer, for free and privately."
+            },
+            {
+              "title": "Below the surface",
+              "url": "https://belowthesurface.amsterdam/en/vondsten",
+              "source": "belowthesurface.amsterdam",
+              "description": "The archaeological research project of the North/South metro line lends the River Amstel a voice in the historical portrayal of Amsterdam."
+            },
+            {
+              "title": "If X, then Y",
+              "url": "https://cdevroe.com/2026/11/05/if-x-then-y/",
+              "source": "cdevroe.com",
+              "description": "It was never easy to predict the future, but at the moment it feels near impossible."
+            },
+            {
+              "title": "Bodega cats of New York",
+              "url": "https://bodegacatsofnewyork.com/",
+              "source": "bodegacatsofnewyork.com",
+              "description": "Photographs and stories of the cats who live in New York’s bodegas, and the people who know them by name."
+            },
+            {
+              "title": "Where the disabled button got its rule",
+              "url": "https://www.hipuku.dev/writing/where-the-disabled-button-got-its-rule",
+              "source": "hipuku.dev",
+              "description": "What Apple’s 1980 rules said about greyed-out commands."
+            }
+          ]
+        },
+        "sports": {
+          "teams": [
+            {
+              "name": "Detroit Lions",
+              "league": "NFL",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            },
+            {
+              "name": "Detroit Red Wings",
+              "league": "NHL",
+              "last_game": "2026-11-15T00:00Z",
+              "result": "win",
+              "score": "2-0"
+            },
+            {
+              "name": "Detroit Pistons",
+              "league": "NBA",
+              "last_game": "2026-11-15T01:00Z",
+              "result": "loss",
+              "score": "117-137"
+            },
+            {
+              "name": "Detroit Tigers",
+              "league": "MLB",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            }
+          ]
+        },
+        "sun": {
+          "sunrise": "07:00",
+          "sunset": "16:50",
+          "daylight_hours": 9.8
+        },
+        "weather": {
+          "location": "Aldie, Virginia",
+          "conditions": "Partly Cloudy",
+          "temp_f": 43.1,
+          "temp_c": 6.2,
+          "humidity": 68,
+          "wind_mph": 9.6,
+          "wind_dir": "NW",
+          "feels_like_f": 37.6
+        },
+        "date": "2026-11-15"
+      },
+      "durationMs": 0,
+      "timestamp": "2026-11-15T13:35:12.547Z"
+    },
+    {
+      "name": "art-director",
+      "phase": 1,
+      "input": {
+        "compositionMandate": "## Composition Mandate\n\nRecency is tracked per axis, not per whole tuple: a value used on any of the last 3 builds is discouraged for that axis. The starting values below are derived from today's date — they are a specific place to begin, not an instruction.\n\n- **columns** — start from `irregular-twelve` (avoid `two-equal`, `masonry`, `three`)\n- **axis** — start from `radial` (avoid `diagonal`, `vertical`, `horizontal`)\n- **symmetry** — start from `mirrored` (avoid `right-weighted`, `symmetric`,"
+      },
+      "output": {
+        "hero_copy": "Nobody scored on the Red Wings.",
+        "archetype": "a scoreboard poster where the zero is an empty net",
+        "composition": {
+          "columns": "irregular-twelve",
+          "axis": "radial",
+          "symmetry": "broken",
+          "hero_zone": "full-bleed",
+          "density": "dense",
+          "rhythm": "syncopated",
+          "shell_posture": "standard",
+          "field_ratio": "drenched",
+          "collapse": "reorder",
+          "hero_object": "figure"
+        },
+        "mobile": {
+          "carrier": "the giant 2–0 and the line \"Nobody scored on the Red Wings\" carry the first fold alone; the signal blocks that orbited the figure at 1440 stack into one box-score column beneath it.",
+          "first_fold": "the outlined 2–0 figure and its caption hero line.",
+          "order": "masthead, figure 2–0, caption, Red Wings detail line, signal grid, callout, footer strip.",
+          "hero_step_360": "5xl",
+          "nav_360": "the band keeps the stacked mark top-left; the nav sentence wraps to two lines, each link a 44px tap target."
+        },
+        "chassisId": "bitter-mulish",
+        "specLength": 4144,
+        "specPreview": "**1. Color Specification**\n- **Primary hue**: 353° (Red Wings garnet). Chosen because the hero is a Detroit Red Wings shutout and the team is red; it also sits ~175° from the last two nights' teal/jade, which the repetition check demanded.\n- **Neutral palette** (warm sand, red-tinted): 50 `#FBF4F1`, 100 `#F3E7E3`, 200 `#E5D0CB`, 300 `#CDB1AC`, 400 `#AC847F`, 500 `#845C58`, 600 `#63423F`, 700 `#472E2C`, 800 `#2F1D1D`, 900 `#1D1011`.\n- **Garnet scale**: 50 `#FCEBEE`, 100 `#F9D2D8`, 200 `#F0A3AE`, ",
+        "selfCheck": "1. Hero quotability: Yes — a plain, screenshot-able shutout line that doubles as the caption of an empty-net zero.\n2. Because-of chain: Yes — shutout → asymmetric figure (broken radial) → slab outline (empty net) → committed garnet drench → centred full-bleed.\n3. Render feasibility: Yes — three glyp"
+      },
+      "durationMs": 479049,
+      "timestamp": "2026-11-15T13:43:11.615Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 0
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "1. **Judgment 5, copy vs. records:** The phone's Selected Work card labels 15th Club \"AI · 2025 · FEATURED\", but the records mark Spaceman as the featured project, not 15th Club. Its description, \"Golf course strategy, modeled. Turning shot data and lie into the one decision that actually moves a score: where to aim, and when to take the safe line\", is invented. Replace it with the record's wording: \"A platform for AI experiments through the lens of golf. The scorecard is the first experiment\", "
+      },
+      "durationMs": 197229,
+      "timestamp": "2026-11-15T13:46:31.045Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "1. (Judgment 5) In the Selected Work feature card at 360 (fold 3), Spaceman is labelled \"FOUNDER · 2018 · IN DEVELOPMENT\" with the copy \"A platform for AI experiments through the lens of golf. The scorecard is the first experiment.\" Both the status and the description belong to 15th Club. The records list Spaceman as status \"Active\", 2018 to present: the LLC Doug has run his independent design and engineering work through for ten years, with clients such as Rolex, Intuit and Jeffrey Zeldman. Use"
+      },
+      "durationMs": 211713,
+      "timestamp": "2026-11-15T13:50:02.759Z"
+    },
+    {
+      "name": "mockup-patch",
+      "phase": 2,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "edits": 3,
+        "bytes": 17644
+      },
+      "durationMs": 22496,
+      "timestamp": "2026-11-15T13:50:25.256Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "1. (Judgment 3) The composition isn't executed as declared. The brief calls for a full-bleed radial figure across columns 3–10, with the caption and detail line centred beneath it and the signal blocks orbiting in the lower third. The 1440 image instead shows a two-column split: the 2–0 is boxed into the left half, and a card grid fills the right half at equal visual weight. Centre the 2–0 across the page and move the signal blocks below it in the uneven 2/3/4-column spans, so the eye reads figu"
+      },
+      "durationMs": 64065,
+      "timestamp": "2026-11-15T13:51:06.825Z"
+    },
+    {
+      "name": "mockup-round-shipped",
+      "phase": 2,
+      "input": {
+        "rounds": [
+          0,
+          1,
+          2
+        ]
+      },
+      "output": {
+        "round": 2,
+        "latest": 2,
+        "shortfalls": [
+          {
+            "round": 0,
+            "canvas": 0,
+            "colour": 0,
+            "hero": 0,
+            "total": 0
+          },
+          {
+            "round": 1,
+            "canvas": 0,
+            "colour": 0,
+            "hero": 0,
+            "total": 0
+          },
+          {
+            "round": 2,
+            "canvas": 0,
+            "colour": 0,
+            "hero": 0,
+            "total": 0
+          }
+        ],
+        "reason": "the critic never approved; the latest round has the smallest shortfall (round 0 0, round 1 0, round 2 0)"
+      },
+      "durationMs": 0,
+      "timestamp": "2026-11-15T13:51:06.826Z"
+    },
+    {
+      "name": "react-engineer",
+      "phase": 3,
+      "input": {
+        "tokenContext": 2784,
+        "briefLength": 7097,
+        "mockupLength": 17644
+      },
+      "output": {
+        "files": [
+          "app/components/Layout.tsx",
+          "app/components/Sidebar.tsx",
+          "app/components/generated/FooterStrip.tsx",
+          "app/components/generated/HeroFigure.tsx",
+          "app/components/generated/SignalCard.tsx",
+          "app/components/generated/HeroSignals.tsx",
+          "app/components/generated/HeroScoreboard.tsx",
+          "app/components/generated/FeaturedCard.tsx",
+          "app/components/generated/IndexList.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/routes/index.tsx",
+          "app/components/generated/AboutIntro.tsx",
+          "app/components/generated/AboutSection.tsx",
+          "app/components/generated/TimelineRows.tsx",
+          "app/components/generated/CapabilityTags.tsx",
+          "app/components/generated/NumbersGrid.tsx",
+          "app/routes/about.tsx",
+          "app/components/generated/WorkHeader.tsx",
+          "app/components/generated/CaseStudy.tsx",
+          "app/components/generated/WorkMissing.tsx",
+          "app/routes/work.$slug.tsx",
+          "app/routes/og.tsx"
+        ],
+        "rationale": ""
+      },
+      "durationMs": 168989,
+      "timestamp": "2026-11-15T13:53:55.863Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 3,
+      "input": {
+        "after": "react-engineer"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutIntro.tsx",
+          "app/components/generated/AboutSection.tsx",
+          "app/components/generated/CapabilityTags.tsx",
+          "app/components/generated/CaseStudy.tsx",
+          "app/components/generated/FeaturedCard.tsx",
+          "app/components/generated/FooterStrip.tsx",
+          "app/components/generated/HeroFigure.tsx",
+          "app/components/generated/HeroScoreboard.tsx",
+          "app/components/generated/HeroSignals.tsx",
+          "app/components/generated/IndexList.tsx",
+          "app/components/generated/NumbersGrid.tsx",
+          "app/components/generated/SignalCard.tsx",
+          "app/components/generated/TimelineRows.tsx",
+          "app/components/generated/WorkHeader.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/WorkMissing.tsx"
+        ],
+        "removed": [
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/CapabilitySection.tsx",
+          "app/components/generated/CaseBody.tsx",
+          "app/components/generated/CaseFacts.tsx",
+          "app/components/generated/CaseHero.tsx",
+          "app/components/generated/CaseMissing.tsx",
+          "app/components/generated/ClientChip.tsx",
+          "app/components/generated/ClientMarks.tsx",
+          "app/components/generated/ColophonNav.tsx",
+          "app/components/generated/ColophonSignals.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/HomePlate.tsx",
+          "app/components/generated/IndexRow.tsx",
+          "app/components/generated/PersonalSection.tsx",
+          "app/components/generated/TimelineRow.tsx",
+          "app/components/generated/TimelineSection.tsx",
+          "app/components/generated/motion.tsx"
+        ]
+      },
+      "durationMs": 16,
+      "timestamp": "2026-11-15T13:53:55.879Z"
+    },
+    {
+      "name": "build-validation",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "success": true
+      },
+      "durationMs": 0,
+      "timestamp": "2026-11-15T13:54:07.748Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "measured": 73,
+        "errorCount": 7,
+        "findings": [
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<section#work.bg_bgAlt.bd-t-w_1px.border-top-style_solid.bd-t-c_borderStrong > div.bd-w_1px.border-style_solid.bd-c_fieldBorder.bdr_sm > div.ff_display.fw_bold.t> holds text wider than its own box: \"Spaceman...\" needs 271px and the box is 262px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<section#work.bg_bgAlt.bd-t-w_1px.border-top-style_solid.bd-t-c_borderStrong > div.bd-w_1px.border-style_solid.bd-c_fieldBorder.bdr_sm > div.ff_display.fw_bold.t> holds text wider than its own box: \"Spaceman...\" needs 271px and the box is 262px, so 9px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "340 characters of running copy set at 64px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/about",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "340 characters of running copy set at 64px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/og",
+            "viewport": "og",
+            "width": 1200,
+            "scheme": "light",
+            "kind": "og-fit",
+            "severity": "error",
+            "detail": "og: brand mark starts 6px above the card's top edge. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text."
+          },
+          {
+            "surface": "/og",
+            "viewport": "og",
+            "width": 1200,
+            "scheme": "light",
+            "kind": "og-fit",
+            "severity": "error",
+            "detail": "og: headline line 2 'on the Red Wings.' ends 1px from the card's bottom edge, inside the 40px safe margin. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text."
+          },
+          {
+            "surface": "/",
+            "scheme": "light",
+            "kind": "mockup-hierarchy",
+            "severity": "error",
+            "route": "/",
+            "viewport": "desktop",
+            "width": 1440,
+            "detail": "The mockup's largest text is '2 - 0' at 156px; the build sets '20' at 128px. Restore the mockup's hierarchy: '2 - 0' should be the largest text on the page.",
+            "facts": {
+              "shape": "replaced",
+              "dropped": [
+                {
+                  "text": "2 - 0",
+                  "mockupPx": 156
+                }
+              ],
+              "leader": {
+                "text": "2 - 0",
+                "mockupPx": 156
+              },
+              "buildLeader": {
+                "text": "20",
+                "buildPx": 128,
+                "mockupPx": null
+              },
+              "leaderLost": true
+            }
+          },
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 1,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'2 - 0' (156px in the mockup) has no match in the build",
+              "facts": {
+                "text": "2 - 0",
+                "mockupPx": 156,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'117 - 137' (32px in the mockup) has no match in the build",
+              "facts": {
+                "text": "117 - 137",
+                "mockupPx": 32,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-hierarchy",
+              "severity": "error",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "The mockup's largest text is '2 - 0' at 156px; the build sets '20' at 128px. Restore the mockup's hierarchy: '2 - 0' should be the largest text on the page.",
+              "facts": {
+                "shape": "replaced",
+                "dropped": [
+                  {
+                    "text": "2 - 0",
+                    "mockupPx": 156
+                  }
+                ],
+                "leader": {
+                  "text": "2 - 0",
+                  "mockupPx": 156
+                },
+                "buildLeader": {
+                  "text": "20",
+                  "buildPx": 128,
+                  "mockupPx": null
+                },
+                "leaderLost": true
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'2 - 0' (64px in the mockup) has no match in the build",
+              "facts": {
+                "text": "2 - 0",
+                "mockupPx": 64,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'117 - 137' (32px in the mockup) has no match in the build",
+              "facts": {
+                "text": "117 - 137",
+                "mockupPx": 32,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-hierarchy",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "largest text in mockup is '2 - 0' (64px); in build it is '20' (64px)",
+              "facts": {
+                "shape": "replaced",
+                "dropped": [
+                  {
+                    "text": "2 - 0",
+                    "mockupPx": 64
+                  },
+                  {
+                    "text": "117 - 137",
+                    "mockupPx": 32
+                  },
+                  {
+                    "text": "doug march",
+                    "mockupPx": 24
+                  }
+                ],
+                "leader": {
+                  "text": "2 - 0",
+                  "mockupPx": 64
+                },
+                "buildLeader": {
+                  "text": "20",
+                  "buildPx": 64,
+                  "mockupPx": null
+                },
+                "leaderLost": true
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-scale",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'nobody scored on the red wings' is 22px in the mockup and 42px in the build (1.92x)",
+              "facts": {
+                "text": "nobody scored on the red wings",
+                "mockupPx": 22,
+                "buildPx": 42,
+                "ratio": 1.92,
+                "mockupRank": 3
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'detroit shut out the visitors 2-0 - a clean sheet the empty net nobody got past' moved from (180, 569) in the mockup to (180, 655) in the build; crossed the fold"
+            }
+          ],
+          "briefed": [
+            "- / at 360px: The mockup's largest text is '2 - 0' at 64px; the build sets '20' at 64px. Restore the mockup's hierarchy: '2 - 0' should be the largest text on the page.",
+            "- / at 1440px: The mockup sets '2 - 0' at 156px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 1440px: The mockup sets '117 - 137' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: The mockup sets '2 - 0' at 64px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: The mockup sets '117 - 137' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: 'nobody scored on the red wings' is 22px in the mockup and 42px in the build (1.92x). Set it back to 22px."
+          ]
+        }
+      },
+      "durationMs": 43936,
+      "timestamp": "2026-11-15T13:54:51.694Z"
+    },
+    {
+      "name": "screenshot-critic",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 12 — react-engineer: The motion strip shows a cascade, not a single entrance. At 0ms the Pistons signal card is already fully opaque while the hero figure, caption, and the Golf/Engineering/In-Rotation/Overhead cards are either absent or fading in across 200–1000ms, and the masthead itself fades in too. The declaration (`entrance: rise`) only permits the hero block (h1 + eyebrow/deck/figure) to stagger up to 240ms; everything else must be static from f"
+      },
+      "durationMs": 192292,
+      "timestamp": "2026-11-15T13:58:03.986Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 5,
+      "input": {
+        "after": "React Engineer revision"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutIntro.tsx",
+          "app/components/generated/AboutSection.tsx",
+          "app/components/generated/CapabilityTags.tsx",
+          "app/components/generated/CaseStudy.tsx",
+          "app/components/generated/FeaturedCard.tsx",
+          "app/components/generated/FooterStrip.tsx",
+          "app/components/generated/HeroFigure.tsx",
+          "app/components/generated/HeroScoreboard.tsx",
+          "app/components/generated/HeroSignals.tsx",
+          "app/components/generated/IndexList.tsx",
+          "app/components/generated/NumbersGrid.tsx",
+          "app/components/generated/SignalCard.tsx",
+          "app/components/generated/TimelineRows.tsx",
+          "app/components/generated/WorkHeader.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/WorkMissing.tsx"
+        ],
+        "removed": []
+      },
+      "durationMs": 14,
+      "timestamp": "2026-11-15T13:59:39.610Z"
+    },
+    {
+      "name": "revision",
+      "phase": 4,
+      "input": {
+        "round": 1,
+        "verdict": "REVISE",
+        "responsibleAgent": "react-engineer",
+        "gateForced": true,
+        "engineerFaults": 7,
+        "feedback": "**Issues:**\n- Section 12 — react-engineer: The motion strip shows a cascade, not a single entrance. At 0ms the Pistons signal card is already fully opaque while the hero figure, caption, and the Golf/Engineering/In-Rotation/Overhead cards are either absent or fading in across 200–1000ms, and the masthead itself fades in too. The declaration (`entrance: rise`) only permits the hero block (h1 + eyebrow/deck/figure) to stagger up to 240ms; everything else must be static from frame one.\n- Section 7/"
+      },
+      "output": {
+        "outcome": "rebuilt",
+        "replied": 6,
+        "written": 6,
+        "deleted": 0,
+        "merged": 22
+      },
+      "durationMs": 103793,
+      "timestamp": "2026-11-15T13:59:47.782Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "measured": 73,
+        "errorCount": 1,
+        "findings": [
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "scheme": "light",
+            "kind": "mockup-hierarchy",
+            "severity": "error",
+            "route": "/",
+            "viewport": "desktop",
+            "width": 1440,
+            "detail": "The mockup's largest text is '2 - 0' at 156px; the build sets '2-0' at 156px. Restore the mockup's hierarchy: '2 - 0' should be the largest text on the page.",
+            "facts": {
+              "shape": "replaced",
+              "dropped": [
+                {
+                  "text": "2 - 0",
+                  "mockupPx": 156
+                }
+              ],
+              "leader": {
+                "text": "2 - 0",
+                "mockupPx": 156
+              },
+              "buildLeader": {
+                "text": "2-0",
+                "buildPx": 156,
+                "mockupPx": null
+              },
+              "leaderLost": true
+            }
+          },
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 2,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'2 - 0' (156px in the mockup) has no match in the build",
+              "facts": {
+                "text": "2 - 0",
+                "mockupPx": 156,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'117 - 137' (32px in the mockup) has no match in the build",
+              "facts": {
+                "text": "117 - 137",
+                "mockupPx": 32,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-hierarchy",
+              "severity": "error",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "The mockup's largest text is '2 - 0' at 156px; the build sets '2-0' at 156px. Restore the mockup's hierarchy: '2 - 0' should be the largest text on the page.",
+              "facts": {
+                "shape": "replaced",
+                "dropped": [
+                  {
+                    "text": "2 - 0",
+                    "mockupPx": 156
+                  }
+                ],
+                "leader": {
+                  "text": "2 - 0",
+                  "mockupPx": 156
+                },
+                "buildLeader": {
+                  "text": "2-0",
+                  "buildPx": 156,
+                  "mockupPx": null
+                },
+                "leaderLost": true
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'2 - 0' (64px in the mockup) has no match in the build",
+              "facts": {
+                "text": "2 - 0",
+                "mockupPx": 64,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'117 - 137' (32px in the mockup) has no match in the build",
+              "facts": {
+                "text": "117 - 137",
+                "mockupPx": 32,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-hierarchy",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "largest text in mockup is '2 - 0' (64px); in build it is '2-0' (64px)",
+              "facts": {
+                "shape": "replaced",
+                "dropped": [
+                  {
+                    "text": "2 - 0",
+                    "mockupPx": 64
+                  },
+                  {
+                    "text": "117 - 137",
+                    "mockupPx": 32
+                  },
+                  {
+                    "text": "doug march",
+                    "mockupPx": 24
+                  }
+                ],
+                "leader": {
+                  "text": "2 - 0",
+                  "mockupPx": 64
+                },
+                "buildLeader": {
+                  "text": "2-0",
+                  "buildPx": 64,
+                  "mockupPx": null
+                },
+                "leaderLost": true
+              }
+            }
+          ],
+          "briefed": [
+            "- / at 360px: The mockup's largest text is '2 - 0' at 64px; the build sets '2-0' at 64px. Restore the mockup's hierarchy: '2 - 0' should be the largest text on the page.",
+            "- / at 1440px: The mockup sets '2 - 0' at 156px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 1440px: The mockup sets '117 - 137' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: The mockup sets '2 - 0' at 64px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: The mockup sets '117 - 137' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+          ]
+        }
+      },
+      "durationMs": 44181,
+      "timestamp": "2026-11-15T14:00:31.964Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 5,
+      "input": {
+        "after": "React Engineer revision"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutIntro.tsx",
+          "app/components/generated/AboutSection.tsx",
+          "app/components/generated/CapabilityTags.tsx",
+          "app/components/generated/CaseStudy.tsx",
+          "app/components/generated/FeaturedCard.tsx",
+          "app/components/generated/FooterStrip.tsx",
+          "app/components/generated/HeroFigure.tsx",
+          "app/components/generated/HeroScoreboard.tsx",
+          "app/components/generated/HeroSignals.tsx",
+          "app/components/generated/IndexList.tsx",
+          "app/components/generated/NumbersGrid.tsx",
+          "app/components/generated/SignalCard.tsx",
+          "app/components/generated/TimelineRows.tsx",
+          "app/components/generated/WorkHeader.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/WorkMissing.tsx"
+        ],
+        "removed": []
+      },
+      "durationMs": 13,
+      "timestamp": "2026-11-15T14:01:24.529Z"
+    },
+    {
+      "name": "revision",
+      "phase": 4,
+      "input": {
+        "round": 2,
+        "verdict": "REVISE",
+        "responsibleAgent": "react-engineer",
+        "gateForced": true,
+        "engineerFaults": 7,
+        "feedback": "## Measured layout faults\n\nThese are measurements taken from the live render, not observations from the images below.\nThey are exact. Do not re-litigate them against the screenshots, and do not count one fault\ntwice because it appears at more than one viewport.\n\n- [error] / at 1440px (light): The mockup's largest text is '2 - 0' at 156px; the build sets '2-0' at 156px. Restore the mockup's hierarchy: '2 - 0' should be the largest text on the page.\n\n## Advisory at 360\n\nThese do not block the buil"
+      },
+      "output": {
+        "outcome": "rebuilt",
+        "replied": 2,
+        "written": 2,
+        "deleted": 0,
+        "merged": 22
+      },
+      "durationMs": 60103,
+      "timestamp": "2026-11-15T14:01:32.071Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 3
+      },
+      "output": {
+        "measured": 73,
+        "errorCount": 0,
+        "findings": [
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello' is a 36x56px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'hello@dougmar.ch' is a 114x20px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 3,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-hierarchy",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "largest text in mockup is '2 - 0' (64px); in build it is '2 - 0' (64px)",
+              "facts": {
+                "shape": "reordered",
+                "dropped": [
+                  {
+                    "text": "doug march",
+                    "mockupPx": 24
+                  }
+                ],
+                "leader": {
+                  "text": "2 - 0",
+                  "mockupPx": 64
+                },
+                "buildLeader": {
+                  "text": "2 - 0",
+                  "buildPx": 64,
+                  "mockupPx": 64
+                },
+                "leaderLost": false
+              }
+            }
+          ],
+          "briefed": [
+            "- / at 360px: '2 - 0' still leads, but the mockup's 'doug march' (24px) fell out of the build's three largest texts. Restore the mockup's sizes."
+          ]
+        }
+      },
+      "durationMs": 43197,
+      "timestamp": "2026-11-15T14:02:15.268Z"
+    },
+    {
+      "name": "screenshot-critic-final",
+      "phase": 4,
+      "input": {
+        "remainingFaults": 0
+      },
+      "output": {
+        "verdict": "SHIP",
+        "feedback": "===VERDICT===\nSHIP\n===END===",
+        "channel": "cli-vision"
+      },
+      "durationMs": 207326,
+      "timestamp": "2026-11-15T14:05:42.598Z"
+    }
+  ]
+}

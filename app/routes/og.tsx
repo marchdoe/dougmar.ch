@@ -4,58 +4,67 @@ import { BrandLockup } from '../components/BrandLockup'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
-const overlayCls = css({
-  position: 'fixed',
-  inset: '0',
-  zIndex: 9999,
-  bg: 'bg',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-})
-
-const cardCls = css({
-  width: '1200px',
-  height: '630px',
-  flexShrink: 0,
-  bg: 'bg',
-  display: 'grid',
-  gridTemplateColumns: '380px 1fr',
-})
-
-const markCls = css({ padding: '56px', color: 'text' })
-
-// Plate #115e58 maps to surface, the nearest semantic plane.
-const plateCls = css({
-  bg: 'surface',
-  padding: '56px',
-  display: 'flex',
-  alignItems: 'flex-end',
-  justifyContent: 'flex-end',
-})
-
-const phraseCls = css({
-  fontFamily: 'display',
-  fontWeight: 'bold',
-  textTransform: 'lowercase',
-  fontSize: '60px',
-  lineHeight: 'tight',
-  letterSpacing: 'tight',
-  textAlign: 'right',
-  color: 'text',
-  maxWidth: '660px',
-})
-
 function OgCard() {
   return (
-    <div className={overlayCls}>
-      <div className={cardCls}>
-        <div className={markCls}>
-          <BrandLockup variant="stacked-lg" mode="original" />
-        </div>
-        <div className={plateCls}>
-          <h1 className={phraseCls}>
-            Thousands of kids practicing spelling from the list the teacher sent home.
+    <div
+      className={css({
+        position: 'fixed',
+        inset: '0',
+        zIndex: '9999',
+        bg: 'bg',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      })}
+    >
+      <div
+        className={css({
+          boxSizing: 'border-box',
+          flexShrink: '0',
+          width: '1200px',
+          height: '630px',
+          bg: 'bg',
+          color: 'text',
+          paddingBlock: '64px',
+          paddingInline: '72px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          borderBottomWidth: '12px',
+          borderBottomStyle: 'solid',
+          borderBottomColor: 'borderStrong',
+        })}
+      >
+        <BrandLockup
+          variant="stacked-md"
+          mode="original"
+          className={css({ alignSelf: 'flex-start' })}
+        />
+        <div>
+          <div
+            className={css({
+              fontSize: 'xs',
+              letterSpacing: 'widest',
+              textTransform: 'uppercase',
+              color: 'textFaint',
+              fontWeight: 'bold',
+              marginBottom: '16px',
+            })}
+          >
+            Detroit Red Wings · final · 2–0
+          </div>
+          <h1
+            className={css({
+              fontFamily: 'display',
+              fontWeight: 'light',
+              fontSize: '68px',
+              lineHeight: '1.04',
+              letterSpacing: 'tight',
+              color: 'text',
+              maxWidth: '1000px',
+            })}
+          >
+            Nobody scored on the Red Wings.
           </h1>
         </div>
       </div>

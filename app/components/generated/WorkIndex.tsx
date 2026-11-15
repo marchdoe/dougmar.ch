@@ -1,75 +1,88 @@
-import { css, cx } from '../../../styled-system/css'
-import { experiments, featuredProject, projects, selectedWork } from '../../content/projects'
-import { IndexRow } from './IndexRow'
-import { revealOnScroll } from './motion'
+import { css } from '../../../styled-system/css'
+import { experiments, featuredProject, type projects, selectedWork } from '../../content/projects'
+import { FeaturedCard } from './FeaturedCard'
+import { IndexList } from './IndexList'
 
-const years = projects.map((p) => p.year)
-const range = `${Math.min(...years)}–${Math.max(...years)}`
+type P = (typeof projects)[number]
 
-const sectionCls = css({
-  bg: 'bgAlt',
-  paddingBlock: { base: '7', lg: '8' },
-  paddingInline: { base: '4', lg: '7', xl: '8' },
-})
-
-const headCls = css({
-  display: 'flex',
-  alignItems: 'baseline',
-  justifyContent: 'space-between',
-  flexWrap: 'wrap',
-  gap: '4',
-  marginBottom: { base: '5', lg: '6' },
-})
-
-const h2Cls = css({
-  fontFamily: 'display',
-  fontWeight: 'bold',
-  textTransform: 'lowercase',
-  textStyle: '2xl',
-  color: 'text',
-})
-
-const countCls = css({
-  fontSize: '2xs',
+const small = css({
+  fontFamily: 'body',
+  fontWeight: 'normal',
+  fontSize: 'xs',
   letterSpacing: 'wider',
   textTransform: 'uppercase',
   color: 'textFaint',
 })
 
-const subCls = css({
-  fontSize: '2xs',
-  letterSpacing: 'widest',
-  textTransform: 'uppercase',
-  color: 'accent',
-  paddingTop: { base: '5', lg: '6' },
-  marginBottom: '1',
-})
-
-const listCls = css({
-  borderBottomWidth: '1px',
-  borderBottomStyle: 'solid',
-  borderBottomColor: 'border',
-})
-
 export function WorkIndex() {
+  const work = [featuredProject, ...selectedWork].filter((p): p is P => Boolean(p))
+  const workItems = work.map((p) => ({
+    key: p.slug,
+    title: p.title,
+    href: `/work/${p.slug}`,
+    meta: `${p.type} · ${p.year}`,
+  }))
+  const expItems = experiments.map((p) => ({
+    key: p.slug,
+    title: p.title,
+    href: p.externalUrl ?? `/work/${p.slug}`,
+    meta: `${p.type} · ${p.year}`,
+  }))
   return (
-    <section id="work" className={cx(sectionCls, revealOnScroll)}>
-      <div className={headCls}>
-        <h2 className={h2Cls}>selected work</h2>
-        <span className={countCls}>index {range}</span>
+    <section
+      id="work"
+      className={css({
+        paddingBlock: 'clamp(40px, 6vw, 72px)',
+        paddingInline: 'clamp(24px, 6vw, 96px)',
+        bg: 'bgAlt',
+        borderTopWidth: '1px',
+        borderTopStyle: 'solid',
+        borderTopColor: 'borderStrong',
+        '@supports (animation-timeline: view())': {
+          animationName: 'rise',
+          animationTimeline: 'view()',
+          animationRange: 'entry 0% entry 40%',
+          animationFillMode: 'both',
+        },
+      })}
+    >
+      <h2
+        className={css({
+          fontFamily: 'display',
+          fontWeight: 'bold',
+          textStyle: 'lg',
+          color: 'text',
+          marginBottom: '28px',
+        })}
+      >
+        <small className={css({ display: 'block', marginBottom: '8px' }, { fontSize: 'xs' })}>
+          <span className={small}>Selected work</span>
+        </small>
+        The things I’ve built
+      </h2>
+      <FeaturedCard />
+      <div className={css({ marginTop: '40px', marginBottom: '4px' })}>
+        <span className={small}>The index</span>
       </div>
-      <div className={listCls}>
-        {featuredProject && <IndexRow project={featuredProject} mark="↑ featured" />}
-        {selectedWork.map((p) => (
-          <IndexRow key={p.slug} project={p} mark="↗" />
-        ))}
+      <IndexList items={workItems} />
+      <div
+        className={css({
+          fontFamily: 'display',
+          fontWeight: 'bold',
+          textStyle: 'lg',
+          color: 'text',
+          marginTop: '44px',
+          marginBottom: '4px',
+          display: 'flex',
+          alignItems: 'baseline',
+          justifyContent: 'space-between',
+          gap: '12px',
+          flexWrap: 'wrap',
+        })}
+      >
+        Experiments <span className={small}>Older · still online</span>
       </div>
-      <div className={subCls}>experiments</div>
-      <div className={listCls}>
-        {experiments.map((p) => (
-          <IndexRow key={p.slug} project={p} mark="↗" />
-        ))}
-      </div>
+      <IndexList items={expItems} />
     </section>
   )
 }

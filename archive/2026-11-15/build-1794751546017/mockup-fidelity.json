@@ -1,0 +1,345 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2 - 0' (156px in the mockup) has no match in the build",
+          "facts": {
+            "text": "2 - 0",
+            "mockupPx": 156,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'117 - 137' (32px in the mockup) has no match in the build",
+          "facts": {
+            "text": "117 - 137",
+            "mockupPx": 32,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "The mockup's largest text is '2 - 0' at 156px; the build sets '20' at 128px. Restore the mockup's hierarchy: '2 - 0' should be the largest text on the page.",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "2 - 0",
+                "mockupPx": 156
+              }
+            ],
+            "leader": {
+              "text": "2 - 0",
+              "mockupPx": 156
+            },
+            "buildLeader": {
+              "text": "20",
+              "buildPx": 128,
+              "mockupPx": null
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'2 - 0' (64px in the mockup) has no match in the build",
+          "facts": {
+            "text": "2 - 0",
+            "mockupPx": 64,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'117 - 137' (32px in the mockup) has no match in the build",
+          "facts": {
+            "text": "117 - 137",
+            "mockupPx": 32,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is '2 - 0' (64px); in build it is '20' (64px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "2 - 0",
+                "mockupPx": 64
+              },
+              {
+                "text": "117 - 137",
+                "mockupPx": 32
+              },
+              {
+                "text": "doug march",
+                "mockupPx": 24
+              }
+            ],
+            "leader": {
+              "text": "2 - 0",
+              "mockupPx": 64
+            },
+            "buildLeader": {
+              "text": "20",
+              "buildPx": 64,
+              "mockupPx": null
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'nobody scored on the red wings' is 22px in the mockup and 42px in the build (1.92x)",
+          "facts": {
+            "text": "nobody scored on the red wings",
+            "mockupPx": 22,
+            "buildPx": 42,
+            "ratio": 1.92,
+            "mockupRank": 3
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'detroit shut out the visitors 2-0 - a clean sheet the empty net nobody got past' moved from (180, 569) in the mockup to (180, 655) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 360px: The mockup's largest text is '2 - 0' at 64px; the build sets '20' at 64px. Restore the mockup's hierarchy: '2 - 0' should be the largest text on the page.",
+        "- / at 1440px: The mockup sets '2 - 0' at 156px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets '117 - 137' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets '2 - 0' at 64px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets '117 - 137' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: 'nobody scored on the red wings' is 22px in the mockup and 42px in the build (1.92x). Set it back to 22px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'2 - 0' (156px in the mockup) has no match in the build",
+          "facts": {
+            "text": "2 - 0",
+            "mockupPx": 156,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'117 - 137' (32px in the mockup) has no match in the build",
+          "facts": {
+            "text": "117 - 137",
+            "mockupPx": 32,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "The mockup's largest text is '2 - 0' at 156px; the build sets '2-0' at 156px. Restore the mockup's hierarchy: '2 - 0' should be the largest text on the page.",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "2 - 0",
+                "mockupPx": 156
+              }
+            ],
+            "leader": {
+              "text": "2 - 0",
+              "mockupPx": 156
+            },
+            "buildLeader": {
+              "text": "2-0",
+              "buildPx": 156,
+              "mockupPx": null
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'2 - 0' (64px in the mockup) has no match in the build",
+          "facts": {
+            "text": "2 - 0",
+            "mockupPx": 64,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'117 - 137' (32px in the mockup) has no match in the build",
+          "facts": {
+            "text": "117 - 137",
+            "mockupPx": 32,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is '2 - 0' (64px); in build it is '2-0' (64px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "2 - 0",
+                "mockupPx": 64
+              },
+              {
+                "text": "117 - 137",
+                "mockupPx": 32
+              },
+              {
+                "text": "doug march",
+                "mockupPx": 24
+              }
+            ],
+            "leader": {
+              "text": "2 - 0",
+              "mockupPx": 64
+            },
+            "buildLeader": {
+              "text": "2-0",
+              "buildPx": 64,
+              "mockupPx": null
+            },
+            "leaderLost": true
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: The mockup's largest text is '2 - 0' at 64px; the build sets '2-0' at 64px. Restore the mockup's hierarchy: '2 - 0' should be the largest text on the page.",
+        "- / at 1440px: The mockup sets '2 - 0' at 156px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets '117 - 137' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets '2 - 0' at 64px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets '117 - 137' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is '2 - 0' (64px); in build it is '2 - 0' (64px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "doug march",
+                "mockupPx": 24
+              }
+            ],
+            "leader": {
+              "text": "2 - 0",
+              "mockupPx": 64
+            },
+            "buildLeader": {
+              "text": "2 - 0",
+              "buildPx": 64,
+              "mockupPx": 64
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: '2 - 0' still leads, but the mockup's 'doug march' (24px) fell out of the build's three largest texts. Restore the mockup's sizes."
+      ]
+    }
+  ]
+}
