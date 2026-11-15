@@ -59,9 +59,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-11-14'
-const PREV_DATE: string | null = '2026-11-13'
-const ARCHIVE_COUNT = 192
+const DESIGN_DATE = '2026-11-15'
+const PREV_DATE: string | null = '2026-11-14'
+const ARCHIVE_COUNT = 193
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -74,34 +74,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Thousands of kids practicing spelling from the list the teacher sent home.' },
-      {
-        property: 'og:title',
-        content: 'Thousands of kids practicing spelling from the list the teacher sent home.',
-      },
+      { title: 'Nobody scored on the Red Wings.' },
+      { property: 'og:title', content: 'Nobody scored on the Red Wings.' },
       {
         property: 'og:description',
         content:
-          "FishSticks reversed out of a teal-black void, a warm sentence about kids and spelling anchoring it low, one amber field holding the day's scores at the foot.",
+          'Garnet-drenched scoreboard, a hollow outlined 2–0 as the empty net, ivory shutout line beneath.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-14.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-15.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      {
-        name: 'twitter:title',
-        content: 'Thousands of kids practicing spelling from the list the teacher sent home.',
-      },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-14.png' },
+      { name: 'twitter:title', content: 'Nobody scored on the Red Wings.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-15.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Work+Sans:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Bitter:wght@500;700;900&family=Mulish:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -321,7 +315,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 192 designs
+            Archive · 193 designs
           </a>
         )}
         <ScrollRestoration />

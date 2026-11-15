@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — Nobody scored on the Red Wings.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;700;900&family=Mulish:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#7A1526; --bgAlt:#5C0F1D; --surface:#B52537; --field:#991B2C;
+    --ink:#FBF4F1; --inkMuted:#F9D2D8; --inkFaint:#F0A3AE;
+    --accent:#E3707F; --border:#991B2C; --borderStrong:#D24355;
+    --display:'Bitter',Georgia,serif;
+    --body:'Mulish',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:var(--body);font-weight:400;line-height:1.5;
+    -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility;font-feature-settings:"kern","liga";
+    overflow-x:hidden;
+  }
+  h1,h2,h3{margin:0;font-weight:inherit;text-wrap:balance;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent);color:#400A14;}
+
+  /* ---------- Masthead ---------- */
+  .masthead{
+    min-height:120px;display:flex;flex-direction:column;gap:18px;
+    align-items:flex-start;justify-content:center;
+    padding:20px clamp(24px,6vw,96px);
+    border-bottom:1px solid var(--border);background:var(--bg);
+  }
+  .lockup{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .lockup svg{height:52px;width:auto;display:block;}
+  .wordmark{
+    font-family:var(--display);font-weight:600;font-size:1.5rem;
+    letter-spacing:-0.015em;line-height:1;color:var(--ink);
+  }
+  .navsentence{
+    font-size:0.9375rem;color:var(--inkMuted);line-height:1.6;
+    max-width:34ch;
+  }
+  .navsentence a{
+    color:var(--ink);text-decoration:underline;text-underline-offset:3px;
+    text-decoration-thickness:1px;display:inline-block;
+    padding:6px 2px;min-height:44px;line-height:32px;
+  }
+  .navsentence a:hover{color:var(--accent);}
+
+  @media(min-width:820px){
+    .masthead{flex-direction:row;justify-content:space-between;align-items:center;}
+    .lockup{align-items:flex-start;}
+    .navsentence{text-align:right;max-width:40ch;}
+    .navsentence a{padding:4px 2px;min-height:0;line-height:1.6;}
+  }
+
+  /* ---------- Scoreboard (hero figure + orbiting signals) ---------- */
+  .scoreboard{
+    padding:40px clamp(24px,6vw,96px) 48px;
+    background:var(--bg);
+    display:grid;grid-template-columns:1fr;gap:16px;
+  }
+  .figurewrap{
+    display:flex;flex-direction:column;align-items:center;
+    justify-content:center;text-align:center;
+    min-height:80vh;padding-bottom:12px;
+  }
+  @media(min-width:900px){
+    .figurewrap{min-height:0;padding-bottom:0;}
+  }
+  .scoreboardlabel{
+    font-size:0.75rem;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--inkFaint);font-weight:700;margin-bottom:20px;
+  }
+  .figure{
+    display:flex;align-items:center;justify-content:center;
+    gap:clamp(8px,2vw,28px);line-height:1;
+    font-family:var(--display);font-weight:500;
+  }
+  .figure span{
+    font-size:clamp(64px,11vw,156px);line-height:0.86;display:block;
+  }
+  .num{color:transparent;-webkit-text-stroke:2px var(--ink);}
+  .num.forward{
+    -webkit-text-stroke:2px var(--ink);
+    transform:translateY(-0.02em);
+  }
+  .num.back{
+    -webkit-text-stroke:2px var(--inkFaint);
+    transform:translate(0.05em,0.06em);
+  }
+  .dash{color:transparent;-webkit-text-stroke:2px var(--inkMuted);align-self:center;}
+  @media(min-width:900px){
+    .num{-webkit-text-stroke:3px var(--ink);}
+    .num.forward{-webkit-text-stroke:3px var(--ink);}
+    .num.back{-webkit-text-stroke:3px var(--inkFaint);}
+    .dash{-webkit-text-stroke:3px var(--inkMuted);}
+  }
+  .caption{
+    font-family:var(--display);font-weight:500;
+    font-size:clamp(22px,3.4vw,40px);line-height:1.1;color:var(--ink);
+    margin-top:24px;max-width:17ch;
+  }
+  .detail{
+    font-size:clamp(16px,1.9vw,22px);color:var(--inkMuted);
+    margin-top:18px;max-width:44ch;line-height:1.45;
+  }
+  .detail .live{color:var(--accent);font-weight:700;}
+
+  .card{
+    border:1px solid var(--border);border-radius:2px;
+    padding:20px;background:var(--bg);
+  }
+  .card.flood{background:var(--field);border-color:var(--borderStrong);}
+  .clabel{
+    font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--inkFaint);font-weight:700;margin-bottom:14px;
+  }
+  .score{
+    font-family:var(--display);font-weight:700;font-size:2rem;
+    line-height:1;color:var(--ink);font-variant-numeric:tabular-nums;
+  }
+  .score .them{color:var(--inkMuted);}
+  .cmeta{font-size:0.875rem;color:var(--inkMuted);margin-top:12px;line-height:1.45;}
+  .cmeta strong{color:var(--ink);font-weight:700;}
+  .terse{
+    font-family:var(--display);font-weight:500;font-size:1.1875rem;
+    line-height:1.2;color:var(--ink);
+  }
+  .rotation p{margin:0 0 6px;font-size:0.9375rem;color:var(--inkMuted);}
+  .rotation p strong{color:var(--ink);font-weight:700;}
+  .rotation p:last-child{margin-bottom:0;}
+
+  @media(min-width:900px){
+    .scoreboard{
+      grid-template-columns:repeat(12,1fr);
+      gap:clamp(12px,1.5vw,24px);
+      align-content:center;min-height:84vh;
+    }
+    .figurewrap{grid-column:1 / 8;grid-row:1 / 4;align-self:center;}
+    .c-pistons{grid-column:8 / 13;grid-row:1;}
+    .c-golf{grid-column:8 / 11;grid-row:2;}
+    .c-spacex{grid-column:11 / 13;grid-row:2;}
+    .c-rotation{grid-column:8 / 11;grid-row:3;}
+    .c-moon{grid-column:11 / 13;grid-row:3;}
+  }
+
+  /* ---------- Work index ---------- */
+  .work{
+    padding:clamp(40px,6vw,72px) clamp(24px,6vw,96px);
+    background:var(--bgAlt);border-top:1px solid var(--borderStrong);
+  }
+  .sectionhead{
+    font-family:var(--display);font-weight:700;font-size:clamp(18px,2vw,24px);
+    color:var(--ink);margin-bottom:28px;letter-spacing:-0.01em;
+  }
+  .sectionhead small{
+    display:block;font-family:var(--body);font-weight:500;font-size:0.8125rem;
+    letter-spacing:0.1em;text-transform:uppercase;color:var(--inkFaint);
+    margin-bottom:8px;
+  }
+  .featured{
+    border:1px solid var(--borderStrong);border-radius:2px;
+    background:var(--field);padding:clamp(24px,3vw,40px);margin-bottom:32px;
+  }
+  .featured .ft{
+    font-family:var(--display);font-weight:700;
+    font-size:clamp(28px,4vw,52px);line-height:1;color:var(--ink);
+    letter-spacing:-0.01em;
+  }
+  .featured .fmeta{
+    font-size:0.8125rem;letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--inkFaint);font-weight:700;margin-top:14px;
+  }
+  .featured p{
+    font-size:1.0625rem;color:var(--inkMuted);max-width:56ch;
+    margin:18px 0 22px;line-height:1.55;
+  }
+  .flink{
+    display:inline-block;font-size:0.9375rem;font-weight:700;color:var(--ink);
+    border:1px solid var(--ink);border-radius:4px;padding:11px 20px;
+    min-height:44px;line-height:1.4;
+  }
+  .flink:hover{color:var(--accent);border-color:var(--accent);}
+
+  .idxhead{
+    display:grid;grid-template-columns:1fr auto;align-items:baseline;
+    margin:40px 0 4px;gap:12px;
+  }
+  .idxrow{
+    display:grid;grid-template-columns:1fr;gap:4px;
+    padding:18px 0;border-top:1px solid var(--border);
+  }
+  .idxrow:last-child{border-bottom:1px solid var(--border);}
+  .idxrow .rt{
+    font-family:var(--display);font-weight:700;font-size:clamp(20px,2.4vw,30px);
+    line-height:1.05;color:var(--ink);
+  }
+  .idxrow a.rt{text-decoration:underline;text-underline-offset:4px;
+    text-decoration-thickness:1px;text-decoration-color:var(--border);
+    display:inline-block;padding:2px 0;}
+  .idxrow a.rt:hover{color:var(--accent);text-decoration-color:var(--accent);}
+  .rmeta{
+    font-size:0.8125rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--inkFaint);font-weight:700;font-variant-numeric:tabular-nums;
+  }
+  @media(min-width:820px){
+    .idxrow{grid-template-columns:1fr 240px;align-items:center;gap:24px;}
+    .rmeta{text-align:right;}
+  }
+  .exptitle{
+    font-family:var(--display);font-weight:700;font-size:clamp(18px,2vw,24px);
+    color:var(--ink);margin:44px 0 4px;
+    display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+  }
+  .exptitle small{
+    font-family:var(--body);font-weight:500;font-size:0.8125rem;
+    letter-spacing:0.1em;text-transform:uppercase;color:var(--inkFaint);
+  }
+
+  /* ---------- Callout ---------- */
+  .callout{
+    padding:clamp(32px,4vw,56px) clamp(24px,6vw,96px);
+    background:var(--bg);border-top:1px solid var(--borderStrong);
+    text-align:center;
+  }
+  .callout p{
+    font-family:var(--display);font-weight:500;
+    font-size:clamp(20px,2.4vw,30px);line-height:1.25;color:var(--ink);
+    max-width:40ch;margin:0 auto;
+  }
+  .callout a{
+    color:var(--accent);text-decoration:underline;text-underline-offset:4px;
+    font-weight:700;
+  }
+
+  /* ---------- Footer data strip ---------- */
+  .strip{
+    border-top:1px solid var(--borderStrong);background:var(--bgAlt);
+    padding:24px clamp(24px,6vw,96px);
+    display:grid;grid-template-columns:1fr;gap:18px;
+  }
+  .stat{display:flex;flex-direction:column;gap:3px;}
+  .stat .sl{
+    font-size:0.6875rem;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--inkFaint);font-weight:700;
+  }
+  .stat .sv{
+    font-family:var(--display);font-weight:700;font-size:1.0625rem;
+    color:var(--ink);font-variant-numeric:tabular-nums;
+  }
+  .stat .sv .down{color:var(--inkMuted);font-weight:500;font-size:0.875rem;}
+  @media(min-width:640px){
+    .strip{grid-template-columns:repeat(5,1fr);gap:24px;align-items:end;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="masthead">
+    <a class="lockup" href="#top" aria-label="Doug March, home">
+      <svg width="71" height="59" viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" data-brand-mark="">
+      <title>Doug March logo</title>
+      <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+      <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+      <circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+      <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+      <circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+      <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+      <circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+      <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+      </svg>
+      <span class="wordmark">Doug March</span>
+    </a>
+    <nav class="navsentence">
+      see <a href="#work">the work</a>, read <a href="#about">about me</a>, say <a href="#hello">hello</a>.
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="scoreboard">
+      <div class="figurewrap">
+        <div class="scoreboardlabel">Detroit Red Wings · final · last night</div>
+        <div class="figure" aria-hidden="true">
+          <span class="num forward">2</span>
+          <span class="dash">–</span>
+          <span class="num back">0</span>
+        </div>
+        <h1 class="caption">Nobody scored on the Red Wings.</h1>
+        <p class="detail">Detroit shut out the visitors <span class="live">2–0</span> — a clean sheet, the empty net nobody got past.</p>
+      </div>
+
+      <div class="card c-pistons">
+        <div class="clabel">NBA · Pistons, a loss</div>
+        <div class="score"><span class="them">117</span> – 137</div>
+        <div class="cmeta">Detroit dropped it on the road. <strong>No spin</strong> — they got run off the floor.</div>
+      </div>
+      <div class="card c-golf">
+        <div class="clabel">Golf · Austin Championship</div>
+        <div class="terse">Trace Crowe, −14</div>
+        <div class="cmeta"><strong>Leads</strong> into the weekend.</div>
+      </div>
+      <div class="card c-spacex">
+        <div class="clabel">Engineering note</div>
+        <div class="terse">Starship caught on Flight 15.</div>
+        <div class="cmeta">The arms held.</div>
+      </div>
+      <div class="card c-rotation rotation">
+        <div class="clabel">In rotation</div>
+        <p><strong>Tobin Sprout</strong></p>
+        <p><strong>The War on Drugs</strong></p>
+        <p><strong>Wet Leg</strong></p>
+      </div>
+      <div class="card flood c-moon">
+        <div class="clabel">Overhead, Aldie</div>
+        <div class="terse">First quarter, 40% lit.</div>
+        <div class="cmeta">43°F, partly cloudy, feels like 38°.</div>
+      </div>
+    </section>
+
+    <section class="work" id="work">
+      <h2 class="sectionhead"><small>Selected work</small>The things I’ve built</h2>
+
+      <div class="featured">
+        <div class="ft">Spaceman</div>
+        <div class="fmeta">Founder · 2018 · Active</div>
+        <p>The LLC Doug has run his independent design and engineering work through for ten years — clients like Rolex, Intuit and Jeffrey Zeldman, 2018 to present.</p>
+        <a class="flink" href="#work-spaceman">Visit Spaceman →</a>
+      </div>
+
+      <div class="idxhead">
+        <div class="rmeta" style="text-align:left;letter-spacing:0.12em;">The index</div>
+      </div>
+      <div class="idxrow">
+        <a class="rt" href="#work-spaceman">Spaceman</a>
+        <div class="rmeta">Founder · 2018</div>
+      </div>
+      <div class="idxrow">
+        <a class="rt" href="#work-fishsticks">FishSticks</a>
+        <div class="rmeta">SaaS · 2025</div>
+      </div>
+      <div class="idxrow">
+        <a class="rt" href="#work-15th-club">15th Club</a>
+        <div class="rmeta">AI · 2025</div>
+      </div>
+      <div class="idxrow">
+        <a class="rt" href="#work-dougmar-ch">dougmar.ch</a>
+        <div class="rmeta">AI · 2026</div>
+      </div>
+
+      <div class="exptitle">Experiments <small>Older · still online</small></div>
+      <div class="idxrow">
+        <a class="rt" href="#exp-teeturn">TeeTurn</a>
+        <div class="rmeta">Experiment · 2020</div>
+      </div>
+      <div class="idxrow">
+        <a class="rt" href="#exp-politweets">Politweets</a>
+        <div class="rmeta">Experiment · 2008</div>
+      </div>
+      <div class="idxrow">
+        <a class="rt" href="#exp-twittertale">Twittertale</a>
+        <div class="rmeta">Experiment · 2008</div>
+      </div>
+    </section>
+
+    <section class="callout" id="hello">
+      <p>Built and rebuilt by Doug March, one night at a time. <a href="#about">See how it works →</a></p>
+    </section>
+  </main>
+
+  <footer class="strip">
+    <div class="stat">
+      <span class="sl">Red Wings</span>
+      <span class="sv">W, 2–0</span>
+    </div>
+    <div class="stat">
+      <span class="sl">SPY</span>
+      <span class="sv">754.37 <span class="down">↓ 0.36%</span></span>
+    </div>
+    <div class="stat">
+      <span class="sl">Moon</span>
+      <span class="sv">First qtr · 40%</span>
+    </div>
+    <div class="stat">
+      <span class="sl">Aldie, VA</span>
+      <span class="sv">43°F · cloudy</span>
+    </div>
+    <div class="stat">
+      <span class="sl">Pistons</span>
+      <span class="sv">L, 117–137</span>
+    </div>
+  </footer>
+
+</body>
+</html>
