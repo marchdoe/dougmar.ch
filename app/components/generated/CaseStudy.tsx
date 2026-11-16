@@ -1,137 +1,34 @@
 import { css } from '../../../styled-system/css'
 import type { projects } from '../../content/projects'
+import { CaseSection } from './CaseSection'
+import { LiveLink } from './LiveLink'
+import { RevealSection } from './RevealSection'
+import { StackList } from './StackList'
 
-type P = (typeof projects)[number]
+type Project = (typeof projects)[number]
 
-export function CaseStudy({ project }: { project: P }) {
-  const blocks = [
-    { label: 'Overview', body: project.description ?? '' },
-    { label: 'Problem', body: project.problem ?? '' },
-    { label: 'Approach', body: project.approach ?? '' },
-    { label: 'Outcome', body: project.outcome ?? '' },
-  ].filter((b) => b.body)
-  const stack = project.stack ?? []
+export function CaseStudy({ project }: { project: Project }) {
   return (
-    <section
+    <RevealSection
+      aria-label="Case study"
       className={css({
-        paddingBlock: 'clamp(40px, 6vw, 72px)',
-        paddingInline: 'clamp(24px, 6vw, 96px)',
-        bg: 'bgAlt',
-        borderTopWidth: '1px',
+        gridArea: 'rest',
+        minWidth: '0',
+        bg: 'bg',
+        borderTopWidth: '2px',
         borderTopStyle: 'solid',
         borderTopColor: 'borderStrong',
-        display: 'grid',
-        gridTemplateColumns: '1fr',
-        rowGap: '7',
-        columnGap: '7',
-        lg: { gridTemplateColumns: 'repeat(2, 1fr)', rowGap: '7', columnGap: '8' },
+        paddingTop: { base: '16px', lg: '32px' },
+        paddingBottom: { base: '52px', lg: '64px' },
+        paddingInline: { base: '24px', lg: '6vw' },
       })}
     >
-      {blocks.map((b) => (
-        <div key={b.label}>
-          <h2
-            className={css({
-              fontSize: 'xs',
-              letterSpacing: 'wider',
-              textTransform: 'uppercase',
-              color: 'textFaint',
-              fontWeight: 'bold',
-              marginBottom: '12px',
-            })}
-          >
-            {b.label}
-          </h2>
-          <p
-            className={css({
-              fontSize: 'base',
-              color: 'text',
-              lineHeight: '1.6',
-              maxWidth: '50ch',
-              margin: '0',
-            })}
-          >
-            {b.body}
-          </p>
-        </div>
-      ))}
-      <div
-        className={css({
-          bg: 'field',
-          color: 'fieldInk',
-          borderWidth: '1px',
-          borderStyle: 'solid',
-          borderColor: 'fieldBorder',
-          borderRadius: 'sm',
-          padding: 'clamp(24px, 3vw, 40px)',
-          alignSelf: 'start',
-        })}
-      >
-        <h2
-          className={css({
-            fontSize: 'xs',
-            letterSpacing: 'wider',
-            textTransform: 'uppercase',
-            color: 'fieldInkMuted',
-            fontWeight: 'bold',
-            marginBottom: '12px',
-          })}
-        >
-          Built with
-        </h2>
-        {stack.length > 0 ? (
-          <ul
-            className={css({
-              listStyle: 'none',
-              padding: '0',
-              margin: '0',
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '8px',
-            })}
-          >
-            {stack.map((s) => (
-              <li
-                key={s}
-                className={css({
-                  fontSize: 'sm',
-                  color: 'fieldInk',
-                  borderWidth: '1px',
-                  borderStyle: 'solid',
-                  borderColor: 'fieldBorder',
-                  borderRadius: 'sm',
-                  paddingBlock: '6px',
-                  paddingInline: '12px',
-                })}
-              >
-                {s}
-              </li>
-            ))}
-          </ul>
-        ) : null}
-        {project.liveUrl ? (
-          <a
-            href={project.liveUrl}
-            className={css({
-              display: 'inline-flex',
-              alignItems: 'center',
-              marginTop: '24px',
-              fontSize: 'sm',
-              fontWeight: 'bold',
-              color: 'fieldInk',
-              borderWidth: '1px',
-              borderStyle: 'solid',
-              borderColor: 'fieldInk',
-              borderRadius: 'md',
-              paddingBlock: '11px',
-              paddingInline: '20px',
-              minHeight: '44px',
-              _hover: { color: 'accent', borderColor: 'accent' },
-            })}
-          >
-            Visit {project.title} →
-          </a>
-        ) : null}
-      </div>
-    </section>
+      <CaseSection label="Overview" text={project.description} />
+      <CaseSection label="Problem" text={project.problem} />
+      <CaseSection label="Approach" text={project.approach} />
+      <CaseSection label="Outcome" text={project.outcome} />
+      <StackList stack={project.stack} />
+      <LiveLink url={project.liveUrl} />
+    </RevealSection>
   )
 }

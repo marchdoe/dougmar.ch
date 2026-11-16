@@ -3,25 +3,25 @@ import { definePreset } from '@pandacss/dev'
 export const elementsPreset = definePreset({
   name: 'elements',
   globalCss: {
-    'html, body': {
-      margin: 0,
-      padding: 0,
+    '*': {
+      boxSizing: 'border-box',
     },
     body: {
       background: 'bg',
       color: 'text',
+      margin: '0',
       WebkitFontSmoothing: 'antialiased',
       MozOsxFontSmoothing: 'grayscale',
       textRendering: 'optimizeLegibility',
-      fontFeatureSettings: '"kern", "liga"',
+      fontKerning: 'normal',
     },
     'h1, h2, h3, h4, h5, h6': {
-      margin: 0,
+      margin: '0',
       fontWeight: 'inherit',
-      color: 'inherit',
       textWrap: 'balance',
     },
     p: {
+      margin: '0',
       textWrap: 'pretty',
     },
     a: {
@@ -29,11 +29,10 @@ export const elementsPreset = definePreset({
       textDecoration: 'none',
     },
     'a:hover': {
-      color: 'accent',
+      textDecoration: 'underline',
     },
-    '::selection': {
-      background: 'accent',
-      color: 'accentText',
+    'strong, b': {
+      fontWeight: '700',
     },
   },
   conditions: {
@@ -44,29 +43,41 @@ export const elementsPreset = definePreset({
   theme: {
     tokens: {
       colors: {
-        garnet: {
-          50: { value: '#FCEBEE' },
-          100: { value: '#F9D2D8' },
-          200: { value: '#F0A3AE' },
-          300: { value: '#E3707F' },
-          400: { value: '#D24355' },
-          500: { value: '#B52537' },
-          600: { value: '#991B2C' },
-          700: { value: '#7A1526' },
-          800: { value: '#5C0F1D' },
-          900: { value: '#400A14' },
+        gold: {
+          50: { value: '#FDF6E3' },
+          100: { value: '#FBEBC0' },
+          200: { value: '#F8DD93' },
+          300: { value: '#F5CD5E' },
+          400: { value: '#F3B733' },
+          500: { value: '#E8A61C' },
+          600: { value: '#C9850F' },
+          700: { value: '#A1670C' },
+          800: { value: '#7A4D10' },
+          900: { value: '#4A2F0C' },
         },
-        sand: {
-          50: { value: '#FBF4F1' },
-          100: { value: '#F3E7E3' },
-          200: { value: '#E5D0CB' },
-          300: { value: '#CDB1AC' },
-          400: { value: '#AC847F' },
-          500: { value: '#845C58' },
-          600: { value: '#63423F' },
-          700: { value: '#472E2C' },
-          800: { value: '#2F1D1D' },
-          900: { value: '#1D1011' },
+        ember: {
+          50: { value: '#FBEBC0' },
+          100: { value: '#FBD3A0' },
+          200: { value: '#FBA862' },
+          300: { value: '#F0832A' },
+          400: { value: '#D96516' },
+          500: { value: '#C4560F' },
+          600: { value: '#A8480C' },
+          700: { value: '#8A3A09' },
+          800: { value: '#6A2C07' },
+          900: { value: '#471D05' },
+        },
+        bronze: {
+          50: { value: '#FBF7EF' },
+          100: { value: '#F0E8DA' },
+          200: { value: '#E0D4BF' },
+          300: { value: '#C9B89B' },
+          400: { value: '#A89572' },
+          500: { value: '#827055' },
+          600: { value: '#5E4F3A' },
+          700: { value: '#423728' },
+          800: { value: '#2A2217' },
+          900: { value: '#1A140C' },
         },
       },
       radii: {
@@ -79,21 +90,51 @@ export const elementsPreset = definePreset({
     },
     semanticTokens: {
       colors: {
-        bg: { value: '{colors.garnet.700}' },
-        bgAlt: { value: '{colors.garnet.800}' },
-        surface: { value: '{colors.garnet.500}' },
-        text: { value: '{colors.sand.50}' },
-        textMuted: { value: '{colors.garnet.100}' },
-        textFaint: { value: '{colors.garnet.200}' },
-        accent: { value: '{colors.garnet.300}' },
-        accentText: { value: '{colors.garnet.900}' },
-        accentAlt: { value: '{colors.garnet.200}' },
-        border: { value: '{colors.garnet.600}' },
-        borderStrong: { value: '{colors.garnet.400}' },
-        field: { value: '{colors.garnet.600}' },
-        fieldInk: { value: '{colors.sand.50}' },
-        fieldInkMuted: { value: '{colors.garnet.100}' },
-        fieldBorder: { value: '{colors.garnet.400}' },
+        bg: {
+          value: { base: '#1A1308', _light: '#F3B733' },
+        },
+        bgAlt: {
+          value: { base: '#241B0C', _light: '#E69614' },
+        },
+        surface: {
+          value: { base: '#2E2310', _light: '#F8CB5E' },
+        },
+        text: {
+          value: { base: '#F6E6BE', _light: '#241A0A' },
+        },
+        textMuted: {
+          value: { base: '#D4BA82', _light: '#4A3A22' },
+        },
+        textFaint: {
+          value: { base: '#9E8349', _light: '#574630' },
+        },
+        accent: {
+          value: { base: '#F0832A', _light: '#A8480C' },
+        },
+        accentText: {
+          value: { base: '#1A1308', _light: '#FBEBC0' },
+        },
+        accentAlt: {
+          value: { base: '#FBA862', _light: '#8A3A09' },
+        },
+        border: {
+          value: { base: '#3A2C15', _light: '#C98A12' },
+        },
+        borderStrong: {
+          value: { base: '#5C4820', _light: '#241A0A' },
+        },
+        field: {
+          value: { base: '#E8A61C', _light: '#221808' },
+        },
+        fieldInk: {
+          value: { base: '#231806', _light: '#F3D98A' },
+        },
+        fieldInkMuted: {
+          value: { base: '#5E4810', _light: '#C9A24E' },
+        },
+        fieldBorder: {
+          value: { base: '#A8780D', _light: '#4A3A1C' },
+        },
       },
     },
   },

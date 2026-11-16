@@ -1,88 +1,88 @@
 import { css } from '../../../styled-system/css'
-import { experiments, featuredProject, type projects, selectedWork } from '../../content/projects'
-import { FeaturedCard } from './FeaturedCard'
-import { IndexList } from './IndexList'
-
-type P = (typeof projects)[number]
-
-const small = css({
-  fontFamily: 'body',
-  fontWeight: 'normal',
-  fontSize: 'xs',
-  letterSpacing: 'wider',
-  textTransform: 'uppercase',
-  color: 'textFaint',
-})
+import { selectedWork } from '../../content/projects'
+import { RevealSection } from './RevealSection'
 
 export function WorkIndex() {
-  const work = [featuredProject, ...selectedWork].filter((p): p is P => Boolean(p))
-  const workItems = work.map((p) => ({
-    key: p.slug,
-    title: p.title,
-    href: `/work/${p.slug}`,
-    meta: `${p.type} · ${p.year}`,
-  }))
-  const expItems = experiments.map((p) => ({
-    key: p.slug,
-    title: p.title,
-    href: p.externalUrl ?? `/work/${p.slug}`,
-    meta: `${p.type} · ${p.year}`,
-  }))
   return (
-    <section
+    <RevealSection
       id="work"
+      aria-label="Selected work"
       className={css({
-        paddingBlock: 'clamp(40px, 6vw, 72px)',
-        paddingInline: 'clamp(24px, 6vw, 96px)',
-        bg: 'bgAlt',
-        borderTopWidth: '1px',
+        bg: 'bg',
+        borderTopWidth: '2px',
         borderTopStyle: 'solid',
         borderTopColor: 'borderStrong',
-        '@supports (animation-timeline: view())': {
-          animationName: 'rise',
-          animationTimeline: 'view()',
-          animationRange: 'entry 0% entry 40%',
-          animationFillMode: 'both',
-        },
+        paddingTop: { base: '40px', lg: '56px' },
+        paddingBottom: { base: '44px', lg: '48px' },
+        paddingInline: { base: '24px', lg: '6vw' },
       })}
     >
       <h2
         className={css({
-          fontFamily: 'display',
+          textStyle: 'md',
           fontWeight: 'bold',
-          textStyle: 'lg',
+          letterSpacing: 'normal',
           color: 'text',
           marginBottom: '28px',
         })}
       >
-        <small className={css({ display: 'block', marginBottom: '8px' }, { fontSize: 'xs' })}>
-          <span className={small}>Selected work</span>
-        </small>
-        The things I’ve built
+        Selected Work
       </h2>
-      <FeaturedCard />
-      <div className={css({ marginTop: '40px', marginBottom: '4px' })}>
-        <span className={small}>The index</span>
-      </div>
-      <IndexList items={workItems} />
       <div
         className={css({
-          fontFamily: 'display',
-          fontWeight: 'bold',
-          textStyle: 'lg',
-          color: 'text',
-          marginTop: '44px',
-          marginBottom: '4px',
-          display: 'flex',
-          alignItems: 'baseline',
-          justifyContent: 'space-between',
-          gap: '12px',
-          flexWrap: 'wrap',
+          display: 'grid',
+          gridTemplateColumns: { base: 'minmax(0, 1fr)', lg: 'repeat(3, minmax(0, 1fr))' },
+          gap: { base: '24px', lg: 'clamp(24px, 3vw, 48px)' },
         })}
       >
-        Experiments <span className={small}>Older · still online</span>
+        {selectedWork.map((project) => (
+          <article
+            key={project.slug}
+            className={css({
+              borderTopWidth: '1px',
+              borderTopStyle: 'solid',
+              borderTopColor: 'border',
+            })}
+          >
+            <a
+              href={`/work/${project.slug}`}
+              className={css({
+                display: 'block',
+                paddingTop: '16px',
+                paddingBottom: '4px',
+                _hover: { textDecoration: 'none' },
+              })}
+            >
+              <span
+                className={css({
+                  display: 'block',
+                  fontFamily: 'body',
+                  fontWeight: 'bold',
+                  fontSize: { base: '30px', sm: '40px', lg: '28px', xl: '40px' },
+                  lineHeight: '0.95',
+                  color: 'text',
+                  'a:hover &': { color: 'accent' },
+                })}
+              >
+                {project.title}
+              </span>
+              <span
+                className={css({
+                  display: 'block',
+                  marginTop: '10px',
+                  textStyle: 'xs',
+                  letterSpacing: 'wide',
+                  textTransform: 'uppercase',
+                  color: 'textMuted',
+                  'a:hover &': { color: 'text' },
+                })}
+              >
+                {project.type} · {project.year}
+              </span>
+            </a>
+          </article>
+        ))}
       </div>
-      <IndexList items={expItems} />
-    </section>
+    </RevealSection>
   )
 }

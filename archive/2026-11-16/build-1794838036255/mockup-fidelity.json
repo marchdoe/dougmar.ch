@@ -1,0 +1,177 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'lions' (148px); in build it is 'lions' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "fishsticks",
+                "mockupPx": 40
+              }
+            ],
+            "leader": {
+              "text": "lions",
+              "mockupPx": 148
+            },
+            "buildLeader": {
+              "text": "lions",
+              "buildPx": 160,
+              "mockupPx": 148
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'by 25' is 40px in the mockup and 81px in the build (2.03x). Set it back to 40px.",
+          "facts": {
+            "text": "by 25",
+            "mockupPx": 40,
+            "buildPx": 81,
+            "ratio": 2.03,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'lions' (46px); in build it is 'lions' (72px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "work",
+                "mockupPx": 16
+              }
+            ],
+            "leader": {
+              "text": "lions",
+              "mockupPx": 46
+            },
+            "buildLeader": {
+              "text": "lions",
+              "buildPx": 72,
+              "mockupPx": 46
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'by 25' is 26px in the mockup and 48px in the build (1.83x)",
+          "facts": {
+            "text": "by 25",
+            "mockupPx": 26,
+            "buildPx": 48,
+            "ratio": 1.83,
+            "mockupRank": 1
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'lions' still leads, but the mockup's 'fishsticks' (40px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'lions' still leads, but the mockup's 'work' (16px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'by 25' is 26px in the mockup and 48px in the build (1.83x). Set it back to 26px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'lions' (148px); in build it is 'lions' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "fishsticks",
+                "mockupPx": 40
+              }
+            ],
+            "leader": {
+              "text": "lions",
+              "mockupPx": 148
+            },
+            "buildLeader": {
+              "text": "lions",
+              "buildPx": 160,
+              "mockupPx": 148
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'lions' (46px); in build it is 'lions' (72px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "by 25",
+                "mockupPx": 26
+              },
+              {
+                "text": "work",
+                "mockupPx": 16
+              }
+            ],
+            "leader": {
+              "text": "lions",
+              "mockupPx": 46
+            },
+            "buildLeader": {
+              "text": "lions",
+              "buildPx": 72,
+              "mockupPx": 46
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'lions' still leads, but the mockup's 'fishsticks' (40px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'lions' still leads, but the mockup's 'by 25' (26px), 'work' (16px) fell out of the build's three largest texts. Restore the mockup's sizes."
+      ]
+    }
+  ]
+}

@@ -3,21 +3,27 @@ import { css } from '../../../styled-system/css'
 export function WorkMissing() {
   return (
     <section
+      data-split=""
       className={css({
-        paddingBlock: 'clamp(40px, 6vw, 80px)',
-        paddingInline: 'clamp(24px, 6vw, 96px)',
+        gridArea: 'hero',
+        minWidth: '0',
         bg: 'bg',
+        paddingTop: { base: '48px', lg: '96px' },
+        paddingBottom: { base: '48px', lg: '64px' },
+        paddingInline: { base: '24px', lg: '6vw' },
+        minHeight: { lg: '420px' },
       })}
     >
       <h1
         className={css({
           fontFamily: 'display',
           fontWeight: 'bold',
+          textTransform: 'uppercase',
           textStyle: '3xl',
           color: 'text',
         })}
       >
-        No project by that name.
+        Not found
       </h1>
       <a
         href="/#work"
@@ -25,13 +31,17 @@ export function WorkMissing() {
           display: 'inline-flex',
           alignItems: 'center',
           minHeight: '44px',
-          marginTop: '16px',
+          marginTop: '5',
+          textStyle: 'base',
+          fontWeight: 'bold',
           color: 'text',
-          textDecoration: 'underline',
-          textUnderlineOffset: '3px',
+          borderBottomWidth: '2px',
+          borderBottomStyle: 'solid',
+          borderBottomColor: 'accent',
+          _hover: { textDecoration: 'none', borderBottomColor: 'text' },
         })}
       >
-        Back to the work
+        Back to selected work
       </a>
     </section>
   )

@@ -1,42 +1,41 @@
-import { useRouterState } from '@tanstack/react-router'
-import { type ReactNode, useSyncExternalStore } from 'react'
+import type { ReactNode } from 'react'
 import { css } from '../../styled-system/css'
 import { Sidebar } from './Sidebar'
-import { FooterStrip } from './generated/FooterStrip'
 
-const subscribeToNothing = () => () => {}
-
-// /work draws its own masthead (#561), so the night's header would stack on
-// top of it. Hydration renders it anyway to match the shell (#789).
-function useOnWorkIndex() {
-  const pathname = useRouterState({ select: (s) => s.location.pathname })
-  const hydrating = useSyncExternalStore(
-    subscribeToNothing,
-    () => false,
-    () => true
-  )
-  return !hydrating && (pathname === '/work' || pathname === '/work/')
-}
-
+// Two-material scoreboard. A route that marks its hero with data-split
+// places its sections straight into the shell grid (hero / rest), so at 360
+// the bronze rail lands directly beneath the hero, and at 1440 the rail
+// holds the right margin beside the gold reading field.
 export function Layout({ children }: { children: ReactNode }) {
-  const onWorkIndex = useOnWorkIndex()
   return (
     <div
       className={css({
+        display: 'grid',
+        gridTemplateColumns: { base: 'minmax(0, 1fr)', lg: 'minmax(0, 1fr) 320px' },
+        gridTemplateRows: { lg: 'auto 1fr' },
+        gridTemplateAreas: { base: '"mark" "main" "rail"', lg: '"main mark" "main rail"' },
+        minHeight: '100vh',
         bg: 'bg',
         color: 'text',
         fontFamily: 'body',
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        overflowX: 'hidden',
+        '&:has([data-split])': {
+          gridTemplateAreas: {
+            base: '"mark" "hero" "rail" "rest"',
+            lg: '"hero mark" "rest rail"',
+          },
+        },
       })}
     >
-      {onWorkIndex ? null : <Sidebar />}
-      <main id="top" className={css({ flex: '1', display: 'block' })}>
+      <Sidebar />
+      <main
+        className={css({
+          gridArea: 'main',
+          minWidth: '0',
+          '&:has([data-split])': { display: 'contents' },
+        })}
+      >
         {children}
       </main>
-      <FooterStrip />
     </div>
   )
 }

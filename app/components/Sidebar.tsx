@@ -1,72 +1,58 @@
 import { css } from '../../styled-system/css'
-import { identity } from '../content/about'
 import { BrandLockup } from './BrandLockup'
+import { RailNav } from './generated/RailNav'
+import { RailSignals } from './generated/RailSignals'
+import { RailFoot } from './generated/RailFoot'
 
-const navLink = css({
-  color: 'text',
-  textDecoration: 'underline',
-  textUnderlineOffset: '3px',
-  textDecorationThickness: '1px',
-  display: 'inline-block',
-  paddingBlock: '6px',
-  paddingInline: '2px',
-  minHeight: '44px',
-  lineHeight: '32px',
-  _hover: { color: 'accent' },
-  lg: { paddingBlock: '4px', minHeight: '0', lineHeight: '1.6' },
-})
-
+// Mark sits on the bronze field. Light scheme: field is near-black bronze,
+// the full-colour disc passes, so original. Dark scheme: field turns gold,
+// the full-colour mark fails 3:1, so single-color in fieldInk.
 export function Sidebar() {
   return (
-    <header
-      className={css({
-        minHeight: '120px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '18px',
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-        paddingBlock: '20px',
-        paddingInline: 'clamp(24px, 6vw, 96px)',
-        borderBottomWidth: '1px',
-        borderBottomStyle: 'solid',
-        borderBottomColor: 'border',
-        bg: 'bg',
-        lg: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-      })}
-    >
-      <a
-        href="/"
-        aria-label="Doug March, home"
-        className={css({ display: 'inline-flex', color: 'text' })}
-      >
-        <BrandLockup variant="stacked-md" mode="original" />
-      </a>
-      <nav
-        aria-label="Primary"
+    <>
+      <header
         className={css({
-          fontSize: 'sm',
-          color: 'textMuted',
-          lineHeight: '1.6',
-          maxWidth: '34ch',
-          textTransform: 'lowercase',
-          lg: { textAlign: 'right', maxWidth: '40ch' },
+          gridArea: 'mark',
+          bg: 'field',
+          color: 'fieldInk',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: { base: 'flex-end', lg: 'center' },
+          paddingTop: { base: '16px', lg: '40px' },
+          paddingBottom: { base: '16px', lg: '24px' },
+          paddingInline: '24px',
+          borderBottomWidth: { base: '1px', lg: '0' },
+          borderBottomStyle: 'solid',
+          borderBottomColor: 'fieldBorder',
         })}
       >
-        see{' '}
-        <a href="/#work" className={navLink}>
-          the work
+        <a
+          href="/"
+          aria-label="Doug March, home"
+          className={css({ display: 'block', _hover: { textDecoration: 'none' } })}
+        >
+          <BrandLockup variant="mark-only-md" mode={{ light: 'original', dark: 'single-color' }} />
         </a>
-        , read{' '}
-        <a href="/about" className={navLink}>
-          about me
-        </a>
-        , say{' '}
-        <a href={`mailto:${identity.email}`} className={navLink}>
-          hello
-        </a>
-        .
-      </nav>
-    </header>
+      </header>
+      <aside
+        aria-label="Site index and signals"
+        className={css({
+          gridArea: 'rail',
+          bg: 'field',
+          color: 'fieldInk',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: { base: '32px', lg: '36px' },
+          paddingTop: { base: '32px', lg: '0' },
+          paddingBottom: { base: '40px', lg: '44px' },
+          paddingInline: { base: '24px', lg: '28px' },
+          minWidth: '0',
+        })}
+      >
+        <RailNav />
+        <RailSignals />
+        <RailFoot />
+      </aside>
+    </>
   )
 }

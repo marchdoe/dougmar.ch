@@ -10,7 +10,7 @@ function OgCard() {
       className={css({
         position: 'fixed',
         inset: '0',
-        zIndex: '9999',
+        zIndex: 9999,
         bg: 'bg',
         display: 'flex',
         alignItems: 'center',
@@ -19,53 +19,93 @@ function OgCard() {
     >
       <div
         className={css({
-          boxSizing: 'border-box',
-          flexShrink: '0',
           width: '1200px',
           height: '630px',
+          flexShrink: 0,
+          display: 'grid',
+          gridTemplateColumns: 'minmax(0, 1fr) 300px',
           bg: 'bg',
           color: 'text',
-          paddingBlock: '64px',
-          paddingInline: '72px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          borderBottomWidth: '12px',
-          borderBottomStyle: 'solid',
-          borderBottomColor: 'borderStrong',
+          fontFamily: 'body',
         })}
       >
-        <BrandLockup
-          variant="stacked-md"
-          mode="original"
-          className={css({ alignSelf: 'flex-start' })}
-        />
-        <div>
+        <div
+          className={css({
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            paddingInline: '72px',
+            paddingBlock: '64px',
+            minWidth: '0',
+          })}
+        >
           <div
             className={css({
-              fontSize: 'xs',
+              fontSize: '20px',
               letterSpacing: 'widest',
               textTransform: 'uppercase',
-              color: 'textFaint',
               fontWeight: 'bold',
-              marginBottom: '16px',
+              color: 'textMuted',
+              marginBottom: '32px',
             })}
           >
-            Detroit Red Wings · final · 2–0
+            Detroit · Week 11
           </div>
           <h1
+            className={css({ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' })}
+          >
+            <span
+              className={css({
+                display: 'block',
+                fontFamily: 'display',
+                fontWeight: 'bold',
+                textTransform: 'uppercase',
+                fontSize: '156px',
+                lineHeight: '0.9',
+                color: 'text',
+              })}
+            >
+              Lions
+            </span>
+            <span
+              className={css({
+                display: 'block',
+                fontFamily: 'body',
+                fontWeight: 'bold',
+                fontSize: '68px',
+                lineHeight: '1',
+                marginTop: '24px',
+                color: 'text',
+              })}
+            >
+              by <span className={css({ color: 'accent' })}>25</span>
+            </span>
+          </h1>
+        </div>
+        <div
+          className={css({
+            bg: 'field',
+            color: 'fieldInk',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingBlock: '64px',
+            paddingInline: '48px',
+          })}
+        >
+          <BrandLockup variant="mark-only-md" mode={{ light: 'original', dark: 'single-color' }} />
+          <div
             className={css({
-              fontFamily: 'display',
-              fontWeight: 'light',
-              fontSize: '68px',
-              lineHeight: '1.04',
-              letterSpacing: 'tight',
-              color: 'text',
-              maxWidth: '1000px',
+              fontSize: '20px',
+              letterSpacing: 'wider',
+              textTransform: 'uppercase',
+              fontWeight: 'bold',
+              color: 'fieldInkMuted',
             })}
           >
-            Nobody scored on the Red Wings.
-          </h1>
+            Final · <span className={css({ color: 'fieldInk' })}>35–10</span>
+          </div>
         </div>
       </div>
     </div>
