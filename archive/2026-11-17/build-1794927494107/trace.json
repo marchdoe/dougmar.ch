@@ -1,0 +1,1655 @@
+{
+  "date": "2026-11-17",
+  "startedAt": "2026-11-17T14:21:00.798Z",
+  "completedAt": "2026-11-17T14:58:21.715Z",
+  "steps": [
+    {
+      "name": "signals-loaded",
+      "phase": 0,
+      "input": {
+        "providersAvailable": 18
+      },
+      "output": {
+        "air_quality": {
+          "aqi_index": 1,
+          "uv_index": 0.6,
+          "air_quality_label": "Good"
+        },
+        "books": {
+          "currently_reading": []
+        },
+        "day_of_week": {
+          "day": "Tuesday",
+          "is_weekend": false,
+          "day_index": 2
+        },
+        "github": {
+          "repos": [
+            {
+              "name": "sponsors/elementalsouls",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            },
+            {
+              "name": "mvanhorn/last30days-skill/stargazers",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            },
+            {
+              "name": "alibaba/open-code-review/stargazers",
+              "description": "",
+              "language": "Go",
+              "stars": null
+            },
+            {
+              "name": "Tencent/LoopForge/stargazers",
+              "description": "",
+              "language": "Go",
+              "stars": null
+            },
+            {
+              "name": "dream-num/univer/stargazers",
+              "description": "",
+              "language": "TypeScript",
+              "stars": null
+            }
+          ]
+        },
+        "golf": {
+          "tournament": "Austin Championship pres. by Compliance Solutions",
+          "status": "Final",
+          "leaders": [
+            {
+              "name": "Chad Ramey",
+              "position": "1",
+              "score": "-20"
+            },
+            {
+              "name": "Ben Kohles",
+              "position": "2",
+              "score": "-18"
+            },
+            {
+              "name": "Trace Crowe",
+              "position": "3",
+              "score": "-17"
+            },
+            {
+              "name": "Hayden Springer",
+              "position": "4",
+              "score": "-16"
+            },
+            {
+              "name": "Blades Brown",
+              "position": "5",
+              "score": "-16"
+            }
+          ]
+        },
+        "hacker_news": {
+          "stories": [
+            {
+              "title": "New Evidence Shows School Phone Bans Are Gradually Improving Test Scores",
+              "url": "https://www.nytimes.com/2026/11/17/upshot/school-phone-bans-study-scores.html",
+              "score": 294,
+              "by": "donohoe"
+            },
+            {
+              "title": "Carnegie Mellon is putting computer science courses on YouTube for free",
+              "url": "https://www.cs.cmu.edu/learn/",
+              "score": 1863,
+              "by": "pcompeau"
+            },
+            {
+              "title": "VisualBasic.World: A gallery of Planet Source Code programs from 1997 to 2012",
+              "url": "https://visualbasic.world/",
+              "score": 125,
+              "by": "broast"
+            },
+            {
+              "title": "Regulatory Capture by Anthropic Through METR",
+              "url": "https://nitter.cf/kevinnbass/status/2099621874279817638",
+              "score": 118,
+              "by": "agnosticmantis"
+            },
+            {
+              "title": "Rows vs. Columns: How different are they, really?",
+              "url": "https://spiraldb.com/blog/rows-vs-columns",
+              "score": 57,
+              "by": "eatonphil"
+            }
+          ]
+        },
+        "holidays": {
+          "today": null,
+          "upcoming": []
+        },
+        "lunar": {
+          "phase": "first quarter",
+          "illumination": 0.612,
+          "days_into_cycle": 8.44
+        },
+        "market": {
+          "symbol": "SPY",
+          "price": "739.9500",
+          "change": "-14.4200",
+          "change_percent": "-1.9115%",
+          "direction": "down"
+        },
+        "music": {
+          "bands": [
+            "The War on Drugs",
+            "My Morning Jacket",
+            "Tobin Sprout"
+          ],
+          "rotation": true
+        },
+        "news": {
+          "headlines": [
+            {
+              "title": "A ‘miracle’ or Chicago grit? In South America, a post-op pope shows endurance. - The Washington Post",
+              "source": "The Washington Post",
+              "url": "https://www.washingtonpost.com/world/2026/11/16/miracle-or-chicago-grit-south-america-post-op-pope-shows-endurance/"
+            },
+            {
+              "title": "Nvidia fallout: Commerce cracks down on third-country loophole that allowed China to use computing power - CNBC",
+              "source": "CNBC",
+              "url": "https://www.cnbc.com/2026/11/16/nvidia-commerce-china-lutnick.html"
+            },
+            {
+              "title": "Tech Stocks Slide as Nvidia, Anthropic Tests Await: Markets Wrap - Bloomberg",
+              "source": "Bloomberg",
+              "url": "https://www.bloomberg.com/news/articles/2026-11-15/stock-market-today-dow-s-p-live-updates"
+            },
+            {
+              "title": "Drake Maye reportedly could miss remainder of season with 'significant lower leg injury,' Pats fear ankle fracture - Yahoo Sports",
+              "source": "Yahoo Entertainment",
+              "url": "https://sports.yahoo.com/nfl/breaking-news/article/drake-maye-reportedly-could-miss-remainder-of-season-with-significant-lower-leg-injury-pats-fear-ankle-fracture-132048155.html"
+            },
+            {
+              "title": "Grammy Nominations 2027: See the Full List Here - Pitchfork",
+              "source": "Pitchfork",
+              "url": "https://pitchfork.com/story/grammy-nominations-2027-see-the-full-list-here/"
+            }
+          ]
+        },
+        "quote": {
+          "text": "Life is what happens to you while you're busy making other plans.",
+          "author": "John Lennon"
+        },
+        "season": {
+          "season": "fall",
+          "month": 11,
+          "day": 17,
+          "day_of_year": 321,
+          "month_name": "November"
+        },
+        "sidebar": {
+          "links": [
+            {
+              "title": "Band-aid accessibility",
+              "url": "https://yatil.net/blog/band-aid-accessibility",
+              "source": "yatil.net",
+              "description": "More and more people with disabilities take matters into their own hand and use LLM coding tools to generate accessible features."
+            },
+            {
+              "title": "HUMAN.md",
+              "url": "https://www.human-md.ai/",
+              "source": "human-md.ai",
+              "description": "A reminder, in plain text, of what humans actually bring to the table now that the machines are very good and getting better every day."
+            },
+            {
+              "title": "Declarative dragging",
+              "url": "https://declarative-dragging.github.io/",
+              "source": "declarative-dragging.github.io",
+              "description": "What if making a diagram draggable was as simple as specifying what it can become?"
+            },
+            {
+              "title": "Shield Font",
+              "url": "https://shieldfont.org/",
+              "source": "shieldfont.org",
+              "description": "Publish for humans, not for crawlers. A web font that swaps the words in your HTML, so readers see your writing and AI training gets a stale copy."
+            },
+            {
+              "title": "Bird Dreams",
+              "url": "https://research.nvidia.com/labs/sil/projects/birddreams/",
+              "source": "research.nvidia.com",
+              "description": "A driving world model that generates driving video and a bird’s-eye view of the scene from a single camera image."
+            }
+          ]
+        },
+        "sports": {
+          "teams": [
+            {
+              "name": "Detroit Lions",
+              "league": "NFL",
+              "last_game": "2026-11-15T14:30Z",
+              "result": "win",
+              "score": "35-10"
+            },
+            {
+              "name": "Detroit Red Wings",
+              "league": "NHL",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            },
+            {
+              "name": "Detroit Pistons",
+              "league": "NBA",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            },
+            {
+              "name": "Detroit Tigers",
+              "league": "MLB",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            }
+          ]
+        },
+        "sun": {
+          "sunrise": "07:03",
+          "sunset": "16:48",
+          "daylight_hours": 9.8
+        },
+        "weather": {
+          "location": "Aldie, Virginia",
+          "conditions": "Sunny",
+          "temp_f": 44.9,
+          "temp_c": 7.1,
+          "humidity": 68,
+          "wind_mph": 2.2,
+          "wind_dir": "NW",
+          "feels_like_f": 40.5
+        },
+        "date": "2026-11-17"
+      },
+      "durationMs": 0,
+      "timestamp": "2026-11-17T14:21:00.831Z"
+    },
+    {
+      "name": "art-director",
+      "phase": 1,
+      "input": {
+        "compositionMandate": "## Composition Mandate\n\nRecency is tracked per axis, not per whole tuple: a value used on any of the last 3 builds is discouraged for that axis. The starting values below are derived from today's date — they are a specific place to begin, not an instruction.\n\n- **columns** — start from `single` (avoid `three`, `irregular-twelve`, `two-equal`)\n- **axis** — start from `vertical` (avoid `horizontal`, `radial`, `diagonal`)\n- **symmetry** — start from `mirrored` (avoid `left-weighted`, `broken`, `rig"
+      },
+      "output": {
+        "hero_copy": "Every project started as an experiment.",
+        "archetype": "a lab notebook of experiments — acid index reversed out of a near-black thesis",
+        "composition": {
+          "columns": "two-asymmetric",
+          "axis": "vertical",
+          "symmetry": "right-weighted",
+          "hero_zone": "edge-bound",
+          "density": "crowded",
+          "rhythm": "even",
+          "shell_posture": "folded-into-hero",
+          "field_ratio": "balanced",
+          "collapse": "stack",
+          "hero_object": "list"
+        },
+        "mobile": {
+          "carrier": "At 360 the split is gone; the thesis stacks first as the acid phrase word-per-line on the near-black field, then the full-width ruled work index carries the argument as evidence directly below it.",
+          "first_fold": "The stacked hero phrase \"Every project started as an experiment\" on the dark thesis field, mark and role above it.",
+          "order": "header+mark, hero phrase (dark field), work index, signal strip, site callout, baseline identity",
+          "hero_step_360": "3xl",
+          "nav_360": "Mark stays top-left on the dark field; the word \"Index\" top-right reveals work / about / contact stacked."
+        },
+        "chassisId": "space-mono-archivo",
+        "specLength": 4112,
+        "specPreview": "**1. Color Specification**\n- Primary hue: 98° (lab lime). Chosen against the mandate's warm 40–80° target because the repetition check demands ≥60° off the 46–50° cluster and because \"experiment\" wants a reagent/terminal green, not another gold. 98° sits in the one open band (80–128°) the forbidden zones leave.\n- Neutral palette (sage, green-tinted): 50 #f6f8f0, 100 #edf0e4, 200 #dce1cf, 300 #c2c9b0, 400 #99a287, 500 #727b62, 600 #545d45, 700 #39402e, 800 #22281b, 900 #131810\n- Accent color (lim",
+        "selfCheck": "1. Hero quotability: Yes — \"Every project started as an experiment\" is a maker's ethos that stands alone and frames the index.\n2. Because-of chain: Yes — a claim-plus-proof line drove list object → thesis/evidence two-asymmetric split → mono specimen chassis → acid lab-lime on near-black.\n3. Render "
+      },
+      "durationMs": 569142,
+      "timestamp": "2026-11-17T14:30:29.990Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 0
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "1. (Judgment 5) Several index descriptions contradict the work records. \"Operations tooling, shipped as a product after it solved its own problem\" is wrong: FishSticks is a spelling-practice app that imports school word-list PDFs for kids. \"Tee-time logistics, prototyped over a weekend\" is wrong: TeeTurn is a mobile-first golf app for tracking a round in real time, where Doug handled product direction and strategy. \"A story stitched from tweets\" is wrong: Twittertale scanned public tweets for sw"
+      },
+      "durationMs": 364909,
+      "timestamp": "2026-11-17T14:36:36.375Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "1. (Judgment 1) As rendered, tonight reruns 2026-11-09 and 2026-11-04. It shares 11-09's two-asymmetric vertical split, folded-into-hero shell, balanced field, split-field ground, small-caps register and a green near 94°, and 11-04's Space Mono/Archivo split. The thesis field also shows as mid forest green instead of the declared near-black #131810, which makes the overlap worse. Paint the field #131810 and the index ground paper #f6f8f0 as specified, so the page reads as acid lime on near-black"
+      },
+      "durationMs": 327978,
+      "timestamp": "2026-11-17T14:42:04.353Z"
+    },
+    {
+      "name": "mockup-patch",
+      "phase": 2,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "edits": 7,
+        "bytes": 19463
+      },
+      "durationMs": 85158,
+      "timestamp": "2026-11-17T14:43:29.511Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "1. (Judgment 1, freshness) Tonight reads as a rerun of 2026-11-09. Both pages use a two-asymmetric vertical split-field, with a dark field on the left and a paper column on the right. Tonight's 98° lime on green-black is effectively 11-09's 94° olive brass on the same ground, and the small-caps register repeats it too. The Space Mono/Archivo italic-regular-left chassis also repeats 11-04's chassis on the same split. Move the primary hue well off 94° or change the ground strategy so a returning v"
+      },
+      "durationMs": 121089,
+      "timestamp": "2026-11-17T14:44:05.442Z"
+    },
+    {
+      "name": "mockup-round-shipped",
+      "phase": 2,
+      "input": {
+        "rounds": [
+          0,
+          1,
+          2
+        ]
+      },
+      "output": {
+        "round": 1,
+        "latest": 2,
+        "shortfalls": [
+          {
+            "round": 0,
+            "canvas": 0,
+            "colour": 24.3,
+            "hero": 0.2,
+            "total": 24.5
+          },
+          {
+            "round": 1,
+            "canvas": 0,
+            "colour": 0,
+            "hero": 12.8,
+            "total": 12.8
+          },
+          {
+            "round": 2,
+            "canvas": 0,
+            "colour": 23.9,
+            "hero": 12.8,
+            "total": 36.7
+          }
+        ],
+        "reason": "the critic never approved; round 1 misses its floors by 12.8 points against 36.7 for round 2 (round 0 24.5, round 1 12.8, round 2 36.7)"
+      },
+      "durationMs": 0,
+      "timestamp": "2026-11-17T14:44:05.443Z"
+    },
+    {
+      "name": "react-engineer",
+      "phase": 3,
+      "input": {
+        "tokenContext": 2749,
+        "briefLength": 7548,
+        "mockupLength": 19344
+      },
+      "output": {
+        "files": [
+          "app/components/Layout.tsx",
+          "app/components/Sidebar.tsx",
+          "app/components/generated/IndexNav.tsx",
+          "app/components/generated/ThesisTop.tsx",
+          "app/components/generated/SplitFrame.tsx",
+          "app/components/generated/HomeThesis.tsx",
+          "app/components/generated/SectionHead.tsx",
+          "app/components/generated/RuledList.tsx",
+          "app/components/generated/FeaturedBlock.tsx",
+          "app/components/generated/WorkRow.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/SignalStrip.tsx",
+          "app/components/generated/AboutThesis.tsx",
+          "app/components/generated/TimelineIndex.tsx",
+          "app/components/generated/CapabilityTags.tsx",
+          "app/components/generated/EducationRows.tsx",
+          "app/components/generated/PersonalStrip.tsx",
+          "app/components/generated/WorkHead.tsx",
+          "app/components/generated/CaseStudy.tsx",
+          "app/components/generated/ClosingBand.tsx",
+          "app/components/generated/MissingProject.tsx",
+          "app/routes/index.tsx",
+          "app/routes/about.tsx",
+          "app/routes/work.$slug.tsx",
+          "app/routes/og.tsx"
+        ],
+        "rationale": ""
+      },
+      "durationMs": 302204,
+      "timestamp": "2026-11-17T14:49:07.722Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 3,
+      "input": {
+        "after": "react-engineer"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutThesis.tsx",
+          "app/components/generated/CapabilityTags.tsx",
+          "app/components/generated/CaseStudy.tsx",
+          "app/components/generated/ClosingBand.tsx",
+          "app/components/generated/EducationRows.tsx",
+          "app/components/generated/FeaturedBlock.tsx",
+          "app/components/generated/HomeThesis.tsx",
+          "app/components/generated/IndexNav.tsx",
+          "app/components/generated/MissingProject.tsx",
+          "app/components/generated/PersonalStrip.tsx",
+          "app/components/generated/RuledList.tsx",
+          "app/components/generated/SectionHead.tsx",
+          "app/components/generated/SignalStrip.tsx",
+          "app/components/generated/SplitFrame.tsx",
+          "app/components/generated/ThesisTop.tsx",
+          "app/components/generated/TimelineIndex.tsx",
+          "app/components/generated/WorkHead.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/WorkRow.tsx"
+        ],
+        "removed": [
+          "app/components/generated/AboutFacts.tsx",
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/BlockLabel.tsx",
+          "app/components/generated/CaseSection.tsx",
+          "app/components/generated/FactRows.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/LiveLink.tsx",
+          "app/components/generated/RailFoot.tsx",
+          "app/components/generated/RailNav.tsx",
+          "app/components/generated/RailSignals.tsx",
+          "app/components/generated/RevealSection.tsx",
+          "app/components/generated/StackList.tsx",
+          "app/components/generated/TimelineRow.tsx",
+          "app/components/generated/TimelineSection.tsx",
+          "app/components/generated/WorkHero.tsx",
+          "app/components/generated/WorkMissing.tsx"
+        ]
+      },
+      "durationMs": 9,
+      "timestamp": "2026-11-17T14:49:07.731Z"
+    },
+    {
+      "name": "build-validation",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "success": true
+      },
+      "durationMs": 0,
+      "timestamp": "2026-11-17T14:49:22.035Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "measured": 73,
+        "errorCount": 20,
+        "findings": [
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_flex-start.jc_space-between.gap_16px > a.d_inline-flex.flex_1_1_auto.min-w_0.c_fieldInk > span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em> is cut off: its right edge lands at 363px, 3px past the 360px viewport, severing \"Doug MarchProduct Designer & Developer...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TeeTurn' is a 110x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Spaceman' is a 118x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Politweets' is a 146x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'15th Club' is a 150x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'FishSticks' is a 152x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_flex-start.jc_space-between.gap_16px > a.d_inline-flex.flex_1_1_auto.min-w_0.c_fieldInk > span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em> is cut off: its right edge lands at 363px, 3px past the 360px viewport, severing \"Doug MarchProduct Designer & Developer...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TeeTurn' is a 110x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Spaceman' is a 118x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Politweets' is a 146x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'15th Club' is a 150x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'FishSticks' is a 152x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_flex-start.jc_space-between.gap_16px > a.d_inline-flex.flex_1_1_auto.min-w_0.c_fieldInk > span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em> is cut off: its right edge lands at 363px, 3px past the 360px viewport, severing \"Doug MarchProduct Designer & Developer...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_flex-start.jc_space-between.gap_16px > a.d_inline-flex.flex_1_1_auto.min-w_0.c_fieldInk > span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em> is cut off: its right edge lands at 363px, 3px past the 360px viewport, severing \"Doug MarchProduct Designer & Developer...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_flex-start.jc_space-between.gap_16px > a.d_inline-flex.flex_1_1_auto.min-w_0.c_fieldInk > span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em> is cut off: its right edge lands at 363px, 3px past the 360px viewport, severing \"Doug MarchProduct Designer & Developer...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_flex-start.jc_space-between.gap_16px > a.d_inline-flex.flex_1_1_auto.min-w_0.c_fieldInk > span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em> is cut off: its right edge lands at 363px, 3px past the 360px viewport, severing \"Doug MarchProduct Designer & Developer...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_flex-start.jc_space-between.gap_16px > a.d_inline-flex.flex_1_1_auto.min-w_0.c_fieldInk > span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em> is cut off: its right edge lands at 363px, 3px past the 360px viewport, severing \"Doug MarchProduct Designer & Developer...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_flex-start.jc_space-between.gap_16px > a.d_inline-flex.flex_1_1_auto.min-w_0.c_fieldInk > span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em> is cut off: its right edge lands at 363px, 3px past the 360px viewport, severing \"Doug MarchProduct Designer & Developer...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_flex-start.jc_space-between.gap_16px > a.d_inline-flex.flex_1_1_auto.min-w_0.c_fieldInk > span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em> is cut off: its right edge lands at 363px, 3px past the 360px viewport, severing \"Doug MarchProduct Designer & Developer...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_flex-start.jc_space-between.gap_16px > a.d_inline-flex.flex_1_1_auto.min-w_0.c_fieldInk > span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em> is cut off: its right edge lands at 363px, 3px past the 360px viewport, severing \"Doug MarchProduct Designer & Developer...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_flex-start.jc_space-between.gap_16px > a.d_inline-flex.flex_1_1_auto.min-w_0.c_fieldInk > span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em> is cut off: its right edge lands at 363px, 3px past the 360px viewport, severing \"Doug MarchProduct Designer & Developer...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_flex-start.jc_space-between.gap_16px > a.d_inline-flex.flex_1_1_auto.min-w_0.c_fieldInk > span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em> is cut off: its right edge lands at 363px, 3px past the 360px viewport, severing \"Doug MarchProduct Designer & Developer...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_flex-start.jc_space-between.gap_16px > a.d_inline-flex.flex_1_1_auto.min-w_0.c_fieldInk > span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em> is cut off: its right edge lands at 363px, 3px past the 360px viewport, severing \"Doug MarchProduct Designer & Developer...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_flex-start.jc_space-between.gap_16px > a.d_inline-flex.flex_1_1_auto.min-w_0.c_fieldInk > span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em> is cut off: its right edge lands at 363px, 3px past the 360px viewport, severing \"Doug MarchProduct Designer & Developer...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_flex-start.jc_space-between.gap_16px > a.d_inline-flex.flex_1_1_auto.min-w_0.c_fieldInk > span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em> is cut off: its right edge lands at 363px, 3px past the 360px viewport, severing \"Doug MarchProduct Designer & Developer...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_flex-start.jc_space-between.gap_16px > a.d_inline-flex.flex_1_1_auto.min-w_0.c_fieldInk > span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em> is cut off: its right edge lands at 363px, 3px past the 360px viewport, severing \"Doug MarchProduct Designer & Developer...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_flex-start.jc_space-between.gap_16px > a.d_inline-flex.flex_1_1_auto.min-w_0.c_fieldInk > span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em> is cut off: its right edge lands at 363px, 3px past the 360px viewport, severing \"Doug MarchProduct Designer & Developer...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "clipped",
+            "severity": "error",
+            "detail": "<div.d_flex.ai_flex-start.jc_space-between.gap_16px > a.d_inline-flex.flex_1_1_auto.min-w_0.c_fieldInk > span.d_inline-flex.flex-d_row.ai_flex-start.gap_0.42em> is cut off: its right edge lands at 363px, 3px past the 360px viewport, severing \"Doug MarchProduct Designer & Developer...\". The document does not scroll here, so that content is gone, not merely offscreen. Scale the element to its column at this width instead of carrying a wider layout down."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 4.455251287699962,
+            "key": "contrast|section.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong > p.ff_display.fw_normal.fv-num_tabular-nums.textStyle_sm > span.c_borderStrong.fw_bold|#3f7a19|#e4f2cb",
+            "detail": "<section.bd-t-w_2px.border-top-style_solid.bd-t-c_borderStrong > p.ff_display.fw_normal.fv-num_tabular-nums.textStyle_sm > span.c_borderStrong.fw_bold> \"−20\" at 14.5px bold: #3f7a19 on #e4f2cb is 4.45:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "react-engineer",
+            "ratio": 4.455251287699962,
+            "key": "contrast|div.flex_1.min-w_0 > section.bg_bgAlt > a.d_inline-flex.ai_center.min-h_44px.mt_16px|#3f7a19|#e4f2cb",
+            "detail": "<div.flex_1.min-w_0 > section.bg_bgAlt > a.d_inline-flex.ai_center.min-h_44px.mt_16px> \"Visit the live project ↗\" at 14.5px bold: #3f7a19 on #e4f2cb is 4.45:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /work/fishsticks, /work/15th-club."
+          },
+          {
+            "surface": "/",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "line-length",
+            "severity": "error",
+            "owner": "react-engineer",
+            "rank": 83,
+            "key": "line-length|div.d_block.bd-t-w_1px.border-top-style_solid.bd-t-c_border > div.d_block.mt_16px.py_16px.px_18px > p.ff_body.fs_15px.lh_1.5.c_text",
+            "detail": "<div.d_block.bd-t-w_1px.border-top-style_solid.bd-t-c_border > div.d_block.mt_16px.py_16px.px_18px > p.ff_body.fs_15px.lh_1.5.c_text> \"Independent design and engineering work\" sets 83 characters on its longest line (3 lines, median 82.5) at 15px in a 558px box, over the 80 limit. Cap the block with max-width so its lines stay under 80 characters. ch overshoots in a narrow face, so 45 to 50ch is the working number. A narrower column is no reason to leave the rest of the row empty: set the copy beside something. Also on / at 1440px."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "line-length",
+            "severity": "error",
+            "owner": "react-engineer",
+            "rank": 82,
+            "key": "line-length|section.bg_bgAlt > div.mt_32px.mb_16px.py_16px.px_18px > p.ff_body.textStyle_base.lh_1.55.c_text",
+            "detail": "<section.bg_bgAlt > div.mt_32px.mb_16px.py_16px.px_18px > p.ff_body.textStyle_base.lh_1.55.c_text> \"Golf is full of data, ritual, and decisi\" (x2) sets 82 characters on its longest line (2 lines, median 82) at 16px in a 558px box, over the 80 limit. Cap the block with max-width so its lines stay under 80 characters. ch overshoots in a narrow face, so 45 to 50ch is the working number. A narrower column is no reason to leave the rest of the row empty: set the copy beside something. Also on /work/15th-club at 1440px."
+          },
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 1,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'same content a new composition every morning' (38px in the mockup) has no match in the build",
+              "facts": {
+                "text": "same content a new composition every morning",
+                "mockupPx": 38,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'a portfolio that redraws its own design every morning around one fixed index' (19px in the mockup) has no match in the build",
+              "facts": {
+                "text": "a portfolio that redraws its own design every morning around one fixed index",
+                "mockupPx": 19,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'a spelling-practice app for kids that turns a schools word-list pdfs into daily drills' (19px in the mockup) has no match in the build",
+              "facts": {
+                "text": "a spelling-practice app for kids that turns a schools word-list pdfs into daily drills",
+                "mockupPx": 19,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'a golf model that began as the scorecard - the first experiment' (19px in the mockup) has no match in the build",
+              "facts": {
+                "text": "a golf model that began as the scorecard - the first experiment",
+                "mockupPx": 19,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'teeturn' moved from (744, 836) in the mockup to (744, 943) in the build; crossed the fold"
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'2020' moved from (1344, 872) in the mockup to (1344, 979) in the build; crossed the fold"
+            }
+          ],
+          "briefed": [
+            "- / at 1440px: The mockup sets 'same content a new composition every morning' at 38px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 1440px: The mockup sets 'a portfolio that redraws its own design every morning aro...' at 19px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 1440px: The mockup sets 'a spelling-practice app for kids that turns a schools wor...' at 19px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 1440px: The mockup sets 'a golf model that began as the scorecard - the first expe...' at 19px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+          ]
+        }
+      },
+      "durationMs": 44092,
+      "timestamp": "2026-11-17T14:50:06.151Z"
+    },
+    {
+      "name": "screenshot-critic",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 — react-engineer: At 360px, on every single route (/, /about, and all seven case studies, both schemes), the header lockup link (mark + \"Doug March\" / role line) overflows the viewport by 3px and is clipped — \"Doug March Product Designer & Developer\" is severed and the page does not scroll to reveal it, so the content is simply gone. Scale the lockup to its column at 360px instead of carrying the wider desktop sizing down.\n- Section 5/6 — react-engi"
+      },
+      "durationMs": 130292,
+      "timestamp": "2026-11-17T14:52:16.443Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 5,
+      "input": {
+        "after": "React Engineer revision"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutThesis.tsx",
+          "app/components/generated/CapabilityTags.tsx",
+          "app/components/generated/CaseStudy.tsx",
+          "app/components/generated/ClosingBand.tsx",
+          "app/components/generated/EducationRows.tsx",
+          "app/components/generated/FeaturedBlock.tsx",
+          "app/components/generated/HomeThesis.tsx",
+          "app/components/generated/IndexNav.tsx",
+          "app/components/generated/MissingProject.tsx",
+          "app/components/generated/PersonalStrip.tsx",
+          "app/components/generated/RuledList.tsx",
+          "app/components/generated/SectionHead.tsx",
+          "app/components/generated/SignalStrip.tsx",
+          "app/components/generated/SplitFrame.tsx",
+          "app/components/generated/ThesisTop.tsx",
+          "app/components/generated/TimelineIndex.tsx",
+          "app/components/generated/WorkHead.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/WorkRow.tsx"
+        ],
+        "removed": []
+      },
+      "durationMs": 3,
+      "timestamp": "2026-11-17T14:53:31.989Z"
+    },
+    {
+      "name": "revision",
+      "phase": 4,
+      "input": {
+        "round": 1,
+        "verdict": "REVISE",
+        "responsibleAgent": "react-engineer",
+        "gateForced": true,
+        "engineerFaults": 20,
+        "feedback": "**Issues:**\n- Section 10 — react-engineer: At 360px, on every single route (/, /about, and all seven case studies, both schemes), the header lockup link (mark + \"Doug March\" / role line) overflows the viewport by 3px and is clipped — \"Doug March Product Designer & Developer\" is severed and the page does not scroll to reveal it, so the content is simply gone. Scale the lockup to its column at 360px instead of carrying the wider desktop sizing down.\n- Section 5/6 — react-engineer: Project descript"
+      },
+      "output": {
+        "outcome": "rebuilt",
+        "replied": 4,
+        "written": 4,
+        "deleted": 0,
+        "merged": 25
+      },
+      "durationMs": 88276,
+      "timestamp": "2026-11-17T14:53:44.720Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "measured": 73,
+        "errorCount": 0,
+        "findings": [
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TeeTurn' is a 110x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Spaceman' is a 118x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Politweets' is a 146x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'15th Club' is a 150x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'FishSticks' is a 152x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'TeeTurn' is a 110x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Spaceman' is a 118x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Politweets' is a 146x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'15th Club' is a 150x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'FishSticks' is a 152x32px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/about",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/experiments",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/spaceman",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/15th-club",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/dougmar-ch",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/teeturn",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/politweets",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/work/twittertale",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'About' is a 44x44px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 2,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'same content a new composition every morning' (38px in the mockup) has no match in the build",
+              "facts": {
+                "text": "same content a new composition every morning",
+                "mockupPx": 38,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'a portfolio that redraws its own design every morning around one fixed index' (19px in the mockup) has no match in the build",
+              "facts": {
+                "text": "a portfolio that redraws its own design every morning around one fixed index",
+                "mockupPx": 19,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'a spelling-practice app for kids that turns a schools word-list pdfs into daily drills' (19px in the mockup) has no match in the build",
+              "facts": {
+                "text": "a spelling-practice app for kids that turns a schools word-list pdfs into daily drills",
+                "mockupPx": 19,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'a golf model that began as the scorecard - the first experiment' (19px in the mockup) has no match in the build",
+              "facts": {
+                "text": "a golf model that began as the scorecard - the first experiment",
+                "mockupPx": 19,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'teeturn' moved from (744, 836) in the mockup to (744, 943) in the build; crossed the fold"
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'2020' moved from (1344, 872) in the mockup to (1344, 979) in the build; crossed the fold"
+            }
+          ],
+          "briefed": [
+            "- / at 1440px: The mockup sets 'same content a new composition every morning' at 38px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 1440px: The mockup sets 'a portfolio that redraws its own design every morning aro...' at 19px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 1440px: The mockup sets 'a spelling-practice app for kids that turns a schools wor...' at 19px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 1440px: The mockup sets 'a golf model that began as the scorecard - the first expe...' at 19px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+          ]
+        }
+      },
+      "durationMs": 44353,
+      "timestamp": "2026-11-17T14:54:29.073Z"
+    },
+    {
+      "name": "screenshot-critic-final",
+      "phase": 4,
+      "input": {
+        "remainingFaults": 0
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 6 — react-engineer: On /work/spaceman (desktop filmstrip), after the masthead (fold 1 of 3), the \"Problem\" card and the subsequent \"Approach\"/\"Outcome\" text blocks sit in a column that reads at roughly half the 1440 width, with the remaining width left as plain cream with no role, continuing into fold 2 of 3 before the dark \"Index\" teaser appears. This is the narrow-column-with-empty-rail pattern the spec calls out as dead canvas; the body column shoul",
+        "channel": "sdk-vision"
+      },
+      "durationMs": 222038,
+      "timestamp": "2026-11-17T14:58:11.116Z"
+    }
+  ]
+}

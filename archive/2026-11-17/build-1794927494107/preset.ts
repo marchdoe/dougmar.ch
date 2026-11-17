@@ -1,0 +1,88 @@
+import { definePreset } from '@pandacss/dev'
+
+export const elementsPreset = definePreset({
+  name: 'elements',
+  globalCss: {
+    '*': { boxSizing: 'border-box' },
+    body: {
+      background: 'bg',
+      color: 'text',
+      margin: 0,
+      fontKerning: 'normal',
+      textRendering: 'optimizeLegibility',
+      WebkitFontSmoothing: 'antialiased',
+      MozOsxFontSmoothing: 'grayscale',
+    },
+    'h1, h2, h3, h4, h5, h6': {
+      margin: 0,
+      fontWeight: 'inherit',
+      textWrap: 'balance',
+    },
+    p: { margin: 0, textWrap: 'pretty' },
+    'p, li, blockquote': { maxWidth: '68ch' },
+    a: { color: 'inherit', textDecoration: 'none' },
+    'a:hover': { textDecoration: 'underline', textDecorationColor: 'accent' },
+    '::selection': { background: 'accent', color: 'accentText' },
+  },
+  conditions: {
+    _light: '[data-theme=light] &',
+    _dark: '[data-theme=dark] &',
+    _hover: '&:hover',
+  },
+  theme: {
+    tokens: {
+      colors: {
+        lime: {
+          50: { value: '#f3f9e8' },
+          100: { value: '#e4f2cb' },
+          200: { value: '#cbe79d' },
+          300: { value: '#addb68' },
+          400: { value: '#8ecf43' },
+          500: { value: '#6fb52c' },
+          600: { value: '#559c20' },
+          700: { value: '#3f7a19' },
+          800: { value: '#305d15' },
+          900: { value: '#223f10' },
+        },
+        sage: {
+          50: { value: '#f6f8f0' },
+          100: { value: '#edf0e4' },
+          200: { value: '#dce1cf' },
+          300: { value: '#c2c9b0' },
+          400: { value: '#99a287' },
+          500: { value: '#727b62' },
+          600: { value: '#545d45' },
+          700: { value: '#39402e' },
+          800: { value: '#22281b' },
+          900: { value: '#131810' },
+        },
+      },
+      radii: {
+        none: { value: '0' },
+        sm: { value: '2px' },
+        md: { value: '4px' },
+        lg: { value: '8px' },
+        full: { value: '9999px' },
+      },
+    },
+    semanticTokens: {
+      colors: {
+        bg: { value: '{colors.sage.50}' },
+        bgAlt: { value: '{colors.lime.100}' },
+        surface: { value: '{colors.sage.100}' },
+        text: { value: '{colors.sage.900}' },
+        textMuted: { value: '{colors.sage.600}' },
+        textFaint: { value: '{colors.sage.500}' },
+        accent: { value: '{colors.lime.700}' },
+        accentText: { value: '{colors.sage.50}' },
+        accentAlt: { value: '{colors.lime.300}' },
+        border: { value: '{colors.sage.200}' },
+        borderStrong: { value: '{colors.lime.700}' },
+        field: { value: '{colors.sage.900}' },
+        fieldInk: { value: '{colors.sage.50}' },
+        fieldInkMuted: { value: '{colors.sage.400}' },
+        fieldBorder: { value: '{colors.sage.600}' },
+      },
+    },
+  },
+})

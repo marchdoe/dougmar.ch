@@ -1,0 +1,139 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "dougmar.ch",
+            "w": 219,
+            "h": 36
+          },
+          {
+            "tag": "A",
+            "text": "FishSticks",
+            "w": 152,
+            "h": 32
+          },
+          {
+            "tag": "A",
+            "text": "15th Club",
+            "w": 150,
+            "h": 32
+          },
+          {
+            "tag": "A",
+            "text": "TeeTurn",
+            "w": 110,
+            "h": 32
+          },
+          {
+            "tag": "A",
+            "text": "Spaceman",
+            "w": 118,
+            "h": 32
+          },
+          {
+            "tag": "A",
+            "text": "Politweets",
+            "w": 146,
+            "h": 32
+          },
+          {
+            "tag": "A",
+            "text": "Twittertale",
+            "w": 160,
+            "h": 32
+          },
+          {
+            "tag": "A",
+            "text": "About",
+            "w": 44,
+            "h": 44
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "tablet": {
+      "width": 820,
+      "height": 1180,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "‹",
+            "w": 32,
+            "h": 44
+          },
+          {
+            "tag": "A",
+            "text": "About",
+            "w": 44,
+            "h": 44
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 3
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 14.5,
+          "passing": false
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    }
+  },
+  "overallScore": 3,
+  "worstFailure": {
+    "viewport": "mobile",
+    "check": "bodyTextSize",
+    "detail": "body text min 14.5px (floor 16px)"
+  },
+  "buildId": "1794927494107",
+  "date": "2026-11-17",
+  "archetype": "a lab notebook of experiments — acid index reversed out of a near-black thesis"
+}

@@ -1,58 +1,68 @@
 import { css } from '../../styled-system/css'
-import { BrandLockup } from './BrandLockup'
-import { RailNav } from './generated/RailNav'
-import { RailSignals } from './generated/RailSignals'
-import { RailFoot } from './generated/RailFoot'
+import { identity } from '../content/about'
 
-// Mark sits on the bronze field. Light scheme: field is near-black bronze,
-// the full-colour disc passes, so original. Dark scheme: field turns gold,
-// the full-colour mark fails 3:1, so single-color in fieldInk.
+// Baseline identity row. The shell is folded into the hero, so this
+// component carries the single mono footer line beneath the index.
+const item = css({
+  display: 'inline-flex',
+  alignItems: 'center',
+  minHeight: '44px',
+  _before: {
+    content: '""',
+    display: 'inline-block',
+    width: '4px',
+    height: '4px',
+    bg: 'textFaint',
+    marginRight: '14px',
+  },
+  _first: { _before: { display: 'none' } },
+})
+
+const link = css({
+  color: 'accent',
+  paddingBlock: '12px',
+  paddingInline: '4px',
+  lineHeight: '20px',
+  _hover: { textDecoration: 'underline' },
+})
+
 export function Sidebar() {
   return (
-    <>
-      <header
+    <footer id="contact" className={css({ bg: 'bg', paddingInline: 'clamp(20px, 5vw, 72px)' })}>
+      <div
         className={css({
-          gridArea: 'mark',
-          bg: 'field',
-          color: 'fieldInk',
+          borderTopWidth: '2px',
+          borderTopStyle: 'solid',
+          borderTopColor: 'borderStrong',
+          paddingTop: 'clamp(20px, 3vw, 32px)',
+          paddingBottom: 'clamp(28px, 4vw, 40px)',
+          fontFamily: 'display',
+          fontVariant: 'small-caps',
+          textStyle: 'sm',
+          letterSpacing: 'wide',
+          color: 'textMuted',
           display: 'flex',
+          flexWrap: 'wrap',
           alignItems: 'center',
-          justifyContent: { base: 'flex-end', lg: 'center' },
-          paddingTop: { base: '16px', lg: '40px' },
-          paddingBottom: { base: '16px', lg: '24px' },
-          paddingInline: '24px',
-          borderBottomWidth: { base: '1px', lg: '0' },
-          borderBottomStyle: 'solid',
-          borderBottomColor: 'fieldBorder',
+          rowGap: '4px',
+          columnGap: '14px',
         })}
       >
-        <a
-          href="/"
-          aria-label="Doug March, home"
-          className={css({ display: 'block', _hover: { textDecoration: 'none' } })}
-        >
-          <BrandLockup variant="mark-only-md" mode={{ light: 'original', dark: 'single-color' }} />
-        </a>
-      </header>
-      <aside
-        aria-label="Site index and signals"
-        className={css({
-          gridArea: 'rail',
-          bg: 'field',
-          color: 'fieldInk',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: { base: '32px', lg: '36px' },
-          paddingTop: { base: '32px', lg: '0' },
-          paddingBottom: { base: '40px', lg: '44px' },
-          paddingInline: { base: '24px', lg: '28px' },
-          minWidth: '0',
-        })}
-      >
-        <RailNav />
-        <RailSignals />
-        <RailFoot />
-      </aside>
-    </>
+        <span className={item}>{identity.name}</span>
+        <span className={item}>{identity.role}</span>
+        <span className={item}>Ashburn, Virginia</span>
+        <span className={item}>2026</span>
+        <span className={item}>
+          <a href={`mailto:${identity.email}`} className={link}>
+            {identity.email}
+          </a>
+        </span>
+        <span className={item}>
+          <a href="/about" className={link}>
+            About
+          </a>
+        </span>
+      </div>
+    </footer>
   )
 }

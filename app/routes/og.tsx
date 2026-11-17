@@ -4,14 +4,16 @@ import { BrandLockup } from '../components/BrandLockup'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
+const word = css({ display: 'block', color: 'fieldInk' })
+
 function OgCard() {
   return (
     <div
       className={css({
         position: 'fixed',
         inset: '0',
-        zIndex: 9999,
-        bg: 'bg',
+        zIndex: '9999',
+        bg: 'field',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -21,92 +23,37 @@ function OgCard() {
         className={css({
           width: '1200px',
           height: '630px',
-          flexShrink: 0,
-          display: 'grid',
-          gridTemplateColumns: 'minmax(0, 1fr) 300px',
-          bg: 'bg',
-          color: 'text',
-          fontFamily: 'body',
+          flex: 'none',
+          bg: 'field',
+          color: 'fieldInk',
+          padding: '72px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
         })}
       >
-        <div
+        <div className={css({ color: 'fieldInk' })}>
+          <BrandLockup variant="horizontal-md" mode="original" roleLine />
+        </div>
+        <h1
           className={css({
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            paddingInline: '72px',
-            paddingBlock: '64px',
-            minWidth: '0',
+            fontFamily: 'display',
+            fontWeight: 'normal',
+            fontStyle: 'italic',
+            fontVariant: 'small-caps',
+            fontSize: '64px',
+            lineHeight: '0.98',
+            letterSpacing: '0.01em',
+            textAlign: 'left',
+            margin: '0',
           })}
         >
-          <div
-            className={css({
-              fontSize: '20px',
-              letterSpacing: 'widest',
-              textTransform: 'uppercase',
-              fontWeight: 'bold',
-              color: 'textMuted',
-              marginBottom: '32px',
-            })}
-          >
-            Detroit · Week 11
-          </div>
-          <h1
-            className={css({ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' })}
-          >
-            <span
-              className={css({
-                display: 'block',
-                fontFamily: 'display',
-                fontWeight: 'bold',
-                textTransform: 'uppercase',
-                fontSize: '156px',
-                lineHeight: '0.9',
-                color: 'text',
-              })}
-            >
-              Lions
-            </span>
-            <span
-              className={css({
-                display: 'block',
-                fontFamily: 'body',
-                fontWeight: 'bold',
-                fontSize: '68px',
-                lineHeight: '1',
-                marginTop: '24px',
-                color: 'text',
-              })}
-            >
-              by <span className={css({ color: 'accent' })}>25</span>
-            </span>
-          </h1>
-        </div>
-        <div
-          className={css({
-            bg: 'field',
-            color: 'fieldInk',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            paddingBlock: '64px',
-            paddingInline: '48px',
-          })}
-        >
-          <BrandLockup variant="mark-only-md" mode={{ light: 'original', dark: 'single-color' }} />
-          <div
-            className={css({
-              fontSize: '20px',
-              letterSpacing: 'wider',
-              textTransform: 'uppercase',
-              fontWeight: 'bold',
-              color: 'fieldInkMuted',
-            })}
-          >
-            Final · <span className={css({ color: 'fieldInk' })}>35–10</span>
-          </div>
-        </div>
+          <span className={word}>Every</span>
+          <span className={word}>project</span>
+          <span className={word}>started</span>
+          <span className={word}>as&nbsp;an</span>
+          <span className={css({ display: 'block', color: 'accentAlt' })}>experiment.</span>
+        </h1>
       </div>
     </div>
   )

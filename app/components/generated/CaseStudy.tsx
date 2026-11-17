@@ -1,34 +1,144 @@
 import { css } from '../../../styled-system/css'
 import type { projects } from '../../content/projects'
-import { CaseSection } from './CaseSection'
-import { LiveLink } from './LiveLink'
-import { RevealSection } from './RevealSection'
-import { StackList } from './StackList'
 
 type Project = (typeof projects)[number]
 
-export function CaseStudy({ project }: { project: Project }) {
+// Mockup accentDeep (#223f10) has no token; nearest semantic ink on bg is `accent`.
+function CaseBlock({ label, text }: { label: string; text: string }) {
   return (
-    <RevealSection
-      aria-label="Case study"
+    <div
       className={css({
-        gridArea: 'rest',
-        minWidth: '0',
+        marginTop: '32px',
+        marginBottom: '16px',
+        paddingBlock: '16px',
+        paddingInline: '18px',
         bg: 'bg',
-        borderTopWidth: '2px',
-        borderTopStyle: 'solid',
-        borderTopColor: 'borderStrong',
-        paddingTop: { base: '16px', lg: '32px' },
-        paddingBottom: { base: '52px', lg: '64px' },
-        paddingInline: { base: '24px', lg: '6vw' },
+        borderLeftWidth: '3px',
+        borderLeftStyle: 'solid',
+        borderLeftColor: 'accent',
+        maxWidth: '72ch',
       })}
     >
-      <CaseSection label="Overview" text={project.description} />
-      <CaseSection label="Problem" text={project.problem} />
-      <CaseSection label="Approach" text={project.approach} />
-      <CaseSection label="Outcome" text={project.outcome} />
-      <StackList stack={project.stack} />
-      <LiveLink url={project.liveUrl} />
-    </RevealSection>
+      <h2
+        className={css({
+          fontFamily: 'display',
+          fontWeight: 'bold',
+          fontVariant: 'small-caps',
+          letterSpacing: 'wide',
+          textStyle: 'sm',
+          color: 'accent',
+          marginBottom: '6px',
+        })}
+      >
+        {label}
+      </h2>
+      <p
+        className={css({
+          fontFamily: 'body',
+          textStyle: 'base',
+          lineHeight: '1.55',
+          color: 'text',
+          maxWidth: '48ch',
+        })}
+      >
+        {text}
+      </p>
+    </div>
+  )
+}
+
+export function CaseStudy({ project }: { project: Project }) {
+  const blocks = [
+    { label: 'Problem', text: project.problem ?? '' },
+    { label: 'Approach', text: project.approach ?? '' },
+    { label: 'Outcome', text: project.outcome ?? '' },
+  ].filter((b) => b.text !== '')
+  const stack = project.stack ?? []
+  return (
+    <section
+      className={css({
+        bg: 'bgAlt',
+        paddingInline: 'clamp(20px, 5vw, 72px)',
+        paddingBottom: 'clamp(32px, 6vw, 72px)',
+        '@supports (animation-timeline: view())': {
+          animationName: 'rise',
+          animationTimeline: 'view()',
+          animationRange: 'entry 0% entry 40%',
+          animationFillMode: 'both',
+        },
+      })}
+    >
+      {project.description ? (
+        <p
+          className={css({
+            paddingTop: '24px',
+            fontFamily: 'body',
+            fontSize: 'lede',
+            color: 'textMuted',
+            maxWidth: '48ch',
+          })}
+        >
+          {project.description}
+        </p>
+      ) : null}
+      {blocks.map((b) => (
+        <CaseBlock key={b.label} label={b.label} text={b.text} />
+      ))}
+      <ul
+        className={css({
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '8px',
+          listStyle: 'none',
+          padding: '0',
+          marginTop: '32px',
+          maxWidth: 'none',
+        })}
+      >
+        {stack.map((s) => (
+          <li
+            key={s}
+            className={css({
+              fontFamily: 'display',
+              fontWeight: 'bold',
+              fontVariant: 'small-caps',
+              letterSpacing: 'wide',
+              textStyle: 'sm',
+              color: 'accentText',
+              bg: 'accent',
+              borderRadius: 'sm',
+              paddingBlock: '4px',
+              paddingInline: '10px',
+            })}
+          >
+            {s}
+          </li>
+        ))}
+      </ul>
+      {project.liveUrl ? (
+        <a
+          href={project.liveUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={css({
+            display: 'inline-flex',
+            alignItems: 'center',
+            minHeight: '44px',
+            marginTop: '16px',
+            fontFamily: 'display',
+            fontWeight: 'bold',
+            textStyle: 'sm',
+            color: 'text',
+            textDecoration: 'underline',
+            textDecorationColor: 'accent',
+            textDecorationThickness: '2px',
+            textUnderlineOffset: '0.2em',
+            _hover: { textDecorationColor: 'text' },
+          })}
+        >
+          Visit the live project ↗
+        </a>
+      ) : null}
+    </section>
   )
 }
