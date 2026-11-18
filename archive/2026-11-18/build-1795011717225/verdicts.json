@@ -1,0 +1,69 @@
+[
+  {
+    "critic": "mockup-precheck",
+    "round": 0,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1795010964353
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 0,
+    "verdict": "REVISE",
+    "feedback": "1. Judgment 5: The FishSticks description reads \"Imports a classroom's weekly word-list PDFs and turns them into spelling practice kids actually finish.\" The records say it reads PDFs from school, finds the bold words teachers use, and pairs voice pronunciation with adaptive quiz modes so kids can practice independently. Nothing in the records supports \"weekly\" or \"kids actually finish.\" Rewrite the line from the record's approach and outcome text, for example \"Thousands of kids practicing daily.\"\n\n2. Judgment 5: The footer identity line under \"DOUG MARCH\" (fold 4 into fold 5) reads \"Designer & Product, from zero to shipped.\" The record's role is \"Product Designer & Developer.\" Use that role verbatim, or drop the line.",
+    "channel": "sdk-vision",
+    "ts": 1795010979599
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 1,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1795010996358
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 1,
+    "verdict": "APPROVE",
+    "feedback": "The page commits to its one quiet line. Lowercase light Spectral italic owns the first fold, centred at both widths, with the amber 42 and the hairline under \"five.\" Below it a slanted amber field carries the low-sun diagonal into the flooded colophon band. The work index, today's facts and the small-caps footer list all follow the declared order and the work records.",
+    "channel": "sdk-vision",
+    "ts": 1795011009022
+  },
+  {
+    "critic": "surface-gate",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "/ @360: 'Spaceman' is a 317x39px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Spaceman' is a 317x39px target; a thumb needs 44x44. Give it padding or a taller line box.\n/og @1200: og: brand mark starts 39px above the card's top edge. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text.\n/work @360: <nav.d_flex.flex-wrap_wrap.cg_1rem.md:cg_2.5rem > a.d_inline-flex.ai_center.min-w_44px.min-h_44px > span.mr_0.25rem.c_fieldInkMuted.fv-num_tabular-nums> \"01\" (x3) at 14px: #613808 on #e8972a is 4.27:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work/fishsticks @820: <section > div > p.m_0.textStyle_base.lh_normal.max-w_60ch> \"Kids struggle to practice spelling lists\" (x2) sets 86 characters on its longest line (3 lines, median 82.5) at 16px in a 600px box, over the 80 limit. Cap the block with max-width so its lines stay under 80 characters. ch overshoots in a narrow face, so 45 to 50ch is the working number. A narrower column is no reason to leave the rest of the row empty: set the copy beside something. Also on /work/fishsticks at 1440px, /work/15th-club at 820px, /work/15th-club at 1440px and 2 more.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1795011267984
+  },
+  {
+    "critic": "screenshot-critic",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 6 — react-engineer: Case-study pages run body copy in a narrow column while the rest of the row sits empty. Measured at /work/fishsticks (1440px and 820px, lines up to 86 characters, over the 80-char cap) and /work/15th-club (same), and visible in the /work/spaceman filmstrip fold 2 of 3, where the \"Approach\"/\"Outcome\" copy occupies roughly half the row with cream void around it before the footer band. Cap the measure near 45-50ch and set the copy beside something (metadata, client marks, an image) instead of leaving the row dead.\n- Section 9/Polish — react-engineer: Measured fault confirms the /og card (1200×630, light) has the brand mark starting 39px above the card's top edge, i.e. clipped out of the safe area. Fit mark + headline inside the card margins and step the headline down for long phrases rather than relying on overflow:hidden.\n- Section 3 — react-engineer: Measured fault on /work at 360px (dark scheme): the index row numbers (\"01\", \"02\", \"03\") render at 4.27:1 contrast (#613808 on #e8972a), under the 4.5:1 AA minimum. Swap to a token that clears 4.5:1 on the amber ground.\n- Section 5 — react-engineer: Measured fault on / at 360px (both schemes): the \"Spaceman\" link target is 317×39px, under the 44×44 thumb minimum. Add vertical padding or a taller line box around the link.\n===END===",
+    "channel": "sdk-vision",
+    "ts": 1795011443479
+  },
+  {
+    "critic": "surface-gate",
+    "round": 2,
+    "verdict": "SHIP",
+    "feedback": "/work @360: <nav.d_flex.flex-wrap_wrap.cg_1rem.md:cg_2.5rem > a.d_inline-flex.ai_center.min-w_44px.min-h_44px > span.mr_0.25rem.c_fieldInkMuted.fv-num_tabular-nums> \"01\" (x3) at 14px: #613808 on #e8972a is 4.27:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1795011542386
+  },
+  {
+    "critic": "screenshot-critic",
+    "round": "final",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 2 / Mockup Fidelity — react-engineer: The approved mockup shows the diagonal amber field (with the \"Clear and 42 in Aldie…\" deck line inside it) already filling roughly the bottom 40% of the first 1440×900 screen, closing the diagonal \"bright → dark\" reading path the composition is built around. The rendered desktop screenshot shows only the hero phrase and its amber hairline on plain cream, with nothing else down to the bottom of the viewport — the diagonal field and deck are absent from the first screen, leaving a large unstyled cream void and losing the composition's `axis: diagonal` / `field_ratio: type-dominant` payoff on arrival.\n- Section 6 (Canvas Utilization) — react-engineer: Consequence of the above — the space below the hero's hairline to the bottom of the 1440×900 fold (~40% of the viewport) is dead plain-background cream with no type, color, or material doing work in it, which fails the \"active space\" bar even under a `measured` density.\n- Section 10 (Phone) — react-engineer: The mobile declaration's `first_fold` requires the hero phrase plus its one-line deck together in the first fold. In the filmstrip, fold 1 of 6 contains only the hero phrase and mark; the deck (\"Clear and 42 in Aldie…\") only appears in fold 2, merged directly against the \"Selected Work / Spaceman\" index with no separating gap — the deck has fallen out of the declared first fold and lands inside what should be the next zone.\n\n===END===",
+    "channel": "sdk-vision",
+    "ts": 1795011713985
+  },
+  {
+    "critic": "ship-gate",
+    "verdict": "SHIPPED-WITH-FAULTS",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 2 / Mockup Fidelity — react-engineer: The approved mockup shows the diagonal amber field (with the \"Clear and 42 in Aldie…\" deck line inside it) already filling roughly the bottom 40% of the first 1440×900 screen, closing the diagonal \"bright → dark\" reading path the composition is built around. The rendered desktop screenshot shows only the hero phrase and its amber hairline on plain cream, with nothing else down to the bottom of the viewport — the diagonal field and deck are absent from the first screen, leaving a large unstyled cream void and losing the composition's `axis: diagonal` / `field_ratio: type-dominant` payoff on arrival.\n- Section 6 (Canvas Utilization) — react-engineer: Consequence of the above — the space below the hero's hairline to the bottom of the 1440×900 fold (~40% of the viewport) is dead plain-background cream with no type, color, or material doing work in it, which fails the \"active space\" bar even under a `measured` density.\n- Section 10 (Phone) — react-engineer: The mobile declaration's `first_fold` requires the hero phrase plus its one-line deck together in the first fold. In the filmstrip, fold 1 of 6 contains only the hero phrase and mark; the deck (\"Clear and 42 in Aldie…\") only appears in fold 2, merged directly against the \"Selected Work / Spaceman\" index with no separating gap — the deck has fallen out of the declared first fold and lands inside what should be the next zone.\n\n===END===",
+    "ts": 1795011713985
+  }
+]

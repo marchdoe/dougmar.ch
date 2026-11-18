@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — Bright, 42, and dark by five.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Albert+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FBF7F0;
+    --surface:#F5EEE0;
+    --callout:#FBF1DD;
+    --field:#E8972A;
+    --fieldBorder:#B86D12;
+    --text:#1C160C;
+    --textMuted:#5F4F32;
+    --textSoft:#46391F;
+    --border:#E9DCC6;
+    --borderStrong:#B3A079;
+    --amberLarge:#B86D12;  /* amber for large display text, ≥3:1 on paper */
+    --amberSmall:#8F520D;  /* amber for small body text, ≥4.5:1 on paper */
+    --edge:clamp(1.25rem,6vw,4rem);
+    --band:32vh;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Albert Sans",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility;
+    font-kerning:normal;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;transition:color 120ms ease;}
+  ::selection{background:var(--field);color:var(--text);}
+
+  .label{
+    font-family:"Albert Sans",sans-serif;
+    font-size:13px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    color:var(--textMuted);
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100svh;
+    padding:clamp(1.25rem,4vw,2.5rem) var(--edge);
+    padding-bottom:var(--band);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .mark{
+    position:absolute;
+    top:clamp(1.25rem,4vw,2.5rem);
+    left:var(--edge);
+    z-index:3;
+  }
+  .mark svg{height:56px;width:auto;display:block;}
+
+  .vlabel{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    writing-mode:vertical-rl;
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--textMuted);
+    z-index:3;
+    display:none;
+  }
+  .vlabel.left{left:calc(var(--edge) * .34);transform:translateY(-50%) rotate(180deg);}
+  .vlabel.right{right:calc(var(--edge) * .34);}
+
+  .statement{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    font-family:"Spectral",Georgia,serif;
+    font-style:italic;
+    font-weight:400;
+    text-transform:lowercase;
+    line-height:1.02;
+    letter-spacing:-0.01em;
+    font-size:clamp(52px,7.5vw,104px);
+    max-width:14ch;
+  }
+  .statement .line{display:block;}
+  .statement .two{position:relative;display:inline-block;}
+  .statement .num{color:var(--amberLarge);font-style:italic;}
+  .statement .rule{
+    display:block;
+    height:3px;
+    width:62%;
+    margin:.12em auto 0 auto;
+    background:var(--field);
+  }
+
+  .horizon{
+    position:absolute;
+    left:0;right:0;bottom:0;
+    height:var(--band);
+    background:var(--field);
+    clip-path:polygon(0 18%,100% 0,100% 100%,0 100%);
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    padding:0 var(--edge) clamp(1.5rem,4vh,2.75rem);
+    z-index:1;
+  }
+  .horizon .deck{
+    margin:0;
+    text-align:center;
+    color:var(--text);
+    font-family:"Spectral",Georgia,serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(17px,2.2vw,22px);
+    line-height:1.35;
+    max-width:40ch;
+  }
+
+  /* ---------- WORK ---------- */
+  .work{
+    padding:clamp(56px,7vw,112px) var(--edge) clamp(40px,5vw,72px);
+  }
+  .sec-head{margin-bottom:clamp(28px,4vw,48px);}
+
+  .featured{
+    border-top:1px solid var(--borderStrong);
+    padding-top:clamp(20px,3vw,32px);
+    margin-bottom:clamp(40px,6vw,72px);
+    display:grid;
+    gap:clamp(16px,2.4vw,24px);
+  }
+  .featured .ftitle{
+    font-family:"Spectral",Georgia,serif;
+    font-weight:500;
+    font-style:normal;
+    font-size:clamp(40px,8vw,88px);
+    line-height:.98;
+    letter-spacing:-0.015em;
+  }
+  .featured .fmeta{
+    font-size:13px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--textMuted);
+  }
+  .featured .problem{
+    margin:0;
+    font-size:clamp(17px,2vw,21px);
+    line-height:1.5;
+    color:var(--textSoft);
+    max-width:46ch;
+    font-family:"Spectral",Georgia,serif;
+  }
+  .ext{
+    display:inline-flex;
+    align-items:center;
+    gap:.4em;
+    min-height:44px;
+    font-size:15px;
+    font-weight:600;
+    letter-spacing:.01em;
+    color:var(--text);
+    border-bottom:2px solid var(--field);
+    align-self:start;
+    padding-top:4px;
+  }
+  .ext:hover{color:var(--amberLarge);}
+
+  .index{list-style:none;margin:0 0 clamp(36px,5vw,64px);padding:0;}
+  .index .label{display:block;margin-bottom:8px;padding-left:2px;}
+  .row{border-top:1px solid var(--border);}
+  .row:last-child{border-bottom:1px solid var(--border);}
+  .row-link{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:16px;
+    min-height:112px;
+    padding:18px 0;
+    flex-wrap:wrap;
+  }
+  .rtitle{
+    font-family:"Spectral",Georgia,serif;
+    font-weight:500;
+    font-size:clamp(28px,4vw,46px);
+    line-height:1;
+    letter-spacing:-0.01em;
+    transition:color 120ms ease;
+  }
+  .row-link:hover .rtitle{color:var(--amberLarge);}
+  .rmeta{
+    display:flex;
+    gap:14px;
+    align-items:baseline;
+    font-size:14px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--textMuted);
+    white-space:nowrap;
+  }
+  .rmeta .ryear{font-variant-numeric:tabular-nums;color:var(--textSoft);font-weight:600;}
+
+  /* ---------- TODAY ---------- */
+  .today{
+    padding:clamp(40px,5vw,72px) var(--edge);
+    border-top:1px solid var(--borderStrong);
+  }
+  .today .label{margin-bottom:clamp(20px,3vw,32px);display:block;}
+  .facts{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:20px;
+  }
+  .fact{
+    font-size:16px;
+    line-height:1.5;
+    color:var(--textSoft);
+    border-top:1px solid var(--border);
+    padding-top:12px;
+  }
+  .fact .amber{color:var(--amberSmall);font-weight:600;font-variant-numeric:tabular-nums;}
+  .fact strong{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums;}
+
+  /* ---------- CALLOUT ---------- */
+  .callout{
+    background:var(--callout);
+    padding:clamp(28px,4vw,44px) var(--edge);
+    border-top:1px solid var(--border);
+  }
+  .callout p{
+    margin:0;
+    font-size:15px;
+    line-height:1.5;
+    color:var(--textSoft);
+    max-width:60ch;
+  }
+  .callout em{
+    font-family:"Spectral",Georgia,serif;
+    font-style:italic;
+    color:var(--text);
+  }
+
+  /* ---------- FOOTER / COLOPHON ---------- */
+  .colophon{
+    background:var(--field);
+    color:var(--text);
+    border-top:1px solid var(--borderStrong);
+    padding:clamp(48px,7vw,96px) var(--edge) clamp(36px,5vw,60px);
+    display:grid;
+    grid-template-columns:1fr;
+    gap:clamp(32px,4vw,48px);
+  }
+  .colophon .close{
+    font-family:"Spectral",Georgia,serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(22px,3vw,34px);
+    line-height:1.2;
+    max-width:18ch;
+  }
+  .colophon .ident{
+    font-size:14px;
+    line-height:1.5;
+    color:var(--textSoft);
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    font-weight:600;
+  }
+  .colophon .ident .name{
+    display:block;
+    color:var(--text);
+    font-size:17px;
+    letter-spacing:.08em;
+    margin-bottom:4px;
+  }
+  .colnav{list-style:none;margin:0;padding:0;}
+  .colnav li{border-top:1px solid var(--fieldBorder);}
+  .colnav li:last-child{border-bottom:1px solid var(--fieldBorder);}
+  .colnav a{
+    display:flex;
+    align-items:center;
+    min-height:48px;
+    font-variant:small-caps;
+    font-size:19px;
+    letter-spacing:.04em;
+    font-weight:500;
+    color:var(--text);
+  }
+  .colnav a:hover{color:var(--textSoft);}
+  .rotation{
+    font-size:13px;
+    letter-spacing:.06em;
+    color:var(--textSoft);
+    text-transform:uppercase;
+    font-weight:600;
+  }
+
+  /* ---------- TABLET ---------- */
+  @media (min-width:680px){
+    :root{--band:40vh;}
+    .vlabel{display:block;}
+    .facts{grid-template-columns:repeat(2,1fr);gap:28px 40px;}
+  }
+
+  /* ---------- DESKTOP ---------- */
+  @media (min-width:960px){
+    .featured{
+      grid-template-columns:1.1fr .9fr;
+      align-items:end;
+      column-gap:clamp(32px,4vw,64px);
+    }
+    .featured .ftitle{grid-column:1;grid-row:1 / span 2;}
+    .featured .fmeta{grid-column:2;grid-row:1;align-self:start;}
+    .featured .problem{grid-column:2;grid-row:2;}
+    .featured .ext{grid-column:2;grid-row:3;}
+    .facts{grid-template-columns:repeat(4,1fr);gap:40px;}
+    .colophon{
+      grid-template-columns:1.2fr 1fr 1fr;
+      align-items:start;
+      gap:clamp(40px,5vw,80px);
+    }
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <a class="mark" href="/" aria-label="Doug March — home">
+      <svg width="71" height="59" viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" data-brand-mark="">
+      <title>Doug March logo</title>
+      <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+      <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+      <circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+      <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+      <circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+      <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+      <circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+      <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+      </svg>
+    </a>
+
+    <span class="vlabel left">Aldie, Virginia</span>
+    <span class="vlabel right">18 November 2026</span>
+
+    <h1 class="statement">
+      <span class="line">bright, <span class="num">42</span>, and</span>
+      <span class="line two">dark by five.<span class="rule"></span></span>
+    </h1>
+
+    <div class="horizon">
+      <p class="deck">Clear and 42 in Aldie. Sun up at 7:04, down at 16:48.</p>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="work">
+    <div class="sec-head"><span class="label">Selected work</span></div>
+
+    <article class="featured">
+      <a class="ftitle" href="/work/fishsticks">FishSticks</a>
+      <span class="fmeta">SaaS · 2025</span>
+      <p class="problem">Reads PDFs from school, finds the bold words teachers use, and pairs voice pronunciation with adaptive quizzes. Thousands of kids practicing daily.</p>
+      <a class="ext" href="https://fishsticks.app">Visit FishSticks ↗</a>
+    </article>
+
+    <ul class="index">
+      <li class="row"><a class="row-link" href="/work/spaceman">
+        <span class="rtitle">Spaceman</span>
+        <span class="rmeta"><span class="ryear">2018</span><span>Founder</span></span>
+      </a></li>
+      <li class="row"><a class="row-link" href="/work/15th-club">
+        <span class="rtitle">15th Club</span>
+        <span class="rmeta"><span class="ryear">2025</span><span>AI</span></span>
+      </a></li>
+      <li class="row"><a class="row-link" href="/work/dougmar-ch">
+        <span class="rtitle">dougmar.ch</span>
+        <span class="rmeta"><span class="ryear">2026</span><span>AI</span></span>
+      </a></li>
+    </ul>
+
+    <ul class="index">
+      <span class="label">Experiments</span>
+      <li class="row"><a class="row-link" href="/work/teeturn">
+        <span class="rtitle">TeeTurn</span>
+        <span class="rmeta"><span class="ryear">2020</span><span>Experiment</span></span>
+      </a></li>
+      <li class="row"><a class="row-link" href="/work/politweets">
+        <span class="rtitle">Politweets</span>
+        <span class="rmeta"><span class="ryear">2008</span><span>Experiment</span></span>
+      </a></li>
+      <li class="row"><a class="row-link" href="/work/twittertale">
+        <span class="rtitle">Twittertale</span>
+        <span class="rmeta"><span class="ryear">2008</span><span>Experiment</span></span>
+      </a></li>
+    </ul>
+  </section>
+
+  <!-- TODAY -->
+  <section class="today">
+    <span class="label">Today</span>
+    <div class="facts">
+      <div class="fact">Pistons win, <span class="amber">105–93</span>.</div>
+      <div class="fact">SPY <strong>732.44</strong>, off 1.0%.</div>
+      <div class="fact">Waxing gibbous, <strong>71%</strong> full.</div>
+      <div class="fact">The RSM Classic tees off.</div>
+    </div>
+  </section>
+
+  <!-- SITE CALLOUT SLOT -->
+  <section class="callout">
+    <p>A new design, built every morning. Today it reads the weather where Doug lives: <em>bright, 42, and dark by five.</em></p>
+  </section>
+
+  <!-- FOOTER / COLOPHON -->
+  <footer class="colophon">
+    <div>
+      <p class="close">Dark by five. Sun down 16:48, over Aldie, Virginia.</p>
+      <p class="rotation" style="margin-top:20px;">On rotation: Wet Leg, Radiohead.</p>
+    </div>
+    <div class="ident">
+      <span class="name">Doug March</span>
+      Product Designer &amp; Developer
+    </div>
+    <nav aria-label="Primary">
+      <ul class="colnav">
+        <li><a href="/work">Work</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="mailto:hello@dougmar.ch">Contact</a></li>
+      </ul>
+    </nav>
+  </footer>
+
+</main>
+</body>
+</html>

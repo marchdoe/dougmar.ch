@@ -1,20 +1,18 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { AboutThesis } from '../components/generated/AboutThesis'
-import { CapabilityTags } from '../components/generated/CapabilityTags'
-import { EducationRows } from '../components/generated/EducationRows'
-import { PersonalStrip } from '../components/generated/PersonalStrip'
-import { SplitFrame } from '../components/generated/SplitFrame'
-import { TimelineIndex } from '../components/generated/TimelineIndex'
+import { AboutBand } from '../components/generated/AboutBand'
+import { AboutDetails } from '../components/generated/AboutDetails'
+import { AboutStatement } from '../components/generated/AboutStatement'
+import { AboutTimeline } from '../components/generated/AboutTimeline'
 
 export const Route = createFileRoute('/about')({ component: AboutPage })
 
 function AboutPage() {
   return (
-    <SplitFrame thesis={<AboutThesis />}>
-      <TimelineIndex />
-      <CapabilityTags />
-      <EducationRows />
-      <PersonalStrip />
-    </SplitFrame>
+    <>
+      <AboutStatement />
+      <AboutBand />
+      <AboutTimeline />
+      <AboutDetails />
+    </>
   )
 }

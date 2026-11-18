@@ -38,7 +38,7 @@ import { applyTheme, resolveTheme } from '../lib/theme'
 const archiveLink = css({
   display: 'block',
   background: 'bg',
-  color: 'textMuted',
+  color: 'textFaint',
   fontSize: 'xs',
   letterSpacing: '0.08em',
   textAlign: 'center',
@@ -59,9 +59,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-11-17'
-const PREV_DATE: string | null = '2026-11-16'
-const ARCHIVE_COUNT = 195
+const DESIGN_DATE = '2026-11-18'
+const PREV_DATE: string | null = '2026-11-17'
+const ARCHIVE_COUNT = 196
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -74,28 +74,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Every project started as an experiment.' },
-      { property: 'og:title', content: 'Every project started as an experiment.' },
+      { title: 'Bright, 42, and dark by five.' },
+      { property: 'og:title', content: 'Bright, 42, and dark by five.' },
       {
         property: 'og:description',
         content:
-          'Acid lab-lime index reversed out of a near-black thesis, every project a logged experiment in mono.',
+          'Low-sun amber on warm paper, one light-italic weather note centered in the fold, bright to dark by five.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-17.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-18.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Every project started as an experiment.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-17.png' },
+      { name: 'twitter:title', content: 'Bright, 42, and dark by five.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-18.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Albert+Sans:wght@400;500;600&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -315,7 +315,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 195 designs
+            Archive · 196 designs
           </a>
         )}
         <ScrollRestoration />

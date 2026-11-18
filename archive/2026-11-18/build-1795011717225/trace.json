@@ -1,0 +1,936 @@
+{
+  "date": "2026-11-18",
+  "startedAt": "2026-11-18T13:55:44.431Z",
+  "completedAt": "2026-11-18T14:22:05.792Z",
+  "steps": [
+    {
+      "name": "signals-loaded",
+      "phase": 0,
+      "input": {
+        "providersAvailable": 18
+      },
+      "output": {
+        "air_quality": {
+          "aqi_index": 2,
+          "uv_index": 0.2,
+          "air_quality_label": "Moderate"
+        },
+        "books": {
+          "currently_reading": []
+        },
+        "day_of_week": {
+          "day": "Wednesday",
+          "is_weekend": false,
+          "day_index": 3
+        },
+        "github": {
+          "repos": [
+            {
+              "name": "sponsors/elementalsouls",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            },
+            {
+              "name": "cursor/plugins/stargazers",
+              "description": "",
+              "language": "TypeScript",
+              "stars": null
+            },
+            {
+              "name": "HKUDS/CLI-Anything/stargazers",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            },
+            {
+              "name": "mvanhorn/last30days-skill/stargazers",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            },
+            {
+              "name": "getarcaneapp/arcane/stargazers",
+              "description": "",
+              "language": "Go",
+              "stars": null
+            }
+          ]
+        },
+        "golf": {
+          "tournament": "The RSM Classic",
+          "status": "Scheduled",
+          "leaders": []
+        },
+        "hacker_news": {
+          "stories": [
+            {
+              "title": "Quad9 Is Leaving France: Why DNS Resolvers Are the Wrong Place to Fight Piracy",
+              "url": "https://techstackups.com/articles/quad9-leaves-france-dns-blocking/",
+              "score": 64,
+              "by": "ritzaco"
+            },
+            {
+              "title": "Energy-Based Reasoners: 385x more efficient inference",
+              "url": "https://energy-based-reasoners.github.io/",
+              "score": 166,
+              "by": "frenchmajesty"
+            },
+            {
+              "title": "A Perfect SimCity",
+              "url": "https://www.jeffquast.com/post/a-perfect-simcity/",
+              "score": 94,
+              "by": "mariuz"
+            },
+            {
+              "title": "Java4Shell: RCE in OpenJDK when processing Base64",
+              "url": "https://calif.io/java4shell/",
+              "score": 1040,
+              "by": "werrett"
+            },
+            {
+              "title": "Google's AI answers reducing search traffic by 40%",
+              "url": "https://revscope.co/blog/search-seo-geo-2026/",
+              "score": 549,
+              "by": "slashdev"
+            }
+          ]
+        },
+        "holidays": {
+          "today": null,
+          "upcoming": []
+        },
+        "lunar": {
+          "phase": "waxing gibbous",
+          "illumination": 0.71,
+          "days_into_cycle": 9.42
+        },
+        "market": {
+          "symbol": "SPY",
+          "price": "732.4400",
+          "change": "-7.5100",
+          "change_percent": "-1.0149%",
+          "direction": "down"
+        },
+        "music": {
+          "bands": [
+            "Wet Leg",
+            "Radiohead"
+          ],
+          "rotation": true
+        },
+        "news": {
+          "headlines": [
+            {
+              "title": "Dow slides weighed by Home Depot; Nasdaq is flat ahead of Nvidia earnings: Live updates - CNBC",
+              "source": "CNBC",
+              "url": "https://www.cnbc.com/2026/11/16/stock-market-today-live-updates.html"
+            },
+            {
+              "title": "Batman to James Bond: The clues about what to expect from Robert Pattinson's 007 - BBC",
+              "source": "BBC News",
+              "url": "https://www.bbc.com/news/articles/c8x2r6gyy2pzo"
+            },
+            {
+              "title": "Putin's Crimea bridge partly collapses as Zelensky hails 'unprecedented' attack by Ukraine - BBC",
+              "source": "BBC News",
+              "url": "https://www.bbc.com/news/articles/cw772jk4rvmxo"
+            },
+            {
+              "title": "Kyle Hamilton: Ravens 'disgracing' standard after loss to 0-8 Chargers - NFL.com",
+              "source": "NFL News",
+              "url": "https://www.nfl.com/news/kyle-hamilton-ravens-disgracing-standard-after-loss-to-0-8-chargers"
+            },
+            {
+              "title": "NFL Power Rankings: Stacking all 32 teams for Week 11, plus non-QB MVPs - ESPN",
+              "source": "ESPN",
+              "url": "https://www.espn.com/nfl/story/_/id/50503226/nfl-power-rankings-week-11-non-quarterback-mvps-midseason"
+            }
+          ]
+        },
+        "quote": {
+          "text": "When you believe in a thing, believe in it all the way, implicitly and unquestionable.",
+          "author": "Walt Disney"
+        },
+        "season": {
+          "season": "fall",
+          "month": 11,
+          "day": 18,
+          "day_of_year": 322,
+          "month_name": "November"
+        },
+        "sidebar": {
+          "links": [
+            {
+              "title": "Tomjohnville",
+              "url": "https://www.tomjohn.design/content/tomjohnville",
+              "source": "tomjohn.design",
+              "description": "This town from the first idea to now: my prompts, and the screenshots and videos in between."
+            },
+            {
+              "title": "I love markers",
+              "url": "https://www.kooslooijesteijn.net/blog/alcohol-markers",
+              "source": "kooslooijesteijn.net",
+              "description": "Alcohol marker maintenance, color systems, and physical drawing benefits: analog methods to balance digital workflows."
+            },
+            {
+              "title": "Design writing: working with AI agents",
+              "url": "https://automattic.design/2026/11/16/design-writing-working-with-ai-agents/",
+              "source": "automattic.design",
+              "description": "How Automattic's design writing team turned insights into two installable agent skills."
+            },
+            {
+              "title": "Glimm",
+              "url": "https://glimm.dev/",
+              "source": "glimm.dev",
+              "description": "A single WebGL band sweeps across the screen while routes swap underneath. About 11 KB, GPU-composited, drop-in."
+            },
+            {
+              "title": "Designing with html",
+              "url": "https://shiftnudge.com/archive/26905760",
+              "source": "shiftnudge.com",
+              "description": "Thirty-six commits later, the page was live. I explored ideas directly in HTML and built on top of whatever worked."
+            }
+          ]
+        },
+        "sports": {
+          "teams": [
+            {
+              "name": "Detroit Lions",
+              "league": "NFL",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            },
+            {
+              "name": "Detroit Red Wings",
+              "league": "NHL",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            },
+            {
+              "name": "Detroit Pistons",
+              "league": "NBA",
+              "last_game": "2026-11-18T01:00Z",
+              "result": "win",
+              "score": "105-93"
+            },
+            {
+              "name": "Detroit Tigers",
+              "league": "MLB",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            }
+          ]
+        },
+        "sun": {
+          "sunrise": "07:04",
+          "sunset": "16:48",
+          "daylight_hours": 9.7
+        },
+        "weather": {
+          "location": "Aldie, Virginia",
+          "conditions": "Sunny",
+          "temp_f": 42.1,
+          "temp_c": 5.6,
+          "humidity": 67,
+          "wind_mph": 2.2,
+          "wind_dir": "WNW",
+          "feels_like_f": 37.4
+        },
+        "date": "2026-11-18"
+      },
+      "durationMs": 0,
+      "timestamp": "2026-11-18T13:55:44.474Z"
+    },
+    {
+      "name": "art-director",
+      "phase": 1,
+      "input": {
+        "compositionMandate": "## Composition Mandate\n\nRecency is tracked per axis, not per whole tuple: a value used on any of the last 3 builds is discouraged for that axis. The starting values below are derived from today's date — they are a specific place to begin, not an instruction.\n\n- **columns** — start from `masonry` (avoid `two-asymmetric`, `three`, `irregular-twelve`)\n- **axis** — start from `diagonal` (avoid `vertical`, `horizontal`, `radial`)\n- **symmetry** — start from `symmetric` (avoid `right-weighted`, `left-"
+      },
+      "output": {
+        "hero_copy": "Bright, 42, and dark by five.",
+        "archetype": "a weather note set like a line of verse",
+        "composition": {
+          "columns": "single",
+          "axis": "diagonal",
+          "symmetry": "symmetric",
+          "hero_zone": "center",
+          "density": "measured",
+          "rhythm": "interrupted",
+          "shell_posture": "none",
+          "field_ratio": "type-dominant",
+          "collapse": "hero-only",
+          "hero_object": "statement"
+        },
+        "mobile": {
+          "carrier": "At 360 the single centered italic statement carries the first fold alone; the work index, the day's facts, the callout and the amber band stack full-width beneath it in reading order.",
+          "first_fold": "The hero block only — the phrase \"Bright, 42, and dark by five.\" at 4xl with its one-line deck, and the bare mark top-left. The work index begins below 640px.",
+          "order": "hero, work index, today's facts, site callout, footer amber band",
+          "hero_step_360": "4xl",
+          "nav_360": "No nav bar; the mark sits top-left of the hero, in-content links carry navigation, and work / about / contact sit in the footer amber band."
+        },
+        "chassisId": "spectral-albert",
+        "specLength": 4803,
+        "specPreview": "### 1. Color Specification\n- **Primary hue**: 42° low-sun amber. A bright, sunny, cold day reads as the warm honey slant of late-fall light, not a trophy gold; 42° sits warmer (more orange) than the recent 46–50° scoreboard golds and inside the 40–80° mandate.\n- **Neutral palette** (warm paper, tinted toward 45°): 50 `#FBF7F0`, 100 `#F5EEE0`, 200 `#E9DCC6`, 300 `#D6C6A4`, 400 `#B3A079`, 500 `#806E4C`, 600 `#5F4F32`, 700 `#46391F`, 800 `#2C2313`, 900 `#1C160C`.\n- **Accent color** (amber): light `",
+        "selfCheck": "1. Hero quotability: Yes — \"Bright, 42, and dark by five.\" is a complete, quotable observation with an arc, not a descriptive opener.\n2. Because-of chain: Yes — a quiet bright/dark weather note wants a reflective light-italic serif (spectral-albert), a warm-paper light-ground field for \"bright,\" a s"
+      },
+      "durationMs": 538326,
+      "timestamp": "2026-11-18T14:04:42.822Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 0
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "1. Judgment 5: The FishSticks description reads \"Imports a classroom's weekly word-list PDFs and turns them into spelling practice kids actually finish.\" The records say it reads PDFs from school, finds the bold words teachers use, and pairs voice pronunciation with adaptive quiz modes so kids can practice independently. Nothing in the records supports \"weekly\" or \"kids actually finish.\" Rewrite the line from the record's approach and outcome text, for example \"Thousands of kids practicing daily"
+      },
+      "durationMs": 294982,
+      "timestamp": "2026-11-18T14:09:39.599Z"
+    },
+    {
+      "name": "mockup-patch",
+      "phase": 2,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "edits": 2,
+        "bytes": 15877
+      },
+      "durationMs": 6660,
+      "timestamp": "2026-11-18T14:09:46.259Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "verdict": "APPROVE",
+        "feedback": "The page commits to its one quiet line. Lowercase light Spectral italic owns the first fold, centred at both widths, with the amber 42 and the hairline under \"five.\" Below it a slanted amber field carries the low-sun diagonal into the flooded colophon band. The work index, today's facts and the small-caps footer list all follow the declared order and the work records."
+      },
+      "durationMs": 29423,
+      "timestamp": "2026-11-18T14:10:09.022Z"
+    },
+    {
+      "name": "react-engineer",
+      "phase": 3,
+      "input": {
+        "tokenContext": 2800,
+        "briefLength": 8189,
+        "mockupLength": 15877
+      },
+      "output": {
+        "files": [
+          "app/components/Layout.tsx",
+          "app/components/Sidebar.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/FeaturedWork.tsx",
+          "app/components/generated/IndexList.tsx",
+          "app/components/generated/WorkSection.tsx",
+          "app/components/generated/TodayFacts.tsx",
+          "app/routes/index.tsx",
+          "app/components/generated/AboutStatement.tsx",
+          "app/components/generated/AboutBand.tsx",
+          "app/components/generated/AboutTimeline.tsx",
+          "app/components/generated/AboutDetails.tsx",
+          "app/routes/about.tsx",
+          "app/components/generated/WorkHero.tsx",
+          "app/components/generated/CaseStudy.tsx",
+          "app/components/generated/WorkMissing.tsx",
+          "app/routes/work.$slug.tsx",
+          "app/routes/og.tsx"
+        ],
+        "rationale": ""
+      },
+      "durationMs": 198521,
+      "timestamp": "2026-11-18T14:13:27.635Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 3,
+      "input": {
+        "after": "react-engineer"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutBand.tsx",
+          "app/components/generated/AboutDetails.tsx",
+          "app/components/generated/AboutStatement.tsx",
+          "app/components/generated/AboutTimeline.tsx",
+          "app/components/generated/CaseStudy.tsx",
+          "app/components/generated/FeaturedWork.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/IndexList.tsx",
+          "app/components/generated/TodayFacts.tsx",
+          "app/components/generated/WorkHero.tsx",
+          "app/components/generated/WorkMissing.tsx",
+          "app/components/generated/WorkSection.tsx"
+        ],
+        "removed": [
+          "app/components/generated/AboutThesis.tsx",
+          "app/components/generated/CapabilityTags.tsx",
+          "app/components/generated/ClosingBand.tsx",
+          "app/components/generated/EducationRows.tsx",
+          "app/components/generated/FeaturedBlock.tsx",
+          "app/components/generated/HomeThesis.tsx",
+          "app/components/generated/IndexNav.tsx",
+          "app/components/generated/MissingProject.tsx",
+          "app/components/generated/PersonalStrip.tsx",
+          "app/components/generated/RuledList.tsx",
+          "app/components/generated/SectionHead.tsx",
+          "app/components/generated/SignalStrip.tsx",
+          "app/components/generated/SplitFrame.tsx",
+          "app/components/generated/ThesisTop.tsx",
+          "app/components/generated/TimelineIndex.tsx",
+          "app/components/generated/WorkHead.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/WorkRow.tsx"
+        ]
+      },
+      "durationMs": 8,
+      "timestamp": "2026-11-18T14:13:27.644Z"
+    },
+    {
+      "name": "build-validation",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "success": true
+      },
+      "durationMs": 0,
+      "timestamp": "2026-11-18T14:13:43.949Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "measured": 73,
+        "errorCount": 2,
+        "findings": [
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Spaceman' is a 317x39px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "light",
+            "kind": "tap-target",
+            "severity": "warning",
+            "detail": "'Spaceman' is a 317x39px target; a thumb needs 44x44. Give it padding or a taller line box."
+          },
+          {
+            "surface": "/og",
+            "viewport": "og",
+            "width": 1200,
+            "scheme": "light",
+            "kind": "og-fit",
+            "severity": "error",
+            "detail": "og: brand mark starts 39px above the card's top edge. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text."
+          },
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 4.2798742266569985,
+            "key": "contrast|nav.d_flex.flex-wrap_wrap.cg_1rem.md:cg_2.5rem > a.d_inline-flex.ai_center.min-w_44px.min-h_44px > span.mr_0.25rem.c_fieldInkMuted.fv-num_tabular-nums|#613808|#e8972a",
+            "detail": "<nav.d_flex.flex-wrap_wrap.cg_1rem.md:cg_2.5rem > a.d_inline-flex.ai_center.min-w_44px.min-h_44px > span.mr_0.25rem.c_fieldInkMuted.fv-num_tabular-nums> \"01\" (x3) at 14px: #613808 on #e8972a is 4.27:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "/work/fishsticks",
+            "viewport": "tablet",
+            "width": 820,
+            "scheme": "light",
+            "kind": "line-length",
+            "severity": "error",
+            "owner": "react-engineer",
+            "rank": 86,
+            "key": "line-length|section > div > p.m_0.textStyle_base.lh_normal.max-w_60ch",
+            "detail": "<section > div > p.m_0.textStyle_base.lh_normal.max-w_60ch> \"Kids struggle to practice spelling lists\" (x2) sets 86 characters on its longest line (3 lines, median 82.5) at 16px in a 600px box, over the 80 limit. Cap the block with max-width so its lines stay under 80 characters. ch overshoots in a narrow face, so 45 to 50ch is the working number. A narrower column is no reason to leave the rest of the row empty: set the copy beside something. Also on /work/fishsticks at 1440px, /work/15th-club at 820px, /work/15th-club at 1440px and 2 more."
+          },
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 1,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-hierarchy",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "largest text in mockup is 'bright 42 and' (104px); in build it is 'bright 42 and' (104px)",
+              "facts": {
+                "shape": "reordered",
+                "dropped": [
+                  {
+                    "text": "fishsticks",
+                    "mockupPx": 88
+                  }
+                ],
+                "leader": {
+                  "text": "bright 42 and",
+                  "mockupPx": 104
+                },
+                "buildLeader": {
+                  "text": "bright 42 and",
+                  "buildPx": 104,
+                  "mockupPx": 104
+                },
+                "leaderLost": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-scale",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'fishsticks' is 88px in the mockup and 46px in the build (0.52x)",
+              "facts": {
+                "text": "fishsticks",
+                "mockupPx": 88,
+                "buildPx": 46,
+                "ratio": 0.52,
+                "mockupRank": 2
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-scale",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'spaceman' is 46px in the mockup and 88px in the build (1.91x)",
+              "facts": {
+                "text": "spaceman",
+                "mockupPx": 46,
+                "buildPx": 88,
+                "ratio": 1.91,
+                "mockupRank": 3
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'bright 42 and' moved from (720, 229) in the mockup to (720, 455) in the build"
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'dark by five' moved from (720, 335) in the mockup to (720, 561) in the build"
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'clear and 42 in aldie sun up at 704 down at 1648.' moved from (720, 834) in the mockup to (720, 1190) in the build; crossed the fold"
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-hierarchy",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "largest text in mockup is 'bright 42 and' (52px); in build it is 'bright 42 and' (52px)",
+              "facts": {
+                "shape": "reordered",
+                "dropped": [
+                  {
+                    "text": "fishsticks",
+                    "mockupPx": 40
+                  }
+                ],
+                "leader": {
+                  "text": "bright 42 and",
+                  "mockupPx": 52
+                },
+                "buildLeader": {
+                  "text": "bright 42 and",
+                  "buildPx": 52,
+                  "mockupPx": 52
+                },
+                "leaderLost": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'clear and 42 in aldie sun up at 704 down at 1648.' moved from (180, 591) in the mockup to (180, 772) in the build; crossed the fold"
+            }
+          ],
+          "briefed": [
+            "- / at 1440px: 'bright 42 and' still leads, but the mockup's 'fishsticks' (88px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+            "- / at 360px: 'bright 42 and' still leads, but the mockup's 'fishsticks' (40px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+            "- / at 1440px: 'fishsticks' is 88px in the mockup and 46px in the build (0.52x). Set it back to 88px.",
+            "- / at 1440px: 'spaceman' is 46px in the mockup and 88px in the build (1.91x). Set it back to 46px."
+          ]
+        }
+      },
+      "durationMs": 44002,
+      "timestamp": "2026-11-18T14:14:27.983Z"
+    },
+    {
+      "name": "screenshot-critic",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 6 — react-engineer: Case-study pages run body copy in a narrow column while the rest of the row sits empty. Measured at /work/fishsticks (1440px and 820px, lines up to 86 characters, over the 80-char cap) and /work/15th-club (same), and visible in the /work/spaceman filmstrip fold 2 of 3, where the \"Approach\"/\"Outcome\" copy occupies roughly half the row with cream void around it before the footer band. Cap the measure near 45-50ch and set the copy besi"
+      },
+      "durationMs": 175495,
+      "timestamp": "2026-11-18T14:17:23.479Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 5,
+      "input": {
+        "after": "React Engineer revision"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutBand.tsx",
+          "app/components/generated/AboutDetails.tsx",
+          "app/components/generated/AboutStatement.tsx",
+          "app/components/generated/AboutTimeline.tsx",
+          "app/components/generated/CaseStudy.tsx",
+          "app/components/generated/FeaturedWork.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/IndexList.tsx",
+          "app/components/generated/TodayFacts.tsx",
+          "app/components/generated/WorkHero.tsx",
+          "app/components/generated/WorkMissing.tsx",
+          "app/components/generated/WorkSection.tsx"
+        ],
+        "removed": []
+      },
+      "durationMs": 6,
+      "timestamp": "2026-11-18T14:18:04.316Z"
+    },
+    {
+      "name": "revision",
+      "phase": 4,
+      "input": {
+        "round": 1,
+        "verdict": "REVISE",
+        "responsibleAgent": "react-engineer",
+        "gateForced": true,
+        "engineerFaults": 2,
+        "feedback": "**Issues:**\n- Section 6 — react-engineer: Case-study pages run body copy in a narrow column while the rest of the row sits empty. Measured at /work/fishsticks (1440px and 820px, lines up to 86 characters, over the 80-char cap) and /work/15th-club (same), and visible in the /work/spaceman filmstrip fold 2 of 3, where the \"Approach\"/\"Outcome\" copy occupies roughly half the row with cream void around it before the footer band. Cap the measure near 45-50ch and set the copy beside something (metadata"
+      },
+      "output": {
+        "outcome": "rebuilt",
+        "replied": 3,
+        "written": 3,
+        "deleted": 0,
+        "merged": 18
+      },
+      "durationMs": 54858,
+      "timestamp": "2026-11-18T14:18:18.338Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "measured": 73,
+        "errorCount": 0,
+        "findings": [
+          {
+            "surface": "/work",
+            "viewport": "mobile",
+            "width": 360,
+            "scheme": "dark",
+            "kind": "contrast",
+            "severity": "warning",
+            "owner": "human",
+            "ratio": 4.2798742266569985,
+            "key": "contrast|nav.d_flex.flex-wrap_wrap.cg_1rem.md:cg_2.5rem > a.d_inline-flex.ai_center.min-w_44px.min-h_44px > span.mr_0.25rem.c_fieldInkMuted.fv-num_tabular-nums|#613808|#e8972a",
+            "detail": "<nav.d_flex.flex-wrap_wrap.cg_1rem.md:cg_2.5rem > a.d_inline-flex.ai_center.min-w_44px.min-h_44px > span.mr_0.25rem.c_fieldInkMuted.fv-num_tabular-nums> \"01\" (x3) at 14px: #613808 on #e8972a is 4.27:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground."
+          },
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 2,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-hierarchy",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "largest text in mockup is 'bright 42 and' (104px); in build it is 'bright 42 and' (104px)",
+              "facts": {
+                "shape": "reordered",
+                "dropped": [
+                  {
+                    "text": "fishsticks",
+                    "mockupPx": 88
+                  }
+                ],
+                "leader": {
+                  "text": "bright 42 and",
+                  "mockupPx": 104
+                },
+                "buildLeader": {
+                  "text": "bright 42 and",
+                  "buildPx": 104,
+                  "mockupPx": 104
+                },
+                "leaderLost": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-scale",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'fishsticks' is 88px in the mockup and 46px in the build (0.52x)",
+              "facts": {
+                "text": "fishsticks",
+                "mockupPx": 88,
+                "buildPx": 46,
+                "ratio": 0.52,
+                "mockupRank": 2
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-scale",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'spaceman' is 46px in the mockup and 88px in the build (1.91x)",
+              "facts": {
+                "text": "spaceman",
+                "mockupPx": 46,
+                "buildPx": 88,
+                "ratio": 1.91,
+                "mockupRank": 3
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'bright 42 and' moved from (720, 229) in the mockup to (720, 455) in the build"
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'dark by five' moved from (720, 335) in the mockup to (720, 561) in the build"
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'clear and 42 in aldie sun up at 704 down at 1648.' moved from (720, 834) in the mockup to (720, 1190) in the build; crossed the fold"
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-hierarchy",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "largest text in mockup is 'bright 42 and' (52px); in build it is 'bright 42 and' (52px)",
+              "facts": {
+                "shape": "reordered",
+                "dropped": [
+                  {
+                    "text": "fishsticks",
+                    "mockupPx": 40
+                  }
+                ],
+                "leader": {
+                  "text": "bright 42 and",
+                  "mockupPx": 52
+                },
+                "buildLeader": {
+                  "text": "bright 42 and",
+                  "buildPx": 52,
+                  "mockupPx": 52
+                },
+                "leaderLost": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-shift",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'clear and 42 in aldie sun up at 704 down at 1648.' moved from (180, 591) in the mockup to (180, 772) in the build; crossed the fold"
+            }
+          ],
+          "briefed": [
+            "- / at 1440px: 'bright 42 and' still leads, but the mockup's 'fishsticks' (88px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+            "- / at 360px: 'bright 42 and' still leads, but the mockup's 'fishsticks' (40px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+            "- / at 1440px: 'fishsticks' is 88px in the mockup and 46px in the build (0.52x). Set it back to 88px.",
+            "- / at 1440px: 'spaceman' is 46px in the mockup and 88px in the build (1.91x). Set it back to 46px."
+          ]
+        }
+      },
+      "durationMs": 44047,
+      "timestamp": "2026-11-18T14:19:02.385Z"
+    },
+    {
+      "name": "screenshot-critic-final",
+      "phase": 4,
+      "input": {
+        "remainingFaults": 0
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 2 / Mockup Fidelity — react-engineer: The approved mockup shows the diagonal amber field (with the \"Clear and 42 in Aldie…\" deck line inside it) already filling roughly the bottom 40% of the first 1440×900 screen, closing the diagonal \"bright → dark\" reading path the composition is built around. The rendered desktop screenshot shows only the hero phrase and its amber hairline on plain cream, with nothing else down to the bottom of the viewport — the di",
+        "channel": "sdk-vision"
+      },
+      "durationMs": 171595,
+      "timestamp": "2026-11-18T14:21:53.985Z"
+    }
+  ]
+}

@@ -1,0 +1,290 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'bright 42 and' (104px); in build it is 'bright 42 and' (104px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "fishsticks",
+                "mockupPx": 88
+              }
+            ],
+            "leader": {
+              "text": "bright 42 and",
+              "mockupPx": 104
+            },
+            "buildLeader": {
+              "text": "bright 42 and",
+              "buildPx": 104,
+              "mockupPx": 104
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'fishsticks' is 88px in the mockup and 46px in the build (0.52x)",
+          "facts": {
+            "text": "fishsticks",
+            "mockupPx": 88,
+            "buildPx": 46,
+            "ratio": 0.52,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' is 46px in the mockup and 88px in the build (1.91x)",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 46,
+            "buildPx": 88,
+            "ratio": 1.91,
+            "mockupRank": 3
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'bright 42 and' moved from (720, 229) in the mockup to (720, 455) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dark by five' moved from (720, 335) in the mockup to (720, 561) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'clear and 42 in aldie sun up at 704 down at 1648.' moved from (720, 834) in the mockup to (720, 1190) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'bright 42 and' (52px); in build it is 'bright 42 and' (52px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "fishsticks",
+                "mockupPx": 40
+              }
+            ],
+            "leader": {
+              "text": "bright 42 and",
+              "mockupPx": 52
+            },
+            "buildLeader": {
+              "text": "bright 42 and",
+              "buildPx": 52,
+              "mockupPx": 52
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'clear and 42 in aldie sun up at 704 down at 1648.' moved from (180, 591) in the mockup to (180, 772) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'bright 42 and' still leads, but the mockup's 'fishsticks' (88px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'bright 42 and' still leads, but the mockup's 'fishsticks' (40px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: 'fishsticks' is 88px in the mockup and 46px in the build (0.52x). Set it back to 88px.",
+        "- / at 1440px: 'spaceman' is 46px in the mockup and 88px in the build (1.91x). Set it back to 46px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'bright 42 and' (104px); in build it is 'bright 42 and' (104px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "fishsticks",
+                "mockupPx": 88
+              }
+            ],
+            "leader": {
+              "text": "bright 42 and",
+              "mockupPx": 104
+            },
+            "buildLeader": {
+              "text": "bright 42 and",
+              "buildPx": 104,
+              "mockupPx": 104
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'fishsticks' is 88px in the mockup and 46px in the build (0.52x)",
+          "facts": {
+            "text": "fishsticks",
+            "mockupPx": 88,
+            "buildPx": 46,
+            "ratio": 0.52,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' is 46px in the mockup and 88px in the build (1.91x)",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 46,
+            "buildPx": 88,
+            "ratio": 1.91,
+            "mockupRank": 3
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'bright 42 and' moved from (720, 229) in the mockup to (720, 455) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dark by five' moved from (720, 335) in the mockup to (720, 561) in the build"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'clear and 42 in aldie sun up at 704 down at 1648.' moved from (720, 834) in the mockup to (720, 1190) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'bright 42 and' (52px); in build it is 'bright 42 and' (52px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "fishsticks",
+                "mockupPx": 40
+              }
+            ],
+            "leader": {
+              "text": "bright 42 and",
+              "mockupPx": 52
+            },
+            "buildLeader": {
+              "text": "bright 42 and",
+              "buildPx": 52,
+              "mockupPx": 52
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'clear and 42 in aldie sun up at 704 down at 1648.' moved from (180, 591) in the mockup to (180, 772) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'bright 42 and' still leads, but the mockup's 'fishsticks' (88px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'bright 42 and' still leads, but the mockup's 'fishsticks' (40px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: 'fishsticks' is 88px in the mockup and 46px in the build (0.52x). Set it back to 88px.",
+        "- / at 1440px: 'spaceman' is 46px in the mockup and 88px in the build (1.91x). Set it back to 46px."
+      ]
+    }
+  ]
+}

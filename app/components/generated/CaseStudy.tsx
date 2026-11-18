@@ -3,142 +3,132 @@ import type { projects } from '../../content/projects'
 
 type Project = (typeof projects)[number]
 
-// Mockup accentDeep (#223f10) has no token; nearest semantic ink on bg is `accent`.
-function CaseBlock({ label, text }: { label: string; text: string }) {
-  return (
-    <div
-      className={css({
-        marginTop: '32px',
-        marginBottom: '16px',
-        paddingBlock: '16px',
-        paddingInline: '18px',
-        bg: 'bg',
-        borderLeftWidth: '3px',
-        borderLeftStyle: 'solid',
-        borderLeftColor: 'accent',
-        maxWidth: '72ch',
-      })}
-    >
-      <h2
-        className={css({
-          fontFamily: 'display',
-          fontWeight: 'bold',
-          fontVariant: 'small-caps',
-          letterSpacing: 'wide',
-          textStyle: 'sm',
-          color: 'accent',
-          marginBottom: '6px',
-        })}
-      >
-        {label}
-      </h2>
-      <p
-        className={css({
-          fontFamily: 'body',
-          textStyle: 'base',
-          lineHeight: '1.55',
-          color: 'text',
-          maxWidth: '48ch',
-        })}
-      >
-        {text}
-      </p>
-    </div>
-  )
-}
+const labelClass = css({
+  display: 'block',
+  marginTop: '0',
+  marginBottom: '3',
+  textStyle: 'sm',
+  fontVariant: 'small-caps',
+  letterSpacing: 'wide',
+  fontWeight: 'semibold',
+  color: 'textMuted',
+})
 
 export function CaseStudy({ project }: { project: Project }) {
   const blocks = [
-    { label: 'Problem', text: project.problem ?? '' },
-    { label: 'Approach', text: project.approach ?? '' },
-    { label: 'Outcome', text: project.outcome ?? '' },
-  ].filter((b) => b.text !== '')
+    { k: 'Summary', v: project.description ?? '' },
+    { k: 'Problem', v: project.problem ?? '' },
+    { k: 'Approach', v: project.approach ?? '' },
+    { k: 'Outcome', v: project.outcome ?? '' },
+  ].filter((b) => b.v !== '')
+  const links = [
+    { k: 'Visit the live project', v: project.liveUrl ?? '' },
+    { k: 'Visit the project', v: project.externalUrl ?? '' },
+    { k: 'Source on GitHub', v: project.githubUrl ?? '' },
+  ].filter((l) => l.v !== '')
   const stack = project.stack ?? []
   return (
     <section
       className={css({
-        bg: 'bgAlt',
-        paddingInline: 'clamp(20px, 5vw, 72px)',
-        paddingBottom: 'clamp(32px, 6vw, 72px)',
-        '@supports (animation-timeline: view())': {
-          animationName: 'rise',
-          animationTimeline: 'view()',
-          animationRange: 'entry 0% entry 40%',
-          animationFillMode: 'both',
-        },
+        paddingTop: '7',
+        paddingBottom: 'clamp(48px, 7vw, 112px)',
+        paddingInline: 'clamp(1.25rem, 6vw, 4rem)',
       })}
     >
-      {project.description ? (
-        <p
-          className={css({
-            paddingTop: '24px',
-            fontFamily: 'body',
-            fontSize: 'lede',
-            color: 'textMuted',
-            maxWidth: '48ch',
-          })}
-        >
-          {project.description}
-        </p>
-      ) : null}
-      {blocks.map((b) => (
-        <CaseBlock key={b.label} label={b.label} text={b.text} />
-      ))}
-      <ul
+      <div
         className={css({
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '8px',
-          listStyle: 'none',
-          padding: '0',
-          marginTop: '32px',
-          maxWidth: 'none',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          columnGap: '6',
+          rowGap: '7',
         })}
       >
-        {stack.map((s) => (
-          <li
-            key={s}
+        {blocks.map((b) => (
+          <div
+            key={b.k}
             className={css({
-              fontFamily: 'display',
-              fontWeight: 'bold',
-              fontVariant: 'small-caps',
-              letterSpacing: 'wide',
-              textStyle: 'sm',
-              color: 'accentText',
-              bg: 'accent',
-              borderRadius: 'sm',
-              paddingBlock: '4px',
-              paddingInline: '10px',
+              minWidth: '0',
+              borderTopWidth: '1px',
+              borderTopStyle: 'solid',
+              borderTopColor: 'border',
+              paddingTop: '4',
             })}
           >
-            {s}
+            <h2 className={labelClass}>{b.k}</h2>
+            <p
+              className={css({
+                margin: '0',
+                textStyle: 'base',
+                lineHeight: 'normal',
+                maxWidth: '46ch',
+              })}
+            >
+              {b.v}
+            </p>
+          </div>
+        ))}
+      </div>
+      {stack.length > 0 ? (
+        <div className={css({ marginTop: '7' })}>
+          <h2 className={labelClass}>Stack</h2>
+          <ul
+            className={css({
+              listStyle: 'none',
+              margin: '0',
+              padding: '0',
+              display: 'flex',
+              flexWrap: 'wrap',
+              columnGap: '5',
+              rowGap: '2',
+            })}
+          >
+            {stack.map((s) => (
+              <li
+                key={s}
+                className={css({
+                  textStyle: 'base',
+                  fontVariant: 'small-caps',
+                  letterSpacing: 'wide',
+                })}
+              >
+                {s}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+      <ul
+        className={css({
+          listStyle: 'none',
+          marginTop: '7',
+          marginBottom: '0',
+          padding: '0',
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '5',
+        })}
+      >
+        {links.map((l) => (
+          <li key={l.k}>
+            <a
+              href={l.v}
+              className={css({
+                display: 'inline-flex',
+                alignItems: 'center',
+                minHeight: '44px',
+                textStyle: 'sm',
+                fontWeight: 'semibold',
+                borderBottomWidth: '2px',
+                borderBottomStyle: 'solid',
+                borderBottomColor: 'field',
+                _hover: { color: 'fieldBorder' },
+              })}
+            >
+              {l.k} ↗
+            </a>
           </li>
         ))}
       </ul>
-      {project.liveUrl ? (
-        <a
-          href={project.liveUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={css({
-            display: 'inline-flex',
-            alignItems: 'center',
-            minHeight: '44px',
-            marginTop: '16px',
-            fontFamily: 'display',
-            fontWeight: 'bold',
-            textStyle: 'sm',
-            color: 'text',
-            textDecoration: 'underline',
-            textDecorationColor: 'accent',
-            textDecorationThickness: '2px',
-            textUnderlineOffset: '0.2em',
-            _hover: { textDecorationColor: 'text' },
-          })}
-        >
-          Visit the live project ↗
-        </a>
-      ) : null}
     </section>
   )
 }

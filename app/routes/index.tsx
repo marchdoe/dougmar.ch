@@ -1,19 +1,17 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { SiteCallout } from '../components/SiteCallout'
-import { HomeThesis } from '../components/generated/HomeThesis'
-import { SignalStrip } from '../components/generated/SignalStrip'
-import { SplitFrame } from '../components/generated/SplitFrame'
-import { WorkIndex } from '../components/generated/WorkIndex'
+import { HomeHero } from '../components/generated/HomeHero'
+import { TodayFacts } from '../components/generated/TodayFacts'
+import { WorkSection } from '../components/generated/WorkSection'
 
 export const Route = createFileRoute('/')({ component: HomePage })
 
 function HomePage() {
   return (
     <>
-      <SplitFrame thesis={<HomeThesis />}>
-        <WorkIndex />
-        <SignalStrip />
-      </SplitFrame>
+      <HomeHero />
+      <WorkSection />
+      <TodayFacts />
       <SiteCallout />
     </>
   )

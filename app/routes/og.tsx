@@ -4,16 +4,14 @@ import { BrandLockup } from '../components/BrandLockup'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
-const word = css({ display: 'block', color: 'fieldInk' })
-
 function OgCard() {
   return (
     <div
       className={css({
         position: 'fixed',
         inset: '0',
-        zIndex: '9999',
-        bg: 'field',
+        zIndex: 9999,
+        bg: 'bg',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -21,39 +19,64 @@ function OgCard() {
     >
       <div
         className={css({
+          position: 'relative',
+          boxSizing: 'border-box',
+          flexShrink: 0,
           width: '1200px',
           height: '630px',
-          flex: 'none',
-          bg: 'field',
-          color: 'fieldInk',
-          padding: '72px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
+          bg: 'bg',
+          color: 'text',
         })}
       >
-        <div className={css({ color: 'fieldInk' })}>
-          <BrandLockup variant="horizontal-md" mode="original" roleLine />
+        <div className={css({ position: 'absolute', top: '56px', left: '56px', zIndex: 3 })}>
+          <BrandLockup variant="mark-only-md" mode="original" />
         </div>
-        <h1
+        <div
           className={css({
-            fontFamily: 'display',
-            fontWeight: 'normal',
-            fontStyle: 'italic',
-            fontVariant: 'small-caps',
-            fontSize: '64px',
-            lineHeight: '0.98',
-            letterSpacing: '0.01em',
-            textAlign: 'left',
-            margin: '0',
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            right: '0',
+            height: '440px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingInline: '120px',
+            zIndex: 2,
           })}
         >
-          <span className={word}>Every</span>
-          <span className={word}>project</span>
-          <span className={word}>started</span>
-          <span className={word}>as&nbsp;an</span>
-          <span className={css({ display: 'block', color: 'accentAlt' })}>experiment.</span>
-        </h1>
+          <p
+            className={css({
+              margin: '0',
+              textAlign: 'center',
+              fontFamily: 'display',
+              fontStyle: 'italic',
+              fontWeight: 'light',
+              textTransform: 'lowercase',
+              fontSize: '88px',
+              lineHeight: '1.02',
+              letterSpacing: '-0.01em',
+            })}
+          >
+            <span className={css({ display: 'block' })}>
+              Bright, <span className={css({ color: 'fieldBorder' })}>42</span>, and
+            </span>
+            <span className={css({ display: 'block' })}>dark by five.</span>
+          </p>
+        </div>
+        <div
+          aria-hidden="true"
+          className={css({
+            position: 'absolute',
+            left: '0',
+            right: '0',
+            bottom: '0',
+            height: '190px',
+            bg: 'field',
+            clipPath: 'polygon(0 18%, 100% 0, 100% 100%, 0 100%)',
+            zIndex: 1,
+          })}
+        />
       </div>
     </div>
   )
