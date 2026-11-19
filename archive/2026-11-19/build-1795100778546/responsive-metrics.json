@@ -1,0 +1,157 @@
+{
+  "viewports": {
+    "mobile": {
+      "width": 360,
+      "height": 640,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 16,
+          "passing": true
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "FishSticks",
+            "w": 112,
+            "h": 41
+          },
+          {
+            "tag": "A",
+            "text": "15th Club",
+            "w": 100,
+            "h": 41
+          },
+          {
+            "tag": "A",
+            "text": "dougmar.ch",
+            "w": 131,
+            "h": 41
+          },
+          {
+            "tag": "A",
+            "text": "TeeTurn",
+            "w": 85,
+            "h": 41
+          },
+          {
+            "tag": "A",
+            "text": "Politweets",
+            "w": 121,
+            "h": 41
+          },
+          {
+            "tag": "A",
+            "text": "Twittertale",
+            "w": 129,
+            "h": 41
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "tablet": {
+      "width": 820,
+      "height": 1180,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 20,
+          "passing": true
+        },
+        "tapTargetFailures": [
+          {
+            "tag": "A",
+            "text": "‹",
+            "w": 32,
+            "h": 44
+          },
+          {
+            "tag": "A",
+            "text": "FishSticks",
+            "w": 112,
+            "h": 41
+          },
+          {
+            "tag": "A",
+            "text": "15th Club",
+            "w": 100,
+            "h": 41
+          },
+          {
+            "tag": "A",
+            "text": "dougmar.ch",
+            "w": 131,
+            "h": 41
+          },
+          {
+            "tag": "A",
+            "text": "TeeTurn",
+            "w": 85,
+            "h": 41
+          },
+          {
+            "tag": "A",
+            "text": "Politweets",
+            "w": 121,
+            "h": 41
+          },
+          {
+            "tag": "A",
+            "text": "Twittertale",
+            "w": 129,
+            "h": 41
+          }
+        ],
+        "lineLengthFailures": []
+      },
+      "score": 4
+    },
+    "laptop": {
+      "width": 1024,
+      "height": 768,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 20,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 5
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900,
+      "checks": {
+        "horizontalScroll": false,
+        "clippedElements": [],
+        "headerOverlap": [],
+        "bodyTextSize": {
+          "min": 20,
+          "passing": true
+        },
+        "tapTargetFailures": [],
+        "lineLengthFailures": []
+      },
+      "score": 5
+    }
+  },
+  "overallScore": 4,
+  "worstFailure": {
+    "viewport": "mobile",
+    "check": "tapTargetFailures",
+    "detail": "6 interactive element(s) below 44×44px"
+  },
+  "buildId": "1795100778546",
+  "date": "2026-11-19",
+  "archetype": "an engraved brass desk-plate specimen"
+}

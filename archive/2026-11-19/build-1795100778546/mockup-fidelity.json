@@ -1,0 +1,718 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'fishsticks' (44px in the mockup) has no match in the build",
+          "facts": {
+            "text": "fishsticks",
+            "mockupPx": 44,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'15th club' (44px in the mockup) has no match in the build",
+          "facts": {
+            "text": "15th club",
+            "mockupPx": 44,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' (44px in the mockup) has no match in the build",
+          "facts": {
+            "text": "dougmarch",
+            "mockupPx": 44,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'teeturn' (44px in the mockup) has no match in the build",
+          "facts": {
+            "text": "teeturn",
+            "mockupPx": 44,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'politweets' (44px in the mockup) has no match in the build",
+          "facts": {
+            "text": "politweets",
+            "mockupPx": 44,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'twittertale' (44px in the mockup) has no match in the build",
+          "facts": {
+            "text": "twittertale",
+            "mockupPx": 44,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' (34px in the mockup) has no match in the build",
+          "facts": {
+            "text": "dougmarch",
+            "mockupPx": 34,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'design + build' (24px in the mockup) has no match in the build",
+          "facts": {
+            "text": "design + build",
+            "mockupPx": 24,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'nine shown' (24px in the mockup) has no match in the build",
+          "facts": {
+            "text": "nine shown",
+            "mockupPx": 24,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman is the ten-year practice where the design and the engineering are one pair of hands not two teams passing files the work ships sometimes solo sometimes embedded in a larger team always from one desk that can both draw it and ship it the roster below is the argument read the case →' (21px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is the ten-year practice where the design and the engineering are one pair of hands not two teams passing files the work ships sometimes solo sometimes embedded in a larger team always from one desk that can both draw it and ship it the roster below is the argument read the case →",
+            "mockupPx": 21,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "The mockup sets 'spaceman' at 156px over 'design and build on the same desk' at 86px, a 1.8x lead; the build sets them at 160px and 160px. Restore the mockup's sizes so 'spaceman' leads.",
+          "facts": {
+            "shape": "flattened",
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 156,
+              "buildPx": 160
+            },
+            "runnerUp": {
+              "text": "design and build on the same desk",
+              "mockupPx": 86,
+              "buildPx": 160
+            },
+            "mockupGap": 1.8,
+            "buildGap": 1,
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'design and build on the same desk' is 86px in the mockup and 160px in the build (1.85x)",
+          "facts": {
+            "text": "design and build on the same desk",
+            "mockupPx": 86,
+            "buildPx": 160,
+            "ratio": 1.85,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman is the ten-year practice where the design and the engineering are one pair of hands not two teams passing files the work ships sometimes solo sometimes embedded in a larger team always from one desk that can both draw it and ship it the roster below is the argument read the case →' (17px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is the ten-year practice where the design and the engineering are one pair of hands not two teams passing files the work ships sometimes solo sometimes embedded in a larger team always from one desk that can both draw it and ship it the roster below is the argument read the case →",
+            "mockupPx": 17,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'spaceman' (45px); in build it is 'spaceman' (65px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "doug march",
+                "mockupPx": 30
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 45
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 65,
+              "mockupPx": 45
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'design and build on the same desk' is 30px in the mockup and 52px in the build (1.73x)",
+          "facts": {
+            "text": "design and build on the same desk",
+            "mockupPx": 30,
+            "buildPx": 52,
+            "ratio": 1.73,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'index' is 24px in the mockup and 47px in the build (1.94x)",
+          "facts": {
+            "text": "index",
+            "mockupPx": 24,
+            "buildPx": 47,
+            "ratio": 1.94,
+            "mockupRank": 3
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: 'spaceman' still leads, but the mockup's 'doug march' (30px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'fishsticks' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets '15th club' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'dougmarch' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'teeturn' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'politweets' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'twittertale' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'dougmarch' at 34px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'fishsticks' (44px in the mockup) has no match in the build",
+          "facts": {
+            "text": "fishsticks",
+            "mockupPx": 44,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'15th club' (44px in the mockup) has no match in the build",
+          "facts": {
+            "text": "15th club",
+            "mockupPx": 44,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' (44px in the mockup) has no match in the build",
+          "facts": {
+            "text": "dougmarch",
+            "mockupPx": 44,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'teeturn' (44px in the mockup) has no match in the build",
+          "facts": {
+            "text": "teeturn",
+            "mockupPx": 44,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'politweets' (44px in the mockup) has no match in the build",
+          "facts": {
+            "text": "politweets",
+            "mockupPx": 44,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'twittertale' (44px in the mockup) has no match in the build",
+          "facts": {
+            "text": "twittertale",
+            "mockupPx": 44,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' (34px in the mockup) has no match in the build",
+          "facts": {
+            "text": "dougmarch",
+            "mockupPx": 34,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'nine shown' (24px in the mockup) has no match in the build",
+          "facts": {
+            "text": "nine shown",
+            "mockupPx": 24,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman is the ten-year practice where the design and the engineering are one pair of hands not two teams passing files the work ships sometimes solo sometimes embedded in a larger team always from one desk that can both draw it and ship it the roster below is the argument read the case →' (21px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is the ten-year practice where the design and the engineering are one pair of hands not two teams passing files the work ships sometimes solo sometimes embedded in a larger team always from one desk that can both draw it and ship it the roster below is the argument read the case →",
+            "mockupPx": 21,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "The mockup's largest text is 'spaceman' at 156px; the build sets 'fishsticks' at 160px. Restore the mockup's hierarchy: 'fishsticks' is 44px in the mockup.",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "spaceman",
+                "mockupPx": 156
+              },
+              {
+                "text": "design and build on the same desk",
+                "mockupPx": 86
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 156
+            },
+            "buildLeader": {
+              "text": "fishsticks",
+              "buildPx": 160,
+              "mockupPx": 44
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman is the ten-year practice where the design and the engineering are one pair of hands not two teams passing files the work ships sometimes solo sometimes embedded in a larger team always from one desk that can both draw it and ship it the roster below is the argument read the case →' (17px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is the ten-year practice where the design and the engineering are one pair of hands not two teams passing files the work ships sometimes solo sometimes embedded in a larger team always from one desk that can both draw it and ship it the roster below is the argument read the case →",
+            "mockupPx": 17,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'spaceman' (45px); in build it is 'spaceman' (65px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "doug march",
+                "mockupPx": 30
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 45
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 65,
+              "mockupPx": 45
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'design and build on the same desk' is 30px in the mockup and 52px in the build (1.73x)",
+          "facts": {
+            "text": "design and build on the same desk",
+            "mockupPx": 30,
+            "buildPx": 52,
+            "ratio": 1.73,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'index' is 24px in the mockup and 47px in the build (1.94x)",
+          "facts": {
+            "text": "index",
+            "mockupPx": 24,
+            "buildPx": 47,
+            "ratio": 1.94,
+            "mockupRank": 3
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: 'spaceman' still leads, but the mockup's 'doug march' (30px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'fishsticks' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets '15th club' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'dougmarch' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'teeturn' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'politweets' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'twittertale' at 44px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'dougmarch' at 34px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 3,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'dougmarch' (34px in the mockup) has no match in the build",
+          "facts": {
+            "text": "dougmarch",
+            "mockupPx": 34,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'nine shown' (24px in the mockup) has no match in the build",
+          "facts": {
+            "text": "nine shown",
+            "mockupPx": 24,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman is the ten-year practice where the design and the engineering are one pair of hands not two teams passing files the work ships sometimes solo sometimes embedded in a larger team always from one desk that can both draw it and ship it the roster below is the argument read the case →' (21px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is the ten-year practice where the design and the engineering are one pair of hands not two teams passing files the work ships sometimes solo sometimes embedded in a larger team always from one desk that can both draw it and ship it the roster below is the argument read the case →",
+            "mockupPx": 21,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'spaceman' (156px); in build it is 'spaceman' (156px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "fishsticks",
+                "mockupPx": 44
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 156
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 156,
+              "mockupPx": 156
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'spaceman is the ten-year practice where the design and the engineering are one pair of hands not two teams passing files the work ships sometimes solo sometimes embedded in a larger team always from one desk that can both draw it and ship it the roster below is the argument read the case →' (17px in the mockup) has no match in the build",
+          "facts": {
+            "text": "spaceman is the ten-year practice where the design and the engineering are one pair of hands not two teams passing files the work ships sometimes solo sometimes embedded in a larger team always from one desk that can both draw it and ship it the roster below is the argument read the case →",
+            "mockupPx": 17,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'spaceman' (45px); in build it is 'spaceman' (65px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "doug march",
+                "mockupPx": 30
+              }
+            ],
+            "leader": {
+              "text": "spaceman",
+              "mockupPx": 45
+            },
+            "buildLeader": {
+              "text": "spaceman",
+              "buildPx": 65,
+              "mockupPx": 45
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'design and build on the same desk' is 30px in the mockup and 52px in the build (1.73x)",
+          "facts": {
+            "text": "design and build on the same desk",
+            "mockupPx": 30,
+            "buildPx": 52,
+            "ratio": 1.73,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'index' is 24px in the mockup and 47px in the build (1.94x)",
+          "facts": {
+            "text": "index",
+            "mockupPx": 24,
+            "buildPx": 47,
+            "ratio": 1.94,
+            "mockupRank": 3
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'spaceman' still leads, but the mockup's 'fishsticks' (44px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'spaceman' still leads, but the mockup's 'doug march' (30px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'dougmarch' at 34px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'nine shown' at 24px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'spaceman is the ten-year practice where the design and th...' at 21px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'spaceman is the ten-year practice where the design and th...' at 17px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: 'index' is 24px in the mockup and 47px in the build (1.94x). Set it back to 24px.",
+        "- / at 360px: 'design and build on the same desk' is 30px in the mockup and 52px in the build (1.73x). Set it back to 30px."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,761 @@
+{
+  "date": "2026-11-19",
+  "era": "header-declared",
+  "generatedAt": "2026-11-19T15:06:26.199Z",
+  "buildId": "1795100778546",
+  "attempts": 1,
+  "brief": "Tarnished-brass drench, SPACEMAN engraved in outline caps, the Rolex-and-Zeldman client ledger stamped beneath.",
+  "rationale": "The phrase is \"Design and build on the same desk.\" It captions the one artifact that proves it: Spaceman, the ten-year shop where the design and the engineering are one pair of hands, with a client roster (Zeldman, Rolex, The Nature Conservancy, Intuit, LastPass) that is itself the argument. So the object leads, not another poster statement. That forced an artifact composition: a twelve-column drawing title-block, SPACEMAN at marquee thesis-left, its year, role and client ledger as evidence-right, the phrase as its caption one step down.\n\nBecause the object is a stamped nameplate, the chassis is Big Shoulders Display, condensed signage caps with Atkinson's hyperlegible body for the dense ledger and index; it has not shipped recently, and it carries the word at 156px. The type is set in caps with outline (stroked) letterforms, the engraved channels of a plate, which is why I reached onto the discouraged caps value: an engraved nameplate is caps, and outline is the fresh, on-theme texture. The palette is a tarnished-brass drench at 66°: aged olive-gold rather than the recent scoreboard golds, dark enough to reverse ivory type at 7:1, metallic rather than bright. Drench is a formula none of the last seven builds used, and it carries the single-plate conceit across 70% of the viewport.\n\nLayout holds one left rail, spends the middle of the scale (standfirst deck, section heads, the client ledger between the 156px marquee and 16px body), and gives every signal a concrete home in a tabular footer strip, with the Pistons win lit and the market drop left muted. The mark is the real circular lockup, stacked and engraved on the dark brass field where the white disc carries, inside the first fold at both widths.",
+  "filesChanged": [
+    "elements/preset.ts",
+    "app/components/Layout.tsx",
+    "app/components/Sidebar.tsx",
+    "app/components/generated/FootStrip.tsx",
+    "app/components/generated/PlateMeta.tsx",
+    "app/components/generated/HeroArtifact.tsx",
+    "app/components/generated/SectionHead.tsx",
+    "app/components/generated/ClientLedger.tsx",
+    "app/components/generated/WorkSection.tsx",
+    "app/components/generated/AboutHero.tsx",
+    "app/components/generated/TimelineSection.tsx",
+    "app/components/generated/CapabilitiesSection.tsx",
+    "app/components/generated/CaseHero.tsx",
+    "app/components/generated/CaseLinks.tsx",
+    "app/components/generated/CaseBody.tsx",
+    "app/routes/index.tsx",
+    "app/routes/about.tsx",
+    "app/routes/work.$slug.tsx",
+    "app/routes/og.tsx"
+  ],
+  "legacyArchetype": null,
+  "signals": {
+    "air_quality": {
+      "aqi_index": 2,
+      "uv_index": 0.7,
+      "air_quality_label": "Moderate"
+    },
+    "books": {
+      "currently_reading": []
+    },
+    "day_of_week": {
+      "day": "Thursday",
+      "is_weekend": false,
+      "day_index": 4
+    },
+    "github": {
+      "repos": [
+        {
+          "name": "sponsors/elementalsouls",
+          "description": "",
+          "language": "Python",
+          "stars": null
+        },
+        {
+          "name": "sponsors/obra",
+          "description": "",
+          "language": "Shell",
+          "stars": null
+        },
+        {
+          "name": "HKUDS/CLI-Anything/stargazers",
+          "description": "",
+          "language": "Python",
+          "stars": null
+        },
+        {
+          "name": "jingyaogong/minimind/stargazers",
+          "description": "",
+          "language": "Python",
+          "stars": null
+        },
+        {
+          "name": "cursor/plugins/stargazers",
+          "description": "",
+          "language": "TypeScript",
+          "stars": null
+        }
+      ]
+    },
+    "golf": {
+      "tournament": "The RSM Classic",
+      "status": "In Progress",
+      "leaders": [
+        {
+          "name": "John Parry",
+          "position": "1",
+          "score": "-1"
+        },
+        {
+          "name": "Emiliano Grillo",
+          "position": "2",
+          "score": "-1"
+        },
+        {
+          "name": "Max Greyserman",
+          "position": "3",
+          "score": "-1"
+        },
+        {
+          "name": "Max McGreevy",
+          "position": "4",
+          "score": "-1"
+        },
+        {
+          "name": "Lee Hodges",
+          "position": "5",
+          "score": "-1"
+        }
+      ]
+    },
+    "hacker_news": {
+      "stories": [
+        {
+          "title": "How the European Commission rolled out Matrix to more than 40k staff",
+          "url": "https://element.io/blog/how-the-european-commission-rolled-out-matrix-to-more-than-40-000-staff/",
+          "score": 311,
+          "by": "liotier"
+        },
+        {
+          "title": "Garage Door Spam",
+          "url": "https://blog.harrison.page/garage-door-spam/",
+          "score": 190,
+          "by": "harrisonpage"
+        },
+        {
+          "title": "Nintendo takes Picofly firmware down from GitHub [video]",
+          "url": "https://www.youtube.com/watch",
+          "score": 86,
+          "by": "cowlevel"
+        },
+        {
+          "title": "Making 8-page foldable zines from a single A4 sheet in the browser",
+          "url": "https://krthr.co/paper-folds-and-whats-new-in-fanzines-app/",
+          "score": 35,
+          "by": "krthr"
+        },
+        {
+          "title": "PHP 8.5.13",
+          "url": "https://www.php.net/ChangeLog-8.php",
+          "score": 12,
+          "by": "petecooper"
+        }
+      ]
+    },
+    "holidays": {
+      "today": null,
+      "upcoming": [
+        {
+          "name": "Thanksgiving",
+          "date": "2026-11-26",
+          "days_away": 7
+        }
+      ]
+    },
+    "lunar": {
+      "phase": "waxing gibbous",
+      "illumination": 0.803,
+      "days_into_cycle": 10.44
+    },
+    "market": {
+      "symbol": "SPY",
+      "price": "730.2000",
+      "change": "-2.2400",
+      "change_percent": "-0.3058%",
+      "direction": "down"
+    },
+    "music": {
+      "bands": [
+        "Guided by Voices",
+        "The War on Drugs",
+        "Wet Leg"
+      ],
+      "rotation": true
+    },
+    "news": {
+      "headlines": [
+        {
+          "title": "Jeff Bezos says he was ‘heavily involved’ in picking the new James Bond, Robert Pattinson - NBC News",
+          "source": "NBC News",
+          "url": "https://www.nbcnews.com/pop-culture/pop-culture-news/jeff-bezos-heavily-involved-casting-robert-pattinson-james-bond-amazon-rcna609958"
+        },
+        {
+          "title": "Grand Theft Auto 6: Reviews come in as worldwide release begins - BBC",
+          "source": "BBC News",
+          "url": "https://www.bbc.com/news/live/c60rkg21dl22t"
+        },
+        {
+          "title": "2027 NFL mock draft: Reid's midseason first-round predictions for all 32 picks - ESPN",
+          "source": "ESPN",
+          "url": "https://www.espn.com/nfl/draft2027/story/_/id/50502243/2027-nfl-mock-draft-reid-midseason-32-first-round-predictions"
+        },
+        {
+          "title": "Target earnings squash estimates as inflation-weary shoppers see great deals - Yahoo Finance",
+          "source": "Yahoo Entertainment",
+          "url": "https://finance.yahoo.com/markets/stocks/article/target-earnings-squash-estimates-as-inflation-weary-shoppers-see-great-deals-113326641.html"
+        },
+        {
+          "title": "ADNOC Ship Attacked in Hormuz as Maritime Security Risks Rise - Crude Oil Prices Today | OilPrice.com",
+          "source": "OilPrice.com",
+          "url": "https://oilprice.com/Latest-Energy-News/World-News/ADNOC-Ship-Attacked-in-Hormuz-as-Maritime-Security-Risks-Rise.html"
+        }
+      ]
+    },
+    "quote": {
+      "text": "May you find grace as you surrender to life. May you find happiness, as you stop seeking it.",
+      "author": "Dan Millman"
+    },
+    "season": {
+      "season": "fall",
+      "month": 11,
+      "day": 19,
+      "day_of_year": 323,
+      "month_name": "November"
+    },
+    "sidebar": {
+      "links": [
+        {
+          "title": "Making a website in 2026",
+          "url": "https://blog.jim-nielsen.com/2026/making-websites-in-2026/",
+          "source": "blog.jim-nielsen.com",
+          "description": "How AI builders pick third-party backends and opaque credits—and why understanding hidden dependencies matters a lot."
+        },
+        {
+          "title": "Exactitudes",
+          "url": "https://exactitudes.com/collectie/",
+          "source": "exactitudes.com",
+          "description": "A striking visual record of more than three thousand neatly differentiated social types these artists have documented over twenty years."
+        },
+        {
+          "title": "‘AI’ might be the end of our careers",
+          "url": "https://www.baldurbjarnason.com/2026/08-ai-might-be-the-end-of-our-careers/",
+          "source": "baldurbjarnason.com",
+          "description": "I never planned on becoming a software developer, and these days it feels like my exit from the industry might be similarly unplanned."
+        },
+        {
+          "title": "Design Zeitgeist",
+          "url": "https://deimos.evilrabbit.com/",
+          "source": "deimos.evilrabbit.com",
+          "description": "An encyclopedia written by a deliberating panel of models: blind ledgers, cross-examination, lot-drawn juries, and a bias report."
+        },
+        {
+          "title": "Squircles",
+          "url": "https://jespervos.com/craft/squircles",
+          "source": "jespervos.com",
+          "description": "Squircles are coming to the web, and you should prepare. Here's how."
+        }
+      ]
+    },
+    "sports": {
+      "teams": [
+        {
+          "name": "Detroit Lions",
+          "league": "NFL",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        },
+        {
+          "name": "Detroit Red Wings",
+          "league": "NHL",
+          "last_game": "2026-11-19T00:30Z",
+          "result": "loss",
+          "score": "1-4"
+        },
+        {
+          "name": "Detroit Pistons",
+          "league": "NBA",
+          "last_game": "2026-11-19T01:00Z",
+          "result": "win",
+          "score": "122-109"
+        },
+        {
+          "name": "Detroit Tigers",
+          "league": "MLB",
+          "last_game": null,
+          "result": "off season",
+          "score": null
+        }
+      ]
+    },
+    "sun": {
+      "sunrise": "07:05",
+      "sunset": "16:47",
+      "daylight_hours": 9.7
+    },
+    "weather": {
+      "location": "Aldie, Virginia",
+      "conditions": "Sunny",
+      "temp_f": 49.8,
+      "temp_c": 9.9,
+      "humidity": 48,
+      "wind_mph": 2.2,
+      "wind_dir": "WNW",
+      "feels_like_f": 45.3
+    },
+    "date": "2026-11-19"
+  },
+  "hero": {
+    "copy": "Design and build on the same desk.",
+    "rationale": "Today the composition mandate pushes a piece of owned work to the front, and the one project carrying a real client set is Spaceman: the ten-year LLC behind Zeldman, Rolex, The Nature Conservancy, Intuit and LastPass. The phrase captions that artifact and states the thing Spaceman actually is, one person doing the design and the engineering, no files passed between teams. It is composed from Doug's standing thesis without repeating any shipped line (\"Closing the gap…\", \"Same hands…\", \"Design and engineering as one job…\" are all taken), so it earns its own day.\nOwner's voice: Doug says design and engineering are one job, not two teams passing files, and \"one desk\" is how he'd compress that without a dash.",
+    "source": "composed"
+  },
+  "chassis": "big-shoulders-atkinson",
+  "adBrief": {
+    "visualSpecification": "### 1. Color Specification\n- **Primary hue**: 66° (olive-brass / tarnished gold). The engraved-nameplate conceit for \"Design and build on the same desk\" wants aged brass, not scoreboard gold. The Color Mandate targets 40–80° warm; the repetition check wants ≥60° off the recent 42–50° golds, but every hue 60° away is inside a forbidden zone, so I push to the green edge the range allows (66°) and differentiate further by value (dark drench) and formula (drench, not the recent light-ground/duotone/split).\n- **Neutral palette (patina stone)**: 50 `#f8f7ef`, 100 `#ececdf`, 200 `#d8d8c4`, 300 `#bdbda3`, 400 `#9c9c7f`, 500 `#7b7b60`, 600 `#5f5f49`, 700 `#464636`, 800 `#2f2f23`, 900 `#1c1c14`\n- **Accent color (warm gold, the lit edge of the brass)**: light `#efcb52`, default `#ecc53d`, dark `#b08a1f`, glow `#f6e08c`\n- **Secondary accent**: none (one dominant accent, held at full saturation)\n- **Background**: page bg `#50541a` (dark olive-brass), card/surface `#656a21`, band bgAlt `#3f4313`, poster/masthead field `#272a0c`\n- **Text colors**: primary `#f7f5e2` (green-tinted ivory), secondary `#ddd9a7`, muted/faint `#c3c66e`\n\n### 2. Typography\n- **Hero phrase rendering**: the artifact is the marquee. `SPACEMAN` is set in `display` (Big Shoulders) at the `hero` step as stroked **outline** caps, the engraved channels of a nameplate, sized `clamp(96px, 13vw, 156px)`. The hero phrase itself, \"Design and build on the same desk.\", is the h1 and sits beneath as the caption at the `4xl` step in solid display caps, one step down from the object as the artifact rule requires.\n- **Type treatment**: ramp steps carry size/leading/tracking. `hero` for SPACEMAN; `4xl` for the caption h1; `xl` for work-index project titles; `lg` for client names and section heads; `lede` for the standfirst deck under SPACEMAN (the mid-register element: role, year, one sentence); `base` (Atkinson) for body in a 60–68ch measure at 1.5 leading; `sm` for metadata rows; `xs`/`2xs` for micro labels, never under 12px. Accent caps labels get 0.1em tracking and space-above at twice space-below.\n\n### 3. Layout Specification\n- **Composition**: irregular-twelve / horizontal / broken / full-bleed / dense / syncopated / standard / drenched / reorder / artifact. A twelve-column title-block reads thesis-left (the SPACEMAN plate) / evidence-right (metadata and ledger), the gold-standard FLOOR split logic, so the work leads and the phrase captions it.\n- **CSS grid/flex structure**: `display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;`\n- **Major dimensions**:\n  - Hero/artifact plate: `min-height: 84vh`\n  - Max content width: `max-width: none`, side padding `padding: 72px 6vw`\n  - SPACEMAN occupies cols 1–9; artifact metadata (2018 · Founder) cols 10–12 as a drawing title-block\n  - Client ledger: full width cols 1–12, hairline-ruled rows, tracked caps\n  - Section spacing: 96px between major zones at 1440; 56px at 360\n- **Nav placement**: thin top bar, `height 112px`, full width; stacked lockup engraved at left, single word \"Index\" (small-caps) at right revealing the links. Not the rejected wordmark-left / links-right row.\n- **Hero phrase grid zone**: SPACEMAN rows 1–3 cols 1–9; caption h1 rows 3–4 cols 1–8 at `4xl` (~88–104px at 1440).\n- **Home callout slot**: on `/`, placed below the selected-work index and above the footer data strip, between the work index and the footer. Not inside the hero. I write no copy for it and specify no styling.\n\n### 4. Component Character\n- **Border radius**: cards 2px, buttons 2px, tags 1px (square, machined). `full` reserved for the brand disc.\n- **Border treatment**: bordered hairlines, `border` on bg, `borderStrong` for section rules and the title-block frame. No raised cards; planes separate by value.\n- **Shadow**: none. Depth comes from the value step between field/bg/surface.\n- **Density**: dense, information-forward, small gutters.\n- **Interactive states**: hover lifts ink to `accent` and thickens the row rule to `borderStrong`; no color-only state.\n\n### 5. Signal Integration\n- **Where signals live**: a footer **data strip**, one ruled tabular row of the day's facts, plus a signal line in the colophon.\n- **Sports scores**: tabular figures. Pistons 122–109 is the lit one (`accent` on the margin). Red Wings 1–4 set muted. RSM Classic in progress: \"RSM Classic · John Parry −1 · five tied\" in the strip.\n- **Quote**: not the hero. A small attributed footnote in the colophon: \"May you find grace as you surrender to life.\" Dan Millman. Quiet, `textFaint`.\n- **Holiday**: \"Thanksgiving in 7\" micro-label at the strip's end.\n- **Music**: one quiet colophon line, \"On rotation: Guided by Voices, The War on Drugs, Wet Leg.\" Taste, not an event, set apart from the score row.\n- **Market/weather**: \"SPY 730.20 −0.31%\" muted (down, no celebration); \"Aldie VA · Sunny · 50°F\" in the strip.",
+    "selfCheck": "1. Hero quotability: Yes — \"Design and build on the same desk.\" is a standalone thesis, not a descriptive first line.\n2. Because-of chain: Yes — artifact-leads → Spaceman plate → condensed signage chassis → tarnished-brass drench → twelve-column title-block.\n3. Render feasibility: Yes — Big Shoulders condensed caps at ~156px fits 1440 without overflow; caption at 4xl sits beneath.\n4. Canvas floor feasible: Yes — a dense drenched spec plate with artifact, ledger, index and data strip fills 82%.\n5. Phone: Yes — SPACEMAN at 4xl over the caption at 2xl lands inside 640px without cutting a word.",
+    "rationale": "The phrase is \"Design and build on the same desk.\" It captions the one artifact that proves it: Spaceman, the ten-year shop where the design and the engineering are one pair of hands, with a client roster (Zeldman, Rolex, The Nature Conservancy, Intuit, LastPass) that is itself the argument. So the object leads, not another poster statement. That forced an artifact composition: a twelve-column drawing title-block, SPACEMAN at marquee thesis-left, its year, role and client ledger as evidence-right, the phrase as its caption one step down.\n\nBecause the object is a stamped nameplate, the chassis is Big Shoulders Display, condensed signage caps with Atkinson's hyperlegible body for the dense ledger and index; it has not shipped recently, and it carries the word at 156px. The type is set in caps with outline (stroked) letterforms, the engraved channels of a plate, which is why I reached onto the discouraged caps value: an engraved nameplate is caps, and outline is the fresh, on-theme texture. The palette is a tarnished-brass drench at 66°: aged olive-gold rather than the recent scoreboard golds, dark enough to reverse ivory type at 7:1, metallic rather than bright. Drench is a formula none of the last seven builds used, and it carries the single-plate conceit across 70% of the viewport.\n\nLayout holds one left rail, spends the middle of the scale (standfirst deck, section heads, the client ledger between the 156px marquee and 16px body), and gives every signal a concrete home in a tabular footer strip, with the Pistons win lit and the market drop left muted. The mark is the real circular lockup, stacked and engraved on the dark brass field where the white disc carries, inside the first fold at both widths.",
+    "compositionRationale": "The phrase captions one piece of owned work, so the artifact leads and the twelve-column title-block puts the SPACEMAN plate at thesis-left with its metadata and client ledger as evidence-right. I moved axis off the mandate's `radial` start onto the discouraged `horizontal`: a dense drawing title-block genuinely reads left-to-right, and radial would scatter a client ledger around a center it cannot hold (and would repeat the earlier Spaceman-orbit conceit). Columns moved masonry→irregular-twelve and symmetry mirrored→broken so the oversized SPACEMAN breaks the grid instead of being tiled by it.",
+    "signalIntegration": "- **Where signals live**: a footer **data strip**, one ruled tabular row of the day's facts, plus a signal line in the colophon.\n- **Sports scores**: tabular figures. Pistons 122–109 is the lit one (`accent` on the margin). Red Wings 1–4 set muted. RSM Classic in progress: \"RSM Classic · John Parry −1 · five tied\" in the strip.\n- **Quote**: not the hero. A small attributed footnote in the colophon: \"May you find grace as you surrender to life.\" Dan Millman. Quiet, `textFaint`.\n- **Holiday**: \"Thanksgiving in 7\" micro-label at the strip's end.\n- **Music**: one quiet colophon line, \"On rotation: Guided by Voices, The War on Drugs, Wet Leg.\" Taste, not an event, set apart from the score row.\n- **Market/weather**: \"SPY 730.20 −0.31%\" muted (down, no celebration); \"Aldie VA · Sunny · 50°F\" in the strip."
+  },
+  "tokens": {
+    "colors": {
+      "ramps": {
+        "brass": {
+          "50": "#f7f5e2",
+          "100": "#ece9cf",
+          "200": "#ddd9a7",
+          "300": "#c3c66e",
+          "400": "#a7ab4a",
+          "500": "#868a30",
+          "600": "#656a21",
+          "700": "#50541a",
+          "800": "#3f4313",
+          "900": "#272a0c"
+        },
+        "gold": {
+          "50": "#fdf8e4",
+          "100": "#fbefc0",
+          "200": "#f6e08c",
+          "300": "#efcb52",
+          "400": "#ecc53d",
+          "500": "#d4a92c",
+          "600": "#b08a1f",
+          "700": "#8a6b16",
+          "800": "#6a510f",
+          "900": "#463508"
+        },
+        "neutral": {
+          "50": "#f8f7ef",
+          "100": "#ececdf",
+          "200": "#d8d8c4",
+          "300": "#bdbda3",
+          "400": "#9c9c7f",
+          "500": "#7b7b60",
+          "600": "#5f5f49",
+          "700": "#464636",
+          "800": "#2f2f23",
+          "900": "#1c1c14"
+        }
+      },
+      "semantic": {
+        "bg": {
+          "base": "{colors.brass.700}",
+          "_light": "{colors.brass.50}"
+        },
+        "bgAlt": {
+          "base": "{colors.brass.800}",
+          "_light": "{colors.brass.100}"
+        },
+        "surface": {
+          "base": "{colors.brass.600}",
+          "_light": "{colors.neutral.50}"
+        },
+        "text": {
+          "base": "{colors.brass.50}",
+          "_light": "{colors.brass.900}"
+        },
+        "textMuted": {
+          "base": "{colors.brass.200}",
+          "_light": "{colors.brass.700}"
+        },
+        "textFaint": {
+          "base": "{colors.brass.300}",
+          "_light": "{colors.brass.600}"
+        },
+        "accent": {
+          "base": "{colors.gold.400}",
+          "_light": "{colors.gold.700}"
+        },
+        "accentText": {
+          "base": "{colors.brass.900}",
+          "_light": "{colors.brass.50}"
+        },
+        "accentAlt": {
+          "base": "{colors.gold.600}",
+          "_light": "{colors.gold.800}"
+        },
+        "border": {
+          "base": "{colors.brass.600}",
+          "_light": "{colors.brass.200}"
+        },
+        "borderStrong": {
+          "base": "{colors.brass.400}",
+          "_light": "{colors.brass.400}"
+        },
+        "field": {
+          "base": "{colors.brass.900}",
+          "_light": "{colors.brass.900}"
+        },
+        "fieldInk": {
+          "base": "{colors.brass.50}",
+          "_light": "{colors.brass.50}"
+        },
+        "fieldInkMuted": {
+          "base": "{colors.brass.200}",
+          "_light": "{colors.brass.200}"
+        },
+        "fieldBorder": {
+          "base": "{colors.brass.500}",
+          "_light": "{colors.brass.500}"
+        }
+      }
+    },
+    "radii": {
+      "none": "0",
+      "sm": "1px",
+      "md": "2px",
+      "lg": "4px",
+      "full": "9999px"
+    }
+  },
+  "colorScheme": {
+    "primary_hue": {
+      "h": 66,
+      "s": 55,
+      "l": 22,
+      "name": "tarnished brass"
+    },
+    "secondary_accent": null,
+    "neutral_family": {
+      "tinted_toward": "olive-brass",
+      "name": "patina stone"
+    },
+    "mood_word": "machined",
+    "color_story": "A tarnished-brass drench, dark and metallic rather than bright gold, turns the page into one engraved desk-plate where the design and the build are stamped into the same metal."
+  },
+  "shell": {
+    "nav": null,
+    "footer": "data strip",
+    "brand_lockup": "stacked-lg",
+    "brand_color_mode": "original",
+    "ground_strategy": "drench",
+    "ground_material": "none"
+  },
+  "header": {
+    "placement": "top-bar",
+    "height_px": 112,
+    "mark_px": 68,
+    "wordmark_step": "2xl",
+    "wordmark_weight": 700,
+    "role_line": "absent",
+    "nav_step": "sm",
+    "nav_case": "small-caps",
+    "nav_form": "word",
+    "nav": "thin top bar; stacked mark-above-wordmark engraved at left on the dark brass field (white disc carries ~10:1); a single small-caps word \"Index\" at right reveals work / about / contact. Not the rejected wordmark-left / links-right row."
+  },
+  "verdicts": [
+    {
+      "critic": "mockup-precheck",
+      "round": 0,
+      "verdict": "REVISE",
+      "feedback": "[check 4] The lockup is declared stacked-lg, but no \"Doug March\" wordmark sits within reach of the mark. Set the name directly under the mark.",
+      "findings": [
+        {
+          "check": 4,
+          "key": "lockup",
+          "gap": 1
+        }
+      ],
+      "ts": 1795099317944
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 0,
+      "verdict": "REVISE",
+      "feedback": "1. (Judgment 1) Tonight reads as a rerun of 2026-11-09 \"Designed and shipped by the same hands.\": the same claim in other words, the same artifact-led Spaceman plate, and an olive-brass ground. The structural silhouette also nearly matches 2026-11-15: irregular-twelve, broken, full-bleed, dense, syncopated, drenched, reorder, outline caps. Push the composition and the caption away from both nights, for example by making the client ledger the visual carrier instead of another engraved-plate statement about one person doing both jobs.\n2. (Judgment 6) `nav_form: word` is not executed. At 1440, Work / About / Contact sit permanently visible under \"Index,\" and at 360 they sit in the top bar, so the page shows a label row plus a heading. Show only the small-caps word \"Index\" until it is activated. On the phone, move the links into the footer data strip as `nav_360` declares.\n3. (Judgment 2) In the client ledger at 360, several logos do not read. LastPass renders as \"L st a\" because its letterforms drop out against the olive. Sapient Razorfish is clipped to a stray \"s\" over \"sapien.\" Rolex is too small to read. Give the dark-ink logos a light knockout or plate, or drop the logo column where it cannot carry, so the ledger never looks like a broken image.\n4. (Judgment 5) The deck says Spaceman means \"no files handed between teams, one pair of hands.\" The record says the work is done \"sometimes as a solo contributor, sometimes embedded in a larger team.\" Rewrite the sentence so it does not claim he always works alone.\n5. (Judgment 5) The plate label reads \"LLC · EST. 2018 · ALDIE, VIRGINIA.\" No location for Spaceman appears in the work records; Aldie comes from the weather signal. Remove the location from the Spaceman metadata, or keep it only in the signal strip.",
+      "channel": "sdk-vision",
+      "ts": 1795099340724
+    },
+    {
+      "critic": "mockup-precheck",
+      "round": 1,
+      "verdict": "APPROVE",
+      "feedback": "",
+      "findings": [],
+      "ts": 1795099575876
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "1. Freshness: this reads as a rerun of 2026-11-09, \"a maker's spec plate: one project reversed out of an olive…\". That night was also an olive-brass artifact plate built around one owned project. Its hero \"Designed and shipped by the same hands.\" makes the same claim as tonight's \"Design and build on the same desk.\", which also echoes 10-31 \"Design and engineering as one job, not two teams passing files.\" Change at least two of these three: the hero phrase's claim, the olive-brass hue family, or the spec-plate framing. A returning visitor should not take tonight for 11-09 in a new font.\n\n2. Legibility: in the 360 client ledger, the LastPass tile renders as \"L st a\" with glyphs missing. The Sapient Razorfish tile shows a stray \"s\" floating over \"sapien\" with the rest of the logo gone. Both read as broken images in the evidence column. Fix the SVGs, or set those two clients as tracked-caps names like the Zeldman tile.\n\n3. Hierarchy: the brief puts SPACEMAN across cols 1–9 with the metadata title-block in cols 10–12 beside it, reading left to right. At 1440, SPACEMAN stops around col 6, and the YEAR/ROLE/SCOPE/CLIENTS block sits below the deck rather than right of the nameplate. Widen SPACEMAN to the declared span and move the title-block up so it runs beside the plate. The thesis-left / evidence-right split should be visible in the first fold.",
+      "channel": "sdk-vision",
+      "ts": 1795099599287
+    },
+    {
+      "critic": "mockup-precheck",
+      "round": 2,
+      "verdict": "APPROVE",
+      "feedback": "",
+      "findings": [],
+      "ts": 1795099813487
+    },
+    {
+      "critic": "mockup-critic",
+      "round": 2,
+      "verdict": "REVISE",
+      "feedback": "1. Freshness: this reads as a rerun of 2026-11-09, \"a maker's spec plate: one project reversed out of an olive…\". That night was also olive brass and also an artifact plate. Its hero, \"Designed and shipped by the same hands.\", says what \"Design and build on the same desk.\" says. The standfirst then repeats 10-31's \"not two teams passing files\" nearly word for word. Keep the SPACEMAN nameplate, but caption it with a phrase that makes a claim no recent night made, such as the roster or the ten years. Rewrite the standfirst so it does not echo 10-31.\n\n2. Hierarchy (Type Treatment `weight: heavy`): SPACEMAN is a hairline outline of a light-to-regular cut. At 1440 it reads lighter than the solid caption beneath it, which works against the declared heavy direction and against the artifact leading. Outline the heavy (800–900) cut of Big Shoulders and thicken the stroke so the engraved channels carry real weight.",
+      "channel": "sdk-vision",
+      "ts": 1795099833798
+    },
+    {
+      "critic": "surface-gate",
+      "round": 1,
+      "verdict": "REVISE",
+      "feedback": "/ @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Read the case' is a 126x27px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Visit Spaceman' is a 139x27px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Read the case' is a 126x27px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Visit Spaceman' is a 139x27px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/about @1440: 340 characters of running copy set at 68px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: 340 characters of running copy set at 68px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/work @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/experiments @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'Visit Spaceman' is a 119x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @360: 'Visit Spaceman' is a 119x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'Visit FishSticks' is a 120x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/fishsticks @360: 'Visit FishSticks' is a 120x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/spaceman @1440: em dash in rendered copy: \"...YPE FOUNDER ROLE FOUNDER TIMELINE 2018 — PRESENT STATUS ACTIVE PROBLEM Independ...\". Use a period or a comma.\n/work/15th-club @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'Visit 15th Club' is a 113x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/15th-club @360: 'Visit 15th Club' is a 113x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/dougmar-ch @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/teeturn @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/politweets @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'Work' (×2) is a 42x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'About' (×2) is a 46x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/work/twittertale @360: 'Contact' (×2) is a 60x31px target; a thumb needs 44x44. Give it padding or a taller line box.\n/og @1200: og: brand mark starts 3px above the card's top edge. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text.\n/og @1200: og: wordmark line 1 'Doug March' starts 0px from the card's left edge, inside the 40px safe margin. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text.\n/og @1200: og: headline line 1 'Design and build' starts 0px from the card's left edge, inside the 40px safe margin. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text.\n/og @1200: og: headline line 2 'on the same desk.' starts 0px from the card's left edge, inside the 40px safe margin. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text.\n/ @1440: The mockup sets 'spaceman' at 156px over 'design and build on the same desk' at 86px, a 1.8x lead; the build sets them at 160px and 160px. Restore the mockup's sizes so 'spaceman' leads.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1795100236405
+    },
+    {
+      "critic": "screenshot-critic",
+      "verdict": "REVISE",
+      "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 2/7/11 — react-engineer: The mockup sets SPACEMAN at 156px over the caption \"Design and build on the same desk.\" at 86px (a ~1.8x lead), but the render sets both at 160px, identical weight. This breaks the artifact rule (object leads, phrase captions one step down at `4xl`) and is visible in the 1440 screenshot where the headline and caption read as equal mass. Restore the size differential so SPACEMAN visibly dominates.\n- Section 6 — react-engineer: On `/work/spaceman`, fold 2 of 3 (Problem/Approach/Outcome) sets body copy in a narrow column occupying roughly the left 35–40% of the page width, leaving ~60% of the row empty on the right with no active material. This is the \"dead canvas\" pattern the spec explicitly warns against; the column should extend into a wider measure or pair with a second zone (e.g. a pull quote, image, or the metadata rail carried down).\n- Section 3/5 — react-engineer: `/about` renders 340 characters of running copy at 68px (over the 48px display ceiling), turning a paragraph into a wall of oversized text rather than a hero statement. Set the bio prose at the body step (~18–20px) and reserve display scale for a short phrase.\n- Section 2/9 — react-engineer: The sidebar \"SCOPE\" field reads \"FOUNDER\" (duplicating the ROLE field above it) instead of the mockup's \"DESIGN + BUILD.\" This is a content divergence from the approved mockup's title-block evidence column.\n- Section 10 — react-engineer: Across all pages at 360px, the nav links (Work/About/Contact, ×2 instances) and CTA links (\"Read the case,\" \"Visit Spaceman,\" etc.) render as 27–41px-tall tap targets against the 44×44 thumb minimum. Add vertical padding or increase line-height on these nav/link rows site-wide.\n\n===END===",
+      "channel": "sdk-vision",
+      "ts": 1795100360650
+    },
+    {
+      "critic": "surface-gate",
+      "round": 2,
+      "verdict": "REVISE",
+      "feedback": "/ @1440: The mockup's largest text is 'spaceman' at 156px; the build sets 'fishsticks' at 160px. Restore the mockup's hierarchy: 'fishsticks' is 44px in the mockup.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1795100515425
+    },
+    {
+      "critic": "surface-gate",
+      "round": 3,
+      "verdict": "SHIP",
+      "feedback": "/ @360: 'TeeTurn' is a 85x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: '15th Club' is a 100x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'FishSticks' is a 112x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Politweets' is a 121x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Twittertale' is a 129x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'dougmar.ch' is a 131x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'TeeTurn' is a 85x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: '15th Club' is a 100x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'FishSticks' is a 112x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Politweets' is a 121x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'Twittertale' is a 129x41px target; a thumb needs 44x44. Give it padding or a taller line box.\n/ @360: 'dougmar.ch' is a 131x41px target; a thumb needs 44x44. Give it padding or a taller line box.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+      "ts": 1795100588819
+    },
+    {
+      "critic": "screenshot-critic",
+      "round": "final",
+      "verdict": "SHIP",
+      "feedback": "===VERDICT===\nSHIP\n===END===",
+      "channel": "sdk-vision",
+      "ts": 1795100775169
+    }
+  ],
+  "composition": {
+    "columns": "irregular-twelve",
+    "axis": "horizontal",
+    "symmetry": "broken",
+    "hero_zone": "full-bleed",
+    "density": "dense",
+    "rhythm": "syncopated",
+    "shell_posture": "standard",
+    "field_ratio": "drenched",
+    "collapse": "reorder",
+    "hero_object": "artifact"
+  },
+  "lane": {
+    "laneId": "pinterest",
+    "register": "light-masonry-mosaic"
+  },
+  "cost": {
+    "total_usd": 6.854664,
+    "estimated": true,
+    "partial": false,
+    "calls": 12,
+    "retries": 4,
+    "byAgent": [
+      {
+        "agent": "art-director",
+        "purpose": "first",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 39515,
+        "cache_read": 0,
+        "cache_write": 46447,
+        "cost_usd": 1.27817875,
+        "estimated": false,
+        "ms": 594510,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "first",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 31739,
+        "cache_read": 0,
+        "cache_write": 67301,
+        "cost_usd": 1.21411625,
+        "estimated": false,
+        "ms": 449705,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "first",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 14183,
+        "output": 2358,
+        "cache_read": 0,
+        "cache_write": 4142,
+        "cost_usd": 0.12460199999999999,
+        "estimated": true,
+        "ms": 22775,
+        "num_turns": null
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "revision",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 18965,
+        "cache_read": 0,
+        "cache_write": 95595,
+        "cost_usd": 1.07160375,
+        "estimated": false,
+        "ms": 224472,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "rejudge",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 14183,
+        "output": 2345,
+        "cache_read": 4142,
+        "cache_write": 0,
+        "cost_usd": 0.1052888,
+        "estimated": true,
+        "ms": 23410,
+        "num_turns": null
+      },
+      {
+        "agent": "mockup-designer",
+        "purpose": "revision",
+        "model": "claude-opus-4-8",
+        "source": "cli",
+        "input": 2,
+        "output": 17231,
+        "cache_read": 23181,
+        "cache_write": 72606,
+        "cost_usd": 0.896163,
+        "estimated": false,
+        "ms": 203562,
+        "num_turns": 1
+      },
+      {
+        "agent": "mockup-critic",
+        "purpose": "rejudge",
+        "model": "claude-opus-5-5",
+        "source": "sdk",
+        "input": 14183,
+        "output": 2104,
+        "cache_read": 4142,
+        "cache_write": 0,
+        "cost_usd": 0.1004688,
+        "estimated": true,
+        "ms": 20310,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "first",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 39695,
+        "cache_read": 0,
+        "cache_write": 59572,
+        "cost_usd": 1.091768,
+        "estimated": false,
+        "ms": 341163,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "first",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 18339,
+        "output": 8194,
+        "cache_read": 0,
+        "cache_write": 10926,
+        "cost_usd": 0.145933,
+        "estimated": true,
+        "ms": 99291,
+        "num_turns": null
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 12825,
+        "cache_read": 0,
+        "cache_write": 47403,
+        "cost_usd": 0.49352300000000004,
+        "estimated": false,
+        "ms": 94827,
+        "num_turns": 1
+      },
+      {
+        "agent": "react-engineer",
+        "purpose": "revision",
+        "model": "claude-opus-5-5",
+        "source": "cli",
+        "input": 2,
+        "output": 1790,
+        "cache_read": 25259,
+        "cache_write": 19168,
+        "cost_usd": 0.1366998,
+        "estimated": false,
+        "ms": 14506,
+        "num_turns": 1
+      },
+      {
+        "agent": "screenshot-critic",
+        "purpose": "rejudge",
+        "model": "claude-sonnet-5",
+        "source": "sdk",
+        "input": 15752,
+        "output": 13750,
+        "cache_read": 0,
+        "cache_write": 10926,
+        "cost_usd": 0.19631900000000002,
+        "estimated": true,
+        "ms": 161327,
+        "num_turns": null
+      }
+    ]
+  },
+  "measurables": {
+    "declared": {
+      "canvas_utilization_min": 82,
+      "hero_scale": "clamp(96px, 13vw, 156px)",
+      "color_coverage_min": 70
+    },
+    "declaredAt": "2026-11-19T15:06:18.546Z",
+    "measured": {
+      "canvas_utilization": 100,
+      "color_coverage": 100,
+      "hero_px": 156
+    },
+    "measuredAt": "2026-11-19T15:06:26.197Z",
+    "method": "Measured at 1440x900 on a 20px grid over the viewport at scroll position zero. canvas_utilization: % of grid cells touched by an element carrying designed content (visible text, an image/SVG/video/canvas, a background colour distinct from the page background and not transparent, or a background image such as a gradient). A background set on html or body counts as painting the page, unless it is opaque white; ::before and ::after boxes count on the same terms. color_coverage: % of grid cells whose sampled background, background-image stops or text colour is chromatic (HSL saturation > 12%, lightness 8-92%). hero_px: the largest computed font-size among first-fold elements that set visible text."
+  },
+  "surfaceGate": {
+    "ran": true,
+    "error": null,
+    "round": null
+  }
+}
