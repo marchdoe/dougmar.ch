@@ -11,7 +11,7 @@ function OgCard() {
         position: 'fixed',
         inset: '0',
         zIndex: 9999,
-        bg: 'field',
+        bg: 'bg',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -19,44 +19,54 @@ function OgCard() {
     >
       <div
         className={css({
-          position: 'relative',
           width: '1200px',
           height: '630px',
           flexShrink: 0,
-          bg: 'field',
-          color: 'fieldInk',
-          borderBottom: '6px solid',
-          borderColor: 'accent',
+          bg: 'bg',
+          color: 'text',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          paddingBlock: '64px',
+          paddingInline: '80px',
+          borderBottomWidth: '24px',
+          borderBottomStyle: 'solid',
+          borderColor: 'field',
+          boxSizing: 'border-box',
         })}
       >
-        <div
-          className={css({
-            position: 'absolute',
-            top: '72px',
-            left: '80px',
-            color: 'fieldInk',
-          })}
-        >
-          <BrandLockup variant="stacked-lg" mode="original" />
+        <BrandLockup
+          variant="stacked-md"
+          mode="original"
+          roleLine
+          className={css({ alignSelf: 'flex-start', color: 'text' })}
+        />
+        <div className={css({ fontFamily: 'display', fontStyle: 'italic' })}>
+          <span
+            className={css({
+              display: 'block',
+              fontWeight: 'normal',
+              fontSize: '44px',
+              lineHeight: '1.08',
+              color: 'textMuted',
+              marginBottom: '0.12em',
+            })}
+          >
+            What ships should look like what was
+          </span>
+          <span
+            className={css({
+              display: 'block',
+              fontWeight: 'bold',
+              fontSize: '150px',
+              lineHeight: '0.9',
+              letterSpacing: 'tight',
+              color: 'accent',
+            })}
+          >
+            Designed.
+          </span>
         </div>
-        <h1
-          className={css({
-            position: 'absolute',
-            left: '80px',
-            right: '80px',
-            bottom: '80px',
-            fontFamily: 'display',
-            fontWeight: 'bold',
-            textTransform: 'uppercase',
-            fontSize: '76px',
-            lineHeight: '0.98',
-            letterSpacing: '0.01em',
-            color: 'fieldInk',
-            maxWidth: '960px',
-          })}
-        >
-          Design and build on the same desk.
-        </h1>
       </div>
     </div>
   )

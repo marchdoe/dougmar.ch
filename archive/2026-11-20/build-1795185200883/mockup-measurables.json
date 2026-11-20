@@ -1,0 +1,40 @@
+{
+  "rounds": [
+    {
+      "round": 0,
+      "measured": {
+        "canvas_utilization": 100,
+        "color_coverage": 100,
+        "hero_px": 158
+      },
+      "measuredAt": "2026-11-20T14:18:17.203Z",
+      "precheck": [
+        {
+          "check": 6,
+          "key": "overflow-360",
+          "gap": 29
+        },
+        {
+          "check": 6,
+          "key": "text-cut-360",
+          "gap": 2
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "measured": {
+        "canvas_utilization": 100,
+        "color_coverage": 100,
+        "hero_px": 158
+      },
+      "measuredAt": "2026-11-20T14:21:23.351Z",
+      "precheck": []
+    }
+  ],
+  "declared": {
+    "canvas_utilization_min": 82,
+    "hero_scale": "clamp(72px, 11vw, 158px)",
+    "color_coverage_min": 72
+  }
+}

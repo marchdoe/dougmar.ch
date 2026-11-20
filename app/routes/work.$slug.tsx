@@ -1,54 +1,36 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { css } from '../../styled-system/css'
 import { WhitePaper } from '../components/WhitePaper'
-import { CaseBody } from '../components/generated/CaseBody'
-import { CaseHero } from '../components/generated/CaseHero'
+import { CaseNarrative } from '../components/generated/CaseNarrative'
+import { WorkFacts } from '../components/generated/WorkFacts'
+import { WorkHeader } from '../components/generated/WorkHeader'
+import { WorkMeta } from '../components/generated/WorkMeta'
+import { WorkMissing } from '../components/generated/WorkMissing'
+import { WorkStandfirst } from '../components/generated/WorkStandfirst'
 import { projects } from '../content/projects'
 
-export const Route = createFileRoute('/work/$slug')({ component: WorkDetailPage })
+export const Route = createFileRoute('/work/$slug')({ component: WorkPage })
 
-function MissingCase() {
-  return (
-    <section
-      className={css({ bg: 'field', color: 'fieldInk', paddingInline: '6vw', paddingBlock: '8' })}
-    >
-      <h1
-        className={css({
-          fontFamily: 'display',
-          fontWeight: 'bold',
-          textTransform: 'uppercase',
-          fontSize: '3xl',
-          lineHeight: '0.95',
-          color: 'fieldInk',
-        })}
-      >
-        Case not found
-      </h1>
-      <a
-        href="/#work"
-        className={css({
-          display: 'inline-block',
-          marginTop: '5',
-          paddingBlock: '2',
-          color: 'fieldInk',
-          borderBottom: '1px solid',
-          borderColor: 'fieldBorder',
-        })}
-      >
-        Back to the work index
-      </a>
-    </section>
-  )
-}
-
-function WorkDetailPage() {
+function WorkPage() {
   const { slug } = Route.useParams()
   const project = projects.find((p) => p.slug === slug)
-  if (!project) return <MissingCase />
+  if (!project) return <WorkMissing />
+  if (project.slug === 'dougmar-ch') {
+    return (
+      <>
+        <WorkHeader title={project.title} />
+        <WhitePaper />
+      </>
+    )
+  }
   return (
     <>
-      <CaseHero project={project} />
-      {project.slug === 'dougmar-ch' ? <WhitePaper /> : <CaseBody project={project} />}
+      <WorkHeader
+        title={project.title}
+        deck={<WorkStandfirst text={project.description ?? project.problem} />}
+        aside={<WorkMeta project={project} />}
+      />
+      <WorkFacts project={project} />
+      <CaseNarrative project={project} />
     </>
   )
 }

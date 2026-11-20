@@ -1,0 +1,250 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'designed' (158px); in build it is 'designed' (158px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "svensson -8 greyserman -7 higgo -7",
+                "mockupPx": 21
+              }
+            ],
+            "leader": {
+              "text": "designed",
+              "mockupPx": 158
+            },
+            "buildLeader": {
+              "text": "designed",
+              "buildPx": 158,
+              "mockupPx": 158
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'work' is 19px in the mockup and 36px in the build (1.89x)",
+          "facts": {
+            "text": "work",
+            "mockupPx": 19,
+            "buildPx": 36,
+            "ratio": 1.89,
+            "mockupRank": 4
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'svensson -8 greyserman -7 higgo -7' moved from (382, 910) in the mockup to (390, 908) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spy 715.87 ▼ -1.96' moved from (900, 910) in the mockup to (903, 908) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "text-cut",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'doug march' shows 75% of itself in the build",
+          "facts": {
+            "text": "doug march",
+            "buildPx": 33,
+            "visiblePct": 75
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'work about contact' (18px in the mockup) has no match in the build",
+          "facts": {
+            "text": "work about contact",
+            "mockupPx": 18,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'designed' (50px); in build it is 'designed' (50px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "what ships should look like what was",
+                "mockupPx": 27
+              }
+            ],
+            "leader": {
+              "text": "designed",
+              "mockupPx": 50
+            },
+            "buildLeader": {
+              "text": "designed",
+              "buildPx": 50,
+              "mockupPx": 50
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 19px in the mockup and 33px in the build (1.75x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 19,
+            "buildPx": 33,
+            "ratio": 1.75,
+            "mockupRank": 2
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'designed' still leads, but the mockup's 'svensson -8 greyserman -7 higgo -7' (21px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'designed' still leads, but the mockup's 'what ships should look like what was' (27px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: The mockup sets 'work about contact' at 18px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: 'work' is 19px in the mockup and 36px in the build (1.89x). Set it back to 19px.",
+        "- / at 360px: 'doug march' is 19px in the mockup and 33px in the build (1.75x). Set it back to 19px.",
+        "- / at 1440px: 'doug march' shows 75% of itself; its box cuts the rest off. Let it wrap or give its box the room."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'designed' (158px); in build it is 'designed' (158px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "svensson -8 greyserman -7 higgo -7",
+                "mockupPx": 21
+              }
+            ],
+            "leader": {
+              "text": "designed",
+              "mockupPx": 158
+            },
+            "buildLeader": {
+              "text": "designed",
+              "buildPx": 158,
+              "mockupPx": 158
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'svensson -8 greyserman -7 higgo -7' moved from (382, 910) in the mockup to (390, 908) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spy 715.87 ▼ -1.96' moved from (900, 910) in the mockup to (903, 908) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "text-cut",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'doug march' shows 75% of itself in the build",
+          "facts": {
+            "text": "doug march",
+            "buildPx": 33,
+            "visiblePct": 75
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'doug march' is 19px in the mockup and 33px in the build (1.75x)",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 19,
+            "buildPx": 33,
+            "ratio": 1.75,
+            "mockupRank": 2
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'designed' still leads, but the mockup's 'svensson -8 greyserman -7 higgo -7' (21px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'doug march' is 19px in the mockup and 33px in the build (1.75x). Set it back to 19px.",
+        "- / at 1440px: 'doug march' shows 75% of itself; its box cuts the rest off. Let it wrap or give its box the room."
+      ]
+    }
+  ]
+}

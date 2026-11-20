@@ -59,9 +59,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-11-19'
-const PREV_DATE: string | null = '2026-11-18'
-const ARCHIVE_COUNT = 197
+const DESIGN_DATE = '2026-11-20'
+const PREV_DATE: string | null = '2026-11-19'
+const ARCHIVE_COUNT = 198
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -74,28 +74,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Design and build on the same desk.' },
-      { property: 'og:title', content: 'Design and build on the same desk.' },
+      { title: 'What ships should look like what was designed.' },
+      { property: 'og:title', content: 'What ships should look like what was designed.' },
       {
         property: 'og:description',
         content:
-          'Tarnished-brass drench, SPACEMAN engraved in outline caps, the Rolex-and-Zeldman client ledger stamped beneath.',
+          'Blueprint-ultramarine spec sheet, the sentence resolving into one fat amber "Designed.", nav on a left spine, facts in a title-block.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-19.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-20.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Design and build on the same desk.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-19.png' },
+      { name: 'twitter:title', content: 'What ships should look like what was designed.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-20.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;700;900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,900;1,300;1,400;1,600;1,900&family=Karla:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -315,7 +315,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 197 designs
+            Archive · 198 designs
           </a>
         )}
         <ScrollRestoration />

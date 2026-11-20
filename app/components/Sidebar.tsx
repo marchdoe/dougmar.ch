@@ -2,114 +2,95 @@ import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
 import { BrandLockup } from './BrandLockup'
 
-const navLinksClass = css({
-  position: 'absolute',
-  top: '100%',
-  right: '0',
-  marginTop: '6px',
-  zIndex: 30,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-end',
-  gap: '2px',
-  bg: 'field',
-  border: '1px solid',
-  borderColor: 'fieldBorder',
-  paddingBlock: '2',
-  paddingInline: '3',
-  visibility: 'hidden',
-})
-
-const navLinkClass = css({
-  display: 'inline-flex',
-  alignItems: 'center',
-  minHeight: '44px',
-  minWidth: '44px',
-  justifyContent: 'flex-end',
-  fontSize: 'sm',
+const linkClass = css({
+  flex: '1 1 0',
+  minWidth: '0',
+  fontFamily: 'display',
   fontVariant: 'small-caps',
+  textTransform: 'lowercase',
   letterSpacing: 'wide',
-  color: 'fieldInkMuted',
-  paddingBlock: '2',
-  paddingInline: '1',
-  lineHeight: '1',
-  _hover: { color: 'accent' },
+  fontSize: { base: '18px', lg: '19px' },
+  lineHeight: 'snug',
+  whiteSpace: 'nowrap',
+  color: 'text',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minHeight: '46px',
+  paddingInline: { base: '4px', lg: '2px' },
+  borderStyle: 'solid',
+  borderColor: 'fieldBorder',
+  borderTopWidth: '0',
+  borderLeftWidth: '0',
+  borderRightWidth: { base: '1px', lg: '0' },
+  borderBottomWidth: { base: '0', lg: '1px' },
+  _last: { borderRightWidth: '0' },
+  _hover: { color: 'accent', textDecoration: 'none' },
 })
 
 export function Sidebar() {
   return (
     <header
       className={css({
-        position: 'relative',
-        zIndex: 20,
-        bg: 'field',
-        color: 'fieldInk',
-        borderBottom: '1px solid',
-        borderColor: 'fieldBorder',
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: '4',
-        paddingBlock: '3',
-        paddingInline: '6vw',
-        minHeight: '112px',
+        flexDirection: 'column',
+        alignItems: { base: 'stretch', lg: 'center' },
+        justifyContent: 'flex-start',
+        gap: { base: '14px', lg: '24px' },
+        paddingTop: { base: '16px', lg: '28px' },
+        paddingBottom: { base: '16px', lg: '32px' },
+        paddingInline: { base: '20px', lg: '10px' },
+        bg: 'bg',
+        borderStyle: 'solid',
+        borderColor: 'fieldBorder',
+        borderTopWidth: '0',
+        borderLeftWidth: '0',
+        borderBottomWidth: { base: '1px', lg: '0' },
+        borderRightWidth: { base: '0', lg: '1px' },
+        height: { lg: '100%' },
+        minWidth: '0',
       })}
     >
-      <a
-        href="/"
-        aria-label="Doug March home"
-        className={css({ display: 'flex', color: 'fieldInk' })}
-      >
-        <BrandLockup variant="stacked-lg" mode="original" />
-      </a>
+      {/* Header ground is bg (blue.700 dark, blue.50 light); the full-colour mark passes on both, so original in both schemes. */}
+      <BrandLockup
+        variant="stacked-md"
+        mode="original"
+        roleLine
+        className={css({
+          alignSelf: { base: 'flex-start', lg: 'center' },
+          alignItems: { base: 'flex-start', lg: 'center' },
+          textAlign: { base: 'left', lg: 'center' },
+          whiteSpace: { lg: 'normal' },
+          maxWidth: '100%',
+          minWidth: '0',
+          color: 'text',
+        })}
+      />
       <nav
         aria-label="Primary"
         className={css({
-          position: 'relative',
-          '&:hover .nav-links': { visibility: 'visible' },
-          '&:focus-within .nav-links': { visibility: 'visible' },
+          display: 'flex',
+          flexDirection: { base: 'row', lg: 'column' },
+          alignItems: 'stretch',
+          flexWrap: 'nowrap',
+          width: '100%',
+          borderStyle: 'solid',
+          borderColor: 'fieldBorder',
+          borderLeftWidth: '0',
+          borderRightWidth: '0',
+          borderTopWidth: '1px',
+          borderBottomWidth: { base: '1px', lg: '0' },
         })}
       >
-        <button
-          type="button"
-          className={css({
-            bg: 'field',
-            border: 'none',
-            cursor: 'pointer',
-            fontFamily: 'display',
-            fontWeight: 'bold',
-            fontSize: 'xl',
-            fontVariant: 'small-caps',
-            letterSpacing: 'wide',
-            color: 'fieldInkMuted',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '2',
-            minHeight: '44px',
-            paddingBlock: '2',
-            paddingInline: '0',
-            _hover: { color: 'accent' },
-          })}
-        >
-          Index
-          <span
-            aria-hidden="true"
-            className={css({ fontSize: 'md', fontWeight: 'normal', color: 'fieldInkMuted' })}
-          >
-            +
-          </span>
-        </button>
-        <span className={`nav-links ${navLinksClass}`}>
-          <a href="/#work" className={navLinkClass}>
-            Work
-          </a>
-          <a href="/about" className={navLinkClass}>
-            About
-          </a>
-          <a href={`mailto:${identity.email}`} className={navLinkClass}>
-            Contact
-          </a>
-        </span>
+        <a href="/work" className={linkClass}>
+          Work
+        </a>
+        <a href="/about" className={linkClass}>
+          About
+        </a>
+        <a href={`mailto:${identity.email}`} className={linkClass}>
+          Contact
+        </a>
       </nav>
     </header>
   )

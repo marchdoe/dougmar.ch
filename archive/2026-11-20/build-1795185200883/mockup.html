@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — What ships should look like what was Designed.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,900;1,300;1,400;1,600;1,900&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --blue-900:#141B4E; --blue-800:#1C2878; --blue-700:#22329E; --blue-600:#2B3FC4; --blue-500:#3B51D6; --blue-400:#6E82F5;
+    --amber-200:#FFD58A; --amber-500:#ECA23D; --amber-600:#C67E22;
+    --text:#EAF0FF; --textMuted:#BBC7FF; --textFaint:#8FA0F0;
+    --field:#ECA23D; --fieldInk:#1A1838; --fieldInkMuted:#1C2878; --fieldBorder:#C67E22;
+    --fieldW:clamp(40px,6vw,112px);
+  }
+  html,body{background:var(--blue-700);color:var(--text)}
+  body{font-family:'Karla',system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;font-kerning:normal;overflow-x:hidden}
+  a{color:var(--amber-500);text-decoration:none}
+
+  .layout{display:flex;flex-direction:column;min-height:100vh}
+
+  /* ---- NAV BAND (mobile default) ---- */
+  .rail{
+    display:flex;flex-direction:column;align-items:stretch;gap:14px;
+    padding:16px 20px;border-bottom:1px solid var(--amber-600);
+    background:var(--blue-700);
+  }
+  .lockup{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+  .lockup .mark{height:48px;width:auto;display:block}
+  .lockup .mark svg{height:48px;width:auto;display:block}
+  .wordmark{font-family:'Fraunces',serif;font-weight:600;font-size:19px;line-height:1;letter-spacing:-0.015em;color:var(--text);white-space:nowrap}
+  .role{font-family:'Karla',sans-serif;text-transform:uppercase;letter-spacing:0.09em;font-size:13px;color:var(--textMuted)}
+
+  nav.index{display:flex;align-items:stretch;gap:0;flex-wrap:nowrap;width:100%;
+    border-top:1px solid var(--amber-600);border-bottom:1px solid var(--amber-600)}
+  nav.index a{
+    flex:1 1 0;min-width:0;
+    font-family:'Fraunces',serif;font-variant-caps:small-caps;text-transform:lowercase;
+    letter-spacing:0.04em;font-size:18px;color:var(--text);
+    display:flex;align-items:center;justify-content:center;min-height:46px;padding:0 4px;
+    border-right:1px solid var(--amber-600);
+  }
+  nav.index a:last-child{border-right:none}
+  nav.index a:hover{color:var(--amber-500)}
+
+  /* ---- FIELD / HERO ---- */
+  .field{
+    flex:1;display:grid;grid-template-columns:1fr;align-content:end;
+    gap:0;padding:clamp(40px,8vw,88px) var(--fieldW);
+    padding-bottom:calc(44px + clamp(32px,6vw,64px));
+    min-height:78vh;background:var(--blue-700);position:relative;
+  }
+  .hero{grid-column:1/-1;max-width:none}
+  .lead-in{
+    font-family:'Fraunces',serif;font-style:italic;font-weight:400;
+    font-size:clamp(26px,7.4vw,46px);line-height:1.08;color:var(--textMuted);
+    margin-bottom:0.12em;
+  }
+  .marquee{
+    display:block;font-family:'Fraunces',serif;font-style:italic;font-weight:900;
+    font-size:clamp(50px,12vw,158px);line-height:0.9;letter-spacing:-0.02em;
+    color:var(--amber-500);margin-top:0.02em;overflow-wrap:break-word;
+  }
+  h1{font-weight:inherit}
+  .hero-note{
+    margin-top:clamp(20px,3vw,30px);font-size:13px;letter-spacing:0.02em;color:var(--textMuted);
+    max-width:min(42ch,100%);line-height:1.5;
+  }
+
+  /* ---- SIGNAL BAND (amber) ---- */
+  .signal{
+    background:var(--field);color:var(--fieldInk);
+    padding:40px var(--fieldW);border-top:1px solid var(--fieldBorder);border-bottom:1px solid var(--fieldBorder);
+  }
+  .signal-grid{display:flex;flex-direction:column;gap:28px}
+  .sig-label{font-family:'Karla',sans-serif;text-transform:uppercase;letter-spacing:0.12em;font-size:12px;font-weight:700;color:var(--fieldInkMuted);margin-bottom:10px}
+  .sig-line{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(18px,2.4vw,21px);line-height:1.3;color:var(--fieldInk);font-variant-numeric:tabular-nums}
+  .sig-sub{font-family:'Karla',sans-serif;font-size:13px;color:var(--fieldInkMuted);margin-top:4px;letter-spacing:0.01em}
+  .mkt{font-variant-numeric:tabular-nums;color:var(--fieldInkMuted)}
+  .mkt .dn{color:var(--fieldInkMuted);font-weight:700}
+  .wx{display:flex;flex-wrap:wrap;gap:6px 20px;font-family:'Karla',sans-serif;font-size:14px;color:var(--fieldInkMuted)}
+  .wx b{color:var(--fieldInk);font-weight:700}
+
+  /* ---- SITE CALLOUT ---- */
+  .callout{
+    background:var(--blue-800);border-top:1px solid var(--amber-600);
+    padding:28px var(--fieldW);
+    font-family:'Karla',sans-serif;font-size:14px;color:var(--textMuted);letter-spacing:0.01em;
+  }
+  .callout b{color:var(--amber-200);font-weight:700}
+
+  /* ---- COLOPHON TITLE-BLOCK ---- */
+  footer{background:var(--blue-800);padding:40px var(--fieldW) 48px;border-top:1px solid var(--amber-600)}
+  .titleblock{
+    border:1px solid var(--blue-400);border-radius:4px;overflow:hidden;
+    display:grid;grid-template-columns:1fr;
+  }
+  .tb-cell{padding:18px 20px;border-bottom:1px solid var(--blue-500)}
+  .tb-cell:last-child{border-bottom:none}
+  .tb-key{font-family:'Karla',sans-serif;text-transform:uppercase;letter-spacing:0.12em;font-size:11px;font-weight:700;color:var(--textFaint);margin-bottom:8px}
+  .tb-val{font-family:'Fraunces',serif;font-size:17px;color:var(--text);line-height:1.4}
+  .tb-val.small{font-family:'Karla',sans-serif;font-size:14px;color:var(--textMuted);line-height:1.6}
+  .tb-meta{display:flex;flex-wrap:wrap;gap:4px 18px;font-family:'Karla',sans-serif;font-size:12px;letter-spacing:0.04em;color:var(--textFaint)}
+  .tb-meta span b{color:var(--textMuted);font-weight:700}
+  .colo-foot{margin-top:18px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-family:'Karla',sans-serif;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--textFaint)}
+
+  /* ================= TABLET ================= */
+  @media (min-width:600px){
+    .signal-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px 48px}
+    .titleblock{grid-template-columns:1fr 1fr}
+    .tb-cell{border-right:1px solid var(--blue-500)}
+    .tb-cell:nth-child(2n){border-right:none}
+  }
+
+  /* ================= DESKTOP: LEFT SPINE RAIL ================= */
+  @media (min-width:900px){
+    .layout{display:grid;grid-template-columns:96px 1fr;grid-template-areas:"rail main";min-height:100vh}
+    .rail{
+      grid-area:rail;flex-direction:column;align-items:center;justify-content:flex-start;gap:24px;
+      padding:28px 10px 32px;border-bottom:none;border-right:1px solid var(--amber-600);
+      height:100%;
+    }
+    .lockup{align-items:center;text-align:center}
+    .wordmark{font-size:15px;white-space:normal;max-width:74px;text-align:center}
+    .role{font-size:13px}
+    nav.index{flex-direction:column;align-items:stretch;gap:0;width:100%;
+      border-top:1px solid var(--amber-600);border-bottom:none}
+    nav.index a{
+      justify-content:center;min-height:46px;padding:0 2px;font-size:19px;
+      border-right:none;border-bottom:1px solid var(--amber-600);
+    }
+    nav.index a:hover{color:var(--amber-500)}
+
+    .main-col{grid-area:main;display:flex;flex-direction:column;min-height:100vh;min-width:0}
+    .field{min-height:92vh;padding:clamp(56px,8vw,112px) var(--fieldW);padding-bottom:calc(44px + clamp(56px,7vw,96px));align-content:end}
+    .hero{text-align:center}
+    .lead-in{text-align:center}
+    .marquee{text-align:center}
+    .hero-note{text-align:center;margin-left:auto;margin-right:auto}
+  }
+  @media (min-width:900px){
+    .field,.signal,.callout,footer{grid-column:auto}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- RAIL / TOP BAND -->
+  <header class="rail">
+    <div class="lockup">
+      <span class="mark">
+        <svg viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Doug March logo" role="img">
+          <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+          <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+          <circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+          <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+        </svg>
+      </span>
+      <span class="wordmark">Doug March</span>
+      <span class="role">Design &amp; Build</span>
+    </div>
+    <nav class="index" aria-label="Primary">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="main-col">
+
+    <!-- HERO FIELD -->
+    <section class="field">
+      <div class="hero">
+        <h1>
+          <span class="lead-in">What ships should look like what was</span>
+          <span class="marquee">Designed.</span>
+        </h1>
+        <p class="hero-note">The fidelity creed, lifted from my own capability lines: I say what a thing does, and this is the thing I do.</p>
+      </div>
+    </section>
+
+    <!-- SIGNAL BAND -->
+    <section class="signal" aria-label="Today">
+      <div class="signal-grid">
+        <div>
+          <div class="sig-label">RSM Classic · Leaderboard</div>
+          <div class="sig-line">Svensson −8 · Greyserman −7 · Higgo −7</div>
+          <div class="sig-sub">Sea Island, final round in play.</div>
+        </div>
+        <div>
+          <div class="sig-label">Market · Close</div>
+          <div class="sig-line mkt">SPY 715.87 <span class="dn">▼ −1.96%</span></div>
+          <div class="sig-sub">A down day; no event worth shouting.</div>
+        </div>
+        <div>
+          <div class="sig-label">Aldie, Virginia</div>
+          <div class="wx">
+            <span><b>53°F</b> sunny</span>
+            <span><b>9.7h</b> daylight</span>
+            <span>sunset <b>16:47</b></span>
+          </div>
+        </div>
+        <div>
+          <div class="sig-label">Sky</div>
+          <div class="wx">
+            <span>waxing gibbous <b>88%</b></span>
+            <span>AQI <b>good</b></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SITE CALLOUT SLOT -->
+    <aside class="callout" aria-label="About this site">
+      <b>This page redrew itself overnight.</b> It redesigns itself unattended — nothing waits on me approving the morning's composition before it ships.
+    </aside>
+
+    <!-- COLOPHON TITLE-BLOCK -->
+    <footer>
+      <div class="titleblock">
+        <div class="tb-cell">
+          <div class="tb-key">Drawing</div>
+          <div class="tb-val">What ships should look like what was Designed.</div>
+        </div>
+        <div class="tb-cell">
+          <div class="tb-key">By</div>
+          <div class="tb-val">Doug March — Design &amp; Build</div>
+          <div class="tb-meta" style="margin-top:8px"><span>Aldie, VA</span><span><b>2026-11-20</b></span></div>
+        </div>
+        <div class="tb-cell">
+          <div class="tb-key">On rotation</div>
+          <div class="tb-val small">Radiohead · Tobin Sprout · My Morning Jacket</div>
+        </div>
+        <div class="tb-cell">
+          <div class="tb-key">Notes</div>
+          <div class="tb-meta"><span>Thanksgiving in <b>6 days</b></span><span>moon <b>88%</b></span><span>AQI <b>good</b></span></div>
+        </div>
+      </div>
+      <div class="colo-foot">
+        <span>Fraunces · Karla · Ultramarine &amp; Chalk Amber</span>
+        <span>Rev. 2026.11.20</span>
+      </div>
+    </footer>
+
+  </div>
+</div>
+</body>
+</html>
