@@ -1,0 +1,85 @@
+[
+  {
+    "critic": "mockup-precheck",
+    "round": 0,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1795268791295
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 0,
+    "verdict": "REVISE",
+    "feedback": "1. (Judgment 5) The selected-work section labels 15th Club \"FEATURED,\" but the records mark Spaceman as the featured project (`featured: true`). Either feature Spaceman or drop the label from 15th Club.\n2. (Judgment 5) The 15th Club description reads \"An AI caddie that reads a course the way a tour player does — turning shot patterns, lie and wind into one honest number for the next swing.\" The records describe it as \"A platform for AI experiments through the lens of golf. The scorecard is the first experiment — shareable, real-time, no app install required,\" with status In Development. Replace the invented caddie claim with copy drawn from the record.\n3. (Judgment 3) Type Treatment declares `alignment: right`, and the spec says the caption is stacked flush-right beside the −9. At both 1440 and 360, the words \"Three / tied / at / nine / under.\" are set flush-left against each other. Right-align the stacked caption so its lines share a right edge on the rail.\n4. (Judgment 1) The page reads close to 2026-11-13 (\"Nobody guarded anybody, 144-140.\"). Both nights use a jade-green hue (152° against 158°) on a dark field, a small-caps/roman/regular register, a vertical/crowded/even rhythm, and scores set as type. Separate tonight from that night on at least one more axis. For example, commit to a different type register for the caption and standings, or push the ground away from the jade-on-black read.",
+    "channel": "sdk-vision",
+    "ts": 1795268811285
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 1,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1795268990570
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "1. (Judgment 5) The Spaceman feature text reads \"his first turn at owning the whole stack, where product, interface and the code underneath it all answered to one desk. Everything built since has run on that same model.\" None of this is in the records. The record says Spaceman is the LLC he operates under, partnering with companies and studios across product design, frontend engineering, design systems and brand, sometimes solo and sometimes embedded in a larger team. Replace the invented history with copy drawn from the record's approach and outcome text.\n\n2. (Judgment 3) The leaderboard is a solid `#2fd676` accent panel with mint rows, and it competes with the −9. At 1440 it is the largest saturated mass on the page, and it reads before the figure. The brief asks for ruled rows on the dark field or on `surface`, with only the three −9 scores in accent and the −8 chasers in `textMuted`. Drop the accent fill so the −9 is the one bright thing on the void, as the rationale intends.\n\n3. (Judgment 3) The brief sets the −9 flush-right to the center rail, with the stacked caption beside it. On the page the figure and caption sit at the far left margin, about 230px wide at most, and leave a large dead field between them and the standings. Move the figure onto its declared rail so the number and the rows read as one statement.",
+    "channel": "sdk-vision",
+    "ts": 1795269018803
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 2,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1795269109010
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 2,
+    "verdict": "REVISE",
+    "feedback": "1. **Judgment 3 (hero placement).** At 1440 the −9 sits mid-page at the column rail, not in the upper-left `hero_zone`. The caption stack is set to the left of the figure, but the brief places it immediately right of the −9. This also contradicts the 360 version, which puts the caption on the right. Move the −9 into the left column's upper-left mass, flush-right to the rail, with the stacked small-caps caption directly beside it on its right, so both widths match.\n\n2. **Judgment 3 (left column).** The left column under the figure is an empty field down to the strip, which leaves the left-weighted, crowded composition reading as a void with a centred number. The brief's \"left-weighted\" mass and \"crowded\" density are not executed in the hero band. Let the −9 and caption carry the left column's weight, and move the RSM/place/weather lines up directly under the figure as the brief places them, instead of stranding them at the band's bottom edge.\n\n3. **Judgment 6 (ground).** SHELL declares `ground_strategy: dark-void` with page bg `#0b100d`, but the hero field is painted the bgAlt forest green (`#07331e`) edge to edge. That reads as a drench, not a near-black void with one bright fairway −9. Return the hero ground to the near-black `#0b100d` and keep `#07331e` for the bands the brief assigns it to, such as the footer nav and the callout.\n\n4. **Judgment 5 (copy).** The Spaceman teaser ends \"always from one desk,\" and the desk card says Doug \"designs and builds from one chair.\" Neither claim is in the records, which describe work \"sometimes as a solo contributor, sometimes embedded in a larger team.\" Drop the \"one desk/one chair\" claims or replace them with the record's own wording.",
+    "channel": "sdk-vision",
+    "ts": 1795269131499
+  },
+  {
+    "critic": "surface-gate",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "/work/dougmar-ch @360: <section.bg_bgAlt.c_text.d_flex.lg:d_grid > div.lg:grid-c_1.lg:grid-r_1_/_span_2.d_flex.flex-d_column > h1.ff_display.fw_normal.textStyle_hero.lh_0.88> holds text wider than its own box: \"dougmar.ch...\" needs 335px and the box is 317px, so 18px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/dougmar-ch @360: <section.bg_bgAlt.c_text.d_flex.lg:d_grid > div.lg:grid-c_1.lg:grid-r_1_/_span_2.d_flex.flex-d_column > h1.ff_display.fw_normal.textStyle_hero.lh_0.88> holds text wider than its own box: \"dougmar.ch...\" needs 335px and the box is 317px, so 18px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @360: <section.bg_bgAlt.c_text.d_flex.lg:d_grid > div.lg:grid-c_1.lg:grid-r_1_/_span_2.d_flex.flex-d_column > h1.ff_display.fw_normal.textStyle_hero.lh_0.88> holds text wider than its own box: \"Twittertale...\" needs 343px and the box is 317px, so 26px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/twittertale @360: <section.bg_bgAlt.c_text.d_flex.lg:d_grid > div.lg:grid-c_1.lg:grid-r_1_/_span_2.d_flex.flex-d_column > h1.ff_display.fw_normal.textStyle_hero.lh_0.88> holds text wider than its own box: \"Twittertale...\" needs 343px and the box is 317px, so 26px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/og @1200: og: brand mark starts 0px from the card's top edge, inside the 40px safe margin. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text.\n/og @1200: og: wordmark line 1 'Doug March' ends 0px from the card's right edge, inside the 40px safe margin. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text.\n/og @1200: og: headline line 5 'under. −9' starts 0px from the card's left edge, inside the 40px safe margin. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text.\n/og @1200: og: headline line 1 'Three' starts 10px from the card's left edge, inside the 40px safe margin. Fit the headline to the 1200x630 card and step the type down for a long phrase rather than letting it run out; keep the whole lockup inside the safe margin; never rely on overflow: hidden to hide text.\n/ @360: <section.bd-t-w_1px.border-top-style_solid.bd-t-c_borderStrong.bd-b-w_1px > div.py_18px.d_flex.flex-d_column.gap_6px > span.fs_xs.ls_.1em.tt_uppercase.c_textMute> \"Markets\" (x4) at 13.2px: #7a827c on #e7ede9 is 3.34:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <section.bd-t-w_1px.border-top-style_solid.bd-t-c_borderStrong.bd-b-w_1px > div.py_18px.d_flex.flex-d_column.gap_6px > span.textStyle_sm.c_textMuted> \"▼ down 3.64% on the day\" (x4) at 14.5px: #7a827c on #e7ede9 is 3.34:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <section.bd-t-w_1px.border-top-style_solid.bd-t-c_borderStrong.bd-b-w_1px > div.py_18px.d_flex.flex-d_column.gap_6px > span.fs_xs.ls_.1em.tt_uppercase.c_textMute> \"Markets\" (x4) at 13.2px: #6f7871 on #0b100d is 4.18:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <section.bd-t-w_1px.border-top-style_solid.bd-t-c_borderStrong.bd-b-w_1px > div.py_18px.d_flex.flex-d_column.gap_6px > span.textStyle_sm.c_textMuted> \"▼ down 3.64% on the day\" (x4) at 14.5px: #6f7871 on #0b100d is 4.18:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work/15th-club @1440: <div.bg_surface.bd-w_1px.border-style_solid.bd-c_border > div.d_flex.md:d_grid.flex-d_column.md:grid-tc_160px_1fr > p.textStyle_base.lh_1.6.c_textMuted.max-w_58c> \"Golf is full of data, ritual, and decisi\" (x2) sets 82 characters on its longest line (2 lines, median 82) at 16px in a 580px box, over the 80 limit. Cap the block with max-width so its lines stay under 80 characters. ch overshoots in a narrow face, so 45 to 50ch is the working number. A narrower column is no reason to leave the rest of the row empty: set the copy beside something.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1795269434205
+  },
+  {
+    "critic": "screenshot-critic",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 (phone, case studies) — react-engineer: At 360px, the case-study `h1` on `/work/dougmar-ch` and `/work/twittertale` overflows its own box (18px and 26px of the headline cut off respectively, e.g. \"dougmar.ch\" and \"Twittertale\" lose their last letters) and nothing scrolls to reveal the missing text. Fit the headline to the column width with a responsive size or allow it to wrap.\n- Section 6 (canvas utilization) — react-engineer: On `/work/15th-club` at 1440, the problem/approach copy block sets 82 characters per line in a 580px column (over the 80-char ceiling) while the rest of that row sits empty. Cap the block at ~45–50ch and put something beside it instead of leaving the row half-dead.\n- Section 3 (readability) — react-engineer: In the 360px signal strip (Markets/Pistons/Weather/Holiday band), the \"Markets\" label and the \"▼ down 3.64%\" line fail contrast in both schemes (3.34:1 light, 4.18:1 dark; need 4.5:1). Move these to a token that clears AA on their ground, this repeats across all four signal rows.\n- Section 2/Polish — react-engineer: The `/og` share card fails its safe-margin in multiple places (brand mark and \"Doug March\" line touch the card edge, headline lines 1 and 5 sit flush to left/right edges). Step the headline size down for this phrase length and keep the whole lockup inside the 40px margin.\n===END===",
+    "channel": "sdk-vision",
+    "ts": 1795269593768
+  },
+  {
+    "critic": "surface-gate",
+    "round": 2,
+    "verdict": "SHIP",
+    "feedback": "app/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1795269723275
+  },
+  {
+    "critic": "screenshot-critic",
+    "round": "final",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 6 — react-engineer: On `/work/spaceman`, fold 1 of 2 and fold 2 of 2 of the desktop filmstrip show body copy (Problem/Approach, then Outcome) confined to a ~400px-wide column on the left with the remaining ~1000px of each row (roughly 70% of the canvas) left empty, repeating across both visible folds below the masthead. This is dead canvas on the case study route; the body column should widen or pick up a second active zone (image, pull-quote, stat block) so the row is used, not left blank beside a narrow text rail.\n===END===",
+    "channel": "sdk-vision",
+    "ts": 1795269965967
+  },
+  {
+    "critic": "ship-gate",
+    "verdict": "SHIPPED-WITH-FAULTS",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 6 — react-engineer: On `/work/spaceman`, fold 1 of 2 and fold 2 of 2 of the desktop filmstrip show body copy (Problem/Approach, then Outcome) confined to a ~400px-wide column on the left with the remaining ~1000px of each row (roughly 70% of the canvas) left empty, repeating across both visible folds below the masthead. This is dead canvas on the case study route; the body column should widen or pick up a second active zone (image, pull-quote, stat block) so the row is used, not left blank beside a narrow text rail.\n===END===",
+    "ts": 1795269965967
+  }
+]

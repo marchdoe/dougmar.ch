@@ -1,0 +1,242 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a score is a score the work is the same' (64px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a score is a score the work is the same",
+            "mockupPx": 64,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is '-9' (160px); in build it is '-9' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "a score is a score the work is the same",
+                "mockupPx": 64
+              }
+            ],
+            "leader": {
+              "text": "-9",
+              "mockupPx": 160
+            },
+            "buildLeader": {
+              "text": "-9",
+              "buildPx": 160,
+              "mockupPx": 160
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spy 689.81' moved from (150, 912) in the mockup to (150, 1010) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'102-105' moved from (463, 912) in the mockup to (463, 1010) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'47°f' moved from (770, 912) in the mockup to (770, 1010) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'thanksgiving' moved from (1148, 912) in the mockup to (1148, 1010) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'a score is a score the work is the same' (32px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a score is a score the work is the same",
+            "mockupPx": 32,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'hodges' moved from (130, 629) in the mockup to (130, 679) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: '-9' still leads, but the mockup's 'a score is a score the work is the same' (64px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'a score is a score the work is the same' at 64px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'a score is a score the work is the same' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a score is a score the work is the same' (64px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a score is a score the work is the same",
+            "mockupPx": 64,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is '-9' (160px); in build it is '-9' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "a score is a score the work is the same",
+                "mockupPx": 64
+              }
+            ],
+            "leader": {
+              "text": "-9",
+              "mockupPx": 160
+            },
+            "buildLeader": {
+              "text": "-9",
+              "buildPx": 160,
+              "mockupPx": 160
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spy 689.81' moved from (150, 912) in the mockup to (150, 1010) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'102-105' moved from (463, 912) in the mockup to (463, 1010) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'47°f' moved from (770, 912) in the mockup to (770, 1010) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'thanksgiving' moved from (1148, 912) in the mockup to (1148, 1010) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'a score is a score the work is the same' (32px in the mockup) has no match in the build",
+          "facts": {
+            "text": "a score is a score the work is the same",
+            "mockupPx": 32,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'hodges' moved from (130, 629) in the mockup to (130, 679) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: '-9' still leads, but the mockup's 'a score is a score the work is the same' (64px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'a score is a score the work is the same' at 64px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets 'a score is a score the work is the same' at 32px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

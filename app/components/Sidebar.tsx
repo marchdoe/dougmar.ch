@@ -2,96 +2,111 @@ import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
 import { BrandLockup } from './BrandLockup'
 
-const linkClass = css({
-  flex: '1 1 0',
-  minWidth: '0',
-  fontFamily: 'display',
-  fontVariant: 'small-caps',
-  textTransform: 'lowercase',
-  letterSpacing: 'wide',
-  fontSize: { base: '18px', lg: '19px' },
-  lineHeight: 'snug',
-  whiteSpace: 'nowrap',
-  color: 'text',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  minHeight: '46px',
-  paddingInline: { base: '4px', lg: '2px' },
-  borderStyle: 'solid',
-  borderColor: 'fieldBorder',
-  borderTopWidth: '0',
-  borderLeftWidth: '0',
-  borderRightWidth: { base: '1px', lg: '0' },
-  borderBottomWidth: { base: '0', lg: '1px' },
-  _last: { borderRightWidth: '0' },
-  _hover: { color: 'accent', textDecoration: 'none' },
-})
+const navItems = [
+  { num: '01', label: 'Work', href: '/work' },
+  { num: '02', label: 'About', href: '/about' },
+  { num: '03', label: 'Contact', href: `mailto:${identity.email}` },
+]
 
 export function Sidebar() {
   return (
-    <header
+    <footer
       className={css({
+        bg: 'bgAlt',
+        color: 'text',
+        borderTopWidth: '1px',
+        borderTopStyle: 'solid',
+        borderTopColor: 'borderStrong',
+        paddingTop: { base: '40px', lg: '56px' },
+        paddingInline: '6vw',
+        paddingBottom: { base: '48px', lg: '64px' },
         display: 'flex',
-        flexDirection: 'column',
-        alignItems: { base: 'stretch', lg: 'center' },
-        justifyContent: 'flex-start',
-        gap: { base: '14px', lg: '24px' },
-        paddingTop: { base: '16px', lg: '28px' },
-        paddingBottom: { base: '16px', lg: '32px' },
-        paddingInline: { base: '20px', lg: '10px' },
-        bg: 'bg',
-        borderStyle: 'solid',
-        borderColor: 'fieldBorder',
-        borderTopWidth: '0',
-        borderLeftWidth: '0',
-        borderBottomWidth: { base: '1px', lg: '0' },
-        borderRightWidth: { base: '0', lg: '1px' },
-        height: { lg: '100%' },
-        minWidth: '0',
+        flexDirection: { base: 'column', lg: 'row' },
+        justifyContent: { lg: 'space-between' },
+        alignItems: { lg: 'flex-start' },
+        gap: { base: '28px', lg: '6vw' },
       })}
     >
-      {/* Header ground is bg (blue.700 dark, blue.50 light); the full-colour mark passes on both, so original in both schemes. */}
-      <BrandLockup
-        variant="stacked-md"
-        mode="original"
-        roleLine
-        className={css({
-          alignSelf: { base: 'flex-start', lg: 'center' },
-          alignItems: { base: 'flex-start', lg: 'center' },
-          textAlign: { base: 'left', lg: 'center' },
-          whiteSpace: { lg: 'normal' },
-          maxWidth: '100%',
-          minWidth: '0',
-          color: 'text',
-        })}
-      />
       <nav
         aria-label="Primary"
         className={css({
           display: 'flex',
-          flexDirection: { base: 'row', lg: 'column' },
-          alignItems: 'stretch',
-          flexWrap: 'nowrap',
-          width: '100%',
-          borderStyle: 'solid',
-          borderColor: 'fieldBorder',
-          borderLeftWidth: '0',
-          borderRightWidth: '0',
-          borderTopWidth: '1px',
-          borderBottomWidth: { base: '1px', lg: '0' },
+          flexDirection: 'column',
+          gap: '2px',
+          flex: { lg: '1 1 52%' },
         })}
       >
-        <a href="/work" className={linkClass}>
-          Work
-        </a>
-        <a href="/about" className={linkClass}>
-          About
-        </a>
-        <a href={`mailto:${identity.email}`} className={linkClass}>
-          Contact
-        </a>
+        {navItems.map((item) => (
+          <a
+            key={item.num}
+            href={item.href}
+            className={css({
+              display: 'flex',
+              alignItems: 'baseline',
+              gap: '14px',
+              paddingBlock: '12px',
+              borderBottomWidth: '1px',
+              borderBottomStyle: 'solid',
+              borderBottomColor: 'border',
+              color: 'text',
+              minHeight: '44px',
+              fontFamily: 'display',
+              fontSize: '34px',
+              letterSpacing: '.03em',
+              fontVariant: 'small-caps',
+              _hover: { color: 'accentAlt' },
+            })}
+          >
+            <span
+              className={css({
+                fontFamily: 'body',
+                fontSize: 'xs',
+                fontWeight: 'bold',
+                letterSpacing: '.1em',
+                color: 'accent',
+                transform: 'translateY(-4px)',
+                fontVariantNumeric: 'tabular-nums',
+              })}
+            >
+              {item.num}
+            </span>
+            {item.label}
+          </a>
+        ))}
       </nav>
-    </header>
+      <div
+        className={css({
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '18px',
+          paddingTop: '8px',
+          flex: { lg: '1 1 38%' },
+          alignItems: { base: 'flex-start', lg: 'flex-end' },
+          textAlign: { lg: 'right' },
+        })}
+      >
+        <div className={css({ color: 'text' })}>
+          <BrandLockup variant="horizontal-md" mode="original" />
+        </div>
+        <p className={css({ textStyle: 'sm', color: 'textMuted', letterSpacing: '.02em' })}>
+          {identity.role}
+        </p>
+        <p className={css({ textStyle: 'sm', color: 'textMuted', letterSpacing: '.02em' })}>
+          On rotation:{' '}
+          <strong className={css({ color: 'text', fontWeight: 'bold' })}>The War on Drugs</strong>,{' '}
+          <strong className={css({ color: 'text', fontWeight: 'bold' })}>My Morning Jacket</strong>
+        </p>
+        <p
+          className={css({
+            textStyle: 'sm',
+            color: 'textMuted',
+            letterSpacing: '.04em',
+            fontVariantNumeric: 'tabular-nums',
+          })}
+        >
+          © 2026 {identity.name} · Aldie, VA
+        </p>
+      </div>
+    </footer>
   )
 }

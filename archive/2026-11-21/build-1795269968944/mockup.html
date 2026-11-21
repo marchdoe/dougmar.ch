@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — Three tied at nine under.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b100d; --bgAlt:#07331e; --surface:#161b17;
+    --text:#f6f9f7; --textMuted:#a7b2aa; --textFaint:#78857c;
+    --accent:#2fd676; --accentAlt:#86edb0; --accentText:#0b100d;
+    --border:#272f2a; --borderStrong:#566058;
+    --field:#0a4b2b; --fieldBorder:#11a159;
+    --display:"Bebas Neue",Impact,sans-serif;
+    --body:"IBM Plex Sans",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:var(--body); font-weight:400;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    font-kerning:normal;
+  }
+  h1,h2,h3{margin:0; font-weight:inherit; text-wrap:balance;}
+  p{margin:0; text-wrap:pretty;}
+  a{color:var(--accent); text-decoration:none; transition:color 120ms ease;}
+  a:hover,a:focus-visible{color:var(--accentAlt);}
+  ::selection{background:var(--accent); color:var(--accentText);}
+
+  .tnum{font-variant-numeric:tabular-nums;}
+  .sc{font-variant-caps:small-caps; letter-spacing:.08em;}
+  .kicker{
+    font-family:var(--body); font-weight:500; font-size:13px;
+    text-transform:uppercase; letter-spacing:.14em; color:var(--textMuted);
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:var(--bgAlt);
+    padding:28px 6vw 40px;
+    display:flex; flex-direction:column; gap:28px;
+    min-height:94vh;
+  }
+  .lockup{
+    display:flex; align-items:flex-end; justify-content:flex-end;
+    gap:12px;
+  }
+  .lockup svg{height:44px; width:auto; display:block;}
+  .lockup .wordmark{
+    font-family:var(--display); font-weight:400; font-size:30px;
+    line-height:1; letter-spacing:-0.015em; color:var(--text);
+    transform:translateY(-1px);
+  }
+  .herometa{display:flex; flex-direction:column; gap:6px; margin-top:4px;}
+  .herometa .place{color:var(--textMuted); font-size:14px; letter-spacing:.02em;}
+  .herometa .place strong{color:var(--text); font-weight:500;}
+
+  .figblock{
+    display:flex; flex-wrap:wrap; align-items:flex-start; gap:clamp(10px,2vw,28px);
+    flex:1 1 auto;
+  }
+  .figure{
+    font-family:var(--display); font-weight:400;
+    font-size:clamp(88px,14vw,160px); line-height:.82;
+    color:var(--accent); letter-spacing:-0.01em;
+  }
+  .caption{
+    display:flex; flex-direction:column; align-items:flex-end; text-align:right;
+    font-family:var(--display); font-weight:400;
+    font-variant-caps:small-caps; letter-spacing:.04em;
+    font-size:clamp(30px,4.4vw,48px); line-height:.98;
+    color:var(--text); margin-top:6px;
+  }
+  .caption .under{color:var(--accentAlt);}
+
+  /* standings — ruled rows on surface; the void keeps the one bright number */
+  .standings{
+    background:var(--surface);
+    border:1px solid var(--border); border-radius:3px;
+    padding:20px 22px 10px;
+    color:var(--text);
+  }
+  .standings .shead{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding-bottom:12px; margin-bottom:4px;
+    border-bottom:1px solid var(--borderStrong);
+  }
+  .standings .shead h2{
+    font-family:var(--display); font-size:24px; letter-spacing:.03em;
+    color:var(--text);
+  }
+  .standings .shead .thru{color:var(--textMuted); font-size:13px; letter-spacing:.08em; font-weight:600;}
+  .row{
+    display:grid; grid-template-columns:40px 1fr auto;
+    align-items:baseline; gap:12px;
+    padding:13px 6px; border-bottom:1px solid var(--border);
+    transition:background 120ms ease; border-radius:2px;
+  }
+  .row:last-child{border-bottom:0;}
+  .row:hover{background:var(--bgAlt);}
+  .row .pos{font-size:13px; letter-spacing:.06em; color:var(--textFaint); font-weight:600;}
+  .row .name{
+    font-family:var(--display); font-size:clamp(22px,2.4vw,30px);
+    line-height:1; letter-spacing:.02em; color:var(--text);
+  }
+  .row .score{
+    font-family:var(--body); font-weight:600; font-size:15px;
+    color:var(--textMuted);
+  }
+  .row.lead .name{color:var(--text);}
+  .row.lead .score{color:var(--accent); font-weight:700;}
+
+  /* ---------- SIGNAL STRIP ---------- */
+  .signals{
+    border-top:1px solid var(--borderStrong);
+    border-bottom:1px solid var(--border);
+    padding:26px 6vw;
+    display:grid; grid-template-columns:1fr; gap:0;
+  }
+  .sig{
+    padding:18px 0; border-bottom:1px solid var(--border);
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .sig:last-child{border-bottom:0;}
+  .sig .slabel{font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--textMuted);}
+  .sig .sval{font-family:var(--display); font-size:34px; letter-spacing:.02em; color:var(--text); line-height:.95;}
+  .sig .ssub{font-size:14px; color:var(--textMuted);}
+  .sig .down{color:var(--textFaint);}
+
+  /* ---------- WORK ---------- */
+  .work{padding:48px 6vw 40px;}
+  .sectionhead{
+    display:flex; align-items:baseline; justify-content:space-between;
+    gap:16px; padding-bottom:16px; margin-bottom:8px;
+    border-bottom:1px solid var(--borderStrong);
+  }
+  .sectionhead h2{font-family:var(--display); font-size:clamp(26px,3vw,38px); letter-spacing:.03em;}
+
+  .featured{
+    display:flex; flex-direction:column; gap:14px;
+    padding:28px 0; border-bottom:1px solid var(--border);
+  }
+  .featured .ftag{font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent);}
+  .featured .ftitle{font-family:var(--display); font-size:clamp(44px,8vw,96px); line-height:.9; letter-spacing:.01em;}
+  .featured p{font-size:16px; line-height:1.55; color:var(--textMuted); max-width:62ch;}
+  .featured .flink{font-size:15px; font-weight:500; display:inline-block; padding:6px 0;}
+
+  .idx{display:flex; flex-direction:column;}
+  .idx a.item{
+    display:grid; grid-template-columns:1fr auto; align-items:baseline; gap:14px;
+    padding:16px 4px; border-bottom:1px solid var(--border);
+    color:var(--text); transition:background 120ms ease, color 120ms ease;
+    min-height:44px; border-radius:2px;
+  }
+  .idx a.item:hover{background:var(--surface); color:var(--accentAlt);}
+  .idx .iname{font-family:var(--display); font-size:clamp(26px,3.4vw,40px); line-height:1; letter-spacing:.02em;}
+  .idx .imeta{font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--textMuted); text-align:right; white-space:nowrap;}
+  .idx-group-label{
+    font-size:13px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--textFaint); padding:24px 4px 6px;
+  }
+
+  /* ---------- CALLOUT ---------- */
+  .callout{
+    background:var(--bgAlt);
+    border-top:1px solid var(--fieldBorder);
+    padding:48px 6vw;
+    display:flex; flex-direction:column; gap:14px;
+  }
+  .callout .ctag{font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent);}
+  .callout h2{font-family:var(--display); font-size:clamp(32px,5vw,64px); line-height:.95; letter-spacing:.02em; max-width:22ch;}
+  .callout p{font-size:16px; line-height:1.55; color:var(--textMuted); max-width:60ch;}
+  .callout a{font-size:15px; font-weight:500; display:inline-block; padding:6px 0;}
+
+  /* ---------- FOOTER (folded-into-nav) ---------- */
+  footer{
+    background:var(--bgAlt);
+    border-top:1px solid var(--borderStrong);
+    padding:40px 6vw 48px;
+    display:flex; flex-direction:column; gap:28px;
+  }
+  .footnav{display:flex; flex-direction:column; gap:2px;}
+  .footnav a{
+    display:flex; align-items:baseline; gap:14px;
+    padding:12px 0; border-bottom:1px solid var(--border);
+    color:var(--text); min-height:44px;
+    font-family:var(--display); font-size:34px; letter-spacing:.03em;
+    font-variant-caps:small-caps;
+  }
+  .footnav a:hover{color:var(--accentAlt);}
+  .footnav a .num{
+    font-family:var(--body); font-size:13px; font-weight:500;
+    letter-spacing:.1em; color:var(--accent); transform:translateY(-4px);
+  }
+  .footbottom{
+    display:flex; flex-direction:column; gap:18px;
+    padding-top:8px;
+  }
+  .footbottom .flockup{display:flex; align-items:flex-end; gap:12px;}
+  .footbottom .flockup svg{height:40px; width:auto;}
+  .footbottom .flockup .wordmark{
+    font-family:var(--display); font-size:28px; line-height:1;
+    letter-spacing:-0.015em; color:var(--text); transform:translateY(-1px);
+  }
+  .footbottom .rotation{font-size:14px; color:var(--textMuted); letter-spacing:.02em;}
+  .footbottom .rotation strong{color:var(--text); font-weight:500;}
+  .footbottom .colophon{font-size:13px; color:var(--textFaint); letter-spacing:.04em;}
+
+  /* ---------- TABLET ---------- */
+  @media (min-width:720px){
+    .signals{grid-template-columns:repeat(2,1fr); column-gap:40px;}
+    .sig{border-bottom:1px solid var(--border);}
+    .featured{flex-direction:row; flex-wrap:wrap; align-items:flex-start; gap:24px 48px;}
+    .featured .ftop{flex:1 1 280px;}
+    .featured .fbody{flex:1 1 320px; display:flex; flex-direction:column; gap:14px;}
+  }
+
+  /* ---------- DESKTOP ---------- */
+  @media (min-width:1000px){
+    .hero{
+      display:grid;
+      grid-template-columns:1.15fr 0.85fr;
+      grid-template-rows:auto 1fr;
+      column-gap:4vw; row-gap:24px;
+      padding:40px 6vw 56px;
+      min-height:92vh;
+    }
+    .lockup{grid-column:2; grid-row:1; align-self:start;}
+    .heroleft{grid-column:1; grid-row:1 / span 2; display:flex; flex-direction:column; justify-content:space-between; gap:32px;}
+    .standings{grid-column:2; grid-row:2; align-self:start;}
+    .figblock{flex-wrap:nowrap; justify-content:flex-end; align-items:flex-start;}
+    .figblock .caption{order:-1;}
+    .signals{grid-template-columns:repeat(4,1fr); column-gap:3vw;}
+    .work{display:grid; grid-template-columns:1fr; gap:0; padding:72px 6vw 56px;}
+    .callout{flex-direction:row; align-items:flex-start; justify-content:space-between; gap:5vw; padding:72px 6vw;}
+    .callout .cleft{flex:1 1 55%;}
+    .callout .cright{flex:1 1 38%; display:flex; flex-direction:column; gap:14px;}
+    footer{
+      flex-direction:row; justify-content:space-between; align-items:flex-start;
+      gap:6vw; padding:56px 6vw 64px;
+    }
+    .footnav{flex:1 1 52%;}
+    .footbottom{flex:1 1 38%; align-items:flex-end; text-align:right;}
+    .footbottom .colophon{text-align:right;}
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <!-- HERO: figure dominates, standings as evidence -->
+  <section class="hero">
+
+    <div class="lockup" aria-label="Doug March">
+      <svg viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+        <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+        <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+        <circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+        <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+      </svg>
+      <span class="wordmark">Doug March</span>
+    </div>
+
+    <div class="heroleft">
+      <div class="figblock">
+        <h1 class="figure" aria-label="nine under; three tied">&#8722;9</h1>
+        <p class="caption" aria-hidden="true">
+          <span>Three</span>
+          <span>tied</span>
+          <span>at</span>
+          <span>nine</span>
+          <span class="under">under.</span>
+        </p>
+      </div>
+
+      <div class="herometa">
+        <span class="kicker">RSM Classic &middot; Sea Island, GA &middot; Round 4 — Live</span>
+        <span class="place"><strong>Aldie, VA</strong> — overcast, 47&deg;F &middot; Sat, Nov 21 2026</span>
+      </div>
+    </div>
+
+    <div class="standings" aria-label="Leaderboard">
+      <div class="shead">
+        <h2>Leaderboard</h2>
+        <span class="thru tnum sc">Thru 18</span>
+      </div>
+      <div class="row lead">
+        <span class="pos tnum">T1</span>
+        <span class="name">Penge</span>
+        <span class="score tnum">&#8722;9</span>
+      </div>
+      <div class="row lead">
+        <span class="pos tnum">T1</span>
+        <span class="name">Neergaard-Petersen</span>
+        <span class="score tnum">&#8722;9</span>
+      </div>
+      <div class="row lead">
+        <span class="pos tnum">T1</span>
+        <span class="name">Thorbjornsen</span>
+        <span class="score tnum">&#8722;9</span>
+      </div>
+      <div class="row">
+        <span class="pos tnum">T4</span>
+        <span class="name">McGreevy</span>
+        <span class="score tnum">&#8722;8</span>
+      </div>
+      <div class="row">
+        <span class="pos tnum">T4</span>
+        <span class="name">Hodges</span>
+        <span class="score tnum">&#8722;8</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGNAL STRIP: crowded scoreboard texture -->
+  <section class="signals" aria-label="The day in signals">
+    <div class="sig">
+      <span class="slabel">Markets</span>
+      <span class="sval tnum">SPY 689.81</span>
+      <span class="ssub tnum"><span class="down">&#9660;</span> down 3.64% on the day</span>
+    </div>
+    <div class="sig">
+      <span class="slabel">Pistons</span>
+      <span class="sval tnum">102&ndash;105</span>
+      <span class="ssub">Fell at home, one possession short</span>
+    </div>
+    <div class="sig">
+      <span class="slabel">Weather</span>
+      <span class="sval tnum">47&deg;F</span>
+      <span class="ssub">Aldie, VA — overcast</span>
+    </div>
+    <div class="sig">
+      <span class="slabel">Holiday</span>
+      <span class="sval">Thanksgiving</span>
+      <span class="ssub tnum">In 5 days</span>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="work">
+    <div class="sectionhead">
+      <h2>Selected Work</h2>
+      <span class="kicker">Build &amp; design, one desk</span>
+    </div>
+
+    <div class="featured">
+      <div class="ftop">
+        <span class="ftag">Featured</span>
+        <h3 class="ftitle">Spaceman</h3>
+      </div>
+      <div class="fbody">
+        <p>The LLC Doug operates under — partnering with companies and studios
+           across product design, frontend engineering, design systems and brand.
+           Sometimes solo, sometimes embedded in a larger team, always from one
+           desk.</p>
+        <a class="flink" href="/work/spaceman">Read the case &rarr;</a>
+      </div>
+    </div>
+
+    <div class="idx">
+      <div class="idx-group-label">Projects</div>
+      <a class="item" href="/work/15th-club">
+        <span class="iname">15th&nbsp;Club</span>
+        <span class="imeta">AI &middot; 2025</span>
+      </a>
+      <a class="item" href="/work/fishsticks">
+        <span class="iname">FishSticks</span>
+        <span class="imeta">SaaS &middot; 2025</span>
+      </a>
+      <a class="item" href="/work/dougmar-ch">
+        <span class="iname">dougmar.ch</span>
+        <span class="imeta">AI &middot; 2026</span>
+      </a>
+
+      <div class="idx-group-label">Experiments</div>
+      <a class="item" href="/work/teeturn">
+        <span class="iname">TeeTurn</span>
+        <span class="imeta">Experiment &middot; 2020</span>
+      </a>
+      <a class="item" href="/work/politweets">
+        <span class="iname">Politweets</span>
+        <span class="imeta">Experiment &middot; 2008</span>
+      </a>
+      <a class="item" href="/work/twittertale">
+        <span class="iname">Twittertale</span>
+        <span class="imeta">Experiment &middot; 2008</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- SITE CALLOUT -->
+  <section class="callout">
+    <div class="cleft">
+      <span class="ctag">The desk</span>
+      <h2>A score is a score. The work is the same.</h2>
+    </div>
+    <div class="cright">
+      <p>Doug designs and builds from one chair — product, interface and the code
+         underneath it. Four holes in one, a handful of shipped things, and a
+         standing interest in the number that leads the board.</p>
+      <a href="/about">About Doug &rarr;</a>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER: folded-into-nav -->
+<footer>
+  <nav class="footnav" aria-label="Primary">
+    <a href="/work"><span class="num tnum">01</span> Work</a>
+    <a href="/about"><span class="num tnum">02</span> About</a>
+    <a href="/contact"><span class="num tnum">03</span> Contact</a>
+  </nav>
+  <div class="footbottom">
+    <div class="flockup" aria-label="Doug March">
+      <svg viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+        <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+        <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+        <circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+        <circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+        <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+      </svg>
+      <span class="wordmark">Doug March</span>
+    </div>
+    <p class="rotation">On rotation: <strong>The War on Drugs</strong>, <strong>My Morning Jacket</strong></p>
+    <p class="colophon tnum">&copy; 2026 Doug March &middot; Aldie, VA</p>
+  </div>
+</footer>
+</body>
+</html>
