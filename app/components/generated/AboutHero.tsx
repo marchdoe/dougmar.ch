@@ -1,88 +1,48 @@
 import { css } from '../../../styled-system/css'
 import { identity } from '../../content/about'
-import { TopLockup } from './TopLockup'
+import { FieldHero } from './FieldHero'
 
 export function AboutHero() {
+  const statement = identity.statement.replace(/\s*[—–]\s*/g, ', ')
   return (
-    <section
-      className={css({
-        bg: 'bgAlt',
-        color: 'text',
-        display: { base: 'flex', lg: 'grid' },
-        flexDirection: 'column',
-        gridTemplateColumns: { lg: '1.15fr 0.85fr' },
-        gridTemplateRows: { lg: 'auto 1fr' },
-        columnGap: { lg: '4vw' },
-        rowGap: { base: '28px', lg: '24px' },
-        paddingTop: { base: '28px', lg: '40px' },
-        paddingInline: '6vw',
-        paddingBottom: { base: '40px', lg: '56px' },
-      })}
-    >
-      <TopLockup />
-      <div
+    <FieldHero label={identity.role}>
+      <h1
         className={css({
-          gridColumn: { lg: '1' },
-          gridRow: { lg: '1 / span 2' },
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '16px',
+          alignSelf: 'flex-end',
+          textAlign: 'right',
+          marginTop: 'auto',
+          paddingTop: '48px',
+          paddingLeft: '28px',
+          fontFamily: 'display',
+          fontWeight: 'normal',
+          fontStyle: 'normal',
+          textTransform: 'lowercase',
+          textStyle: { base: '3xl', md: '4xl' },
+          color: 'fieldInk',
+          animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          animationDelay: '0ms',
+          md: { paddingTop: '64px', paddingLeft: '40px' },
         })}
       >
-        <span
-          className={css({
-            fontSize: 'xs',
-            textTransform: 'uppercase',
-            letterSpacing: '.14em',
-            color: 'textMuted',
-          })}
-        >
-          About
-        </span>
-        <h1
-          className={css({
-            fontFamily: 'display',
-            fontWeight: 'normal',
-            fontSize: 'clamp(30px, 3.4vw, 44px)',
-            lineHeight: '1.02',
-            letterSpacing: '.02em',
-            maxWidth: '30ch',
-            animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '0ms',
-          })}
-        >
-          {identity.statement}
-        </h1>
-      </div>
-      <div
+        {identity.name}
+      </h1>
+      <p
         className={css({
-          gridColumn: { lg: '2' },
-          gridRow: { lg: '2' },
-          alignSelf: { lg: 'end' },
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '6px',
-          textAlign: { lg: 'right' },
+          alignSelf: 'flex-end',
+          textAlign: 'right',
+          marginTop: '5',
+          paddingLeft: '28px',
+          textStyle: { base: 'base', md: 'lede' },
+          lineHeight: 'normal',
+          color: 'fieldInkMuted',
+          maxWidth: '46ch',
+          animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          animationDelay: '80ms',
+          md: { paddingLeft: '40px' },
         })}
       >
-        <span className={css({ fontFamily: 'display', fontSize: '30px', letterSpacing: '.02em' })}>
-          {identity.name}
-        </span>
-        <span className={css({ textStyle: 'sm', color: 'textMuted' })}>{identity.role}</span>
-        <a
-          href={`mailto:${identity.email}`}
-          className={css({
-            textStyle: 'sm',
-            fontWeight: 'bold',
-            minHeight: '44px',
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: { lg: 'flex-end' },
-          })}
-        >
-          {identity.email}
-        </a>
-      </div>
-    </section>
+        {statement}
+      </p>
+    </FieldHero>
   )
 }

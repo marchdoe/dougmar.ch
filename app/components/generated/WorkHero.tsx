@@ -1,116 +1,81 @@
 import { css } from '../../../styled-system/css'
 import type { projects } from '../../content/projects'
-import { TopLockup } from './TopLockup'
+import { FieldHero } from './FieldHero'
 
-type CaseProject = (typeof projects)[number] & { timeline?: string; status?: string }
+type Project = (typeof projects)[number]
 
-function metaItems(p: CaseProject) {
+function factsFor(project: Project) {
+  const extra: Record<string, unknown> = { ...project }
+  const clients = (project.clients ?? []).map((c) => c.name).join(', ')
   return [
-    { label: 'Year', value: String(p.year) },
-    { label: 'Type', value: p.type },
-    { label: 'Role', value: p.role ?? '' },
-    { label: 'Timeline', value: p.timeline ?? '' },
-    { label: 'Status', value: p.status ?? '' },
-  ].filter((m) => m.value !== '')
+    { label: 'year', value: String(project.year) },
+    { label: 'type', value: project.type },
+    { label: 'role', value: project.role ?? '' },
+    { label: 'timeline', value: typeof extra.timeline === 'string' ? extra.timeline : '' },
+    { label: 'status', value: typeof extra.status === 'string' ? extra.status : '' },
+    { label: 'clients', value: clients },
+  ].filter((f) => f.value !== '')
 }
 
-export function WorkHero({ project }: { project: CaseProject }) {
+export function WorkHero({ project }: { project: Project }) {
   return (
-    <section
-      className={css({
-        bg: 'bgAlt',
-        color: 'text',
-        display: { base: 'flex', lg: 'grid' },
-        flexDirection: 'column',
-        gridTemplateColumns: { lg: '1.4fr 0.6fr' },
-        gridTemplateRows: { lg: 'auto 1fr' },
-        columnGap: { lg: '4vw' },
-        rowGap: { base: '28px', lg: '24px' },
-        paddingTop: { base: '28px', lg: '40px' },
-        paddingInline: '6vw',
-        paddingBottom: { base: '40px', lg: '56px' },
-      })}
-    >
-      <TopLockup />
-      <div
+    <FieldHero label={`${project.type} · ${project.year}`}>
+      <h1
         className={css({
-          gridColumn: { lg: '1' },
-          gridRow: { lg: '1 / span 2' },
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '12px',
-          minWidth: '0',
+          marginTop: 'auto',
+          paddingTop: '48px',
+          textAlign: 'right',
+          fontFamily: 'display',
+          fontWeight: 'normal',
+          fontStyle: 'normal',
+          textStyle: { base: '3xl', md: '5xl', xl: 'hero' },
+          color: 'fieldInk',
+          animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          animationDelay: '0ms',
+          md: { paddingTop: '64px' },
         })}
       >
-        <a
-          href="/work"
-          className={css({
-            fontSize: 'xs',
-            textTransform: 'uppercase',
-            letterSpacing: '.14em',
-            minHeight: '44px',
-            display: 'inline-flex',
-            alignItems: 'center',
-          })}
-        >
-          ← All work
-        </a>
-        {/* At 360 the hero step outruns the 317px column for one-word titles; a fixed size fits it. */}
-        <h1
-          className={css({
-            fontFamily: 'display',
-            fontWeight: 'normal',
-            fontSize: { base: '40px', md: 'hero' },
-            lineHeight: '0.88',
-            letterSpacing: 'tight',
-            color: 'text',
-            animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-            animationDelay: '0ms',
-          })}
-        >
-          {project.title}
-        </h1>
-      </div>
+        {project.title}
+      </h1>
       <dl
         className={css({
-          gridColumn: { lg: '2' },
-          gridRow: { lg: '2' },
-          alignSelf: { lg: 'end' },
-          margin: '0',
           display: 'flex',
-          flexDirection: 'column',
+          flexWrap: 'wrap',
+          columnGap: '6',
+          rowGap: '3',
+          marginTop: '5',
+          paddingLeft: '28px',
+          borderTop: '1px solid',
+          borderColor: 'fieldBorder',
+          paddingTop: '4',
+          md: { paddingLeft: '40px' },
         })}
       >
-        {metaItems(project).map((m) => (
-          <div
-            key={m.label}
-            className={css({
-              display: 'grid',
-              gridTemplateColumns: '96px 1fr',
-              columnGap: '12px',
-              alignItems: 'baseline',
-              paddingBlock: '10px',
-              borderBottomWidth: '1px',
-              borderBottomStyle: 'solid',
-              borderBottomColor: 'border',
-            })}
-          >
+        {factsFor(project).map((fact) => (
+          <div key={fact.label}>
             <dt
               className={css({
-                fontSize: 'xs',
-                textTransform: 'uppercase',
-                letterSpacing: '.1em',
-                color: 'textMuted',
+                textStyle: 'xs',
+                color: 'fieldInkMuted',
+                textTransform: 'lowercase',
+                letterSpacing: 'wide',
               })}
             >
-              {m.label}
+              {fact.label}
             </dt>
-            <dd className={css({ margin: '0', textStyle: 'sm', color: 'text', minWidth: '0' })}>
-              {m.value}
+            <dd
+              className={css({
+                margin: '0',
+                textStyle: 'sm',
+                color: 'fieldInk',
+                fontVariantNumeric: 'tabular-nums',
+              })}
+            >
+              {fact.value}
             </dd>
           </div>
         ))}
       </dl>
-    </section>
+    </FieldHero>
   )
 }

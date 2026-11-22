@@ -1,0 +1,63 @@
+[
+  {
+    "critic": "mockup-precheck",
+    "round": 0,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1795354467905
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 0,
+    "verdict": "REVISE",
+    "feedback": "1. (Judgment 5) The Spaceman deck reads \"I wanted a studio that could ship a product a year without a committee — so I built one. Ten years of making things end to end.\" The records say something different. Spaceman is the LLC Doug has operated under for a decade, partnering with companies and studios on product design, frontend engineering, design systems and brand. Replace the deck with copy drawn from that record.\n\n2. (Judgment 5) The Spaceman link reads \"spaceman.studio ↗\". The record's liveUrl is https://spaceman.llc. Use that address.\n\n3. (Judgment 3) Type Treatment declares `weight: regular`, and the brief calls Hanken Grotesk a single-weight roman chassis. The lead element is set visibly heavy at both 1440 and 360: Spaceman and every index title below it. Set the titles at the declared regular weight so the hero object carries the declared treatment.",
+    "channel": "sdk-vision",
+    "ts": 1795354480223
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 1,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1795354514275
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 1,
+    "verdict": "APPROVE",
+    "feedback": "The page leads with Spaceman as a huge right-railed title, with the lowercase credo set one step down on the violet field above it. Every project title below hangs off that same right edge. Together they make a credible right-rail broadsheet that carries cleanly from 1440 down to the 360 stack.",
+    "channel": "sdk-vision",
+    "ts": 1795354527791
+  },
+  {
+    "critic": "surface-gate",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "/about @1440: 340 characters of running copy set at 64px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: 340 characters of running copy set at 64px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: em dash in rendered copy: \"...intersection of design and engineering — not as a generalist, but as someone wh...\". Use a period or a comma.\n/ @1440: The mockup's largest text is 'spaceman' at 128px; the build sets 'i build the things i want to exist' at 128px. Restore the mockup's hierarchy: 'i build the things i want to exist' is 56px in the mockup.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1795354859259
+  },
+  {
+    "critic": "screenshot-critic",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 2/7 — react-engineer: The measured render sets the standfirst \"i build the things i want to exist.\" at 128px, identical to the \"Spaceman\" project title, when the Type Treatment calls for the standfirst at `4xl` (~56px per mockup) and the work-index titles at `hero_scale` (5xl→hero). `hero_object: list` means the titles must be the single largest, dominant object with the phrase reading as their caption; at equal scale the two compete and the intended reversed hierarchy (work leads, credo captions) is lost. Shrink the standfirst back to 4xl so Spaceman and the other titles unambiguously outrank it.\n- Section 5 — react-engineer: `/about` at 1440px renders 340 characters of running copy (\"I work at the intersection of design and engineering — not as a generalist...\") at 64px, a display-scale wall of body text rather than a hero phrase. Set this prose on the body/lede step (≤48px, ideally well under) and reserve the display step for a short phrase, matching the pattern used on the homepage.\n===END===",
+    "channel": "sdk-vision",
+    "ts": 1795354972956
+  },
+  {
+    "critic": "surface-gate",
+    "round": 2,
+    "verdict": "SHIP",
+    "feedback": "app/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1795355048177
+  },
+  {
+    "critic": "screenshot-critic",
+    "round": "final",
+    "verdict": "SHIP",
+    "feedback": "===VERDICT===\nSHIP\n===END===",
+    "channel": "sdk-vision",
+    "ts": 1795355170201
+  }
+]

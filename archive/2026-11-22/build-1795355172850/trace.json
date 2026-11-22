@@ -1,0 +1,817 @@
+{
+  "date": "2026-11-22",
+  "startedAt": "2026-11-22T13:19:42.090Z",
+  "completedAt": "2026-11-22T13:46:19.645Z",
+  "steps": [
+    {
+      "name": "signals-loaded",
+      "phase": 0,
+      "input": {
+        "providersAvailable": 17
+      },
+      "output": {
+        "air_quality": {
+          "aqi_index": 2,
+          "uv_index": 0.1,
+          "air_quality_label": "Moderate"
+        },
+        "books": {
+          "currently_reading": []
+        },
+        "day_of_week": {
+          "day": "Sunday",
+          "is_weekend": true,
+          "day_index": 0
+        },
+        "github": {
+          "repos": [
+            {
+              "name": "sponsors/elementalsouls",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            },
+            {
+              "name": "sponsors/obra",
+              "description": "",
+              "language": "Shell",
+              "stars": null
+            },
+            {
+              "name": "HKUDS/CLI-Anything/stargazers",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            },
+            {
+              "name": "jingyaogong/minimind/stargazers",
+              "description": "",
+              "language": "Python",
+              "stars": null
+            },
+            {
+              "name": "cursor/plugins/stargazers",
+              "description": "",
+              "language": "TypeScript",
+              "stars": null
+            }
+          ]
+        },
+        "golf": {
+          "tournament": "The RSM Classic",
+          "status": "In Progress",
+          "leaders": [
+            {
+              "name": "Marco Penge",
+              "position": "1",
+              "score": "-9"
+            },
+            {
+              "name": "Rasmus Neergaard-Petersen",
+              "position": "2",
+              "score": "-9"
+            },
+            {
+              "name": "Michael Thorbjornsen",
+              "position": "3",
+              "score": "-9"
+            },
+            {
+              "name": "Max McGreevy",
+              "position": "4",
+              "score": "-8"
+            },
+            {
+              "name": "Lee Hodges",
+              "position": "5",
+              "score": "-8"
+            }
+          ]
+        },
+        "hacker_news": {
+          "stories": [
+            {
+              "title": "Toyota, Nissan, and Honda to standardize parts to lower costs",
+              "url": "https://www.caranddriver.com/news/a74490092/toyota-nissan-honda-standardize-parts-lower-costs/",
+              "score": 680,
+              "by": "zdw"
+            },
+            {
+              "title": "Pill to treat pancreatic cancer hailed as 'biggest breakthrough in decades'",
+              "url": "https://www.theguardian.com/society/2026/nov/20/pill-pancreatic-cancer-breakthrough-daraxonrasib",
+              "score": 1120,
+              "by": "rafaelc"
+            },
+            {
+              "title": "A real Linux kernel, compiled to WebAssembly",
+              "url": "https://github.com/pithings/unkernel",
+              "score": 99,
+              "by": "DonAtimator"
+            },
+            {
+              "title": "Lean verification of the Riemann Hypothesis",
+              "url": "https://leanprover-community.github.io/blog/posts/riemann-hypothesis/",
+              "score": 1089,
+              "by": "g-b-r"
+            },
+            {
+              "title": "Sandwich Simulator",
+              "url": "https://stulle.app/",
+              "score": 334,
+              "by": "subdomain"
+            }
+          ]
+        },
+        "holidays": {
+          "today": null,
+          "upcoming": [
+            {
+              "name": "Thanksgiving",
+              "date": "2026-11-26",
+              "days_away": 4
+            }
+          ]
+        },
+        "lunar": {
+          "phase": "full moon",
+          "illumination": 0.979,
+          "days_into_cycle": 13.4
+        },
+        "market": {
+          "symbol": "SPY",
+          "price": "689.8100",
+          "change": "-26.0600",
+          "change_percent": "-3.6403%",
+          "direction": "down"
+        },
+        "music": {
+          "bands": [
+            "Tobin Sprout",
+            "My Morning Jacket",
+            "The War on Drugs"
+          ],
+          "rotation": true
+        },
+        "news": {
+          "headlines": [
+            {
+              "title": "International first class is over for U.S. airlines. Enter the mega business-class cabin - CNBC",
+              "source": "CNBC",
+              "url": "https://www.cnbc.com/2026/11/21/us-airlines-first-class-business-class.html"
+            },
+            {
+              "title": "Zelensky says Crimean Bridge strikes 'fair response' as he meets UK's Streeting - BBC",
+              "source": "BBC News",
+              "url": "https://www.bbc.com/news/articles/c6wy0qj7w5zqo"
+            },
+            {
+              "title": "Fears about toxic lead dust spur battle over US Army plan to detonate bomb-making material in Iowa - CNN",
+              "source": "CNN",
+              "url": "https://www.cnn.com/2026/11/21/us/iowa-army-detonation-what-we-know"
+            },
+            {
+              "title": "Denmark expels Russian diplomat over alleged plot to kill Ukrainian rapper - Al Jazeera",
+              "source": "Al Jazeera English",
+              "url": "https://www.aljazeera.com/news/2026/11/21/denmark-expels-russian-diplomat-over-alleged-plot-to-kill-ukrainian-rapper"
+            },
+            {
+              "title": "Nations at UN talks on AI killer robots agree to more talks but no firm commitment to rein them in - AP News",
+              "source": "Associated Press",
+              "url": "https://apnews.com/article/un-drones-robots-un-lethal-ai-weapons-ebe057d2a47cde53100970c8f648e7fa"
+            }
+          ]
+        },
+        "season": {
+          "season": "fall",
+          "month": 11,
+          "day": 22,
+          "day_of_year": 326,
+          "month_name": "November"
+        },
+        "sidebar": {
+          "links": [
+            {
+              "title": "Impermanence",
+              "url": "https://tcosta.com/impermanence/",
+              "source": "tcosta.com",
+              "description": "A little game about craft, impermanence, and what remains human in a world where almost anything can be made."
+            },
+            {
+              "title": "How rich is a billionaire, really?",
+              "url": "https://www.thehowpage.com/economics/billionaire-wealth",
+              "source": "thehowpage.com",
+              "description": "An interactive, scroll-driven data story that makes you feel the incomprehensible scale of billionaire wealth."
+            },
+            {
+              "title": "In making things, we make ourselves",
+              "url": "https://justinjay.wang/in-making-things-we-make-ourselves/",
+              "source": "justinjay.wang",
+              "description": "Reflections from the Toyota museum in Nagoya, Japan."
+            },
+            {
+              "title": "Squircles",
+              "url": "https://linebender.org/wiki/curves/squircle/",
+              "source": "linebender.org",
+              "description": "Squircle math, G2 continuity, and CSS corner-shape specs."
+            },
+            {
+              "title": "Only the human merges",
+              "url": "https://itsmeduncan.com/2026/11/17/only-the-human-merges/",
+              "source": "itsmeduncan.com",
+              "description": "My agents wrote most of the commits in Whelk. None of them can merge, close a task or answer its own question."
+            }
+          ]
+        },
+        "sports": {
+          "teams": [
+            {
+              "name": "Detroit Lions",
+              "league": "NFL",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            },
+            {
+              "name": "Detroit Red Wings",
+              "league": "NHL",
+              "last_game": "2026-11-22T00:00Z",
+              "result": "loss",
+              "score": "2-3"
+            },
+            {
+              "name": "Detroit Pistons",
+              "league": "NBA",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            },
+            {
+              "name": "Detroit Tigers",
+              "league": "MLB",
+              "last_game": null,
+              "result": "off season",
+              "score": null
+            }
+          ]
+        },
+        "sun": {
+          "sunrise": "07:08",
+          "sunset": "16:46",
+          "daylight_hours": 9.6
+        },
+        "weather": {
+          "location": "Aldie, Virginia",
+          "conditions": "Overcast",
+          "temp_f": 53.1,
+          "temp_c": 11.7,
+          "humidity": 83,
+          "wind_mph": 3.6,
+          "wind_dir": "N",
+          "feels_like_f": 51.6
+        },
+        "date": "2026-11-22"
+      },
+      "durationMs": 0,
+      "timestamp": "2026-11-22T13:19:42.115Z"
+    },
+    {
+      "name": "art-director",
+      "phase": 1,
+      "input": {
+        "compositionMandate": "## Composition Mandate\n\nRecency is tracked per axis, not per whole tuple: a value used on any of the last 3 builds is discouraged for that axis. The starting values below are derived from today's date — they are a specific place to begin, not an instruction.\n\n- **columns** — start from `three` (avoid `two-asymmetric`, `two-equal`, `irregular-twelve`)\n- **axis** — start from `diagonal` (avoid `vertical`, `radial`, `horizontal`)\n- **symmetry** — start from `right-weighted` (avoid `left-weighted`, "
+      },
+      "output": {
+        "hero_copy": "I build the things I want to exist.",
+        "archetype": "a right-rail broadsheet index, maker's credo as the standfirst",
+        "composition": {
+          "columns": "single",
+          "axis": "diagonal",
+          "symmetry": "right-weighted",
+          "hero_zone": "edge-bound",
+          "density": "measured",
+          "rhythm": "interrupted",
+          "shell_posture": "none",
+          "field_ratio": "type-dominant",
+          "collapse": "stack",
+          "hero_object": "list"
+        },
+        "mobile": {
+          "carrier": "The right-rail broadsheet becomes a full-width stack where the large right-aligned project titles carry the page and the lowercase standfirst sits above them.",
+          "first_fold": "Circular mark top-left, the standfirst \"I build the things I want to exist.\", and the first project title.",
+          "order": "mark, standfirst, work index, signal band, site callout, footer signature",
+          "hero_step_360": "3xl",
+          "nav_360": "No header; mark top-left above the standfirst, work-index titles are the nav, about/contact in the footer."
+        },
+        "chassisId": "hanken-solo",
+        "specLength": 5400,
+        "specPreview": "### 1. Color Specification\n- **Primary hue**: 291° amethyst violet. A cool, nocturnal, considered hue for a reflective Sunday under a 98%-full moon, and the only fresh register that sits ≥60° from all seven recent primaries. Deviates from the auto-mandate's 140–180° green, which would land inside last week's teal/fairway cluster (see color_story).\n- **Neutral palette** (violet-tinted): 50 `#f6f3fa`, 100 `#ece7f3`, 200 `#dcd4e8`, 300 `#c3b8d5`, 400 `#9d8fb3`, 500 `#776a8d`, 600 `#5a4e70`, 700 `#4",
+        "selfCheck": "1. Hero quotability: Yes — \"I build the things I want to exist.\" stands alone as a maker's credo, not a descriptive opener.\n2. Because-of chain: Yes — a credo that frames a body of work made the work index the hero object, which made a single right-rail broadsheet, which chose a quiet single-grotesk"
+      },
+      "durationMs": 585106,
+      "timestamp": "2026-11-22T13:29:27.232Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 0
+      },
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "1. (Judgment 5) The Spaceman deck reads \"I wanted a studio that could ship a product a year without a committee — so I built one. Ten years of making things end to end.\" The records say something different. Spaceman is the LLC Doug has operated under for a decade, partnering with companies and studios on product design, frontend engineering, design systems and brand. Replace the deck with copy drawn from that record.\n\n2. (Judgment 5) The Spaceman link reads \"spaceman.studio ↗\". The record's live"
+      },
+      "durationMs": 311739,
+      "timestamp": "2026-11-22T13:34:40.223Z"
+    },
+    {
+      "name": "mockup-patch",
+      "phase": 2,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "edits": 3,
+        "bytes": 13359
+      },
+      "durationMs": 24554,
+      "timestamp": "2026-11-22T13:35:04.777Z"
+    },
+    {
+      "name": "mockup-critic",
+      "phase": 2,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "verdict": "APPROVE",
+        "feedback": "The page leads with Spaceman as a huge right-railed title, with the lowercase credo set one step down on the violet field above it. Every project title below hangs off that same right edge. Together they make a credible right-rail broadsheet that carries cleanly from 1440 down to the 360 stack."
+      },
+      "durationMs": 47568,
+      "timestamp": "2026-11-22T13:35:27.791Z"
+    },
+    {
+      "name": "react-engineer",
+      "phase": 3,
+      "input": {
+        "tokenContext": 4154,
+        "briefLength": 9123,
+        "mockupLength": 13359
+      },
+      "output": {
+        "files": [
+          "app/components/Layout.tsx",
+          "app/components/Sidebar.tsx",
+          "app/components/generated/FieldHero.tsx",
+          "app/components/generated/RevealSection.tsx",
+          "app/components/generated/rows.tsx",
+          "app/components/generated/SectionLabel.tsx",
+          "app/components/generated/SignalBand.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/HomeSignals.tsx",
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/TimelineSection.tsx",
+          "app/components/generated/CapabilitiesSection.tsx",
+          "app/components/generated/EducationSection.tsx",
+          "app/components/generated/PersonalSignals.tsx",
+          "app/components/generated/WorkHero.tsx",
+          "app/components/generated/CaseStudy.tsx",
+          "app/components/generated/CaseMissing.tsx",
+          "app/routes/index.tsx",
+          "app/routes/about.tsx",
+          "app/routes/work.$slug.tsx",
+          "app/routes/og.tsx"
+        ],
+        "rationale": ""
+      },
+      "durationMs": 276931,
+      "timestamp": "2026-11-22T13:40:04.799Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 3,
+      "input": {
+        "after": "react-engineer"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/CapabilitiesSection.tsx",
+          "app/components/generated/CaseMissing.tsx",
+          "app/components/generated/CaseStudy.tsx",
+          "app/components/generated/EducationSection.tsx",
+          "app/components/generated/FieldHero.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/HomeSignals.tsx",
+          "app/components/generated/PersonalSignals.tsx",
+          "app/components/generated/RevealSection.tsx",
+          "app/components/generated/SectionLabel.tsx",
+          "app/components/generated/SignalBand.tsx",
+          "app/components/generated/TimelineSection.tsx",
+          "app/components/generated/WorkHero.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/rows.tsx"
+        ],
+        "removed": [
+          "app/components/generated/CapabilityStrip.tsx",
+          "app/components/generated/CaseBody.tsx",
+          "app/components/generated/EducationBlock.tsx",
+          "app/components/generated/FeaturedWork.tsx",
+          "app/components/generated/HeroScore.tsx",
+          "app/components/generated/Leaderboard.tsx",
+          "app/components/generated/MissingHero.tsx",
+          "app/components/generated/Reveal.tsx",
+          "app/components/generated/SectionHead.tsx",
+          "app/components/generated/SignalStrip.tsx",
+          "app/components/generated/TimelineList.tsx",
+          "app/components/generated/TopLockup.tsx",
+          "app/components/generated/WorkSection.tsx"
+        ]
+      },
+      "durationMs": 6,
+      "timestamp": "2026-11-22T13:40:04.805Z"
+    },
+    {
+      "name": "build-validation",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "success": true
+      },
+      "durationMs": 0,
+      "timestamp": "2026-11-22T13:40:16.311Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 1
+      },
+      "output": {
+        "measured": 73,
+        "errorCount": 4,
+        "findings": [
+          {
+            "surface": "/about",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "dark",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "340 characters of running copy set at 64px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/about",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "running-copy",
+            "severity": "error",
+            "detail": "340 characters of running copy set at 64px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase."
+          },
+          {
+            "surface": "/about",
+            "viewport": "desktop",
+            "width": 1440,
+            "scheme": "light",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "error",
+            "detail": "em dash in rendered copy: \"...intersection of design and engineering — not as a generalist, but as someone wh...\". Use a period or a comma."
+          },
+          {
+            "surface": "/",
+            "scheme": "light",
+            "kind": "mockup-hierarchy",
+            "severity": "error",
+            "route": "/",
+            "viewport": "desktop",
+            "width": 1440,
+            "detail": "The mockup's largest text is 'spaceman' at 128px; the build sets 'i build the things i want to exist' at 128px. Restore the mockup's hierarchy: 'i build the things i want to exist' is 56px in the mockup.",
+            "facts": {
+              "shape": "replaced",
+              "dropped": [
+                {
+                  "text": "15th club",
+                  "mockupPx": 128
+                }
+              ],
+              "leader": {
+                "text": "spaceman",
+                "mockupPx": 128
+              },
+              "buildLeader": {
+                "text": "i build the things i want to exist",
+                "buildPx": 128,
+                "mockupPx": 56
+              },
+              "leaderLost": true
+            }
+          },
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 1,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'the llc i have worked under for a decade partnering with companies and studios on product design frontend engineering design systems and brand' (16px in the mockup) has no match in the build",
+              "facts": {
+                "text": "the llc i have worked under for a decade partnering with companies and studios on product design frontend engineering design systems and brand",
+                "mockupPx": 16,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-hierarchy",
+              "severity": "error",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "The mockup's largest text is 'spaceman' at 128px; the build sets 'i build the things i want to exist' at 128px. Restore the mockup's hierarchy: 'i build the things i want to exist' is 56px in the mockup.",
+              "facts": {
+                "shape": "replaced",
+                "dropped": [
+                  {
+                    "text": "15th club",
+                    "mockupPx": 128
+                  }
+                ],
+                "leader": {
+                  "text": "spaceman",
+                  "mockupPx": 128
+                },
+                "buildLeader": {
+                  "text": "i build the things i want to exist",
+                  "buildPx": 128,
+                  "mockupPx": 56
+                },
+                "leaderLost": true
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'the llc i have worked under for a decade partnering with companies and studios on product design frontend engineering design systems and brand' (16px in the mockup) has no match in the build",
+              "facts": {
+                "text": "the llc i have worked under for a decade partnering with companies and studios on product design frontend engineering design systems and brand",
+                "mockupPx": 16,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-hierarchy",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "largest text in mockup is 'spaceman' (40px); in build it is 'i build the things i want to exist' (48px)",
+              "facts": {
+                "shape": "replaced",
+                "dropped": [
+                  {
+                    "text": "15th club",
+                    "mockupPx": 40
+                  }
+                ],
+                "leader": {
+                  "text": "spaceman",
+                  "mockupPx": 40
+                },
+                "buildLeader": {
+                  "text": "i build the things i want to exist",
+                  "buildPx": 48,
+                  "mockupPx": 30
+                },
+                "leaderLost": true
+              }
+            }
+          ],
+          "briefed": [
+            "- / at 360px: The mockup's largest text is 'spaceman' at 40px; the build sets 'i build the things i want to exist' at 48px. Restore the mockup's hierarchy: 'i build the things i want to exist' is 30px in the mockup.",
+            "- / at 1440px: The mockup sets 'the llc i have worked under for a decade partnering with ...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: The mockup sets 'the llc i have worked under for a decade partnering with ...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+          ]
+        }
+      },
+      "durationMs": 42912,
+      "timestamp": "2026-11-22T13:40:59.256Z"
+    },
+    {
+      "name": "screenshot-critic",
+      "phase": 4,
+      "input": {},
+      "output": {
+        "verdict": "REVISE",
+        "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 2/7 — react-engineer: The measured render sets the standfirst \"i build the things i want to exist.\" at 128px, identical to the \"Spaceman\" project title, when the Type Treatment calls for the standfirst at `4xl` (~56px per mockup) and the work-index titles at `hero_scale` (5xl→hero). `hero_object: list` means the titles must be the single largest, dominant object with the phrase reading as their caption; at equal scale the two compete and the intended r"
+      },
+      "durationMs": 113697,
+      "timestamp": "2026-11-22T13:42:52.956Z"
+    },
+    {
+      "name": "generated-sweep",
+      "phase": 5,
+      "input": {
+        "after": "React Engineer revision"
+      },
+      "output": {
+        "kept": [
+          "app/components/generated/AboutHero.tsx",
+          "app/components/generated/CapabilitiesSection.tsx",
+          "app/components/generated/CaseMissing.tsx",
+          "app/components/generated/CaseStudy.tsx",
+          "app/components/generated/EducationSection.tsx",
+          "app/components/generated/FieldHero.tsx",
+          "app/components/generated/HomeHero.tsx",
+          "app/components/generated/HomeSignals.tsx",
+          "app/components/generated/PersonalSignals.tsx",
+          "app/components/generated/RevealSection.tsx",
+          "app/components/generated/SectionLabel.tsx",
+          "app/components/generated/SignalBand.tsx",
+          "app/components/generated/TimelineSection.tsx",
+          "app/components/generated/WorkHero.tsx",
+          "app/components/generated/WorkIndex.tsx",
+          "app/components/generated/rows.tsx"
+        ],
+        "removed": []
+      },
+      "durationMs": 3,
+      "timestamp": "2026-11-22T13:43:16.251Z"
+    },
+    {
+      "name": "revision",
+      "phase": 4,
+      "input": {
+        "round": 1,
+        "verdict": "REVISE",
+        "responsibleAgent": "react-engineer",
+        "gateForced": true,
+        "engineerFaults": 4,
+        "feedback": "**Issues:**\n- Section 2/7 — react-engineer: The measured render sets the standfirst \"i build the things i want to exist.\" at 128px, identical to the \"Spaceman\" project title, when the Type Treatment calls for the standfirst at `4xl` (~56px per mockup) and the work-index titles at `hero_scale` (5xl→hero). `hero_object: list` means the titles must be the single largest, dominant object with the phrase reading as their caption; at equal scale the two compete and the intended reversed hierarchy (wor"
+      },
+      "output": {
+        "outcome": "rebuilt",
+        "replied": 2,
+        "written": 2,
+        "deleted": 0,
+        "merged": 22
+      },
+      "durationMs": 32550,
+      "timestamp": "2026-11-22T13:43:25.507Z"
+    },
+    {
+      "name": "surface-gate",
+      "phase": 4,
+      "input": {
+        "round": 2
+      },
+      "output": {
+        "measured": 73,
+        "errorCount": 0,
+        "findings": [
+          {
+            "surface": "app/content/about.ts",
+            "line": 27,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 40,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"timeline: '2018 — Present',\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 43,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma."
+          },
+          {
+            "surface": "app/content/projects.ts",
+            "line": 45,
+            "owner": "human",
+            "kind": "copy-tell",
+            "tell": "em-dash",
+            "severity": "warning",
+            "detail": "em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma."
+          }
+        ],
+        "mockupDrift": {
+          "round": 2,
+          "findings": [
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "desktop",
+              "width": 1440,
+              "detail": "'the llc i have worked under for a decade partnering with companies and studios on product design frontend engineering design systems and brand' (16px in the mockup) has no match in the build",
+              "facts": {
+                "text": "the llc i have worked under for a decade partnering with companies and studios on product design frontend engineering design systems and brand",
+                "mockupPx": 16,
+                "hidden": false
+              }
+            },
+            {
+              "surface": "/",
+              "scheme": "light",
+              "kind": "mockup-missing",
+              "severity": "warning",
+              "route": "/",
+              "viewport": "phone",
+              "width": 360,
+              "detail": "'the llc i have worked under for a decade partnering with companies and studios on product design frontend engineering design systems and brand' (16px in the mockup) has no match in the build",
+              "facts": {
+                "text": "the llc i have worked under for a decade partnering with companies and studios on product design frontend engineering design systems and brand",
+                "mockupPx": 16,
+                "hidden": false
+              }
+            }
+          ],
+          "briefed": [
+            "- / at 1440px: The mockup sets 'the llc i have worked under for a decade partnering with ...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+            "- / at 360px: The mockup sets 'the llc i have worked under for a decade partnering with ...' at 16px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+          ]
+        }
+      },
+      "durationMs": 42669,
+      "timestamp": "2026-11-22T13:44:08.176Z"
+    },
+    {
+      "name": "screenshot-critic-final",
+      "phase": 4,
+      "input": {
+        "remainingFaults": 0
+      },
+      "output": {
+        "verdict": "SHIP",
+        "feedback": "===VERDICT===\nSHIP\n===END===",
+        "channel": "sdk-vision"
+      },
+      "durationMs": 122022,
+      "timestamp": "2026-11-22T13:46:10.201Z"
+    }
+  ]
+}

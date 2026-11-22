@@ -59,9 +59,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-11-21'
-const PREV_DATE: string | null = '2026-11-20'
-const ARCHIVE_COUNT = 199
+const DESIGN_DATE = '2026-11-22'
+const PREV_DATE: string | null = '2026-11-21'
+const ARCHIVE_COUNT = 200
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -74,28 +74,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Three tied at nine under.' },
-      { property: 'og:title', content: 'Three tied at nine under.' },
+      { title: 'I build the things I want to exist.' },
+      { property: 'og:title', content: 'I build the things I want to exist.' },
       {
         property: 'og:description',
         content:
-          'Fairway-green −9 glowing on a green-black void, three names tied, Bebas scoreboard with the standings right-railed beside it.',
+          "Amethyst-on-paper broadsheet, seven titles down a right rail, a maker's credo as their standfirst.",
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-21.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-22.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Three tied at nine under.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-21.png' },
+      { name: 'twitter:title', content: 'I build the things I want to exist.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-22.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,600;0,800;1,400;1,600;1,800&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -315,7 +315,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 199 designs
+            Archive · 200 designs
           </a>
         )}
         <ScrollRestoration />

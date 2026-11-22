@@ -4,8 +4,6 @@ import { BrandLockup } from '../components/BrandLockup'
 
 export const Route = createFileRoute('/og')({ component: OgCard })
 
-const words = ['Three ', 'tied ', 'at ', 'nine ']
-
 function OgCard() {
   return (
     <div
@@ -13,72 +11,62 @@ function OgCard() {
         position: 'fixed',
         inset: '0',
         zIndex: '9999',
-        bg: 'bg',
+        bg: 'field',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        boxSizing: 'border-box',
       })}
     >
       <div
         className={css({
-          boxSizing: 'border-box',
           width: '1200px',
           height: '630px',
           flexShrink: '0',
-          bg: 'bgAlt',
-          color: 'text',
-          paddingBlock: '80px',
-          paddingInline: '88px',
+          bg: 'field',
+          color: 'fieldInk',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
+          padding: '72px',
+          fontFamily: 'body',
         })}
       >
-        <div className={css({ display: 'flex', justifyContent: 'flex-end', color: 'text' })}>
-          <BrandLockup variant="horizontal-md" mode="original" />
+        <div
+          className={css({
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            color: 'fieldInk',
+          })}
+        >
+          <BrandLockup variant="mark-only-md" mode="original" />
+          <span
+            className={css({
+              textStyle: 'sm',
+              color: 'fieldInkMuted',
+              textTransform: 'lowercase',
+              letterSpacing: 'wide',
+              fontWeight: 'bold',
+            })}
+          >
+            doug march, selected work
+          </span>
         </div>
         <h1
           className={css({
-            display: 'flex',
-            alignItems: 'flex-end',
-            gap: '40px',
+            alignSelf: 'flex-end',
+            textAlign: 'right',
+            fontFamily: 'display',
             fontWeight: 'normal',
+            textTransform: 'lowercase',
+            fontSize: '92px',
+            lineHeight: '1.04',
+            letterSpacing: '-0.01em',
+            maxWidth: '15ch',
+            color: 'fieldInk',
           })}
         >
-          <span
-            className={css({
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-end',
-              textAlign: 'right',
-              fontFamily: 'display',
-              fontVariant: 'small-caps',
-              letterSpacing: '.04em',
-              fontSize: '48px',
-              lineHeight: '1',
-              color: 'text',
-            })}
-          >
-            {words.map((w) => (
-              <span key={w} className={css({ display: 'block' })}>
-                {w}
-              </span>
-            ))}
-            <span className={css({ display: 'block', color: 'accentAlt' })}>under.</span>
-          </span>
-          <span
-            aria-hidden="true"
-            className={css({
-              fontFamily: 'display',
-              fontSize: '220px',
-              lineHeight: '0.82',
-              letterSpacing: '-0.01em',
-              color: 'accent',
-            })}
-          >
-            {'\u22129'}
-          </span>
+          I build the things I want to exist.
         </h1>
       </div>
     </div>

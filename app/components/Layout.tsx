@@ -6,17 +6,17 @@ export function Layout({ children }: { children: ReactNode }) {
   return (
     <div
       className={css({
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
         bg: 'bg',
         color: 'text',
         fontFamily: 'body',
-        maxWidth: '100%',
+        fontWeight: 'normal',
         overflowX: 'clip',
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh',
       })}
     >
-      <main className={css({ flex: '1 1 auto' })}>{children}</main>
+      <div className={css({ flex: '1' })}>{children}</div>
       <Sidebar />
     </div>
   )

@@ -1,71 +1,98 @@
 import { css } from '../../../styled-system/css'
+import { experiments, featuredProject, selectedWork } from '../../content/projects'
 import type { projects } from '../../content/projects'
+import { RevealSection } from './RevealSection'
+import { SectionLabel } from './SectionLabel'
+import { deck, metaCell, rowGrid, sectionPad, visit, yearSpan } from './rows'
 
 type Project = (typeof projects)[number]
 
-export function WorkIndex({ label, items }: { label: string; items: Project[] }) {
+const titleWrap = css({ textAlign: 'right', md: { gridColumn: '3', gridRow: '1' } })
+
+const titleLink = css({
+  display: 'inline-block',
+  minHeight: '44px',
+  fontFamily: 'display',
+  fontWeight: 'normal',
+  letterSpacing: '-0.02em',
+  lineHeight: '1',
+  fontSize: {
+    base: 'clamp(40px, 11vw, 60px)',
+    md: 'clamp(56px, 6.5vw, 96px)',
+    lg: 'clamp(72px, 8vw, 128px)',
+  },
+  color: 'text',
+  borderBottom: '2px solid',
+  borderColor: 'transparent',
+  paddingBottom: '2px',
+  _hover: { color: 'accent', borderColor: 'accent' },
+})
+
+function Meta({ year, rest }: { year: number; rest: string[] }) {
   return (
-    <div className={css({ display: 'flex', flexDirection: 'column' })}>
+    <p className={metaCell}>
+      <span className={yearSpan}>{year}</span>
+      {rest.map((part) => ` · ${part}`).join('')}
+    </p>
+  )
+}
+
+function WorkRow({ project }: { project: Project }) {
+  return (
+    <article className={rowGrid}>
+      <Meta year={project.year} rest={[project.type]} />
+      <p className={titleWrap}>
+        <a href={`/work/${project.slug}`} className={titleLink}>
+          {project.title}
+        </a>
+      </p>
+    </article>
+  )
+}
+
+function FeaturedRow({ project }: { project: Project }) {
+  const url = project.externalUrl ?? project.liveUrl ?? ''
+  const rest = [project.role ?? '', 'featured'].filter(Boolean)
+  return (
+    <article className={rowGrid}>
+      <Meta year={project.year} rest={rest} />
+      <p className={titleWrap}>
+        <a href={`/work/${project.slug}`} className={titleLink}>
+          {project.title}
+        </a>
+      </p>
       <div
         className={css({
-          fontSize: 'xs',
-          letterSpacing: '.12em',
-          textTransform: 'uppercase',
-          color: 'textFaint',
-          paddingTop: '24px',
-          paddingInline: '4px',
-          paddingBottom: '6px',
+          textAlign: 'right',
+          marginTop: '12px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+          alignItems: 'flex-end',
+          md: { gridColumn: '3', gridRow: '2', marginTop: '16px' },
         })}
       >
-        {label}
-      </div>
-      {items.map((p) => (
-        <a
-          key={p.slug}
-          href={`/work/${p.slug}`}
-          className={css({
-            display: 'grid',
-            gridTemplateColumns: '1fr auto',
-            alignItems: 'baseline',
-            gap: '14px',
-            paddingBlock: '16px',
-            paddingInline: '4px',
-            borderBottomWidth: '1px',
-            borderBottomStyle: 'solid',
-            borderBottomColor: 'border',
-            color: 'text',
-            minHeight: '44px',
-            borderRadius: 'sm',
-            transition: 'background 120ms ease, color 120ms ease',
-            _hover: { bg: 'surface', color: 'accentAlt' },
-          })}
-        >
-          <span
-            className={css({
-              fontFamily: 'display',
-              fontSize: 'clamp(26px, 3.4vw, 40px)',
-              lineHeight: '1',
-              letterSpacing: '.02em',
-              minWidth: '0',
-            })}
-          >
-            {p.title}
-          </span>
-          <span
-            className={css({
-              fontSize: 'xs',
-              letterSpacing: '.08em',
-              textTransform: 'uppercase',
-              color: 'textMuted',
-              textAlign: 'right',
-              whiteSpace: 'nowrap',
-              fontVariantNumeric: 'tabular-nums',
-            })}
-          >
-            {p.type} · {p.year}
-          </span>
+        <p className={deck}>{project.problem ?? project.description}</p>
+        <a href={url} className={visit}>
+          {url.replace(/^https?:\/\//, '').replace(/\/$/, '')} ↗
         </a>
+      </div>
+    </article>
+  )
+}
+
+export function WorkIndex() {
+  return (
+    <RevealSection label="Selected work" className={sectionPad}>
+      <SectionLabel>selected work</SectionLabel>
+      {featuredProject ? <FeaturedRow project={featuredProject} /> : null}
+      {selectedWork.map((p) => (
+        <WorkRow key={p.slug} project={p} />
       ))}
-    </div>
+      <SectionLabel ruled>experiments</SectionLabel>
+      {experiments.map((p) => (
+        <WorkRow key={p.slug} project={p} />
+      ))}
+    </RevealSection>
   )
 }
