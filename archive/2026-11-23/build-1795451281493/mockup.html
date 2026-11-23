@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — Ten years independent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Work+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E4D52;        /* teal.700 */
+    --bgAlt:#0A3C40;     /* teal.800 */
+    --surface:#146064;   /* teal.600 */
+    --text:#E9F5F4;      /* teal.50  */
+    --textMuted:#9BD1D0; /* teal.200 */
+    --textFaint:#63B4B5; /* teal.300 */
+    --accent:#F2A32C;    /* saffron.400 */
+    --accentAlt:#F8CF85; /* saffron.200 */
+    --accentText:#072A2D;/* teal.900 */
+    --border:#146064;    /* teal.600 */
+    --borderStrong:#369497; /* teal.400 */
+    --field:#F2A32C;     /* saffron.400 */
+    --fieldInk:#072A2D;  /* teal.900 */
+    --fieldBorder:#8F5A18; /* saffron.700 */
+    --disp:'Zilla Slab', Georgia, serif;
+    --body:'Work Sans', system-ui, sans-serif;
+    --padX:clamp(24px,5vw,72px);
+    --padY:clamp(48px,7vw,112px);
+    --gut:clamp(12px,1.4vw,24px);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    font-kerning:normal;
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent);color:var(--accentText);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:82vh;
+    padding:clamp(20px,2.4vw,34px) var(--padX) clamp(40px,6vw,80px);
+    display:flex;
+    flex-direction:column;
+  }
+  .masthead{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    margin-bottom:clamp(40px,8vh,96px);
+  }
+  .lockup{display:flex;flex-direction:column;align-items:flex-start;gap:6px;}
+  .lockup svg{height:48px;width:auto;display:block;}
+  .wordmark{
+    font-family:var(--disp);
+    font-weight:700;
+    letter-spacing:-0.015em;
+    line-height:1;
+    font-size:clamp(28px,2.6vw,40px);
+    color:var(--text);
+  }
+  .nav-line{
+    font-size:14px;
+    color:var(--textMuted);
+    line-height:1.4;
+    max-width:40ch;
+  }
+  .nav-line a{
+    display:inline-block;
+    padding:11px 2px;
+    color:var(--text);
+    border-bottom:1px solid var(--accent);
+    transition:border-color .18s ease,color .18s ease;
+  }
+  .nav-line a:hover{color:var(--accent);border-bottom-width:2px;}
+
+  .hero-statement{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    gap:clamp(14px,2.2vw,30px);
+  }
+  h1{margin:0;}
+  .line-one{
+    display:block;
+    font-family:var(--disp);
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.005em;
+    line-height:0.9;
+    font-size:clamp(42px,8.6vw,112px);
+    color:var(--text);
+  }
+  .line-two{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    font-family:var(--disp);
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    line-height:1.12;
+    font-size:clamp(20px,4vw,52px);
+    color:var(--accent);
+    text-shadow:0 0 clamp(16px,2.6vw,42px) rgba(248,207,133,0.3);
+    max-width:24ch;
+  }
+  .deck{
+    font-family:var(--body);
+    font-weight:400;
+    font-size:clamp(16px,1.4vw,21px);
+    color:var(--textMuted);
+    max-width:54ch;
+    line-height:1.55;
+  }
+
+  /* ---------- FURNITURE BAND ---------- */
+  .band{
+    padding:var(--padY) var(--padX);
+    border-top:1px solid var(--borderStrong);
+  }
+  .band-head{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 18px;
+    align-items:baseline;
+    margin-bottom:clamp(22px,3vw,40px);
+  }
+  .band-title{
+    font-family:var(--disp);
+    font-weight:700;
+    font-size:clamp(20px,2.2vw,30px);
+    letter-spacing:-0.01em;
+    color:var(--text);
+  }
+  .band-sub{font-size:13px;color:var(--textFaint);}
+  .label{
+    display:block;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--textMuted);
+    margin-bottom:6px;
+  }
+
+  .furniture{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:var(--gut);
+  }
+  .cell{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:2px;
+    padding:clamp(18px,2vw,28px);
+  }
+  .cell .label{margin-bottom:14px;}
+  .fig{
+    font-family:var(--disp);
+    font-weight:700;
+    line-height:0.95;
+    font-variant-numeric:tabular-nums;
+    letter-spacing:-0.01em;
+  }
+  .score-row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:7px 0;}
+  .score-row + .score-row{border-top:1px solid var(--border);}
+  .score-row .team{font-size:14px;color:var(--text);font-weight:500;}
+  .score-row .pts{font-size:clamp(26px,3vw,38px);color:var(--textMuted);font-family:var(--disp);font-weight:700;font-variant-numeric:tabular-nums;}
+  .result{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--textFaint);}
+  .result.win{color:var(--accentAlt);}
+
+  .cell.live{background:var(--field);border-color:var(--fieldBorder);color:var(--fieldInk);}
+  .cell.live .label{color:var(--fieldInk);opacity:.72;}
+  .cell.live .flag{
+    display:inline-block;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;
+    font-weight:700;color:var(--fieldInk);margin-left:8px;
+  }
+  .cell.live .fig{font-size:clamp(44px,6vw,80px);color:var(--fieldInk);}
+  .cell.live .names{font-size:14px;font-weight:500;color:var(--fieldInk);margin-top:10px;line-height:1.4;}
+  .cell.live .names b{font-weight:700;}
+
+  .mkt .fig{font-size:clamp(36px,4.4vw,58px);color:var(--text);}
+  .mkt .delta{font-size:15px;color:var(--textMuted);margin-top:8px;font-variant-numeric:tabular-nums;}
+  .mkt .note{font-size:12px;color:var(--textFaint);margin-top:4px;}
+
+  .sky{display:flex;gap:28px;flex-wrap:wrap;}
+  .sky > div{flex:1;min-width:90px;}
+  .sky .fig{font-size:clamp(30px,3.4vw,46px);color:var(--text);}
+  .sky .unit{font-size:12px;color:var(--textFaint);margin-top:6px;}
+
+  .quote blockquote{margin:0;font-family:var(--disp);font-weight:500;font-style:italic;
+    font-size:clamp(17px,1.9vw,24px);line-height:1.4;color:var(--text);}
+  .quote .attr{margin-top:12px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--textMuted);}
+
+  .misc dl{margin:0;}
+  .misc .row{display:flex;justify-content:space-between;gap:14px;padding:8px 0;font-size:14px;}
+  .misc .row + .row{border-top:1px solid var(--border);}
+  .misc .k{color:var(--textMuted);}
+  .misc .v{color:var(--text);font-weight:500;text-align:right;}
+  .misc .v b{color:var(--accent);}
+
+  /* ---------- WORK INDEX ---------- */
+  .feature{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:2px;
+    padding:clamp(22px,3vw,42px);
+    margin-bottom:var(--gut);
+  }
+  .feature .ftitle{
+    font-family:var(--disp);font-weight:700;
+    font-size:clamp(34px,5vw,64px);line-height:0.98;letter-spacing:-0.015em;color:var(--text);
+  }
+  .feature .meta{font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:var(--textMuted);margin-top:10px;}
+  .feature p{font-size:clamp(16px,1.3vw,19px);color:var(--textMuted);max-width:62ch;margin-top:18px;line-height:1.55;}
+  .feature .go{display:inline-block;margin-top:20px;padding:10px 0;font-size:14px;font-weight:700;
+    letter-spacing:0.04em;color:var(--accent);border-bottom:2px solid var(--accent);}
+  .feature .go:hover{color:var(--accentAlt);border-color:var(--accentAlt);}
+
+  .idx-group + .idx-group{margin-top:clamp(28px,3vw,44px);}
+  .idx-group h3{
+    font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--textFaint);margin:0 0 6px;padding-bottom:10px;border-bottom:1px solid var(--borderStrong);
+  }
+  .idx-row{
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:baseline;
+    gap:8px 16px;
+    padding:16px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .idx-row:hover .ix-name{color:var(--accent);}
+  .ix-name{
+    font-family:var(--disp);font-weight:700;
+    font-size:clamp(24px,3.4vw,42px);line-height:1;letter-spacing:-0.01em;color:var(--text);
+    transition:color .18s ease;
+  }
+  .ix-role{grid-column:1/2;font-size:13px;color:var(--textMuted);letter-spacing:0.02em;}
+  .ix-year{grid-row:1/3;grid-column:2/3;font-family:var(--disp);font-weight:500;font-size:16px;
+    color:var(--textFaint);font-variant-numeric:tabular-nums;align-self:center;}
+
+  /* ---------- CALLOUT ---------- */
+  .callout{
+    background:var(--bgAlt);
+    padding:var(--padY) var(--padX);
+    border-top:1px solid var(--borderStrong);
+    display:flex;flex-direction:column;gap:20px;
+  }
+  .callout .big{
+    font-family:var(--disp);font-weight:700;
+    font-size:clamp(26px,3.6vw,48px);line-height:1.05;letter-spacing:-0.01em;color:var(--text);
+    max-width:20ch;
+  }
+  .callout a.cta{
+    align-self:flex-start;
+    background:var(--field);color:var(--fieldInk);
+    font-weight:700;font-size:15px;letter-spacing:0.03em;
+    padding:14px 26px;border-radius:4px;
+  }
+  .callout a.cta:hover{background:var(--accentAlt);}
+
+  /* ---------- FOOTER DATA STRIP ---------- */
+  footer{
+    padding:var(--padY) var(--padX) clamp(40px,5vw,64px);
+    border-top:1px solid var(--borderStrong);
+  }
+  .fstrip{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:clamp(24px,3vw,40px);
+    margin-bottom:clamp(32px,4vw,56px);
+  }
+  .fstrip .label{margin-bottom:10px;}
+  .fstrip .big{font-family:var(--disp);font-weight:700;font-size:clamp(20px,2.2vw,30px);
+    color:var(--text);line-height:1.1;letter-spacing:-0.01em;}
+  .fstrip .small{font-size:14px;color:var(--textMuted);line-height:1.5;}
+  .fstrip .small b{color:var(--text);font-weight:500;}
+  .fnav{
+    display:flex;flex-wrap:wrap;gap:4px 28px;align-items:center;
+    padding-top:clamp(24px,3vw,36px);border-top:1px solid var(--border);
+    justify-content:space-between;
+  }
+  .fnav .set a{display:inline-block;padding:12px 0;margin-right:24px;font-size:15px;font-weight:500;
+    color:var(--text);border-bottom:1px solid transparent;}
+  .fnav .set a:hover{color:var(--accent);border-color:var(--accent);}
+  .fnav .sig{font-size:13px;color:var(--textFaint);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (min-width:600px){
+    .lockup svg{height:72px;}
+    .masthead{flex-direction:row;justify-content:space-between;align-items:flex-start;}
+    .nav-line{text-align:right;}
+    .line-two{max-width:28ch;}
+    .furniture{grid-template-columns:repeat(12,1fr);}
+    .c-golf{grid-column:span 6;}
+    .c-detroit{grid-column:span 6;}
+    .c-mkt{grid-column:span 4;}
+    .c-sky{grid-column:span 4;}
+    .c-quote{grid-column:span 4;}
+    .c-misc{grid-column:span 12;}
+    .fstrip{grid-template-columns:2fr 1fr 1fr;}
+  }
+  @media (min-width:960px){
+    .furniture{grid-template-columns:repeat(12,1fr);}
+    .c-golf{grid-column:span 5;}
+    .c-detroit{grid-column:span 4;}
+    .c-mkt{grid-column:span 3;}
+    .c-sky{grid-column:span 4;}
+    .c-quote{grid-column:span 5;}
+    .c-misc{grid-column:span 3;}
+    .idx-cols{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(32px,4vw,64px);}
+    .idx-cols .idx-group + .idx-group{margin-top:0;}
+    .callout{flex-direction:row;align-items:center;justify-content:space-between;}
+  }
+</style>
+</head>
+<body>
+
+  <!-- ===================== HERO ===================== -->
+  <header class="hero">
+    <div class="masthead">
+      <a class="lockup" href="#top" aria-label="Doug March — home">
+        <svg viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Doug March logo">
+          <path d="M29.8924 0.440186C13.8749 0.440186 0.889618 13.4254 0.889618 29.443C0.889618 45.4613 13.8749 58.4466 29.8924 58.4466C45.9108 58.4466 58.896 45.4613 58.896 29.443C58.8952 13.4254 45.91 0.440186 29.8924 0.440186Z" fill="white"/>
+          <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="#7AC042"/>
+          <circle cx="30.0829" cy="29.3002" r="0.98668" fill="#BBBDBF"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3416" r="20.033" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="#DADADA" stroke-width="0.25"/>
+          <circle cx="30.1217" cy="29.3416" r="22.114" stroke="#DADADA" stroke-width="0.25"/>
+          <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="#008ED3"/>
+        </svg>
+        <span class="wordmark">Doug March</span>
+      </a>
+      <nav class="nav-line" aria-label="Primary">
+        start at <a href="#work">the work</a>, meet <a href="#about">the person</a>, or find <a href="#contact">a way in</a>.
+      </nav>
+    </div>
+
+    <div class="hero-statement" id="top">
+      <h1>
+        <span class="line-one">Ten&nbsp;years<br>independent.</span>
+        <span class="line-two">Still the vehicle for the next experiment.</span>
+      </h1>
+      <p class="deck">Spaceman is the LLC I've worked under for ten years — the shop behind the product design, the frontend, the design systems, the brand. One vehicle, still pointed at the next small thing.</p>
+    </div>
+  </header>
+
+  <!-- ===================== SIGNAL FURNITURE ===================== -->
+  <section class="band" aria-label="Today's signals">
+    <div class="band-head">
+      <span class="band-title">Monday, in figures</span>
+      <span class="band-sub">November 23, 2026 · a cloudy full-moon start to the week</span>
+    </div>
+
+    <div class="furniture">
+      <div class="cell live c-golf">
+        <span class="label">RSM Classic<span class="flag">In progress</span></span>
+        <span class="fig">&minus;14</span>
+        <p class="names"><b>Max Greyserman</b> &amp; <b>Rasmus Højgaard</b>, tied for the lead at Sea Island.</p>
+      </div>
+
+      <div class="cell c-detroit">
+        <span class="label">Detroit, last out</span>
+        <div class="score-row">
+          <span class="team">Lions <span class="result win">Win</span></span>
+          <span class="pts">31&ndash;21</span>
+        </div>
+        <div class="score-row">
+          <span class="team">Pistons <span class="result">Loss</span></span>
+          <span class="pts">97&ndash;107</span>
+        </div>
+      </div>
+
+      <div class="cell mkt c-mkt">
+        <span class="label">SPY, close</span>
+        <span class="fig">689.81</span>
+        <div class="delta">&minus;26.06 &nbsp;·&nbsp; &minus;3.64%</div>
+        <div class="note">A loud down day. Stated as fact.</div>
+      </div>
+
+      <div class="cell c-sky">
+        <span class="label">Overhead</span>
+        <div class="sky">
+          <div><span class="fig">99.9%</span><div class="unit">Full moon</div></div>
+          <div><span class="fig">9.6h</span><div class="unit">Daylight</div></div>
+        </div>
+      </div>
+
+      <div class="cell quote c-quote">
+        <span class="label">Found text</span>
+        <blockquote>"We are what we repeatedly do. Excellence, then, is not an act, but a habit."</blockquote>
+        <div class="attr">Aristotle</div>
+      </div>
+
+      <div class="cell misc c-misc">
+        <span class="label">Also today</span>
+        <dl>
+          <div class="row"><span class="k">Thanksgiving</span><span class="v"><b>3 days out</b></span></div>
+          <div class="row"><span class="k">On rotation</span><span class="v">Guided by Voices &middot; Tobin Sprout</span></div>
+          <div class="row"><span class="k">Holes in one</span><span class="v">four, and counting</span></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== WORK INDEX ===================== -->
+  <section class="band" id="work" aria-label="Selected work">
+    <div class="band-head">
+      <span class="band-title">The work</span>
+      <span class="band-sub">What the vehicle has carried</span>
+    </div>
+
+    <div class="feature" id="spaceman">
+      <div class="ftitle">Spaceman</div>
+      <div class="meta">Founder · 2018 · the standing shop</div>
+      <p>Ten years operating as an independent LLC — partnering with companies and studios on product design, frontend engineering, design systems and brand — sometimes as a solo contributor, sometimes embedded in a larger team, shipping things end to end, then starting the next one.</p>
+      <a class="go" href="#spaceman">Read the Spaceman case &rarr;</a>
+    </div>
+
+    <div class="idx-cols">
+      <div class="idx-group">
+        <h3>Selected work</h3>
+        <a class="idx-row" href="#fishsticks">
+          <span class="ix-name">FishSticks</span>
+          <span class="ix-year">2025</span>
+          <span class="ix-role">SaaS — the product in build</span>
+        </a>
+        <a class="idx-row" href="#15th-club">
+          <span class="ix-name">15th Club</span>
+          <span class="ix-year">2025</span>
+          <span class="ix-role">AI — a golf mind, applied</span>
+        </a>
+        <a class="idx-row" href="#dougmar-ch">
+          <span class="ix-name">dougmar.ch</span>
+          <span class="ix-year">2026</span>
+          <span class="ix-role">AI — this site, rebuilt nightly</span>
+        </a>
+      </div>
+
+      <div class="idx-group">
+        <h3>Experiments</h3>
+        <a class="idx-row" href="#teeturn">
+          <span class="ix-name">TeeTurn</span>
+          <span class="ix-year">2020</span>
+          <span class="ix-role">Experiment — a round tracked live on your phone</span>
+        </a>
+        <a class="idx-row" href="#politweets">
+          <span class="ix-name">Politweets</span>
+          <span class="ix-year">2008</span>
+          <span class="ix-role">Experiment — early political feeds</span>
+        </a>
+        <a class="idx-row" href="#twittertale">
+          <span class="ix-name">Twittertale</span>
+          <span class="ix-year">2008</span>
+          <span class="ix-role">Experiment — ranking Twitter's biggest potty mouths</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CALLOUT ===================== -->
+  <section class="callout" id="contact">
+    <div class="big">Have a problem that wants the next experiment?</div>
+    <a class="cta" href="#contact">Find a way in &rarr;</a>
+  </section>
+
+  <!-- ===================== FOOTER DATA STRIP ===================== -->
+  <footer>
+    <div class="fstrip">
+      <div>
+        <span class="label">The standing claim</span>
+        <div class="big">Ten years independent. Still the vehicle for the next experiment.</div>
+      </div>
+      <div>
+        <span class="label">The vehicle</span>
+        <div class="small"><b>Spaceman LLC</b>, since 2018 — sometimes a solo contributor, sometimes embedded in a larger team.</div>
+      </div>
+      <div>
+        <span class="label">Off the desk</span>
+        <div class="small"><b>Golf</b> — four holes in one.<br><b>Lions, Pistons, Tigers.</b><br>Guided by Voices on rotation.</div>
+      </div>
+    </div>
+    <div class="fnav">
+      <div class="set">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="sig">© 2026 Doug March · built fresh overnight</div>
+    </div>
+  </footer>
+
+</body>
+</html>

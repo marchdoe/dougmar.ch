@@ -1,56 +1,30 @@
-import type { ReactNode } from 'react'
-import { css } from '../../../styled-system/css'
-import { RevealSection } from './RevealSection'
+import { css, cx } from '../../../styled-system/css'
+import { BandHead } from './BandHead'
+import { DetroitCell, GolfCell, MarketCell } from './SignalCellsA'
+import { MiscCell, QuoteCell, SkyCell } from './SignalCellsB'
+import { band, reveal } from './styles'
 
-type SignalRow = { label: string; body: ReactNode }
-
-const srow = css({
-  display: 'flex',
-  justifyContent: 'flex-end',
-  alignItems: 'baseline',
-  gap: '16px',
-  flexWrap: 'wrap',
-  borderTop: '1px solid',
-  borderColor: 'border',
-  paddingBlock: '14px',
-  textStyle: 'sm',
-  color: 'textMuted',
-  fontVariantNumeric: 'tabular-nums',
-  textAlign: 'right',
-})
-
-export function SignalBand({ title, rows }: { title: string; rows: SignalRow[] }) {
+export function SignalBand() {
   return (
-    <RevealSection
-      label={title}
-      className={css({
-        marginTop: '72px',
-        paddingBlock: '40px',
-        paddingInline: '20px',
-        borderTop: '1px solid',
-        borderColor: 'borderStrong',
-        bg: 'bg',
-        md: { marginTop: '96px', paddingBlock: '48px', paddingInline: '6vw' },
-      })}
-    >
-      <h2
+    <section aria-label="Today's signals" className={cx(band, reveal)}>
+      <BandHead
+        title="Monday, in figures"
+        sub="November 23, 2026 · a cloudy full-moon start to the week"
+      />
+      <div
         className={css({
-          textStyle: 'sm',
-          textTransform: 'lowercase',
-          letterSpacing: 'wide',
-          color: 'textFaint',
-          fontWeight: 'bold',
-          marginBottom: '8px',
+          display: 'grid',
+          gridTemplateColumns: { base: '1fr', sm: 'repeat(12, minmax(0, 1fr))' },
+          gap: 'clamp(12px, 1.4vw, 24px)',
         })}
       >
-        {title}
-      </h2>
-      {rows.map((row) => (
-        <p key={row.label} className={srow}>
-          <span className={css({ color: 'text', fontWeight: 'bold' })}>{row.label}</span>
-          {row.body}
-        </p>
-      ))}
-    </RevealSection>
+        <GolfCell />
+        <DetroitCell />
+        <MarketCell />
+        <SkyCell />
+        <QuoteCell />
+        <MiscCell />
+      </div>
+    </section>
   )
 }

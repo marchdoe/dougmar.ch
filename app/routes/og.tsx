@@ -10,8 +10,8 @@ function OgCard() {
       className={css({
         position: 'fixed',
         inset: '0',
-        zIndex: '9999',
-        bg: 'field',
+        zIndex: 9999,
+        bg: 'bg',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -19,54 +19,53 @@ function OgCard() {
     >
       <div
         className={css({
+          boxSizing: 'border-box',
           width: '1200px',
           height: '630px',
-          flexShrink: '0',
-          bg: 'field',
-          color: 'fieldInk',
+          flexShrink: 0,
+          bg: 'bg',
+          color: 'text',
+          paddingBlock: '64px',
+          paddingInline: '72px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          padding: '72px',
-          fontFamily: 'body',
+          alignItems: 'flex-start',
         })}
       >
-        <div
-          className={css({
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            color: 'fieldInk',
-          })}
-        >
-          <BrandLockup variant="mark-only-md" mode="original" />
-          <span
-            className={css({
-              textStyle: 'sm',
-              color: 'fieldInkMuted',
-              textTransform: 'lowercase',
-              letterSpacing: 'wide',
-              fontWeight: 'bold',
-            })}
-          >
-            doug march, selected work
-          </span>
-        </div>
+        <BrandLockup variant="stacked-lg" mode="original" />
         <h1
           className={css({
-            alignSelf: 'flex-end',
-            textAlign: 'right',
             fontFamily: 'display',
-            fontWeight: 'normal',
-            textTransform: 'lowercase',
-            fontSize: '92px',
-            lineHeight: '1.04',
-            letterSpacing: '-0.01em',
-            maxWidth: '15ch',
-            color: 'fieldInk',
+            fontWeight: 'bold',
+            textTransform: 'uppercase',
+            maxWidth: '1056px',
           })}
         >
-          I build the things I want to exist.
+          <span
+            className={css({
+              display: 'block',
+              fontSize: '76px',
+              lineHeight: '0.92',
+              color: 'text',
+              WebkitTextFillColor: 'transparent',
+              WebkitTextStroke: '2.5px currentColor',
+            })}
+          >
+            Ten years independent.
+          </span>
+          <span
+            className={css({
+              display: 'block',
+              marginTop: '16px',
+              fontSize: '36px',
+              lineHeight: '1.1',
+              color: 'accent',
+              maxWidth: '26ch',
+            })}
+          >
+            Still the vehicle for the next experiment.
+          </span>
         </h1>
       </div>
     </div>

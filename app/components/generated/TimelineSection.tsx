@@ -1,48 +1,69 @@
-import { css } from '../../../styled-system/css'
+import { css, cx } from '../../../styled-system/css'
 import { timeline } from '../../content/timeline'
-import { RevealSection } from './RevealSection'
-import { SectionLabel } from './SectionLabel'
-import { deck, fixedGrid, metaCell, sectionPad } from './rows'
-
-type Entry = (typeof timeline)[number]
-
-function TimelineRow({ entry }: { entry: Entry }) {
-  const heading = [entry.role, entry.company].filter(Boolean).join(', ')
-  return (
-    <article className={fixedGrid}>
-      <p className={metaCell}>{entry.year}</p>
-      <div
-        className={css({
-          textAlign: 'right',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px',
-          md: { gridColumn: '3', gridRow: '1' },
-        })}
-      >
-        <h3
-          className={css({
-            fontFamily: 'display',
-            fontWeight: 'normal',
-            color: 'text',
-            textStyle: { base: 'base', md: 'xl', lg: '2xl' },
-          })}
-        >
-          {heading}
-        </h3>
-        {entry.description ? <p className={deck}>{entry.description}</p> : null}
-      </div>
-    </article>
-  )
-}
+import { BandHead } from './BandHead'
+import { band, reveal } from './styles'
 
 export function TimelineSection() {
   return (
-    <RevealSection label="Experience" className={sectionPad}>
-      <SectionLabel>experience</SectionLabel>
-      {timeline.map((entry) => (
-        <TimelineRow key={`${entry.year}-${entry.company}-${entry.role}`} entry={entry} />
-      ))}
-    </RevealSection>
+    <section aria-label="Record" className={cx(band, reveal)}>
+      <BandHead title="The record" sub="Roles held, 2006 to present" />
+      <ol className={css({ listStyle: 'none', margin: '0', padding: '0' })}>
+        {timeline.map((e) => (
+          <li
+            key={`${e.year}-${e.company}-${e.role}`}
+            className={css({
+              display: 'grid',
+              gridTemplateColumns: { base: '1fr', lg: '140px minmax(0, 1fr) minmax(0, 1.2fr)' },
+              columnGap: '6',
+              rowGap: '2',
+              paddingBlock: '5',
+              borderBottomWidth: '1px',
+              borderBottomStyle: 'solid',
+              borderBottomColor: 'border',
+            })}
+          >
+            <span
+              className={css({
+                fontFamily: 'display',
+                fontWeight: 'bold',
+                textStyle: 'base',
+                color: 'accent',
+                fontVariantNumeric: 'tabular-nums',
+              })}
+            >
+              {e.year}
+            </span>
+            <div className={css({ minWidth: '0' })}>
+              <span
+                className={css({
+                  display: 'block',
+                  fontFamily: 'display',
+                  fontWeight: 'bold',
+                  textStyle: { base: 'base', lg: 'lg' },
+                  color: 'text',
+                })}
+              >
+                {e.role}
+              </span>
+              <span className={css({ display: 'block', textStyle: 'sm', color: 'textMuted' })}>
+                {e.company}
+              </span>
+            </div>
+            {e.description ? (
+              <p
+                className={css({
+                  textStyle: 'sm',
+                  color: 'textMuted',
+                  maxWidth: '58ch',
+                  lineHeight: 'normal',
+                })}
+              >
+                {e.description}
+              </p>
+            ) : null}
+          </li>
+        ))}
+      </ol>
+    </section>
   )
 }

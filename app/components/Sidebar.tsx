@@ -1,67 +1,66 @@
 import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
+import { BrandLockup } from './BrandLockup'
 
-const sep = css({ color: 'textFaint', fontWeight: 'normal', paddingInline: '4px' })
-
-const sigLink = css({
-  color: 'accent',
-  display: 'inline-block',
-  paddingBlock: '10px',
-  paddingInline: '6px',
+const navLink = css({
+  display: 'inline-flex',
+  alignItems: 'center',
   minHeight: '44px',
-  lineHeight: '24px',
-  _hover: { color: 'accentAlt' },
+  paddingInline: '1',
+  color: 'text',
+  borderBottomWidth: '1px',
+  borderBottomStyle: 'solid',
+  borderBottomColor: 'accent',
 })
 
 export function Sidebar() {
   return (
-    <footer
+    <header
       className={css({
-        borderTop: '1px solid',
-        borderColor: 'borderStrong',
-        paddingTop: '28px',
-        paddingInline: '20px',
-        paddingBottom: '48px',
-        textAlign: 'right',
+        display: 'flex',
+        flexDirection: { base: 'column', sm: 'row' },
+        justifyContent: { base: 'flex-start', sm: 'space-between' },
+        alignItems: 'flex-start',
+        gap: '4',
+        paddingTop: 'clamp(20px, 2.4vw, 34px)',
+        paddingInline: 'clamp(24px, 5vw, 72px)',
         bg: 'bg',
-        md: { paddingTop: '32px', paddingInline: '6vw', paddingBottom: '64px' },
+        color: 'text',
       })}
     >
-      <p
-        className={css({
-          textStyle: 'base',
-          color: 'text',
-          fontWeight: 'bold',
-          letterSpacing: '-0.005em',
-        })}
+      <a
+        href="/"
+        aria-label={`${identity.name}, home`}
+        className={css({ display: 'inline-block', color: 'text' })}
       >
-        {identity.name}
-        <span className={sep}>·</span>
-        {identity.role}
-        <span className={sep}>·</span>
-        Ashburn, VA
-        <span className={sep}>·</span>
-        2026{' '}
-        <a href="/about" className={sigLink}>
-          about
-        </a>
-        <span className={sep}>·</span>
-        <a href={`mailto:${identity.email}`} className={sigLink}>
-          contact
-        </a>
-      </p>
-      <p
+        {/* The full-colour mark passes contrast on both grounds, so it renders original in each scheme. */}
+        <BrandLockup variant="stacked-lg" mode="original" />
+      </a>
+      <nav
+        aria-label="Primary"
         className={css({
-          marginTop: '10px',
           textStyle: 'sm',
-          color: 'textFaint',
-          lineHeight: 'normal',
-          maxWidth: '60ch',
-          marginLeft: 'auto',
+          textTransform: 'lowercase',
+          color: 'textMuted',
+          lineHeight: 'snug',
+          maxWidth: '40ch',
+          textAlign: { base: 'left', sm: 'right' },
         })}
       >
-        On rotation: Tobin Sprout, My Morning Jacket, The War on Drugs.
-      </p>
-    </footer>
+        start at{' '}
+        <a href="/#work" className={navLink}>
+          the work
+        </a>
+        , meet{' '}
+        <a href="/about" className={navLink}>
+          the person
+        </a>
+        , or find{' '}
+        <a href={`mailto:${identity.email}`} className={navLink}>
+          a way in
+        </a>
+        .
+      </nav>
+    </header>
   )
 }

@@ -1,48 +1,48 @@
 import { css } from '../../../styled-system/css'
 import { identity } from '../../content/about'
-import { FieldHero } from './FieldHero'
+import { label } from './styles'
 
 export function AboutHero() {
-  const statement = identity.statement.replace(/\s*[—–]\s*/g, ', ')
   return (
-    <FieldHero label={identity.role}>
+    <section
+      className={css({
+        paddingInline: 'clamp(24px, 5vw, 72px)',
+        paddingTop: 'clamp(40px, 8vh, 96px)',
+        paddingBottom: 'clamp(40px, 6vw, 80px)',
+      })}
+    >
+      <span className={label}>About {identity.name}</span>
       <h1
         className={css({
-          alignSelf: 'flex-end',
-          textAlign: 'right',
-          marginTop: 'auto',
-          paddingTop: '48px',
-          paddingLeft: '28px',
+          animation: 'rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          animationDelay: '0ms',
           fontFamily: 'display',
           fontWeight: 'normal',
-          fontStyle: 'normal',
-          textTransform: 'lowercase',
-          textStyle: { base: '3xl', md: '4xl' },
-          color: 'fieldInk',
-          animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '0ms',
-          md: { paddingTop: '64px', paddingLeft: '40px' },
+          textStyle: 'xl',
+          lineHeight: 'snug',
+          color: 'text',
+          maxWidth: '44ch',
         })}
       >
-        {identity.name}
+        {identity.statement}
       </h1>
-      <p
+      <a
+        href={`mailto:${identity.email}`}
         className={css({
-          alignSelf: 'flex-end',
-          textAlign: 'right',
+          display: 'inline-flex',
+          alignItems: 'center',
+          minHeight: '44px',
           marginTop: '5',
-          paddingLeft: '28px',
-          textStyle: { base: 'base', md: 'lede' },
-          lineHeight: 'normal',
-          color: 'fieldInkMuted',
-          maxWidth: '46ch',
-          animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
-          animationDelay: '80ms',
-          md: { paddingLeft: '40px' },
+          textStyle: 'sm',
+          fontWeight: 'bold',
+          color: 'text',
+          borderBottomWidth: '2px',
+          borderBottomStyle: 'solid',
+          borderBottomColor: 'accent',
         })}
       >
-        {statement}
-      </p>
-    </FieldHero>
+        {identity.email}
+      </a>
+    </section>
   )
 }
