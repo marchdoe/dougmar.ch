@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doug March — Clear all day, full moon all night</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,900;1,300;1,400;1,600;1,900&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#F7D98A; --surface:#FDF6E3; --band:#FBEABD; --callout:#F3E8D2;
+    --umber:#2A1E0C; --ink:#1A1206; --ink2:#4E3C20; --faint:#6B5636;
+    --cream:#FBF4E6; --cream-muted:#E5D3B3;
+    --accent:#9C3A0E; --glow:#E07B3A; --glow-hi:#F2A96B; --amber:#C25A1C;
+    --border:#CDB68E; --border-strong:#4E3C20; --field-border:#9C835A;
+    --hero:clamp(68px,10vw,148px);
+    --deck:clamp(30px,4.2vw,52px);
+    --mid:clamp(20px,2.4vw,30px);
+    --sm:clamp(13px,1.1vw,15px);
+    --xs:12px;
+    --pad:clamp(24px,5vw,88px);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--gold); color:var(--ink);
+    font-family:"Karla",system-ui,sans-serif; font-size:16px; line-height:1.5;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    font-kerning:normal;
+  }
+  h1{margin:0; font-weight:inherit}
+  p{margin:0; text-wrap:pretty}
+  a{color:var(--accent); text-decoration:none}
+  a:hover{text-decoration:underline; text-underline-offset:0.15em}
+  .tnum{font-variant-numeric:tabular-nums}
+  ::selection{background:var(--accent); color:var(--cream)}
+
+  /* ---------- Header ---------- */
+  .site-header{
+    background:var(--gold);
+    display:flex; justify-content:space-between; align-items:center;
+    gap:16px; padding:16px var(--pad);
+  }
+  .lockup{display:flex; flex-direction:column; gap:6px; align-items:flex-start; color:var(--ink)}
+  .lockup .mark{height:44px; width:auto; display:block}
+  .lockup .wordmark{
+    font-family:"Fraunces",serif; font-weight:600; font-size:24px; line-height:1;
+    letter-spacing:-0.015em; color:var(--ink);
+  }
+  nav.nav{display:flex}
+  .menu-toggle{
+    font-family:"Karla"; font-weight:700; font-size:13px; text-transform:uppercase;
+    letter-spacing:0.12em; color:var(--ink); min-height:44px; min-width:44px;
+    display:inline-flex; align-items:center; justify-content:center;
+    padding:0 6px; cursor:pointer; gap:8px;
+  }
+  .menu-toggle::after{content:"+"; color:var(--accent); font-weight:700}
+  ol.index{
+    list-style:none; margin:0; padding:0; display:none;
+  }
+  ol.index a{
+    display:flex; align-items:baseline; gap:8px; color:var(--ink);
+    font-family:"Karla"; font-weight:700; font-size:var(--sm);
+    line-height:1; letter-spacing:0.01em;
+  }
+  ol.index .num{font-family:"Karla"; font-weight:700; font-size:13px; letter-spacing:0.04em; color:var(--accent); font-variant-numeric:tabular-nums}
+  ol.index a:hover{color:var(--accent); text-decoration:none}
+
+  /* ---------- Hero split ---------- */
+  .hero h1{display:grid; grid-template-columns:1fr; min-height:0}
+  .panel{display:flex; flex-direction:column; justify-content:center; padding:48px var(--pad) 40px}
+  .panel.day{background:var(--gold); min-height:calc(100svh - 96px); gap:18px}
+  .panel.night{background:var(--umber); gap:clamp(18px,2.6vw,30px); padding-top:56px; padding-bottom:56px}
+
+  .eyebrow{
+    font-family:"Karla"; font-weight:700; font-size:12px; text-transform:uppercase;
+    letter-spacing:0.13em; color:var(--ink2);
+  }
+  .word{
+    font-family:"Fraunces",serif; font-weight:900; font-size:var(--hero);
+    line-height:0.84; letter-spacing:-0.02em; color:var(--ink);
+  }
+  .deck{
+    font-family:"Fraunces",serif; font-weight:600; font-size:var(--deck);
+    line-height:0.98; letter-spacing:-0.01em; color:var(--ink);
+  }
+  .night-deck{color:var(--cream)}
+  .weather{
+    font-family:"Karla"; font-weight:500; font-size:var(--sm); letter-spacing:0.02em;
+    color:var(--ink2); margin-top:12px;
+  }
+  .sun-wrap{display:flex; flex-direction:column; gap:8px; margin-top:22px}
+  .sun{width:clamp(96px,16vw,190px); height:auto; display:block}
+  .sun-cap{font-family:"Karla"; font-weight:500; font-size:var(--sm); color:var(--ink2); letter-spacing:0.02em}
+  .moon{width:clamp(130px,18vw,250px); height:auto; align-self:flex-start; display:block}
+  .moon-cap{font-family:"Karla"; font-weight:500; font-size:var(--sm); color:var(--cream-muted); letter-spacing:0.02em}
+  .holiday{font-family:"Karla"; font-weight:400; font-size:var(--sm); color:var(--cream)}
+
+  /* leaderboard inside night panel */
+  .board{margin-top:6px; border-top:1px solid var(--field-border); padding-top:14px}
+  .board .board-label{
+    font-family:"Karla"; font-weight:700; font-size:12px; text-transform:uppercase;
+    letter-spacing:0.13em; color:var(--glow-hi); margin-bottom:10px;
+  }
+  .board .brow{display:flex; justify-content:space-between; align-items:baseline; gap:16px; padding:5px 0; border-bottom:1px solid rgba(156,131,90,0.4)}
+  .board .brow:last-child{border-bottom:none}
+  .board .bname{font-family:"Karla"; font-weight:500; font-size:15px; color:var(--cream)}
+  .board .bval{font-family:"Karla"; font-weight:700; font-size:15px; color:var(--cream-muted)}
+  .board .brow.lead .bval{color:var(--glow)}
+
+  /* ---------- Signal index ---------- */
+  .signals{
+    background:var(--band); padding:clamp(40px,6vw,64px) var(--pad);
+    display:grid; gap:36px; grid-template-columns:1fr;
+    border-top:1px solid var(--border-strong);
+  }
+  .sig-label{
+    font-family:"Karla"; font-weight:700; font-size:12px; text-transform:uppercase;
+    letter-spacing:0.13em; color:var(--accent); margin-bottom:14px;
+  }
+  .sig-h{font-family:"Fraunces",serif; font-weight:600; font-size:var(--mid); line-height:1.1; color:var(--ink); margin-bottom:12px}
+  .scale-note{font-family:"Karla"; font-size:14px; color:var(--ink2); line-height:1.5; max-width:38ch}
+  .ticker{font-family:"Karla"; font-weight:700; font-size:var(--mid); color:var(--ink); letter-spacing:-0.01em}
+  .ticker .up{color:var(--accent)}
+
+  /* ---------- Work index ---------- */
+  .work{
+    background:var(--gold); padding:clamp(44px,6vw,72px) var(--pad);
+    border-top:1px solid var(--border-strong);
+  }
+  .work-label{
+    font-family:"Karla"; font-weight:700; font-size:12px; text-transform:uppercase;
+    letter-spacing:0.13em; color:var(--accent); margin-bottom:24px;
+  }
+  .work-list{list-style:none; margin:0; padding:0}
+  .work-list li{border-top:1px solid var(--border)}
+  .work-list li:last-child{border-bottom:1px solid var(--border)}
+  .work-list a{
+    display:flex; align-items:baseline; justify-content:space-between;
+    gap:16px 24px; flex-wrap:wrap; padding:16px 0; min-height:44px; color:var(--ink);
+  }
+  .work-list a:hover{text-decoration:none}
+  .work-list a:hover .wtitle{color:var(--accent)}
+  .wtitle{font-family:"Fraunces",serif; font-weight:600; font-size:var(--mid); line-height:1.05; letter-spacing:-0.01em}
+  .wmeta{display:flex; gap:14px; align-items:baseline; font-family:"Karla"; font-weight:500; font-size:13px; letter-spacing:0.02em; color:var(--ink2)}
+  .wmeta .wtype{text-transform:uppercase; letter-spacing:0.1em; color:var(--faint); font-size:11px}
+  .wmeta .warr{color:var(--accent); font-weight:700}
+
+  /* ---------- Callout ---------- */
+  .callout{
+    background:var(--callout); padding:clamp(36px,5vw,56px) var(--pad);
+    display:flex; flex-wrap:wrap; align-items:baseline; gap:12px 20px;
+    border-top:1px solid var(--border-strong);
+  }
+  .callout p{font-family:"Fraunces",serif; font-weight:400; font-size:var(--mid); line-height:1.25; color:var(--ink); max-width:30ch}
+  .callout a{font-family:"Karla"; font-weight:700; font-size:14px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); min-height:44px; display:inline-flex; align-items:center}
+
+  /* ---------- Footer colophon ---------- */
+  .colophon{background:var(--umber); color:var(--cream); padding:56px var(--pad) 48px; display:grid; gap:36px; grid-template-columns:1fr}
+  .colophon a{color:var(--glow-hi)}
+  .quote{font-family:"Fraunces",serif; font-style:italic; font-weight:400; font-size:var(--mid); line-height:1.3; color:var(--cream); max-width:34ch}
+  .quote cite{display:block; font-style:normal; font-family:"Karla"; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.12em; color:var(--cream-muted); margin-top:14px}
+  .colo-label{font-family:"Karla"; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.13em; color:var(--cream-muted); margin-bottom:10px}
+  .colo-block p{font-family:"Karla"; font-size:15px; line-height:1.55; color:var(--cream)}
+  .colo-nav{display:flex; flex-wrap:wrap; gap:10px 28px}
+  .colo-nav a{font-family:"Karla"; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.1em; padding:10px 0; min-height:44px; display:inline-flex; align-items:center}
+  .colo-foot{font-family:"Karla"; font-size:13px; color:var(--cream-muted); letter-spacing:0.02em}
+
+  /* ---------- Desktop ---------- */
+  @media (min-width:880px){
+    .site-header{
+      flex-direction:column; align-items:stretch; justify-content:flex-start;
+      height:120px; min-height:120px; padding:6px var(--pad); gap:0;
+    }
+    .lockup{padding-top:0; gap:2px}
+    .lockup .wordmark{font-size:20px}
+    .menu-toggle{display:none}
+    nav.nav{
+      margin-top:auto; border-top:1px solid var(--border-strong);
+      display:flex; align-items:center; height:42px;
+    }
+    ol.index{display:flex; flex-direction:row; align-items:center; gap:40px; height:100%}
+    ol.index a{line-height:1}
+
+    .hero h1{grid-template-columns:1fr 1fr; min-height:calc(100dvh - 120px)}
+    .panel{padding:72px var(--pad)}
+    .panel.day{
+      min-height:0; align-items:flex-start; text-align:left;
+      padding-left:clamp(40px,6vw,88px); padding-right:clamp(24px,3vw,44px);
+    }
+    .panel.day .sun-wrap{align-self:flex-end; align-items:flex-end; text-align:right; margin-top:auto; padding-top:24px}
+    .panel.night{
+      align-items:flex-start;
+      padding-left:clamp(24px,3vw,44px); padding-right:clamp(40px,6vw,88px);
+    }
+    .moon{align-self:flex-start; width:clamp(150px,13vw,230px)}
+
+    .signals{grid-template-columns:1.4fr 1fr 1fr; gap:48px}
+    .work-list a{flex-wrap:nowrap}
+    .wtitle{font-size:clamp(26px,2.6vw,38px)}
+    .colophon{grid-template-columns:1.5fr 1fr 1fr; gap:48px; align-items:start}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="lockup" href="/" aria-label="Doug March, home">
+    <svg class="mark" viewBox="0 0 71 59" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+      <path d="M29.8925 0.440186C45.91 0.440257 58.8956 13.4256 58.8965 29.4431C58.8964 45.4614 45.9108 58.4469 29.8925 58.447C13.8751 58.447 0.889689 45.4614 0.889618 29.4431C0.889618 13.4256 13.875 0.440186 29.8925 0.440186ZM29.8935 5.97729C16.9329 5.97729 6.42673 16.4841 6.42673 29.4431C6.4268 42.4021 16.9329 52.9099 29.8935 52.9099C42.8532 52.9098 53.3583 42.402 53.3584 29.4431C53.3584 16.4842 42.854 5.97745 29.8935 5.97729Z" fill="currentColor"/>
+      <circle cx="30.0829" cy="29.3002" r="0.98668" fill="currentColor"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8611 29.3418C47.8611 39.1396 39.9198 47.0816 30.1214 47.0816C20.3244 47.0816 12.3823 39.1396 12.3823 29.3418C12.3823 19.5463 20.3244 11.6013 30.1214 11.6013C39.9198 11.6013 47.8611 19.5463 47.8611 29.3418Z" stroke="currentColor" stroke-width="0.25"/>
+      <circle cx="30.1217" cy="29.3415" r="18.8911" stroke="currentColor" stroke-width="0.25"/>
+      <circle cx="30.1217" cy="29.3416" r="20.033" stroke="currentColor" stroke-width="0.25"/>
+      <circle cx="30.1217" cy="29.3415" r="21.1098" stroke="currentColor" stroke-width="0.25"/>
+      <circle cx="30.1217" cy="29.3416" r="22.114" stroke="currentColor" stroke-width="0.25"/>
+      <path d="M68.9722 9.76277C68.1324 8.9222 66.8896 8.48386 65.2438 8.44856C65.2922 6.88646 64.8416 5.63053 63.8902 4.67997C62.9667 3.7565 61.8454 3.30913 60.523 3.33293C59.2022 3.35838 58.0612 3.85254 57.0967 4.81706L52.8331 9.08227L52.8134 9.06175L31.8666 30.0094C30.7215 31.1553 29.7373 31.317 28.914 30.4937C28.5708 30.1506 28.396 29.7385 28.387 29.2542C28.3787 28.7707 28.5413 28.3627 28.8721 28.0311C29.2169 27.6872 29.6281 27.5148 30.1108 27.5074C30.5918 27.5025 30.9989 27.665 31.333 27.9999C31.5957 28.2626 31.7599 28.6287 31.8239 29.0917L35.3553 25.5611C34.999 25.1499 34.7265 24.8494 34.5377 24.6631C33.3491 23.4737 31.8789 22.8835 30.1313 22.895C28.382 22.9056 26.9053 23.5139 25.7011 24.7181C24.4575 25.9625 23.8426 27.4508 23.8607 29.182C23.8788 30.9148 24.5248 32.4154 25.7988 33.6893C26.4399 34.3296 27.2024 34.8156 28.0923 35.1431C28.9821 35.4706 29.8604 35.5954 30.7297 35.5149C32.2385 35.3762 33.6487 34.653 34.958 33.3429L56.0247 12.2763L56.0091 12.2598L59.5298 8.73833C59.8647 8.40424 60.1569 8.21133 60.4138 8.14731C60.6987 8.03485 60.9425 8.07343 61.1403 8.27126C61.3332 8.46334 61.3997 8.66773 61.3389 8.8828C61.2774 9.09787 61.0705 9.38353 60.7143 9.7406L55.7398 14.7142C56.5213 16.0998 57.1944 17.552 57.7444 19.0664L63.8007 13.0101C64.1348 12.6752 64.4287 12.4807 64.6856 12.4199C64.9704 12.3074 65.2134 12.3444 65.4104 12.5414C65.6017 12.7302 65.6649 12.9338 65.5984 13.1423C65.5336 13.3541 65.3251 13.6381 64.9688 13.9943L58.2763 20.6868C58.7902 22.418 59.1513 24.2149 59.3336 26.0676L68.4796 16.9207C69.6436 15.7584 70.2757 14.6165 70.3734 13.501C70.5088 12.0768 70.0409 10.8307 68.9722 9.76277Z" fill="currentColor"/>
+    </svg>
+    <span class="wordmark">Doug March</span>
+  </a>
+  <nav class="nav" aria-label="Primary">
+    <span class="menu-toggle">Menu</span>
+    <ol class="index">
+      <li><a href="/work"><span class="num">01</span>Work</a></li>
+      <li><a href="/about"><span class="num">02</span>About</a></li>
+      <li><a href="/contact"><span class="num">03</span>Contact</a></li>
+    </ol>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <h1 class="phrase">
+      <span class="panel day">
+        <span class="eyebrow">Aldie, Virginia · Tue 24 Nov</span>
+        <span class="word">Clear</span>
+        <span class="deck">all day,</span>
+        <span class="weather tnum">Clear and cloudless. 44°F.</span>
+        <span class="sun-wrap">
+          <svg class="sun" viewBox="0 0 120 120" role="img" aria-label="Low November sun setting toward the horizon">
+            <defs>
+              <radialGradient id="sun" cx="50%" cy="46%" r="52%">
+                <stop offset="0%" stop-color="#FDF6E3"/>
+                <stop offset="45%" stop-color="#EBAE1C"/>
+                <stop offset="82%" stop-color="#C25A1C"/>
+                <stop offset="100%" stop-color="#9C3A0E"/>
+              </radialGradient>
+            </defs>
+            <g stroke="#9C3A0E" stroke-width="2.4" stroke-linecap="round">
+              <line x1="60" y1="6" x2="60" y2="20"/>
+              <line x1="92" y1="14" x2="85" y2="27"/>
+              <line x1="114" y1="46" x2="101" y2="53"/>
+              <line x1="28" y1="14" x2="35" y2="27"/>
+              <line x1="6" y1="46" x2="19" y2="53"/>
+            </g>
+            <circle cx="60" cy="60" r="34" fill="url(#sun)"/>
+          </svg>
+          <span class="sun-cap tnum">Sunset 4:45.</span>
+        </span>
+      </span>
+      <span class="panel night">
+        <svg class="moon" viewBox="0 0 100 100" role="img" aria-label="Full moon, 99.4% illuminated">
+          <defs>
+            <radialGradient id="moon" cx="44%" cy="42%" r="64%">
+              <stop offset="0%" stop-color="#FDF6E3"/>
+              <stop offset="52%" stop-color="#F3E8D2"/>
+              <stop offset="82%" stop-color="#E5D3B3"/>
+              <stop offset="96%" stop-color="#F0A868"/>
+              <stop offset="100%" stop-color="#C25A1C"/>
+            </radialGradient>
+          </defs>
+          <circle cx="50" cy="50" r="48" fill="url(#moon)"/>
+        </svg>
+        <span class="deck night-deck">full moon all night</span>
+        <span class="moon-cap tnum">99.4% lit.</span>
+        <span class="holiday">Thanksgiving, Thursday.</span>
+        <div class="board" aria-label="RSM Classic leaderboard, final">
+          <p class="board-label">RSM Classic — Final</p>
+          <div class="brow lead"><span class="bname">Penge</span><span class="bval tnum">−17</span></div>
+          <div class="brow"><span class="bname">Thorbjornsen</span><span class="bval tnum">−16</span></div>
+          <div class="brow"><span class="bname">Li</span><span class="bval tnum">−16</span></div>
+          <div class="brow"><span class="bname">Greyserman</span><span class="bval tnum">−16</span></div>
+        </div>
+      </span>
+    </h1>
+  </section>
+
+  <section class="signals" aria-label="Today's signals">
+    <div>
+      <p class="sig-label">Detroit</p>
+      <p class="sig-h">Lions 31, Bears 21</p>
+      <p class="scale-note">A cold, bright afternoon at a quarter to five, the kind you glance up at and just say what you see.</p>
+    </div>
+    <div>
+      <p class="sig-label">Market close</p>
+      <p class="ticker tnum">SPY 722.29 <span class="up">+4.71%</span></p>
+    </div>
+    <div>
+      <p class="sig-label">Sky</p>
+      <p class="ticker tnum">Clear, 0% cloud</p>
+      <p class="scale-note">Cloudless through sunset; full moon rises as the sun sets at 4:45.</p>
+    </div>
+  </section>
+
+  <section class="work" aria-label="Selected work and experiments">
+    <p class="work-label">Selected work &amp; experiments</p>
+    <ul class="work-list">
+      <li><a href="/work/spaceman"><span class="wtitle">Spaceman</span><span class="wmeta"><span class="wtype">Founder</span><span class="wyear tnum">2018</span><span class="warr">→</span></span></a></li>
+      <li><a href="/work/fishsticks"><span class="wtitle">FishSticks</span><span class="wmeta"><span class="wtype">SaaS</span><span class="wyear tnum">2025</span><span class="warr">→</span></span></a></li>
+      <li><a href="/work/15th-club"><span class="wtitle">15th Club</span><span class="wmeta"><span class="wtype">AI</span><span class="wyear tnum">2025</span><span class="warr">→</span></span></a></li>
+      <li><a href="/work/dougmar-ch"><span class="wtitle">dougmar.ch</span><span class="wmeta"><span class="wtype">AI</span><span class="wyear tnum">2026</span><span class="warr">→</span></span></a></li>
+      <li><a href="/work/teeturn"><span class="wtitle">TeeTurn</span><span class="wmeta"><span class="wtype">Experiment</span><span class="wyear tnum">2020</span><span class="warr">→</span></span></a></li>
+      <li><a href="/work/politweets"><span class="wtitle">Politweets</span><span class="wmeta"><span class="wtype">Experiment</span><span class="wyear tnum">2008</span><span class="warr">→</span></span></a></li>
+      <li><a href="/work/twittertale"><span class="wtitle">Twittertale</span><span class="wmeta"><span class="wtype">Experiment</span><span class="wyear tnum">2008</span><span class="warr">→</span></span></a></li>
+    </ul>
+  </section>
+
+  <section class="callout">
+    <p>Designer and engineer, building at the seam where the two meet.</p>
+    <a href="/work">See the work →</a>
+  </section>
+</main>
+
+<footer class="colophon">
+  <div class="colo-block">
+    <blockquote class="quote">The desire for more positive experience is itself a negative experience.
+      <cite>Mark Manson</cite>
+    </blockquote>
+  </div>
+  <div class="colo-block">
+    <p class="colo-label">In rotation</p>
+    <p>Wet Leg<br>Tobin Sprout<br>My Morning Jacket</p>
+  </div>
+  <div class="colo-block">
+    <p class="colo-label">Index</p>
+    <nav class="colo-nav" aria-label="Footer">
+      <a href="/work">Work</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <p class="colo-foot">Doug March — Aldie, Virginia · © 2026</p>
+  </div>
+</footer>
+
+</body>
+</html>

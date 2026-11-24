@@ -1,0 +1,91 @@
+[
+  {
+    "critic": "mockup-precheck",
+    "round": 0,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1795536372168
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 0,
+    "verdict": "REVISE",
+    "feedback": "1. (Judgment 6) The desktop header has no nav. Tier two, the numbered 01 Work / 02 About / 03 Contact index in title case above the borderStrong hairline, is missing. The bar is only the lockup and a rule, about 75px tall against the declared 120. Add the full-width numbered index row under the lockup so the two-tier masthead reads as declared.\n\n2. (Judgment 4) The filmstrip skips the work index. The signal index (Lions, SPY) runs straight into the callout and the colophon, and no project title appears anywhere at 360. Restore the work index, with titles from the records, between the signal index and the callout, as the declared order requires.\n\n3. (Judgment 4) At 360 the RSM leaderboard sits in a separate cream band after the Thanksgiving note. The declaration puts it inside the umber night panel with the moon line, so move it into the night panel.\n\n4. (Judgment 3) At 1440 the eye lands first on the 335px glowing ember moon disc, not on \"Clear.\" The `word` hero is outranked by a decorative object. Scale the disc down or quiet its saturation so \"Clear\" leads and the moon reads one step down with its deck.\n\n5. (Judgment 3) \"Clear\" sits flush left at the outer edge of the gold panel, with dead space between it and the seam. The brief has it anchoring the center seam, reaching toward the night panel. Pull it toward the seam so the left-to-right day/night reading the composition depends on actually connects across the split.",
+    "channel": "sdk-vision",
+    "ts": 1795536401214
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 1,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1795536626015
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "1. (Judgment 2/6) At 1440 the tier-two nav row \"Work / About / Contact\" is sliced through its lower half by the header's bottom edge and the night panel, so the links can't be read. The header stands about 85px, not the declared 120. Give tier two its full height inside a 120px bar, and start the hero split below it.\n2. (Judgment 6) `nav_form: numbered` is not executed. The 01/02/03 prefixes render as tiny ember specks that can't be read. The links are also set far larger than `nav_step: sm`. Set the prefixes as legible \"01 02 03\" figures, with the labels at the sm step in title case.\n3. (Judgment 3) Type Treatment `alignment: left` is missed at 1440. \"Clear\", \"all day,\" the place/date label and the weather caption all sit flush right against the seam. The brief asks for \"Clear\" flush left in the day panel. The 360 version is correct, so match it on desktop.\n4. (Judgment 1) Tonight reruns 2026-11-20 almost axis for axis. Both use a two-equal, mirrored, sparse, accelerating, field-dominant split with a `word` hero, and both use the fraunces-karla chassis set mixed case and heavy. The hero also restates 2026-11-18's weather-to-dusk observation (\"Bright, 42, and dark by five.\") at nearly the same low-sun hue (42° vs 45°). Break at least one of these clearly. For example, change the display chassis or register, or stage the day/night seam in a way 11-20 did not.",
+    "channel": "sdk-vision",
+    "ts": 1795536647544
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 2,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1795536814188
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 2,
+    "verdict": "APPROVE",
+    "feedback": "The gold-day and umber-night split carries the phrase as a real left-to-right timeline. \"Clear\" leads in heavy roman Fraunces inside both first folds, the moon and sun objects make the halves concrete, and the split restacks honestly as gold over umber at 360.",
+    "channel": "sdk-vision",
+    "ts": 1795536835668
+  },
+  {
+    "critic": "surface-gate",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "/ @1440: orphan separator in rendered copy: <span> \"all day,\" closes on \",\". A field can be empty; render the separator only when both sides exist.\n/about @1440: 340 characters of running copy set at 81px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: 340 characters of running copy set at 81px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/experiments @360: the night's shell draws \"Contact\" (<ol.pos_absolute.right_0.top_100%.z_10 > li > a.d_flex.ai_center.gap_2.min-h_44px>) over the route's own text: \"ments\". The route is hand-written and the shell is the night's Layout or Sidebar; move the shell's text off the page's content, or give the route the room the shell takes.\n/ @1440: The mockup's largest text is 'clear' at 144px; the build sets 'all day' at 160px. Restore the mockup's hierarchy: 'all day' is 52px in the mockup.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1795537233279
+  },
+  {
+    "critic": "surface-gate",
+    "verdict": "NEEDS-HUMAN",
+    "feedback": "Authored routes outside MUTABLE_FILES failed the gate: /experiments\n\n## Measured layout faults\n\nThese are measurements taken from the live render, not observations from the images below.\nThey are exact. Do not re-litigate them against the screenshots, and do not count one fault\ntwice because it appears at more than one viewport.\n\n- [error] /experiments at 360px (light): the night's shell draws \"Contact\" (<ol.pos_absolute.right_0.top_100%.z_10 > li > a.d_flex.ai_center.gap_2.min-h_44px>) over the route's own text: \"ments\". The route is hand-written and the shell is the night's Layout or Sidebar; move the shell's text off the page's content, or give the route the room the shell takes.",
+    "ts": 1795537233279
+  },
+  {
+    "critic": "screenshot-critic",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 7 — react-engineer: The hero's word/deck hierarchy is broken. The mockup sets \"Clear\" at ~144px and the deck \"all day,\" at ~52px, a clear object-vs-caption split; the render sets \"all day,\" at ~160px (confirmed by measurement), nearly matching \"Clear,\" and the night panel's \"full moon all night\" deck shows the same oversized treatment. The deck across both panels must drop to the `3xl` step so the single hero word reads as the dominant element.\n- Section 10 — react-engineer: `/about` renders ~340 characters of running intro copy at ~81px in the display face, filling two entire mobile folds (fold 1–2 of 8) as a wall of oversized type rather than body prose. Set the paragraph at the body/Karla step and reserve display scale for a short phrase only.\n- Section 10 — react-engineer: On `/experiments` at 360px, the shell's \"Contact\" nav link is drawn over the route's own trailing text (\"ments\"), per measured output. The shell's nav element needs to be moved off the page's content region so it never overlaps route copy.\n===END===",
+    "channel": "sdk-vision",
+    "ts": 1795537365055
+  },
+  {
+    "critic": "surface-gate",
+    "round": 2,
+    "verdict": "SHIP",
+    "feedback": "app/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1795537485793
+  },
+  {
+    "critic": "screenshot-critic",
+    "round": "final",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 6 — react-engineer: On `/work/spaceman` (desktop filmstrip), folds 1 and 2 show the Problem/Approach/Outcome copy confined to a narrow left column (roughly 40% of the 1440 width) with a plain gold field occupying the rest of each fold. This is the \"body copy in a column at the left, rest of the row empty, fold after fold\" dead-canvas pattern; only the metadata row and the \"More Work\" index rows below use full width. The descriptive text blocks should either widen to use more of the row or share it with a second element (image, pull-quote, stat) so the gold field isn't left inert across two consecutive folds.\n===END===",
+    "channel": "sdk-vision",
+    "ts": 1795537679968
+  },
+  {
+    "critic": "ship-gate",
+    "verdict": "SHIPPED-WITH-FAULTS",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 6 — react-engineer: On `/work/spaceman` (desktop filmstrip), folds 1 and 2 show the Problem/Approach/Outcome copy confined to a narrow left column (roughly 40% of the 1440 width) with a plain gold field occupying the rest of each fold. This is the \"body copy in a column at the left, rest of the row empty, fold after fold\" dead-canvas pattern; only the metadata row and the \"More Work\" index rows below use full width. The descriptive text blocks should either widen to use more of the row or share it with a second element (image, pull-quote, stat) so the gold field isn't left inert across two consecutive folds.\n===END===",
+    "ts": 1795537679968
+  }
+]

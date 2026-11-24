@@ -38,7 +38,7 @@ import { applyTheme, resolveTheme } from '../lib/theme'
 const archiveLink = css({
   display: 'block',
   background: 'bg',
-  color: 'textMuted',
+  color: 'textFaint',
   fontSize: 'xs',
   letterSpacing: '0.08em',
   textAlign: 'center',
@@ -59,9 +59,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-11-23'
-const PREV_DATE: string | null = '2026-11-22'
-const ARCHIVE_COUNT = 201
+const DESIGN_DATE = '2026-11-24'
+const PREV_DATE: string | null = '2026-11-23'
+const ARCHIVE_COUNT = 202
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -74,34 +74,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Ten years independent. Still the vehicle for the next experiment.' },
-      {
-        property: 'og:title',
-        content: 'Ten years independent. Still the vehicle for the next experiment.',
-      },
+      { title: 'Clear all day, full moon all night.' },
+      { property: 'og:title', content: 'Clear all day, full moon all night.' },
       {
         property: 'og:description',
         content:
-          'Petrol-teal drench, ten years outlined in structural slab, the next experiment solid and glowing saffron.',
+          'Low-sun gold day beside full-moon umber night, one seam, "Clear" in fat Fraunces holding the center, ember as the only spark.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-23.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-24.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      {
-        name: 'twitter:title',
-        content: 'Ten years independent. Still the vehicle for the next experiment.',
-      },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-23.png' },
+      { name: 'twitter:title', content: 'Clear all day, full moon all night.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-24.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Work+Sans:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,900;1,300;1,400;1,600;1,900&family=Karla:wght@400;500;700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -321,7 +315,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 201 designs
+            Archive · 202 designs
           </a>
         )}
         <ScrollRestoration />

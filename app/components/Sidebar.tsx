@@ -1,65 +1,41 @@
 import { css } from '../../styled-system/css'
-import { identity } from '../content/about'
 import { BrandLockup } from './BrandLockup'
-
-const navLink = css({
-  display: 'inline-flex',
-  alignItems: 'center',
-  minHeight: '44px',
-  paddingInline: '1',
-  color: 'text',
-  borderBottomWidth: '1px',
-  borderBottomStyle: 'solid',
-  borderBottomColor: 'accent',
-})
+import { MobileMenu } from './generated/MobileMenu'
+import { NavIndex } from './generated/NavIndex'
 
 export function Sidebar() {
   return (
     <header
       className={css({
-        display: 'flex',
-        flexDirection: { base: 'column', sm: 'row' },
-        justifyContent: { base: 'flex-start', sm: 'space-between' },
-        alignItems: 'flex-start',
-        gap: '4',
-        paddingTop: 'clamp(20px, 2.4vw, 34px)',
-        paddingInline: 'clamp(24px, 5vw, 72px)',
         bg: 'bg',
-        color: 'text',
+        display: 'flex',
+        flexDirection: { base: 'row', lg: 'column' },
+        justifyContent: { base: 'space-between', lg: 'flex-start' },
+        alignItems: { base: 'center', lg: 'stretch' },
+        gap: { base: '4', lg: '0' },
+        paddingBlock: { base: '16px', lg: '6px' },
+        paddingInline: 'clamp(24px, 5vw, 88px)',
+        minHeight: { lg: '120px' },
       })}
     >
-      <a
-        href="/"
-        aria-label={`${identity.name}, home`}
-        className={css({ display: 'inline-block', color: 'text' })}
-      >
-        {/* The full-colour mark passes contrast on both grounds, so it renders original in each scheme. */}
-        <BrandLockup variant="stacked-lg" mode="original" />
-      </a>
+      {/* Mark stays single-color on the gold header ground: the full-colour mark fails 3:1 on bg. */}
+      <div className={css({ color: 'text', display: 'flex', alignItems: 'flex-start' })}>
+        <BrandLockup variant="stacked-md" mode="single-color" />
+      </div>
       <nav
         aria-label="Primary"
         className={css({
-          textStyle: 'sm',
-          textTransform: 'lowercase',
-          color: 'textMuted',
-          lineHeight: 'snug',
-          maxWidth: '40ch',
-          textAlign: { base: 'left', sm: 'right' },
+          display: 'flex',
+          alignItems: 'center',
+          marginTop: { lg: 'auto' },
+          height: { lg: '42px' },
+          borderTopStyle: 'solid',
+          borderTopWidth: { base: '0', lg: '1px' },
+          borderTopColor: 'borderStrong',
         })}
       >
-        start at{' '}
-        <a href="/#work" className={navLink}>
-          the work
-        </a>
-        , meet{' '}
-        <a href="/about" className={navLink}>
-          the person
-        </a>
-        , or find{' '}
-        <a href={`mailto:${identity.email}`} className={navLink}>
-          a way in
-        </a>
-        .
+        <MobileMenu />
+        <NavIndex />
       </nav>
     </header>
   )

@@ -1,0 +1,332 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'all day' (52px in the mockup) has no match in the build",
+          "facts": {
+            "text": "all day",
+            "mockupPx": 52,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'full moon all night' (52px in the mockup) has no match in the build",
+          "facts": {
+            "text": "full moon all night",
+            "mockupPx": 52,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "The mockup's largest text is 'clear' at 144px; the build sets 'all day' at 160px. Restore the mockup's hierarchy: 'all day' is 52px in the mockup.",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [],
+            "leader": {
+              "text": "clear",
+              "mockupPx": 144
+            },
+            "buildLeader": {
+              "text": "all day",
+              "buildPx": 160,
+              "mockupPx": 52
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' is 37px in the mockup and 81px in the build (2.16x)",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 37,
+            "buildPx": 81,
+            "ratio": 2.16,
+            "mockupRank": 3
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'fishsticks' is 37px in the mockup and 81px in the build (2.16x)",
+          "facts": {
+            "text": "fishsticks",
+            "mockupPx": 37,
+            "buildPx": 81,
+            "ratio": 2.16,
+            "mockupRank": 4
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'sunset 445.' moved from (632, 817) in the mockup to (634, 1369) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'99.4 lit' moved from (795, 527) in the mockup to (794, 1113) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'thanksgiving thursday' moved from (845, 579) in the mockup to (845, 1164) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'penge -17' moved from (843, 686) in the mockup to (834, 1267) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'thorbjornsen -16' moved from (843, 719) in the mockup to (834, 1300) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'li -16' moved from (843, 753) in the mockup to (834, 1332) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'greyserman -16' moved from (843, 786) in the mockup to (834, 1364) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'clear' (68px); in build it is 'clear' (72px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "doug march",
+                "mockupPx": 24
+              }
+            ],
+            "leader": {
+              "text": "clear",
+              "mockupPx": 68
+            },
+            "buildLeader": {
+              "text": "clear",
+              "buildPx": 72,
+              "mockupPx": 68
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'all day' is 30px in the mockup and 55px in the build (1.82x)",
+          "facts": {
+            "text": "all day",
+            "mockupPx": 30,
+            "buildPx": 55,
+            "ratio": 1.82,
+            "mockupRank": 1
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 360px: 'clear' still leads, but the mockup's 'doug march' (24px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'all day' at 52px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: The mockup sets 'full moon all night' at 52px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 1440px: 'spaceman' is 37px in the mockup and 81px in the build (2.16x). Set it back to 37px.",
+        "- / at 1440px: 'fishsticks' is 37px in the mockup and 81px in the build (2.16x). Set it back to 37px.",
+        "- / at 360px: 'all day' is 30px in the mockup and 55px in the build (1.82x). Set it back to 30px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is 'clear' (144px); in build it is 'clear' (160px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "all day",
+                "mockupPx": 52
+              },
+              {
+                "text": "full moon all night",
+                "mockupPx": 52
+              }
+            ],
+            "leader": {
+              "text": "clear",
+              "mockupPx": 144
+            },
+            "buildLeader": {
+              "text": "clear",
+              "buildPx": 160,
+              "mockupPx": 144
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' is 37px in the mockup and 81px in the build (2.16x)",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 37,
+            "buildPx": 81,
+            "ratio": 2.16,
+            "mockupRank": 3
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'fishsticks' is 37px in the mockup and 81px in the build (2.16x)",
+          "facts": {
+            "text": "fishsticks",
+            "mockupPx": 37,
+            "buildPx": 81,
+            "ratio": 2.16,
+            "mockupRank": 4
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is 'clear' (68px); in build it is 'clear' (72px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "all day",
+                "mockupPx": 30
+              },
+              {
+                "text": "doug march",
+                "mockupPx": 24
+              }
+            ],
+            "leader": {
+              "text": "clear",
+              "mockupPx": 68
+            },
+            "buildLeader": {
+              "text": "clear",
+              "buildPx": 72,
+              "mockupPx": 68
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: 'clear' still leads, but the mockup's 'all day' (52px), 'full moon all night' (52px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: 'clear' still leads, but the mockup's 'all day' (30px), 'doug march' (24px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: 'spaceman' is 37px in the mockup and 81px in the build (2.16x). Set it back to 37px.",
+        "- / at 1440px: 'fishsticks' is 37px in the mockup and 81px in the build (2.16x). Set it back to 37px."
+      ]
+    }
+  ]
+}

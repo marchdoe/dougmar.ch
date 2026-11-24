@@ -1,38 +1,42 @@
 import { css } from '../../../styled-system/css'
 
-export function MissingProject({ slug }: { slug: string }) {
+export function MissingProject() {
   return (
     <section
       className={css({
-        paddingInline: 'clamp(24px, 5vw, 72px)',
-        paddingBlock: 'clamp(48px, 7vw, 112px)',
+        bg: 'bg',
+        paddingInline: 'clamp(24px, 5vw, 88px)',
+        paddingBlock: 'clamp(48px, 8vw, 96px)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '5',
       })}
     >
       <h1
         className={css({
           fontFamily: 'display',
           fontWeight: 'bold',
-          textStyle: '2xl',
+          textStyle: { base: '2xl', lg: '4xl' },
+          lineHeight: '1',
           color: 'text',
         })}
       >
-        No case study under {slug}
+        No project at this address.
       </h1>
       <a
-        href="/#work"
+        href="/work"
         className={css({
+          alignSelf: 'flex-start',
           display: 'inline-flex',
           alignItems: 'center',
           minHeight: '44px',
-          marginTop: '4',
-          textStyle: 'sm',
+          fontFamily: 'body',
           fontWeight: 'bold',
-          borderBottomWidth: '2px',
-          borderBottomStyle: 'solid',
-          borderBottomColor: 'accent',
+          textStyle: 'sm',
+          color: 'accent',
         })}
       >
-        Back to the work →
+        See the work →
       </a>
     </section>
   )
