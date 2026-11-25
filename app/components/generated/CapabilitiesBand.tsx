@@ -1,16 +1,16 @@
 import { css } from '../../../styled-system/css'
+import { capabilities } from '../../content/timeline'
 
-export function CapabilityTags({ items }: { items: string[] }) {
+export function CapabilitiesBand() {
   return (
     <section
-      aria-label="Capabilities"
+      aria-labelledby="capabilities"
       className={css({
-        bg: 'bgAlt',
-        paddingBlock: 'clamp(40px, 6vw, 64px)',
-        paddingInline: 'clamp(24px, 5vw, 88px)',
-        borderTopWidth: '1px',
-        borderTopStyle: 'solid',
+        marginTop: '7',
+        borderTop: '2px solid',
         borderTopColor: 'borderStrong',
+        paddingTop: '14px',
+        paddingBottom: '6',
         '@supports (animation-timeline: view())': {
           animationName: 'rise',
           animationTimeline: 'view()',
@@ -19,19 +19,20 @@ export function CapabilityTags({ items }: { items: string[] }) {
         },
       })}
     >
-      <div
+      <h2
+        id="capabilities"
         className={css({
           fontFamily: 'body',
-          fontWeight: 'bold',
-          textStyle: '2xs',
           textTransform: 'uppercase',
           letterSpacing: 'wider',
+          fontWeight: 'bold',
+          textStyle: 'xs',
           color: 'accent',
-          marginBottom: '18px',
+          marginBottom: '14px',
         })}
       >
         Capabilities
-      </div>
+      </h2>
       <ul
         className={css({
           listStyle: 'none',
@@ -39,27 +40,27 @@ export function CapabilityTags({ items }: { items: string[] }) {
           padding: '0',
           display: 'flex',
           flexWrap: 'wrap',
-          gap: '3',
+          gap: '2',
         })}
       >
-        {items.map((item) => (
+        {capabilities.map((c) => (
           <li
-            key={item}
+            key={c}
             className={css({
-              fontFamily: 'body',
-              textStyle: 'sm',
+              fontFamily: 'display',
+              fontWeight: 'bold',
               fontVariant: 'small-caps',
               letterSpacing: 'wide',
+              textStyle: 'sm',
               color: 'text',
-              bg: 'surface',
-              borderWidth: '1px',
-              borderStyle: 'solid',
+              border: '1px solid',
               borderColor: 'border',
-              paddingBlock: '2',
-              paddingInline: '3',
+              bg: 'surface',
+              paddingBlock: '6px',
+              paddingInline: '10px',
             })}
           >
-            {item}
+            {c}
           </li>
         ))}
       </ul>

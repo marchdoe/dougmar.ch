@@ -59,9 +59,9 @@ const archiveLink = css({
  * scripts/utils/archive-count.js), or null, which renders no `‹`.
  * renderRootTemplate checks both against YYYY-MM-DD before writing them here.
  */
-const DESIGN_DATE = '2026-11-24'
-const PREV_DATE: string | null = '2026-11-23'
-const ARCHIVE_COUNT = 202
+const DESIGN_DATE = '2026-11-25'
+const PREV_DATE: string | null = '2026-11-24'
+const ARCHIVE_COUNT = 203
 
 const THEME_INIT_SCRIPT = `(function(){
   var s=localStorage.getItem('theme');
@@ -74,28 +74,28 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Clear all day, full moon all night.' },
-      { property: 'og:title', content: 'Clear all day, full moon all night.' },
+      { title: 'The Pistons held them to 86.' },
+      { property: 'og:title', content: 'The Pistons held them to 86.' },
       {
         property: 'og:description',
         content:
-          'Low-sun gold day beside full-moon umber night, one seam, "Clear" in fat Fraunces holding the center, ember as the only spark.',
+          'Sports-page broadsheet front, the Pistons score as the masthead, Detroit red committed on newsprint bone.',
       },
-      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-24.png' },
+      { property: 'og:image', content: 'https://dougmar.ch/og/2026-11-25.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: 'https://dougmar.ch' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Clear all day, full moon all night.' },
-      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-24.png' },
+      { name: 'twitter:title', content: 'The Pistons held them to 86.' },
+      { name: 'twitter:image', content: 'https://dougmar.ch/og/2026-11-25.png' },
     ],
     links: [
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,900;1,300;1,400;1,600;1,900&family=Karla:wght@400;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Bitter:wght@500;700;900&family=Mulish:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
       },
     ],
     scripts: [{ children: THEME_INIT_SCRIPT }],
@@ -315,7 +315,7 @@ function RootDocument({
         {children}
         {bare || !showArchiveLink ? null : (
           <a href="/archive" className={archiveLink} data-archive-link>
-            Archive · 202 designs
+            Archive · 203 designs
           </a>
         )}
         <ScrollRestoration />

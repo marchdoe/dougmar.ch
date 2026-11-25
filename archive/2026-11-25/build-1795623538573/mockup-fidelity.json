@@ -1,0 +1,433 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'doug march' (26px in the mockup) has no match in the build",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 26,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "mockup's largest ('104 - 86', 158px) leads its runner-up ('the pistons held them to 86.', 56px) by 2.8x; in the build the same two lead by only 1.0x",
+          "facts": {
+            "shape": "flattened",
+            "leader": {
+              "text": "104 - 86",
+              "mockupPx": 158,
+              "buildPx": 128
+            },
+            "runnerUp": {
+              "text": "the pistons held them to 86.",
+              "mockupPx": 56,
+              "buildPx": 128
+            },
+            "mockupGap": 2.8,
+            "buildGap": 1,
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the pistons held them to 86.' is 56px in the mockup and 128px in the build (2.28x). Set it back to 56px.",
+          "facts": {
+            "text": "the pistons held them to 86.",
+            "mockupPx": 56,
+            "buildPx": 128,
+            "ratio": 2.28,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "error",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'spaceman' is 56px in the mockup and 128px in the build (2.28x). Set it back to 56px.",
+          "facts": {
+            "text": "spaceman",
+            "mockupPx": 56,
+            "buildPx": 128,
+            "ratio": 2.28,
+            "mockupRank": 2
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'97 lit' moved from (262, 844) in the mockup to (301, 977) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'39° overcast' moved from (733, 844) in the mockup to (736, 1009) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'718.78 ▾0.49' moved from (1153, 844) in the mockup to (1125, 1009) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the sky' moved from (234, 807) in the mockup to (242, 924) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the weather' moved from (671, 807) in the mockup to (684, 924) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the tape' moved from (1058, 807) in the mockup to (1066, 924) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the moon rises all but full tonight - the brightest ceiling of the holiday week and the last clear read before the tables fill tomorrow' moved from (365, 909) in the mockup to (365, 1055) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a flat grey lid holds at thirty-nine degrees through the afternoon the sun gone by 444 - nine hours and thirty-six minutes of daylight and shrinking' moved from (777, 921) in the mockup to (770, 1131) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the broad market slipped a half percent to 718.78. in the bahamas the hero world challenge tees off - twenty players no leaders yet everything still to settle' moved from (1173, 921) in the mockup to (1184, 1131) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'104-86' (72px in the mockup) has no match in the build",
+          "facts": {
+            "text": "104-86",
+            "mockupPx": 72,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is '104-86' (72px); in build it is '104 - 86' (64px)",
+          "facts": {
+            "shape": "replaced",
+            "dropped": [
+              {
+                "text": "104-86",
+                "mockupPx": 72
+              },
+              {
+                "text": "doug march",
+                "mockupPx": 22
+              }
+            ],
+            "leader": {
+              "text": "104-86",
+              "mockupPx": 72
+            },
+            "buildLeader": {
+              "text": "104 - 86",
+              "buildPx": 64,
+              "mockupPx": null
+            },
+            "leaderLost": true
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-scale",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'the pistons held them to 86.' is 30px in the mockup and 56px in the build (1.86x)",
+          "facts": {
+            "text": "the pistons held them to 86.",
+            "mockupPx": 30,
+            "buildPx": 56,
+            "ratio": 1.86,
+            "mockupRank": 1
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "'detroit pulled for its defense and got it - a 104-86 final decided at the far end of the floor not the near one below the rest of the days ledger' moved from (179, 569) in the mockup to (168, 668) in the build; crossed the fold"
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: The mockup sets '104 - 86' at 158px over 'the pistons held them to 86.' at 56px, a 2.8x lead; the build sets them at 128px and 128px. Restore the mockup's sizes so '104 - 86' leads.",
+        "- / at 360px: The mockup's largest text is '104-86' at 72px; the build sets '104 - 86' at 64px. Restore the mockup's hierarchy: '104-86' should be the largest text on the page.",
+        "- / at 1440px: The mockup sets 'doug march' at 26px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: The mockup sets '104-86' at 72px; the build has nothing like it at a comparable size. Render it where and how the mockup does.",
+        "- / at 360px: 'the pistons held them to 86.' is 30px in the mockup and 56px in the build (1.86x). Set it back to 30px."
+      ]
+    },
+    {
+      "round": 2,
+      "findings": [
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-missing",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'doug march' (26px in the mockup) has no match in the build",
+          "facts": {
+            "text": "doug march",
+            "mockupPx": 26,
+            "hidden": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "largest text in mockup is '104 - 86' (158px); in build it is '104 - 86' (158px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "the pistons held them to 86.",
+                "mockupPx": 56
+              },
+              {
+                "text": "spaceman",
+                "mockupPx": 56
+              }
+            ],
+            "leader": {
+              "text": "104 - 86",
+              "mockupPx": 158
+            },
+            "buildLeader": {
+              "text": "104 - 86",
+              "buildPx": 158,
+              "mockupPx": 158
+            },
+            "leaderLost": false
+          }
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'97 lit' moved from (262, 844) in the mockup to (301, 977) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'39° overcast' moved from (733, 844) in the mockup to (736, 1009) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'718.78 ▾0.49' moved from (1153, 844) in the mockup to (1125, 1009) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the sky' moved from (234, 807) in the mockup to (242, 924) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the weather' moved from (671, 807) in the mockup to (684, 924) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the tape' moved from (1058, 807) in the mockup to (1066, 924) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the moon rises all but full tonight - the brightest ceiling of the holiday week and the last clear read before the tables fill tomorrow' moved from (365, 909) in the mockup to (365, 1055) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'a flat grey lid holds at thirty-nine degrees through the afternoon the sun gone by 444 - nine hours and thirty-six minutes of daylight and shrinking' moved from (777, 921) in the mockup to (770, 1131) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-shift",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "desktop",
+          "width": 1440,
+          "detail": "'the broad market slipped a half percent to 718.78. in the bahamas the hero world challenge tees off - twenty players no leaders yet everything still to settle' moved from (1173, 921) in the mockup to (1184, 1131) in the build; crossed the fold"
+        },
+        {
+          "surface": "/",
+          "scheme": "light",
+          "kind": "mockup-hierarchy",
+          "severity": "warning",
+          "route": "/",
+          "viewport": "phone",
+          "width": 360,
+          "detail": "largest text in mockup is '104-86' (72px); in build it is '104-86' (72px)",
+          "facts": {
+            "shape": "reordered",
+            "dropped": [
+              {
+                "text": "the pistons held them to 86.",
+                "mockupPx": 30
+              }
+            ],
+            "leader": {
+              "text": "104-86",
+              "mockupPx": 72
+            },
+            "buildLeader": {
+              "text": "104-86",
+              "buildPx": 72,
+              "mockupPx": 72
+            },
+            "leaderLost": false
+          }
+        }
+      ],
+      "briefed": [
+        "- / at 1440px: '104 - 86' still leads, but the mockup's 'the pistons held them to 86.' (56px), 'spaceman' (56px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 360px: '104-86' still leads, but the mockup's 'the pistons held them to 86.' (30px) fell out of the build's three largest texts. Restore the mockup's sizes.",
+        "- / at 1440px: The mockup sets 'doug march' at 26px; the build has nothing like it at a comparable size. Render it where and how the mockup does."
+      ]
+    }
+  ]
+}

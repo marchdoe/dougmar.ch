@@ -1,0 +1,90 @@
+[
+  {
+    "critic": "mockup-precheck",
+    "round": 0,
+    "verdict": "REVISE",
+    "feedback": "[check 4] The brand mark renders 2px tall at 1440 against the declared mark_px 40 (5%, under 60%). Size the mark's <svg> to height: 40px.\n[check 5] Legibility: At 1440px, <div.page > section.hero > div.dateline> \"dougmar.ch · November 25, 2026 · Detroit\" at 11.5px over svg.grain (positioned svg): #f9d4da is under 4.5:1 across 100% of one pixel row through its glyphs (3.59:1 on #d0354d). Give the text a flat ground that clears the ratio (a background on its own box), or stop the lines, image or layer behind it short of the text.",
+    "findings": [
+      {
+        "check": 4,
+        "key": "mark-size",
+        "gap": 38
+      },
+      {
+        "check": 5,
+        "key": "legibility",
+        "gap": 0.9
+      }
+    ],
+    "ts": 1795622273546
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 0,
+    "verdict": "REVISE",
+    "feedback": "1. (Judgment 5) The featured Spaceman copy reads \"Spaceman began as a founder's bet: build the company you wish existed, then learn to run it. The problem was never the idea — it was turning one into a team, a product…\" The record says something different: Spaceman is \"the LLC I've operated under for the past decade, partnering with companies and studios across industries,\" with clients such as Jeffrey Zeldman, Rolex and The Nature Conservancy. Replace the copy with language drawn from the record's problem, approach and outcome.\n\n2. (Judgment 5) The role line in the rail and in the footer reads \"DESIGNER & ENGINEER.\" `identity.role` is \"Product Designer & Developer.\" Set the role exactly as the record states it in both places.\n\n3. (Judgment 1) This is too close to 2026-11-15, \"Nobody scored on the Red Wings.\" That night was also a Detroit defensive score set in Bitter, as a `figure` hero, in Red Wings red at 353°. Tonight repeats it at 350°, so the hue, the chassis, the hero object and the hero's sense all match. Shift the type chassis off Bitter, or move the primary hue far enough from garnet that a returning visitor does not read a rerun.\n\n4. (Judgment 6) SHELL's `ground_material: grain` is not on the hero field. What shows instead, at 1440 and at 360, is a flat, hard-edged, lighter-red rectangle in the top-left of the score block, cutting across the masthead rule and the top of \"104.\" It reads as a misplaced box, not as printed grain. Either render the grain as a real texture across the whole hero field or remove the rectangle.",
+    "channel": "sdk-vision",
+    "ts": 1795622294679
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 1,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1795622404672
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "1. **Judgment 5, unsupported description.** The Spaceman entry says the work was \"on design and engineering that had to ship rather than merely impress.\" That claim is not in the records. Use the record's own wording: product design, frontend engineering, design systems and brand, sometimes solo, sometimes embedded in a larger team.\n\n2. **Judgment 3, Type Treatment `case: small-caps`.** \"THE PISTONS HELD THEM TO 86.\" renders as uniform full capitals at both widths. Set the caption in true small-caps, with taller initial capitals over small-cap lowercase.\n\n3. **Judgment 6, Header Declaration `placement: left-rail` / `height_px: 720`.** The nav description puts the horizontal-md lockup at the top of the 96px spine. At 1440 the lockup floats mid-hero, around y≈190, and the rail's hairline ends near y≈510. Pin the lockup and role line to the top of the rail and run the spine to the declared ~720px height, with the ruled index below it.\n\n4. **Judgment 6, horizontal-md lockup.** In the rail, \"Doug March\" breaks onto two lines and the role line stacks word by word, leaving \"&\" alone on its own line. That reads as a vertical stack, not a one-line horizontal lockup. Give the lockup the room or the step it needs to sit on one line, with the role line beneath it in at most two lines.",
+    "channel": "sdk-vision",
+    "ts": 1795622430915
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 2,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1795622542087
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 2,
+    "verdict": "REVISE",
+    "feedback": "1. (Judgment 6, SHELL `ground_material: grain`) The hero field renders as a washed, pinkish red, close to #D13F56, instead of the declared #C8102E. Compare it with the true crimson in the 360 footer band. No grain texture is visible on either the bone ground or the red field, so the material reads as a flat white tint over the accent rather than printed grain. Make the grain visible as texture and keep the masthead field at full-strength Detroit red, the same crimson the footer carries.\n\n2. (Judgment 6, Header `placement: left-rail` / \"No top bar\") At 1440 the lockup and role line sit in a full-width top strip, closed by a borderStrong rule running across the whole page above the red block. That reads as a top bar, with the 96px spine starting below it. Put the horizontal-md lockup and role line at the top of the left spine itself, and drop the page-wide rule, so the rail stands as one full-height column near the declared 720px.\n\n3. (Judgment 5) The footer says \"Product Designer & Developer · Detroit, MI · 2026\". The Work Records give a role and a year but no place for Doug. Remove \"Detroit, MI\" from the identity line, or replace it with something the records support. The AQI line's \"Detroit, MI\" is a signal location and can stay.",
+    "channel": "sdk-vision",
+    "ts": 1795622576322
+  },
+  {
+    "critic": "surface-gate",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "/about @1440: 340 characters of running copy set at 64px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/about @1440: 340 characters of running copy set at 64px (over 48px) — \"I work at the intersection of design and engineering — not a...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/work/politweets @360: <section.pos_relative.ov_hidden.bg_field.c_fieldInk > div.pos_relative.z_1.min-h_0.d_flex > p.ff_display.fw_bold.fv_small-caps.ls_wide> holds text wider than its own box: \"Built over a weekend with the Character140 collect...\" needs 307px and the box is 292px, so 15px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/work/politweets @360: <section.pos_relative.ov_hidden.bg_field.c_fieldInk > div.pos_relative.z_1.min-h_0.d_flex > p.ff_display.fw_bold.fv_small-caps.ls_wide> holds text wider than its own box: \"Built over a weekend with the Character140 collect...\" needs 307px and the box is 292px, so 15px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <section.pt_28px.pb_34px > div.d_flex.ai_baseline.jc_space-between.cg_12px > span.ff_body.textStyle_2xs.ls_wider.tt_uppercase> \"7 filed · 2008–2026\" at 12px: #847a6f on #f4ede4 is 3.61:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <div.d_grid.grid-tc_1fr.lg:grid-tc_1fr_1fr > div.min-w_0.bd-r_none.lg:bd-r_1px_solid.bd-r-c_border > h3.ff_body.tt_uppercase.ls_wider.fw_bold> \"Selected Work\" at 13.2px bold: #847a6f on #f4ede4 is 3.61:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <li.bd-b_1px_solid.bd-b-c_border > a.d_flex.ai_baseline.jc_space-between.cg_14px > span.ff_body.textStyle_2xs.ls_wide.tt_uppercase> \"SaaS2025\" (x6) at 12px: #847a6f on #f4ede4 is 3.61:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <div.d_grid.grid-tc_1fr.lg:grid-tc_1fr_1fr > div.min-w_0.bd-r_none.lg:bd-r_none.bd-r-c_border > h3.ff_body.tt_uppercase.ls_wider.fw_bold> \"Experiments\" at 13.2px bold: #847a6f on #f4ede4 is 3.61:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <section.pt_28px.pb_34px > div.d_flex.ai_baseline.jc_space-between.cg_12px > span.ff_body.textStyle_2xs.ls_wider.tt_uppercase> \"7 filed · 2008–2026\" at 12px: #786d62 on #15100e is 3.76:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <div.d_grid.grid-tc_1fr.lg:grid-tc_1fr_1fr > div.min-w_0.bd-r_none.lg:bd-r_1px_solid.bd-r-c_border > h3.ff_body.tt_uppercase.ls_wider.fw_bold> \"Selected Work\" at 13.2px bold: #786d62 on #15100e is 3.76:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: 8 more distinct low-contrast pairs are not listed; the worst is 3.76:1.\n/work @360: <nav.d_flex.flex-wrap_wrap.cg_1rem.md:cg_2.5rem > a.d_inline-flex.ai_center.min-w_44px.min-h_44px > span.mr_0.25rem.c_fieldInkMuted.fv-num_tabular-nums> \"01\" (x3) at 14px: #f9d4da on #c8102e is 4.33:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work @360: <div.d_grid.grid-tc_1fr.lg:grid-tc_1.4fr_1fr_1fr.lg:ai_end > div > div.ff_body.tt_uppercase.ls_wider.fw_bold> \"Product Designer & Developer · Detroit, \" at 13.2px bold: #f9d4da on #c8102e is 4.33:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments.\n/work @360: <footer.bg_field.c_fieldInk.bd-t_2px_solid.bd-t-c_borderStrong > div.d_grid.grid-tc_1fr.lg:grid-tc_1.4fr_1fr_1fr.lg:ai_end > div.ff_display.fw_normal.textStyle_m> \"On rotation: , .\" at 22.6px: #f9d4da on #c8102e is 4.33:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments.\n/ @1440: 'the pistons held them to 86.' is 56px in the mockup and 128px in the build (2.28x). Set it back to 56px.\n/ @1440: 'spaceman' is 56px in the mockup and 128px in the build (2.28x). Set it back to 56px.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1795623071813
+  },
+  {
+    "critic": "screenshot-critic",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 11/7 — react-engineer: The hero caption \"The Pistons held them to 86.\" renders at 128px (measured), 2.28× its spec'd 3xl/56px, nearly matching the 104–86 figure's scale. This collapses the declared figure-leads/caption-follows hierarchy into two co-equal elements. Same token bug inflates the \"Spaceman\" case-study title by the identical 2.28× on /work/spaceman. Reset the caption (and affected headings) to their declared step.\n- Section 2/5 — react-engineer: /about at 1440 sets a 340-character running paragraph at 64px (display scale) instead of body size. This reads as a wall of oversized prose rather than a hero phrase with supporting copy; move the paragraph to the body step (~16–18px, 62–66ch) and reserve display size for an actual short phrase.\n- Section 10 — react-engineer: On /work/politweets at 360, the case description text overflows its column by 15px and is clipped mid-word (\"collect...\") with no wrap or scroll to recover it. Set the text to wrap within the 292px column or reduce its size to fit.\n- Section 3 — react-engineer: Across / and other routes at 360 (both light and dark), muted labels like \"Selected Work,\" \"Experiments,\" \"7 filed · 2008–2026,\" and repeated category tags render at 12–13px with only ~3.6–3.8:1 contrast, below the 4.5:1 minimum. Recolor these tokens to clear contrast on their ground.\n- Section 5 — react-engineer: On /work and /experiments at 360, the flooded-red footer reads \"On rotation: , .\" with the artist names missing, leaving bare punctuation. Populate the music content on these routes or suppress the fragment when empty.\n===END===",
+    "channel": "sdk-vision",
+    "ts": 1795623205704
+  },
+  {
+    "critic": "surface-gate",
+    "round": 2,
+    "verdict": "SHIP",
+    "feedback": "/ @360: <section.pt_28px.pb_34px > article.py_22px.bd-b_1px_solid.bd-b-c_border.d_grid > span.ff_body.tt_uppercase.ls_wider.fw_bold> \"Featured · Founder, 2018\" at 12px bold: #d65668 on #f4ede4 is 3.34:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <article.py_22px.bd-b_1px_solid.bd-b-c_border.d_grid > div.d_flex.flex-wrap_wrap.cg_6.rg_2 > a.d_inline-flex.ai_center.min-h_44px.cg_6px> \"Read the case\" (x2) at 13.2px bold: #d65668 on #f4ede4 is 3.34:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <section.pt_28px.pb_34px > article.py_22px.bd-b_1px_solid.bd-b-c_border.d_grid > span.ff_body.tt_uppercase.ls_wider.fw_bold> \"Featured · Founder, 2018\" at 12px bold: #a84955 on #15100e is 3.35:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <article.py_22px.bd-b_1px_solid.bd-b-c_border.d_grid > div.d_flex.flex-wrap_wrap.cg_6.rg_2 > a.d_inline-flex.ai_center.min-h_44px.cg_6px> \"Read the case\" (x2) at 13.2px bold: #a84955 on #15100e is 3.35:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <section.pt_28px.pb_34px > div.d_flex.ai_baseline.jc_space-between.cg_12px > span.ff_body.textStyle_2xs.ls_wider.tt_uppercase> \"7 filed · 2008–2026\" at 12px: #867e76 on #f4ede4 is 3.43:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: <article.py_22px.bd-b_1px_solid.bd-b-c_border.d_grid > h3.ff_display.fw_bold.c_text.fs_36px > span.fw_normal.fs_0.4em.c_textMuted.ls_wide> \"Founder\" at 14.4px: #867e76 on #f4ede4 is 3.43:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/ @360: 4 more distinct low-contrast pairs are not listed; the worst is 3.43:1.\n/work @360: <nav.d_flex.flex-wrap_wrap.cg_1rem.md:cg_2.5rem > a.d_inline-flex.ai_center.min-w_44px.min-h_44px > span.mr_0.25rem.c_fieldInkMuted.fv-num_tabular-nums> \"01\" (x3) at 14px: #f9d4da on #c8102e is 4.33:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground.\n/work @360: <div.d_grid.grid-tc_1fr.lg:grid-tc_1.4fr_1fr_1fr.lg:ai_end > div > div.ff_body.tt_uppercase.ls_wider.fw_bold> \"Product Designer & Developer · Detroit, \" at 13.2px bold: #f9d4da on #c8102e is 4.33:1, under 4.5:1. Set it in a token that clears 4.5:1 on its ground, or change the ground. Also on /experiments.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1795623362236
+  },
+  {
+    "critic": "screenshot-critic",
+    "round": "final",
+    "verdict": "SHIP",
+    "feedback": "===VERDICT===\nSHIP\n===END===",
+    "channel": "sdk-vision",
+    "ts": 1795623535858
+  }
+]
