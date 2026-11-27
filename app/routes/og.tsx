@@ -19,52 +19,64 @@ function OgCard() {
     >
       <div
         className={css({
+          position: 'relative',
           width: '1200px',
           height: '630px',
           flexShrink: 0,
-          bg: 'field',
-          color: 'fieldInk',
+          bg: 'bgAlt',
+          color: 'text',
+          paddingTop: '72px',
+          paddingRight: '80px',
+          paddingBottom: '88px',
+          paddingLeft: '80px',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'space-between',
-          paddingBlock: '56px',
-          paddingInline: '64px',
+          justifyContent: 'flex-end',
+          alignItems: 'flex-end',
+          textAlign: 'right',
         })}
       >
-        <div className={css({ color: 'fieldInk' })}>
-          <BrandLockup variant="horizontal-md" mode="original" roleLine />
+        <div className={css({ position: 'absolute', top: '64px', left: '72px' })}>
+          <BrandLockup variant="mark-only-md" mode="original" />
         </div>
-        <div
-          aria-hidden="true"
+        <span
           className={css({
-            display: 'flex',
-            alignItems: 'baseline',
-            justifyContent: 'space-between',
-            fontFamily: 'display',
-            fontWeight: 'bold',
-            fontSize: '200px',
-            lineHeight: '0.86',
-            letterSpacing: 'tight',
-            color: 'fieldInk',
+            fontFamily: 'body',
+            fontSize: '16px',
+            letterSpacing: 'wider',
+            textTransform: 'lowercase',
+            color: 'textMuted',
+            marginBottom: '24px',
           })}
         >
-          <span>104</span>
-          <span className={css({ opacity: 0.72, fontWeight: 'normal' })}>{'\u2013'}</span>
-          <span>86</span>
-        </div>
+          doug march · 15th club
+        </span>
         <h1
           className={css({
             fontFamily: 'display',
-            fontWeight: 'bold',
-            fontVariant: 'small-caps',
-            letterSpacing: 'wide',
-            fontSize: '60px',
-            lineHeight: '1.03',
-            color: 'fieldInk',
+            fontStyle: 'italic',
+            fontWeight: 'normal',
+            fontSize: '76px',
+            lineHeight: '1.08',
+            letterSpacing: 'normal',
+            textTransform: 'lowercase',
+            maxWidth: '980px',
+            color: 'text',
           })}
         >
-          The Pistons held them to 86.
+          Most golf apps are digital scorecards. This one is not.
         </h1>
+        <div
+          aria-hidden="true"
+          className={css({
+            position: 'absolute',
+            left: '0',
+            right: '0',
+            bottom: '0',
+            height: '20px',
+            bg: 'field',
+          })}
+        />
       </div>
     </div>
   )

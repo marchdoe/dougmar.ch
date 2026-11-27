@@ -1,38 +1,33 @@
 import type { ReactNode } from 'react'
 import { css } from '../../styled-system/css'
-import { SiteFooter } from './generated/SiteFooter'
+import { BrandLockup } from './BrandLockup'
 import { Sidebar } from './Sidebar'
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
-    <>
+    <div
+      className={css({
+        position: 'relative',
+        bg: 'bg',
+        color: 'text',
+        fontFamily: 'body',
+        minHeight: '100vh',
+      })}
+    >
       <div
         className={css({
-          display: { base: 'flex', lg: 'grid' },
-          flexDirection: 'column',
-          gridTemplateColumns: { lg: '96px 1fr 1fr 1fr' },
-          columnGap: 'clamp(26px, 3vw, 44px)',
-          alignItems: { lg: 'start' },
-          paddingTop: { base: '20px', lg: '28px' },
-          paddingInline: { base: 'clamp(16px, 4vw, 44px)', lg: 'clamp(28px, 4vw, 56px)' },
-          paddingBottom: '30px',
-          bg: 'bg',
-          color: 'text',
+          position: 'absolute',
+          top: { base: '24px', lg: '40px' },
+          left: { base: '20px', lg: '5vw' },
+          zIndex: 6,
         })}
       >
-        <Sidebar />
-        <main
-          className={css({
-            display: { base: 'contents', lg: 'block' },
-            gridColumn: { lg: '2 / 5' },
-            gridRow: { lg: '2' },
-            minWidth: '0',
-          })}
-        >
-          {children}
-        </main>
+        <a href="/" aria-label="Doug March, home" className={css({ display: 'block' })}>
+          <BrandLockup variant="mark-only-md" mode="original" />
+        </a>
       </div>
-      <SiteFooter />
-    </>
+      <main className={css({ position: 'relative' })}>{children}</main>
+      <Sidebar />
+    </div>
   )
 }

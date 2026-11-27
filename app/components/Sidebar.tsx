@@ -1,104 +1,91 @@
 import { css } from '../../styled-system/css'
 import { identity } from '../content/about'
-import { BrandLockup } from './BrandLockup'
 
-const items = [
-  { label: 'Work', href: '/work' },
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: `mailto:${identity.email}` },
-]
+const sub = [identity.role, 'Aldie, Virginia', 'MMXXVI'].filter(Boolean).join(' · ')
+
+const navLink = css({
+  display: 'inline-block',
+  paddingBlock: '2',
+  color: 'fieldInk',
+  textDecoration: 'underline',
+  textDecorationThickness: '2px',
+  textUnderlineOffset: '5px',
+  _hover: { color: 'fieldInkMuted' },
+})
 
 export function Sidebar() {
   return (
-    <>
-      <div
-        className={css({
-          order: { base: -2, lg: 0 },
-          gridColumn: { lg: '1 / 5' },
-          gridRow: { lg: '1' },
-          paddingBottom: '16px',
-          borderBottom: { base: 'none', lg: '2px solid' },
-          borderBottomColor: 'borderStrong',
-          color: 'text',
-        })}
-      >
-        <BrandLockup variant="horizontal-md" mode="original" roleLine />
-      </div>
-      <nav
-        aria-label="Primary"
-        className={css({
-          order: 0,
-          marginTop: { base: '4px', lg: '18px' },
-          marginBottom: { base: '20px', lg: '0' },
-          gridColumn: { lg: '1 / 2' },
-          gridRow: { lg: '2' },
-          alignSelf: { lg: 'stretch' },
-          borderRight: { base: 'none', lg: '1px solid' },
-          borderRightColor: 'border',
-          paddingRight: { base: '0', lg: '12px' },
-        })}
-      >
+    <footer
+      className={css({
+        bg: 'field',
+        color: 'fieldInk',
+        borderTopWidth: '1px',
+        borderTopStyle: 'solid',
+        borderTopColor: 'borderStrong',
+        paddingTop: { base: '44px', lg: '64px' },
+        paddingBottom: { base: '48px', lg: '72px' },
+        paddingInline: { base: '20px', lg: '5vw' },
+        display: { base: 'flex', lg: 'grid' },
+        flexDirection: 'column',
+        gridTemplateColumns: { lg: '1.2fr 1fr' },
+        rowGap: { base: '24px', lg: '40px' },
+        columnGap: { lg: '6vw' },
+        alignItems: { lg: 'end' },
+      })}
+    >
+      <div>
         <div
           className={css({
-            display: { base: 'none', lg: 'block' },
-            fontFamily: 'body',
-            textTransform: 'uppercase',
-            letterSpacing: 'wider',
-            fontWeight: 'bold',
-            textStyle: '2xs',
-            color: 'textMuted',
-            marginBottom: '8px',
+            fontFamily: 'display',
+            fontSize: { base: '24px', lg: '46px' },
+            lineHeight: '1',
+            letterSpacing: 'normal',
+            fontWeight: 'normal',
           })}
         >
-          Index
+          {identity.name}
         </div>
-        <ul
+        <div
           className={css({
-            listStyle: 'none',
-            margin: '0',
-            padding: '0',
-            display: 'flex',
-            flexDirection: { base: 'row', lg: 'column' },
-            borderTop: '2px solid',
-            borderTopColor: 'borderStrong',
-            borderBottom: { base: '2px solid', lg: 'none' },
-            borderBottomColor: 'borderStrong',
+            textStyle: 'sm',
+            letterSpacing: 'wide',
+            color: 'fieldInkMuted',
+            marginTop: '2',
           })}
         >
-          {items.map((item) => (
-            <li
-              key={item.label}
-              className={css({
-                flex: { base: '1', lg: 'none' },
-                borderLeft: { base: '1px solid', lg: 'none' },
-                borderTop: { base: 'none', lg: '1px solid' },
-                borderColor: 'border',
-                _first: { borderLeft: 'none', borderTop: 'none' },
-              })}
-            >
-              <a
-                href={item.href}
-                className={css({
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: { base: 'center', lg: 'flex-start' },
-                  minHeight: { base: '46px', lg: '48px' },
-                  paddingInline: { base: '8px', lg: '0' },
-                  fontFamily: 'body',
-                  textTransform: 'uppercase',
-                  letterSpacing: 'wide',
-                  fontWeight: 'bold',
-                  textStyle: 'sm',
-                  color: 'text',
-                  _hover: { color: 'accent', textDecoration: 'none' },
-                })}
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+          {sub}
+        </div>
+      </div>
+      <div className={css({ textStyle: 'sm', color: 'fieldInkMuted', maxWidth: '42ch' })}>
+        On rotation. The War on Drugs, Guided by Voices.
+      </div>
+      <nav aria-label="Site" className={css({ gridColumn: { lg: '1 / -1' } })}>
+        <p
+          className={css({
+            fontFamily: 'display',
+            fontWeight: 'normal',
+            fontSize: { base: '24px', lg: '46px' },
+            lineHeight: '1.4',
+            letterSpacing: 'normal',
+            maxWidth: { base: '30ch', lg: '26ch' },
+            textTransform: 'lowercase',
+          })}
+        >
+          see the{' '}
+          <a href="/work" className={navLink}>
+            work
+          </a>
+          , read{' '}
+          <a href="/about" className={navLink}>
+            about
+          </a>
+          , or get in{' '}
+          <a href={`mailto:${identity.email}`} className={navLink}>
+            contact
+          </a>
+          .
+        </p>
       </nav>
-    </>
+    </footer>
   )
 }

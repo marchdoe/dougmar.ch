@@ -1,88 +1,68 @@
 import { css } from '../../../styled-system/css'
 import { timeline } from '../../content/timeline'
 
-const rows = timeline.map((e) => ({
-  year: e.year,
-  description: e.description,
-  heading: [e.role, e.company].filter(Boolean).join(' · '),
-}))
+type Entry = (typeof timeline)[number]
+
+function TimelineRow({ entry }: { entry: Entry }) {
+  const head = [entry.role, entry.company].filter(Boolean).join(', ')
+  return (
+    <li
+      className={css({
+        display: 'grid',
+        gridTemplateColumns: { base: '1fr', lg: '120px minmax(0, 1fr)' },
+        rowGap: '1',
+        columnGap: '4',
+        paddingBlock: '15px',
+        borderTopWidth: '1px',
+        borderTopStyle: 'solid',
+        borderTopColor: 'borderStrong',
+      })}
+    >
+      <span
+        className={css({
+          textStyle: 'sm',
+          letterSpacing: 'wide',
+          color: 'textMuted',
+          minWidth: { lg: '120px' },
+        })}
+      >
+        {entry.year}
+      </span>
+      <div>
+        <p
+          className={css({
+            fontFamily: 'display',
+            fontWeight: 'normal',
+            textStyle: { base: 'base', lg: 'lg' },
+            lineHeight: 'snug',
+            color: 'text',
+          })}
+        >
+          {head}
+        </p>
+        {entry.description ? (
+          <p
+            className={css({
+              textStyle: 'sm',
+              color: 'textMuted',
+              maxWidth: '48ch',
+              marginTop: '2',
+            })}
+          >
+            {entry.description}
+          </p>
+        ) : null}
+      </div>
+    </li>
+  )
+}
 
 export function TimelineList() {
   return (
-    <section aria-labelledby="record" className={css({ minWidth: '0' })}>
-      <h2
-        id="record"
-        className={css({
-          fontFamily: 'display',
-          fontWeight: 'bold',
-          textTransform: 'uppercase',
-          textStyle: '2xl',
-          color: 'text',
-          paddingBottom: '10px',
-          borderBottom: '2px solid',
-          borderBottomColor: 'borderStrong',
-        })}
-      >
-        Experience
-      </h2>
-      <ol className={css({ listStyle: 'none', margin: '0', padding: '0' })}>
-        {rows.map((e) => (
-          <li
-            key={`${e.year}-${e.heading}`}
-            className={css({
-              display: 'grid',
-              gridTemplateColumns: { base: '1fr', lg: '160px 1fr' },
-              columnGap: '5',
-              rowGap: '1',
-              paddingBlock: '16px',
-              borderBottom: '1px solid',
-              borderBottomColor: 'border',
-            })}
-          >
-            <div
-              className={css({
-                fontFamily: 'body',
-                textTransform: 'uppercase',
-                letterSpacing: 'wide',
-                fontWeight: 'bold',
-                textStyle: 'xs',
-                color: 'accent',
-                paddingTop: { lg: '4px' },
-              })}
-            >
-              {e.year}
-            </div>
-            <div className={css({ minWidth: '0' })}>
-              <h3
-                className={css({
-                  fontFamily: 'display',
-                  fontWeight: 'bold',
-                  fontVariant: 'small-caps',
-                  letterSpacing: 'wide',
-                  textStyle: { base: 'base', lg: 'md' },
-                  color: 'text',
-                  maxWidth: '50ch',
-                })}
-              >
-                {e.heading}
-              </h3>
-              {e.description ? (
-                <p
-                  className={css({
-                    fontFamily: 'display',
-                    textStyle: 'base',
-                    color: 'textMuted',
-                    maxWidth: '50ch',
-                    marginTop: '6px',
-                  })}
-                >
-                  {e.description}
-                </p>
-              ) : null}
-            </div>
-          </li>
-        ))}
-      </ol>
-    </section>
+    <ol className={css({ listStyle: 'none', margin: '0', padding: '0' })}>
+      {timeline.map((e) => (
+        <TimelineRow key={`${e.year}-${e.company}-${e.role}`} entry={e} />
+      ))}
+    </ol>
   )
 }

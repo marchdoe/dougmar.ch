@@ -1,0 +1,92 @@
+[
+  {
+    "critic": "mockup-precheck",
+    "round": 0,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1795792586923
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 0,
+    "verdict": "REVISE",
+    "feedback": "1. (Judgment 5) The 15th Club deck reads \"A round's worth of decisions, modeled: strokes-gained, shot dispersion and course strategy — the stuff a scorecard was never built to hold.\" The records describe 15th Club differently: \"A platform for AI experiments through the lens of golf. The scorecard is the first experiment — shareable, real-time, no app install required. More experiments to follow.\" Nothing in the records mentions strokes-gained, shot dispersion or course-strategy modelling. Replace the deck with the records' description.\n\n2. (Judgment 5) At 360, the \"CLIENTS & COLLABORATORS\" logo wall (Rolex, Intuit, LastPass, bswift, RTIC, Publicis Sapient, Framebridge) sits directly under the 15th Club artifact and deck. That placement presents them as 15th Club clients. The records list them only as Spaceman clients. Label the wall as Spaceman's clients or move it beside the Spaceman row, at both widths.\n\n3. (Judgment 5) The footer colophon gives Doug's role as \"Designer & engineer.\" The record's role is \"Product Designer & Developer.\" Use the recorded role.",
+    "channel": "sdk-vision",
+    "ts": 1795792611376
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 1,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1795792663778
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "1. Freshness: the page reads as a rerun of 2026-11-21 (\"Three tied at nine under\"). Both are two-asymmetric with a footer-only shell, both use a green near 152–162° against a dark-void ground, and both set the hero right-aligned and stacked. The 2026-11-14 artifact page (teal 170 on dark-void, diagonal, right-weighted, footer-only, right-aligned) is also close. Break at least two of these shared traits so a returning visitor can't mistake it for either night.\n\n2. Freshness, and the brief's own colour spec: the brief asks for a near-black pine ground with spruce green only as \"the single green flood at the foot\". The mockup instead floods the whole artifact column with mid-green at 1440 and the entire first fold at 360. Return the hero field to the #0A140F dark ground and keep the saturated green for the colophon. That restores the declared single saturated beat.\n\n3. Judgment 4: at 360 a \"Spaceman · clients & partners\" logo band sits between the artifact and the selected-work index. The Mobile Declaration's order is artifact, deck, selected-work index, site callout, signal rail, footer. Either remove the band or move it so the zones run in the declared order.",
+    "channel": "sdk-vision",
+    "ts": 1795792685902
+  },
+  {
+    "critic": "mockup-precheck",
+    "round": 2,
+    "verdict": "APPROVE",
+    "feedback": "",
+    "findings": [],
+    "ts": 1795793375654
+  },
+  {
+    "critic": "mockup-critic",
+    "round": 2,
+    "verdict": "REVISE",
+    "feedback": "1. **Freshness.** This reads as a rerun of 2026-11-14 (\"a product spec plate, the work reversed out of a teal-black…\"). That night also put a 170° teal on a dark-void ground, with a diagonal, right-weighted, footer-only, type-dominant artifact layout set lowercase and right-aligned. Tonight's 162° spruce sits 8° from it on the same ground, in the same silhouette and alignment. It also echoes 2026-11-21 (152° fairway green, dark-void, two-asymmetric, footer-only, right/stacked). Move the ground off dark-void or the hue well off the green-teal band, so the didone italic is not the only thing a returning visitor sees as new.\n\n2. **Legibility.** On the phone in fold 1, the \"CAP-HEIGHT\" annotation collides with the glyphs of \"15th\" and \"BASELINE\" collides with \"Club\", so the specimen labels and the product title overprint each other. At 360, either drop the annotations or set them clear of the title, above and below it.\n\n3. **Hierarchy.** On the phone, the type-specimen furniture competes with the artifact: the \"dm serif display · optical size 150 · x-height 0.71\" line in fold 1, and the \"SPRUCE 162° THE SINGLE INK\" swatch block in fold 2. Neither is in the Mobile Declaration's `order`, and both push the selected-work index down. Cut both at 360, or demote them, so the sequence runs title, caption, deck, index.",
+    "channel": "sdk-vision",
+    "ts": 1795793396026
+  },
+  {
+    "critic": "surface-gate",
+    "round": 1,
+    "verdict": "REVISE",
+    "feedback": "/ @360: <div.pos_relative.as_flex-end.max-w_100%.pt_26px > div.pos_relative.z_1.ff_display.fw_normal > span.d_block> holds text wider than its own box: \"Spaceman...\" needs 492px and the box is 320px, so 172px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @360: <div.pos_relative.as_flex-end.max-w_100%.pt_26px > div.pos_relative.z_1.ff_display.fw_normal > span.d_block> holds text wider than its own box: \"Spaceman...\" needs 492px and the box is 320px, so 172px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: 234 characters of running copy set at 68px (over 48px) — \"Independent design and engineering work doesn't always fit n...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/ @1440: <div.pos_relative.as_flex-end.max-w_100%.pt_26px > div.pos_relative.z_1.ff_display.fw_normal > span.d_block> holds text wider than its own box: \"Spaceman...\" needs 714px and the box is 646px, so 68px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/ @1440: 234 characters of running copy set at 68px (over 48px) — \"Independent design and engineering work doesn't always fit n...\" . A paragraph at display size is a wall, not a hero. Set prose on the body step and give the display step a phrase.\n/ @1440: <div.pos_relative.as_flex-end.max-w_100%.pt_26px > div.pos_relative.z_1.ff_display.fw_normal > span.d_block> holds text wider than its own box: \"Spaceman...\" needs 714px and the box is 646px, so 68px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @1440: <section.lg:grid-area_statement.lg:as_stretch.bg_bgAlt.c_text > div.pos_relative.as_flex-end.max-w_100%.pt_26px > h1.pos_relative.z_1.ff_display.font-style_itali> holds text wider than its own box: \"Product Designer & Developer...\" needs 658px and the box is 646px, so 12px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @1440: first <h1> sits outside the first fold at 1440: its top is at y=1022px and the fold ends at 900px. The hero phrase is the page's anchor; put its h1 inside the first screen.\n/about @1440: <section.lg:grid-area_statement.lg:as_stretch.bg_bgAlt.c_text > div.pos_relative.as_flex-end.max-w_100%.pt_26px > h1.pos_relative.z_1.ff_display.font-style_itali> holds text wider than its own box: \"Product Designer & Developer...\" needs 658px and the box is 646px, so 12px of it is cut off. The box does not scroll, and nothing moved to make room, so the end of the word is gone. The column is the right width; the type is not. Set it at a size that fits this column at this width, or let it wrap.\n/about @1440: first <h1> sits outside the first fold at 1440: its top is at y=1022px and the fold ends at 900px. The hero phrase is the page's anchor; put its h1 inside the first screen.\n/ @1440: The mockup's largest text is '15th' at 144px; the build sets 'spaceman' at 160px. Restore the mockup's hierarchy: 'spaceman' is 22px in the mockup.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1795793775907
+  },
+  {
+    "critic": "screenshot-critic",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 2 / Mockup fidelity — react-engineer: The rendered artifact is \"Spaceman,\" not \"15th Club\" as specified in the brief, the mockup, and the Hero World Challenge signal line. The whole day's premise — the hero phrase as a caption to 15th Club, paired with today's golf tournament — is broken: the wrong project is shown, and \"Hero World Challenge. Field set, no card yet.\" now sits under Spaceman's title, a project it has nothing to do with.\n- Section 5 (Polish) — react-engineer: The title text \"Spaceman\" overflows its box with no wrap, 68px cut off at 1440 and 172px cut off at 360 (both schemes). The end of the word is simply gone; the type needs to fit the column or wrap instead of running past it.\n- Section 2 (/about) — react-engineer: At 1440, the h1 \"Product Designer & Developer\" is clipped 12px, and the h1 sits entirely below the first fold (top at y=1022px vs. the 900px fold line). The page's anchor element is invisible on load, which contradicts the hero-first intent of every other page.\n- Section 11 (Type Treatment) — react-engineer: At 1440, 234 characters of running body copy render at 68px (display scale) instead of the `base` step the ramp specifies. A paragraph set at display size reads as a wall, not prose, and breaks the measured hed/deck/body ratio the brief calls for.\n===END===",
+    "channel": "sdk-vision",
+    "ts": 1795793850915
+  },
+  {
+    "critic": "surface-gate",
+    "round": 2,
+    "verdict": "REVISE",
+    "feedback": "/ @1440: The mockup's largest text is '15th' at 144px; the build sets 'doug march' at 160px. Restore the mockup's hierarchy: 'doug march' is 46px in the mockup.\napp/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1795793953815
+  },
+  {
+    "critic": "surface-gate",
+    "round": 3,
+    "verdict": "SHIP",
+    "feedback": "app/content/about.ts:27: em dash: \"\"I work at the intersection of design and engineering — not as a generalist, but as someone who has gone deep in both. I've spent my career closing the gap betw\". Use a period or a comma.\napp/content/projects.ts:40: em dash: \"timeline: '2018 — Present',\". Use a period or a comma.\napp/content/projects.ts:43: em dash: \"\"Independent design and engineering work doesn't always fit neatly inside a company. Some of the best work happens at the edges — between studios, between disci\". Use a period or a comma.\napp/content/projects.ts:45: em dash: \"\"Spaceman is the LLC I've operated under for the past decade, partnering with companies and studios across industries. The work spans product design, frontend e\". Use a period or a comma.",
+    "ts": 1795794032823
+  },
+  {
+    "critic": "screenshot-critic",
+    "round": "final",
+    "verdict": "REVISE",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 (tablet, 820×1180) — react-engineer: The \"CAP-HEIGHT\" and \"BASELINE\" type-specimen labels (with their hairlines) sit almost flush against the stacked \"15th\"/\"Club\" title at 820px, nearly touching or overlapping the letterforms instead of the comfortable gap they keep at 1440. The guide labels need their own vertical offset that scales with the title's line-height at this width, the same clearance the desktop render shows.\n\nBAR: at — the composition, hero execution, and footer colophon all hold the 2026-04-28 drenched-field benchmark's commitment, but the tablet label collision is a polish regression that reference didn't have.\n===END===",
+    "channel": "sdk-vision",
+    "ts": 1795794195670
+  },
+  {
+    "critic": "ship-gate",
+    "verdict": "SHIPPED-WITH-FAULTS",
+    "feedback": "===VERDICT===\nREVISE\n\n**Issues:**\n- Section 10 (tablet, 820×1180) — react-engineer: The \"CAP-HEIGHT\" and \"BASELINE\" type-specimen labels (with their hairlines) sit almost flush against the stacked \"15th\"/\"Club\" title at 820px, nearly touching or overlapping the letterforms instead of the comfortable gap they keep at 1440. The guide labels need their own vertical offset that scales with the title's line-height at this width, the same clearance the desktop render shows.\n\nBAR: at — the composition, hero execution, and footer colophon all hold the 2026-04-28 drenched-field benchmark's commitment, but the tablet label collision is a polish regression that reference didn't have.\n===END===",
+    "ts": 1795794195670
+  }
+]

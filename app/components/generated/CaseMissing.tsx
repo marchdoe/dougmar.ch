@@ -3,30 +3,32 @@ import { css } from '../../../styled-system/css'
 export function CaseMissing() {
   return (
     <section
-      aria-labelledby="missing-hed"
       className={css({
-        order: { base: -1, lg: 0 },
-        bg: 'field',
-        color: 'fieldInk',
-        paddingTop: '22px',
-        paddingBottom: '26px',
-        paddingInline: 'clamp(18px, 4vw, 40px)',
+        bg: 'bgAlt',
+        paddingTop: { base: '96px', lg: '132px' },
+        paddingBottom: { base: '64px', lg: '96px' },
+        paddingInline: { base: '20px', lg: '5vw' },
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-end',
+        textAlign: 'right',
+        gap: '5',
       })}
     >
       <h1
-        id="missing-hed"
         className={css({
           fontFamily: 'display',
-          fontWeight: 'bold',
-          fontVariant: 'small-caps',
-          letterSpacing: 'wide',
-          textStyle: '4xl',
-          color: 'fieldInk',
-          animation: 'settle 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
+          fontStyle: 'italic',
+          fontWeight: 'normal',
+          textStyle: '3xl',
+          textTransform: 'lowercase',
+          maxWidth: '19ch',
+          color: 'text',
+          animation: 'wipe 500ms cubic-bezier(0.16, 1, 0.3, 1) both',
           animationDelay: '0ms',
         })}
       >
-        Not on file.
+        That case is not on file.
       </h1>
       <a
         href="/work"
@@ -34,19 +36,16 @@ export function CaseMissing() {
           display: 'inline-flex',
           alignItems: 'center',
           minHeight: '44px',
-          marginTop: '3',
-          fontFamily: 'body',
+          color: 'accent',
+          textStyle: 'sm',
           fontWeight: 'bold',
-          textTransform: 'uppercase',
           letterSpacing: 'wide',
-          textStyle: 'xs',
-          color: 'fieldInk',
-          borderBottom: '2px solid',
-          borderBottomColor: 'fieldBorder',
-          _hover: { color: 'fieldInkMuted', textDecoration: 'none' },
+          textTransform: 'uppercase',
+          textDecoration: 'underline',
+          textUnderlineOffset: '5px',
         })}
       >
-        Back to the work
+        See the work ↗
       </a>
     </section>
   )
